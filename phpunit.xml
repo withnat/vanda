@@ -4,6 +4,7 @@
 		backupStaticAttributes="false"
 		bootstrap="./tests/bootstrap.php"
 		colors="true"
+		stopOnFailure="true"
 >
 	<testsuites>
 		<testsuite name="Tests/Unit">
