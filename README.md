@@ -1,2 +1,2 @@
 # vanda
-A lightweight &amp; flexible PHP CMS framework
+A lightweight &amp; flexible PHP Web framework
