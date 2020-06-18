@@ -403,9 +403,9 @@ final class ArrTest extends TestCase
 
 	public function testMethodColumnCase1() : void
 	{
-		$result = Arr::column([], 'missingkey');
+		$this->expectException(\InvalidArgumentException::class);
 
-		$this->assertEquals([], $result);
+		Arr::column([], 'missingkey');
 	}
 
 	public function testMethodColumnCase2() : void
