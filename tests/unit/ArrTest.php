@@ -2027,11 +2027,32 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::dot(static::$_arrayMulti);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodDotCase3() : void
+	{
+		$expected = [
+			'_0' => 10,
+			'_1' => 20,
+			'_2' => 'A',
+			'_3' => 'b',
+			'_4.0' => 'x',
+			'_4.1' => 'y',
+			'_5' => null,
+			'_6' => true,
+			'_7' => 100
+		];
+
+		$result = Arr::dot(static::$_arrayMulti, '_');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodDotCase4() : void
 	{
 		$expected = [
 			'0.name' => 'Nat',
@@ -2045,11 +2066,31 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::dot(static::$_datasetArray);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
-	public function testMethodDotCase4() : void
+	public function testMethodDotCase5() : void
+	{
+		$expected = [
+			'_0.name' => 'Nat',
+			'_0.surname' => 'Withe',
+			'_0.job.title' => 'Web Developer',
+			'_0.job.salary' => 10000,
+			'_1.name' => 'Angela',
+			'_1.surname' => 'SG',
+			'_1.job.title' => 'Marketing Director',
+			'_1.job.salary' => 10000
+		];
+
+		$result = Arr::dot(static::$_datasetArray, '_');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodDotCase6() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -2069,8 +2110,34 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::dot(static::$_assocArrayMulti);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodDotCase7() : void
+	{
+		$expected = [
+			'_name' => 'Nat',
+			'_surname' => 'Withe',
+			'_age' => 38,
+			'_job.title' => 'Web Developer',
+			'_job.salary' => 10000,
+			'_job.hrscore' => 9.8,
+			'_job.excellent' => true,
+			'_job.other' => '',
+			'_height' => 181,
+			'_weight' => 87.5,
+			'_handsome' => true,
+			'_ugly' => false,
+			'_other' => '',
+			'_extra' => null
+		];
+
+		$result = Arr::dot(static::$_assocArrayMulti, '_');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	// Arr::isRecordset
