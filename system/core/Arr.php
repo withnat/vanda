@@ -956,6 +956,8 @@ final class Arr
 	*/
 
 	/**
+	 * Method to determine if the input data is a recordset or not.
+	 *
 	 * @param  mixed $data  The data to check.
 	 * @return bool         True if the data is a recordset.
 	 */
