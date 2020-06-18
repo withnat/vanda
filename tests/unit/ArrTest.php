@@ -2331,6 +2331,16 @@ final class ArrTest extends TestCase
 
 	public function testMethodIsRecordsetCase12() : void
 	{
+		// Some row is not an object.
+		static::$_recordsetArray[4] = 'value';
+
+		$result = Arr::isRecordset(static::$_recordsetArray);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsRecordsetCase13() : void
+	{
 		$result = Arr::isRecordset(static::$_recordsetArray);
 
 		$this->assertTrue($result);
