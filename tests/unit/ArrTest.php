@@ -587,8 +587,6 @@ final class ArrTest extends TestCase
 
 	public function testMethodFirstCase11() : void
 	{
-		// Compare in array mode to ensure $expected and $result are
-		// same key/value pairs in the same order and of the same types.
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
@@ -598,9 +596,11 @@ final class ArrTest extends TestCase
 
 		$result = Arr::first(static::$_recordsetArray);
 
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
 		$compare = ($result === $expected);
-
+		
 		$this->assertTrue($compare);
 	}
 
@@ -728,8 +728,6 @@ final class ArrTest extends TestCase
 
 	public function testMethodLastCase11() : void
 	{
-		// Compare in array mode to ensure $expected and $result are
-		// same key/value pairs in the same order and of the same types.
 		$expected = [
 			'name' => 'Angela',
 			'surname' => 'SG',
@@ -739,6 +737,8 @@ final class ArrTest extends TestCase
 
 		$result = Arr::last(static::$_recordsetArray);
 
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
 		$compare = ($result === $expected);
 
