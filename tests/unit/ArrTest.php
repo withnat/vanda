@@ -3190,12 +3190,18 @@ final class ArrTest extends TestCase
 
 		$result = Arr::toMultidimensional($data);
 
-		$this->assertEquals($expected, $result);
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result = (array)$result;
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodToMultidimensionalCase5() : void
 	{
 		$array = ['value'];
+
 		$expected = [
 			['value']
 		];
@@ -3208,6 +3214,7 @@ final class ArrTest extends TestCase
 	public function testMethodToMultidimensionalCase6() : void
 	{
 		$array = ['key' => 'value'];
+
 		$expected = [
 			['key' => 'value']
 		];
