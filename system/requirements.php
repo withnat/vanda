@@ -26,11 +26,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package		Vanda
- * @author		Nat Withe <nat@withnat.com>
- * @copyright	Copyright (c) 2010 - 2020, Nat Withe. All rights reserved.
- * @license		MIT
- * @link		http://vanda.io
+ * @package     Vanda
+ * @author      Nat Withe <nat@withnat.com>
+ * @copyright   Copyright (c) 2010 - 2020, Nat Withe. All rights reserved.
+ * @license     MIT
+ * @link        http://vanda.io
  */
 
 defined('VD') or exit('Access Denied');
