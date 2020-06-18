@@ -4004,8 +4004,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::removeColumn(static::$_datasetArray, 'surname,job');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodRemoveColumnCase3() : void
@@ -4014,35 +4015,28 @@ final class ArrTest extends TestCase
 
 		$data = new stdClass();
 		$data->name = 'Nat';
-
 		$expected[] = $data;
 
 		$data = new stdClass();
 		$data->name = 'Rosie';
-
 		$expected[] = $data;
 
 		$data = new stdClass();
 		$data->name = 'Emma';
-
 		$expected[] = $data;
 
 		$data = new stdClass();
 		$data->name = 'Emma';
-
 		$expected[] = $data;
 
 		$data = new stdClass();
 		$data->name = 'Angela';
-
 		$expected[] = $data;
 
 		$result = Arr::removeColumn(static::$_recordsetArray, 'surname,job,salary');
 
 		$this->assertEquals($expected, $result);
 	}
-
-	// todo เพิ่มเคส removecolumn
 
 	// Arr::explode
 
