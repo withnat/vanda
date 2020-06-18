@@ -203,7 +203,7 @@ final class ArrTest extends TestCase
 
 		static::$_objectEmpty = new stdClass();
 
-		// Put some expected result here to reduce duplicated code flagment.
+		// Place some expected result here to reduce duplicated code flagment.
 
 		static::$_expectedSortRecordsetByNameAsc[0] = static::$_recordsetArray[4];
 		static::$_expectedSortRecordsetByNameAsc[1] = static::$_recordsetArray[2];
