@@ -1519,9 +1519,14 @@ final class Arr
 			$array = explode($delimeter, $string);
 			$array = array_map('trim', $array);
 
-			if (is_int($limit))
-				$output = static::limit($array, $limit);
-			else // null
+			if (is_int($limit) and $limit != 0)
+			{
+				if ($limit > 0)
+					$output = static::first($array, $limit);
+				else // < 0
+					$output = static::last($array, $limit);
+			}
+			else // null or 0
 				$output = $array;
 		}
 		else
@@ -1534,7 +1539,7 @@ final class Arr
 	 * Splits the string with the provided regular expression, returning an
 	 * array. Removes whitespace and other predefined characters from both sides
 	 * of each element of the output array, and skips empty ones.
-	 * 
+	 *
 	 * An optional integer $limit will truncate the results.
 	 *
 	 * @param  string|null $string   The input string.
@@ -1566,31 +1571,6 @@ final class Arr
 
 		return $output;
 	}
-
-	/*
-	public static function limit(array $array, int $limit) : array
-	{
-		$arrayCount = count($array);
-		$output = [];
-
-		if ($limit > 0 and $limit < $arrayCount)
-		{
-			for ($i = 0; $i < $limit; ++$i)
-				$output[] = $array[$i];
-		}
-		elseif ($limit < 0 and abs($limit) < $arrayCount)
-		{
-			$startIndex = $arrayCount - abs($limit);
-
-			for ($i = $startIndex; $i < $arrayCount; ++$i)
-				$output[] = $array[$i];
-		}
-		else
-			$output = $array;
-
-		return $output;
-	}
-	*/
 
 	/**
 	 * Extract a slice of the array.
