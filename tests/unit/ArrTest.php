@@ -4077,9 +4077,6 @@ final class ArrTest extends TestCase
 		$this->assertEquals([], $result);
 	}
 
-	// todo
-	// Arr::split
-
 	// Arr::slice
 
 	public function testMethodSliceCase1() : void
