@@ -1536,43 +1536,6 @@ final class Arr
 	}
 
 	/**
-	 * Splits the string with the provided regular expression, returning an
-	 * array. Removes whitespace and other predefined characters from both sides
-	 * of each element of the output array, and skips empty ones.
-	 *
-	 * An optional integer $limit will truncate the results.
-	 *
-	 * @param  string|null $string   The input string.
-	 * @param  string      $pattern  The regex with which to split the string.
-	 * @param  int|null    $limit    Optional maximum number of results to return.
-	 * @return array
-	 */
-	public static function split(string $string = null, string $pattern = ' ', int $limit = null) : array
-	{
-		if ($limit === 0)
-			return [];
-
-		if ($string)
-		{
-			if (is_null($limit))
-				$array = mb_split($pattern, $string, -1);
-			else
-				$array = mb_split($pattern, $string);
-
-			$array = array_map('trim', $array);
-
-			if (is_int($limit))
-				$output = static::limit($array, $limit);
-			else // null
-				$output = $array;
-		}
-		else
-			$output = [];
-
-		return $output;
-	}
-
-	/**
 	 * Extract a slice of the array.
 	 * An alias for built-in PHP function array_slice() with preserve_keys parameter default to TRUE.
 	 *
