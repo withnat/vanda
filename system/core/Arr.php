@@ -374,36 +374,37 @@ final class Arr
 	}
 
 	/**
-	 * Builds a map (key-value pairs) from a multi-dimensional array or an array of objects.
+	 * Builds a map (key-value pairs) from a multi-dimensional array (dataset) or an array of objects (recordset).
 	 *
-	 * The `$from` and `$to` parameters specify the key names or property names to set up the map. Optionally, one can further group the map according to a grouping field $group.
+	 * The `$from` and `$to` parameters specify the key names or property names to set up the map.
+	 * Optionally, one can further group the map according to a grouping field $group.
 	 *
 	 * For example,
 	 *
 	 * ```php
 	 * $array = [
-	 *     ['id' => '123', 'name' => 'aaa', 'class' => 'x'],
-	 *     ['id' => '124', 'name' => 'bbb', 'class' => 'x'],
-	 *     ['id' => '345', 'name' => 'ccc', 'class' => 'y'],
+	 *     ['id' => '101', 'name' => 'Nat', 'class' => 'A'],
+	 *     ['id' => '102', 'name' => 'Ann', 'class' => 'A'],
+	 *     ['id' => '103', 'name' => 'May', 'class' => 'B'],
 	 * ];
 	 *
 	 * $result = Arr::map($array, 'id', 'name');
 	 * // the result is:
 	 * // [
-	 * //     '123' => 'aaa',
-	 * //     '124' => 'bbb',
-	 * //     '345' => 'ccc',
+	 * //     '101' => 'Nat',
+	 * //     '102' => 'Ann',
+	 * //     '103' => 'May',
 	 * // ]
 	 *
 	 * $result = Arr::map($array, 'id', 'name', 'class');
 	 * // the result is:
 	 * // [
-	 * //     'x' => [
-	 * //         '123' => 'aaa',
-	 * //         '124' => 'bbb',
+	 * //     'A' => [
+	 * //         '101' => 'Nat',
+	 * //         '102' => 'Ann',
 	 * //     ],
-	 * //     'y' => [
-	 * //         '345' => 'ccc',
+	 * //     'B' => [
+	 * //         '103' => 'May',
 	 * //     ],
 	 * // ]
 	 * ```
