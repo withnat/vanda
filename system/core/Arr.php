@@ -1564,6 +1564,7 @@ final class Arr
 		return $output;
 	}
 
+	/*
 	public static function limit(array $array, int $limit) : array
 	{
 		$arrayCount = count($array);
@@ -1586,6 +1587,7 @@ final class Arr
 
 		return $output;
 	}
+	*/
 
 	/**
 	 * Extract a slice of the array.
