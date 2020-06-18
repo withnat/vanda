@@ -1477,37 +1477,41 @@ final class Arr
 	}
 
 	/**
-	 * Returns and removes a column by key from an array.
+	 * Returns and removes a column by key from a dataset or recordset .
 	 *
-	 * @param  array  $recordset  Recordset.
-	 * @param  string $key        The column of values to return. The $keys can be 'name,work.position'
+	 * @param  array  $data  A multi-dimensional array contains array (dataset) or object (recordset)
+	 *                       from which to pull a column of values.
+	 * @param  string $keys  The column of values to return. The $keys can be 'name,work.position'
 	 * @return array
 	 */
-	public static function pullColumn(array &$recordset, string $key) : array
+	public static function pullColumns(array &$data, string $keys) : array
 	{
-		$keys = static::explode($key, ',');
+		if (!static::isDataset($data) and !static::isRecordset($data))
+			throw InvalidArgumentException::create(1, ['dataset', 'recordset'], $data);
+
+		$keys = static::explode($keys, ',');
 		$result = [];
 
-		for ($i = 0, $n = count($recordset); $i < $n; ++$i)
+		for ($i = 0, $n = count($data); $i < $n; ++$i)
 		{
-			if (is_object($recordset[$i]))
+			if (is_object($data[$i]))
 			{
-				$data = new stdClass();
+				$row = new stdClass();
 
 				foreach ($keys as $key)
 				{
-					$data->{$key} = $recordset[$i]->{$key};
-					unset($recordset[$i]->{$key});
+					$row->{$key} = $data[$i]->{$key};
+					unset($data[$i]->{$key});
 				}
 
-				$result[$i] = $data;
+				$result[$i] = $row;
 			}
 			else
 			{
 				foreach ($keys as $key)
 				{
-					$result[$i][$key] = $recordset[$i][$key];
-					unset($recordset[$i][$key]);
+					$result[$i][$key] = $data[$i][$key];
+					unset($data[$i][$key]);
 				}
 			}
 
