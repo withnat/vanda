@@ -956,6 +956,45 @@ final class Arr
 	*/
 
 	/**
+	 * Method to determine if the input data is a dataset or not.
+	 *
+	 * @param  mixed $data  The data to check.
+	 * @return bool         True if the data is a recordset.
+	 */
+	public static function isDataset($data) : bool
+	{
+		if (!static::isMultidimensional($data) or
+			!isset($data[0]) or
+			!is_array($data[0]))
+		{
+			return false;
+		}
+
+		$masterKeys = array_keys($data[0]);
+		$masterKeyCount = count($masterKeys);
+
+		for ($i = 1, $n = count($data); $i < $n; ++$i)
+		{
+			if (!is_array($data[$i]))
+				return false;
+
+			$rowKeys = array_keys($data[$i]);
+			$rowKeyCount = count($rowKeys);
+
+			if ($masterKeyCount != $rowKeyCount)
+				return false;
+
+			foreach ($masterKeys as $k => $masterKey)
+			{
+				if ($masterKey != $rowKeys[$k])
+					return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method to determine if the input data is a recordset or not.
 	 *
 	 * @param  mixed $data  The data to check.
