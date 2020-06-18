@@ -1069,17 +1069,61 @@ final class ArrTest extends TestCase
 
 	// Arr::map()
 
-//	public function testMethodMapCase1() : void
-//	{
-//		$expected = [
-//			'Nat' => 'Withe',
-//			'Angela' => 'SG'
-//		];
-//
-//		$result = Arr::map(static::$_recordsetArray, 'name', 'surname');
-//print_r($result);exit;
-//		$this->assertEquals($expected, $result);
-//	}
+	public function testMethodMapCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Arr::map([], 'missingkeyFrom', 'missingkeyTo');
+	}
+
+	public function testMethodMapCase2() : void
+	{
+		$expected = [
+			'Nat' => 'Withe',
+			'Angela' => 'SG'
+		];
+
+		$result = Arr::map(static::$_datasetArray, 'name', 'surname');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodMapCase3() : void
+	{
+		$expected = [
+			'Nat' => 'Withe',
+			'Rosie' => 'Marshman',
+			'Emma' => 'Miller',
+			'Angela' => 'SG'
+		];
+
+		$result = Arr::map(static::$_recordsetArray, 'name', 'surname');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodMapCase4() : void
+	{
+		$expected = [
+			'Web Developer' => [
+				'Nat' => 'Withe'
+			],
+			'Staff' => [
+				'Rosie' => 'Marshman',
+				'Emma' => 'McCormick'
+			],
+			'Project Coordinator' => [
+				'Emma' => 'Miller'
+			],
+			'Marketing Director' => [
+				'Angela' => 'SG'
+			]
+		];
+
+		$result = Arr::map(static::$_recordsetArray, 'name', 'surname', 'job');
+
+		$this->assertEquals($expected, $result);
+	}
 
 	// Arr::set()
 
