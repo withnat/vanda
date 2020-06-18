@@ -1496,7 +1496,7 @@ final class Arr
 
 	/**
 	 * Built-in PHP function explode() not allow $string to null.
-	 * This alternative explode function except null and removes
+	 * This alternative explode function accept null and removes
 	 * whitespace and other predefined characters from both sides
 	 * of each element of an output array, and skips empty ones.
 	 *
