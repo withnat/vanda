@@ -1500,6 +1500,8 @@ final class Arr
 	 * whitespace and other predefined characters from both sides
 	 * of each element of an output array, and skips empty ones.
 	 *
+	 * An optional integer $limit will truncate the results.
+	 *
 	 * @param  string|null $string
 	 * @param  string      $delimeter
 	 * @param  int|null    $limit
