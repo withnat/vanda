@@ -2394,8 +2394,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::fromObject(static::$_object);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodFromObjectCase3() : void
@@ -2409,8 +2410,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::fromObject(static::$_object, false);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodFromObjectCase4() : void
@@ -2420,8 +2422,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::fromObject(static::$_object, false, 'address');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodFromObjectCase5() : void
@@ -2437,8 +2440,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::fromObject(static::$_object, true, 'name,surname,address');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodFromObjectCase6() : void
@@ -2450,8 +2454,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::fromObject(static::$_object, false, 'name,surname,address');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	// Arr::fromString
