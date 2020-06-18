@@ -152,15 +152,15 @@ final class Arr
 	 */
 	public static function column(array $data, string $columnKey, string $indexKey = null) : array
 	{
-		$result = [];
-
 		if (!static::isDataset($data) and !static::isRecordset($data))
-			return $result;
+			throw InvalidArgumentException::create(1, ['dataset', 'recordset'], $data);
 
 		$columnKey = static::formatKeySyntax($columnKey);
 
 		if ($indexKey)
 			$indexKey = static::formatKeySyntax($indexKey);
+
+		$result = [];
 
 		foreach ($data as $row)
 		{
