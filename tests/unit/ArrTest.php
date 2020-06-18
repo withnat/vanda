@@ -2485,101 +2485,114 @@ final class ArrTest extends TestCase
 
 	public function testMethodToArrayCase1() : void
 	{
-		$result = Arr::toArray(static::$_objectEmpty);
+		$result = Arr::toArray([]);
 
 		$this->assertEquals([], $result);
 	}
 
 	public function testMethodToArrayCase2() : void
 	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'job' => 'Web Developer',
-			'salary' => 10000,
-			'address' => [
-				'province' => 'Chonburi',
-				'country' => 'Thailand',
-				'postcode' => '20270'
-			]
-		];
+		$result = Arr::toArray('');
 
-		$result = Arr::toArray(static::$_object);
-
-		$this->assertEquals($expected, $result);
+		$this->assertEquals([''], $result);
 	}
 
 	public function testMethodToArrayCase3() : void
 	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'job' => 'Web Developer',
-			'salary' => 10000,
-			'address' => []
-		];
+		$result = Arr::toArray(null);
 
-		$result = Arr::toArray(static::$_object, false);
-
-		$this->assertEquals($expected, $result);
+		$this->assertEquals([null], $result);
 	}
 
 	public function testMethodToArrayCase4() : void
 	{
-		$expected = [
-			'address' => []
-		];
+		$result = Arr::toArray(true);
 
-		$result = Arr::toArray(static::$_object, false, 'address');
-
-		$this->assertEquals($expected, $result);
+		$this->assertEquals([true], $result);
 	}
 
 	public function testMethodToArrayCase5() : void
 	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'address' => [
-				'province' => 'Chonburi',
-				'country' => 'Thailand',
-				'postcode' => '20270'
-			]
-		];
+		$result = Arr::toArray('Nat');
 
-		$result = Arr::toArray(static::$_object, true, 'name,surname,address');
-
-		$this->assertEquals($expected, $result);
+		$this->assertEquals(['Nat'], $result);
 	}
 
 	public function testMethodToArrayCase6() : void
 	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'address' => []
-		];
+		$expected = static::$_array;
 
-		$result = Arr::toArray(static::$_object, false, 'name,surname,address');
+		$result = Arr::toArray(static::$_array);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodToArrayCase7() : void
 	{
-		$result = Arr::toArray(static::$_arrayMulti);
+		$expected = static::$_arrayMulti;
 
-		$this->assertEquals(static::$_arrayMulti, $result);
+		$result = Arr::toArray(static::$_arrayMulti);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodToArrayCase8() : void
 	{
-		$result = Arr::toArray(static::$_assocArrayMulti);
+		$expected = static::$_assocArray;
 
-		$this->assertEquals(static::$_assocArrayMulti, $result);
+		$result = Arr::toArray(static::$_assocArray);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodToArrayCase9() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+		];
+
+		$result = Arr::toArray(static::$_assocArray, true, 'name,surname');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToArrayCase10() : void
+	{
+		$expected = static::$_assocArrayMulti;
+
+		$result = Arr::toArray(static::$_assocArrayMulti);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToArrayCase11() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'job' => [],
+			'height' => 181,
+			'weight' => 87.5,
+			'handsome' => true,
+			'ugly' => false,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::toArray(static::$_assocArrayMulti, false);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToArrayCase12() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -2588,11 +2601,12 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::toArray(static::$_assocArrayMulti, false, 'name,surname,job');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase10() : void
+	public function testMethodToArrayCase13() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -2607,36 +2621,96 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::toArray(static::$_assocArrayMulti, true, 'name,surname,job');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodToArrayCase11() : void
-	{
-		$result = Arr::toArray([]);
-
-		$this->assertEquals([], $result);
-	}
-
-	public function testMethodToArrayCase12() : void
-	{
-		$result = Arr::toArray(null);
-
-		$this->assertEquals([null], $result);
-	}
-
-	public function testMethodToArrayCase13() : void
-	{
-		$result = Arr::toArray('Nat');
-
-		$this->assertEquals(['Nat'], $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodToArrayCase14() : void
 	{
-		$result = Arr::toArray(true);
+		$result = Arr::toArray(static::$_objectEmpty);
 
-		$this->assertEquals([true], $result);
+		$this->assertEquals([], $result);
+	}
+
+	public function testMethodToArrayCase15() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'job' => 'Web Developer',
+			'salary' => 10000,
+			'address' => [
+				'province' => 'Chonburi',
+				'country' => 'Thailand',
+				'postcode' => '20270'
+			]
+		];
+
+		$result = Arr::toArray(static::$_object);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToArrayCase16() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'job' => 'Web Developer',
+			'salary' => 10000,
+			'address' => []
+		];
+
+		$result = Arr::toArray(static::$_object, false);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToArrayCase17() : void
+	{
+		$expected = [
+			'address' => []
+		];
+
+		$result = Arr::toArray(static::$_object, false, 'address');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToArrayCase18() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'address' => [
+				'province' => 'Chonburi',
+				'country' => 'Thailand',
+				'postcode' => '20270'
+			]
+		];
+
+		$result = Arr::toArray(static::$_object, true, 'name,surname,address');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToArrayCase19() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'address' => []
+		];
+
+		$result = Arr::toArray(static::$_object, false, 'name,surname,address');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	// Arr::toObject
