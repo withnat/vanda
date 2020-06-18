@@ -3365,7 +3365,11 @@ final class ArrTest extends TestCase
 
 		$result = Arr::toSequential(static::$_assocArrayMulti);
 
-		$this->assertEquals($expected, $result);
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodToSequentialCase10() : void
@@ -3384,7 +3388,11 @@ final class ArrTest extends TestCase
 
 		$result = Arr::toSequential(static::$_object);
 
-		$this->assertEquals($expected, $result);
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodToSequentialCase11() : void
