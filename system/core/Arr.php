@@ -964,12 +964,6 @@ final class Arr
 		if (!is_array($data) or !isset($data[0]))
 			return false;
 
-		// Faster but not 100% it is recordset.
-		//$result = (isset($data[0]) and is_object($data[0]));
-		//return $result;
-
-		// Below lines of code is slower but sure 100% is recordset.
-
 		$data[0] = (array)$data[0];
 		$masterKeys = array_keys($data[0]);
 		$masterKeyCount = count($masterKeys);
