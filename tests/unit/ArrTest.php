@@ -3442,7 +3442,7 @@ final class ArrTest extends TestCase
 
 	public function testMethodRemoveCase2() : void
 	{
-		$result = Arr::remove([], 'string');
+		$result = Arr::remove([], 'value');
 
 		$this->assertEquals([], $result);
 	}
@@ -3476,8 +3476,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::remove($array, 'withe');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodRemoveCase5() : void
@@ -3517,8 +3518,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::remove(static::$_assocArrayMulti, 'Web Developer');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodRemoveCase7() : void
@@ -3538,8 +3540,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::remove(static::$_assocArrayMulti, ['Web Developer', 87.5, true, null]);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	// Arr::removeKey
