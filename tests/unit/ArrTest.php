@@ -2230,40 +2230,61 @@ final class ArrTest extends TestCase
 
 	public function testMethodIsAssociativeCase3() : void
 	{
-		$result = Arr::isAssociative(static::$_objectEmpty);
+		$result = Arr::isAssociative([]);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsAssociativeCase4() : void
 	{
-		$result = Arr::isAssociative([]);
+		$result = Arr::isAssociative(static::$_objectEmpty);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsAssociativeCase5() : void
 	{
-		$result = Arr::isAssociative(static::$_arrayMulti);
+		$result = Arr::isAssociative(static::$_object);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsAssociativeCase6() : void
 	{
+		$result = Arr::isAssociative(static::$_array);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsAssociativeCase7() : void
+	{
+		$result = Arr::isAssociative(static::$_arrayMulti);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsAssociativeCase8() : void
+	{
+		$result = Arr::isAssociative(static::$_assocArray);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsAssociativeCase9() : void
+	{
 		$result = Arr::isAssociative(static::$_assocArrayMulti);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodIsAssociativeCase7() : void
+	public function testMethodIsAssociativeCase10() : void
 	{
 		$result = Arr::isAssociative(static::$_datasetArray);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodIsAssociativeCase8() : void
+	public function testMethodIsAssociativeCase11() : void
 	{
 		$result = Arr::isAssociative(static::$_recordsetArray);
 
