@@ -3652,8 +3652,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::removeType(static::$_assocArrayMulti, 'string');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodRemoveTypeCase3() : void
@@ -3675,8 +3676,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::removeType(static::$_assocArrayMulti, 'int');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodRemoveTypeCase4() : void
@@ -3698,32 +3700,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::removeType(static::$_assocArrayMulti, 'integer');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodRemoveTypeCase5() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'job' => [
-				'title' => 'Web Developer',
-				'salary' => 10000,
-				'excellent' => true,
-				'other' => ''
-			],
-			'height' => 181,
-			'handsome' => true,
-			'ugly' => false,
-			'other' => '',
-			'extra' => null
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'float');
-
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodRemoveTypeCase6() : void
@@ -3745,12 +3724,38 @@ final class ArrTest extends TestCase
 			'extra' => null
 		];
 
-		$result = Arr::removeType(static::$_assocArrayMulti, 'double');
+		$result = Arr::removeType(static::$_assocArrayMulti, 'float');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodRemoveTypeCase7() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'job' => [
+				'title' => 'Web Developer',
+				'salary' => 10000,
+				'excellent' => true,
+				'other' => ''
+			],
+			'height' => 181,
+			'handsome' => true,
+			'ugly' => false,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'double');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase8() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -3764,32 +3769,10 @@ final class ArrTest extends TestCase
 			'extra' => null
 		];
 
-		$result = Arr::removeType(static::$_assocArrayMulti, 'array', false);
+		$result = Arr::removeType(static::$_assocArrayMulti, 'array');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodRemoveTypeCase8() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'job' => [
-				'title' => 'Web Developer',
-				'salary' => 10000,
-				'hrscore' => 9.8,
-				'other' => ''
-			],
-			'height' => 181,
-			'weight' => 87.5,
-			'other' => '',
-			'extra' => null
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'bool');
-
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodRemoveTypeCase9() : void
@@ -3810,24 +3793,51 @@ final class ArrTest extends TestCase
 			'extra' => null
 		];
 
-		$result = Arr::removeType(static::$_assocArrayMulti, 'boolean');
+		$result = Arr::removeType(static::$_assocArrayMulti, 'bool');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodRemoveTypeCase10() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'job' => [
+				'title' => 'Web Developer',
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'other' => ''
+			],
+			'height' => 181,
+			'weight' => 87.5,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'boolean');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase11() : void
 	{
 		$testData = static::$_assocArrayMulti;
 		$data = new stdClass();
 		$testData['object'] = $data;
 
 		$expected = static::$_assocArrayMulti;
-		$result = Arr::removeType($testData, 'object');
 
-		$this->assertEquals($expected, $result);
+		$result = Arr::removeType($testData, 'object');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveTypeCase11() : void
+	public function testMethodRemoveTypeCase12() : void
 	{
 		$testData = [
 			'a' => 'A',
@@ -3843,7 +3853,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodRemoveTypeCase12() : void
+	public function testMethodRemoveTypeCase13() : void
 	{
 		$testData = [
 			'a' => 'A',
@@ -3859,7 +3869,25 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodRemoveTypeCase13() : void
+	public function testMethodRemoveTypeCase14() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'job' => [
+				'title' => 'Web Developer',
+				'other' => ''
+			],
+			'other' => ''
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'int,float,bool,null');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase5() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -3878,26 +3906,11 @@ final class ArrTest extends TestCase
 			'extra' => null
 		];
 
+		// Set recursive to false.
 		$result = Arr::removeType(static::$_assocArrayMulti, 'int', false);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodRemoveTypeCase14() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'job' => [
-				'title' => 'Web Developer',
-				'other' => ''
-			],
-			'other' => ''
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'int,float,bool,null');
-
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	// Arr::removeBlank
