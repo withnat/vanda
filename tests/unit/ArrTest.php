@@ -3085,11 +3085,59 @@ final class ArrTest extends TestCase
 		$data->name = 'Nat';
 		$data->surname = 'Withe';
 
-		$expected = [$data];
+		$expected = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe'
+			]
+		];
 
 		$result = Arr::toRecordset($data);
 
-		$this->assertEquals($expected, $result);
+		$this->assertIsArray($result);
+		$this->assertIsObject($result[0]);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result = (array)$result;
+		$result[0] = (array)$result[0];
+
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToRecordsetCase6() : void
+	{
+		$data = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe',
+				'job' => 'Web Developer'
+			],
+			[
+				'name' => 'Angela',
+				'surname' => 'SG',
+				'job' => 'Marketing Director'
+			]
+		];
+
+		$expected = $data;
+
+		$result = Arr::toRecordset($data);
+
+		$this->assertIsArray($result);
+		$this->assertIsObject($result[0]);
+		$this->assertIsObject($result[1]);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result[0] = (array)$result[0];
+		$result[1] = (array)$result[1];
+
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	// Arr::toMultidimensional
