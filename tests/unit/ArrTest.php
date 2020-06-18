@@ -2228,6 +2228,16 @@ final class ArrTest extends TestCase
 
 	public function testMethodIsDatasetCase12() : void
 	{
+		// Some row is not array.
+		static::$_datasetArray[1] = 'value';
+
+		$result = Arr::isDataset(static::$_datasetArray);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase13() : void
+	{
 		$result = Arr::isDataset(static::$_datasetArray);
 
 		$this->assertTrue($result);
