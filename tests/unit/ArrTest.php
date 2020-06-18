@@ -4072,6 +4072,14 @@ final class ArrTest extends TestCase
 
 	public function testMethodExplodeCase5() : void
 	{
+		$expected = ['b', 'c'];
+		$result = Arr::explode(' a , b , c ', ',', -2);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodExplodeCase6() : void
+	{
 		$result = Arr::explode(' a , b , c ', ',', 0);
 
 		$this->assertEquals([], $result);
