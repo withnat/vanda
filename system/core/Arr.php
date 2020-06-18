@@ -1534,6 +1534,7 @@ final class Arr
 	 * Splits the string with the provided regular expression, returning an
 	 * array. Removes whitespace and other predefined characters from both sides
 	 * of each element of the output array, and skips empty ones.
+	 * 
 	 * An optional integer $limit will truncate the results.
 	 *
 	 * @param  string|null $string   The input string.
