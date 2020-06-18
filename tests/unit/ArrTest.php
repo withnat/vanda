@@ -587,7 +587,7 @@ final class ArrTest extends TestCase
 
 	public function testMethodFirstCase11() : void
 	{
-		// compare in array mode to ensure $expected and $result are
+		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$expected = [
 			'name' => 'Nat',
@@ -728,7 +728,7 @@ final class ArrTest extends TestCase
 
 	public function testMethodLastCase11() : void
 	{
-		// compare in array mode to ensure $expected and $result are
+		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$expected = [
 			'name' => 'Angela',
