@@ -829,6 +829,9 @@ final class Arr
 	 */
 	public static function sortRecordset(array $recordset, string $key, string $direction = 'asc') : array
 	{
+		if (!static::isRecordset($recordset))
+			throw InvalidArgumentException::create(1, ['recordset'], $recordset);
+
 		$recordset = (array)$recordset;
 
 		if (strtolower($direction) === 'desc')
@@ -957,7 +960,7 @@ final class Arr
 	 */
 	public static function isRecordset($data) : bool
 	{
-		if (!is_array($data))
+		if (!is_array($data) or !isset($data[0]))
 			return false;
 
 		// Faster but not 100% it is recordset.
@@ -965,9 +968,6 @@ final class Arr
 		//return $result;
 
 		// Below lines of code is slower but sure 100% is recordset.
-
-		if (!isset($data[0]) or !is_object($data[0]))
-			return false;
 
 		$data[0] = (array)$data[0];
 		$masterKeys = array_keys($data[0]);
