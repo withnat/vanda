@@ -1521,10 +1521,13 @@ final class Arr
 
 			if (is_int($limit) and $limit != 0)
 			{
-				if ($limit > 0)
-					$output = static::first($array, $limit);
-				else // < 0
+				if ($limit < 0)
+				{
+					$limit = abs($limit);
 					$output = static::last($array, $limit);
+				}
+				else // > 0
+					$output = static::first($array, $limit);
 			}
 			else // null or 0
 				$output = $array;
