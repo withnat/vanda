@@ -1915,9 +1915,9 @@ final class ArrTest extends TestCase
 
 	public function testMethodSortRecordsetCase1() : void
 	{
-		$result = Arr::sortRecordset([], 'missingkey');
+		$this->expectException(\InvalidArgumentException::class);
 
-		$this->assertEquals([], $result);
+		Arr::sortRecordset([], 'missingkey');
 	}
 
 	public function testMethodSortRecordsetCase2() : void
