@@ -2158,40 +2158,54 @@ final class ArrTest extends TestCase
 
 	public function testMethodIsRecordsetCase3() : void
 	{
-		$result = Arr::isRecordset(static::$_objectEmpty);
+		$result = Arr::isRecordset([]);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsRecordsetCase4() : void
 	{
-		$result = Arr::isRecordset([]);
+		$result = Arr::isRecordset(static::$_objectEmpty);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsRecordsetCase5() : void
 	{
-		$result = Arr::isRecordset(static::$_arrayMulti);
+		$result = Arr::isRecordset(static::$_array);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsRecordsetCase6() : void
 	{
-		$result = Arr::isRecordset(static::$_assocArrayMulti);
+		$result = Arr::isRecordset(static::$_arrayMulti);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsRecordsetCase7() : void
 	{
-		$result = Arr::isRecordset(static::$_datasetArray);
+		$result = Arr::isRecordset(static::$_assocArray);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsRecordsetCase8() : void
+	{
+		$result = Arr::isRecordset(static::$_assocArrayMulti);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsRecordsetCase9() : void
+	{
+		$result = Arr::isRecordset(static::$_datasetArray);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsRecordsetCase10() : void
 	{
 		$result = Arr::isRecordset(static::$_recordsetArray);
 
