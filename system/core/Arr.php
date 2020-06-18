@@ -101,7 +101,7 @@ final class Arr
 	}
 
 	/**
-	 * Return the values from a single column in the input array (recordset).
+	 * Return the values from a single column in the input array contains array (dataset) or object (recordset).
 	 *
 	 * Example
 	 *
@@ -144,21 +144,25 @@ final class Arr
 	 *         [Angela] => Maketing Director
 	 * )
 	 *
-	 * @param  array       $recordset  A multi-dimensional array contains array or object (recordset) from which to pull a column of values.
+	 * @param  array       $data       A multi-dimensional array contains array (dataset) or object (recordset)
+	 *                                 from which to pull a column of values.
 	 * @param  string      $columnKey  The column of values to return.
 	 * @param  string|null $indexKey   The column to use as the index/keys for the returned array.
 	 * @return array                   Returns an array of values representing a single column from the input array.
 	 */
-	public static function column(array $recordset, string $columnKey, string $indexKey = null) : array
+	public static function column(array $data, string $columnKey, string $indexKey = null) : array
 	{
+		$result = [];
+
+		if (!static::isDataset($data) and !static::isRecordset($data))
+			return $result;
+
 		$columnKey = static::formatKeySyntax($columnKey);
 
 		if ($indexKey)
 			$indexKey = static::formatKeySyntax($indexKey);
 
-		$result = [];
-
-		foreach ($recordset as $row)
+		foreach ($data as $row)
 		{
 			$row = static::toArray($row);
 
