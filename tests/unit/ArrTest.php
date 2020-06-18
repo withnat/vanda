@@ -2309,40 +2309,61 @@ final class ArrTest extends TestCase
 
 	public function testMethodIsMultidimensionalCase3() : void
 	{
-		$result = Arr::isMultidimensional(static::$_objectEmpty);
+		$result = Arr::isMultidimensional([]);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsMultidimensionalCase4() : void
 	{
-		$result = Arr::isMultidimensional([]);
+		$result = Arr::isMultidimensional(static::$_objectEmpty);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsMultidimensionalCase5() : void
 	{
+		$result = Arr::isMultidimensional(static::$_object);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsMultidimensionalCase6() : void
+	{
+		$result = Arr::isMultidimensional(static::$_array);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsMultidimensionalCase7() : void
+	{
 		$result = Arr::isMultidimensional(static::$_arrayMulti);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodIsMultidimensionalCase6() : void
+	public function testMethodIsMultidimensionalCase8() : void
+	{
+		$result = Arr::isMultidimensional(static::$_assocArray);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsMultidimensionalCase9() : void
 	{
 		$result = Arr::isMultidimensional(static::$_assocArrayMulti);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodIsMultidimensionalCase7() : void
+	public function testMethodIsMultidimensionalCase10() : void
 	{
 		$result = Arr::isMultidimensional(static::$_datasetArray);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodIsMultidimensionalCase8() : void
+	public function testMethodIsMultidimensionalCase11() : void
 	{
 		$result = Arr::isMultidimensional(static::$_recordsetArray);
 
