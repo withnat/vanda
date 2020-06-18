@@ -2298,7 +2298,7 @@ final class ArrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	public function testMethodIsRecordsetCase11() : void
+	public function testMethodIsRecordsetCase10() : void
 	{
 		// Test different number of columns for each row.
 		unset(static::$_recordsetArray[4]->salary);
@@ -2308,7 +2308,7 @@ final class ArrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	public function testMethodIsRecordsetCase11x() : void
+	public function testMethodIsRecordsetCase11() : void
 	{
 		// Test different column name for each row.
 		unset(static::$_recordsetArray[4]->salary);
@@ -2319,7 +2319,7 @@ final class ArrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	public function testMethodIsRecordsetCase10() : void
+	public function testMethodIsRecordsetCase12() : void
 	{
 		$result = Arr::isRecordset(static::$_recordsetArray);
 
