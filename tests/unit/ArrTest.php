@@ -2228,7 +2228,7 @@ final class ArrTest extends TestCase
 
 	public function testMethodIsDatasetCase12() : void
 	{
-		// Some row is not array.
+		// Some row is not an array.
 		static::$_datasetArray[1] = 'value';
 
 		$result = Arr::isDataset(static::$_datasetArray);
