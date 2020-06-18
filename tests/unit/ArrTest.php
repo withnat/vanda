@@ -4162,8 +4162,96 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// todo
-	// Arr::pullColumn
+	// Arr::pullColumns
+
+	public function testMethodPullColumnCase1() : void
+	{
+		$array = [];
+
+		$this->expectException(\InvalidArgumentException::class);
+
+		Arr::pullColumns($array, 'missingkey');
+	}
+
+	public function testMethodPullColumnCase2() : void
+	{
+		$expected = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe'
+			],
+			[
+				'name' => 'Angela',
+				'surname' => 'SG'
+			]
+		];
+
+		$result = Arr::pullColumns(static::$_datasetArray, 'name,surname');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+
+		$this->assertArrayNotHasKey('name', static::$_datasetArray);
+		$this->assertArrayNotHasKey('surname', static::$_datasetArray);
+	}
+
+	public function testMethodPullColumnCase3() : void
+	{
+		$expected = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe'
+			],
+			[
+				'name' => 'Rosie',
+				'surname' => 'Marshman'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'McCormick'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'Miller'
+			],
+			[
+				'name' => 'Angela',
+				'surname' => 'SG'
+			]
+		];
+
+		$result = Arr::pullColumns(static::$_recordsetArray, 'name,surname');
+
+		$this->assertIsArray($result);
+		$this->assertIsObject($result[0]);
+		$this->assertIsObject($result[1]);
+		$this->assertIsObject($result[2]);
+		$this->assertIsObject($result[3]);
+		$this->assertIsObject($result[4]);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result[0] = (array)$result[0];
+		$result[1] = (array)$result[1];
+		$result[2] = (array)$result[2];
+		$result[3] = (array)$result[3];
+		$result[4] = (array)$result[4];
+
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[0]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[0]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[1]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[1]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[2]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[2]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[3]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[3]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[4]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[4]);
+	}
 
 	// Arr::removeColumn
 
