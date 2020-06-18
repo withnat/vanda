@@ -4049,13 +4049,20 @@ final class ArrTest extends TestCase
 
 	public function testMethodExplodeCase2() : void
 	{
+		$result = Arr::explode('0', ',');
+
+		$this->assertEquals(['0'], $result);
+	}
+
+	public function testMethodExplodeCase3() : void
+	{
 		$expected = ['a', 'b', 'c'];
 		$result = Arr::explode(' a , b , c ', ',');
 
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodExplodeCase3() : void
+	public function testMethodExplodeCase4() : void
 	{
 		$expected = ['a', 'b'];
 		$result = Arr::explode(' a , b , c ', ',', 2);
@@ -4063,7 +4070,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodExplodeCase4() : void
+	public function testMethodExplodeCase5() : void
 	{
 		$result = Arr::explode(' a , b , c ', ',', 0);
 
@@ -4072,45 +4079,6 @@ final class ArrTest extends TestCase
 
 	// todo
 	// Arr::split
-
-	/*
-	// Arr::limit
-
-	public function testMethodLimitCase1() : void
-	{
-		$result = Arr::limit([], 1);
-
-		$this->assertEquals([], $result);
-	}
-
-	public function testMethodLimitCase2() : void
-	{
-		$result = Arr::limit(static::$_arrayMulti, 1);
-
-		$this->assertEquals([10], $result);
-	}
-
-	public function testMethodLimitCase3() : void
-	{
-		$result = Arr::limit(static::$_arrayMulti, 100);
-
-		$this->assertEquals(static::$_arrayMulti, $result);
-	}
-
-	public function testMethodLimitCase4() : void
-	{
-		$result = Arr::limit(static::$_arrayMulti, -1);
-
-		$this->assertEquals([100], $result);
-	}
-
-	public function testMethodLimitCase5() : void
-	{
-		$result = Arr::limit(static::$_arrayMulti, -100);
-
-		$this->assertEquals(static::$_arrayMulti, $result);
-	}
-	*/
 
 	// Arr::slice
 
