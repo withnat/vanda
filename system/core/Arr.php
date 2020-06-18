@@ -413,17 +413,23 @@ final class Arr
 	 * // ]
 	 * ```
 	 *
-	 * @param  array       $array
+	 * @param  array       $data
 	 * @param  string      $from
 	 * @param  string      $to
 	 * @param  string|null $group
 	 * @return array
 	 */
-	public static function map(array $array, string $from, string $to, string $group = null) : array
+	public static function map(array $data, string $from, string $to, string $group = null) : array
 	{
+		if (!static::isDataset($data) and !static::isRecordset($data))
+			throw InvalidArgumentException::create(1, ['dataset', 'recordset'], $data);
+
+		if (static::isRecordset($data))
+			$data = static::toArray($data);
+
 		$result = [];
 
-		foreach ($array as $item)
+		foreach ($data as $item)
 		{
 			$key = static::get($item, $from);
 			$value = static::get($item, $to);
