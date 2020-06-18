@@ -4154,9 +4154,11 @@ final class ArrTest extends TestCase
 	public function testMethodUniqueCase2() : void
 	{
 		$expected = [1, 'a', 'b', 'c'];
-		$result = Arr::unique([1, 1, 'a', 'a', 'b', 'c']);
 
-		$this->assertEquals($expected, $result);
+		$result = Arr::unique([1, 1, 'a', 'a', 'b', 'c']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodUniqueCase3() : void
@@ -4169,8 +4171,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::unique([1, 1, 'a', 'a', 'b', 'c'], false, false);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodUniqueCase4() : void
@@ -4190,8 +4193,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::unique($array);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodUniqueCase5() : void
@@ -4211,7 +4215,8 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::unique($array);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 }
