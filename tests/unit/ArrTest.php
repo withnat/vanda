@@ -4122,9 +4122,11 @@ final class ArrTest extends TestCase
 	public function testMethodSliceCase2() : void
 	{
 		$expected = [2 => 3, 3 => 4];
-		$result = Arr::slice([1 ,2 ,3, 4, 5], 2, 2);
 
-		$this->assertEquals($expected, $result);
+		$result = Arr::slice([1 ,2 ,3, 4, 5], 2, 2);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodSliceCase3() : void
@@ -4135,8 +4137,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::slice(static::$_assocArrayMulti, 0, 2);
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	// Arr::unique
