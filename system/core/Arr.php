@@ -963,7 +963,7 @@ final class Arr
 	 */
 	public static function isDataset($data) : bool
 	{
-		if (!static::isMultidimensional($data) or
+		if (!is_array($data) or
 			!isset($data[0]) or
 			!is_array($data[0]))
 		{
