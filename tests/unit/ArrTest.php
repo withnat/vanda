@@ -2476,8 +2476,9 @@ final class ArrTest extends TestCase
 		];
 
 		$result = Arr::fromString('name=Nat&surname=Withe');
+		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	// Arr::toArray
