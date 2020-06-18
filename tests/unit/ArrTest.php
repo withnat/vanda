@@ -2140,6 +2140,99 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
+	// Arr::isDataset
+
+	public function testMethodIsDatasetCase1() : void
+	{
+		$result = Arr::isDataset(null);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase2() : void
+	{
+		$result = Arr::isDataset('');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase3() : void
+	{
+		$result = Arr::isDataset([]);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase4() : void
+	{
+		$result = Arr::isDataset(static::$_objectEmpty);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase5() : void
+	{
+		$result = Arr::isDataset(static::$_array);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase6() : void
+	{
+		$result = Arr::isDataset(static::$_arrayMulti);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase7() : void
+	{
+		$result = Arr::isDataset(static::$_assocArray);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase8() : void
+	{
+		$result = Arr::isDataset(static::$_assocArrayMulti);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase9() : void
+	{
+		$result = Arr::isDataset(static::$_recordsetArray);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase10() : void
+	{
+		// Test different number of columns for each row.
+		unset(static::$_datasetArray[1]['job']);
+
+		$result = Arr::isDataset(static::$_datasetArray);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase11() : void
+	{
+		// Test different column name for each row.
+		unset(static::$_datasetArray[1]['job']);
+		static::$_datasetArray[1]['xxx'] = 'xxx';
+
+		$result = Arr::isDataset(static::$_datasetArray);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsDatasetCase12() : void
+	{
+		$result = Arr::isDataset(static::$_datasetArray);
+
+		$this->assertTrue($result);
+	}
+
 	// Arr::isRecordset
 
 	public function testMethodIsRecordsetCase1() : void
