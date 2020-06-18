@@ -3192,7 +3192,6 @@ final class ArrTest extends TestCase
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
-		$result = (array)$result;
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
