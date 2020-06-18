@@ -4073,6 +4073,7 @@ final class ArrTest extends TestCase
 	// todo
 	// Arr::split
 
+	/*
 	// Arr::limit
 
 	public function testMethodLimitCase1() : void
@@ -4109,6 +4110,7 @@ final class ArrTest extends TestCase
 
 		$this->assertEquals(static::$_arrayMulti, $result);
 	}
+	*/
 
 	// Arr::slice
 
