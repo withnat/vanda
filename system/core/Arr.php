@@ -245,7 +245,9 @@ final class Arr
 		if (function_exists('array_key_first'))
 		{
 			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			// @codeCoverageIgnoreStart
 			return array_key_first($array);
+			// @codeCoverageIgnoreEnd
 		}
 		// PHP 7.2
 		else
@@ -273,7 +275,9 @@ final class Arr
 		if (function_exists('array_key_first'))
 		{
 			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			// @codeCoverageIgnoreStart
 			return array_key_last($array);
+			// @codeCoverageIgnoreEnd
 		}
 		// PHP 7.2
 		else
