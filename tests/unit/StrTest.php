@@ -688,4 +688,24 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('Nat', $result);
 	}
+
+	// Str::removeQuotes
+
+	public function testMethodRemoveQuotesCase1() : void
+	{
+		$string = '"Nat"';
+
+		$result = Str::removeQuotes($string);
+
+		$this->assertEquals('Nat', $result);
+	}
+
+	public function testMethodRemoveQuotesCase2() : void
+	{
+		$string = '"Nat"';
+
+		$result = Str::removeQuotes($string);
+
+		$this->assertEquals('Nat', $result);
+	}
 }
