@@ -517,7 +517,7 @@ final class Str
 	 * 2. "\t"   (a tab)
 	 * 3. "\n"   (a new line)
 	 * 4. "\r"   (a carriage return)
-	 * 5. "\0"   (the NUL-byte)
+	 * 5. "\0"   (a null byte)
 	 * 6. "\x0B" (a vertical tab)
 	 *
 	 * @param  string $string
@@ -525,7 +525,13 @@ final class Str
 	 */
 	public static function removeWhitespace(string $string) : string
 	{
-		return mb_ereg_replace('[[:space:]]+', '', $string);
+		// Strip null byte.
+		$string = str_replace("\0", "", $string);
+
+		// Strip another whitespaces.
+		$string = mb_ereg_replace('[[:space:]]+', '', $string);
+
+		return $string;
 	}
 
 	/**
