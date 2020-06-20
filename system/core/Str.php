@@ -498,7 +498,7 @@ final class Str
 		// Note for me :P
 		// Single pipe or vertical bar is bitwise operators.
 		// https://stackoverflow.com/questions/13811922/what-does-using-a-single-pipe-in-a-function-argument-do
-		
+
 		// We take advantage of ENT_SUBSTITUTE flag to correctly deal with invalid UTF-8 sequences.
 		$flags = ENT_QUOTES | ENT_SUBSTITUTE;
 
