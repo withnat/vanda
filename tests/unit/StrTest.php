@@ -452,6 +452,24 @@ final class StrTest extends TestCase
 		$this->assertEquals('x', $result);
 	}
 
+	public function testMethodBetweenCase4() : void
+	{
+		$string = 'axb,ayb';
+
+		$result = Str::between($string, 'P', 'b');
+
+		$this->assertEquals('', $result);
+	}
+
+	public function testMethodBetweenCase5() : void
+	{
+		$string = 'axb,ayb';
+
+		$result = Str::between($string, 'a', 'P');
+
+		$this->assertEquals('', $result);
+	}
+
 	// Str::trim
 
 	public function testMethodTrimCase1() : void
