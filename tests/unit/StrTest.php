@@ -826,4 +826,16 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('I love you', $result);
 	}
+
+	// Str::upperCaseWords
+
+	public function testMethodUpperCaseWordsCase1() : void
+	{
+		$string = 'i love you';
+
+		$result = Str::upperCaseWords($string);
+
+
+		$this->assertEquals('I Love You', $result);
+	}
 }
