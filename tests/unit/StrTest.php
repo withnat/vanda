@@ -499,7 +499,7 @@ final class StrTest extends TestCase
 
 	public function testMethodTrimCase4() : void
 	{
-		$string = 'bxa,ayb';
+		$string = 'bbxa,aybb';
 
 		$result = Str::trim($string, 'b');
 
