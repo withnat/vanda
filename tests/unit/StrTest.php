@@ -677,4 +677,15 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('abcdef', $result);
 	}
+
+	// Str::removeTags
+
+	public function testMethodRemoveTagsCase1() : void
+	{
+		$string = '<strong>Nat</strong>';
+
+		$result = Str::removeTags($string);
+
+		$this->assertEquals('Nat', $result);
+	}
 }
