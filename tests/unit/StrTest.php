@@ -666,4 +666,15 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('<strong>Nat</strong>', $result);
 	}
+
+	// Str::removeWhitespace
+
+	public function testMethodRemoveWhitespaceCase1() : void
+	{
+		$string = " a\tb\nc\rd\0e\x0Bf";
+
+		$result = Str::removeWhitespace($string);
+
+		$this->assertEquals('abcdef', $result);
+	}
 }
