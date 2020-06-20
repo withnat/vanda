@@ -18,6 +18,8 @@
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<!--<directory suffix=".php">./system/core</directory>-->
 			<file>./system/core/Arr.php</file>
+			<file>./system/core/Inflector.php</file>
+			<file>./system/core/Str.php</file>
 		</whitelist>
 	</filter>
 	<php>
