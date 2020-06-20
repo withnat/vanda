@@ -759,4 +759,15 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('a b c', $result);
 	}
+
+	// Str::reduceDoubleSlashes
+
+	public function testMethodReduceDoubleSlashesCase1() : void
+	{
+		$string = 'http://www.some-site.com//index.php';
+
+		$result = Str::reduceDoubleSlashes($string);
+
+		$this->assertEquals('http://www.some-site.com/index.php', $result);
+	}
 }
