@@ -324,6 +324,13 @@ final class Str
 	public static function between(string $string, string $start, string $end, int $offset = 0, string $encoding = null) : string
 	{
 		$encoding = static::_getEncoding($encoding);
+
+		if ($offset < 0)
+		{
+			$string = mb_substr($string, 0, $offset, $encoding);
+			$offset = 0;
+		}
+
 		$startPos = mb_strpos($string, $start, $offset, $encoding);
 
 		if ($startPos === false)
