@@ -775,7 +775,7 @@ final class StrTest extends TestCase
 
 	public function testMethodLowerCaseCase1() : void
 	{
-		$string = 'I Love You';
+		$string = 'I LOVE YOU';
 
 		$result = Str::lowerCase($string);
 
@@ -786,11 +786,11 @@ final class StrTest extends TestCase
 
 	public function testMethodLowerCaseFirstCase1() : void
 	{
-		$string = 'I Love You';
+		$string = 'I LOVE YOU';
 
 		$result = Str::lowerCaseFirst($string);
 
-		$this->assertEquals('i Love You', $result);
+		$this->assertEquals('i LOVE YOU', $result);
 	}
 
 	// Str::lowerCaseWords
