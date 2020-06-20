@@ -770,4 +770,15 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('http://www.some-site.com/index.php', $result);
 	}
+
+	// Str::lowerCase
+
+	public function testMethodlowerCaseCase1() : void
+	{
+		$string = 'I Love You';
+
+		$result = Str::lowerCase($string);
+
+		$this->assertEquals('i love you', $result);
+	}
 }
