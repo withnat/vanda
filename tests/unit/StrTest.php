@@ -47,7 +47,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class StrTest extends TestCase
 {
-	protected static $_string = 'Nat is so tall, and handsome as hell.';
+	protected static $_string = 'Nat is so tall, and handsome as hell. Nat is so bad but he does it so well.';
 
 	// Str::length
 
