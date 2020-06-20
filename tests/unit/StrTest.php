@@ -748,4 +748,15 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('Nat.Angela', $result);
 	}
+
+	// Str::reduceDoubleSpaces
+
+	public function testMethodReduceDoubleSpacesCase1() : void
+	{
+		$string = 'a  b      c';
+
+		$result = Str::reduceDoubleSpaces($string);
+
+		$this->assertEquals('a b c', $result);
+	}
 }
