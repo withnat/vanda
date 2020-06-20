@@ -451,4 +451,40 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('x', $result);
 	}
+
+	// Str::trim
+
+	public function testMethodTrimCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Str::trim('', 3.14);
+	}
+
+	public function testMethodTrimCase2() : void
+	{
+		$string = ' axb,ayb ';
+
+		$result = Str::trim($string);
+
+		$this->assertEquals('axb,ayb', $result);
+	}
+
+	public function testMethodTrimCase3() : void
+	{
+		$string = ' axb,ayb ';
+
+		$result = Str::trim($string, 2);
+
+		$this->assertEquals('xb,ay', $result);
+	}
+
+	public function testMethodTrimCase4() : void
+	{
+		$string = 'bxa,ayb';
+
+		$result = Str::trim($string, 'b');
+
+		$this->assertEquals('xa,ay', $result);
+	}
 }
