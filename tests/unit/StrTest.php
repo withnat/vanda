@@ -606,4 +606,33 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('\\\\', $result);
 	}
+
+	// Str::stripSlashes
+
+	public function testMethodStripSlashesCase1() : void
+	{
+		$string = "\'";
+
+		$result = Str::stripSlashes($string);
+
+		$this->assertEquals("'", $result);
+	}
+
+	public function testMethodStripSlashesCase2() : void
+	{
+		$string = '\"';
+
+		$result = Str::stripSlashes($string);
+
+		$this->assertEquals('"', $result);
+	}
+
+	public function testMethodStripSlashesCase3() : void
+	{
+		$string = '\\\\';
+
+		$result = Str::stripSlashes($string);
+
+		$this->assertEquals('\\', $result);
+	}
 }
