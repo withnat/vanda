@@ -848,4 +848,56 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('aaaaa', $result);
 	}
+
+	// Str::replace
+
+	public function testMethodReplaceCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Str::replace('string', 'search', 3.14);
+	}
+
+	public function testMethodReplaceCase2() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Str::replace('string', 3.14, 'replace');
+	}
+
+	public function testMethodReplaceCase3() : void
+	{
+		$string = 'Nat is so tall, nat is handsome, nat is so bad.';
+
+		$result = Str::replace($string, 'nat', 'he');
+
+		$this->assertEquals('Nat is so tall, he is handsome, he is so bad.', $result);
+	}
+
+	public function testMethodReplaceCase4() : void
+	{
+		$string = 'Nat is so tall, nat is handsome, nat is so bad.';
+
+		$result = Str::replace($string, 'nat', 'he', 1);
+
+		$this->assertEquals('Nat is so tall, he is handsome, nat is so bad.', $result);
+	}
+
+	public function testMethodReplaceCase5() : void
+	{
+		$string = 'Nat is so tall, nat is handsome, nat is so bad.';
+
+		$result = Str::replace($string, ['handsome', 'so bad'], ['cool', 'a gentleman']);
+
+		$this->assertEquals('Nat is so tall, nat is cool, nat is a gentleman.', $result);
+	}
+
+	public function testMethodReplaceCase6() : void
+	{
+		$string = 'I love you.';
+
+		$result = Str::replace($string, 'x', 'y', 1);
+
+		$this->assertEquals($string, $result);
+	}
 }
