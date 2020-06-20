@@ -60,44 +60,19 @@ final class Inflector
 		if (function_exists('is_countable'))
 		{
 			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			// @codeCoverageIgnoreStart
 			return is_countable($word);
+			// @codeCoverageIgnoreEnd
 		}
 
-		$unCountableWords = [
-			'audio',
-			'bison',
-			'chassis',
-			'compensation',
-			'coreopsis',
-			'data',
-			'deer',
-			'education',
-			'emoji',
-			'equipment',
-			'fish',
-			'furniture',
-			'gold',
-			'information',
-			'knowledge',
-			'love',
-			'rain',
-			'money',
-			'moose',
-			'nutrition',
-			'offspring',
-			'plankton',
-			'pokemon',
-			'police',
-			'rice',
-			'series',
-			'sheep',
-			'species',
-			'swine',
-			'traffic',
-			'wheat'
-		];
+		$word = mb_strtolower($word);
+		$unCountableWords = Config::inflector('unCountableWords');
+		$unCountableWords = array_map('mb_strtolower', $unCountableWords);
 
-		return !in_array(mb_strtolower($word), $unCountableWords);
+		if (in_array($word, $unCountableWords))
+			return false;
+
+		return true;
 	}
 
 	/**
@@ -116,6 +91,7 @@ final class Inflector
 	 *
 	 * @param  string $string  Input string to pluralize.
 	 * @return string          Plural noun.
+	 * @see https://www.phpliveregex.com/
 	 */
 	public static function pluralize(string $string) : string
 	{
@@ -125,26 +101,47 @@ final class Inflector
 			return $result;
 
 		$rules = [
-			'/(quiz)$/'                => '\1zes',      // quizzes
-			'/^(ox)$/'                 => '\1\2en',     // ox
-			'/([m|l])ouse$/'           => '\1ice',      // mouse, louse
-			'/(matr|vert|ind)ix|ex$/'  => '\1ices',     // matrix, vertex, index
-			'/(x|ch|ss|sh)$/'          => '\1es',       // search, switch, fix, box, process, address
-			'/([^aeiouy]|qu)y$/'       => '\1ies',      // query, ability, agency
-			'/(hive)$/'                => '\1s',        // archive, hive
-			'/(?:([^f])fe|([lr])f)$/'  => '\1\2ves',    // half, safe, wife
-			'/sis$/'                   => 'ses',        // basis, diagnosis
-			'/([ti])um$/'              => '\1a',        // datum, medium
-			'/(p)erson$/'              => '\1eople',    // person, salesperson
-			'/(m)an$/'                 => '\1en',       // man, woman, spokesman
-			'/(c)hild$/'               => '\1hildren',  // child
-			'/(buffal|tomat)o$/'       => '\1\2oes',    // buffalo, tomato
-			'/(bu|campu)s$/'           => '\1\2ses',    // bus, campus
-			'/(alias|status|virus)$/'  => '\1es',       // alias
-			'/(octop)us$/'             => '\1i',        // octopus
-			'/(ax|cris|test)is$/'      => '\1es',       // axis, crisis
+			'/(quiz)$/'                => '\1zes',      // quiz > quizzes
+			'/^(ox)$/'                 => '\1\2en',     // ox > oxen
+			'/([m|l])ouse$/'           => '\1ice',      // mouse > mice,
+			                                            // louse > lice
+			'/(matr|vert|ind)ix|ex$/'  => '\1ices',     // matrix > matrices,
+			                                            // vertex > vertices,
+			                                            // index > indices
+			'/(x|ch|ss|sh)$/'          => '\1es',       // search > searches,
+			                                            // switch > switches,
+			                                            // fix > fixes,
+			                                            // box > boxes,
+			                                            // process > processes,
+			                                            // address > addresses
+			'/([^aeiouy]|qu)y$/'       => '\1ies',      // query > queries,
+			                                            // ability > abilities,
+			                                            // agency > agencies
+			'/(hive)$/'                => '\1s',        // archive > archives,
+			                                            // hive > hives
+			'/(?:([^f])fe|([lr])f)$/'  => '\1\2ves',    // half > halves,
+			                                            // safe > saves,
+			                                            // wife > wives
+			'/sis$/'                   => 'ses',        // basis > bases,
+			                                            // diagnosis > diagnoses
+			'/([ti])um$/'              => '\1a',        // datum > data,
+			                                            // medium > media
+			'/(p)erson$/'              => '\1eople',    // person > people,
+			                                            // salesperson > salespeople
+			'/(m)an$/'                 => '\1en',       // man > men,
+			                                            // woman > women,
+			                                            // spokesman > spokesmen
+			'/(c)hild$/'               => '\1hildren',  // child > children
+			'/(buffal|tomat)o$/'       => '\1\2oes',    // buffalo > buffaloes,
+			                                            // tomato > tomatoes
+			'/(bu|campu)s$/'           => '\1\2ses',    // bus > buses,
+			                                            // campus > campuses
+			'/(alias|status|virus)$/'  => '\1es',       // alias > aliases
+			'/(octop)us$/'             => '\1i',        // octopus > octopi
+			'/(ax|cris|test)is$/'      => '\1es',       // axis > axes,
+			                                            // crisis > crises
 			'/s$/'                     => 's',          // no change (compatibility)
-			'/$/'                      => 's',
+			'/$/'                      => 's',          // no change (compatibility)
 		];
 
 		foreach ($rules as $rule => $replacement)
@@ -164,6 +161,7 @@ final class Inflector
 	 *
 	 * @param  string $string  Input string to singularize.
 	 * @return string          Singular noun.
+	 * @see https://www.phpliveregex.com/
 	 */
 	public static function singularize(string $string) : string
 	{
@@ -173,33 +171,42 @@ final class Inflector
 			return $result;
 
 		$rules = [
-			'/(matr)ices$/'            => '\1ix',
-			'/(vert|ind)ices$/'        => '\1ex',
-			'/^(ox)en/'                => '\1',
-			'/(alias)es$/'             => '\1',
-			'/([octop|vir])i$/'        => '\1us',
-			'/(cris|ax|test)es$/'      => '\1is',
-			'/(shoe)s$/'               => '\1',
-			'/(o)es$/'                 => '\1',
-			'/(bus|campus)es$/'        => '\1',
-			'/([m|l])ice$/'            => '\1ouse',
-			'/(x|ch|ss|sh)es$/'        => '\1',
-			'/(m)ovies$/'              => '\1\2ovie',
-			'/(s)eries$/'              => '\1\2eries',
+			'/(matr)ices$/'            => '\1ix',       // matrices > matrix
+			'/(vert|ind)ices$/'        => '\1ex',       // vertices > vertex
+			                                            // indices > index
+			'/^(ox)en/'                => '\1',         // oxen > ox
+			'/(alias)es$/'             => '\1',         // aliases > alias
+			'/([octop|vir])i$/'        => '\1us',       // octopi > octopus
+			                                            // viri > virus
+			'/(cris|ax|test)es$/'      => '\1is',       // crises > crisis
+			                                            // axes > axis
+			                                            // testes > testis
+			'/(shoe)s$/'               => '\1',         // shoes > shoe
+			'/(o)es$/'                 => '\1',         // oes > o
+			'/(bus|campus)es$/'        => '\1',         // buses > bus
+			                                            // campuses > campus
+			'/([m|l])ice$/'            => '\1ouse',     // mice > mouse
+			                                            // lice > louse
+			'/(x|ch|ss|sh)es$/'        => '\1',         // xes > x
+			                                            // ches > ch
+			                                            // sses > ss
+			                                            // shes > sh
+			'/(m)ovies$/'              => '\1\2ovie',   // movies > movie
+			'/(s)eries$/'              => '\1\2eries',  // series > series
 			'/([^aeiouy]|qu)ies$/'     => '\1y',
 			'/([lr])ves$/'             => '\1f',
-			'/(tive)s$/'               => '\1',
-			'/(hive)s$/'               => '\1',
+			'/(tive)s$/'               => '\1',         // tives > tive
+			'/(hive)s$/'               => '\1',         // hives > hive
 			'/([^f])ves$/'             => '\1fe',
 			'/(^analy)ses$/'           => '\1sis',
 			'/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/' => '\1\2sis',
 			'/([ti])a$/'               => '\1um',
-			'/(p)eople$/'              => '\1\2erson',
-			'/(m)en$/'                 => '\1an',
-			'/(s)tatuses$/'            => '\1\2tatus',
-			'/(c)hildren$/'            => '\1\2hild',
-			'/(n)ews$/'                => '\1\2ews',
-			'/(quiz)zes$/'             => '\1',
+			'/(p)eople$/'              => '\1\2erson',  // people > person
+			'/(m)en$/'                 => '\1an',       // men > man
+			'/(s)tatuses$/'            => '\1\2tatus',  // statuses > status
+			'/(c)hildren$/'            => '\1\2hild',   // children > child
+			'/(n)ews$/'                => '\1\2ews',    // news > news
+			'/(quiz)zes$/'             => '\1',         // quizzes > quiz
 			'/([^us])s$/'              => '\1'
 		];
 
@@ -239,7 +246,7 @@ final class Inflector
 	}
 
 	/**
-	 * Convert any "CamelCased" or "ordinary Word" into an "underscored_word".
+	 * Convert any "CamelCased" or "vanda framework" into an "vanda_framework".
 	 *
 	 * @param  string $string  Word to underscore
 	 * @return string          Underscored word
@@ -258,6 +265,8 @@ final class Inflector
 	 * Returns an array of strings each of which is a substring of string formed
 	 * by splitting it at the camelcased letters.
 	 *
+	 * ie. "FooBar" to ["foo", "bar"]
+	 *
 	 * @param  string $string  Word to explode
 	 * @return array           Array of strings
 	 */
@@ -269,7 +278,9 @@ final class Inflector
 	}
 
 	/**
-	 * Convert  an array of strings into a "CamelCased" word.
+	 * Convert an array of strings into a "CamelCased" word.
+	 *
+	 * ie. ["foo", "bar"] to "FooBar"
 	 *
 	 * @param  array  $string  Array to implode
 	 * @return string          UpperCamelCasedWord
@@ -288,6 +299,8 @@ final class Inflector
 	 * the separator with a space, and by upper-casing the initial
 	 * character by default.
 	 *
+	 * ie. "I had my car fixed_yesTerday" to "I Had My Car Fixed Yesterday"
+	 *
 	 * @param  string $string     Input string
 	 * @param  string $separator  Input separator
 	 * @return string             Human-readable word
@@ -302,6 +315,8 @@ final class Inflector
 
 	/**
 	 * Returns camelBacked version of a string. Same as camelize but first char is lowercased.
+	 *
+	 * ie. "Some Day" or "some_day" ot "someDay", "She's hot" to "sheSHot"
 	 *
 	 * @param  string $string  String to be camelBacked.
 	 * @return string
