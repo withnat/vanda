@@ -655,4 +655,15 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('&lt;strong&gt;Nat&lt;/strong&gt;', $result);
 	}
+
+	// Str::htmlDecode
+
+	public function testMethodHtmlDecodeCase1() : void
+	{
+		$string = '&lt;strong&gt;Nat&lt;/strong&gt;';
+
+		$result = Str::htmlDecode($string);
+
+		$this->assertEquals('<strong>Nat</strong>', $result);
+	}
 }
