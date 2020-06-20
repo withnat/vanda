@@ -60,7 +60,7 @@ final class StrTest extends TestCase
 
 	public function testMethodLengthCase2() : void
 	{
-		$result = Str::length(static::$string);
+		$result = Str::length(static::$_string);
 
 		$this->assertEquals(37, $result);
 	}
@@ -69,14 +69,14 @@ final class StrTest extends TestCase
 
 	public function testMethodCountCase1() : void
 	{
-		$result = Str::count(static::$string, 'n');
+		$result = Str::count(static::$_string, 'n');
 
 		$this->assertEquals(2, $result);
 	}
 
 	public function testMethodCountCase2() : void
 	{
-		$result = Str::count(static::$string, 'n', false);
+		$result = Str::count(static::$_string, 'n', false);
 
 		$this->assertEquals(3, $result);
 	}
@@ -85,7 +85,7 @@ final class StrTest extends TestCase
 
 	public function testMethodCountwordsCase1() : void
 	{
-		$result = Str::countWords(static::$string);
+		$result = Str::countWords(static::$_string);
 
 		$this->assertEquals(8, $result);
 	}
@@ -101,35 +101,35 @@ final class StrTest extends TestCase
 
 	public function testMethodLeftCase2() : void
 	{
-		$result = Str::left(static::$string, 0);
+		$result = Str::left(static::$_string, 0);
 
 		$this->assertEquals('', $result);
 	}
 
 	public function testMethodLeftCase3() : void
 	{
-		$result = Str::left(static::$string, 14);
+		$result = Str::left(static::$_string, 14);
 
 		$this->assertEquals('Nat is so tall', $result);
 	}
 
 	public function testMethodLeftCase4() : void
 	{
-		$result = Str::left(static::$string, -9);
+		$result = Str::left(static::$_string, -9);
 
 		$this->assertEquals('Nat is so tall, and handsome', $result);
 	}
 
 	public function testMethodLeftCase5() : void
 	{
-		$result = Str::left(static::$string, 100);
+		$result = Str::left(static::$_string, 100);
 
-		$this->assertEquals(static::$string, $result);
+		$this->assertEquals(static::$_string, $result);
 	}
 
 	public function testMethodLeftCase6() : void
 	{
-		$result = Str::left(static::$string, -100);
+		$result = Str::left(static::$_string, -100);
 
 		$this->assertEquals('', $result);
 	}
@@ -145,35 +145,35 @@ final class StrTest extends TestCase
 
 	public function testMethodRightCase2() : void
 	{
-		$result = Str::right(static::$string, 0);
+		$result = Str::right(static::$_string, 0);
 
 		$this->assertEquals('', $result);
 	}
 
 	public function testMethodRightCase3() : void
 	{
-		$result = Str::right(static::$string, 17);
+		$result = Str::right(static::$_string, 17);
 
 		$this->assertEquals('handsome as hell.', $result);
 	}
 
 	public function testMethodRightCase4() : void
 	{
-		$result = Str::right(static::$string, -9);
+		$result = Str::right(static::$_string, -9);
 
 		$this->assertEquals(' tall, and handsome as hell.', $result);
 	}
 
 	public function testMethodRightCase5() : void
 	{
-		$result = Str::right(static::$string, 100);
+		$result = Str::right(static::$_string, 100);
 
-		$this->assertEquals(static::$string, $result);
+		$this->assertEquals(static::$_string, $result);
 	}
 
 	public function testMethodRightCase6() : void
 	{
-		$result = Str::right(static::$string, -100);
+		$result = Str::right(static::$_string, -100);
 
 		$this->assertEquals('', $result);
 	}
@@ -189,28 +189,28 @@ final class StrTest extends TestCase
 
 	public function testMethodAtCase2() : void
 	{
-		$result = Str::at(static::$string, 5);
+		$result = Str::at(static::$_string, 5);
 
 		$this->assertEquals('s', $result);
 	}
 
 	public function testMethodAtCase3() : void
 	{
-		$result = Str::at(static::$string, -5);
+		$result = Str::at(static::$_string, -5);
 
 		$this->assertEquals('h', $result);
 	}
 
 	public function testMethodAtCase4() : void
 	{
-		$result = Str::at(static::$string, 100);
+		$result = Str::at(static::$_string, 100);
 
 		$this->assertEquals('', $result);
 	}
 
 	public function testMethodAtCase5() : void
 	{
-		$result = Str::at(static::$string, -100);
+		$result = Str::at(static::$_string, -100);
 
 		$this->assertEquals('', $result);
 	}
@@ -235,49 +235,49 @@ final class StrTest extends TestCase
 
 	public function testMethodSliceCase2() : void
 	{
-		$result = Str::slice(static::$string, 0, 0);
+		$result = Str::slice(static::$_string, 0, 0);
 
 		$this->assertEquals('', $result);
 	}
 
 	public function testMethodSliceCase3() : void
 	{
-		$result = Str::slice(static::$string, 0, 3);
+		$result = Str::slice(static::$_string, 0, 3);
 
 		$this->assertEquals('Nat', $result);
 	}
 
 	public function testMethodSliceCase4() : void
 	{
-		$result = Str::slice(static::$string, 0, -5);
+		$result = Str::slice(static::$_string, 0, -5);
 
 		$this->assertEquals('Nat is so tall, and handsome as ', $result);
 	}
 
 	public function testMethodSliceCase5() : void
 	{
-		$result = Str::slice(static::$string, 10, 4);
+		$result = Str::slice(static::$_string, 10, 4);
 
 		$this->assertEquals('tall', $result);
 	}
 
 	public function testMethodSliceCase6() : void
 	{
-		$result = Str::slice(static::$string, 10, -9);
+		$result = Str::slice(static::$_string, 10, -9);
 
 		$this->assertEquals('tall, and handsome', $result);
 	}
 
 	public function testMethodSliceCase7() : void
 	{
-		$result = Str::slice(static::$string, -8, 2);
+		$result = Str::slice(static::$_string, -8, 2);
 
 		$this->assertEquals('as', $result);
 	}
 
 	public function testMethodSliceCase8() : void
 	{
-		$result = Str::slice(static::$string, -8, -3);
+		$result = Str::slice(static::$_string, -8, -3);
 
 		$this->assertEquals('as he', $result);
 	}
@@ -287,37 +287,37 @@ final class StrTest extends TestCase
 
 	public function testMethodLimitCase1() : void
 	{
-		$result = Str::limit(static::$string, -1);
+		$result = Str::limit(static::$_string, -1);
 
 		$this->assertEquals('...', $result);
 	}
 
 	public function testMethodLimitCase2() : void
 	{
-		$result = Str::limit(static::$string, 0);
+		$result = Str::limit(static::$_string, 0);
 
 		$this->assertEquals('...', $result);
 	}
 
 	public function testMethodLimitCase3() : void
 	{
-		$result = Str::limit(static::$string, 11);
+		$result = Str::limit(static::$_string, 11);
 
 		$this->assertEquals('Nat is so tall,...', $result);
 	}
 
 	public function testMethodLimitCase4() : void
 	{
-		$result = Str::limit(static::$string, 15);
+		$result = Str::limit(static::$_string, 15);
 
 		$this->assertEquals('Nat is so tall,...', $result);
 	}
 
 	public function testMethodLimitCase5() : void
 	{
-		$result = Str::limit(static::$string, 100);
+		$result = Str::limit(static::$_string, 100);
 
-		$this->assertEquals(static::$string, $result);
+		$this->assertEquals(static::$_string, $result);
 	}
 
 	// Str::limitWords
@@ -325,37 +325,37 @@ final class StrTest extends TestCase
 
 	public function testMethodLimitwordsCase1() : void
 	{
-		$result = Str::limitWords(static::$string, -1);
+		$result = Str::limitWords(static::$_string, -1);
 
 		$this->assertEquals('...', $result);
 	}
 
 	public function testMethodLimitwordsCase2() : void
 	{
-		$result = Str::limitWords(static::$string, 0);
+		$result = Str::limitWords(static::$_string, 0);
 
 		$this->assertEquals('...', $result);
 	}
 
 	public function testMethodLimitwordsCase3() : void
 	{
-		$result = Str::limitWords(static::$string, 4);
+		$result = Str::limitWords(static::$_string, 4);
 
 		$this->assertEquals('Nat is so tall,...', $result);
 	}
 
 	public function testMethodLimitwordsCase4() : void
 	{
-		$result = Str::limitWords(static::$string, 6);
+		$result = Str::limitWords(static::$_string, 6);
 
 		$this->assertEquals('Nat is so tall, and handsome...', $result);
 	}
 
 	public function testMethodLimitwordsCase5() : void
 	{
-		$result = Str::limitWords(static::$string, 100);
+		$result = Str::limitWords(static::$_string, 100);
 
-		$this->assertEquals(static::$string, $result);
+		$this->assertEquals(static::$_string, $result);
 	}
 
 	// Str::position
@@ -369,28 +369,28 @@ final class StrTest extends TestCase
 
 	public function testMethodPositionCase2() : void
 	{
-		$result = Str::position(static::$string, 'x');
+		$result = Str::position(static::$_string, 'x');
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodPositionCase3() : void
 	{
-		$result = Str::position(static::$string, 'a');
+		$result = Str::position(static::$_string, 'a');
 
 		$this->assertEquals(1, $result);
 	}
 
 	public function testMethodPositionCase4() : void
 	{
-		$result = Str::position(static::$string, 'a', 4);
+		$result = Str::position(static::$_string, 'a', 4);
 
 		$this->assertEquals(11, $result);
 	}
 
 	public function testMethodPositionCase5() : void
 	{
-		$result = Str::position(static::$string, 'a', -10);
+		$result = Str::position(static::$_string, 'a', -10);
 
 		$this->assertEquals(29, $result);
 	}
@@ -406,14 +406,14 @@ final class StrTest extends TestCase
 
 	public function testMethodLastpositionCase2() : void
 	{
-		$result = Str::lastPosition(static::$string, 'x');
+		$result = Str::lastPosition(static::$_string, 'x');
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodLastpositionCase3() : void
 	{
-		$result = Str::lastPosition(static::$string, 'h');
+		$result = Str::lastPosition(static::$_string, 'h');
 
 		$this->assertEquals(32, $result);
 	}
@@ -422,7 +422,7 @@ final class StrTest extends TestCase
 	/*
 	public function testMethodLastpositionCase4() : void
 	{
-		$result = Str::lastPosition(static::$string, 'h', -10);
+		$result = Str::lastPosition(static::$_string, 'h', -10);
 
 		$this->assertEquals(29, $result);
 	}*/
@@ -434,7 +434,7 @@ final class StrTest extends TestCase
 
 	public function testMethodLastpositionCasexxx() : void
 	{
-		$result = Str::lastPosition(static::$string, 'h');
+		$result = Str::lastPosition(static::$_string, 'h');
 
 		$this->assertEquals(32, $result);
 	}
