@@ -773,7 +773,7 @@ final class StrTest extends TestCase
 
 	// Str::lowerCase
 
-	public function testMethodlowerCaseCase1() : void
+	public function testMethodLowerCaseCase1() : void
 	{
 		$string = 'I Love You';
 
@@ -784,7 +784,7 @@ final class StrTest extends TestCase
 
 	// Str::lowerCaseFirst
 
-	public function testMethodlowerCaseFirstCase1() : void
+	public function testMethodLowerCaseFirstCase1() : void
 	{
 		$string = 'I Love You';
 
@@ -795,7 +795,7 @@ final class StrTest extends TestCase
 
 	// Str::lowerCaseWords
 
-	public function testMethodlowerCaseWordsCase1() : void
+	public function testMethodLowerCaseWordsCase1() : void
 	{
 		$string = 'I LOVE YOU';
 
