@@ -728,4 +728,24 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('Angela.Emma', $result);
 	}
+
+	// Str::removeRight
+
+	public function testMethodRemoveRightCase1() : void
+	{
+		$string = 'Nat.Angela.Emma';
+
+		$result = Str::removeRight($string, 'NoneExistingChar');
+
+		$this->assertEquals($string, $result);
+	}
+
+	public function testMethodRemoveRightCase2() : void
+	{
+		$string = 'Nat.Angela.Emma';
+
+		$result = Str::removeRight($string, '.Emma');
+
+		$this->assertEquals('Nat.Angela', $result);
+	}
 }
