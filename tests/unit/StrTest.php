@@ -577,4 +577,33 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('bxa,ay', $result);
 	}
+
+	// Str::addSlashes
+
+	public function testMethodAddSlashesCase1() : void
+	{
+		$string = "'";
+
+		$result = Str::addSlashes($string);
+
+		$this->assertEquals("\'", $result);
+	}
+
+	public function testMethodAddSlashesCase2() : void
+	{
+		$string = '"';
+
+		$result = Str::addSlashes($string);
+
+		$this->assertEquals('\"', $result);
+	}
+
+	public function testMethodAddSlashesCase3() : void
+	{
+		$string = '\\';
+
+		$result = Str::addSlashes($string);
+
+		$this->assertEquals('\\\\', $result);
+	}
 }
