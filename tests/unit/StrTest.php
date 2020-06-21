@@ -1422,4 +1422,13 @@ final class StrTest extends TestCase
 
 		$this->assertEquals("\t", $result);
 	}
+
+	// tabToSpace
+
+	public function testMethodTabToSpaceCase1() : void
+	{
+		$result = Str::tabToSpace("\t");
+
+		$this->assertEquals('    ', $result);
+	}
 }
