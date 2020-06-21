@@ -814,6 +814,9 @@ final class Str
 		if (!is_string($replace) and !is_array($replace))
 			throw InvalidArgumentException::type(2, ['string','array'], $replace);
 
+		if (empty($search) or empty ($replace))
+			return $string;
+
 		if (is_int($limit))
 		{
 			$encoding = static::_getEncoding($encoding);
