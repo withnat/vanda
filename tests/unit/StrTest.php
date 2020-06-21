@@ -985,4 +985,15 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('|BCDEF:MNRZ:/abcdef:mnrz', $result);
 	}
+
+	// Str::ireplaceLast
+
+	public function testMethodIReplaceLastCase1() : void
+	{
+		$string = 'ABCDEF:MNRZ:/abcdef:mnrz';
+
+		$result = Str::ireplaceLast($string, 'A', '|');
+
+		$this->assertEquals('ABCDEF:MNRZ:/|bcdef:mnrz', $result);
+	}
 }
