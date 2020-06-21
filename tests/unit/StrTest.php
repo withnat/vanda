@@ -1053,4 +1053,33 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('ABCDEF:MNRZ:/abcdef:mnrz_____', $result);
 	}
+
+	// Str::insert
+
+	public function testMethodInsertCase1() : void
+	{
+		$string = 'My name is :name and :age years old.';
+
+		$result = Str::insert($string, '', ['name' => 'Nat', 'age' => 38]);
+
+		$this->assertEquals($string, $result);
+	}
+
+	public function testMethodInsertCase2() : void
+	{
+		$string = 'My name is ? and ? years old.';
+
+		$result = Str::insert($string, '?', ['Nat', 38]);
+
+		$this->assertEquals('My name is Nat and 38 years old.', $result);
+	}
+
+	public function testMethodInsertCase3() : void
+	{
+		$string = 'My name is :name and :age years old.';
+
+		$result = Str::insert($string, ':', ['name' => 'Nat', 'age' => 38]);
+
+		$this->assertEquals('My name is Nat and 38 years old.', $result);
+	}
 }
