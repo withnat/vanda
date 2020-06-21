@@ -1966,6 +1966,17 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
+	// Str::base64encode
+
+	public function testMethodBase64encodeCase1() : void
+	{
+		$string = 'Nat Withe';
+
+		$result = Str::base64encode($string);
+
+		$this->assertEquals('TmF0IFdpdGhl', $result);
+	}
+
 	// Str::normalize
 
 	public function testMethodNormalizeCase1() : void
