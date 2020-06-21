@@ -1507,7 +1507,7 @@ final class Str
 	 * if ($input)
 	 * ....do something...
 	 *
-	 * @param  mixed       $string
+	 * @param  mixed $string
 	 * @return bool
 	 */
 	public static function isBlank($string) : bool
