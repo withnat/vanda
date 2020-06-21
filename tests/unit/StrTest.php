@@ -862,7 +862,7 @@ final class StrTest extends TestCase
 
 	public function testMethodReplaceCase3() : void
 	{
-		$result = Str::replace(static::$_string, '', '');
+		$result = Str::replace(static::$_string, '', '|');
 
 		$this->assertEquals(static::$_string, $result);
 	}
@@ -899,6 +899,13 @@ final class StrTest extends TestCase
 
 	public function testMethodReplaceFirstCase1() : void
 	{
+		$result = Str::replaceFirst(static::$_string, '', '|');
+
+		$this->assertEquals(static::$_string, $result);
+	}
+
+	public function testMethodReplaceFirstCase2() : void
+	{
 		$result = Str::replaceFirst(static::$_string, ':', '|');
 
 		$this->assertEquals('ABCDEF|MNRZ:/abcdef:mnrz', $result);
@@ -911,6 +918,13 @@ final class StrTest extends TestCase
 		$result = Str::replaceLast(static::$_string, ':', '|');
 
 		$this->assertEquals('ABCDEF:MNRZ:/abcdef|mnrz', $result);
+	}
+
+	public function testMethodReplaceLastCase2() : void
+	{
+		$result = Str::replaceLast(static::$_string, '', '|');
+
+		$this->assertEquals(static::$_string, $result);
 	}
 
 	// Str::ireplace
