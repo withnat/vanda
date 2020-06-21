@@ -1091,4 +1091,27 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('zrnm:fedcba/:ZRNM:FEDCBA', $result);
 	}
+
+	// Str::startsWith
+
+	public function testMethodStartsWithCase1() : void
+	{
+		$result = Str::startsWith(static::$_string, 'A');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodStartsWithCase2() : void
+	{
+		$result = Str::startsWith(static::$_string, 'a');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodStartsWithCase3() : void
+	{
+		$result = Str::startsWith(static::$_string, 'a', false);
+
+		$this->assertTrue($result);
+	}
 }
