@@ -1903,6 +1903,7 @@ final class StrTest extends TestCase
 	public function testMethodCharsCase1() : void
 	{
 		$string = 'ABC';
+
 		$expected = [
 			'A',
 			'B',
@@ -1910,6 +1911,38 @@ final class StrTest extends TestCase
 		];
 
 		$result = Str::chars($string);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	// Str::lines
+
+	public function testMethodLinesCase1() : void
+	{
+		$string = "ABC\nDEF";
+
+		$expected = [
+			'ABC',
+			'DEF'
+		];
+
+		$result = Str::lines($string);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodLinesCase2() : void
+	{
+		$string = "ABC\rDEF";
+
+		$expected = [
+			'ABC',
+			'DEF'
+		];
+
+		$result = Str::lines($string);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
