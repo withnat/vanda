@@ -1137,4 +1137,27 @@ final class StrTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Str::endsWith
+
+	public function testMethodEndsWithCase1() : void
+	{
+		$result = Str::endsWith(static::$_string, 'z');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodEndsWithCase2() : void
+	{
+		$result = Str::endsWith(static::$_string, 'Z');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodEndsWithCase3() : void
+	{
+		$result = Str::endsWith(static::$_string, 'Z', false);
+
+		$this->assertTrue($result);
+	}
 }
