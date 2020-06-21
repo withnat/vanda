@@ -922,4 +922,56 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('Nat is so tall, he is handsome, you are so bad.', $result);
 	}
+
+	// Str::ireplace
+
+	public function testMethodIReplaceCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Str::replace('string', 'search', 3.14);
+	}
+
+	public function testMethodIReplaceCase2() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Str::replace('string', 3.14, 'replace');
+	}
+
+	public function testMethodIReplaceCase3() : void
+	{
+		$string = 'ABCDEF:MNRZ:/abcdef:mnrz';
+
+		$result = Str::ireplace($string, 'a', '|');
+
+		$this->assertEquals('|BCDEF:MNRZ:/|bcdef:mnrz', $result);
+	}
+
+	public function testMethodIReplaceCase4() : void
+	{
+		$string = 'ABCDEF:MNRZ:/abcdef:mnrz';
+
+		$result = Str::ireplace($string, 'a', '|', 1);
+
+		$this->assertEquals('|BCDEF:MNRZ:/abcdef:mnrz', $result);
+	}
+
+	public function testMethodIReplaceCase5() : void
+	{
+		$string = 'ABCDEF:MNRZ:/abcdef:mnrz';
+
+		$result = Str::ireplace($string, ['a', 'b'], ['4', '8']);
+
+		$this->assertEquals('48CDEF:MNRZ:/48cdef:mnrz', $result);
+	}
+
+	public function testMethodIReplaceCase6() : void
+	{
+		$string = 'ABCDEF:MNRZ:/abcdef:mnrz';
+
+		$result = Str::ireplace($string, 'x', 'y', 1);
+
+		$this->assertEquals($string, $result);
+	}
 }
