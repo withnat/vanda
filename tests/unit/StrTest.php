@@ -1528,4 +1528,33 @@ final class StrTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Str::isAlpha
+
+	public function testMethodIsAlphaCase1() : void
+	{
+		$string = 3.14;
+
+		$result = Str::isAlpha($string);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsAlphaCase2() : void
+	{
+		$string = '3.14';
+
+		$result = Str::isAlpha($string);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsAlphaCase3() : void
+	{
+		$string = 'string';
+
+		$result = Str::isAlpha($string);
+
+		$this->assertTrue($result);
+	}
 }
