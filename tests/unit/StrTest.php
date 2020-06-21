@@ -974,4 +974,15 @@ final class StrTest extends TestCase
 
 		$this->assertEquals($string, $result);
 	}
+
+	// Str::ireplaceFirst
+
+	public function testMethodIReplaceFirstCase1() : void
+	{
+		$string = 'ABCDEF:MNRZ:/abcdef:mnrz';
+
+		$result = Str::ireplaceFirst($string, 'a', '|');
+
+		$this->assertEquals('|BCDEF:MNRZ:/abcdef:mnrz', $result);
+	}
 }
