@@ -978,30 +978,6 @@ final class Str
 		return $string;
 	}
 
-	public static function subreplace_bak($string, $replace, $start, $length = null, string $encoding = null)
-	{
-		$encoding = static::_getEncoding($encoding);
-		$stringLength = mb_strlen($string, $encoding);
-
-		if ($start < 0)
-			$start = max(0, $stringLength + $start);
-		else if ($start > $stringLength)
-			$start = $stringLength;
-
-		if ($length < 0)
-			$length = max(0, $stringLength - $start + $length);
-		else if (is_null($length) or $length > $stringLength)
-			$length = $stringLength;
-
-		if (($start+$length) > $stringLength)
-			$length = $stringLength - $start;
-
-		$block1 = mb_substr($string, 0, $start, $encoding) . $replace;
-		$block2 = mb_substr($string, ($start + $length), ($stringLength - $start - $length), $encoding);
-
-		return $block1 . $block2;
-	}
-
 	/**
 	 * Replaces a copy of string delimited by the start and
 	 * (optionally) length parameters with the string given
