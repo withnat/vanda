@@ -1254,4 +1254,27 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('Za:/fabcdefa:Bmnrz', $result);
 	}
+
+	// Str::afterLast
+
+	public function testMethodAfterLastCase1() : void
+	{
+		$result = Str::afterLast(static::$_string, '');
+
+		$this->assertEquals(static::$_string, $result);
+	}
+
+	public function testMethodAfterLastCase2() : void
+	{
+		$result = Str::afterLast(static::$_string, 'b');
+
+		$this->assertEquals('cdefa:Bmnrz', $result);
+	}
+
+	public function testMethodAfterLastCase3() : void
+	{
+		$result = Str::afterLast(static::$_string, 'b', false);
+
+		$this->assertEquals('mnrz', $result);
+	}
 }
