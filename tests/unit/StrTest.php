@@ -1451,4 +1451,24 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('__string__', $result);
 	}
+
+	// Str::padLeft
+
+	public function testMethodPadLeftCase1() : void
+	{
+		$string = 'string';
+
+		$result = Str::padLeft($string, '_', 5);
+
+		$this->assertEquals($string, $result);
+	}
+
+	public function testMethodPadLeftCase2() : void
+	{
+		$string = 'string';
+
+		$result = Str::padLeft($string, '_', 10);
+
+		$this->assertEquals('____string', $result);
+	}
 }
