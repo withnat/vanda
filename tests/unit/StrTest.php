@@ -1491,4 +1491,41 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('string____', $result);
 	}
+
+	// Str::isBlank
+
+	public function testMethodIsBlankCase1() : void
+	{
+		$result = Str::isBlank(0);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsBlankCase2() : void
+	{
+		$result = Str::isBlank('0');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsBlankCase3() : void
+	{
+		$result = Str::isBlank(null);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsBlankCase4() : void
+	{
+		$result = Str::isBlank(' ');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsBlankCase5() : void
+	{
+		$result = Str::isBlank(false);
+
+		$this->assertTrue($result);
+	}
 }
