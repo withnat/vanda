@@ -1413,4 +1413,13 @@ final class StrTest extends TestCase
 		$this->assertIsString($result);
 		$this->assertEquals('3.14', $result);
 	}
+
+	// spaceToTab
+
+	public function testMethodSpaceToTabCase1() : void
+	{
+		$result = Str::spaceToTab('    ');
+
+		$this->assertEquals("\t", $result);
+	}
 }
