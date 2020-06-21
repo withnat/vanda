@@ -1674,7 +1674,7 @@ final class Str
 	{
 		foreach ($needles as $needle)
 		{
-			if (static::has($string, $needle, $caseSensitive, $encoding))
+			if (static::contains($string, $needle, $caseSensitive, $encoding))
 				return true;
 		}
 
@@ -1694,7 +1694,7 @@ final class Str
 	{
 		foreach ($needles as $needle)
 		{
-			if (!static::has($string, $needle, $caseSensitive, $encoding))
+			if (!static::contains($string, $needle, $caseSensitive, $encoding))
 				return false;
 		}
 
