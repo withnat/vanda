@@ -436,17 +436,17 @@ final class StrTest extends TestCase
 
 	public function testMethodBetweenCase2() : void
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Str::between(static::$_string, ':', ':', -10);
+	}
+
+	public function testMethodBetweenCase3() : void
+	{
 		$result = Str::between(static::$_string, ':', ':', 10);
 
 		$this->assertEquals('/abcdef', $result);
 	}
-
-//	public function testMethodBetweenCase3() : void
-//	{
-//		$result = Str::between(static::$_string, ':', ':', -10);
-//
-//		$this->assertEquals('MNRZ', $result);
-//	}
 
 	public function testMethodBetweenCase4() : void
 	{
