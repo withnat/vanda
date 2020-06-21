@@ -1713,4 +1713,33 @@ final class StrTest extends TestCase
 
 		$this->assertFalse($result);
 	}
+
+	// Str::isMultibyte
+
+	public function testMethodIsMultibyteCase1() : void
+	{
+		$string = 'NAT WITHE';
+
+		$result = Str::isMultibyte($string);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsMultibyteCase2() : void
+	{
+		$string = 'ŅÀŦ ŴĨŦĤÈ';
+
+		$result = Str::isMultibyte($string);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsMultibyteCase3() : void
+	{
+		$string = 'นัทเองไงจะใครล่ะ';
+
+		$result = Str::isMultibyte($string);
+
+		$this->assertTrue($result);
+	}
 }
