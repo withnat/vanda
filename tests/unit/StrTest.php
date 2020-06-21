@@ -1277,4 +1277,27 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('mnrz', $result);
 	}
+
+	// Str::before
+
+	public function testMethodBeforeCase1() : void
+	{
+		$result = Str::before(static::$_string, '');
+
+		$this->assertEquals(static::$_string, $result);
+	}
+
+	public function testMethodBeforeCase2() : void
+	{
+		$result = Str::before(static::$_string, 'e');
+
+		$this->assertEquals('ABCDEF:', $result);
+	}
+
+	public function testMethodBeforeCase3() : void
+	{
+		$result = Str::before(static::$_string, 'e', false);
+
+		$this->assertEquals('ABCD', $result);
+	}
 }
