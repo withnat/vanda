@@ -1199,4 +1199,20 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('_' . static::$_string, $result);
 	}
+
+	// Str::ensureEndsWith
+
+	public function testMethodEnsureEndsWithCase1() : void
+	{
+		$result = Str::ensureEndsWith(static::$_string, 'nrz');
+
+		$this->assertEquals(static::$_string, $result);
+	}
+
+	public function testMethodEnsureEndsWithCase2() : void
+	{
+		$result = Str::ensureEndsWith(static::$_string, '_');
+
+		$this->assertEquals(static::$_string . '_', $result);
+	}
 }
