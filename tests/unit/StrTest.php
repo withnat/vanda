@@ -1761,7 +1761,14 @@ final class StrTest extends TestCase
 
 	public function testMethodContainsCase3() : void
 	{
-		$result = Str::contains(static::$_string, 'Za');
+		$result = Str::contains(static::$_string, 'za');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodContainsCase4() : void
+	{
+		$result = Str::contains(static::$_string, 'za', false);
 
 		$this->assertTrue($result);
 	}
@@ -1784,7 +1791,51 @@ final class StrTest extends TestCase
 
 	public function testMethodContainsAnyCase3() : void
 	{
-		$result = Str::containsAny(static::$_string, ['Za', 'NoneExistingChar']);
+		$result = Str::containsAny(static::$_string, ['za', 'NoneExistingChar']);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodContainsAnyCase4() : void
+	{
+		$result = Str::containsAny(static::$_string, ['za', 'NoneExistingChar'], false);
+
+		$this->assertTrue($result);
+	}
+
+	// Str::containsAll
+
+	public function testMethodContainsAllCase1() : void
+	{
+		$result = Str::containsAll(static::$_string, []);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodContainsAllCase2() : void
+	{
+		$result = Str::containsAll(static::$_string, ['']);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodContainsAllCase3() : void
+	{
+		$result = Str::containsAll(static::$_string, ['Za', 'NoneExistingChar']);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodContainsAllCase4() : void
+	{
+		$result = Str::containsAll(static::$_string, ['za', 'bm']);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodContainsAllCase5() : void
+	{
+		$result = Str::containsAll(static::$_string, ['za', 'bm'], false);
 
 		$this->assertTrue($result);
 	}
