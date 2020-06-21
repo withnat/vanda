@@ -1231,4 +1231,27 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('|value|', $result);
 	}
+
+	// Str::after
+
+	public function testMethodAfterCase1() : void
+	{
+		$result = Str::after(static::$_string, '');
+
+		$this->assertEquals(static::$_string, $result);
+	}
+
+	public function testMethodAfterCase2() : void
+	{
+		$result = Str::after(static::$_string, 'r');
+
+		$this->assertEquals('z', $result);
+	}
+
+	public function testMethodAfterCase3() : void
+	{
+		$result = Str::after(static::$_string, 'r', false);
+
+		$this->assertEquals('Z:/abcdef:mnrz', $result);
+	}
 }
