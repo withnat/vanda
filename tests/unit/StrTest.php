@@ -867,29 +867,29 @@ final class StrTest extends TestCase
 
 	public function testMethodReplaceCase3() : void
 	{
-		$string = 'Nat is so tall, nat is handsome, nat is so bad.';
+		$string = 'Nat is so tall, you are handsome, you are so bad.';
 
-		$result = Str::replace($string, 'nat', 'he');
+		$result = Str::replace($string, 'you are', 'he is');
 
 		$this->assertEquals('Nat is so tall, he is handsome, he is so bad.', $result);
 	}
 
 	public function testMethodReplaceCase4() : void
 	{
-		$string = 'Nat is so tall, nat is handsome, nat is so bad.';
+		$string = 'Nat is so tall, you are handsome, you are so bad.';
 
-		$result = Str::replace($string, 'nat', 'he', 1);
+		$result = Str::replace($string, 'you are', 'he is', 1);
 
-		$this->assertEquals('Nat is so tall, he is handsome, nat is so bad.', $result);
+		$this->assertEquals('Nat is so tall, he is handsome, you are so bad.', $result);
 	}
 
 	public function testMethodReplaceCase5() : void
 	{
-		$string = 'Nat is so tall, nat is handsome, nat is so bad.';
+		$string = 'Nat is so tall, Nat is handsome, Nat is so bad.';
 
 		$result = Str::replace($string, ['handsome', 'so bad'], ['cool', 'a gentleman']);
 
-		$this->assertEquals('Nat is so tall, nat is cool, nat is a gentleman.', $result);
+		$this->assertEquals('Nat is so tall, Nat is cool, Nat is a gentleman.', $result);
 	}
 
 	public function testMethodReplaceCase6() : void
@@ -905,10 +905,10 @@ final class StrTest extends TestCase
 
 	public function testMethodReplaceFirstCase1() : void
 	{
-		$string = 'Nat is so tall, nat is handsome, nat is so bad.';
+		$string = 'Nat is so tall, he is handsome, he is so bad.';
 
-		$result = Str::replaceFirst($string, 'nat', 'he');
+		$result = Str::replaceFirst($string, 'he is', 'you are');
 
-		$this->assertEquals('Nat is so tall, he is handsome, nat is so bad.', $result);
+		$this->assertEquals('Nat is so tall, you are handsome, he is so bad.', $result);
 	}
 }
