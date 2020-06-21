@@ -81,7 +81,7 @@ final class JSON
 	public static function encode($data) : string // todo encode string ไม่ได้เหรอ ทำไมต้องเป็น array กับ object
 	{
 		if (!is_array($data) and !is_object($data))
-			throw InvalidArgumentException::create(1, ['array','object'], $data);
+			throw InvalidArgumentException::type(1, ['array','object'], $data);
 
 		// A resource cannot be encoded.
 		$data = Arr::removeType($data, 'resource');

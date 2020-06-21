@@ -45,17 +45,8 @@ use System\Inflector;
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
-	/**
-	 * @param  int         $argument
-	 * @param  array       $allowedDataTypes
-	 * @param  mixed       $value
-	 * @param  string|null $customMsg
-	 * @return InvalidArgumentException
-	 */
-	public static function create(int $argument, array $allowedDataTypes = null, $value = null, string $customMsg = null) : InvalidArgumentException
+	private static function _list(array $trace) : array
 	{
-		$trace = debug_backtrace(0);
-
 		if (strpos($trace[0]['file'], 'Data.php'))
 			$index = 2;
 		else
@@ -65,6 +56,22 @@ class InvalidArgumentException extends \InvalidArgumentException
 		$function = $trace[$index]['function'];
 		$file = $trace[$index]['file'];
 		$line = $trace[$index]['line'];
+
+		return [$class, $function, $file, $line];
+	}
+
+	/**
+	 * @param  int         $argument
+	 * @param  array       $allowedDataTypes
+	 * @param  mixed|null  $value
+	 * @param  string|null $customMsg
+	 * @return InvalidArgumentException
+	 */
+	public static function type(int $argument, array $allowedDataTypes = null, $value = null, string $customMsg = null) : InvalidArgumentException
+	{
+		$trace = debug_backtrace(0);
+
+		list($class, $function, $file, $line) = static::_list($trace);
 
 		if ($customMsg)
 		{
@@ -80,6 +87,28 @@ class InvalidArgumentException extends \InvalidArgumentException
 				. ' must be of the type ' . $types . ', ' . $given . ' given, '
 				. ' called in ' . $file . ' on line ' . $line;
 		}
+
+		return new self($msg);
+	}
+
+	/**
+	 * @param  int        $argument
+	 * @param  string     $errorMsg
+	 * @param  mixed|null $value
+	 * @return InvalidArgumentException
+	 */
+	public static function value(int $argument, string $errorMsg, $value = null) : InvalidArgumentException
+	{
+		$trace = debug_backtrace(0);
+
+		list($class, $function, $file, $line) = static::_list($trace);
+
+		$msg = 'Argument ' . $argument . ' passed to ' . $class . '::' . $function . '(), ' . $errorMsg;
+
+		if ($value)
+			$msg .= ', ' . $value . ' given';
+
+		$msg .= ', called in ' . $file . ' on line ' . $line;
 
 		return new self($msg);
 	}

@@ -72,7 +72,7 @@ final class Arr
 		elseif (is_int($keys))
 			$keys = [$keys];
 		else
-			throw InvalidArgumentException::create(2, ['int','string'], $keys);
+			throw InvalidArgumentException::type(2, ['int','string'], $keys);
 
 		foreach ($keys as $key)
 		{
@@ -153,7 +153,7 @@ final class Arr
 	public static function column(array $data, string $columnKey, string $indexKey = null) : array
 	{
 		if (!static::isDataset($data) and !static::isRecordset($data))
-			throw InvalidArgumentException::create(1, ['dataset', 'recordset'], $data);
+			throw InvalidArgumentException::type(1, ['dataset', 'recordset'], $data);
 
 		$columnKey = static::formatKeySyntax($columnKey);
 
@@ -426,7 +426,7 @@ final class Arr
 	public static function map(array $data, string $from, string $to, string $group = null) : array
 	{
 		if (!static::isDataset($data) and !static::isRecordset($data))
-			throw InvalidArgumentException::create(1, ['dataset', 'recordset'], $data);
+			throw InvalidArgumentException::type(1, ['dataset', 'recordset'], $data);
 
 		if (static::isRecordset($data))
 			$data = static::toArray($data);
@@ -695,7 +695,7 @@ final class Arr
 	public static function hasKey(array $array, $key) : bool
 	{
 		if (!is_int($key) and !is_string($key))
-			throw InvalidArgumentException::create(1, ['int','string'], $key);
+			throw InvalidArgumentException::type(1, ['int','string'], $key);
 
 		// Is in base array?
 		if (array_key_exists($key, $array))
@@ -845,7 +845,7 @@ final class Arr
 	public static function sortRecordset(array $recordset, string $key, string $direction = 'asc') : array
 	{
 		if (!static::isRecordset($recordset))
-			throw InvalidArgumentException::create(1, ['recordset'], $recordset);
+			throw InvalidArgumentException::type(1, ['recordset'], $recordset);
 
 		$recordset = (array)$recordset;
 
@@ -1350,7 +1350,7 @@ final class Arr
 	public static function remove(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
 	{
 		if (is_object($value) and !is_resource($value))
-			throw InvalidArgumentException::create(2, ['string','int','float','bool','array','null'], $value);
+			throw InvalidArgumentException::type(2, ['string','int','float','bool','array','null'], $value);
 
 		if (is_array($value))
 			$values = $value;
@@ -1491,7 +1491,7 @@ final class Arr
 	public static function pullColumns(array &$data, string $keys) : array
 	{
 		if (!static::isDataset($data) and !static::isRecordset($data))
-			throw InvalidArgumentException::create(1, ['dataset', 'recordset'], $data);
+			throw InvalidArgumentException::type(1, ['dataset', 'recordset'], $data);
 
 		$keys = static::explode($keys, ',');
 		$result = [];
