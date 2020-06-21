@@ -1183,4 +1183,20 @@ final class StrTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Str::ensureStartsWith
+
+	public function testMethodEnsureStartsWithCase1() : void
+	{
+		$result = Str::ensureStartsWith(static::$_string, 'ABC');
+
+		$this->assertEquals(static::$_string, $result);
+	}
+
+	public function testMethodEnsureStartsWithCase2() : void
+	{
+		$result = Str::ensureStartsWith(static::$_string, '_');
+
+		$this->assertEquals('_' . static::$_string, $result);
+	}
 }
