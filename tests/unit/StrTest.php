@@ -988,4 +988,55 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('ABCDEF:MNRZ:/|bcdef:mnrz', $result);
 	}
+
+	// Str::subreplace
+
+	public function testMethodSupreplaceCase1x() : void
+	{
+		$result = Str::subreplace(static::$_string, '_____', 5);
+
+		$this->assertEquals('ABCDE_____', $result);
+	}
+
+	public function testMethodSupreplaceCase1() : void
+	{
+		$result = Str::subreplace(static::$_string, '_____', 5, 5);
+
+		$this->assertEquals('ABCDE_____Z:/abcdef:mnrz', $result);
+	}
+
+	public function testMethodSupreplaceCase1xx() : void
+	{
+		$result = Str::subreplace(static::$_string, '_____', 5, -5);
+
+		$this->assertEquals('ABCDE_____:mnrz', $result);
+	}
+
+	public function testMethodSupreplaceCase2() : void
+	{
+		$result = Str::subreplace(static::$_string, '_____', -5);
+
+		$this->assertEquals('ABCDEF:MNRZ:/abcdef_____', $result);
+	}
+
+	public function testMethodSupreplaceCasex() : void
+	{
+		$result = Str::subreplace(static::$_string, '_____', -5, 5);
+
+		$this->assertEquals('ABCDEF:MNRZ:/abcdef_____', $result);
+	}
+
+	public function testMethodSupreplaceCase6() : void
+	{
+		$result = Str::subreplace(static::$_string, '_____', -15, -5);
+
+		$this->assertEquals('ABCDEF:MN_____:mnrz', $result);
+	}
+
+	public function testMethodSupreplaceCase3() : void
+	{
+		$result = Str::subreplace(static::$_string, '_____', 100, 5);
+
+		$this->assertEquals('ABCDEF:MNRZ:/abcdef:mnrz_____', $result);
+	}
 }
