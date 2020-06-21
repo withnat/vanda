@@ -1396,4 +1396,21 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('file-101', $result);
 	}
+
+	// Str::floatToString
+
+	public function testMethodFloatToStringCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Str::floatToString('3.14');
+	}
+
+	public function testMethodFloatToStringCase2() : void
+	{
+		$result = Str::floatToString(3.14);
+
+		$this->assertIsString($result);
+		$this->assertEquals('3.14', $result);
+	}
 }
