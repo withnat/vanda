@@ -1839,4 +1839,33 @@ final class StrTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Str::hasLowerCase
+
+	public function testMethodHasLowerCaseCase1() : void
+	{
+		$string = 'ABC';
+
+		$result = Str::hasLowerCase($string);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasLowerCaseCase2() : void
+	{
+		$string = 'Abc';
+
+		$result = Str::hasLowerCase($string);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasLowerCaseCase3() : void
+	{
+		$string = 'bbc';
+
+		$result = Str::hasLowerCase($string);
+
+		$this->assertTrue($result);
+	}
 }
