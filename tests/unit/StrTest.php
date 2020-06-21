@@ -1358,4 +1358,42 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('<<start>html</end>><start>html</end></<start>html</end>>', $result);
 	}
+
+	// Str::increment
+
+	public function testMethodIncrementCase1() : void
+	{
+		$string = 'file';
+
+		$result = Str::increment($string);
+
+		$this->assertEquals('file_1', $result);
+	}
+
+	public function testMethodIncrementCase2() : void
+	{
+		$string = 'file_1';
+
+		$result = Str::increment($string);
+
+		$this->assertEquals('file_2', $result);
+	}
+
+	public function testMethodIncrementCase3() : void
+	{
+		$string = 'file';
+
+		$result = Str::increment($string, '-', 100);
+
+		$this->assertEquals('file-100', $result);
+	}
+
+	public function testMethodIncrementCase4() : void
+	{
+		$string = 'file-100';
+
+		$result = Str::increment($string, '-', 100);
+
+		$this->assertEquals('file-101', $result);
+	}
 }
