@@ -1414,7 +1414,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('3.14', $result);
 	}
 
-	// spaceToTab
+	// Str::spaceToTab
 
 	public function testMethodSpaceToTabCase1() : void
 	{
@@ -1423,12 +1423,32 @@ final class StrTest extends TestCase
 		$this->assertEquals("\t", $result);
 	}
 
-	// tabToSpace
+	// Str::tabToSpace
 
 	public function testMethodTabToSpaceCase1() : void
 	{
 		$result = Str::tabToSpace("\t");
 
 		$this->assertEquals('    ', $result);
+	}
+
+	// Str::pad
+
+	public function testMethodPadCase1() : void
+	{
+		$string = 'string';
+
+		$result = Str::pad($string, '_', 5);
+
+		$this->assertEquals($string, $result);
+	}
+
+	public function testMethodPadCase2() : void
+	{
+		$string = 'string';
+
+		$result = Str::pad($string, '_', 10);
+
+		$this->assertEquals('__string__', $result);
 	}
 }
