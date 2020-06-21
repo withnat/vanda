@@ -450,14 +450,14 @@ final class StrTest extends TestCase
 
 	public function testMethodBetweenCase4() : void
 	{
-		$result = Str::between(static::$_string, 'x', 'y');
+		$result = Str::between(static::$_string, 'NoneExistingChar', 'b');
 
 		$this->assertEquals('', $result);
 	}
 
 	public function testMethodBetweenCase5() : void
 	{
-		$result = Str::between(static::$_string, 'x', 'y');
+		$result = Str::between(static::$_string, 'a', 'NoneExistingChar');
 
 		$this->assertEquals('', $result);
 	}
