@@ -1537,12 +1537,15 @@ final class Str
 	/**
 	 * Returns true if the string contains only alphabetic and numeric chars, false otherwise.
 	 *
-	 * @param  string $string
+	 * @param  mixed $string
 	 * @return bool
 	 */
-	public static function isAlphanumeric(string $string) : bool
+	public static function isAlphanumeric($string) : bool
 	{
-		return mb_ereg_match('^[[:alnum:]]*$', $string);
+		$string = (string)$string;
+		$result = mb_ereg_match('^[[:alnum:]]*$', $string);
+
+		return $result;
 	}
 
 	/**
