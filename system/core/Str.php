@@ -1651,7 +1651,7 @@ final class Str
 	 * @param  string|null $encoding
 	 * @return bool
 	 */
-	public static function has(string $string, string $needle, bool $caseSensitive = true, string $encoding = null) : bool
+	public static function contains(string $string, string $needle, bool $caseSensitive = true, string $encoding = null) : bool
 	{
 		$encoding = static::_getEncoding($encoding);
 
@@ -1670,7 +1670,7 @@ final class Str
 	 * @param  string|null $encoding
 	 * @return bool
 	 */
-	public static function hasAny(string $string, array $needles, bool $caseSensitive = true, string $encoding = null) : bool
+	public static function containsAny(string $string, array $needles, bool $caseSensitive = true, string $encoding = null) : bool
 	{
 		foreach ($needles as $needle)
 		{
@@ -1690,7 +1690,7 @@ final class Str
 	 * @param  string|null $encoding
 	 * @return bool
 	 */
-	public static function hasAll(string $string, array $needles, bool $caseSensitive = true, string $encoding = null) : bool
+	public static function containsAll(string $string, array $needles, bool $caseSensitive = true, string $encoding = null) : bool
 	{
 		foreach ($needles as $needle)
 		{
