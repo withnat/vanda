@@ -1952,7 +1952,7 @@ final class StrTest extends TestCase
 
 	public function testMethodShuffleCase1() : void
 	{
-		$string = "ABC";
+		$string = 'ABC';
 
 		$possibleResults = [
 			'ABC',
@@ -1964,5 +1964,16 @@ final class StrTest extends TestCase
 		$result = in_array($result, $possibleResults);
 
 		$this->assertTrue($result);
+	}
+
+	// Str::normalize
+
+	public function testMethodNormalizeCase1() : void
+	{
+		$string = 'ŅÀŦ ŴĨŦĤÈ';
+
+		$result = Str::normalize($string);
+
+		$this->assertEquals('NAT WITHE', $result);
 	}
 }
