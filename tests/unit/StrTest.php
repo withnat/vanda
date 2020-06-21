@@ -1160,4 +1160,27 @@ final class StrTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Str::endsWithAny
+
+	public function testMethodEndsWithAnyCase1() : void
+	{
+		$result = Str::endsWithAny(static::$_string, ['z', 'b']);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodEndsWithAnyCase2() : void
+	{
+		$result = Str::endsWithAny(static::$_string, ['Z', 'B']);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodEndsWithAnyCase3() : void
+	{
+		$result = Str::endsWithAny(static::$_string, ['Z', 'B'], false);
+
+		$this->assertTrue($result);
+	}
 }
