@@ -1523,12 +1523,15 @@ final class Str
 	/**
 	 * Returns true if the string contains only alphabetic chars, false otherwise.
 	 *
-	 * @param  string $string
+	 * @param  mixed $string
 	 * @return bool
 	 */
-	public static function isAlpha(string $string) : bool
+	public static function isAlpha($string) : bool
 	{
-		return mb_ereg_match('^[[:alpha:]]*$', $string);
+		$string = (string)$string;
+		$result = mb_ereg_match('^[[:alpha:]]*$', $string);
+
+		return $result;
 	}
 
 	/**
