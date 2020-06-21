@@ -1338,4 +1338,24 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdefa:', $result);
 	}
+
+	// Str::highlight
+
+	public function testMethodHighlightCase1() : void
+	{
+		$string = '<html>html</html>';
+
+		$result = Str::highlight($string, 'html');
+
+		$this->assertEquals('<html><mark>html</mark></html>', $result);
+	}
+
+	public function testMethodHighlightCase2() : void
+	{
+		$string = '<html>html</html>';
+
+		$result = Str::highlight($string, 'html', '<start>', '</end>', false);
+
+		$this->assertEquals('<<start>html</end>><start>html</end></<start>html</end>>', $result);
+	}
 }
