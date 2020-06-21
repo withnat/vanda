@@ -1533,7 +1533,7 @@ final class StrTest extends TestCase
 
 	public function testMethodIsAlphaCase1() : void
 	{
-		$string = 3.14;
+		$string = 416;
 
 		$result = Str::isAlpha($string);
 
@@ -1542,7 +1542,7 @@ final class StrTest extends TestCase
 
 	public function testMethodIsAlphaCase2() : void
 	{
-		$string = '3.14';
+		$string = '416';
 
 		$result = Str::isAlpha($string);
 
@@ -1551,9 +1551,56 @@ final class StrTest extends TestCase
 
 	public function testMethodIsAlphaCase3() : void
 	{
-		$string = 'string';
+		$string = 'Valkyrie416';
 
 		$result = Str::isAlpha($string);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsAlphaCase4() : void
+	{
+		$string = 'Valkyrie';
+
+		$result = Str::isAlpha($string);
+
+		$this->assertTrue($result);
+	}
+
+	// Str::isAlphanumeric
+
+	public function testMethodIsAlphanumericCase1() : void
+	{
+		$string = 416;
+
+		$result = Str::isAlphanumeric($string);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsAlphanumericCase2() : void
+	{
+		$string = '416';
+
+		$result = Str::isAlphanumeric($string);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsAlphanumericCase3() : void
+	{
+		$string = 'Valkyrie416';
+
+		$result = Str::isAlphanumeric($string);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsAlphanumericCase4() : void
+	{
+		$string = 'Valkyrie';
+
+		$result = Str::isAlphanumeric($string);
 
 		$this->assertTrue($result);
 	}
