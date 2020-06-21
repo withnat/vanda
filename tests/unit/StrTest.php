@@ -1082,4 +1082,13 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('My name is Nat and 38 years old.', $result);
 	}
+
+	// Str::reverse
+
+	public function testMethodReverseCase1() : void
+	{
+		$result = Str::reverse(static::$_string);
+
+		$this->assertEquals('zrnm:fedcba/:ZRNM:FEDCBA', $result);
+	}
 }
