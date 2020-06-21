@@ -1897,4 +1897,21 @@ final class StrTest extends TestCase
 
 		$this->assertFalse($result);
 	}
+
+	// Str::chars
+
+	public function testMethodCharsCase1() : void
+	{
+		$string = 'ABC';
+		$expected = [
+			'A',
+			'B',
+			'C'
+		];
+
+		$result = Str::chars($string);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
 }
