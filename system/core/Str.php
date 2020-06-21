@@ -1568,7 +1568,7 @@ final class Str
 	 * @param  string $string
 	 * @return bool
 	 */
-	public function isHexadecimal(string $string) : bool
+	public static function isHexadecimal(string $string) : bool
 	{
 		return mb_ereg_match('^[[:xdigit:]]*$', $string);
 	}
