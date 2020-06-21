@@ -900,4 +900,15 @@ final class StrTest extends TestCase
 
 		$this->assertEquals($string, $result);
 	}
+
+	// Str::replaceFirst
+
+	public function testMethodReplaceFirstCase1() : void
+	{
+		$string = 'Nat is so tall, nat is handsome, nat is so bad.';
+
+		$result = Str::replaceFirst($string, 'nat', 'he');
+
+		$this->assertEquals('Nat is so tall, he is handsome, nat is so bad.', $result);
+	}
 }
