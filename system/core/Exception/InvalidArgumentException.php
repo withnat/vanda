@@ -52,9 +52,8 @@ class InvalidArgumentException extends \InvalidArgumentException
 	 * @param  string|null $customMsg
 	 * @return InvalidArgumentException
 	 */
-	public static function create(int $argument, array $allowedDataTypes, $value = null, string $customMsg = null) : InvalidArgumentException
+	public static function create(int $argument, array $allowedDataTypes = null, $value = null, string $customMsg = null) : InvalidArgumentException
 	{
-		$given = gettype($value);
 		$trace = debug_backtrace(0);
 
 		if (strpos($trace[0]['file'], 'Data.php'))
@@ -66,7 +65,6 @@ class InvalidArgumentException extends \InvalidArgumentException
 		$function = $trace[$index]['function'];
 		$file = $trace[$index]['file'];
 		$line = $trace[$index]['line'];
-		$types = Inflector::sentence($allowedDataTypes, ' or ');
 
 		if ($customMsg)
 		{
@@ -75,6 +73,9 @@ class InvalidArgumentException extends \InvalidArgumentException
 		}
 		else
 		{
+			$given = gettype($value);
+			$types = Inflector::sentence($allowedDataTypes, ' or ');
+
 			$msg = 'Argument ' . $argument . ' passed to ' . $class . '::' . $function . '()'
 				. ' must be of the type ' . $types . ', ' . $given . ' given, '
 				. ' called in ' . $file . ' on line ' . $line;
