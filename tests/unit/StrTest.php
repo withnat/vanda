@@ -1664,4 +1664,24 @@ final class StrTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Str::isUpperCase
+
+	public function testMethodIsUpperCaseCase1() : void
+	{
+		$string = 'Abc';
+
+		$result = Str::isUpperCase($string);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsUpperCaseCase2() : void
+	{
+		$string = 'ABC';
+
+		$result = Str::isUpperCase($string);
+
+		$this->assertTrue($result);
+	}
 }
