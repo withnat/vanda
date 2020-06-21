@@ -1947,4 +1947,22 @@ final class StrTest extends TestCase
 
 		$this->assertTrue($compare);
 	}
+
+	// Str::shuffle
+
+	public function testMethodShuffleCase1() : void
+	{
+		$string = "ABC";
+
+		$possibleResults = [
+			'ABC',
+			'CAB',
+			'BCA'
+		];
+
+		$result = Str::shuffle($string);
+		$result = in_array($result, $possibleResults);
+
+		$this->assertTrue($result);
+	}
 }
