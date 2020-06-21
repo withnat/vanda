@@ -1215,4 +1215,20 @@ final class StrTest extends TestCase
 
 		$this->assertEquals(static::$_string . '_', $result);
 	}
+
+	// Str::wrap
+
+	public function testMethodWrapCase1() : void
+	{
+		$result = Str::wrap('', '|');
+
+		$this->assertEquals('||', $result);
+	}
+
+	public function testMethodWrapCase2() : void
+	{
+		$result = Str::wrap('value', '|');
+
+		$this->assertEquals('|value|', $result);
+	}
 }
