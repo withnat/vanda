@@ -1289,12 +1289,20 @@ final class StrTest extends TestCase
 
 	public function testMethodBeforeCase2() : void
 	{
+		// todo
+		$result = Str::before(static::$_string, 'NoneExistingChar');
+
+		$this->assertEquals(static::$_string, $result);
+	}
+
+	public function testMethodBeforeCase3() : void
+	{
 		$result = Str::before(static::$_string, 'e');
 
 		$this->assertEquals('ABCDEF:', $result);
 	}
 
-	public function testMethodBeforeCase3() : void
+	public function testMethodBeforeCase4() : void
 	{
 		$result = Str::before(static::$_string, 'e', false);
 
@@ -1312,7 +1320,7 @@ final class StrTest extends TestCase
 
 	public function testMethodBeforeLastCase2() : void
 	{
-		$result = Str::beforeLast(static::$_string, 'P');
+		$result = Str::beforeLast(static::$_string, 'NoneExistingChar');
 
 		$this->assertEquals(static::$_string, $result);
 	}
