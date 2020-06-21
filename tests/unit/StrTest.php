@@ -701,6 +701,17 @@ final class StrTest extends TestCase
 		$this->assertEquals('Nat', $result);
 	}
 
+	// Str::removeInvisibleCharacters
+
+	public function testMethodRemoveInvisibleCharactersCase1() : void
+	{
+		$string = "http://www.some-site.com//index.php\0";
+
+		$result = Str::removeInvisibleCharacters($string, true);
+
+		$this->assertEquals('http://www.some-site.com//index.php', $result);
+	}
+
 	// Str::removeLeft
 
 	public function testMethodRemoveLeftCase1() : void
@@ -851,26 +862,33 @@ final class StrTest extends TestCase
 
 	public function testMethodReplaceCase3() : void
 	{
+		$result = Str::replace(static::$_string, '', '');
+
+		$this->assertEquals(static::$_string, $result);
+	}
+
+	public function testMethodReplaceCase4() : void
+	{
 		$result = Str::replace(static::$_string, 'A', '|');
 
 		$this->assertEquals('|BCDEF:MNRZ:/abcdef:mnrz', $result);
 	}
 
-	public function testMethodReplaceCase4() : void
+	public function testMethodReplaceCase5() : void
 	{
 		$result = Str::replace(static::$_string, ':', '|', 1);
 
 		$this->assertEquals('ABCDEF|MNRZ:/abcdef:mnrz', $result);
 	}
 
-	public function testMethodReplaceCase5() : void
+	public function testMethodReplaceCase6() : void
 	{
 		$result = Str::replace(static::$_string, [':', '/'], ['|', '-']);
 
 		$this->assertEquals('ABCDEF|MNRZ|-abcdef|mnrz', $result);
 	}
 
-	public function testMethodReplaceCase6() : void
+	public function testMethodReplaceCase7() : void
 	{
 		$result = Str::replace(static::$_string, 'x', 'y', 1);
 
