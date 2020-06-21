@@ -1765,4 +1765,27 @@ final class StrTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Str::containsAny
+
+	public function testMethodContainsAnyCase1() : void
+	{
+		$result = Str::containsAny(static::$_string, []);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodContainsAnyCase2() : void
+	{
+		$result = Str::containsAny(static::$_string, ['']);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodContainsAnyCase3() : void
+	{
+		$result = Str::containsAny(static::$_string, ['Za', 'NoneExistingChar']);
+
+		$this->assertTrue($result);
+	}
 }
