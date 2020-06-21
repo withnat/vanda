@@ -1684,4 +1684,33 @@ final class StrTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Str::isSerialized
+
+	public function testMethodIsSerializedCase1() : void
+	{
+		$string = 'b:0;';
+
+		$result = Str::isSerialized($string);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsSerializedCase2() : void
+	{
+		$string = 'a:0:{}';
+
+		$result = Str::isSerialized($string);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsSerializedCase3() : void
+	{
+		$string = 'string';
+
+		$result = Str::isSerialized($string);
+
+		$this->assertFalse($result);
+	}
 }
