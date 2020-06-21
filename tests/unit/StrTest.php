@@ -911,4 +911,15 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('Nat is so tall, you are handsome, he is so bad.', $result);
 	}
+
+	// Str::replaceLast
+
+	public function testMethodReplaceLastCase1() : void
+	{
+		$string = 'Nat is so tall, he is handsome, he is so bad.';
+
+		$result = Str::replaceLast($string, 'he is', 'you are');
+
+		$this->assertEquals('Nat is so tall, he is handsome, you are so bad.', $result);
+	}
 }
