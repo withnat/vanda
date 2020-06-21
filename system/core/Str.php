@@ -1556,7 +1556,7 @@ final class Str
 	 */
 	public static function isBase64Encoded(string $string) : bool
 	{
-		$decoded = base64_decode($string, true);
+		$decoded = base64_decode($string);
 		$encoded = base64_encode($decoded);
 
 		return ($encoded === $string);
