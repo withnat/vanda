@@ -1300,4 +1300,34 @@ final class StrTest extends TestCase
 
 		$this->assertEquals('ABCD', $result);
 	}
+
+	// Str::beforeLast
+
+	public function testMethodBeforeLastCase1() : void
+	{
+		$result = Str::beforeLast(static::$_string, '');
+
+		$this->assertEquals(static::$_string, $result);
+	}
+
+	public function testMethodBeforeLastCase2() : void
+	{
+		$result = Str::beforeLast(static::$_string, 'P');
+
+		$this->assertEquals(static::$_string, $result);
+	}
+
+	public function testMethodBeforeLastCase3() : void
+	{
+		$result = Str::beforeLast(static::$_string, 'b');
+
+		$this->assertEquals('ABCDEF:eFMNRZa:/fa', $result);
+	}
+
+	public function testMethodBeforeLastCase4() : void
+	{
+		$result = Str::beforeLast(static::$_string, 'b', false);
+
+		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdefa:', $result);
+	}
 }
