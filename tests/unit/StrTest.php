@@ -1624,4 +1624,24 @@ final class StrTest extends TestCase
 
 		$this->assertFalse($result);
 	}
+
+	// Str::isHexadecimal
+
+	public function testMethodIsHexadecimalCase1() : void
+	{
+		$string = 'D1CE';
+
+		$result = Str::isHexadecimal($string);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsHexadecimalCase2() : void
+	{
+		$string = 'D1ZE';
+
+		$result = Str::isHexadecimal($string);
+
+		$this->assertFalse($result);
+	}
 }
