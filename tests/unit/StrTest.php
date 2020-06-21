@@ -1604,4 +1604,24 @@ final class StrTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Str::isBase64Encoded
+
+	public function testMethodIsBase64EncodedCase1() : void
+	{
+		$string = 'TmF0IFdpdGhl';
+
+		$result = Str::isBase64Encoded($string);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsBase64EncodedCase2() : void
+	{
+		$string = 'I love you';
+
+		$result = Str::isBase64Encoded($string);
+
+		$this->assertFalse($result);
+	}
 }
