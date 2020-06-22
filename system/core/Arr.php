@@ -68,7 +68,7 @@ final class Arr
 	public static function get(array $array, $keys, $default = null)
 	{
 		if (is_string($keys))
-			$keys = static::explode($keys, '.');
+			$keys = Str::explode($keys, '.');
 		elseif (is_int($keys))
 			$keys = [$keys];
 		else
@@ -303,7 +303,7 @@ final class Arr
 	 */
 	public static function only(array $array, string $keys) : array
 	{
-		$keys = static::explode($keys, ',');
+		$keys = Str::explode($keys, ',');
 		$result = [];
 
 		if ($array)
@@ -342,7 +342,7 @@ final class Arr
 		else
 			$result = '';
 
-		$keys = static::explode($keys, ',');
+		$keys = Str::explode($keys, ',');
 
 		if (static::isMultidimensional($array))
 		{
@@ -577,7 +577,7 @@ final class Arr
 	 */
 	public static function index(array $array, string $key, string $groups = null) : array
 	{
-		$groups = static::explode($groups, ',');
+		$groups = Str::explode($groups, ',');
 		$result = [];
 
 		foreach ($array as $element)
@@ -1076,7 +1076,7 @@ final class Arr
 	 */
 	public static function fromObject(object $data, bool $recursive = true, string $keys = null) : array
 	{
-		$givenKeys = static::explode($keys, ',');
+		$givenKeys = Str::explode($keys, ',');
 		$result = [];
 
 		foreach ($data as $key => $value)
@@ -1127,7 +1127,7 @@ final class Arr
 	{
 		if (is_array($data) or is_object($data))
 		{
-			$givenKeys = static::explode($keys, ',');
+			$givenKeys = Str::explode($keys, ',');
 			$result = [];
 
 			foreach ($data as $key => $value)
@@ -1167,7 +1167,7 @@ final class Arr
 	 */
 	public static function toObject(array $array, string $class = 'stdClass', bool $recursive = true, string $keys = null) : object
 	{
-		$givenKeys = static::explode($keys, ',');
+		$givenKeys = Str::explode($keys, ',');
 		$obj = new $class;
 
 		foreach ($array as $key => $value)
@@ -1210,7 +1210,7 @@ final class Arr
 
 		if (is_array($array))
 		{
-			$givenKeys = static::explode($keys, ',');
+			$givenKeys = Str::explode($keys, ',');
 
 			foreach ($array as $key => $value)
 			{
@@ -1367,7 +1367,7 @@ final class Arr
 	 */
 	public static function removeKey(array $array, string $keys, bool $recursive = true) : array
 	{
-		$givenKeys = static::explode($keys, ',');
+		$givenKeys = Str::explode($keys, ',');
 
 		foreach ($givenKeys as $key)
 		{
@@ -1395,7 +1395,7 @@ final class Arr
 	 */
 	public static function removeType(array $array, string $dataTypes, bool $recursive = true) : array
 	{
-		$arrDataTypes = static::explode($dataTypes, ',');
+		$arrDataTypes = Str::explode($dataTypes, ',');
 
 		foreach ($arrDataTypes as $dataType)
 		{
@@ -1467,7 +1467,7 @@ final class Arr
 		if (!static::isDataset($data) and !static::isRecordset($data))
 			throw InvalidArgumentException::type(1, ['dataset', 'recordset'], $data);
 
-		$keys = static::explode($keys, ',');
+		$keys = Str::explode($keys, ',');
 		$result = [];
 
 		for ($i = 0, $n = count($data); $i < $n; ++$i)
@@ -1507,7 +1507,7 @@ final class Arr
 	 */
 	public static function removeColumn(array $array, string $keys) : array
 	{
-		$keys = static::explode($keys, ',');
+		$keys = Str::explode($keys, ',');
 
 		for ($i = 0, $n = count($array); $i < $n; ++$i)
 		{
@@ -1524,50 +1524,6 @@ final class Arr
 		}
 
 		return $array;
-	}
-
-	/**
-	 * Built-in PHP function explode() not allow $string to null.
-	 * This alternative explode function accept null and removes
-	 * whitespace and other predefined characters from both sides
-	 * of each element of an output array, and skips empty ones.
-	 *
-	 * An optional integer $limit will truncate the results.
-	 *
-	 * @param  string|null $string
-	 * @param  string      $delimeter
-	 * @param  int|null    $limit
-	 * @return array
-	 */
-	public static function explode(string $string = null, string $delimeter = ' ', int $limit = null) : array
-	{
-		if ($limit === 0)
-			return [];
-
-		$string = (string)$string;
-
-		if (mb_strlen($string)) // $string can be '0'
-		{
-			$array = explode($delimeter, $string);
-			$array = array_map('trim', $array);
-
-			if (is_int($limit) and $limit != 0)
-			{
-				if ($limit < 0)
-				{
-					$limit = abs($limit);
-					$output = static::last($array, $limit);
-				}
-				else // > 0
-					$output = static::first($array, $limit);
-			}
-			else // null or 0
-				$output = $array;
-		}
-		else
-			$output = [];
-
-		return $output;
 	}
 
 	/**

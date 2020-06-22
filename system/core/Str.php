@@ -1783,6 +1783,50 @@ final class Str
 	}
 
 	/**
+	 * Built-in PHP function explode() not allow $string to null.
+	 * This alternative explode function accept null and removes
+	 * whitespace and other predefined characters from both sides
+	 * of each element of an output array, and skips empty ones.
+	 *
+	 * An optional integer $limit will truncate the results.
+	 *
+	 * @param  string|null $string
+	 * @param  string      $delimeter
+	 * @param  int|null    $limit
+	 * @return array
+	 */
+	public static function explode(string $string = null, string $delimeter = ' ', int $limit = null) : array
+	{
+		if ($limit === 0)
+			return [];
+
+		$string = (string)$string;
+
+		if (mb_strlen($string)) // $string can be '0'
+		{
+			$array = explode($delimeter, $string);
+			$array = array_map('trim', $array);
+
+			if (is_int($limit) and $limit != 0)
+			{
+				if ($limit < 0)
+				{
+					$limit = abs($limit);
+					$output = Arr::last($array, $limit);
+				}
+				else // > 0
+					$output = Arr::first($array, $limit);
+			}
+			else // null or 0
+				$output = $array;
+		}
+		else
+			$output = [];
+
+		return $output;
+	}
+
+	/**
 	 * A multibyte str_shuffle() function. It returns a string with its characters in random order.
 	 *
 	 * @param  string $string
