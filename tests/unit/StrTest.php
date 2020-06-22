@@ -1809,7 +1809,7 @@ final class StrTest extends TestCase
 	{
 		$result = Str::containsAll(static::$_string, []);
 
-		$this->assertTrue($result);
+		$this->assertFalse($result);
 	}
 
 	public function testMethodContainsAllCase2() : void
@@ -1956,11 +1956,15 @@ final class StrTest extends TestCase
 
 		$possibleResults = [
 			'ABC',
+			'ACB',
+			'BAC',
+			'BCA',
 			'CAB',
-			'BCA'
+			'CBA'
 		];
 
 		$result = Str::shuffle($string);
+		echo $result;
 		$result = in_array($result, $possibleResults);
 
 		$this->assertTrue($result);

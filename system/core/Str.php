@@ -1692,6 +1692,9 @@ final class Str
 	 */
 	public static function containsAll(string $string, array $needles, bool $caseSensitive = true, string $encoding = null) : bool
 	{
+		if (empty($needles))
+			return false;
+
 		foreach ($needles as $needle)
 		{
 			if (!static::contains($string, $needle, $caseSensitive, $encoding))
