@@ -1970,6 +1970,43 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
+	// Str::random
+
+	public function testMethodRandomCase1() : void
+	{
+		$result = Str::random();
+
+		$this->assertRegExp('/^[a-hj-km-np-zA-NP-Z2-9]{8}$/', $result);
+	}
+
+	public function testMethodRandomCase2() : void
+	{
+		$result = Str::random(8, 'alnum');
+
+		$this->assertRegExp('/^[a-hj-km-np-zA-NP-Z2-9]{8}$/', $result);
+	}
+
+	public function testMethodRandomCase3() : void
+	{
+		$result = Str::random(8, 'alpha');
+
+		$this->assertRegExp('/^[a-zA-Z]{8}$/', $result);
+	}
+
+	public function testMethodRandomCase4() : void
+	{
+		$result = Str::random(8, 'numeric');
+
+		$this->assertRegExp('/^[0-9]{8}$/', $result);
+	}
+
+	public function testMethodRandomCase5() : void
+	{
+		$result = Str::random(8, 'nozero');
+
+		$this->assertRegExp('/^[1-9]{8}$/', $result);
+	}
+
 	// Str::base64encode
 
 	public function testMethodBase64encodeCase1() : void
