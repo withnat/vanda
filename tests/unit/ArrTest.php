@@ -4304,53 +4304,6 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// Arr::explode
-
-	public function testMethodExplodeCase1() : void
-	{
-		$result = Arr::explode(null, ',');
-
-		$this->assertEquals([], $result);
-	}
-
-	public function testMethodExplodeCase2() : void
-	{
-		$result = Arr::explode('0', ',');
-
-		$this->assertEquals(['0'], $result);
-	}
-
-	public function testMethodExplodeCase3() : void
-	{
-		$expected = ['a', 'b', 'c'];
-		$result = Arr::explode(' a , b , c ', ',');
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodExplodeCase4() : void
-	{
-		$expected = ['a', 'b'];
-		$result = Arr::explode(' a , b , c ', ',', 2);
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodExplodeCase5() : void
-	{
-		$expected = ['b', 'c'];
-		$result = Arr::explode(' a , b , c ', ',', -2);
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodExplodeCase6() : void
-	{
-		$result = Arr::explode(' a , b , c ', ',', 0);
-
-		$this->assertEquals([], $result);
-	}
-
 	// Arr::slice
 
 	public function testMethodSliceCase1() : void
