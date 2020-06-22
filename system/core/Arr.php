@@ -939,36 +939,6 @@ final class Arr
 		return $result;
 	}
 
-	/*
-	 * Get all of the given array except for a specified array of key.
-	 *
-	 * @param  array  $array
-	 * @param  string $keys
-	 * @return array
-	 */
-	/*
-	public static function except(array $array, string $keys) : array
-	{
-		return static::removeKey($array, $keys);
-	}
-	*/
-
-	/*
-	 * Get all of the given array except for a specified array of column by key.
-	 *
-	 * @param  array  $array
-	 * @param  string $keys
-	 * @return array
-	 */
-	/*
-	public static function exceptColumn(array $array, string $keys) : array
-	{
-		static::removeColumn($array, $keys);
-
-		return $array;
-	}
-	*/
-
 	/**
 	 * Method to determine if the input data is a dataset or not.
 	 *
@@ -1341,6 +1311,8 @@ final class Arr
 	}
 
 	/**
+	 * Get all of the given array except for a specified value.
+	 *
 	 * @param  array        $array          An array to remove an element by value.
 	 * @param  string|array $value          The value to remove.
 	 * @param  bool         $caseSensitive  Case-sensitive or not.
@@ -1386,6 +1358,8 @@ final class Arr
 	}
 
 	/**
+	 * Get all of the given array except for a specified key.
+	 *
 	 * @param  array  $array      An array to remove an element by key.
 	 * @param  string $keys       The key name to remove.
 	 * @param  bool   $recursive  True to recurve through multi-level arrays.
@@ -1525,7 +1499,7 @@ final class Arr
 	}
 
 	/**
-	 * Remove a column from an array of arrays or objects.
+	 * Remove a column from an array of arrays (dataset) or objects (recordset).
 	 *
 	 * @param  array  $array  An array to remove an element by key (dataset or recordset).
 	 * @param  string $keys   The key name to remove.
