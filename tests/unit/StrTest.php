@@ -1992,6 +1992,29 @@ final class StrTest extends TestCase
 		$this->assertEquals('Nat Withe', $result);
 	}
 
+	// Str::uuid
+
+	// Version 4 UUIDs have the form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+	// where x is any hexadecimal digit and y is one of 8, 9, A, or B.
+	//
+	// ^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$
+	//
+	// To allow lowercase letters, use i modifier
+
+	public function testMethodUuidCase1() : void
+	{
+		$pattern = '/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i';
+
+		$uuid = Str::uuid();
+
+		if (preg_match($pattern, $uuid))
+			$result = true;
+		else
+			$result = false;
+
+		$this->assertTrue($result);
+	}
+
 	// Str::normalize
 
 	public function testMethodNormalizeCase1() : void
