@@ -89,21 +89,6 @@ final class Data
 				$data = $default;
 		}
 
-/*
-			if (!is_array($array) or !array_key_exists($key, $array))
-				return $default;
-
-			$array = $array[$key];
-		}
-
-		if (is_object($data))
-			$value  = $data->{$key};
-		elseif (is_array($data))
-			$value = $data[$key];
-		else
-			$value = $data;
-*/
-
 		return $data;
 	}
 
