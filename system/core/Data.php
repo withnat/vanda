@@ -52,14 +52,49 @@ final class Data
 	private function __construct(){}
 
 	/**
-	 * @param  array|object $data
-	 * @param  string       $key
-	 * @return mixed
+	 * @param  array|object $data     The data, array or object.
+	 * @param  int|string   $keys     The searched key.
+	 * @param  mixed        $default  Default value.
+	 * @return mixed                  Depends on what the array contains.
 	 */
-	public static function get($data, string $key) // TODO ให้ $key รองรับ dot เช่น name.subname
+	public static function get($data, $keys, $default = null)
 	{
 		if (!is_array($data) and !is_object($data))
-			throw InvalidArgumentException::create(1, ['array','object'], $data);
+			throw InvalidArgumentException::type(1, ['array','object'], $data);
+
+		if (is_string($keys))
+			$keys = Str::explode($keys, '.');
+		elseif (is_int($keys))
+			$keys = [$keys];
+		else
+			throw InvalidArgumentException::type(2, ['int','string'], $keys);
+
+		foreach ($keys as $key)
+		{
+			if (is_object($data))
+			{
+				if (isset($data->{$key}))
+					$data = $data->{$key};
+				else
+					$data = $default;
+			}
+			elseif (is_array($data))
+			{
+				if (array_key_exists($key, $data))
+					$data = $data[$key];
+				else
+					$data = $default;
+			}
+			else
+				$data = $default;
+		}
+
+/*
+			if (!is_array($array) or !array_key_exists($key, $array))
+				return $default;
+
+			$array = $array[$key];
+		}
 
 		if (is_object($data))
 			$value  = $data->{$key};
@@ -67,8 +102,9 @@ final class Data
 			$value = $data[$key];
 		else
 			$value = $data;
+*/
 
-		return $value;
+		return $data;
 	}
 
 	/**
@@ -80,7 +116,7 @@ final class Data
 	public static function set($data, string $key, $value) // TODO ให้ $key รองรับ dot เช่น name.subname
 	{
 		if (!is_array($data) and !is_object($data))
-			throw InvalidArgumentException::create(1, ['array','object'], $data);
+			throw InvalidArgumentException::type(1, ['array','object'], $data);
 
 		if (is_object($data))
 			$data->{$key} = $value;
@@ -277,7 +313,7 @@ final class Data
 		}
 
 		if (!$valid)
-			throw InvalidArgumentException::create($argument, $allowedDataTypes, $data);
+			throw InvalidArgumentException::type($argument, $allowedDataTypes, $data);
 
 //		$dataTypes = strtolower($allowedDataTypes);
 //		$dataTypes = explode(',', $dataTypes);
@@ -286,7 +322,7 @@ final class Data
 //		$dataType = strtolower(gettype($data));
 //
 //		if (!in_array($dataType, $dataTypes))
-//			throw InvalidArgumentException::create($argument, $allowedDataTypes, $data);
+//			throw InvalidArgumentException::type($argument, $allowedDataTypes, $data);
 	}
 
 	/**
@@ -300,7 +336,7 @@ final class Data
 		$dataType = strtolower(gettype($data));
 
 		if (!in_array($dataType, $allowedDataTypes))
-			throw InvalidArgumentException::create($argument, $allowedDataTypes, $data);
+			throw InvalidArgumentException::type($argument, $allowedDataTypes, $data);
 	}
 
 	/**
