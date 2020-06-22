@@ -464,7 +464,7 @@ final class Arr
 
 		if (is_string($value))
 		{
-			// Escape only single quotes and backslash.
+			// Escape only single quote and backslash.
 			$value = addcslashes($value, '\\\'');
 		}
 
