@@ -1948,6 +1948,53 @@ final class StrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
+	// Str::explode
+
+	public function testMethodExplodeCase1() : void
+	{
+		$result = Str::explode(null, ',');
+
+		$this->assertEquals([], $result);
+	}
+
+	public function testMethodExplodeCase2() : void
+	{
+		$result = Str::explode('0', ',');
+
+		$this->assertEquals(['0'], $result);
+	}
+
+	public function testMethodExplodeCase3() : void
+	{
+		$expected = ['a', 'b', 'c'];
+		$result = Str::explode(' a , b , c ', ',');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodExplodeCase4() : void
+	{
+		$expected = ['a', 'b'];
+		$result = Str::explode(' a , b , c ', ',', 2);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodExplodeCase5() : void
+	{
+		$expected = ['b', 'c'];
+		$result = Str::explode(' a , b , c ', ',', -2);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodExplodeCase6() : void
+	{
+		$result = Str::explode(' a , b , c ', ',', 0);
+
+		$this->assertEquals([], $result);
+	}
+
 	// Str::shuffle
 
 	public function testMethodShuffleCase1() : void
