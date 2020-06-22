@@ -110,7 +110,9 @@ final class Str
 			$substring = mb_strtoupper($substring, $encoding);
 		}
 
-		return mb_substr_count($string, $substring, $encoding);
+		$count = mb_substr_count($string, $substring, $encoding);
+
+		return $count;
 	}
 
 	/**
@@ -121,7 +123,9 @@ final class Str
 	 */
 	public static function countWords(string $string) : int
 	{
-		return count(preg_split('/\s+/u', $string, -1, PREG_SPLIT_NO_EMPTY));
+		$count = count(preg_split('/\s+/u', $string, -1, PREG_SPLIT_NO_EMPTY));
+
+		return $count;
 	}
 
 	//
@@ -1115,7 +1119,9 @@ final class Str
 			$prefix = mb_strtolower($prefix, $encoding);
 		}
 
-		return ($search === $prefix);
+		$result = ($search === $prefix);
+
+		return $result;
 	}
 
 	/**
@@ -1159,7 +1165,9 @@ final class Str
 			$suffix = mb_strtolower($suffix, $encoding);
 		}
 
-		return ($search === $suffix);
+		$result = ($search === $suffix);
+
+		return $result;
 	}
 
 	/**
@@ -1461,6 +1469,7 @@ final class Str
 	public static function pad(string $string, string $padString, int $length) : string
 	{
 		$string = str_pad($string, $length, $padString, STR_PAD_BOTH);
+
 		return $string;
 	}
 
@@ -1559,7 +1568,9 @@ final class Str
 		$decoded = base64_decode($string);
 		$encoded = base64_encode($decoded);
 
-		return ($encoded === $string);
+		$result = ($encoded === $string);
+
+		return $result;
 	}
 
 	/**
@@ -1570,7 +1581,9 @@ final class Str
 	 */
 	public static function isHexadecimal(string $string) : bool
 	{
-		return mb_ereg_match('^[[:xdigit:]]*$', $string);
+		$result = mb_ereg_match('^[[:xdigit:]]*$', $string);
+
+		return $result;
 	}
 
 	/**
@@ -1581,7 +1594,9 @@ final class Str
 	 */
 	public static function isLowerCase(string $string) : bool
 	{
-		return mb_ereg_match('^[[:lower:]]*$', $string);
+		$result = mb_ereg_match('^[[:lower:]]*$', $string);
+
+		return $result;
 	}
 
 	/**
@@ -1592,7 +1607,9 @@ final class Str
 	 */
 	public static function isUpperCase(string $string) : bool
 	{
-		return mb_ereg_match('^[[:upper:]]*$', $string);
+		$result = mb_ereg_match('^[[:upper:]]*$', $string);
+
+		return $result;
 	}
 
 	/**
@@ -1656,9 +1673,11 @@ final class Str
 		$encoding = static::_getEncoding($encoding);
 
 		if ($caseSensitive)
-			return ($needle !== '' and mb_strpos($string, $needle, 0, $encoding) !== false);
+			$result = ($needle !== '' and mb_strpos($string, $needle, 0, $encoding) !== false);
 		else
-			return ($needle !== '' and mb_stripos($string, $needle, 0, $encoding) !== false);
+			$result = ($needle !== '' and mb_stripos($string, $needle, 0, $encoding) !== false);
+
+		return $result;
 	}
 
 	/**
@@ -1712,7 +1731,9 @@ final class Str
 	 */
 	public static function hasLowerCase(string $string) : bool
 	{
-		return mb_ereg_match('.*[[:lower:]]', $string);
+		$result = mb_ereg_match('.*[[:lower:]]', $string);
+
+		return $result;
 	}
 
 	/**
@@ -1723,7 +1744,9 @@ final class Str
 	 */
 	public static function hasUpperCase(string $string) : bool
 	{
-		return mb_ereg_match('.*[[:upper:]]', $string);
+		$result = mb_ereg_match('.*[[:upper:]]', $string);
+
+		return $result;
 	}
 
 	//
@@ -1933,6 +1956,8 @@ final class Str
 			'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE',
 			'ae', 'O', 'o'];
 
-		return str_replace($from, $to, $string);
+		$string = str_replace($from, $to, $string);
+
+		return $string;
 	}
 }
