@@ -376,9 +376,9 @@ final class Data
 		$fromType = strtolower($fromType);
 
 		// gettype($data) will returns
-		// 'interger', no 'int'
-		// 'double', no 'float'
-		// 'boolean', no 'bool'
+		// 'interger', not 'int'
+		// 'double', not 'float'
+		// 'boolean', not 'bool'
 		// so change it to what we can compare below.
 		switch ($fromType)
 		{
@@ -416,6 +416,10 @@ final class Data
 				case 'bool':
 				case 'boolean':
 					$data = static::ensureBool($data);
+					break;
+
+				case 'array':
+					$data = static::ensureArray($data);
 					break;
 
 				case 'object':
