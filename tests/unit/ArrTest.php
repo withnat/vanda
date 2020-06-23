@@ -1162,6 +1162,68 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
+	public function testMethodSetCase4() : void
+	{
+		$expected = [
+			0 => [
+				1 => [
+					2 => [
+						3 => 'value'
+					]
+				]
+			]
+		];
+
+		$result = Arr::set([], '0.1.2.3', 'value');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodSetCase5() : void
+	{
+		$expected = [
+			0 => [
+				1 => [
+					2 => [
+						3 => 'value'
+					]
+				]
+			],
+			1 => 20,
+			2 => 'A',
+			3 => 'b',
+			4 => ['x', 'y'],
+			5 => null,
+			6 => true,
+			7 => 100
+		];
+
+		$result = Arr::set(static::$_arrayMulti, '0.1.2.3', 'value');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodSetCase6() : void
+	{
+		$expected = [
+			0 => 10,
+			1 => 20,
+			2 => 'A',
+			3 => 'b',
+			4 => ['value', 'y'],
+			5 => null,
+			6 => true,
+			7 => 100
+		];
+
+		$result = Arr::set(static::$_arrayMulti, '4.0', 'value');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
 	// Arr::formatKeySyntax()
 
 	public function testMethodFormatSyntaxCase1() : void
