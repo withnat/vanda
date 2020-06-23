@@ -576,4 +576,103 @@ final class DataTest extends TestCase
 
 		Data::expects(['string,int'], 1, 3.14);
 	}
+
+	// Data::convert
+
+	public function testMethodConvertCase1() : void
+	{
+		$data = 3.14;
+
+		Data::convert('float', 'string', $data);
+
+		$this->assertIsString($data);
+		$this->assertEquals('3.14', $data);
+	}
+
+	public function testMethodConvertCase2() : void
+	{
+		$data = 3.14;
+
+		Data::convert('float', 'int', $data);
+
+		$this->assertIsInt($data);
+		$this->assertEquals(3, $data);
+	}
+
+	public function testMethodConvertCase3() : void
+	{
+		$data = '3.14';
+
+		Data::convert('string', 'float', $data);
+
+		$this->assertIsFloat($data);
+		$this->assertEquals(3.14, $data);
+	}
+
+	public function testMethodConvertCase4() : void
+	{
+		$data = '3.14';
+
+		Data::convert('string', 'bool', $data);
+
+		$this->assertIsBool($data);
+		$this->assertFalse($data);
+	}
+
+	public function testMethodConvertCase5() : void
+	{
+		$data = 13;
+
+		Data::convert('int', 'null', $data);
+
+		$this->assertNull($data);
+	}
+
+	public function testMethodConvertCase6() : void
+	{
+		$data = 3.14;
+
+		Data::convert('float', 'bool', $data);
+
+		$this->assertIsBool($data);
+		$this->assertTrue($data);
+	}
+
+	public function testMethodConvertCase7() : void
+	{
+		$data = true;
+
+		Data::convert('bool', 'string', $data);
+
+		$this->assertEquals('true', $data);
+	}
+
+	public function testMethodConvertCase8() : void
+	{
+		$data = 3.14;
+
+		Data::convert('float', 'array', $data);
+
+		$this->assertIsArray($data);
+		$this->assertEquals([3.14], $data);
+	}
+
+	public function testMethodConvertCase9() : void
+	{
+		$data = 3.14;
+
+		Data::convert('float', 'object', $data);
+
+		$this->assertIsObject($data);
+		$this->assertEquals(3.14, $data->scalar);
+	}
+
+	public function testMethodConvertCase10() : void
+	{
+		$data = 3.14;
+
+		Data::convert('float', 'null', $data);
+
+		$this->assertNull($data);
+	}
 }
