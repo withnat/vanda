@@ -296,13 +296,13 @@ final class Data
 	 */
 	public static function is(string $allowedDataTypes, int $argument, $data = null) : void
 	{
-		$dataTypes = strtolower($allowedDataTypes);
-		$dataTypes = explode(',', $dataTypes);
-		$dataTypes = array_map('trim', $dataTypes);
+		$allowedDataTypes = strtolower($allowedDataTypes);
+		$allowedDataTypes = explode(',', $allowedDataTypes);
+		$allowedDataTypes = array_map('trim', $allowedDataTypes);
 
 		$valid = false;
 
-		foreach ($dataTypes as $dataType)
+		foreach ($allowedDataTypes as $dataType)
 		{
 			if ($dataType === 'string' and is_string($data))
 			{
@@ -348,15 +348,6 @@ final class Data
 
 		if (!$valid)
 			throw InvalidArgumentException::type($argument, $allowedDataTypes, $data);
-
-//		$dataTypes = strtolower($allowedDataTypes);
-//		$dataTypes = explode(',', $dataTypes);
-//		$dataTypes = array_map('trim', $dataTypes);
-//
-//		$dataType = strtolower(gettype($data));
-//
-//		if (!in_array($dataType, $dataTypes))
-//			throw InvalidArgumentException::type($argument, $allowedDataTypes, $data);
 	}
 
 	/**
