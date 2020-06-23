@@ -52,6 +52,27 @@ final class Data
 	private function __construct(){}
 
 	/**
+	 * Return a specific element from the given array or object.
+	 * A $keys variable supports both array and object.
+	 * If the array element / object property is empty it returns NULL (or whatever you specify as the default value).
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $data = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'age' => 38,
+	 *     'job' => new stdClass()
+	 * ];
+	 *
+	 * $data['job']->title = 'Web Developer';
+	 * $data['job']->salary = '10000';
+	 *
+	 * $result = Data::get($data, 'job.title');
+	 * // the result is: Web Developer
+	 * ```
+	 *
 	 * @param  array|object $data     The data, array or object.
 	 * @param  int|string   $keys     The searched key.
 	 * @param  mixed        $default  Default value.
@@ -98,15 +119,43 @@ final class Data
 	 * @param  mixed        $value
 	 * @return array|object
 	 */
-	public static function set($data, string $key, $value) // TODO ให้ $key รองรับ dot เช่น name.subname
+	public static function set($data, string $key, $value)
 	{
 		if (!is_array($data) and !is_object($data))
 			throw InvalidArgumentException::type(1, ['array','object'], $data);
 
 		if (is_object($data))
-			$data->{$key} = $value;
+		{
+			$keys = explode('.', $key);
+			$dataPointer = '$data';
+
+			foreach ($keys as $key)
+			{
+				$dataPointer .= "->{'$key'}";
+				$var4If = '';
+
+				// use @ to prevent error in case of key does not exists.
+				$syntax = '$var4If = @' . $dataPointer . ';';
+				eval($syntax);
+
+				if (!is_object($var4If))
+				{
+					$dataAssigner = $dataPointer . ' = new \stdClass();';;
+					eval($dataAssigner);
+				}
+			}
+
+			if (is_string($value))
+			{
+				// Escape only single quote and backslash.
+				$value = addcslashes($value, '\\\'');
+			}
+
+			$dataAssigner = $dataPointer . ' = \'' . $value . '\';';
+			eval($dataAssigner);
+		}
 		else
-			$data[$key] = $value;
+			$data = Arr::set($data, $key, $value);
 
 		return $data;
 	}
