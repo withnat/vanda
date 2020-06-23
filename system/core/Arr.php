@@ -466,8 +466,13 @@ final class Arr
 		foreach ($keys as $key)
 		{
 			$arrayPointer .= static::formatKeySyntax($key);
+			$var4If = '';
 
-			if (!is_array($arrayPointer))
+			// use @ to prevent error in case of key does not exists.
+			$syntax = '$var4If = @' . $arrayPointer . ';';
+			eval($syntax);
+
+			if (!is_array($var4If))
 			{
 				$arrayAssigner = $arrayPointer . ' = [];';;
 				eval($arrayAssigner);
