@@ -398,4 +398,14 @@ final class DataTest extends TestCase
 		$this->assertIsInt($result);
 		$this->assertEquals(3, $result);
 	}
+
+	// Data::ensureFloat
+
+	public function testMethodensureFloatCase1() : void
+	{
+		$result = Data::ensureFloat(13);
+
+		$this->assertIsFloat($result);
+		$this->assertEquals(13, $result);
+	}
 }
