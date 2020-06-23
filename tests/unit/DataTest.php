@@ -269,4 +269,97 @@ final class DataTest extends TestCase
 
 		$this->assertTrue($compare);
 	}
+
+	// Data::ensureBoolean
+
+	public function testMethodEnsureBooleanCase1() : void
+	{
+		$result = Data::ensureBoolean('');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodEnsureBooleanCase2() : void
+	{
+		$result = Data::ensureBoolean('null');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodEnsureBooleanCase3() : void
+	{
+		$result = Data::ensureBoolean(null);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodEnsureBooleanCase4() : void
+	{
+		$result = Data::ensureBoolean(0);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodEnsureBooleanCase5() : void
+	{
+		$result = Data::ensureBoolean(-1);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodEnsureBooleanCase6() : void
+	{
+		$result = Data::ensureBoolean(1);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodEnsureBooleanCase7() : void
+	{
+		$result = Data::ensureBoolean('1');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodEnsureBooleanCase8() : void
+	{
+		$result = Data::ensureBoolean(2);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodEnsureBooleanCase9() : void
+	{
+		$result = Data::ensureBoolean(true);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodEnsureBooleanCase10() : void
+	{
+		$result = Data::ensureBoolean('true');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodEnsureBooleanCase11() : void
+	{
+		$result = Data::ensureBoolean(false);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodEnsureBooleanCase12() : void
+	{
+		$result = Data::ensureBoolean('on');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodEnsureBooleanCase13() : void
+	{
+		$result = Data::ensureBoolean('yes');
+
+		$this->assertTrue($result);
+	}
 }
