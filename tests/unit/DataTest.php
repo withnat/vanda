@@ -408,4 +408,62 @@ final class DataTest extends TestCase
 		$this->assertIsFloat($result);
 		$this->assertEquals(13, $result);
 	}
+
+	// Data::ensureArray
+
+	public function testMethodensureArrayCase1() : void
+	{
+		$result = Data::ensureArray('');
+
+		$this->assertIsArray($result);
+		$this->assertEquals([], $result);
+	}
+
+	public function testMethodensureArrayCase2() : void
+	{
+		$result = Data::ensureArray(3.14);
+
+		$this->assertIsArray($result);
+		$this->assertEquals([3.14], $result);
+	}
+
+	public function testMethodensureArrayCase3() : void
+	{
+		$result = Data::ensureArray('value');
+
+		$this->assertIsArray($result);
+		$this->assertEquals(['value'], $result);
+	}
+
+	public function testMethodensureArrayCase4() : void
+	{
+		$result = Data::ensureArray('(0)');
+
+		$this->assertIsArray($result);
+		$this->assertEquals([0], $result);
+	}
+
+	public function testMethodensureArrayCase5() : void
+	{
+		$result = Data::ensureArray('[0]');
+
+		$this->assertIsArray($result);
+		$this->assertEquals([0], $result);
+	}
+
+	public function testMethodensureArrayCase6() : void
+	{
+		$result = Data::ensureArray('(\'value\')');
+
+		$this->assertIsArray($result);
+		$this->assertEquals(['value'], $result);
+	}
+
+	public function testMethodensureArrayCase7() : void
+	{
+		$result = Data::ensureArray('[\'value\']');
+
+		$this->assertIsArray($result);
+		$this->assertEquals(['value'], $result);
+	}
 }
