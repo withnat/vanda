@@ -542,4 +542,13 @@ final class DataTest extends TestCase
 
 		$this->assertNull(Data::is('string', 1, 13));
 	}
+
+	// Data::expects
+
+	public function testMethodExpectsCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Data::expects(['string,int'], 1, 3.14);
+	}
 }
