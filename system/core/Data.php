@@ -360,6 +360,29 @@ final class Data
 	{
 		$dataType = strtolower(gettype($data));
 
+		// gettype($data) will returns
+		// 'interger', not 'int'
+		// 'double', not 'float'
+		// 'boolean', not 'bool'
+		// so change it to what we can compare below.
+		for ($i = 0, $n = count($allowedDataTypes); $i < $n; ++$i)
+		{
+			switch ($allowedDataTypes[$i])
+			{
+				case 'int':
+					$allowedDataTypes[$i] = 'integer';
+					break;
+
+				case 'float':
+					$allowedDataTypes[$i] = 'double';
+					break;
+
+				case 'bool':
+					$allowedDataTypes[$i] = 'boolean';
+					break;
+			}
+		}
+
 		if (!in_array($dataType, $allowedDataTypes))
 			throw InvalidArgumentException::type($argument, $allowedDataTypes, $data);
 	}
