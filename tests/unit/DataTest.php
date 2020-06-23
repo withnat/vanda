@@ -482,4 +482,14 @@ final class DataTest extends TestCase
 		$this->assertIsArray($result);
 		$this->assertEquals(['value'], $result);
 	}
+
+	// Data::ensureObject
+
+	public function testMethodensureObjectCase1() : void
+	{
+		$result = Data::ensureObject('value');
+
+		$this->assertIsObject($result);
+		$this->assertEquals('value', $result->scalar);
+	}
 }
