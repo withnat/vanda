@@ -230,6 +230,13 @@ final class DataTest extends TestCase
 
 	public function testMethodSetCase1() : void
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Data::set('', 'key', 'value');
+	}
+
+	public function testMethodSetCase2() : void
+	{
 		$expected = [
 			[[['C']]],
 			'B',
@@ -242,7 +249,7 @@ final class DataTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodSetCase2() : void
+	public function testMethodSetCase3() : void
 	{
 		$expected = [
 			'name' => 'Nat',
