@@ -56,10 +56,7 @@ final class DataTest extends TestCase
 		static::$_dataArray = [
 			'A',
 			'B',
-			[
-				'X',
-				'Y'
-			]
+			['X', 'Y']
 		];
 
 		$job = new stdClass();
@@ -77,10 +74,7 @@ final class DataTest extends TestCase
 		static::$_dataObject->name = 'Nat';
 		static::$_dataObject->surname = 'Withe';
 		static::$_dataObject->age = 38;
-		static::$_dataObject->job = [
-			'title' => 'Web Developer',
-			'salary' => 10000
-		];
+		static::$_dataObject->job = $job;
 	}
 
 	protected function tearDown()
@@ -230,5 +224,49 @@ final class DataTest extends TestCase
 		$result = Data::get(static::$_dataObject, 'job.title');
 
 		$this->assertEquals('Web Developer', $result);
+	}
+
+	// Data::set
+
+	public function testMethodSetCase1() : void
+	{
+		$expected = [
+			[[['C']]],
+			'B',
+			['X', 'Y']
+		];
+
+		$result = Data::set(static::$_dataArray, '0.0.0.0', 'C');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodSetCase2() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'job' => [
+				'title' => 'Web Developer',
+				'salary' => 10000,
+				'a' => [
+					'b' => 'C'
+				]
+			]
+		];
+
+		$result = Data::set(static::$_dataObject, 'job.a.b', 'C');
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result = (array)$result;
+		$result['job'] = (array)$result['job'];
+		$result['job']['a'] = (array)$result['job']['a'];
+
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 }
