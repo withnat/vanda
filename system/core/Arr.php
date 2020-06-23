@@ -453,14 +453,26 @@ final class Arr
 	/**
 	 * Sets a value to the element at the specified position in the given array.
 	 *
-	 * @param  array  $array
-	 * @param  string $key
-	 * @param  mixed  $value
+	 * @param  array  $array  Array to set a value in.
+	 * @param  string $key    Name of the key to set.
+	 * @param  mixed  $value  Value to set.
 	 * @return array
 	 */
 	public static function set(array $array, string $key, $value) : array
 	{
-		$keys = static::formatKeySyntax($key);
+		$keys = explode('.', $key);
+		$arrayPointer = '$array';
+
+		foreach ($keys as $key)
+		{
+			$arrayPointer .= static::formatKeySyntax($key);
+
+			if (!is_array($arrayPointer))
+			{
+				$arrayAssigner = $arrayPointer . ' = [];';;
+				eval($arrayAssigner);
+			}
+		}
 
 		if (is_string($value))
 		{
@@ -468,8 +480,8 @@ final class Arr
 			$value = addcslashes($value, '\\\'');
 		}
 
-		$syntax = '$array' . $keys . ' = \'' . $value . '\';';
-		eval($syntax);
+		$arrayAssigner = $arrayPointer . ' = \'' . $value . '\';';
+		eval($arrayAssigner);
 
 		return $array;
 	}
