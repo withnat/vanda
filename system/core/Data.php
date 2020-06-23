@@ -161,35 +161,6 @@ final class Data
 	}
 
 	/**
-	 * Converts a value to boolean type.
-	 *
-	 * @param  mixed $value  The value to be converted.
-	 * @return bool
-	 */
-	public static function ensureBool($value) : bool
-	{
-		if (is_string($value))
-		{
-			$value = strtolower($value);
-
-			if (in_array($value, ['true', '1', 'on', 'yes']))
-				return true;
-			else
-				return false;
-		}
-		elseif (is_int($value) or is_float($value))
-		{
-			$value = (int)$value;
-
-			return ($value > 0);
-		}
-		elseif (is_bool($value))
-			return $value;
-		else
-			return false;
-	}
-
-	/**
 	 * Converts a value to string type.
 	 *
 	 * Note, a boolean value will be converted to 'true' if it is true
@@ -226,6 +197,35 @@ final class Data
 	public static function ensureFloat($value) : float
 	{
 		return (float)$value;
+	}
+
+	/**
+	 * Converts a value to boolean type.
+	 *
+	 * @param  mixed $value  The value to be converted.
+	 * @return bool
+	 */
+	public static function ensureBool($value) : bool
+	{
+		if (is_string($value))
+		{
+			$value = strtolower($value);
+
+			if (in_array($value, ['true', '1', 'on', 'yes']))
+				return true;
+			else
+				return false;
+		}
+		elseif (is_int($value) or is_float($value))
+		{
+			$value = (int)$value;
+
+			return ($value > 0);
+		}
+		elseif (is_bool($value))
+			return $value;
+		else
+			return false;
 	}
 
 	/**
