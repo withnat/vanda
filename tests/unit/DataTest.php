@@ -445,13 +445,29 @@ final class DataTest extends TestCase
 
 	public function testMethodensureArrayCase5() : void
 	{
+		$result = Data::ensureArray('(invalidsyntax)');
+
+		$this->assertIsArray($result);
+		$this->assertEquals([], $result);
+	}
+
+	public function testMethodensureArrayCase6() : void
+	{
 		$result = Data::ensureArray('[0]');
 
 		$this->assertIsArray($result);
 		$this->assertEquals([0], $result);
 	}
 
-	public function testMethodensureArrayCase6() : void
+	public function testMethodensureArrayCase7() : void
+	{
+		$result = Data::ensureArray('[invalidsyntax]');
+
+		$this->assertIsArray($result);
+		$this->assertEquals([], $result);
+	}
+
+	public function testMethodensureArrayCase8() : void
 	{
 		$result = Data::ensureArray('(\'value\')');
 
@@ -459,7 +475,7 @@ final class DataTest extends TestCase
 		$this->assertEquals(['value'], $result);
 	}
 
-	public function testMethodensureArrayCase7() : void
+	public function testMethodensureArrayCase9() : void
 	{
 		$result = Data::ensureArray('[\'value\']');
 
