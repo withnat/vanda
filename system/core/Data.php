@@ -166,7 +166,7 @@ final class Data
 	 * @param  mixed $value  The value to be converted.
 	 * @return bool
 	 */
-	public static function ensureBoolean($value) : bool
+	public static function ensureBool($value) : bool
 	{
 		if (is_string($value))
 		{
@@ -212,7 +212,7 @@ final class Data
 	 * @param  mixed $value  The value to be converted.
 	 * @return int
 	 */
-	public static function ensureInteger($value) : int
+	public static function ensureInt($value) : int
 	{
 		return (int)$value;
 	}
@@ -414,7 +414,7 @@ final class Data
 
 				case 'int':
 				case 'integer':
-					$data = static::ensureInteger($data);
+					$data = static::ensureInt($data);
 					break;
 
 				case 'float':
@@ -424,7 +424,7 @@ final class Data
 
 				case 'bool':
 				case 'boolean':
-					$data = static::ensureBoolean($data);
+					$data = static::ensureBool($data);
 					break;
 
 				case 'object':

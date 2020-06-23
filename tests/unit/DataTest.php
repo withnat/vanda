@@ -270,95 +270,95 @@ final class DataTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Data::ensureBoolean
+	// Data::ensureBool
 
-	public function testMethodEnsureBooleanCase1() : void
+	public function testMethodensureBoolCase1() : void
 	{
-		$result = Data::ensureBoolean('');
+		$result = Data::ensureBool('');
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodEnsureBooleanCase2() : void
+	public function testMethodensureBoolCase2() : void
 	{
-		$result = Data::ensureBoolean('null');
+		$result = Data::ensureBool('null');
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodEnsureBooleanCase3() : void
+	public function testMethodensureBoolCase3() : void
 	{
-		$result = Data::ensureBoolean(null);
+		$result = Data::ensureBool(null);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodEnsureBooleanCase4() : void
+	public function testMethodensureBoolCase4() : void
 	{
-		$result = Data::ensureBoolean(0);
+		$result = Data::ensureBool(0);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodEnsureBooleanCase5() : void
+	public function testMethodensureBoolCase5() : void
 	{
-		$result = Data::ensureBoolean(-1);
+		$result = Data::ensureBool(-1);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodEnsureBooleanCase6() : void
+	public function testMethodensureBoolCase6() : void
 	{
-		$result = Data::ensureBoolean(1);
+		$result = Data::ensureBool(1);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodEnsureBooleanCase7() : void
+	public function testMethodensureBoolCase7() : void
 	{
-		$result = Data::ensureBoolean('1');
+		$result = Data::ensureBool('1');
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodEnsureBooleanCase8() : void
+	public function testMethodensureBoolCase8() : void
 	{
-		$result = Data::ensureBoolean(2);
+		$result = Data::ensureBool(2);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodEnsureBooleanCase9() : void
+	public function testMethodensureBoolCase9() : void
 	{
-		$result = Data::ensureBoolean(true);
+		$result = Data::ensureBool(true);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodEnsureBooleanCase10() : void
+	public function testMethodensureBoolCase10() : void
 	{
-		$result = Data::ensureBoolean('true');
+		$result = Data::ensureBool('true');
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodEnsureBooleanCase11() : void
+	public function testMethodensureBoolCase11() : void
 	{
-		$result = Data::ensureBoolean(false);
+		$result = Data::ensureBool(false);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodEnsureBooleanCase12() : void
+	public function testMethodensureBoolCase12() : void
 	{
-		$result = Data::ensureBoolean('on');
+		$result = Data::ensureBool('on');
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodEnsureBooleanCase13() : void
+	public function testMethodensureBoolCase13() : void
 	{
-		$result = Data::ensureBoolean('yes');
+		$result = Data::ensureBool('yes');
 
 		$this->assertTrue($result);
 	}
@@ -389,11 +389,11 @@ final class DataTest extends TestCase
 		$this->assertEquals('3.14', $result);
 	}
 
-	// Data::ensureInteger
+	// Data::ensureInt
 
-	public function testMethodEnsureIntegerCase1() : void
+	public function testMethodensureIntCase1() : void
 	{
-		$result = Data::ensureInteger(3.14);
+		$result = Data::ensureInt(3.14);
 
 		$this->assertIsInt($result);
 		$this->assertEquals(3, $result);
