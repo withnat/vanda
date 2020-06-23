@@ -494,53 +494,78 @@ final class DataTest extends TestCase
 	}
 
 	// Data::is
-	// Use $this->assertNull() to test return void method.
+
+	// PHPUnit 7.5 doesn’t have a doNotExpectException assertion,
+	// nor does it allow a test without an assertion.
+
+	// We can easily overcome these limitations by adding an assertion
+	// to the end of the test ($this->assertTrue(true)) or by increasing
+	// the assertion count ($this->addToAssertionCount(1)). If the
+	// MyClass::doSomething method implementation is incorrect,
+	// an exception will be thrown, otherwise, the assertion will be
+	// accounted for and PHPUnit will not “complain” about the test.
 
 	public function testMethodIsCase1() : void
 	{
-		$this->assertNull(Data::is('string', 1, 'value'));
+		Data::is('string', 1, 'value');
+
+		$this->assertTrue(true);
 	}
 
 	public function testMethodIsCase2() : void
 	{
-		$this->assertNull(Data::is('int', 1, 13));
+		Data::is('int', 1, 13);
+
+		$this->assertTrue(true);
 	}
 
 	public function testMethodIsCase3() : void
 	{
-		$this->assertNull(Data::is('float', 1, 3.14));
+		Data::is('float', 1, 3.14);
+
+		$this->assertTrue(true);
 	}
 
 	public function testMethodIsCase4() : void
 	{
-		$this->assertNull(Data::is('bool', 1, true));
+		Data::is('bool', 1, true);
+
+		$this->assertTrue(true);
 	}
 
 	public function testMethodIsCase5() : void
 	{
-		$this->assertNull(Data::is('array', 1, []));
+		Data::is('array', 1, []);
+
+		$this->assertTrue(true);
 	}
 
 	public function testMethodIsCase6() : void
 	{
-		$this->assertNull(Data::is('object', 1, new stdClass()));
+		Data::is('object', 1, new stdClass());
+
+		$this->assertTrue(true);
 	}
 
 	public function testMethodIsCase7() : void
 	{
-		$this->assertNull(Data::is('null', 1, null));
+		Data::is('null', 1, null);
+
+		$this->assertTrue(true);
 	}
 
 	public function testMethodIsCase8() : void
 	{
-		$this->assertNull(Data::is('resource', 1, tmpfile()));
+		Data::is('resource', 1, tmpfile());
+
+		$this->assertTrue(true);
 	}
 
 	public function testMethodIsCase9() : void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		$this->assertNull(Data::is('string', 1, 13));
+		Data::is('string', 1, 13);
 	}
 
 	// Data::expects
