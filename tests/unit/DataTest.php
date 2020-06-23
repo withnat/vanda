@@ -272,91 +272,91 @@ final class DataTest extends TestCase
 
 	// Data::ensureBool
 
-	public function testMethodensureBoolCase1() : void
+	public function testMethodEnsureBoolCase1() : void
 	{
 		$result = Data::ensureBool('');
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodensureBoolCase2() : void
+	public function testMethodEnsureBoolCase2() : void
 	{
 		$result = Data::ensureBool('null');
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodensureBoolCase3() : void
+	public function testMethodEnsureBoolCase3() : void
 	{
 		$result = Data::ensureBool(null);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodensureBoolCase4() : void
+	public function testMethodEnsureBoolCase4() : void
 	{
 		$result = Data::ensureBool(0);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodensureBoolCase5() : void
+	public function testMethodEnsureBoolCase5() : void
 	{
 		$result = Data::ensureBool(-1);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodensureBoolCase6() : void
+	public function testMethodEnsureBoolCase6() : void
 	{
 		$result = Data::ensureBool(1);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodensureBoolCase7() : void
+	public function testMethodEnsureBoolCase7() : void
 	{
 		$result = Data::ensureBool('1');
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodensureBoolCase8() : void
+	public function testMethodEnsureBoolCase8() : void
 	{
 		$result = Data::ensureBool(2);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodensureBoolCase9() : void
+	public function testMethodEnsureBoolCase9() : void
 	{
 		$result = Data::ensureBool(true);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodensureBoolCase10() : void
+	public function testMethodEnsureBoolCase10() : void
 	{
 		$result = Data::ensureBool('true');
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodensureBoolCase11() : void
+	public function testMethodEnsureBoolCase11() : void
 	{
 		$result = Data::ensureBool(false);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodensureBoolCase12() : void
+	public function testMethodEnsureBoolCase12() : void
 	{
 		$result = Data::ensureBool('on');
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodensureBoolCase13() : void
+	public function testMethodEnsureBoolCase13() : void
 	{
 		$result = Data::ensureBool('yes');
 
@@ -391,7 +391,7 @@ final class DataTest extends TestCase
 
 	// Data::ensureInt
 
-	public function testMethodensureIntCase1() : void
+	public function testMethodEnsureIntCase1() : void
 	{
 		$result = Data::ensureInt(3.14);
 
@@ -401,7 +401,7 @@ final class DataTest extends TestCase
 
 	// Data::ensureFloat
 
-	public function testMethodensureFloatCase1() : void
+	public function testMethodEnsureFloatCase1() : void
 	{
 		$result = Data::ensureFloat(13);
 
@@ -411,7 +411,7 @@ final class DataTest extends TestCase
 
 	// Data::ensureArray
 
-	public function testMethodensureArrayCase1() : void
+	public function testMethodEnsureArrayCase1() : void
 	{
 		$result = Data::ensureArray('');
 
@@ -419,7 +419,7 @@ final class DataTest extends TestCase
 		$this->assertEquals([], $result);
 	}
 
-	public function testMethodensureArrayCase2() : void
+	public function testMethodEnsureArrayCase2() : void
 	{
 		$result = Data::ensureArray(3.14);
 
@@ -427,7 +427,7 @@ final class DataTest extends TestCase
 		$this->assertEquals([3.14], $result);
 	}
 
-	public function testMethodensureArrayCase3() : void
+	public function testMethodEnsureArrayCase3() : void
 	{
 		$result = Data::ensureArray('value');
 
@@ -435,7 +435,7 @@ final class DataTest extends TestCase
 		$this->assertEquals(['value'], $result);
 	}
 
-	public function testMethodensureArrayCase4() : void
+	public function testMethodEnsureArrayCase4() : void
 	{
 		$result = Data::ensureArray('(0)');
 
@@ -443,7 +443,7 @@ final class DataTest extends TestCase
 		$this->assertEquals([0], $result);
 	}
 
-	public function testMethodensureArrayCase5() : void
+	public function testMethodEnsureArrayCase5() : void
 	{
 		$result = Data::ensureArray('(invalidsyntax)');
 
@@ -451,7 +451,7 @@ final class DataTest extends TestCase
 		$this->assertEquals([], $result);
 	}
 
-	public function testMethodensureArrayCase6() : void
+	public function testMethodEnsureArrayCase6() : void
 	{
 		$result = Data::ensureArray('[0]');
 
@@ -459,7 +459,7 @@ final class DataTest extends TestCase
 		$this->assertEquals([0], $result);
 	}
 
-	public function testMethodensureArrayCase7() : void
+	public function testMethodEnsureArrayCase7() : void
 	{
 		$result = Data::ensureArray('[invalidsyntax]');
 
@@ -467,7 +467,7 @@ final class DataTest extends TestCase
 		$this->assertEquals([], $result);
 	}
 
-	public function testMethodensureArrayCase8() : void
+	public function testMethodEnsureArrayCase8() : void
 	{
 		$result = Data::ensureArray('(\'value\')');
 
@@ -475,7 +475,7 @@ final class DataTest extends TestCase
 		$this->assertEquals(['value'], $result);
 	}
 
-	public function testMethodensureArrayCase9() : void
+	public function testMethodEnsureArrayCase9() : void
 	{
 		$result = Data::ensureArray('[\'value\']');
 
@@ -485,7 +485,7 @@ final class DataTest extends TestCase
 
 	// Data::ensureObject
 
-	public function testMethodensureObjectCase1() : void
+	public function testMethodEnsureObjectCase1() : void
 	{
 		$result = Data::ensureObject('value');
 
