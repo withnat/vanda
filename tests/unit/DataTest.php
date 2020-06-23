@@ -362,4 +362,30 @@ final class DataTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Data::ensureString
+
+	public function testMethodEnsureStringCase1() : void
+	{
+		$result = Data::ensureString(true);
+
+		$this->assertIsString($result);
+		$this->assertEquals('true', $result);
+	}
+
+	public function testMethodEnsureStringCase2() : void
+	{
+		$result = Data::ensureString(false);
+
+		$this->assertIsString($result);
+		$this->assertEquals('false', $result);
+	}
+
+	public function testMethodEnsureStringCase3() : void
+	{
+		$result = Data::ensureString(3.14);
+
+		$this->assertIsString($result);
+		$this->assertEquals('3.14', $result);
+	}
 }
