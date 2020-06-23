@@ -388,4 +388,14 @@ final class DataTest extends TestCase
 		$this->assertIsString($result);
 		$this->assertEquals('3.14', $result);
 	}
+
+	// Data::ensureInteger
+
+	public function testMethodEnsureIntegerCase1() : void
+	{
+		$result = Data::ensureInteger(3.14);
+
+		$this->assertIsInt($result);
+		$this->assertEquals(3, $result);
+	}
 }
