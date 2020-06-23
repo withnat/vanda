@@ -492,4 +492,54 @@ final class DataTest extends TestCase
 		$this->assertIsObject($result);
 		$this->assertEquals('value', $result->scalar);
 	}
+
+	// Data::is
+	// Use $this->assertNull() to test return void method.
+
+	public function testMethodIsCase1() : void
+	{
+		$this->assertNull(Data::is('string', 1, 'value'));
+	}
+
+	public function testMethodIsCase2() : void
+	{
+		$this->assertNull(Data::is('int', 1, 13));
+	}
+
+	public function testMethodIsCase3() : void
+	{
+		$this->assertNull(Data::is('float', 1, 3.14));
+	}
+
+	public function testMethodIsCase4() : void
+	{
+		$this->assertNull(Data::is('bool', 1, true));
+	}
+
+	public function testMethodIsCase5() : void
+	{
+		$this->assertNull(Data::is('array', 1, []));
+	}
+
+	public function testMethodIsCase6() : void
+	{
+		$this->assertNull(Data::is('object', 1, new stdClass()));
+	}
+
+	public function testMethodIsCase7() : void
+	{
+		$this->assertNull(Data::is('null', 1, null));
+	}
+
+	public function testMethodIsCase8() : void
+	{
+		$this->assertNull(Data::is('resource', 1, tmpfile()));
+	}
+
+	public function testMethodIsCase9() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->assertNull(Data::is('string', 1, 13));
+	}
 }
