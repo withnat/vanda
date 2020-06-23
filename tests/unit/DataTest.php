@@ -90,7 +90,7 @@ final class DataTest extends TestCase
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		Data::get('', 3.14);
+		Data::get('', 'key');
 	}
 
 	public function testMethodGetCase2() : void
