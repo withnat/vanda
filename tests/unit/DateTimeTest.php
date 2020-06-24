@@ -347,4 +347,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('11:15:37', $result);
 	}
+
+	// DateTime::fullDateTime
+
+	public function testMethodFullDateTimeCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::fullDateTime([]);
+	}
+
+	public function testMethodFullDateTimeCase2() : void
+	{
+		$result = DateTime::fullDateTime('20110114111537');
+
+		$this->assertEquals('14 January 2011 11:15', $result);
+	}
+
+	public function testMethodFullDateTimeCase3() : void
+	{
+		$result = DateTime::fullDateTime(1294978537);
+
+		$this->assertEquals('14 January 2011 11:15', $result);
+	}
 }
