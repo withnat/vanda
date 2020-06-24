@@ -53,6 +53,7 @@ final class Number
 	 */
 	public static function byteFormat(int $size, int $precision = 1, string $unit = null) : string
 	{
+		// Trim first
 		if ($unit)
 			$unit = strtoupper(trim($unit));
 
@@ -136,13 +137,13 @@ final class Number
 	public static function inrange($value, $min, $max)
 	{
 		if (!is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(1, ['int','float'], $value);
+			throw InvalidArgumentException::type(1, ['int','float'], $value);
 
 		if (!is_int($min) and !is_float($min))
-			throw InvalidArgumentException::create(2, ['int','float'], $min);
+			throw InvalidArgumentException::type(2, ['int','float'], $min);
 
 		if (!is_int($max) and !is_float($max))
-			throw InvalidArgumentException::create(3, ['int','float'], $max);
+			throw InvalidArgumentException::type(3, ['int','float'], $max);
 
 		if ($value > $max)
 			$value = $max;
