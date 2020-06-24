@@ -41,12 +41,24 @@ use System\DateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * Override time() in the current namespace for testing.
+ *
+ * @return int
+ */
+function time()
+{
+	return DateTimeTest::$now ?: \time();
+}
+
+/**
  * Class DateTimeTest
  * @package Tests\Unit
  * @see https://www.cl.cam.ac.uk/~mgk25/ucs/examples/quickbrown.txt
  */
 final class DateTimeTest extends TestCase
 {
+	public static $now;
+
 	// DateTime::isValid
 
 	public function testMethodIsValidCase1() : void
@@ -166,5 +178,35 @@ final class DateTimeTest extends TestCase
 		$result = DateTime::isValid('20110114111537');
 
 		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase18() : void
+	{
+		$result = DateTime::isValid('14 Jan 2011', 'd M Y');
+
+		$this->assertTrue($result);
+	}
+
+	// DateTime::_
+
+	public function testMethodDefaultCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::_([]);
+	}
+
+	public function testMethodDefaultCase2() : void
+	{
+		$result = DateTime::_('20110114111537');
+
+		$this->assertEquals('2011-01-14 11:15', $result);
+	}
+
+	public function testMethodDefaultCase3() : void
+	{
+		$result = DateTime::_(1294978537);
+
+		$this->assertEquals('2011-01-14 11:15', $result);
 	}
 }
