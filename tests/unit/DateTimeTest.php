@@ -239,7 +239,7 @@ final class DateTimeTest extends TestCase
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		DateTime::sortable([]);
+		DateTime::mysql([]);
 	}
 
 	public function testMethodMysqlCase2() : void
@@ -262,7 +262,7 @@ final class DateTimeTest extends TestCase
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		DateTime::sortable([]);
+		DateTime::shortDate([]);
 	}
 
 	public function testMethodShortDateCase2() : void
@@ -285,7 +285,7 @@ final class DateTimeTest extends TestCase
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		DateTime::sortable([]);
+		DateTime::longDate([]);
 	}
 
 	public function testMethodLongDateCase2() : void
