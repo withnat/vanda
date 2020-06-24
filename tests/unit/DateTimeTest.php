@@ -531,4 +531,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('11', $result);
 	}
+
+	// DateTime::hour24
+
+	public function testMethodHour24Case1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::hour24([]);
+	}
+
+	public function testMethodHour24Case2() : void
+	{
+		$result = DateTime::hour24('20110114201537');
+
+		$this->assertEquals('20', $result);
+	}
+
+	public function testMethodHour24Case3() : void
+	{
+		$result = DateTime::hour24(1295010937);
+
+		$this->assertEquals('20', $result);
+	}
 }
