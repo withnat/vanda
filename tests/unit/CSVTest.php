@@ -112,4 +112,23 @@ final class CSVTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// CSV::fromRecordset
+
+	public function testMethodFromRecordsetCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		CSV::fromRecordset(['string']);
+	}
+
+	public function testMethodFromRecordsetCase2() : void
+	{
+		$expected = '"Nat","Withe","Web Developer","10000"' . "\n";
+		$expected .= '"Angela","SG","Marketing Director","10000"' . "\n";
+
+		$result = CSV::fromRecordset(static::$_recordset);
+
+		$this->assertEquals($expected, $result);
+	}
 }
