@@ -89,4 +89,41 @@ final class NumberTest extends TestCase
 
 		$this->assertEquals('0.91 TB', $result);
 	}
+
+	// Number::getUnitByFileSize
+
+	public function testMethodGetUnitByFileSizeCase1() : void
+	{
+		$result = Number::getUnitByFileSize(1000);
+
+		$this->assertEquals('B', $result);
+	}
+
+	public function testMethodGetUnitByFileSizeCase2() : void
+	{
+		$result = Number::getUnitByFileSize(1000000);
+
+		$this->assertEquals('KB', $result);
+	}
+
+	public function testMethodGetUnitByFileSizeCase3() : void
+	{
+		$result = Number::getUnitByFileSize(1000000000);
+
+		$this->assertEquals('MB', $result);
+	}
+
+	public function testMethodGetUnitByFileSizeCase4() : void
+	{
+		$result = Number::getUnitByFileSize(1000000000000);
+
+		$this->assertEquals('GB', $result);
+	}
+
+	public function testMethodGetUnitByFileSizeCase5() : void
+	{
+		$result = Number::getUnitByFileSize(1000000000000000);
+
+		$this->assertEquals('TB', $result);
+	}
 }
