@@ -278,4 +278,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('14/01/2011', $result);
 	}
+
+	// DateTime::longDate
+
+	public function testMethoLongDateCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::sortable([]);
+	}
+
+	public function testMethoLongDateCase2() : void
+	{
+		$result = DateTime::longDate('20110114111537');
+
+		$this->assertEquals('14 January 2011', $result);
+	}
+
+	public function testMethoLongDateCase3() : void
+	{
+		$result = DateTime::longDate(1294978537);
+
+		$this->assertEquals('14 January 2011', $result);
+	}
 }
