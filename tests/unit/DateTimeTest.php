@@ -692,4 +692,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('AM', $result);
 	}
+
+	// DateTime::year
+
+	public function testMethodYearCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::year([]);
+	}
+
+	public function testMethodYearCase2() : void
+	{
+		$result = DateTime::year('20110114111537');
+
+		$this->assertEquals('2011', $result);
+	}
+
+	public function testMethodYearCase3() : void
+	{
+		$result = DateTime::year(1294978537);
+
+		$this->assertEquals('2011', $result);
+	}
 }
