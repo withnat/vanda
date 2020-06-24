@@ -90,7 +90,8 @@ final class CSVTest extends TestCase
 
 		//
 
-		static::$_csvString = '"Nat","Withe","Web Developer","10000"' . "\n";
+		static::$_csvString = '"Name","Surname","Job","Salary"' . "\n";
+		static::$_csvString .= '"Nat","Withe","Web Developer","10000"' . "\n";
 		static::$_csvString .= '"Angela","SG","Marketing Director","10000"' . "\n";
 	}
 
@@ -131,5 +132,37 @@ final class CSVTest extends TestCase
 		$result = CSV::fromRecordset(static::$_recordset);
 
 		$this->assertEquals(static::$_csvString, $result);
+	}
+
+	// CSV::toArray
+
+	public function testMethodToArrayCase1() : void
+	{
+		$expected = [
+			[
+				'Name',
+				'Surname',
+				'Job',
+				'Salary'
+			],
+			[
+				'Nat',
+				'Withe',
+				'Web Developer',
+				'10000' // CSV::toArray() will converts number to string.
+			],
+			[
+				'Angela',
+				'SG',
+				'Marketing Director',
+				'10000'
+			]
+		];
+
+		$result = CSV::toArray(static::$_csvString);
+		print_r($result);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 }
