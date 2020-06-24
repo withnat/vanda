@@ -128,4 +128,20 @@ final class XMLTest extends TestCase
 
 		$this->assertEquals(static::$_xmlString, $result);
 	}
+
+	// XML::fromRecordset
+
+	public function testMethodFromRecordsetCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		XML::fromRecordset(['string']);
+	}
+
+	public function testMethodFromRecordsetCase2() : void
+	{
+		$result = XML::fromRecordset(static::$_recordset);
+
+		$this->assertEquals(static::$_xmlString, $result);
+	}
 }
