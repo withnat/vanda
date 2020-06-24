@@ -58,20 +58,17 @@ final class CSV
 	 * @param  string $enclosure
 	 * @return string
 	 */
-	public static function fromDataset(array $dataset, string $delimiter = ',', string $newline = "\n", string $enclosure = '"') : string
+	public static function fromDataset(
+		array $dataset,
+		string $delimiter = ',',
+		string $newline = "\n",
+		string $enclosure = '"'
+	) : string
 	{
 		if (!Arr::isDataset($dataset))
 			throw InvalidArgumentException::type(1, ['dataset'], $dataset);
 
-		$csv = '';
-
-		foreach ($dataset as $row)
-		{
-			foreach ($row as $key => $value)
-				$csv .= $enclosure . static::safe($value, $enclosure) . $enclosure . $delimiter;
-
-			$csv = substr($csv, 0, (0 - mb_strlen($delimiter))) . $newline;
-		}
+		$csv = static::_fromDatasetOrRecordset($dataset, $delimiter, $newline, $enclosure);
 
 		return $csv;
 	}
@@ -83,20 +80,17 @@ final class CSV
 	 * @param  string $enclosure
 	 * @return string
 	 */
-	public static function fromRecordset(array $recordset, string $delimiter = ',', string $newline = "\n", string $enclosure = '"') : string
+	public static function fromRecordset(
+		array $recordset,
+		string $delimiter = ',',
+		string $newline = "\n",
+		string $enclosure = '"'
+	) : string
 	{
 		if (!Arr::isRecordset($recordset))
 			throw InvalidArgumentException::type(1, ['recordset'], $recordset);
 
-		$csv = '';
-
-		foreach ($recordset as $row)
-		{
-			foreach ($row as $key => $value)
-				$csv .= $enclosure . static::safe($value, $enclosure) . $enclosure . $delimiter;
-
-			$csv = substr($csv, 0, (0 - mb_strlen($delimiter))) . $newline;
-		}
+		$csv = static::_fromDatasetOrRecordset($recordset, $delimiter, $newline, $enclosure);
 
 		return $csv;
 	}
@@ -108,7 +102,12 @@ final class CSV
 	 * @param  string $enclosure
 	 * @return array
 	 */
-	public static function toArray(string $csv, string $delimiter = ',', string $newline = "\n", string $enclosure = '"') : array
+	public static function toArray(
+		string $csv,
+		string $delimiter = ',',
+		string $newline = "\n",
+		string $enclosure = '"'
+	) : array
 	{
 		$lines = explode($newline, $csv);
 		$data = [];
@@ -132,7 +131,12 @@ final class CSV
 	 * @param  string $enclosure
 	 * @return array
 	 */
-	public static function toAssociative(string $csv, string $delimiter = ',', string $newline = "\n", string $enclosure = '"') : array
+	public static function toDataset(
+		string $csv,
+		string $delimiter = ',',
+		string $newline = "\n",
+		string $enclosure = '"'
+	) : array
 	{
 		$lines = explode($newline, $csv);
 		$header = null;
@@ -161,9 +165,14 @@ final class CSV
 	 * @param  string $enclosure
 	 * @return object
 	 */
-	public static function toObject(string $csv, string $delimiter = ',', string $newline = "\n", string $enclosure = '"') : object
+	public static function toRecordset(
+		string $csv,
+		string $delimiter = ',',
+		string $newline = "\n",
+		string $enclosure = '"'
+	) : object
 	{
-		$array = static::toAssociative($csv, $delimiter, $newline, $enclosure);
+		$array = static::toDataset($csv, $delimiter, $newline, $enclosure);
 		$object = Arr::toObject($array);
 
 		return $object;
@@ -174,7 +183,10 @@ final class CSV
 	 * @param  string $enclosure
 	 * @return string
 	 */
-	public static function safe($string, string $enclosure) : string
+	public static function safe(
+		$string,
+		string $enclosure
+	) : string
 	{
 		if (is_string($string))
 			$string = str_replace($enclosure, $enclosure . $enclosure, $string);
@@ -188,7 +200,11 @@ final class CSV
 	 * @param  string $enclosure
 	 * @return array
 	 */
-	private static function _parseLine(string $line, string $delimiter, string $enclosure) : array
+	private static function _parseLine(
+		string $line,
+		string $delimiter,
+		string $enclosure
+	) : array
 	{
 		$columns = explode($delimiter, $line);
 
@@ -202,5 +218,33 @@ final class CSV
 		}
 
 		return $columns;
+	}
+
+	private static function _fromDatasetOrRecordset(
+		array $datasetOrRecordset,
+		string $delimiter = ',',
+		string $newline = "\n",
+		string $enclosure = '"'
+	) : string
+	{
+		$header = '';
+		$csv = '';
+
+		foreach ($datasetOrRecordset as $i => $row)
+		{
+			foreach ($row as $key => $value)
+			{
+				if ($i == 0)
+					$header .= $enclosure . static::safe($key, $enclosure) . $enclosure . $delimiter;
+
+				$csv .= $enclosure . static::safe($value, $enclosure) . $enclosure . $delimiter;
+			}
+
+			$csv = substr($csv, 0, (0 - mb_strlen($delimiter))) . $newline;
+		}
+
+		$header = substr($header, 0, (0 - mb_strlen($delimiter))) . $newline;
+
+		return $header . $csv;
 	}
 }
