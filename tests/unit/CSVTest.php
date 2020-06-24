@@ -90,7 +90,7 @@ final class CSVTest extends TestCase
 
 		//
 
-		static::$_csvString = '"Name","Surname","Job","Salary"' . "\n";
+		static::$_csvString = '"name","surname","job","salary"' . "\n";
 		static::$_csvString .= '"Nat","Withe","Web Developer","10000"' . "\n";
 		static::$_csvString .= '"Angela","SG","Marketing Director","10000"' . "\n";
 	}
@@ -140,10 +140,10 @@ final class CSVTest extends TestCase
 	{
 		$expected = [
 			[
-				'Name',
-				'Surname',
-				'Job',
-				'Salary'
+				'name',
+				'surname',
+				'job',
+				'salary'
 			],
 			[
 				'Nat',
@@ -155,14 +155,58 @@ final class CSVTest extends TestCase
 				'Angela',
 				'SG',
 				'Marketing Director',
-				'10000'
+				'10000' // CSV::toArray() will converts number to string.
 			]
 		];
 
 		$result = CSV::toArray(static::$_csvString);
-		print_r($result);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
+
+	// CSV::toDataset
+
+	public function testMethodToAssociativeCase1() : void
+	{
+		// CSV::toArray() will converts number to string.
+		$expected = static::$_dataset;
+		$expected[0]['salary'] = '10000';
+		$expected[1]['salary'] = '10000';
+
+		$result = CSV::toDataset(static::$_csvString);
+
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	// CSV::toRecordset
+
+	public function testMethodToRecordsetCase1() : void
+	{
+		$expected = static::$_recordset;
+		$expected = (array)$expected;
+
+		$expected[0] = (array)$expected[0];
+		$expected[1] = (array)$expected[1];
+
+		// CSV::toArray() will converts number to string.
+		$expected[0]['salary'] = '10000';
+		$expected[1]['salary'] = '10000';
+
+		$result = CSV::toRecordset(static::$_csvString);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result = (array)$result;
+		$result[0] = (array)$result[0];
+		$result[1] = (array)$result[1];
+
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	// CSV::safe (tested via another methods)
 }
