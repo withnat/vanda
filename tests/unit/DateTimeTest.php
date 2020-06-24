@@ -485,4 +485,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('Fri', $result);
 	}
+
+	// DateTime::fullDayName
+
+	public function testMethodFullDayNameCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::fullDayName([]);
+	}
+
+	public function testMethodFullDayNameCase2() : void
+	{
+		$result = DateTime::fullDayName('20110114111537');
+
+		$this->assertEquals('Friday', $result);
+	}
+
+	public function testMethodFullDayNameCase3() : void
+	{
+		$result = DateTime::fullDayName(1294978537);
+
+		$this->assertEquals('Friday', $result);
+	}
 }
