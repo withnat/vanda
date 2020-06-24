@@ -577,4 +577,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('15', $result);
 	}
+
+	// DateTime::second
+
+	public function testMethodSecondCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::second([]);
+	}
+
+	public function testMethodSecondCase2() : void
+	{
+		$result = DateTime::second('20110114111537');
+
+		$this->assertEquals('37', $result);
+	}
+
+	public function testMethodSecondCase3() : void
+	{
+		$result = DateTime::second(1294978537);
+
+		$this->assertEquals('37', $result);
+	}
 }
