@@ -669,4 +669,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('January', $result);
 	}
+
+	// DateTime::apm
+
+	public function testMethodApmNameCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::apm([]);
+	}
+
+	public function testMethodApmNameCase2() : void
+	{
+		$result = DateTime::apm('20110114111537');
+
+		$this->assertEquals('AM', $result);
+	}
+
+	public function testMethodApmNameCase3() : void
+	{
+		$result = DateTime::apm(1294978537);
+
+		$this->assertEquals('AM', $result);
+	}
 }
