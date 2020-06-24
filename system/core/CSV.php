@@ -96,6 +96,31 @@ final class CSV
 	}
 
 	/**
+	 * @param  array  $recordset
+	 * @param  string $delimiter
+	 * @param  string $newline
+	 * @param  string $enclosure
+	 * @return string
+	 */
+	public static function fromRecordset(array $recordset, string $delimiter = ',', string $newline = "\n", string $enclosure = '"') : string
+	{
+		if (!Arr::isRecordset($recordset))
+			throw InvalidArgumentException::type(1, ['recordset'], $recordset);
+
+		$csv = '';
+
+		foreach ($recordset as $row)
+		{
+			foreach ($row as $key => $value)
+				$csv .= $enclosure . static::safe($value, $enclosure) . $enclosure . $delimiter;
+
+			$csv = substr($csv, 0, (0 - mb_strlen($delimiter))) . $newline;
+		}
+
+		return $csv;
+	}
+
+	/**
 	 * @param  string $csv
 	 * @param  string $delimiter
 	 * @param  string $newline
