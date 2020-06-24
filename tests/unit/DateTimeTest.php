@@ -258,21 +258,21 @@ final class DateTimeTest extends TestCase
 
 	// DateTime::shortDate
 
-	public function testMethoShortDateCase1() : void
+	public function testMethodShortDateCase1() : void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
 		DateTime::sortable([]);
 	}
 
-	public function testMethoShortDateCase2() : void
+	public function testMethodShortDateCase2() : void
 	{
 		$result = DateTime::shortDate('20110114111537');
 
 		$this->assertEquals('14/01/2011', $result);
 	}
 
-	public function testMethoShortDateCase3() : void
+	public function testMethodShortDateCase3() : void
 	{
 		$result = DateTime::shortDate(1294978537);
 
@@ -281,21 +281,21 @@ final class DateTimeTest extends TestCase
 
 	// DateTime::longDate
 
-	public function testMethoLongDateCase1() : void
+	public function testMethodLongDateCase1() : void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
 		DateTime::sortable([]);
 	}
 
-	public function testMethoLongDateCase2() : void
+	public function testMethodLongDateCase2() : void
 	{
 		$result = DateTime::longDate('20110114111537');
 
 		$this->assertEquals('14 January 2011', $result);
 	}
 
-	public function testMethoLongDateCase3() : void
+	public function testMethodLongDateCase3() : void
 	{
 		$result = DateTime::longDate(1294978537);
 
