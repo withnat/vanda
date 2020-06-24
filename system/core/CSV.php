@@ -37,6 +37,8 @@ declare(strict_types=1);
 
 namespace System;
 
+use System\Exception\InvalidArgumentException;
+
 /**
  * Class CSV
  * @package System
@@ -50,17 +52,45 @@ final class CSV
 	private function __construct(){}
 
 	/**
-	 * @param  array  $data
+	 * @param  array  $dataset
 	 * @param  string $delimiter
 	 * @param  string $newline
 	 * @param  string $enclosure
 	 * @return string
 	 */
-	public static function fromRecordset(array $data, string $delimiter = ',', string $newline = "\n", string $enclosure = '"') : string
+	public static function fromDataset(array $dataset, string $delimiter = ',', string $newline = "\n", string $enclosure = '"') : string
 	{
+		if (!Arr::isDataset($dataset))
+			throw InvalidArgumentException::type(1, ['dataset'], $dataset);
+
 		$csv = '';
 
-		foreach ($data as $row)
+		foreach ($dataset as $row)
+		{
+			foreach ($row as $key => $value)
+				$csv .= $enclosure . static::safe($value, $enclosure) . $enclosure . $delimiter;
+
+			$csv = substr($csv, 0, (0 - mb_strlen($delimiter))) . $newline;
+		}
+
+		return $csv;
+	}
+
+	/**
+	 * @param  array  $recordset
+	 * @param  string $delimiter
+	 * @param  string $newline
+	 * @param  string $enclosure
+	 * @return string
+	 */
+	public static function fromRecordset(array $recordset, string $delimiter = ',', string $newline = "\n", string $enclosure = '"') : string
+	{
+		if (!Arr::isRecordset($recordset))
+			throw InvalidArgumentException::type(1, ['recordset'], $recordset);
+
+		$csv = '';
+
+		foreach ($recordset as $row)
 		{
 			foreach ($row as $key => $value)
 				$csv .= $enclosure . static::safe($value, $enclosure) . $enclosure . $delimiter;
@@ -140,15 +170,16 @@ final class CSV
 	}
 
 	/**
-	 * @param  string $string
+	 * @param  mixed  $string
 	 * @param  string $enclosure
 	 * @return string
 	 */
-	public static function safe(string $string, string $enclosure) : string
+	public static function safe($string, string $enclosure) : string
 	{
-		$string = str_replace($enclosure, $enclosure . $enclosure, $string);
+		if (is_string($string))
+			$string = str_replace($enclosure, $enclosure . $enclosure, $string);
 
-		return $string;
+		return (string)$string;
 	}
 
 	/**
