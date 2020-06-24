@@ -232,4 +232,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('2011-01-14 11:15:37', $result);
 	}
+
+	// DateTime::mysql
+
+	public function testMethodMysqlCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::sortable([]);
+	}
+
+	public function testMethodMysqlCase2() : void
+	{
+		$result = DateTime::mysql('20110114111537');
+
+		$this->assertEquals('2011-01-14 11:15:37', $result);
+	}
+
+	public function testMethodMysqlCase3() : void
+	{
+		$result = DateTime::mysql(1294978537);
+
+		$this->assertEquals('2011-01-14 11:15:37', $result);
+	}
 }
