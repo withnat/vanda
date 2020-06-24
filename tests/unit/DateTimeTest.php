@@ -646,4 +646,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('Jan', $result);
 	}
+
+	// DateTime::monthName
+
+	public function testMethodMonthNameCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::monthName([]);
+	}
+
+	public function testMethodMonthNameCase2() : void
+	{
+		$result = DateTime::monthName('20110114111537');
+
+		$this->assertEquals('January', $result);
+	}
+
+	public function testMethodMonthNameCase3() : void
+	{
+		$result = DateTime::monthName(1294978537);
+
+		$this->assertEquals('January', $result);
+	}
 }
