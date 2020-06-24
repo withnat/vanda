@@ -462,4 +462,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('14', $result);
 	}
+
+	// DateTime::shortDayName
+
+	public function testMethodShortDayNameCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::shortDayName([]);
+	}
+
+	public function testMethodShortDayNameCase2() : void
+	{
+		$result = DateTime::shortDayName('20110114111537');
+
+		$this->assertEquals('Fri', $result);
+	}
+
+	public function testMethodShortDayNameCase3() : void
+	{
+		$result = DateTime::shortDayName(1294978537);
+
+		$this->assertEquals('Fri', $result);
+	}
 }
