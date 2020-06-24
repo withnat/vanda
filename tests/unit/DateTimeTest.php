@@ -554,4 +554,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('20', $result);
 	}
+
+	// DateTime::minute
+
+	public function testMethodMinuteCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::minute([]);
+	}
+
+	public function testMethodMinuteCase2() : void
+	{
+		$result = DateTime::minute('20110114111537');
+
+		$this->assertEquals('15', $result);
+	}
+
+	public function testMethodMinuteCase3() : void
+	{
+		$result = DateTime::minute(1294978537);
+
+		$this->assertEquals('15', $result);
+	}
 }
