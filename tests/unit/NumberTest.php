@@ -46,4 +46,47 @@ use PHPUnit\Framework\TestCase;
  */
 final class NumberTest extends TestCase
 {
+	// Number::byteFormat
+
+	public function testMethodByteFormatCase1() : void
+	{
+		$result = Number::byteFormat(1000, 2);
+
+		$this->assertEquals('1,000 B', $result);
+	}
+
+	public function testMethodByteFormatCase2() : void
+	{
+		$result = Number::byteFormat(1024, 2);
+
+		$this->assertEquals('1 KB', $result);
+	}
+
+	public function testMethodByteFormatCase3() : void
+	{
+		$result = Number::byteFormat(1000, 2, 'KB');
+
+		$this->assertEquals('0.98 KB', $result);
+	}
+
+	public function testMethodByteFormatCase4() : void
+	{
+		$result = Number::byteFormat(100000, 2, 'MB');
+
+		$this->assertEquals('0.1 MB', $result);
+	}
+
+	public function testMethodByteFormatCase5() : void
+	{
+		$result = Number::byteFormat(1000000000, 2, 'GB');
+
+		$this->assertEquals('0.93 GB', $result);
+	}
+
+	public function testMethodByteFormatCase6() : void
+	{
+		$result = Number::byteFormat(1000000000000, 2, 'TB');
+
+		$this->assertEquals('0.91 TB', $result);
+	}
 }
