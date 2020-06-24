@@ -55,6 +55,8 @@ final class StructTest extends TestCase
 		$this->assertInstanceOf('System\Struct', $coords);
 	}
 
+	// Struct::create
+
 	public function testMethodCreateCase1() : void
 	{
 		$coords = Struct::factory('degree', 'minute', 'pole');
