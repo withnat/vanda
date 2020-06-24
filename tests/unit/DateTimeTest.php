@@ -47,4 +47,124 @@ use PHPUnit\Framework\TestCase;
  */
 final class DateTimeTest extends TestCase
 {
+	// DateTime::isValid
+
+	public function testMethodIsValidCase1() : void
+	{
+		$result = DateTime::isValid('');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsValidCase2() : void
+	{
+		$result = DateTime::isValid('2011-14-01');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsValidCase3() : void
+	{
+		$result = DateTime::isValid('2011-01-14');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase4() : void
+	{
+		$result = DateTime::isValid('2011-01-14 11:15');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase5() : void
+	{
+		$result = DateTime::isValid('2011-01-14 11:15:37');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase6() : void
+	{
+		$result = DateTime::isValid('2011.01.14');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase7() : void
+	{
+		$result = DateTime::isValid('2011.01.14 11:15');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase8() : void
+	{
+		$result = DateTime::isValid('2011.01.14 11:15:37');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase9() : void
+	{
+		$result = DateTime::isValid('14.01.2011');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase10() : void
+	{
+		$result = DateTime::isValid('14.01.2011 11:15');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase11() : void
+	{
+		$result = DateTime::isValid('14.01.2011 11:15:37');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase12() : void
+	{
+		$result = DateTime::isValid('14/01/2011');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase13() : void
+	{
+		$result = DateTime::isValid('14/01/2011 11:15');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase14() : void
+	{
+		$result = DateTime::isValid('14/01/2011 11:15:37');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase15() : void
+	{
+		$result = DateTime::isValid('20110114');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase16() : void
+	{
+		$result = DateTime::isValid('201101141115');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase17() : void
+	{
+		$result = DateTime::isValid('20110114111537');
+
+		$this->assertTrue($result);
+	}
 }
