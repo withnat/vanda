@@ -370,4 +370,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('14 January 2011 11:15', $result);
 	}
+
+	// DateTime::fullLongDateTime
+
+	public function testMethodFullLongDateTimeCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::fullLongDateTime([]);
+	}
+
+	public function testMethodFullLongDateTimeCase2() : void
+	{
+		$result = DateTime::fullLongDateTime('20110114111537');
+
+		$this->assertEquals('14 January 2011 11:15:37', $result);
+	}
+
+	public function testMethodFullLongDateTimeCase3() : void
+	{
+		$result = DateTime::fullLongDateTime(1294978537);
+
+		$this->assertEquals('14 January 2011 11:15:37', $result);
+	}
 }
