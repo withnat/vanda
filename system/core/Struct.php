@@ -46,14 +46,14 @@ class Struct
 	/**
 	 * Using Example
 	 *
-	 * // define a 'coordinates' struct with 3 properties
+	 * // Define a 'coordinates' struct with 3 properties.
 	 * $coords = Struct::factory('degree', 'minute', 'pole');
 
-	 * // create 2 latitude/longitude numbers
+	 * // Create 2 latitude/longitude numbers.
 	 * $lat = $coords->create(35, 40, 'N');
 	 * $lng = $coords->create(139, 45, 'E');
 
-	 * // use the different values by name
+	 * // Use the different values by name.
 	 * echo $lat->degree . '° ' . $lat->minute . "' " . $lat->pole;
 	 * echo $lng->degree . '° ' . $lng->minute . "' " . $lng->pole;
 	 */
@@ -65,7 +65,7 @@ class Struct
 	 */
 	public static function factory() : Struct
 	{
-		$struct = new self;
+		$struct = new static;
 
 		foreach (func_get_args() as $value)
 			$struct->{$value} = null;
