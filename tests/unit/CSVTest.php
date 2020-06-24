@@ -49,6 +49,7 @@ final class CSVTest extends TestCase
 {
 	protected static $_dataset;
 	protected static $_recordset;
+	protected static $_csvString;
 
 	protected function setUp()
 	{
@@ -86,12 +87,18 @@ final class CSVTest extends TestCase
 		$data->salary = 10000;
 
 		static::$_recordset[] = $data;
+
+		//
+
+		static::$_csvString = '"Nat","Withe","Web Developer","10000"' . "\n";
+		static::$_csvString .= '"Angela","SG","Marketing Director","10000"' . "\n";
 	}
 
 	protected function tearDown()
 	{
 		static::$_dataset = null;
 		static::$_recordset = null;
+		static::$_csvString = null;
 	}
 
 	// CSV::fromDataset
@@ -105,12 +112,9 @@ final class CSVTest extends TestCase
 
 	public function testMethodFromDatasetCase2() : void
 	{
-		$expected = '"Nat","Withe","Web Developer","10000"' . "\n";
-		$expected .= '"Angela","SG","Marketing Director","10000"' . "\n";
-
 		$result = CSV::fromDataset(static::$_dataset);
 
-		$this->assertEquals($expected, $result);
+		$this->assertEquals(static::$_csvString, $result);
 	}
 
 	// CSV::fromRecordset
@@ -124,11 +128,8 @@ final class CSVTest extends TestCase
 
 	public function testMethodFromRecordsetCase2() : void
 	{
-		$expected = '"Nat","Withe","Web Developer","10000"' . "\n";
-		$expected .= '"Angela","SG","Marketing Director","10000"' . "\n";
-
 		$result = CSV::fromRecordset(static::$_recordset);
 
-		$this->assertEquals($expected, $result);
+		$this->assertEquals(static::$_csvString, $result);
 	}
 }
