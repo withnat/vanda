@@ -715,4 +715,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('2011', $result);
 	}
+
+	// DateTime::shortYear
+
+	public function testMethodShortYearCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::shortYear([]);
+	}
+
+	public function testMethodShortYearCase2() : void
+	{
+		$result = DateTime::shortYear('20110114111537');
+
+		$this->assertEquals('11', $result);
+	}
+
+	public function testMethodShortYearCase3() : void
+	{
+		$result = DateTime::shortYear(1294978537);
+
+		$this->assertEquals('11', $result);
+	}
 }
