@@ -255,4 +255,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('2011-01-14 11:15:37', $result);
 	}
+
+	// DateTime::shortDate
+
+	public function testMethoShortDateCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::sortable([]);
+	}
+
+	public function testMethoShortDateCase2() : void
+	{
+		$result = DateTime::shortDate('20110114111537');
+
+		$this->assertEquals('14/01/2011', $result);
+	}
+
+	public function testMethoShortDateCase3() : void
+	{
+		$result = DateTime::shortDate(1294978537);
+
+		$this->assertEquals('14/01/2011', $result);
+	}
 }
