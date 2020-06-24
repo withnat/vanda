@@ -47,8 +47,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class InflectorTest extends TestCase
 {
-	protected static $_string = 'Nat is so tall, and handsome as hell.';
-
 	// Inflector::isCountable
 
 	public function testMethodIsCountableCase1() : void
