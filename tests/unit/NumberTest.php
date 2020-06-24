@@ -126,4 +126,6 @@ final class NumberTest extends TestCase
 
 		$this->assertEquals('TB', $result);
 	}
+
+	// Number::getFileSizeByUnit (tested via above test case for Number::byteFormat())
 }
