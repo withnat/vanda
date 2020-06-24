@@ -37,6 +37,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use stdClass;
 use System\CSV;
 use PHPUnit\Framework\TestCase;
 
@@ -46,4 +47,69 @@ use PHPUnit\Framework\TestCase;
  */
 final class CSVTest extends TestCase
 {
+	protected static $_dataset;
+	protected static $_recordset;
+
+	protected function setUp()
+	{
+		static::$_dataset = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe',
+				'job' => 'Web Developer',
+				'salary' => 10000
+			],
+			[
+				'name' => 'Angela',
+				'surname' => 'SG',
+				'job' => 'Marketing Director',
+				'salary' => 10000
+			]
+		];
+
+		//
+
+		static::$_recordset = [];
+
+		$data = new stdClass();
+		$data->name = 'Nat';
+		$data->surname = 'Withe';
+		$data->job = 'Web Developer';
+		$data->salary = 10000;
+
+		static::$_recordset[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Angela';
+		$data->surname = 'SG';
+		$data->job = 'Marketing Director';
+		$data->salary = 10000;
+
+		static::$_recordset[] = $data;
+	}
+
+	protected function tearDown()
+	{
+		static::$_dataset = null;
+		static::$_recordset = null;
+	}
+
+	// CSV::fromDataset
+
+	public function testMethodFromDatasetCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		CSV::fromDataset(['string']);
+	}
+
+	public function testMethodFromDatasetCase2() : void
+	{
+		$expected = '"Nat","Withe","Web Developer","10000"' . "\n";
+		$expected .= '"Angela","SG","Marketing Director","10000"' . "\n";
+
+		$result = CSV::fromDataset(static::$_dataset);
+
+		$this->assertEquals($expected, $result);
+	}
 }
