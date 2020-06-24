@@ -128,4 +128,48 @@ final class NumberTest extends TestCase
 	}
 
 	// Number::getFileSizeByUnit (tested via above test case for Number::byteFormat())
+
+	// Number::inrange
+
+	public function testMethodInRangeCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Number::inrange('value', 1, 100);
+	}
+
+	public function testMethodInRangeCase2() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Number::inrange(50, 'value', 100);
+	}
+
+	public function testMethodInRangeCase3() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Number::inrange(50, 1, 'value');
+	}
+
+	public function testMethodInRangeCase4() : void
+	{
+		$result = Number::inrange(50, 1, 100);
+
+		$this->assertEquals(50, $result);
+	}
+
+	public function testMethodInRangeCase5() : void
+	{
+		$result = Number::inrange(120, 1, 100);
+
+		$this->assertEquals(100, $result);
+	}
+
+	public function testMethodInRangeCase6() : void
+	{
+		$result = Number::inrange(-20, 1, 100);
+
+		$this->assertEquals(1, $result);
+	}
 }
