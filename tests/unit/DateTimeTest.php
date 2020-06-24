@@ -209,4 +209,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('2011-01-14 11:15', $result);
 	}
+
+	// DateTime::sortable
+
+	public function testMethodSortableCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::sortable([]);
+	}
+
+	public function testMethodSortableCase2() : void
+	{
+		$result = DateTime::sortable('20110114111537');
+
+		$this->assertEquals('2011-01-14 11:15:37', $result);
+	}
+
+	public function testMethodSortableCase3() : void
+	{
+		$result = DateTime::sortable(1294978537);
+
+		$this->assertEquals('2011-01-14 11:15:37', $result);
+	}
 }
