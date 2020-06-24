@@ -51,21 +51,21 @@ final class InflectorTest extends TestCase
 
 	// Inflector::isCountable
 
-	public function testMethodisCountableCase1() : void
+	public function testMethodIsCountableCase1() : void
 	{
 		$result = Inflector::isCountable('audio');
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodisCountableCase2() : void
+	public function testMethodIsCountableCase2() : void
 	{
 		$result = Inflector::isCountable('AUDIO');
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodisCountableCase3() : void
+	public function testMethodIsCountableCase3() : void
 	{
 		$result = Inflector::isCountable('Dog');
 
