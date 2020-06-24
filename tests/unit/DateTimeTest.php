@@ -623,4 +623,27 @@ final class DateTimeTest extends TestCase
 
 		$this->assertEquals('01', $result);
 	}
+
+	// DateTime::shortMonthName
+
+	public function testMethodShortMonthNameCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		DateTime::shortMonthName([]);
+	}
+
+	public function testMethodShortMonthNameCase2() : void
+	{
+		$result = DateTime::shortMonthName('20110114111537');
+
+		$this->assertEquals('Jan', $result);
+	}
+
+	public function testMethodShortMonthNameCase3() : void
+	{
+		$result = DateTime::shortMonthName(1294978537);
+
+		$this->assertEquals('Jan', $result);
+	}
 }
