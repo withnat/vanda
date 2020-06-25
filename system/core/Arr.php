@@ -901,8 +901,6 @@ final class Arr
 		if (!static::isRecordset($recordset))
 			throw InvalidArgumentException::type(1, ['recordset'], $recordset);
 
-		$recordset = (array)$recordset;
-
 		if (strtolower($direction) === 'desc')
 			$direction = -1;
 		else
