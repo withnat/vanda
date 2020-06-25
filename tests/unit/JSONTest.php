@@ -80,4 +80,20 @@ final class JSONTest extends TestCase
 		static::$_object = null;
 		static::$_jsonString = null;
 	}
+
+	// JSON::isValid()
+
+	public function testMethodIsValidCase1() : void
+	{
+		$result = JSON::isValid('string');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodFromDatasetCase2() : void
+	{
+		$result = JSON::isValid(static::$_jsonString);
+
+		$this->assertTrue($result);
+	}
 }
