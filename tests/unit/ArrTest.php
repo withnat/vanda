@@ -3310,6 +3310,112 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	// Arr::toDataset
+
+	public function testMethodToDatasetCase1() : void
+	{
+		$expected = [
+			['']
+		];
+
+		$result = Arr::toDataset('');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodToDatasetCase2() : void
+	{
+		$expected = [
+			['value']
+		];
+
+		$result = Arr::toDataset('value');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodToDatasetCase3() : void
+	{
+		$expected = [
+			['value']
+		];
+
+		$result = Arr::toDataset(['value']);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodToDatasetCase4() : void
+	{
+		$expected = [
+			['key' => 'value']
+		];
+
+		$result = Arr::toDataset(['key' => 'value']);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodToDatasetCase5() : void
+	{
+		$data = new stdClass();
+		$data->name = 'Nat';
+		$data->surname = 'Withe';
+
+		$expected = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe'
+			]
+		];
+
+		$result = Arr::toDataset($data);
+		$compare = ($result === $expected);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodToDatasetCase6() : void
+	{
+		$expected = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe',
+				'job' => 'Web Developer',
+				'salary' => 10000
+			],
+			[
+				'name' => 'Rosie',
+				'surname' => 'Marshman',
+				'job' => 'Staff',
+				'salary' => 8000
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'McCormick',
+				'job' => 'Staff',
+				'salary' => 8000
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'Miller',
+				'job' => 'Project Coordinator',
+				'salary' => 10000
+			],
+			[
+				'name' => 'Angela',
+				'surname' => 'SG',
+				'job' => 'Marketing Director',
+				'salary' => 10000
+			]
+		];
+
+		$result = Arr::toDataset(static::$_recordsetArray);
+		$compare = ($result === $expected);
+
+		$this->assertEquals($expected, $result);
+	}
+
 	// Arr::toRecordset
 
 	public function testMethodToRecordsetCase1() : void
