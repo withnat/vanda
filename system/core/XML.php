@@ -37,17 +37,43 @@ declare(strict_types=1);
 
 namespace System;
 
+use Exception;
+use System\Exception\InvalidArgumentException;
+
 /**
  * Class XML
  * @package System
  */
 final class XML
 {
-
 	/**
 	 * XML constructor.
 	 */
 	private function __construct(){}
+
+	/**
+	 * @param  array  $dataset
+	 * @param  string $root
+	 * @param  string $element
+	 * @param  string $newline
+	 * @param  string $tab
+	 * @return string
+	 */
+	public static function fromDataset(
+		array  $dataset,
+		string $root = 'root',
+		string $element = 'element',
+		string $newline = "\n",
+		$tab = "\t"
+	) : string
+	{
+		if (!Arr::isDataset($dataset))
+			throw InvalidArgumentException::type(1, ['dataset'], $dataset);
+
+		$xml = static::_fromDatasetOrRecordset($dataset, $root, $element, $newline, $tab);
+
+		return $xml;
+	}
 
 	/**
 	 * @param  array  $recordset
@@ -57,14 +83,112 @@ final class XML
 	 * @param  string $tab
 	 * @return string
 	 */
-	public static function fromRecordset(array $recordset, string $root = 'root', string $element = 'element', string $newline = "\n", $tab = "\t") : string
+	public static function fromRecordset(
+		array  $recordset,
+		string $root = 'root',
+		string $element = 'element',
+		string $newline = "\n",
+		$tab = "\t"
+	) : string
 	{
-		if (!is_array($recordset))
-			$recordset = [$recordset];
+		if (!Arr::isRecordset($recordset))
+			throw InvalidArgumentException::type(1, ['recordset'], $recordset);
 
+		$xml = static::_fromDatasetOrRecordset($recordset, $root, $element, $newline, $tab);
+
+		return $xml;
+	}
+
+	/**
+	 * @param  string $xml
+	 * @return array
+	 */
+	public static function toArray(
+		string $xml
+	) : array
+	{
+		$object = static::toObject($xml);
+		$array = Arr::fromObject($object);
+
+		return $array;
+	}
+
+	/**
+	 * @param  string       $xml  A well-formed XML string.
+	 * @return object|false       Returns an object of class SimpleXMLElement
+	 *                            with properties containing the data held within
+	 *                            the xml document, or FALSE on failure.
+	 */
+	public static function toObject(
+		string $xml
+	)
+	{
+		$xml = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+		$json = json_encode($xml);
+
+		// preven json_encode converts empty value to array.
+		$json = str_replace('{}', '""', $json);
+
+		$object = json_decode($json);
+
+		return $object;
+	}
+
+	/**
+	 * @param  mixed  $string
+	 * @param  bool   $protectAll
+	 * @return string
+	 */
+	public static function safe(
+		$string,
+		bool   $protectAll = false
+	) : string
+	{
+		if (is_string($string))
+		{
+			$temp = '__TEMP_AMPERSANDS__';
+
+			// Replace entities to temporary markers so that
+			// ampersands won't get messed up
+			$string = preg_replace('/&#(\d+);/', $temp . '\\1;', $string);
+
+			if ($protectAll === true)
+				$string = preg_replace('/&(\w+);/', $temp . '\\1;', $string);
+
+			$search = ['&', '<', '>', '"', "'", '-'];
+			$replace = ['&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'];
+
+			$string = str_replace($search, $replace, $string);
+
+			// Decode the temp markers back to entities
+			$string = preg_replace('/' . $temp . '(\d+);/', '&#\\1;', $string);
+
+			if ($protectAll === true)
+				return preg_replace('/' . $temp . '(\w+);/', '&\\1;', $string);
+		}
+
+		return (string)$string;
+	}
+
+	/**
+	 * @param  array  $datasetOrRecordset
+	 * @param  string $root
+	 * @param  string $element
+	 * @param  string $newline
+	 * @param  string $tab
+	 * @return string
+	 */
+	private static function _fromDatasetOrRecordset(
+		array  $datasetOrRecordset,
+		string $root = 'root',
+		string $element = 'element',
+		string $newline = "\n",
+		string $tab = "\t"
+	) : string
+	{
 		$xml = '<' . $root . '>' . $newline;
 
-		foreach ($recordset as $row)
+		foreach ($datasetOrRecordset as $row)
 		{
 			$xml .= $tab . '<' . $element . '>' . $newline;
 
@@ -82,64 +206,5 @@ final class XML
 		$xml .= '</' . $root . '>' . $newline;
 
 		return $xml;
-	}
-
-	/**
-	 * @param  string $xml
-	 * @return array
-	 */
-	public static function toArray(string $xml) : array
-	{
-		$object = static::toObject($xml);
-		$array = Arr::fromObject($object);
-
-		return $array;
-	}
-
-	/**
-	 * @param  string $xml
-	 * @return object
-	 */
-	public static function toObject(string $xml) : object
-	{
-		$xml = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
-		$json = json_encode($xml);
-
-		// preven json_encode converts empty value to array.
-		$json = str_replace('{}', '""', $json);
-
-		$object = json_decode($json);
-
-		return $object;
-	}
-
-	/**
-	 * @param  string $string
-	 * @param  bool   $protectAll
-	 * @return string
-	 */
-	public static function safe(string $string, bool $protectAll = false) : string
-	{
-		$temp = '__TEMP_AMPERSANDS__';
-
-		// Replace entities to temporary markers so that
-		// ampersands won't get messed up
-		$string = preg_replace('/&#(\d+);/', $temp . '\\1;', $string);
-
-		if ($protectAll === true)
-			$string = preg_replace('/&(\w+);/', $temp . '\\1;', $string);
-
-		$search = ['&', '<', '>', '"', "'", '-'];
-		$replace = ['&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'];
-
-		$string = str_replace($search, $replace, $string);
-
-		// Decode the temp markers back to entities
-		$string = preg_replace('/' . $temp . '(\d+);/', '&#\\1;', $string);
-
-		if ($protectAll === true)
-			return preg_replace('/' . $temp . '(\w+);/', '&\\1;', $string);
-
-		return $string;
 	}
 }
