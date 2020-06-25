@@ -144,4 +144,31 @@ final class XMLTest extends TestCase
 
 		$this->assertEquals(static::$_xmlString, $result);
 	}
+
+	// XML::toArray
+
+	public function testMethodToArrayCase1() : void
+	{
+		$expected = [
+			'element' => [
+				[
+					'name' => 'Nat',
+					'surname' => 'Withe',
+					'job' => 'Web Developer',
+					'salary' => '10000' // XML::toArray() will converts number to string.
+				],
+				[
+					'name' => 'Angela',
+					'surname' => 'SG',
+					'job' => 'Marketing Director',
+					'salary' => '10000' // XML::toArray() will converts number to string.
+				]
+			]
+		];
+
+		$result = XML::toArray(static::$_xmlString);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
 }
