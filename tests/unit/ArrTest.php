@@ -1331,9 +1331,6 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// todo
-	// Arr::index()
-
 	// Arr::has()
 
 	public function testMethodHasCase1() : void
