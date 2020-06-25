@@ -211,4 +211,15 @@ final class XMLTest extends TestCase
 
 		$this->assertTrue($compare);
 	}
+
+	// XML::safe
+
+	public function testMethodSafeCase1() : void
+	{
+		$expected = 'string&amp;&lt;&gt;&quot;&apos;&#45;';
+
+		$result = XML::safe('string&<>"\'-', true);
+
+		$this->assertEquals($expected, $result);
+	}
 }
