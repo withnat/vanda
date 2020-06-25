@@ -46,7 +46,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class StructTest extends TestCase
 {
-	// Struct::factory
+	// Struct::factory()
 
 	public function testMethodFactoryCase1() : void
 	{
@@ -55,7 +55,7 @@ final class StructTest extends TestCase
 		$this->assertInstanceOf('System\Struct', $coords);
 	}
 
-	// Struct::create
+	// Struct::create()
 
 	public function testMethodCreateCase1() : void
 	{
