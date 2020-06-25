@@ -59,7 +59,7 @@ final class DateTimeTest extends TestCase
 {
 	public static $now;
 
-	// DateTime::isValid
+	// DateTime::isValid()
 
 	public function testMethodIsValidCase1() : void
 	{
@@ -187,7 +187,7 @@ final class DateTimeTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// DateTime::_
+	// DateTime::_()
 
 	public function testMethodDefaultCase1() : void
 	{
@@ -210,7 +210,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('2011-01-14 11:15', $result);
 	}
 
-	// DateTime::sortable
+	// DateTime::sortable()
 
 	public function testMethodSortableCase1() : void
 	{
@@ -233,7 +233,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('2011-01-14 11:15:37', $result);
 	}
 
-	// DateTime::mysql
+	// DateTime::mysql()
 
 	public function testMethodMysqlCase1() : void
 	{
@@ -256,7 +256,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('2011-01-14 11:15:37', $result);
 	}
 
-	// DateTime::shortDate
+	// DateTime::shortDate()
 
 	public function testMethodShortDateCase1() : void
 	{
@@ -279,7 +279,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('14/01/2011', $result);
 	}
 
-	// DateTime::longDate
+	// DateTime::longDate()
 
 	public function testMethodLongDateCase1() : void
 	{
@@ -302,7 +302,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('14 January 2011', $result);
 	}
 
-	// DateTime::shortTime
+	// DateTime::shortTime()
 
 	public function testMethodShortTimeCase1() : void
 	{
@@ -325,7 +325,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('11:15', $result);
 	}
 
-	// DateTime::longTime
+	// DateTime::longTime()
 
 	public function testMethodLongTimeCase1() : void
 	{
@@ -348,7 +348,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('11:15:37', $result);
 	}
 
-	// DateTime::fullDateTime
+	// DateTime::fullDateTime()
 
 	public function testMethodFullDateTimeCase1() : void
 	{
@@ -371,7 +371,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('14 January 2011 11:15', $result);
 	}
 
-	// DateTime::fullLongDateTime
+	// DateTime::fullLongDateTime()
 
 	public function testMethodFullLongDateTimeCase1() : void
 	{
@@ -394,7 +394,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('14 January 2011 11:15:37', $result);
 	}
 
-	// DateTime::dayMonth
+	// DateTime::dayMonth()
 
 	public function testMethodDayMonthCase1() : void
 	{
@@ -417,7 +417,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('14 January', $result);
 	}
 
-	// DateTime::monthYear
+	// DateTime::monthYear()
 
 	public function testMethodMonthYearCase1() : void
 	{
@@ -440,7 +440,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('January 2011', $result);
 	}
 
-	// DateTime::day
+	// DateTime::day()
 
 	public function testMethodDayCase1() : void
 	{
@@ -463,7 +463,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('14', $result);
 	}
 
-	// DateTime::shortDayName
+	// DateTime::shortDayName()
 
 	public function testMethodShortDayNameCase1() : void
 	{
@@ -486,7 +486,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('Fri', $result);
 	}
 
-	// DateTime::fullDayName
+	// DateTime::fullDayName()
 
 	public function testMethodFullDayNameCase1() : void
 	{
@@ -509,7 +509,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('Friday', $result);
 	}
 
-	// DateTime::hour
+	// DateTime::hour()
 
 	public function testMethodHourCase1() : void
 	{
@@ -532,7 +532,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('11', $result);
 	}
 
-	// DateTime::hour24
+	// DateTime::hour24()
 
 	public function testMethodHour24Case1() : void
 	{
@@ -555,7 +555,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('20', $result);
 	}
 
-	// DateTime::minute
+	// DateTime::minute()
 
 	public function testMethodMinuteCase1() : void
 	{
@@ -578,7 +578,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('15', $result);
 	}
 
-	// DateTime::second
+	// DateTime::second()
 
 	public function testMethodSecondCase1() : void
 	{
@@ -601,7 +601,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('37', $result);
 	}
 
-	// DateTime::month
+	// DateTime::month()
 
 	public function testMethodMonthCase1() : void
 	{
@@ -624,7 +624,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('01', $result);
 	}
 
-	// DateTime::shortMonthName
+	// DateTime::shortMonthName()
 
 	public function testMethodShortMonthNameCase1() : void
 	{
@@ -647,7 +647,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('Jan', $result);
 	}
 
-	// DateTime::monthName
+	// DateTime::monthName()
 
 	public function testMethodMonthNameCase1() : void
 	{
@@ -670,7 +670,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('January', $result);
 	}
 
-	// DateTime::apm
+	// DateTime::apm()
 
 	public function testMethodApmNameCase1() : void
 	{
@@ -693,7 +693,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('AM', $result);
 	}
 
-	// DateTime::year
+	// DateTime::year()
 
 	public function testMethodYearCase1() : void
 	{
@@ -716,7 +716,7 @@ final class DateTimeTest extends TestCase
 		$this->assertEquals('2011', $result);
 	}
 
-	// DateTime::shortYear
+	// DateTime::shortYear()
 
 	public function testMethodShortYearCase1() : void
 	{
