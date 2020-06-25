@@ -171,4 +171,44 @@ final class XMLTest extends TestCase
 
 		$this->assertTrue($compare);
 	}
+
+	// XML::toObject
+
+	public function testMethodToObjectCase1() : void
+	{
+		$result = XML::toObject('');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodToObjectCase2() : void
+	{
+		$expected = [
+			'element' => [
+				[
+					'name' => 'Nat',
+					'surname' => 'Withe',
+					'job' => 'Web Developer',
+					'salary' => '10000' // string.
+				],
+				[
+					'name' => 'Angela',
+					'surname' => 'SG',
+					'job' => 'Marketing Director',
+					'salary' => '10000' // string.
+				]
+			]
+		];
+
+		$result = XML::toObject(static::$_xmlString);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result = (array)$result;
+		$result['element'][0] = (array)$result['element'][0];
+		$result['element'][1] = (array)$result['element'][1];
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
 }
