@@ -96,4 +96,86 @@ final class JSONTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// JSON::encode()
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodEncodeCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		JSON::encode(tmpfile());
+	}
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodEncodeCase2() : void
+	{
+		$result = JSON::encode(static::$_array);
+
+		$this->assertEquals(static::$_jsonString, $result);
+	}
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodEncodeCase3() : void
+	{
+		$result = JSON::encode(static::$_object);
+
+		$this->assertEquals(static::$_jsonString, $result);
+	}
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodEncodeCase4() : void
+	{
+		$result = JSON::encode([]);
+
+		$this->assertEquals([], $result);
+	}
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodEncodeCase5() : void
+	{
+		$result = JSON::encode('Nat');
+
+		$this->assertEquals('"Nat"', $result);
+	}
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodEncodeCase6() : void
+	{
+		$result = JSON::encode(13);
+
+		$this->assertEquals('13', $result);
+	}
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodEncodeCase7() : void
+	{
+		$result = JSON::encode(true);
+
+		$this->assertEquals('true', $result);
+	}
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodEncodeCase8() : void
+	{
+		$result = JSON::encode(null);
+
+		$this->assertEquals('null', $result);
+	}
 }
