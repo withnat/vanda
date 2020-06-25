@@ -136,7 +136,7 @@ final class JSONTest extends TestCase
 	{
 		$result = JSON::encode([]);
 
-		$this->assertEquals([], $result);
+		$this->assertEquals('[]', $result);
 	}
 
 	/**
