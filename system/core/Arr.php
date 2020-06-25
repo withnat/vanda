@@ -1106,7 +1106,7 @@ final class Arr
 			{
 				if ($recursive)
 				{
-					// Data under this level maybe is object.
+					// Data under this level maybe is an object.
 					// ie. object > array (this level) > object > ...
 					// So convert array to object to ensure it will
 					// go to next level recursively.
@@ -1208,15 +1208,28 @@ final class Arr
 			// only an associative, use (string) to ensure $key is string.
 			if (!$givenKeys or static::has($givenKeys, (string)$key))
 			{
-				if (is_array($value))
+				if ($recursive)
 				{
-					if ($recursive)
+					// Data under this level maybe is an array.
+					// ie. array > object (this level) > array > ...
+					// So convert object to array to ensure it will
+					// go to next level recursively.
+					if (is_object($value))
+						$value = (array)$value;
+
+					// Go to next level (recursive).
+					if (is_array($value))
 						$obj->{$key} = static::toObject($value, $class, $recursive);
 					else
-						$obj->{$key} = new $class;
+						$obj->{$key} = $value;
 				}
 				else
-					$obj->{$key} = $value;
+				{
+					if (is_array($value) or is_object($value))
+						$obj->{$key} = new $class;
+					else
+						$obj->{$key} = $value;
+				}
 			}
 		}
 
