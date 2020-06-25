@@ -197,6 +197,15 @@ final class ArrTest extends TestCase
 
 		$data->address = $address;
 
+		// object > array > object, recursive test case
+		$objectUnderArray = new stdClass();
+		$objectUnderArray->foo = 'Foo';
+		$objectUnderArray->bar = 'Bar';
+
+		$data->arrayForObject = [
+			'objectUnderArray' => $objectUnderArray
+		];
+
 		static::$_object = $data;
 
 		//
@@ -2630,6 +2639,12 @@ final class ArrTest extends TestCase
 				'province' => 'Chonburi',
 				'country' => 'Thailand',
 				'postcode' => '20270'
+			],
+			'arrayForObject' => [
+				'objectUnderArray' => [
+					'foo' => 'Foo',
+					'bar' => 'Bar'
+				]
 			]
 		];
 
@@ -2646,7 +2661,8 @@ final class ArrTest extends TestCase
 			'surname' => 'Withe',
 			'job' => 'Web Developer',
 			'salary' => 10000,
-			'address' => []
+			'address' => [],
+			'arrayForObject' => []
 		];
 
 		$result = Arr::fromObject(static::$_object, false);
@@ -2884,6 +2900,12 @@ final class ArrTest extends TestCase
 				'province' => 'Chonburi',
 				'country' => 'Thailand',
 				'postcode' => '20270'
+			],
+			'arrayForObject' => [
+				'objectUnderArray' => [
+					'foo' => 'Foo',
+					'bar' => 'Bar'
+				]
 			]
 		];
 
@@ -2900,7 +2922,8 @@ final class ArrTest extends TestCase
 			'surname' => 'Withe',
 			'job' => 'Web Developer',
 			'salary' => 10000,
-			'address' => []
+			'address' => [],
+			'arrayForObject' => []
 		];
 
 		$result = Arr::toArray(static::$_object, false);
@@ -3623,6 +3646,12 @@ final class ArrTest extends TestCase
 				'Chonburi',
 				'Thailand',
 				'20270'
+			],
+			[
+				[
+					'Foo',
+					'Bar'
+				]
 			]
 		];
 
