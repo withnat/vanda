@@ -202,7 +202,7 @@ final class ArrTest extends TestCase
 		$objectUnderArray->foo = 'Foo';
 		$objectUnderArray->bar = 'Bar';
 
-		$data->arrayForObject = [
+		$data->arrayUnderObject = [
 			'objectUnderArray' => $objectUnderArray
 		];
 
@@ -2640,7 +2640,7 @@ final class ArrTest extends TestCase
 				'country' => 'Thailand',
 				'postcode' => '20270'
 			],
-			'arrayForObject' => [
+			'arrayUnderObject' => [
 				'objectUnderArray' => [
 					'foo' => 'Foo',
 					'bar' => 'Bar'
@@ -2662,7 +2662,7 @@ final class ArrTest extends TestCase
 			'job' => 'Web Developer',
 			'salary' => 10000,
 			'address' => [],
-			'arrayForObject' => []
+			'arrayUnderObject' => []
 		];
 
 		$result = Arr::fromObject(static::$_object, false);
@@ -2901,7 +2901,7 @@ final class ArrTest extends TestCase
 				'country' => 'Thailand',
 				'postcode' => '20270'
 			],
-			'arrayForObject' => [
+			'arrayUnderObject' => [
 				'objectUnderArray' => [
 					'foo' => 'Foo',
 					'bar' => 'Bar'
@@ -2923,7 +2923,7 @@ final class ArrTest extends TestCase
 			'job' => 'Web Developer',
 			'salary' => 10000,
 			'address' => [],
-			'arrayForObject' => []
+			'arrayUnderObject' => []
 		];
 
 		$result = Arr::toArray(static::$_object, false);
@@ -3217,6 +3217,24 @@ final class ArrTest extends TestCase
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
+	}
+
+	// Test recursive for object under array
+	public function testMethodToObjectCase13() : void
+	{
+		$object = new stdClass();
+		$object->arrayUnderObject = [
+			'foo' => 'Foo',
+			'bar' => 'Bar'
+		];
+
+		static::$_assocArrayMulti['objectUnderArray'] = $object;
+
+		$result = Arr::toObject(static::$_assocArrayMulti);
+
+		$this->assertIsObject($result);
+		$this->assertIsObject($result->job);
+		$this->assertIsObject($result->objectUnderArray);
 	}
 
 	// Arr::toString
