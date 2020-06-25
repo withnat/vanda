@@ -1550,6 +1550,9 @@ final class Arr
 	 */
 	public static function removeColumn(array $array, string $keys) : array
 	{
+		if (!static::isDataset($array) and !static::isRecordset($array))
+			throw InvalidArgumentException::type(1, ['dataset', 'recordset'], $array);
+
 		$keys = Str::explode($keys, ',');
 
 		for ($i = 0, $n = count($array); $i < $n; ++$i)
