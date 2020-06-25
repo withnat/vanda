@@ -1121,7 +1121,7 @@ final class Arr
 				}
 				else
 				{
-					if (is_object($value))
+					if (is_object($value) or is_array($value))
 						$result[$key] = [];
 					else
 						$result[$key] = $value;
