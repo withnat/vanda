@@ -113,7 +113,7 @@ final class XMLTest extends TestCase
 		static::$_xmlString = null;
 	}
 
-	// XML::fromDataset
+	// XML::fromDataset()
 
 	public function testMethodFromDatasetCase1() : void
 	{
@@ -129,7 +129,7 @@ final class XMLTest extends TestCase
 		$this->assertEquals(static::$_xmlString, $result);
 	}
 
-	// XML::fromRecordset
+	// XML::fromRecordset()
 
 	public function testMethodFromRecordsetCase1() : void
 	{
@@ -145,7 +145,7 @@ final class XMLTest extends TestCase
 		$this->assertEquals(static::$_xmlString, $result);
 	}
 
-	// XML::toArray
+	// XML::toArray()
 
 	public function testMethodToArrayCase1() : void
 	{
@@ -172,7 +172,7 @@ final class XMLTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// XML::toObject
+	// XML::toObject()
 
 	public function testMethodToObjectCase1() : void
 	{
@@ -212,7 +212,7 @@ final class XMLTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// XML::safe
+	// XML::safe()
 
 	public function testMethodSafeCase1() : void
 	{
