@@ -59,7 +59,7 @@ final class CSV
 	 * @return string
 	 */
 	public static function fromDataset(
-		array $dataset,
+		array  $dataset,
 		string $delimiter = ',',
 		string $newline = "\n",
 		string $enclosure = '"'
@@ -81,7 +81,7 @@ final class CSV
 	 * @return string
 	 */
 	public static function fromRecordset(
-		array $recordset,
+		array  $recordset,
 		string $delimiter = ',',
 		string $newline = "\n",
 		string $enclosure = '"'
@@ -221,7 +221,7 @@ final class CSV
 	}
 
 	private static function _fromDatasetOrRecordset(
-		array $datasetOrRecordset,
+		array  $datasetOrRecordset,
 		string $delimiter = ',',
 		string $newline = "\n",
 		string $enclosure = '"'
