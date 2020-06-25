@@ -46,7 +46,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class HashTest extends TestCase
 {
-	// Hash::make & varify
+	// Hash::make() & Hash::varify()
 
 	public function testMethodMakeCase1() : void
 	{
