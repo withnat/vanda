@@ -45,7 +45,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @return int
  */
-function time()
+function time() : int
 {
 	return DateTimeTest::$now ?: \time();
 }
