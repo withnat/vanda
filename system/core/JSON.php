@@ -74,17 +74,18 @@ final class JSON
 	/**
 	 * Encodes an object or assoc array to JSON.
 	 *
-	 * @param  array|object $data  Data to encode.
+	 * @param  mixed  $data  Data to encode.
 	 * @return string
 	 * @throws ErrorException
 	 */
-	public static function encode($data) : string // todo encode string ไม่ได้เหรอ ทำไมต้องเป็น array กับ object
+	public static function encode($data) : string
 	{
-		if (!is_array($data) and !is_object($data))
-			throw InvalidArgumentException::type(1, ['array','object'], $data);
+		if (is_resource($data))
+			throw InvalidArgumentException::value(1, '$data cannot be a resource', $data);
 
 		// A resource cannot be encoded.
-		$data = Arr::removeType($data, 'resource');
+		if (is_array($data))
+			$data = Arr::removeType($data, 'resource');
 
 		$result = json_encode($data);
 		$error = static::_getError();
@@ -116,26 +117,37 @@ final class JSON
 	}
 
 	/**
-	 * @param  array  $recordset
+	 * @param  array  $data  A multi-dimensional array contains array (dataset) or object (recordset).
 	 * @return string
 	 */
-	public static function dataTables(array $recordset) : string
+	public static function dataTable(array $data) : string
 	{
-		$recordsTotal = count($recordset);
-		$recordsFiltered = count($recordset);
-		$json = json_encode($recordset);
+		if (!Arr::isDataset($data) and !Arr::isRecordset($data))
+			throw InvalidArgumentException::type(1, ['dataset', 'recordset'], $data);
+
+		$recordsTotal = count($data);
+		$recordsFiltered = count($data);
+		$json = json_encode($data);
 
 		// preven json_encode converts empty value to array.
 		$json = str_replace('{}', '""', $json);
 
-		$json = '
-		{
-			"recordsTotal": ' . $recordsTotal . ',
-			"recordsFiltered": ' . $recordsFiltered . ',
-			"data": ' . $json . '
-		}';
+		// Below $dataTable is something like this:
+		// {
+		//   "recordsTotal": 2,
+		//   "recordsFiltered": 2,
+		//   "data": [
+		//     {"name":"Nat","surname":"Withe","work":"Web Developer","salary":10000},
+		//     {"name":"Angela","surname":"SG","work":"Marketing Director","salary":10000}
+		//   ]
+		// }
+		$dataTable = '{' . "\n";
+		$dataTable .= "\t" . '"recordsTotal": ' . $recordsTotal . ',' . "\n";
+		$dataTable .= "\t" . '"recordsFiltered": ' . $recordsFiltered . ',' . "\n";
+		$dataTable .= "\t" . '"data": ' . $json . "\n";
+		$dataTable .= '}';
 
-		return $json;
+		return $dataTable;
 	}
 
 	/**
