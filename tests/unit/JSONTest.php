@@ -90,7 +90,7 @@ final class JSONTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	public function testMethodFromDatasetCase2() : void
+	public function testMethodIsValidCase2() : void
 	{
 		$result = JSON::isValid(static::$_jsonString);
 
@@ -178,4 +178,6 @@ final class JSONTest extends TestCase
 
 		$this->assertEquals('null', $result);
 	}
+
+	// JSON::decode()
 }
