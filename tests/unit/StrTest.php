@@ -50,7 +50,7 @@ final class StrTest extends TestCase
 	protected static $_string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	protected static $_text = 'Nat is so tall, and handsome as hell. Nat is so bad but he does it so well.';
 
-	// Str::length
+	// Str::length()
 
 	public function testMethodLengthCase1() : void
 	{
@@ -66,7 +66,7 @@ final class StrTest extends TestCase
 		$this->assertEquals(30, $result);
 	}
 
-	// Str::count
+	// Str::count()
 
 	public function testMethodCountCase1() : void
 	{
@@ -82,7 +82,7 @@ final class StrTest extends TestCase
 		$this->assertEquals(4, $result);
 	}
 
-	// Str::countWords
+	// Str::countWords()
 
 	public function testMethodCountwordsCase1() : void
 	{
@@ -91,7 +91,7 @@ final class StrTest extends TestCase
 		$this->assertEquals(18, $result);
 	}
 
-	// Str::left
+	// Str::left()
 
 	public function testMethodLeftCase1() : void
 	{
@@ -135,7 +135,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('', $result);
 	}
 
-	// Str::right
+	// Str::right()
 
 	public function testMethodRightCase1() : void
 	{
@@ -179,7 +179,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('', $result);
 	}
 
-	// Str::at
+	// Str::at()
 
 	public function testMethodAtCase1() : void
 	{
@@ -216,7 +216,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('', $result);
 	}
 
-	// Str::slice
+	// Str::slice()
 
 	// Test Case
 	// $start	$length
@@ -283,7 +283,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('fa:Bm', $result);
 	}
 
-	// Str::limit
+	// Str::limit()
 	// Test for English only as this method does not work with Thai correctly.
 
 	public function testMethodLimitCase1() : void
@@ -321,7 +321,7 @@ final class StrTest extends TestCase
 		$this->assertEquals(static::$_text, $result);
 	}
 
-	// Str::limitWords
+	// Str::limitWords()
 
 	public function testMethodLimitwordsCase1() : void
 	{
@@ -358,7 +358,7 @@ final class StrTest extends TestCase
 		$this->assertEquals(static::$_text, $result);
 	}
 
-	// Str::position
+	// Str::position()
 
 	public function testMethodPositionCase1() : void
 	{
@@ -395,7 +395,7 @@ final class StrTest extends TestCase
 		$this->assertEquals(24, $result);
 	}
 
-	// Str::lastPosition
+	// Str::lastPosition()
 
 	public function testMethodLastpositionCase1() : void
 	{
@@ -425,7 +425,7 @@ final class StrTest extends TestCase
 		$this->assertEquals(14, $result);
 	}
 
-	// Str::between
+	// Str::between()
 
 	public function testMethodBetweenCase1() : void
 	{
@@ -462,7 +462,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('', $result);
 	}
 
-	// Str::trim
+	// Str::trim()
 
 	public function testMethodTrimCase1() : void
 	{
@@ -498,7 +498,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('xa,ay', $result);
 	}
 
-	// Str::trimLeft
+	// Str::trimLeft()
 
 	public function testMethodTrimLeftCase1() : void
 	{
@@ -534,7 +534,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('xa,ayb', $result);
 	}
 
-	// Str::trimRight
+	// Str::trimRight()
 
 	public function testMethodTrimRightCase1() : void
 	{
@@ -579,7 +579,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('bxa,ay', $result);
 	}
 
-	// Str::addSlashes
+	// Str::addSlashes()
 
 	public function testMethodAddSlashesCase1() : void
 	{
@@ -608,7 +608,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('\\\\', $result);
 	}
 
-	// Str::stripSlashes
+	// Str::stripSlashes()
 
 	public function testMethodStripSlashesCase1() : void
 	{
@@ -637,7 +637,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('\\', $result);
 	}
 
-	// Str::htmlEncode
+	// Str::htmlEncode()
 
 	public function testMethodHtmlEncodeCase1() : void
 	{
@@ -648,7 +648,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('&lt;strong&gt;Nat&lt;/strong&gt;', $result);
 	}
 
-	// Str::htmlDecode
+	// Str::htmlDecode()
 
 	public function testMethodHtmlDecodeCase1() : void
 	{
@@ -659,7 +659,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('<strong>Nat</strong>', $result);
 	}
 
-	// Str::removeWhitespace
+	// Str::removeWhitespace()
 
 	public function testMethodRemoveWhitespaceCase1() : void
 	{
@@ -670,7 +670,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('abcdef', $result);
 	}
 
-	// Str::removeTags
+	// Str::removeTags()
 
 	public function testMethodRemoveTagsCase1() : void
 	{
@@ -681,7 +681,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('Nat', $result);
 	}
 
-	// Str::removeQuotes
+	// Str::removeQuotes()
 
 	public function testMethodRemoveQuotesCase1() : void
 	{
@@ -701,7 +701,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('Nat', $result);
 	}
 
-	// Str::removeInvisibleCharacters
+	// Str::removeInvisibleCharacters()
 
 	public function testMethodRemoveInvisibleCharactersCase1() : void
 	{
@@ -712,7 +712,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('http://www.some-site.com//index.php', $result);
 	}
 
-	// Str::removeLeft
+	// Str::removeLeft()
 
 	public function testMethodRemoveLeftCase1() : void
 	{
@@ -728,7 +728,7 @@ final class StrTest extends TestCase
 		$this->assertEquals(':eFMNRZa:/fabcdefa:Bmnrz', $result);
 	}
 
-	// Str::removeRight
+	// Str::removeRight()
 
 	public function testMethodRemoveRightCase1() : void
 	{
@@ -744,7 +744,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabc', $result);
 	}
 
-	// Str::reduceDoubleSpaces
+	// Str::reduceDoubleSpaces()
 
 	public function testMethodReduceDoubleSpacesCase1() : void
 	{
@@ -755,7 +755,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('A B C', $result);
 	}
 
-	// Str::reduceDoubleSlashes
+	// Str::reduceDoubleSlashes()
 
 	public function testMethodReduceDoubleSlashesCase1() : void
 	{
@@ -766,7 +766,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('http://www.some-site.com/index.php', $result);
 	}
 
-	// Str::lowerCase
+	// Str::lowerCase()
 
 	public function testMethodLowerCaseCase1() : void
 	{
@@ -777,7 +777,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('i love you', $result);
 	}
 
-	// Str::lowerCaseFirst
+	// Str::lowerCaseFirst()
 
 	public function testMethodLowerCaseFirstCase1() : void
 	{
@@ -788,7 +788,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('i LOVE YOU', $result);
 	}
 
-	// Str::lowerCaseWords
+	// Str::lowerCaseWords()
 
 	public function testMethodLowerCaseWordsCase1() : void
 	{
@@ -800,7 +800,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('i lOVE yOU', $result);
 	}
 
-	// Str::upperCase
+	// Str::upperCase()
 
 	public function testMethodUpperCaseCase1() : void
 	{
@@ -811,7 +811,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('I LOVE YOU', $result);
 	}
 
-	// Str::upperCaseFirst
+	// Str::upperCaseFirst()
 
 	public function testMethodUpperCaseFirstCase1() : void
 	{
@@ -822,7 +822,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('I love you', $result);
 	}
 
-	// Str::upperCaseWords
+	// Str::upperCaseWords()
 
 	public function testMethodUpperCaseWordsCase1() : void
 	{
@@ -833,7 +833,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('I Love You', $result);
 	}
 
-	// Str::repeat
+	// Str::repeat()
 
 	public function testMethodRepeatCase1() : void
 	{
@@ -844,7 +844,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('AAA', $result);
 	}
 
-	// Str::replace
+	// Str::replace()
 
 	public function testMethodReplaceCase1() : void
 	{
@@ -895,7 +895,7 @@ final class StrTest extends TestCase
 		$this->assertEquals(static::$_string, $result);
 	}
 
-	// Str::replaceFirst
+	// Str::replaceFirst()
 
 	public function testMethodReplaceFirstCase1() : void
 	{
@@ -911,7 +911,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('ABCDEF|eFMNRZa:/fabcdefa:Bmnrz', $result);
 	}
 
-	// Str::replaceLast
+	// Str::replaceLast()
 
 	public function testMethodReplaceLastCase1() : void
 	{
@@ -927,7 +927,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdefa|Bmnrz', $result);
 	}
 
-	// Str::ireplace
+	// Str::ireplace()
 
 	public function testMethodIReplaceCase1() : void
 	{
@@ -971,7 +971,7 @@ final class StrTest extends TestCase
 		$this->assertEquals(static::$_string, $result);
 	}
 
-	// Str::ireplaceFirst
+	// Str::ireplaceFirst()
 
 	public function testMethodIReplaceFirstCase1() : void
 	{
@@ -987,7 +987,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('|BCDEF:eFMNRZa:/fabcdefa:Bmnrz', $result);
 	}
 
-	// Str::ireplaceLast
+	// Str::ireplaceLast()
 
 	public function testMethodIReplaceLastCase1() : void
 	{
@@ -1003,7 +1003,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdef|:Bmnrz', $result);
 	}
 
-	// Str::subreplace
+	// Str::subreplace()
 
 	public function testMethodSupreplaceCase1() : void
 	{
@@ -1054,7 +1054,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdefa:Bmnrz_____', $result);
 	}
 
-	// Str::insert
+	// Str::insert()
 
 	public function testMethodInsertCase1() : void
 	{
@@ -1083,7 +1083,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('My name is Nat and 38 years old.', $result);
 	}
 
-	// Str::reverse
+	// Str::reverse()
 
 	public function testMethodReverseCase1() : void
 	{
@@ -1092,7 +1092,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('zrnmB:afedcbaf/:aZRNMFe:FEDCBA', $result);
 	}
 
-	// Str::startsWith
+	// Str::startsWith()
 
 	public function testMethodStartsWithCase1() : void
 	{
@@ -1115,7 +1115,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::startsWithAny
+	// Str::startsWithAny()
 
 	public function testMethodStartsWithAnyCase1() : void
 	{
@@ -1138,7 +1138,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::endsWith
+	// Str::endsWith()
 
 	public function testMethodEndsWithCase1() : void
 	{
@@ -1161,7 +1161,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::endsWithAny
+	// Str::endsWithAny()
 
 	public function testMethodEndsWithAnyCase1() : void
 	{
@@ -1184,7 +1184,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::ensureStartsWith
+	// Str::ensureStartsWith()
 
 	public function testMethodEnsureStartsWithCase1() : void
 	{
@@ -1200,7 +1200,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('_' . static::$_string, $result);
 	}
 
-	// Str::ensureEndsWith
+	// Str::ensureEndsWith()
 
 	public function testMethodEnsureEndsWithCase1() : void
 	{
@@ -1216,7 +1216,7 @@ final class StrTest extends TestCase
 		$this->assertEquals(static::$_string . '_', $result);
 	}
 
-	// Str::wrap
+	// Str::wrap()
 
 	public function testMethodWrapCase1() : void
 	{
@@ -1232,7 +1232,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('|value|', $result);
 	}
 
-	// Str::after
+	// Str::after()
 
 	public function testMethodAfterCase1() : void
 	{
@@ -1255,7 +1255,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('Za:/fabcdefa:Bmnrz', $result);
 	}
 
-	// Str::afterLast
+	// Str::afterLast()
 
 	public function testMethodAfterLastCase1() : void
 	{
@@ -1278,7 +1278,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('mnrz', $result);
 	}
 
-	// Str::before
+	// Str::before()
 
 	public function testMethodBeforeCase1() : void
 	{
@@ -1309,7 +1309,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('ABCD', $result);
 	}
 
-	// Str::beforeLast
+	// Str::beforeLast()
 
 	public function testMethodBeforeLastCase1() : void
 	{
@@ -1339,7 +1339,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdefa:', $result);
 	}
 
-	// Str::highlight
+	// Str::highlight()
 
 	public function testMethodHighlightCase1() : void
 	{
@@ -1359,7 +1359,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('<<start>html</end>><start>html</end></<start>html</end>>', $result);
 	}
 
-	// Str::increment
+	// Str::increment()
 
 	public function testMethodIncrementCase1() : void
 	{
@@ -1397,7 +1397,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('file-101', $result);
 	}
 
-	// Str::floatToString
+	// Str::floatToString()
 
 	public function testMethodFloatToStringCase1() : void
 	{
@@ -1414,7 +1414,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('3.14', $result);
 	}
 
-	// Str::spaceToTab
+	// Str::spaceToTab()
 
 	public function testMethodSpaceToTabCase1() : void
 	{
@@ -1423,7 +1423,7 @@ final class StrTest extends TestCase
 		$this->assertEquals("\t", $result);
 	}
 
-	// Str::tabToSpace
+	// Str::tabToSpace()
 
 	public function testMethodTabToSpaceCase1() : void
 	{
@@ -1432,7 +1432,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('    ', $result);
 	}
 
-	// Str::pad
+	// Str::pad()
 
 	public function testMethodPadCase1() : void
 	{
@@ -1452,7 +1452,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('__string__', $result);
 	}
 
-	// Str::padLeft
+	// Str::padLeft()
 
 	public function testMethodPadLeftCase1() : void
 	{
@@ -1472,7 +1472,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('____string', $result);
 	}
 
-	// Str::padRight
+	// Str::padRight()
 
 	public function testMethodPadRightCase1() : void
 	{
@@ -1492,7 +1492,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('string____', $result);
 	}
 
-	// Str::isBlank
+	// Str::isBlank()
 
 	public function testMethodIsBlankCase1() : void
 	{
@@ -1529,7 +1529,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::isAlpha
+	// Str::isAlpha()
 
 	public function testMethodIsAlphaCase1() : void
 	{
@@ -1567,7 +1567,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::isAlphanumeric
+	// Str::isAlphanumeric()
 
 	public function testMethodIsAlphanumericCase1() : void
 	{
@@ -1605,7 +1605,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::isBase64Encoded
+	// Str::isBase64Encoded()
 
 	public function testMethodIsBase64EncodedCase1() : void
 	{
@@ -1625,7 +1625,7 @@ final class StrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	// Str::isHexadecimal
+	// Str::isHexadecimal()
 
 	public function testMethodIsHexadecimalCase1() : void
 	{
@@ -1645,7 +1645,7 @@ final class StrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	// Str::isLowerCase
+	// Str::isLowerCase()
 
 	public function testMethodIsLowerCaseCase1() : void
 	{
@@ -1665,7 +1665,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::isUpperCase
+	// Str::isUpperCase()
 
 	public function testMethodIsUpperCaseCase1() : void
 	{
@@ -1685,7 +1685,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::isSerialized
+	// Str::isSerialized()
 
 	public function testMethodIsSerializedCase1() : void
 	{
@@ -1714,7 +1714,7 @@ final class StrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	// Str::isMultibyte
+	// Str::isMultibyte()
 
 	public function testMethodIsMultibyteCase1() : void
 	{
@@ -1743,7 +1743,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::contains
+	// Str::contains()
 
 	public function testMethodContainsCase1() : void
 	{
@@ -1773,7 +1773,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::containsAny
+	// Str::containsAny()
 
 	public function testMethodContainsAnyCase1() : void
 	{
@@ -1803,7 +1803,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::containsAll
+	// Str::containsAll()
 
 	public function testMethodContainsAllCase1() : void
 	{
@@ -1840,7 +1840,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::hasLowerCase
+	// Str::hasLowerCase()
 
 	public function testMethodHasLowerCaseCase1() : void
 	{
@@ -1869,7 +1869,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::hasUpperCase
+	// Str::hasUpperCase()
 
 	public function testMethodHasUpperCaseCase1() : void
 	{
@@ -1898,7 +1898,7 @@ final class StrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	// Str::chars
+	// Str::chars()
 
 	public function testMethodCharsCase1() : void
 	{
@@ -1916,7 +1916,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Str::lines
+	// Str::lines()
 
 	public function testMethodLinesCase1() : void
 	{
@@ -1948,7 +1948,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Str::explode
+	// Str::explode()
 
 	public function testMethodExplodeCase1() : void
 	{
@@ -1995,7 +1995,7 @@ final class StrTest extends TestCase
 		$this->assertEquals([], $result);
 	}
 
-	// Str::shuffle
+	// Str::shuffle()
 
 	public function testMethodShuffleCase1() : void
 	{
@@ -2017,7 +2017,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::random
+	// Str::random()
 
 	public function testMethodRandomCase1() : void
 	{
@@ -2054,7 +2054,7 @@ final class StrTest extends TestCase
 		$this->assertRegExp('/^[1-9]{8}$/', $result);
 	}
 
-	// Str::base64encode
+	// Str::base64encode()
 
 	public function testMethodBase64encodeCase1() : void
 	{
@@ -2065,7 +2065,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('TmF0IFdpdGhl', $result);
 	}
 
-	// Str::base64decode
+	// Str::base64decode()
 
 	public function testMethodBase64decodeCase1() : void
 	{
@@ -2076,7 +2076,7 @@ final class StrTest extends TestCase
 		$this->assertEquals('Nat Withe', $result);
 	}
 
-	// Str::uuid
+	// Str::uuid()
 
 	// Version 4 UUIDs have the form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
 	// where x is any hexadecimal digit and y is one of 8, 9, A, or B.
@@ -2099,7 +2099,7 @@ final class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::normalize
+	// Str::normalize()
 
 	public function testMethodNormalizeCase1() : void
 	{
