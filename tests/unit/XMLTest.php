@@ -57,13 +57,13 @@ final class XMLTest extends TestCase
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
-				'job' => 'Web Developer',
+				'work' => 'Web Developer',
 				'salary' => 10000
 			],
 			[
 				'name' => 'Angela',
 				'surname' => 'SG',
-				'job' => 'Marketing Director',
+				'work' => 'Marketing Director',
 				'salary' => 10000
 			]
 		];
@@ -75,7 +75,7 @@ final class XMLTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Nat';
 		$data->surname = 'Withe';
-		$data->job = 'Web Developer';
+		$data->work = 'Web Developer';
 		$data->salary = 10000;
 
 		static::$_recordset[] = $data;
@@ -83,7 +83,7 @@ final class XMLTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Angela';
 		$data->surname = 'SG';
-		$data->job = 'Marketing Director';
+		$data->work = 'Marketing Director';
 		$data->salary = 10000;
 
 		static::$_recordset[] = $data;
@@ -94,13 +94,13 @@ final class XMLTest extends TestCase
 		static::$_xmlString .= "\t<element>\n";
 		static::$_xmlString .= "\t\t<name>Nat</name>\n";
 		static::$_xmlString .= "\t\t<surname>Withe</surname>\n";
-		static::$_xmlString .= "\t\t<job>Web Developer</job>\n";
+		static::$_xmlString .= "\t\t<work>Web Developer</work>\n";
 		static::$_xmlString .= "\t\t<salary>10000</salary>\n";
 		static::$_xmlString .= "\t</element>\n";
 		static::$_xmlString .= "\t<element>\n";
 		static::$_xmlString .= "\t\t<name>Angela</name>\n";
 		static::$_xmlString .= "\t\t<surname>SG</surname>\n";
-		static::$_xmlString .= "\t\t<job>Marketing Director</job>\n";
+		static::$_xmlString .= "\t\t<work>Marketing Director</work>\n";
 		static::$_xmlString .= "\t\t<salary>10000</salary>\n";
 		static::$_xmlString .= "\t</element>\n";
 		static::$_xmlString .= "</root>\n";
@@ -154,13 +154,13 @@ final class XMLTest extends TestCase
 				[
 					'name' => 'Nat',
 					'surname' => 'Withe',
-					'job' => 'Web Developer',
+					'work' => 'Web Developer',
 					'salary' => '10000' // XML::toArray() will converts number to string.
 				],
 				[
 					'name' => 'Angela',
 					'surname' => 'SG',
-					'job' => 'Marketing Director',
+					'work' => 'Marketing Director',
 					'salary' => '10000' // XML::toArray() will converts number to string.
 				]
 			]
@@ -188,13 +188,13 @@ final class XMLTest extends TestCase
 				[
 					'name' => 'Nat',
 					'surname' => 'Withe',
-					'job' => 'Web Developer',
+					'work' => 'Web Developer',
 					'salary' => '10000' // string.
 				],
 				[
 					'name' => 'Angela',
 					'surname' => 'SG',
-					'job' => 'Marketing Director',
+					'work' => 'Marketing Director',
 					'salary' => '10000' // string.
 				]
 			]
