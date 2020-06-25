@@ -2142,7 +2142,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::implode
+	// Arr::implode()
 
 	public function testMethodImplodeCase1() : void
 	{
@@ -2167,7 +2167,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// Arr::flatten
+	// Arr::flatten()
 
 	public function testMethodFlattenCase1() : void
 	{
@@ -2201,7 +2201,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::dot
+	// Arr::dot()
 
 	public function testMethodDotCase1() : void
 	{
@@ -2362,7 +2362,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::isDataset
+	// Arr::isDataset()
 
 	public function testMethodIsDatasetCase1() : void
 	{
@@ -2465,7 +2465,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Arr::isRecordset
+	// Arr::isRecordset()
 
 	public function testMethodIsRecordsetCase1() : void
 	{
@@ -2568,7 +2568,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Arr::isAssociative
+	// Arr::isAssociative()
 
 	public function testMethodIsAssociativeCase1() : void
 	{
@@ -2647,7 +2647,7 @@ final class ArrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	// Arr::isMultidimensional
+	// Arr::isMultidimensional()
 
 	public function testMethodIsMultidimensionalCase1() : void
 	{
@@ -2726,7 +2726,7 @@ final class ArrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	// Arr::fromObject
+	// Arr::fromObject()
 
 	public function testMethodFromObjectCase1() : void
 	{
@@ -2822,7 +2822,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::fromString
+	// Arr::fromString()
 
 	public function testMethodFromStringCase1() : void
 	{
@@ -2844,7 +2844,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::toArray
+	// Arr::toArray()
 
 	public function testMethodToArrayCase1() : void
 	{
@@ -3083,7 +3083,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::toObject
+	// Arr::toObject()
 
 	public function testMethodToObjectCase1() : void
 	{
@@ -3368,7 +3368,7 @@ final class ArrTest extends TestCase
 		$this->assertIsObject($result->objectUnderArray);
 	}
 
-	// Arr::toString
+	// Arr::toString()
 
 	public function testMethodToStringCase1() : void
 	{
@@ -3444,7 +3444,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// Arr::toDataset
+	// Arr::toDataset()
 
 	public function testMethodToDatasetCase1() : void
 	{
@@ -3550,7 +3550,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// Arr::toRecordset
+	// Arr::toRecordset()
 
 	public function testMethodToRecordsetCase1() : void
 	{
@@ -3661,7 +3661,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::toMultidimensional
+	// Arr::toMultidimensional()
 
 	public function testMethodToMultidimensionalCase1() : void
 	{
@@ -3774,7 +3774,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// Arr::toSequential
+	// Arr::toSequential()
 
 	public function testMethodToSequentialCase1() : void
 	{
@@ -3929,7 +3929,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals([], $result);
 	}
 
-	// Arr::toJSON
+	// Arr::toJSON()
 
 	public function testMethodToJsonCase1() : void
 	{
@@ -3958,7 +3958,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// Arr::remove
+	// Arr::remove()
 
 	public function testMethodRemoveCase1() : void
 	{
@@ -4072,7 +4072,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::removeKey
+	// Arr::removeKey()
 
 	public function testMethodRemoveKeyCase1() : void
 	{
@@ -4153,7 +4153,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::removeType
+	// Arr::removeType()
 
 	public function testMethodRemoveTypeCase1() : void
 	{
@@ -4440,7 +4440,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::removeBlank
+	// Arr::removeBlank()
 
 	public function testMethodRemoveBlankCase1() : void
 	{
@@ -4511,7 +4511,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// Arr::pullColumns
+	// Arr::pullColumns()
 
 	public function testMethodPullColumnCase1() : void
 	{
@@ -4614,7 +4614,7 @@ final class ArrTest extends TestCase
 		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[4]);
 	}
 
-	// Arr::removeColumn
+	// Arr::removeColumn()
 
 	public function testMethodRemoveColumnCase1() : void
 	{
@@ -4668,7 +4668,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// Arr::slice
+	// Arr::slice()
 
 	public function testMethodSliceCase1() : void
 	{
@@ -4700,7 +4700,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::unique
+	// Arr::unique()
 
 	public function testMethodUniqueCase1() : void
 	{
