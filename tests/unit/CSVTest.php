@@ -57,13 +57,13 @@ final class CSVTest extends TestCase
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
-				'job' => 'Web Developer',
+				'work' => 'Web Developer',
 				'salary' => 10000
 			],
 			[
 				'name' => 'Angela',
 				'surname' => 'SG',
-				'job' => 'Marketing Director',
+				'work' => 'Marketing Director',
 				'salary' => 10000
 			]
 		];
@@ -75,7 +75,7 @@ final class CSVTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Nat';
 		$data->surname = 'Withe';
-		$data->job = 'Web Developer';
+		$data->work = 'Web Developer';
 		$data->salary = 10000;
 
 		static::$_recordset[] = $data;
@@ -83,14 +83,14 @@ final class CSVTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Angela';
 		$data->surname = 'SG';
-		$data->job = 'Marketing Director';
+		$data->work = 'Marketing Director';
 		$data->salary = 10000;
 
 		static::$_recordset[] = $data;
 
 		//
 
-		static::$_csvString = '"name","surname","job","salary"' . "\n";
+		static::$_csvString = '"name","surname","work","salary"' . "\n";
 		static::$_csvString .= '"Nat","Withe","Web Developer","10000"' . "\n";
 		static::$_csvString .= '"Angela","SG","Marketing Director","10000"' . "\n";
 	}
@@ -142,7 +142,7 @@ final class CSVTest extends TestCase
 			[
 				'name',
 				'surname',
-				'job',
+				'work',
 				'salary'
 			],
 			[
