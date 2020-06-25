@@ -180,4 +180,44 @@ final class JSONTest extends TestCase
 	}
 
 	// JSON::decode()
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodDecodeCase1() : void
+	{
+		$this->expectException(\ErrorException::class);
+
+		JSON::decode('InvalidJsonString');
+	}
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodDecodeCase2() : void
+	{
+		$result = JSON::decode(static::$_jsonString);
+
+		$this->assertIsObject($result);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result = (array)$result;
+		$compare = ($result === static::$_array);
+
+		$this->assertTrue($compare);
+	}
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodDecodeCase3() : void
+	{
+		$result = JSON::decode(static::$_jsonString, true);
+
+		$this->assertIsArray($result);
+		$compare = ($result === static::$_array);
+
+		$this->assertTrue($compare);
+	}
 }
