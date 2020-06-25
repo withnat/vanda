@@ -59,22 +59,22 @@ final class DataTest extends TestCase
 			['X', 'Y']
 		];
 
-		$job = new stdClass();
-		$job->title = 'Web Developer';
-		$job->salary = 10000;
+		$work = new stdClass();
+		$work->position = 'Web Developer';
+		$work->salary = 10000;
 
 		static::$_dataArrayAssoc = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'job' => $job
+			'work' => $work
 		];
 
 		static::$_dataObject = new stdClass();
 		static::$_dataObject->name = 'Nat';
 		static::$_dataObject->surname = 'Withe';
 		static::$_dataObject->age = 38;
-		static::$_dataObject->job = $job;
+		static::$_dataObject->work = $work;
 	}
 
 	protected function tearDown()
@@ -165,21 +165,21 @@ final class DataTest extends TestCase
 
 	public function testMethodGetCase12() : void
 	{
-		$result = Data::get(static::$_dataArrayAssoc, 'job.missingkey', 'I love you.');
+		$result = Data::get(static::$_dataArrayAssoc, 'work.missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
 	public function testMethodGetCase13() : void
 	{
-		$result = Data::get(static::$_dataArrayAssoc, 'job.title.missingkey');
+		$result = Data::get(static::$_dataArrayAssoc, 'work.position.missingkey');
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetCase14() : void
 	{
-		$result = Data::get(static::$_dataArrayAssoc, 'job.title');
+		$result = Data::get(static::$_dataArrayAssoc, 'work.position');
 
 		$this->assertEquals('Web Developer', $result);
 	}
@@ -207,21 +207,21 @@ final class DataTest extends TestCase
 
 	public function testMethodGetCase18() : void
 	{
-		$result = Data::get(static::$_dataObject, 'job.missingkey', 'I love you.');
+		$result = Data::get(static::$_dataObject, 'work.missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
 	public function testMethodGetCase19() : void
 	{
-		$result = Data::get(static::$_dataObject, 'job.missingkey');
+		$result = Data::get(static::$_dataObject, 'work.missingkey');
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetCase20() : void
 	{
-		$result = Data::get(static::$_dataObject, 'job.title');
+		$result = Data::get(static::$_dataObject, 'work.position');
 
 		$this->assertEquals('Web Developer', $result);
 	}
@@ -255,8 +255,8 @@ final class DataTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'job' => [
-				'title' => 'Web Developer',
+			'work' => [
+				'position' => 'Web Developer',
 				'salary' => 10000,
 				'a' => [
 					'b' => 'C'
@@ -264,13 +264,13 @@ final class DataTest extends TestCase
 			]
 		];
 
-		$result = Data::set(static::$_dataObject, 'job.a.b', 'C');
+		$result = Data::set(static::$_dataObject, 'work.a.b', 'C');
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
-		$result['job'] = (array)$result['job'];
-		$result['job']['a'] = (array)$result['job']['a'];
+		$result['work'] = (array)$result['work'];
+		$result['work']['a'] = (array)$result['work']['a'];
 
 		$compare = ($result === $expected);
 
