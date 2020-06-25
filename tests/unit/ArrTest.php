@@ -129,6 +129,30 @@ final class ArrTest extends TestCase
 				]
 			],
 			[
+				'name' => 'Rosie',
+				'surname' => 'Marshman',
+				'work' => [
+					'position' => 'Staff',
+					'salary' => 8000
+				]
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'McCormick',
+				'work' => [
+					'position' => 'Staff',
+					'salary' => 8000
+				]
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'Miller',
+				'work' => [
+					'position' => 'Project Coordinator',
+					'salary' => 10000
+				]
+			],
+			[
 				'name' => 'Angela',
 				'surname' => 'SG',
 				'work' => [
@@ -421,6 +445,9 @@ final class ArrTest extends TestCase
 	{
 		$expected = [
 			'Web Developer',
+			'Staff',
+			'Staff',
+			'Project Coordinator',
 			'Marketing Director'
 		];
 
@@ -434,6 +461,8 @@ final class ArrTest extends TestCase
 	{
 		$expected = [
 			'Nat' => 'Web Developer',
+			'Rosie' => 'Staff',
+			'Emma' => 'Project Coordinator',
 			'Angela' => 'Marketing Director'
 		];
 
@@ -1089,6 +1118,8 @@ final class ArrTest extends TestCase
 	{
 		$expected = [
 			'Nat' => 'Withe',
+			'Rosie' => 'Marshman',
+			'Emma' => 'Miller',
 			'Angela' => 'SG'
 		];
 
@@ -2174,10 +2205,22 @@ final class ArrTest extends TestCase
 			'0.surname' => 'Withe',
 			'0.work.position' => 'Web Developer',
 			'0.work.salary' => 10000,
-			'1.name' => 'Angela',
-			'1.surname' => 'SG',
-			'1.work.position' => 'Marketing Director',
-			'1.work.salary' => 10000
+			'1.name' => 'Rosie',
+			'1.surname' => 'Marshman',
+			'1.work.position' => 'Staff',
+			'1.work.salary' => 8000,
+			'2.name' => 'Emma',
+			'2.surname' => 'McCormick',
+			'2.work.position' => 'Staff',
+			'2.work.salary' => 8000,
+			'3.name' => 'Emma',
+			'3.surname' => 'Miller',
+			'3.work.position' => 'Project Coordinator',
+			'3.work.salary' => 10000,
+			'4.name' => 'Angela',
+			'4.surname' => 'SG',
+			'4.work.position' => 'Marketing Director',
+			'4.work.salary' => 10000
 		];
 
 		$result = Arr::dot(static::$_datasetArray);
@@ -2193,10 +2236,22 @@ final class ArrTest extends TestCase
 			'_0.surname' => 'Withe',
 			'_0.work.position' => 'Web Developer',
 			'_0.work.salary' => 10000,
-			'_1.name' => 'Angela',
-			'_1.surname' => 'SG',
-			'_1.work.position' => 'Marketing Director',
-			'_1.work.salary' => 10000
+			'_1.name' => 'Rosie',
+			'_1.surname' => 'Marshman',
+			'_1.work.position' => 'Staff',
+			'_1.work.salary' => 8000,
+			'_2.name' => 'Emma',
+			'_2.surname' => 'McCormick',
+			'_2.work.position' => 'Staff',
+			'_2.work.salary' => 8000,
+			'_3.name' => 'Emma',
+			'_3.surname' => 'Miller',
+			'_3.work.position' => 'Project Coordinator',
+			'_3.work.salary' => 10000,
+			'_4.name' => 'Angela',
+			'_4.surname' => 'SG',
+			'_4.work.position' => 'Marketing Director',
+			'_4.work.salary' => 10000
 		];
 
 		$result = Arr::dot(static::$_datasetArray, '_');
@@ -3157,16 +3212,28 @@ final class ArrTest extends TestCase
 		$this->assertIsObject($result);
 		$this->assertIsObject($result->{'0'});
 		$this->assertIsObject($result->{'1'});
+		$this->assertIsObject($result->{'2'});
+		$this->assertIsObject($result->{'3'});
+		$this->assertIsObject($result->{'4'});
 		$this->assertIsObject($result->{'0'}->work);
 		$this->assertIsObject($result->{'1'}->work);
+		$this->assertIsObject($result->{'2'}->work);
+		$this->assertIsObject($result->{'3'}->work);
+		$this->assertIsObject($result->{'4'}->work);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
 		$result[0] = (array)$result[0];
 		$result[1] = (array)$result[1];
+		$result[2] = (array)$result[2];
+		$result[3] = (array)$result[3];
+		$result[4] = (array)$result[4];
 		$result[0]['work'] = (array)$result[0]['work'];
 		$result[1]['work'] = (array)$result[1]['work'];
+		$result[2]['work'] = (array)$result[2]['work'];
+		$result[3]['work'] = (array)$result[3]['work'];
+		$result[4]['work'] = (array)$result[4]['work'];
 
 		$compare = ($result === $expected);
 
@@ -3177,6 +3244,9 @@ final class ArrTest extends TestCase
 	{
 		$expected = [
 			[],
+			[],
+			[],
+			[],
 			[]
 		];
 
@@ -3185,12 +3255,18 @@ final class ArrTest extends TestCase
 		$this->assertIsObject($result);
 		$this->assertIsObject($result->{'0'});
 		$this->assertIsObject($result->{'1'});
+		$this->assertIsObject($result->{'2'});
+		$this->assertIsObject($result->{'3'});
+		$this->assertIsObject($result->{'4'});
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
 		$result[0] = (array)$result[0];
 		$result[1] = (array)$result[1];
+		$result[2] = (array)$result[2];
+		$result[3] = (array)$result[3];
+		$result[4] = (array)$result[4];
 
 		$compare = ($result === $expected);
 
@@ -3201,6 +3277,9 @@ final class ArrTest extends TestCase
 	{
 		$expected = static::$_datasetArray;
 		unset($expected[1]);
+		unset($expected[2]);
+		unset($expected[3]);
+		unset($expected[4]);
 
 		$result = Arr::toObject(static::$_datasetArray, 'stdClass', true, '0');
 
@@ -3303,6 +3382,9 @@ final class ArrTest extends TestCase
 	public function testMethodToStringCase9() : void
 	{
 		$expected = 'name="Nat" surname="Withe" position="Web Developer" salary="10000" '
+			. 'name="Rosie" surname="Marshman" position="Staff" salary="8000" '
+			. 'name="Emma" surname="McCormick" position="Staff" salary="8000" '
+			. 'name="Emma" surname="Miller" position="Project Coordinator" salary="10000" '
 			. 'name="Angela" surname="SG" position="Marketing Director" salary="10000"';
 
 		$result = Arr::toString(static::$_datasetArray);
@@ -4396,6 +4478,18 @@ final class ArrTest extends TestCase
 				'surname' => 'Withe'
 			],
 			[
+				'name' => 'Rosie',
+				'surname' => 'Marshman'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'McCormick'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'Miller'
+			],
+			[
 				'name' => 'Angela',
 				'surname' => 'SG'
 			]
@@ -4481,6 +4575,9 @@ final class ArrTest extends TestCase
 	{
 		$expected = [
 			['name' => 'Nat'],
+			['name' => 'Rosie'],
+			['name' => 'Emma'],
+			['name' => 'Emma'],
 			['name' => 'Angela']
 		];
 
