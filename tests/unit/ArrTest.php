@@ -56,6 +56,8 @@ final class ArrTest extends TestCase
 	protected static $_object;
 	protected static $_objectEmpty;
 
+	protected static $_expectedSortDatasetByNameAsc;
+	protected static $_expectedSortDatasetByNameDesc;
 	protected static $_expectedSortRecordsetByNameAsc;
 	protected static $_expectedSortRecordsetByNameDesc;
 
@@ -238,6 +240,18 @@ final class ArrTest extends TestCase
 
 		// Place some expected result here to reduce duplicated code flagment.
 
+		static::$_expectedSortDatasetByNameAsc[0] = static::$_datasetArray[4];
+		static::$_expectedSortDatasetByNameAsc[1] = static::$_datasetArray[2];
+		static::$_expectedSortDatasetByNameAsc[2] = static::$_datasetArray[3];
+		static::$_expectedSortDatasetByNameAsc[3] = static::$_datasetArray[0];
+		static::$_expectedSortDatasetByNameAsc[4] = static::$_datasetArray[1];
+
+		static::$_expectedSortDatasetByNameDesc[0] = static::$_datasetArray[1];
+		static::$_expectedSortDatasetByNameDesc[1] = static::$_datasetArray[0];
+		static::$_expectedSortDatasetByNameDesc[2] = static::$_datasetArray[2];
+		static::$_expectedSortDatasetByNameDesc[3] = static::$_datasetArray[3];
+		static::$_expectedSortDatasetByNameDesc[4] = static::$_datasetArray[4];
+
 		static::$_expectedSortRecordsetByNameAsc[0] = static::$_recordsetArray[4];
 		static::$_expectedSortRecordsetByNameAsc[1] = static::$_recordsetArray[2];
 		static::$_expectedSortRecordsetByNameAsc[2] = static::$_recordsetArray[3];
@@ -259,6 +273,11 @@ final class ArrTest extends TestCase
 		static::$_recordsetArray = null;
 		static::$_object = null;
 		static::$_objectEmpty = null;
+
+		static::$_expectedSortDatasetByNameAsc = null;
+		static::$_expectedSortDatasetByNameDesc = null;
+		static::$_expectedSortRecordsetByNameAsc = null;
+		static::$_expectedSortRecordsetByNameDesc = null;
 	}
 
 	// Arr::get()
@@ -2053,6 +2072,39 @@ final class ArrTest extends TestCase
 
 		$result = Arr::sortKey($array, 'desc', false);
 		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	// Arr::sortDataset()
+
+	public function testMethodSortDatasetCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Arr::sortDataset([], 'missingkey');
+	}
+
+	public function testMethodSortDatasetCase2() : void
+	{
+		$result = Arr::sortDataset(static::$_datasetArray, 'name');
+		$compare = ($result === static::$_expectedSortDatasetByNameAsc);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodSortDatasetCase3() : void
+	{
+		$result = Arr::sortDataset(static::$_datasetArray, 'name', 'asc');
+		$compare = ($result === static::$_expectedSortDatasetByNameAsc);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodSortDatasetCase4() : void
+	{
+		$result = Arr::sortDataset(static::$_datasetArray, 'name', 'desc');
+		$compare = ($result === static::$_expectedSortDatasetByNameDesc);
 
 		$this->assertTrue($compare);
 	}
