@@ -4366,9 +4366,9 @@ final class ArrTest extends TestCase
 
 	public function testMethodRemoveColumnCase1() : void
 	{
-		$result = Arr::removeColumn([], 'missingkey');
+		$this->expectException(\InvalidArgumentException::class);
 
-		$this->assertEquals([], $result);
+		Arr::removeColumn([], 'missingkey');
 	}
 
 	public function testMethodRemoveColumnCase2() : void
