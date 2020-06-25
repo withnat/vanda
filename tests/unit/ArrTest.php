@@ -3441,6 +3441,17 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	// Arr::toQueryString
+
+	public function testMethodToQueryStringCase1() : void
+	{
+		$expected = 'name=Nat&surname=Withe&age=38&height=181&weight=87.5&handsome=1&ugly=0&other=';
+
+		$result = Arr::toQueryString(static::$_assocArray);
+
+		$this->assertEquals($expected, $result);
+	}
+
 	// Arr::toDataset()
 
 	public function testMethodToDatasetCase1() : void
