@@ -84,7 +84,7 @@ final class DataTest extends TestCase
 		static::$_dataObject = null;
 	}
 
-	// Data::get
+	// Data::get()
 
 	public function testMethodGetCase1() : void
 	{
@@ -226,7 +226,7 @@ final class DataTest extends TestCase
 		$this->assertEquals('Web Developer', $result);
 	}
 
-	// Data::set
+	// Data::set()
 
 	public function testMethodSetCase1() : void
 	{
@@ -277,7 +277,7 @@ final class DataTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Data::ensureBool
+	// Data::ensureBool()
 
 	public function testMethodEnsureBoolCase1() : void
 	{
@@ -370,7 +370,7 @@ final class DataTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Data::ensureString
+	// Data::ensureString()
 
 	public function testMethodEnsureStringCase1() : void
 	{
@@ -396,7 +396,7 @@ final class DataTest extends TestCase
 		$this->assertEquals('3.14', $result);
 	}
 
-	// Data::ensureInt
+	// Data::ensureInt()
 
 	public function testMethodEnsureIntCase1() : void
 	{
@@ -406,7 +406,7 @@ final class DataTest extends TestCase
 		$this->assertEquals(3, $result);
 	}
 
-	// Data::ensureFloat
+	// Data::ensureFloat()
 
 	public function testMethodEnsureFloatCase1() : void
 	{
@@ -416,7 +416,7 @@ final class DataTest extends TestCase
 		$this->assertEquals(13, $result);
 	}
 
-	// Data::ensureArray
+	// Data::ensureArray()
 
 	public function testMethodEnsureArrayCase1() : void
 	{
@@ -490,7 +490,7 @@ final class DataTest extends TestCase
 		$this->assertEquals(['value'], $result);
 	}
 
-	// Data::ensureObject
+	// Data::ensureObject()
 
 	public function testMethodEnsureObjectCase1() : void
 	{
@@ -500,7 +500,7 @@ final class DataTest extends TestCase
 		$this->assertEquals('value', $result->scalar);
 	}
 
-	// Data::is
+	// Data::is()
 
 	// PHPUnit 7.5 doesn’t have a doNotExpectException assertion,
 	// nor does it allow a test without an assertion.
@@ -575,7 +575,7 @@ final class DataTest extends TestCase
 		Data::is('string', 1, 13);
 	}
 
-	// Data::expects
+	// Data::expects()
 
 	// PHPUnit 7.5 doesn’t have a doNotExpectException assertion,
 	// nor does it allow a test without an assertion.
@@ -615,7 +615,7 @@ final class DataTest extends TestCase
 		$this->assertTrue(true);
 	}
 
-	// Data::convert
+	// Data::convert()
 
 	public function testMethodConvertCase1() : void
 	{
