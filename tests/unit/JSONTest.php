@@ -85,12 +85,19 @@ final class JSONTest extends TestCase
 
 	public function testMethodIsValidCase1() : void
 	{
-		$result = JSON::isValid('string');
+		$result = JSON::isValid('');
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsValidCase2() : void
+	{
+		$result = JSON::isValid('string');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsValidCase3() : void
 	{
 		$result = JSON::isValid(static::$_jsonString);
 
