@@ -288,6 +288,16 @@ final class JSONTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodDecodeCase4() : void
+	{
+		$this->expectException(ErrorException::class);
+
+		JSON::decode('{"j": 1 ] }');
+	}
+
 	// JSON::dataTable()
 
 	public function testMethodDataTableCase1() : void
