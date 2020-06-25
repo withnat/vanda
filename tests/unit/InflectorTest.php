@@ -47,7 +47,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class InflectorTest extends TestCase
 {
-	// Inflector::isCountable
+	// Inflector::isCountable()
 
 	public function testMethodIsCountableCase1() : void
 	{
@@ -70,7 +70,7 @@ final class InflectorTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Inflector::pluralize
+	// Inflector::pluralize()
 
 	public function testMethodPluralizeCase1() : void
 	{
@@ -198,7 +198,7 @@ final class InflectorTest extends TestCase
 		$this->assertEquals('axes', $result);
 	}
 
-	// Inflector::singularize
+	// Inflector::singularize()
 
 	public function testMethodSingularizeCase1() : void
 	{
@@ -347,7 +347,7 @@ final class InflectorTest extends TestCase
 		$this->assertEquals('quiz', $result);
 	}
 
-	// Inflector::camelize
+	// Inflector::camelize()
 
 	public function testMethodCamelizeCase1() : void
 	{
@@ -370,7 +370,7 @@ final class InflectorTest extends TestCase
 		$this->assertEquals('SheSHot', $result);
 	}
 
-	// Inflector::underscore
+	// Inflector::underscore()
 
 	public function testMethodUnderscoreCase1() : void
 	{
@@ -386,7 +386,7 @@ final class InflectorTest extends TestCase
 		$this->assertEquals('foo_bar', $result);
 	}
 
-	// Inflector::explode
+	// Inflector::explode()
 
 	public function testMethodExplodeCase1() : void
 	{
@@ -395,7 +395,7 @@ final class InflectorTest extends TestCase
 		$this->assertEquals(['foo', 'bar'], $result);
 	}
 
-	// Inflector::implode
+	// Inflector::implode()
 
 	public function testMethodImplodeCase1() : void
 	{
@@ -404,7 +404,7 @@ final class InflectorTest extends TestCase
 		$this->assertEquals('FooBar', $result);
 	}
 
-	// Inflector::humanize
+	// Inflector::humanize()
 
 	public function testMethodHumanizeCase1() : void
 	{
@@ -413,7 +413,7 @@ final class InflectorTest extends TestCase
 		$this->assertEquals('I Had My Car Fixed Yesterday', $result);
 	}
 
-	// Inflector::variablize
+	// Inflector::variablize()
 
 	public function testMethodVariablizeCase1() : void
 	{
@@ -436,7 +436,7 @@ final class InflectorTest extends TestCase
 		$this->assertEquals('sheSHot', $result);
 	}
 
-	// Inflector::slugify
+	// Inflector::slugify()
 
 	public function testMethodSlugifyCase3() : void
 	{
@@ -452,7 +452,7 @@ final class InflectorTest extends TestCase
 		$this->assertEquals('Vanda_PHP_Web_Framework', $result);
 	}
 
-	// Inflector::ordinalize
+	// Inflector::ordinalize()
 
 	public function testMethodOrdinalizeCase1() : void
 	{
