@@ -1216,6 +1216,22 @@ final class Arr
 	}
 
 	/**
+	 * Convert the array into a query string.
+	 *
+	 * @param  array  $array
+	 * @return string
+	 */
+	public static function toQueryString(array $array) : string
+	{
+		// Set enc_type to PHP_QUERY_RFC3986, then encoding is performed according to » RFC 3986,
+		// and spaces will be percent encoded (%20).
+		// https://www.php.net/manual/en/function.http-build-query.php
+		$queryString = http_build_query($array, '', '&', PHP_QUERY_RFC3986);
+
+		return $queryString;
+	}
+
+	/**
 	 * @param  mixed $data
 	 * @return array
 	 */
