@@ -102,7 +102,7 @@ final class CSVTest extends TestCase
 		static::$_csvString = null;
 	}
 
-	// CSV::fromDataset
+	// CSV::fromDataset()
 
 	public function testMethodFromDatasetCase1() : void
 	{
@@ -118,7 +118,7 @@ final class CSVTest extends TestCase
 		$this->assertEquals(static::$_csvString, $result);
 	}
 
-	// CSV::fromRecordset
+	// CSV::fromRecordset()
 
 	public function testMethodFromRecordsetCase1() : void
 	{
@@ -134,7 +134,7 @@ final class CSVTest extends TestCase
 		$this->assertEquals(static::$_csvString, $result);
 	}
 
-	// CSV::toArray
+	// CSV::toArray()
 
 	public function testMethodToArrayCase1() : void
 	{
@@ -165,7 +165,7 @@ final class CSVTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// CSV::toDataset
+	// CSV::toDataset()
 
 	public function testMethodToAssociativeCase1() : void
 	{
@@ -181,7 +181,7 @@ final class CSVTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// CSV::toRecordset
+	// CSV::toRecordset()
 
 	public function testMethodToRecordsetCase1() : void
 	{
@@ -208,5 +208,5 @@ final class CSVTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// CSV::safe (tested via another methods)
+	// CSV::safe() (tested via another methods)
 }
