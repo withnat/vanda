@@ -1281,6 +1281,28 @@ final class Arr
 	 * @param  mixed $data
 	 * @return array
 	 */
+	public static function toDataset($data) : array
+	{
+		$data = static::toArray($data);
+
+		if (!static::isMultidimensional($data))
+			$data = [$data];
+
+		$dataset = [];
+
+		foreach ($data as $item)
+		{
+			$item = (array)$item;
+			$dataset[] = $item;
+		}
+
+		return $dataset;
+	}
+
+	/**
+	 * @param  mixed $data
+	 * @return array
+	 */
 	public static function toRecordset($data) : array
 	{
 		$data = static::toArray($data);
