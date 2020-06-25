@@ -50,7 +50,10 @@ final class JSONTest extends TestCase
 {
 	protected static $_array;
 	protected static $_object;
+	protected static $_dataset;
+	protected static $_recordset;
 	protected static $_jsonString;
+	protected static $_dataTableString;
 
 	protected function setUp()
 	{
@@ -71,13 +74,70 @@ final class JSONTest extends TestCase
 
 		//
 
+		static::$_dataset = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe',
+				'work' => 'Web Developer',
+				'salary' => 10000
+			],
+			[
+				'name' => 'Angela',
+				'surname' => 'SG',
+				'work' => 'Marketing Director',
+				'salary' => 10000
+			]
+		];
+
+		//
+
+		static::$_recordset = [];
+
+		$data = new stdClass();
+		$data->name = 'Nat';
+		$data->surname = 'Withe';
+		$data->work = 'Web Developer';
+		$data->salary = 10000;
+
+		static::$_recordset[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Angela';
+		$data->surname = 'SG';
+		$data->work = 'Marketing Director';
+		$data->salary = 10000;
+
+		static::$_recordset[] = $data;
+
+		//
+
 		static::$_jsonString = '{"name":"Nat","surname":"Withe","work":"Web Developer","salary":10000}';
+
+		//
+
+		// Below static::$_dataTableString is something like this:
+		// {
+		//   "recordsTotal": 2,
+		//   "recordsFiltered": 2,
+		//   "data": [
+		//     {"name":"Nat","surname":"Withe","work":"Web Developer","salary":10000},
+		//     {"name":"Angela","surname":"SG","work":"Marketing Director","salary":10000}
+		//   ]
+		// }
+		static::$_dataTableString = '{' . "\n";
+		static::$_dataTableString .= "\t" . '"recordsTotal": 2,' . "\n";
+		static::$_dataTableString .= "\t" . '"recordsFiltered": 2,' . "\n";
+		static::$_dataTableString .= "\t" . '"data": [{"name":"Nat","surname":"Withe","work":"Web Developer","salary":10000},';
+		static::$_dataTableString .= '{"name":"Angela","surname":"SG","work":"Marketing Director","salary":10000}]' . "\n";
+		static::$_dataTableString .= '}';
 	}
 
 	protected function tearDown()
 	{
 		static::$_array = null;
 		static::$_object = null;
+		static::$_dataset = null;
+		static::$_recordset = null;
 		static::$_jsonString = null;
 	}
 
@@ -193,7 +253,7 @@ final class JSONTest extends TestCase
 	 */
 	public function testMethodDecodeCase1() : void
 	{
-		$this->expectException(\ErrorException::class);
+		$this->expectException(ErrorException::class);
 
 		JSON::decode('InvalidJsonString');
 	}
@@ -226,5 +286,28 @@ final class JSONTest extends TestCase
 		$compare = ($result === static::$_array);
 
 		$this->assertTrue($compare);
+	}
+
+	// JSON::dataTable()
+
+	public function testMethodDataTableCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		JSON::dataTable(['InvalidDataSource']);
+	}
+
+	public function testMethodDataTableCase2() : void
+	{
+		$result = JSON::dataTable(static::$_dataset);
+
+		$this->assertEquals(static::$_dataTableString, $result);
+	}
+
+	public function testMethodDataTableCase3() : void
+	{
+		$result = JSON::dataTable(static::$_recordset);
+
+		$this->assertEquals(static::$_dataTableString, $result);
 	}
 }
