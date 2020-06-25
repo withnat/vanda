@@ -482,7 +482,7 @@ final class InflectorTest extends TestCase
 		$this->assertEquals('4th', $result);
 	}
 
-	//Inflector::sentence
+	//Inflector::sentence()
 
 	public function testMethodSentenceCase1() : void
 	{
