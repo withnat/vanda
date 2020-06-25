@@ -852,6 +852,43 @@ final class Arr
 	}
 
 	/**
+	 * Utility function to sort an array of arrays (dataset) on a given field.
+	 *
+	 * @param  array  $dataset    An array of arrays (dataset).
+	 * @param  string $key        The key to sort on.
+	 * @param  string $direction  Direction to sort in [asc = Ascending] [desc = Descending].
+	 * @return array              The sorted array of arrays (dataset).
+	 */
+	public static function sortDataset(array $dataset, string $key, string $direction = 'asc') : array
+	{
+		if (!static::isDataset($dataset))
+			throw InvalidArgumentException::type(1, ['dataset'], $dataset);
+
+		if (strtolower($direction) === 'desc')
+			$direction = -1;
+		else
+			$direction = 1;
+
+		$GLOBALS['System\Arr::sortDataset'] = ['key' => $key, 'direction' => $direction];
+
+		usort($dataset, function($a, $b)
+		{
+			$params = $GLOBALS['System\Arr::sortDataset'];
+
+			if (strcmp($a[$params['key']], $b[$params['key']]) > 0)
+				return $params['direction'];
+			elseif (strcmp($a[$params['key']], $b[$params['key']]) < 0)
+				return $params['direction'] * -1;
+			else
+				return 0;
+		});
+
+		unset($GLOBALS['System\Arr::sortDataset']);
+
+		return $dataset;
+	}
+
+	/**
 	 * Utility function to sort an array of objects (recordset) on a given field.
 	 *
 	 * @param  array  $recordset  An array of objects (recordset).
