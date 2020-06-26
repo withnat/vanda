@@ -67,7 +67,7 @@ class InvalidArgumentException extends \InvalidArgumentException
 	 * @param  string|null $customMsg
 	 * @return InvalidArgumentException
 	 */
-	public static function type(int $argument, array $allowedDataTypes = null, $value = null, string $customMsg = null) : InvalidArgumentException
+	public static function typeError(int $argument, array $allowedDataTypes = null, $value = null, string $customMsg = null) : InvalidArgumentException
 	{
 		$trace = debug_backtrace(0);
 
@@ -97,7 +97,7 @@ class InvalidArgumentException extends \InvalidArgumentException
 	 * @param  mixed|null $value
 	 * @return InvalidArgumentException
 	 */
-	public static function value(int $argument, string $errorMsg, $value = null) : InvalidArgumentException
+	public static function valueError(int $argument, string $errorMsg, $value = null) : InvalidArgumentException
 	{
 		$trace = debug_backtrace(0);
 

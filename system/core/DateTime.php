@@ -99,7 +99,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('Y-m-d H:i', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -111,7 +111,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('Y-m-d H:i:s', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -123,7 +123,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('Y-m-d H:i:s', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -135,7 +135,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('d/m/Y', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -147,7 +147,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('d F Y', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -159,7 +159,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('H:i', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -171,7 +171,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('H:i:s', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -183,7 +183,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('d F Y H:i', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -195,7 +195,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('d F Y H:i:s', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -207,7 +207,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('d F', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -219,7 +219,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('F Y', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -231,7 +231,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('d', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -243,7 +243,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('D', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -255,7 +255,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('l', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -267,7 +267,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('h', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -279,7 +279,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('H', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -291,7 +291,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('i', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -303,7 +303,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('s', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -315,7 +315,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('m', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -327,7 +327,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('M', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -339,7 +339,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('F', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -351,7 +351,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('A', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -363,7 +363,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('Y', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -375,7 +375,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return static::_create('y', $datetime);
 		else
-			throw InvalidArgumentException::type(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
 	}
 
 	/**
@@ -423,83 +423,5 @@ final class DateTime extends \DateTime
 		}
 		else
 			return '';
-	}
-
-	/**
-	 * @param  string      $name
-	 * @param  string|null $selected
-	 * @param  string      $title
-	 * @return string
-	 */
-	public static function timeZoneMenu(string $name, string $selected = null, string $title = '') : string
-	{
-		$defaultTimeZone = date_default_timezone_get();
-
-		$options = [];
-		$timestamp = time();
-
-		foreach (timezone_identifiers_list() as $key => $zone)
-		{
-			date_default_timezone_set($zone);
-			$options[] = [$zone => 'UTC ' . date('P', $timestamp) . ' - ' . $zone];
-		}
-
-		date_default_timezone_set($defaultTimeZone);
-
-		return Form::select($name, $options, $selected, $title);
-	}
-
-	/**
-	 * @param  string      $name
-	 * @param  string|null $selected
-	 * @param  string      $title
-	 * @return string
-	 */
-	public static function timeZoneRegionMenu(string $name, string $selected = null, string $title = '') : string
-	{
-		$options = [];
-
-		foreach (timezone_identifiers_list() as $zone)
-		{
-			if (strpos($zone, '/'))
-			{
-				$pos = strpos($zone, '/');
-				$region = substr($zone, 0, $pos);
-			}
-			else // UTC
-				$region = $zone;
-
-			if ($region and !in_array($region, $options))
-				$options[] = $region;
-		}
-
-		return Form::select($name, $options, $selected, $title);
-	}
-
-	/**
-	 * @param string      $name
-	 * @param string|null $selected
-	 * @param string      $title
-	 * @return string
-	 */
-	public static function timeZoneCityMenu(string $name, string $selected = null, string $title = '') : string
-	{
-		$options = [];
-
-		foreach (timezone_identifiers_list() as $zone)
-		{
-			// Except UTC
-			if (strpos($zone, '/'))
-			{
-				$city = substr($zone, strpos($zone, '/') + 1);
-
-				if ($city and !in_array($city, $options))
-					$options[] = $city;
-			}
-		}
-
-		$options = Arr::sort($options);
-
-		return Form::select($name, $options, $selected, $title);
 	}
 }

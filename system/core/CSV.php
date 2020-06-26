@@ -66,7 +66,7 @@ final class CSV
 	) : string
 	{
 		if (!Arr::isDataset($dataset))
-			throw InvalidArgumentException::type(1, ['dataset'], $dataset);
+			throw InvalidArgumentException::typeError(1, ['dataset'], $dataset);
 
 		$csv = static::_fromDatasetOrRecordset($dataset, $delimiter, $newline, $enclosure);
 
@@ -88,7 +88,7 @@ final class CSV
 	) : string
 	{
 		if (!Arr::isRecordset($recordset))
-			throw InvalidArgumentException::type(1, ['recordset'], $recordset);
+			throw InvalidArgumentException::typeError(1, ['recordset'], $recordset);
 
 		$csv = static::_fromDatasetOrRecordset($recordset, $delimiter, $newline, $enclosure);
 

@@ -81,7 +81,7 @@ final class JSON
 	public static function encode($data) : string
 	{
 		if (is_resource($data))
-			throw InvalidArgumentException::value(1, '$data cannot be a resource', $data);
+			throw InvalidArgumentException::valueError(1, '$data cannot be a resource', $data);
 
 		// A resource cannot be encoded.
 		if (is_array($data))
@@ -91,7 +91,11 @@ final class JSON
 		$error = static::_getError();
 
 		if ($error)
+		{
+			// @codeCoverageIgnoreStart
 			throw new ErrorException('Json Error: ' . $error);
+			// @codeCoverageIgnoreEnd
+		}
 
 		return $result;
 	}
@@ -123,7 +127,7 @@ final class JSON
 	public static function dataTable(array $data) : string
 	{
 		if (!Arr::isDataset($data) and !Arr::isRecordset($data))
-			throw InvalidArgumentException::type(1, ['dataset', 'recordset'], $data);
+			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
 
 		$recordsTotal = count($data);
 		$recordsFiltered = count($data);
@@ -154,6 +158,7 @@ final class JSON
 	 * Returns the last error occurred.
 	 *
 	 * @return string
+	 * @codeCoverageIgnore
 	 */
 	private static function _getError() : string
 	{

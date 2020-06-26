@@ -328,7 +328,7 @@ final class Str
 	public static function between(string $string, string $start, string $end, int $offset = 0, string $encoding = null) : string
 	{
 		if ($offset < 0)
-			throw InvalidArgumentException::value(4, '$offset must be greater than zero', $offset);
+			throw InvalidArgumentException::valueError(4, '$offset must be greater than zero', $offset);
 
 		$encoding = static::_getEncoding($encoding);
 
@@ -365,7 +365,7 @@ final class Str
 			$string = static::trimRight($string, $characterMask, $encoding);
 		}
 		else
-			throw InvalidArgumentException::type(2, ['string','int','null'], $characterMask);
+			throw InvalidArgumentException::typeError(2, ['string','int','null'], $characterMask);
 
 		return $string;
 	}
@@ -394,7 +394,7 @@ final class Str
 			$string = mb_substr($string, $start, null, $encoding);
 		}
 		else
-			throw InvalidArgumentException::type(2, ['string','int','null'], $characterMask);
+			throw InvalidArgumentException::typeError(2, ['string','int','null'], $characterMask);
 
 		return $string;
 	}
@@ -429,7 +429,7 @@ final class Str
 			$string = mb_substr($string, 0, $length, $encoding);
 		}
 		else
-			throw InvalidArgumentException::type(2, ['string','int','null'], $characterMask);
+			throw InvalidArgumentException::typeError(2, ['string','int','null'], $characterMask);
 
 		return $string;
 	}
@@ -813,10 +813,10 @@ final class Str
 	public static function replace(string $string, $search, $replace, int $limit = null, string $encoding = null) : string
 	{
 		if (!is_string($search) and !is_array($search))
-			throw InvalidArgumentException::type(2, ['string','array'], $search);
+			throw InvalidArgumentException::typeError(2, ['string','array'], $search);
 
 		if (!is_string($replace) and !is_array($replace))
-			throw InvalidArgumentException::type(2, ['string','array'], $replace);
+			throw InvalidArgumentException::typeError(2, ['string','array'], $replace);
 
 		if (empty($search))
 			return $string;
@@ -907,10 +907,10 @@ final class Str
 	public static function ireplace(string $string, $search, $replace, int $limit = null, string $encoding = null) : string
 	{
 		if (!is_string($search) and !is_array($search))
-			throw InvalidArgumentException::type(2, ['string','array'], $search);
+			throw InvalidArgumentException::typeError(2, ['string','array'], $search);
 
 		if (!is_string($replace) and !is_array($replace))
-			throw InvalidArgumentException::type(2, ['string','array'], $replace);
+			throw InvalidArgumentException::typeError(2, ['string','array'], $replace);
 
 		if (is_int($limit))
 		{
@@ -1418,7 +1418,7 @@ final class Str
 	public static function floatToString($number) : string
 	{
 		if (!is_float($number) and !is_int($number))
-			throw InvalidArgumentException::type(1, ['float','int'], $number);
+			throw InvalidArgumentException::typeError(1, ['float','int'], $number);
 
 		$string = str_replace(',', '.', (string)$number);
 

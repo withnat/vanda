@@ -68,7 +68,7 @@ final class XML
 	) : string
 	{
 		if (!Arr::isDataset($dataset))
-			throw InvalidArgumentException::type(1, ['dataset'], $dataset);
+			throw InvalidArgumentException::typeError(1, ['dataset'], $dataset);
 
 		$xml = static::_fromDatasetOrRecordset($dataset, $root, $element, $newline, $tab);
 
@@ -92,7 +92,7 @@ final class XML
 	) : string
 	{
 		if (!Arr::isRecordset($recordset))
-			throw InvalidArgumentException::type(1, ['recordset'], $recordset);
+			throw InvalidArgumentException::typeError(1, ['recordset'], $recordset);
 
 		$xml = static::_fromDatasetOrRecordset($recordset, $root, $element, $newline, $tab);
 

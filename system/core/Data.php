@@ -81,14 +81,14 @@ final class Data
 	public static function get($data, $keys, $default = null)
 	{
 		if (!is_array($data) and !is_object($data))
-			throw InvalidArgumentException::type(1, ['array','object'], $data);
+			throw InvalidArgumentException::typeError(1, ['array','object'], $data);
 
 		if (is_string($keys))
 			$keys = Str::explode($keys, '.');
 		elseif (is_int($keys))
 			$keys = [$keys];
 		else
-			throw InvalidArgumentException::type(2, ['int','string'], $keys);
+			throw InvalidArgumentException::typeError(2, ['int','string'], $keys);
 
 		foreach ($keys as $key)
 		{
@@ -122,7 +122,7 @@ final class Data
 	public static function set($data, string $key, $value)
 	{
 		if (!is_array($data) and !is_object($data))
-			throw InvalidArgumentException::type(1, ['array','object'], $data);
+			throw InvalidArgumentException::typeError(1, ['array','object'], $data);
 
 		if (is_object($data))
 		{
@@ -347,7 +347,7 @@ final class Data
 		}
 
 		if (!$valid)
-			throw InvalidArgumentException::type($argument, $allowedDataTypes, $data);
+			throw InvalidArgumentException::typeError($argument, $allowedDataTypes, $data);
 	}
 
 	/**
@@ -384,7 +384,7 @@ final class Data
 		}
 
 		if (!in_array($dataType, $allowedDataTypes))
-			throw InvalidArgumentException::type($argument, $allowedDataTypes, $data);
+			throw InvalidArgumentException::typeError($argument, $allowedDataTypes, $data);
 	}
 
 	/**
