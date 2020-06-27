@@ -72,9 +72,9 @@ final class ArrTest extends TestCase
 			true,
 			100
 		];
-		 
+
 		//
-		
+
 		static::$_arrayMulti = [
 			10,
 			20,
@@ -657,7 +657,7 @@ final class ArrTest extends TestCase
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
 		$compare = ($result === $expected);
-		
+
 		$this->assertTrue($compare);
 	}
 
@@ -3246,7 +3246,7 @@ final class ArrTest extends TestCase
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
 		$result['work'] = (array)$result['work'];
-		
+
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
