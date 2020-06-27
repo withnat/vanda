@@ -61,7 +61,7 @@ final class ArrTest extends TestCase
 	protected static $_expectedSortRecordsetByNameAsc;
 	protected static $_expectedSortRecordsetByNameDesc;
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		static::$_array = [
 			10,
@@ -265,7 +265,7 @@ final class ArrTest extends TestCase
 		static::$_expectedSortRecordsetByNameDesc[4] = static::$_recordsetArray[4];
 	}
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		static::$_arrayMulti = null;
 		static::$_assocArrayMulti = null;

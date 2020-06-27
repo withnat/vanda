@@ -51,7 +51,7 @@ final class CSVTest extends TestCase
 	protected static $_recordset;
 	protected static $_csvString;
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		static::$_dataset = [
 			[
@@ -95,7 +95,7 @@ final class CSVTest extends TestCase
 		static::$_csvString .= '"Angela","SG","Marketing Director","10000"' . "\n";
 	}
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		static::$_dataset = null;
 		static::$_recordset = null;

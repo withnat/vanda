@@ -55,7 +55,7 @@ final class JSONTest extends TestCase
 	protected static $_jsonString;
 	protected static $_dataTableString;
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		static::$_array = [
 			'name' => 'Nat',
@@ -132,7 +132,7 @@ final class JSONTest extends TestCase
 		static::$_dataTableString .= '}';
 	}
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		static::$_array = null;
 		static::$_object = null;

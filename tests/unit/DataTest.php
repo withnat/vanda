@@ -51,7 +51,7 @@ final class DataTest extends TestCase
 	protected static $_dataArrayAssoc;
 	protected static $_dataObject;
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		static::$_dataArray = [
 			'A',
@@ -77,7 +77,7 @@ final class DataTest extends TestCase
 		static::$_dataObject->work = $work;
 	}
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		static::$_dataArray = null;
 		static::$_dataArrayAssoc = null;

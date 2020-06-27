@@ -51,7 +51,7 @@ final class XMLTest extends TestCase
 	protected static $_recordset;
 	protected static $_xmlString;
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		static::$_dataset = [
 			[
@@ -106,7 +106,7 @@ final class XMLTest extends TestCase
 		static::$_xmlString .= "</root>\n";
 	}
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		static::$_dataset = null;
 		static::$_recordset = null;
