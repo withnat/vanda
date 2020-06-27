@@ -1660,13 +1660,7 @@ final class ArrTest extends TestCase
 	{
 		$result = Arr::random([1, 2, 3]);
 
-		$this->assertThat(
-			$result,
-			$this->logicalAnd(
-				$this->greaterThanOrEqual(1),
-				$this->lessThanOrEqual(3)
-			)
-		);
+		$this->assertContains($result, [1, 2, 3]);
 	}
 
 	// Arr::randomKey()
