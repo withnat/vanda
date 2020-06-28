@@ -484,6 +484,8 @@ final class InflectorTest extends TestCase
 
 	//Inflector::sentence()
 
+	use \phpmock\phpunit\PHPMock;
+
 	public function testMethodSentenceCase1() : void
 	{
 //		$t = $this->getMockBuilder('t')->getMock();
@@ -491,10 +493,31 @@ final class InflectorTest extends TestCase
 //
 //		echo $t('xxx');
 //		exit;
+
+//		self::$functions->shouldReceive('t')->with('')->once();
 //		$words = ['Nat', 'Angela'];
 //		$result = Inflector::sentence($words);
-
+//
+//
+//		echo $result;exit;
 		//$this->assertEquals('Nat and Angela', $result);
+
+		//\Mockery::mock('alias:\System\JSON')->shouldReceive('isValid')->andReturn('xxx');
+
+		$time = $this->getFunctionMock(__NAMESPACE__, "t");
+		$time->expects($this->once())->willReturn(3);
+
+
+
+
+		$words = ['Nat', 'Angela'];
+		$result = Inflector::sentence($words);
+
 		$this->assertTrue(true);
 	}
+
+//	public function setUp(): void
+//	{
+//		self::$functions = \Mockery::mock();
+//	}
 }
