@@ -39,6 +39,11 @@ namespace System;
 
 /**
  * Class Inflector
+ *
+ * The Inflector class takes a string and can manipulate it to handle word
+ * variations such as pluralizations or camelizing and is normally accessed
+ * statically. Example: Inflector::pluralize('example') returns "examples".
+ *
  * @package System
  */
 final class Inflector
@@ -73,17 +78,6 @@ final class Inflector
 			return false;
 
 		return true;
-	}
-
-	/**
-	 * Counts words in a string.
-	 *
-	 * @param  string $string
-	 * @return int
-	 */
-	public static function countWords(string $string) : int
-	{
-		return count(preg_split('/\s+/u', $string, null, PREG_SPLIT_NO_EMPTY));
 	}
 
 	/**
@@ -235,14 +229,12 @@ final class Inflector
 	public static function camelize(string $string) : string
 	{
 		$string = preg_replace('/[^a-zA-Z0-9\s]/', ' ', $string);
-		$string = str_replace(' ', '', ucwords(mb_strtolower(str_replace('_', ' ', $string))));
+		$string = str_replace(['_', '-'], ' ', $string);
+		$string = mb_strtolower($string);
+		$string = ucwords($string);
+		$string = str_replace(' ', '', $string);
 
 		return $string;
-	}
-
-	public static function studly(string $string) : string
-	{
-
 	}
 
 	/**
@@ -364,9 +356,10 @@ final class Inflector
 	}
 
 	/**
-	 * Converts number to its ordinal English form. For example, converts 13 to 13th, 2 to 2nd ...
-	 * @param  int    $number  The number to get its ordinal value
-	 * @return string
+	 * Add order suffix to numbers ex. 1st 2nd 3rd 4th 5th.
+	 *
+	 * @param  int    $number  The number to get its ordinal value.
+	 * @return string          The ordinalized version of $number.
 	 */
 	public static function ordinalize(int $number) : string
 	{
@@ -411,7 +404,7 @@ final class Inflector
 	public static function sentence(array $words, string $lastWordConnector = null, string $connector = ', ') : string
 	{
 		if (!$lastWordConnector)
-			$lastWordConnector = t(' and ');
+			$lastWordConnector = ' and ';
 
 		switch (count($words))
 		{
