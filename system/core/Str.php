@@ -42,6 +42,15 @@ use System\Exception\InvalidArgumentException;
 
 /**
  * Class Str
+ *
+ * The Str class is a set of methods to help with the manipulation of strings
+ * and is normally accessed statically. Example: Str::uuid().
+ *
+ * The class also contains multibyte agnostic versions of PHP's multibyte-aware
+ * functions. For example, you can replace both strlen() and mb_strlen() with
+ * Str::length(), which will return a multi-byte aware result based on whether
+ * or not PHP's mbstring extension is loaded.
+ *
  * @package System
  */
 final class Str
