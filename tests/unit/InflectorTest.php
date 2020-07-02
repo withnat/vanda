@@ -47,6 +47,23 @@ use PHPUnit\Framework\TestCase;
  */
 final class InflectorTest extends TestCase
 {
+	public function ordinalizeProvider()
+	{
+		return [
+			[1, 'st'],
+			[21, 'st'],
+			[2, 'nd'],
+			[22, 'nd'],
+			[3, 'rd'],
+			[23, 'rd'],
+			[4, 'th'],
+			[24, 'th'],
+			[111, 'th'],
+			[112, 'th'],
+			[113, 'th']
+		];
+	}
+
 	// Inflector::isCountable()
 
 	public function testMethodIsCountableCase1() : void
@@ -74,124 +91,131 @@ final class InflectorTest extends TestCase
 
 	public function testMethodPluralizeCase1() : void
 	{
+		$result = Inflector::pluralize('audio');
+
+		$this->assertEquals('audio', $result);
+	}
+
+	public function testMethodPluralizeCase2() : void
+	{
 		$result = Inflector::pluralize('quiz');
 
 		$this->assertEquals('quizzes', $result);
 	}
 
-	public function testMethodPluralizeCase2() : void
+	public function testMethodPluralizeCase3() : void
 	{
 		$result = Inflector::pluralize('ox');
 
 		$this->assertEquals('oxen', $result);
 	}
 
-	public function testMethodPluralizeCase3() : void
+	public function testMethodPluralizeCase4() : void
 	{
 		$result = Inflector::pluralize('mouse');
 
 		$this->assertEquals('mice', $result);
 	}
 
-	public function testMethodPluralizeCase4() : void
+	public function testMethodPluralizeCase5() : void
 	{
 		$result = Inflector::pluralize('matrix');
 
 		$this->assertEquals('matrices', $result);
 	}
 
-	public function testMethodPluralizeCase5() : void
+	public function testMethodPluralizeCase6() : void
 	{
 		$result = Inflector::pluralize('search');
 
 		$this->assertEquals('searches', $result);
 	}
 
-	public function testMethodPluralizeCase6() : void
+	public function testMethodPluralizeCase7() : void
 	{
 		$result = Inflector::pluralize('query');
 
 		$this->assertEquals('queries', $result);
 	}
 
-	public function testMethodPluralizeCase7() : void
+	public function testMethodPluralizeCase8() : void
 	{
 		$result = Inflector::pluralize('archive');
 
 		$this->assertEquals('archives', $result);
 	}
 
-	public function testMethodPluralizeCase8() : void
+	public function testMethodPluralizeCase9() : void
 	{
 		$result = Inflector::pluralize('half');
 
 		$this->assertEquals('halves', $result);
 	}
 
-	public function testMethodPluralizeCase9() : void
+	public function testMethodPluralizeCase10() : void
 	{
 		$result = Inflector::pluralize('basis');
 
 		$this->assertEquals('bases', $result);
 	}
 
-	public function testMethodPluralizeCase10() : void
+	public function testMethodPluralizeCase11() : void
 	{
 		$result = Inflector::pluralize('datum');
 
 		$this->assertEquals('data', $result);
 	}
 
-	public function testMethodPluralizeCase11() : void
+	public function testMethodPluralizeCase12() : void
 	{
 		$result = Inflector::pluralize('person');
 
 		$this->assertEquals('people', $result);
 	}
 
-	public function testMethodPluralizeCase12() : void
+	public function testMethodPluralizeCase13() : void
 	{
 		$result = Inflector::pluralize('man');
 
 		$this->assertEquals('men', $result);
 	}
 
-	public function testMethodPluralizeCase13() : void
+	public function testMethodPluralizeCase14() : void
 	{
 		$result = Inflector::pluralize('child');
 
 		$this->assertEquals('children', $result);
 	}
 
-	public function testMethodPluralizeCase14() : void
+	public function testMethodPluralizeCase15() : void
 	{
 		$result = Inflector::pluralize('buffalo');
 
 		$this->assertEquals('buffaloes', $result);
 	}
 
-	public function testMethodPluralizeCase15() : void
+	public function testMethodPluralizeCase16() : void
 	{
 		$result = Inflector::pluralize('bus');
 
 		$this->assertEquals('buses', $result);
 	}
 
-	public function testMethodPluralizeCase16() : void
+	public function testMethodPluralizeCase17() : void
 	{
 		$result = Inflector::pluralize('alias');
 
 		$this->assertEquals('aliases', $result);
 	}
 
-	public function testMethodPluralizeCase17() : void
+	public function testMethodPluralizeCase18() : void
 	{
 		$result = Inflector::pluralize('octopus');
 
 		$this->assertEquals('octopi', $result);
 	}
 
-	public function testMethodPluralizeCase18() : void
+	public function testMethodPluralizeCase19() : void
 	{
 		$result = Inflector::pluralize('axis');
 
@@ -347,7 +371,7 @@ final class InflectorTest extends TestCase
 		$this->assertEquals('quiz', $result);
 	}
 
-	// Inflector::camelize()
+		// Inflector::camelize()
 
 	public function testMethodCamelizeCase1() : void
 	{
@@ -454,70 +478,32 @@ final class InflectorTest extends TestCase
 
 	// Inflector::ordinalize()
 
-	public function testMethodOrdinalizeCase1() : void
+	/**
+	 * @param $number
+	 * @param $suffix
+	 * @dataProvider ordinalizeProvider
+	 */
+	public function testMethodOrdinalizeCase1($number, $suffix) : void
 	{
-		$result = Inflector::ordinalize(1);
-
-		$this->assertEquals('1st', $result);
-	}
-
-	public function testMethodOrdinalizeCase2() : void
-	{
-		$result = Inflector::ordinalize(2);
-
-		$this->assertEquals('2nd', $result);
-	}
-
-	public function testMethodOrdinalizeCase3() : void
-	{
-		$result = Inflector::ordinalize(3);
-
-		$this->assertEquals('3rd', $result);
-	}
-
-	public function testMethodOrdinalizeCase4() : void
-	{
-		$result = Inflector::ordinalize(4);
-
-		$this->assertEquals('4th', $result);
+		$this->assertEquals($number.$suffix, Inflector::ordinalize($number));
 	}
 
 	//Inflector::sentence()
 
-	use \phpmock\phpunit\PHPMock;
-
 	public function testMethodSentenceCase1() : void
 	{
-//		$t = $this->getMockBuilder('t')->getMock();
-//		$t->expects($this->any())->will($this->returnValue('a'));
-//
-//		echo $t('xxx');
-//		exit;
+		$result = Inflector::sentence([]);
 
-//		self::$functions->shouldReceive('t')->with('')->once();
-//		$words = ['Nat', 'Angela'];
-//		$result = Inflector::sentence($words);
-//
-//
-//		echo $result;exit;
-		//$this->assertEquals('Nat and Angela', $result);
+		$this->assertEquals('', $result);
+	}
 
-		//\Mockery::mock('alias:\System\JSON')->shouldReceive('isValid')->andReturn('xxx');
-
-		$time = $this->getFunctionMock(__NAMESPACE__, "t");
-		$time->expects($this->once())->willReturn(3);
-
-
-
+	public function testMethodSentenceCase2() : void
+	{
+		$expected = 'Nat and Angela';
 
 		$words = ['Nat', 'Angela'];
 		$result = Inflector::sentence($words);
 
-		$this->assertTrue(true);
+		$this->assertEquals($expected, $result);
 	}
-
-//	public function setUp(): void
-//	{
-//		self::$functions = \Mockery::mock();
-//	}
 }
