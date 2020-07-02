@@ -322,6 +322,23 @@ final class Inflector
 	}
 
 	/**
+	 * Gets the foreign key for a given class, model or table name.
+	 *
+	 * @param  string $string  The class, model or table name.
+	 * @return string          The foreign key.
+	 */
+	public static function foreignKey(string $string) : string
+	{
+		if ($string)
+		{
+			$string = static::variablize($string);
+			$string = Str::ensureEndsWith($string, 'Id');
+		}
+
+		return $string;
+	}
+
+	/**
 	 * Create URL Title
 	 *
 	 * Takes a "title" string as input and creates a
