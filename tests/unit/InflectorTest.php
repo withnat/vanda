@@ -47,6 +47,110 @@ use PHPUnit\Framework\TestCase;
  */
 final class InflectorTest extends TestCase
 {
+	public function isCountableProvider()
+	{
+		return [
+			['audio', false],
+			['AUDIO', false],
+			['Dog', true]
+		];
+	}
+
+	public function pluralizeProvider()
+	{
+		return [
+			['audio', 'audio'],
+			['quiz', 'quizzes'],
+			['ox', 'oxen'],
+			['mouse', 'mice'],
+			['matrix', 'matrices'],
+			['search', 'searches'],
+			['query', 'queries'],
+			['archive', 'archives'],
+			['half', 'halves'],
+			['basis', 'bases'],
+			['datum', 'data'],
+			['person', 'people'],
+			['man', 'men'],
+			['child', 'children'],
+			['buffalo', 'buffaloes'],
+			['bus', 'buses'],
+			['alias', 'aliases'],
+			['octopus', 'octopi'],
+			['axis', 'axes'],
+		];
+	}
+
+	public function singularizeProvider()
+	{
+		return [
+			['matrices', 'matrix'],
+			['vertices', 'vertex'],
+			['oxen', 'ox'],
+			['aliases', 'alias'],
+			['octopi', 'octopus'],
+			['crises', 'crisis'],
+			['shoes', 'shoe'],
+			['oes', 'o'],
+			['buses', 'bus'],
+			['mice', 'mouse'],
+			['xes', 'x'],
+			['movies', 'movie'],
+			['series', 'series'],
+			['tives', 'tive'],
+			['hives', 'hive'],
+			['people', 'person'],
+			['men', 'man'],
+			['statuses', 'status'],
+			['children', 'child'],
+			['news', 'news'],
+			['quizzes', 'quiz']
+		];
+	}
+
+	public function camelizeProvider()
+	{
+		return [
+			['Some Day', 'SomeDay'],
+			['some_day', 'SomeDay'],
+			['She\'s hot', 'SheSHot']
+		];
+	}
+
+	public function underscoreProvider()
+	{
+		return [
+			['FooBar', 'foo_bar'],
+			['foo bar', 'foo_bar']
+		];
+	}
+
+	public function variablizeProvider()
+	{
+		return [
+			['Some Day', 'someDay'],
+			['some_day', 'someDay'],
+			['She\'s hot', 'sheSHot']
+		];
+	}
+
+	public function foreignKeyProvider()
+	{
+		return [
+			['', ''],
+			['UserGroup', 'userGroupId']
+		];
+	}
+
+	public function sentenceProvider()
+	{
+		return [
+			[[], ''],
+			[['Nat', 'Angela'], 'Nat and Angela'],
+			[['Nat', 'Emma', 'Angela'], 'Nat, Emma and Angela']
+		];
+	}
+
 	public function ordinalizeProvider()
 	{
 		return [
@@ -66,353 +170,77 @@ final class InflectorTest extends TestCase
 
 	// Inflector::isCountable()
 
-	public function testMethodIsCountableCase1() : void
+	/**
+	 * @param string $string
+	 * @param bool   $expected
+	 * @dataProvider isCountableProvider
+	 */
+	public function testMethodIsCountable(string $string, bool $expected) : void
 	{
-		$result = Inflector::isCountable('audio');
+		$result = Inflector::isCountable($string);
 
-		$this->assertFalse($result);
-	}
-
-	public function testMethodIsCountableCase2() : void
-	{
-		$result = Inflector::isCountable('AUDIO');
-
-		$this->assertFalse($result);
-	}
-
-	public function testMethodIsCountableCase3() : void
-	{
-		$result = Inflector::isCountable('Dog');
-
-		$this->assertTrue($result);
+		$this->assertSame($expected, $result);
 	}
 
 	// Inflector::pluralize()
 
-	public function testMethodPluralizeCase1() : void
+	/**
+	 * @param string $noun
+	 * @param string $expected
+	 * @dataProvider pluralizeProvider
+	 */
+	public function testMethodPluralize(string $noun, string $expected) : void
 	{
-		$result = Inflector::pluralize('audio');
+		$result = Inflector::pluralize($noun);
 
-		$this->assertEquals('audio', $result);
-	}
-
-	public function testMethodPluralizeCase2() : void
-	{
-		$result = Inflector::pluralize('quiz');
-
-		$this->assertEquals('quizzes', $result);
-	}
-
-	public function testMethodPluralizeCase3() : void
-	{
-		$result = Inflector::pluralize('ox');
-
-		$this->assertEquals('oxen', $result);
-	}
-
-	public function testMethodPluralizeCase4() : void
-	{
-		$result = Inflector::pluralize('mouse');
-
-		$this->assertEquals('mice', $result);
-	}
-
-	public function testMethodPluralizeCase5() : void
-	{
-		$result = Inflector::pluralize('matrix');
-
-		$this->assertEquals('matrices', $result);
-	}
-
-	public function testMethodPluralizeCase6() : void
-	{
-		$result = Inflector::pluralize('search');
-
-		$this->assertEquals('searches', $result);
-	}
-
-	public function testMethodPluralizeCase7() : void
-	{
-		$result = Inflector::pluralize('query');
-
-		$this->assertEquals('queries', $result);
-	}
-
-	public function testMethodPluralizeCase8() : void
-	{
-		$result = Inflector::pluralize('archive');
-
-		$this->assertEquals('archives', $result);
-	}
-
-	public function testMethodPluralizeCase9() : void
-	{
-		$result = Inflector::pluralize('half');
-
-		$this->assertEquals('halves', $result);
-	}
-
-	public function testMethodPluralizeCase10() : void
-	{
-		$result = Inflector::pluralize('basis');
-
-		$this->assertEquals('bases', $result);
-	}
-
-	public function testMethodPluralizeCase11() : void
-	{
-		$result = Inflector::pluralize('datum');
-
-		$this->assertEquals('data', $result);
-	}
-
-	public function testMethodPluralizeCase12() : void
-	{
-		$result = Inflector::pluralize('person');
-
-		$this->assertEquals('people', $result);
-	}
-
-	public function testMethodPluralizeCase13() : void
-	{
-		$result = Inflector::pluralize('man');
-
-		$this->assertEquals('men', $result);
-	}
-
-	public function testMethodPluralizeCase14() : void
-	{
-		$result = Inflector::pluralize('child');
-
-		$this->assertEquals('children', $result);
-	}
-
-	public function testMethodPluralizeCase15() : void
-	{
-		$result = Inflector::pluralize('buffalo');
-
-		$this->assertEquals('buffaloes', $result);
-	}
-
-	public function testMethodPluralizeCase16() : void
-	{
-		$result = Inflector::pluralize('bus');
-
-		$this->assertEquals('buses', $result);
-	}
-
-	public function testMethodPluralizeCase17() : void
-	{
-		$result = Inflector::pluralize('alias');
-
-		$this->assertEquals('aliases', $result);
-	}
-
-	public function testMethodPluralizeCase18() : void
-	{
-		$result = Inflector::pluralize('octopus');
-
-		$this->assertEquals('octopi', $result);
-	}
-
-	public function testMethodPluralizeCase19() : void
-	{
-		$result = Inflector::pluralize('axis');
-
-		$this->assertEquals('axes', $result);
+		$this->assertEquals($expected, $result);
 	}
 
 	// Inflector::singularize()
 
-	public function testMethodSingularizeCase1() : void
+	/**
+	 * @param string $noun
+	 * @param string $expected
+	 * @dataProvider singularizeProvider
+	 */
+	public function testMethodSingularize(string $noun, string $expected) : void
 	{
-		$result = Inflector::singularize('matrices');
+		$result = Inflector::singularize($noun);
 
-		$this->assertEquals('matrix', $result);
+		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodSingularizeCase2() : void
+	// Inflector::camelize()
+
+	/**
+	 * @param string $string
+	 * @param string $expected
+	 * @dataProvider camelizeProvider
+	 */
+	public function testMethodCamelize(string $string, string $expected) : void
 	{
-		$result = Inflector::singularize('vertices');
+		$result = Inflector::camelize($string);
 
-		$this->assertEquals('vertex', $result);
-	}
-
-	public function testMethodSingularizeCase3() : void
-	{
-		$result = Inflector::singularize('oxen');
-
-		$this->assertEquals('ox', $result);
-	}
-
-	public function testMethodSingularizeCase4() : void
-	{
-		$result = Inflector::singularize('aliases');
-
-		$this->assertEquals('alias', $result);
-	}
-
-	public function testMethodSingularizeCase5() : void
-	{
-		$result = Inflector::singularize('octopi');
-
-		$this->assertEquals('octopus', $result);
-	}
-
-	public function testMethodSingularizeCase6() : void
-	{
-		$result = Inflector::singularize('crises');
-
-		$this->assertEquals('crisis', $result);
-	}
-
-	public function testMethodSingularizeCase7() : void
-	{
-		$result = Inflector::singularize('shoes');
-
-		$this->assertEquals('shoe', $result);
-	}
-
-	public function testMethodSingularizeCase8() : void
-	{
-		$result = Inflector::singularize('oes');
-
-		$this->assertEquals('o', $result);
-	}
-
-	public function testMethodSingularizeCase9() : void
-	{
-		$result = Inflector::singularize('buses');
-
-		$this->assertEquals('bus', $result);
-	}
-
-	public function testMethodSingularizeCase10() : void
-	{
-		$result = Inflector::singularize('mice');
-
-		$this->assertEquals('mouse', $result);
-	}
-
-	public function testMethodSingularizeCase11() : void
-	{
-		$result = Inflector::singularize('xes');
-
-		$this->assertEquals('x', $result);
-	}
-
-	public function testMethodSingularizeCase12() : void
-	{
-		$result = Inflector::singularize('movies');
-
-		$this->assertEquals('movie', $result);
-	}
-
-	public function testMethodSingularizeCase13() : void
-	{
-		$result = Inflector::singularize('series');
-
-		$this->assertEquals('series', $result);
-	}
-
-	public function testMethodSingularizeCase14() : void
-	{
-		$result = Inflector::singularize('tives');
-
-		$this->assertEquals('tive', $result);
-	}
-
-	public function testMethodSingularizeCase15() : void
-	{
-		$result = Inflector::singularize('hives');
-
-		$this->assertEquals('hive', $result);
-	}
-
-	public function testMethodSingularizeCase16() : void
-	{
-		$result = Inflector::singularize('people');
-
-		$this->assertEquals('person', $result);
-	}
-
-	public function testMethodSingularizeCase17() : void
-	{
-		$result = Inflector::singularize('men');
-
-		$this->assertEquals('man', $result);
-	}
-
-	public function testMethodSingularizeCase18() : void
-	{
-		$result = Inflector::singularize('statuses');
-
-		$this->assertEquals('status', $result);
-	}
-
-	public function testMethodSingularizeCase19() : void
-	{
-		$result = Inflector::singularize('children');
-
-		$this->assertEquals('child', $result);
-	}
-
-	public function testMethodSingularizeCase20() : void
-	{
-		$result = Inflector::singularize('news');
-
-		$this->assertEquals('news', $result);
-	}
-
-	public function testMethodSingularizeCase21() : void
-	{
-		$result = Inflector::singularize('quizzes');
-
-		$this->assertEquals('quiz', $result);
-	}
-
-		// Inflector::camelize()
-
-	public function testMethodCamelizeCase1() : void
-	{
-		$result = Inflector::camelize('Some Day');
-
-		$this->assertEquals('SomeDay', $result);
-	}
-
-	public function testMethodCamelizeCase2() : void
-	{
-		$result = Inflector::camelize('some_day');
-
-		$this->assertEquals('SomeDay', $result);
-	}
-
-	public function testMethodCamelizeCase3() : void
-	{
-		$result = Inflector::camelize('She\'s hot');
-
-		$this->assertEquals('SheSHot', $result);
+		$this->assertEquals($expected, $result);
 	}
 
 	// Inflector::underscore()
 
-	public function testMethodUnderscoreCase1() : void
+	/**
+	 * @param string $string
+	 * @param string $expected
+	 * @dataProvider underscoreProvider
+	 */
+	public function testMethodUnderscore(string $string, string $expected) : void
 	{
-		$result = Inflector::underscore('FooBar');
+		$result = Inflector::underscore($string);
 
-		$this->assertEquals('foo_bar', $result);
-	}
-
-	public function testMethodUnderscoreCase2() : void
-	{
-		$result = Inflector::underscore('foo bar');
-
-		$this->assertEquals('foo_bar', $result);
+		$this->assertEquals($expected, $result);
 	}
 
 	// Inflector::explode()
 
-	public function testMethodExplodeCase1() : void
+	public function testMethodExplode() : void
 	{
 		$result = Inflector::explode('FooBar');
 
@@ -421,7 +249,7 @@ final class InflectorTest extends TestCase
 
 	// Inflector::implode()
 
-	public function testMethodImplodeCase1() : void
+	public function testMethodImplode() : void
 	{
 		$result = Inflector::implode(['foo', 'bar']);
 
@@ -430,7 +258,7 @@ final class InflectorTest extends TestCase
 
 	// Inflector::humanize()
 
-	public function testMethodHumanizeCase1() : void
+	public function testMethodHumanize() : void
 	{
 		$result = Inflector::humanize('I had my car fixed_yesTerday');
 
@@ -439,46 +267,35 @@ final class InflectorTest extends TestCase
 
 	// Inflector::variablize()
 
-	public function testMethodVariablizeCase1() : void
+	/**
+	 * @param string $string
+	 * @param string $expected
+	 * @dataProvider variablizeProvider
+	 */
+	public function testMethodVariablize(string $string, string $expected) : void
 	{
-		$result = Inflector::variablize('Some Day');
+		$result = Inflector::variablize($string);
 
-		$this->assertEquals('someDay', $result);
-	}
-
-	public function testMethodVariablizeCase2() : void
-	{
-		$result = Inflector::variablize('some_day');
-
-		$this->assertEquals('someDay', $result);
-	}
-
-	public function testMethodVariablizeCase3() : void
-	{
-		$result = Inflector::variablize('She\'s hot');
-
-		$this->assertEquals('sheSHot', $result);
+		$this->assertEquals($expected, $result);
 	}
 
 	// Inflector::foreignKey()
 
-	public function testMethodForeignKeyCase1() : void
+	/**
+	 * @param string $string
+	 * @param string $expected
+	 * @dataProvider foreignKeyProvider
+	 */
+	public function testMethodForeignKey(string $string, string $expected) : void
 	{
-		$result = Inflector::foreignKey('');
+		$result = Inflector::foreignKey($string);
 
-		$this->assertEquals('', $result);
-	}
-
-	public function testMethodForeignKeyCase2() : void
-	{
-		$result = Inflector::foreignKey('UserGroup');
-
-		$this->assertEquals('userGroupId', $result);
+		$this->assertEquals($expected, $result);
 	}
 
 	// Inflector::slugify()
 
-	public function testMethodSlugifyCase3() : void
+	public function testMethodSlugifyCase1() : void
 	{
 		$result = Inflector::slugify('Vanda PHP Web Framework');
 
@@ -495,29 +312,27 @@ final class InflectorTest extends TestCase
 	// Inflector::ordinalize()
 
 	/**
-	 * @param $number
-	 * @param $suffix
+	 * @param int    $number
+	 * @param string $suffix
 	 * @dataProvider ordinalizeProvider
 	 */
-	public function testMethodOrdinalizeCase1($number, $suffix) : void
+	public function testMethodOrdinalize(int $number, string $suffix) : void
 	{
-		$this->assertEquals($number.$suffix, Inflector::ordinalize($number));
+		$expected = $number . $suffix;
+		$result = Inflector::ordinalize($number);
+
+		$this->assertEquals($expected, $result);
 	}
 
 	//Inflector::sentence()
 
-	public function testMethodSentenceCase1() : void
+	/**
+	 * @param array  $words
+	 * @param string $expected
+	 * @dataProvider sentenceProvider
+	 */
+	public function testMethodSentence(array $words, string $expected) : void
 	{
-		$result = Inflector::sentence([]);
-
-		$this->assertEquals('', $result);
-	}
-
-	public function testMethodSentenceCase2() : void
-	{
-		$expected = 'Nat and Angela';
-
-		$words = ['Nat', 'Angela'];
 		$result = Inflector::sentence($words);
 
 		$this->assertEquals($expected, $result);
