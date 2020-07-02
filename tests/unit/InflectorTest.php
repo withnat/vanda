@@ -460,6 +460,22 @@ final class InflectorTest extends TestCase
 		$this->assertEquals('sheSHot', $result);
 	}
 
+	// Inflector::foreignKey()
+
+	public function testMethodForeignKeyCase1() : void
+	{
+		$result = Inflector::foreignKey('');
+
+		$this->assertEquals('', $result);
+	}
+
+	public function testMethodForeignKeyCase2() : void
+	{
+		$result = Inflector::foreignKey('UserGroup');
+
+		$this->assertEquals('userGroupId', $result);
+	}
+
 	// Inflector::slugify()
 
 	public function testMethodSlugifyCase3() : void
