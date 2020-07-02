@@ -37,6 +37,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use ErrorException;
 use stdClass;
 use System\Arr;
 use PHPUnit\Framework\TestCase;
@@ -3933,31 +3934,19 @@ final class ArrTest extends TestCase
 
 	// Arr::toJSON()
 
-	public function testMethodToJsonCase1() : void
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @throws ErrorException
+	 */
+	public function testMethodToJson() : void
 	{
+		$mockedJson = \Mockery::mock('alias:\System\JSON');
+		$mockedJson->shouldReceive(['encode' => '[]']);
+
 		$result = Arr::toJSON([]);
 
 		$this->assertEquals('[]', $result);
-	}
-
-	public function testMethodToJsonCase2() : void
-	{
-		$expected = '[10,20,"A","b",["x","y"],null,true,100]';
-
-		$result = Arr::toJSON(static::$_arrayMulti);
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodToJsonCase3() : void
-	{
-		$expected = '{"name":"Nat","surname":"Withe","age":38,"work":{"position":"Web Developer",'
-			. '"salary":10000,"hrscore":9.8,"excellent":true,"other":""},"height":181,'
-			. '"weight":87.5,"handsome":true,"ugly":false,"other":"","extra":null}';
-
-		$result = Arr::toJSON(static::$_assocArrayMulti);
-
-		$this->assertEquals($expected, $result);
 	}
 
 	// Arr::remove()
