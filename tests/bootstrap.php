@@ -40,7 +40,7 @@ namespace Tests;
 use System\Autoloader;
 
 // Set constants used in Vanda.
-putenv('APP_ENV=dev');
+putenv('APP_ENV=development');
 
 define('VD', 1);
 define('ENV', getenv('APP_ENV'));
