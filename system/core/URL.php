@@ -189,7 +189,10 @@ final class URL
 	 */
 	public static function encode(string $string) : string
 	{
-		return strtr(base64_encode($string), '+/', '-_');
+		$string = base64_encode($string);
+		$string = str_replace(['+', '/'], ['-', '_'], $string);
+
+		return $string;
 	}
 
 	/**
