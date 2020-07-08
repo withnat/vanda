@@ -421,4 +421,52 @@ final class URLTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// URL::getContext()
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function testMethodGetContextCase1()
+	{
+		putenv('SIDE=admin');
+		putenv('MODULE=user');
+		putenv('CONTROLLER=user');
+
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['url' => 'https://localhost/vanda/admin/user/user/modify?id=1']);
+
+		$expected = 'httpslocalhostvandaadminusermodify';
+
+		$result = URL::getContext();
+
+		$this->assertEquals($expected, $result);
+
+		putenv('SIDE');
+		putenv('MODULE');
+		putenv('CONTROLLER');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function testMethodGetContextCase2()
+	{
+		putenv('SIDE=admin');
+		putenv('MODULE=user');
+		putenv('CONTROLLER=group');
+
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['url' => 'https://localhost/vanda/admin/user/group/modify?id=1']);
+
+		$expected = 'httpslocalhostvandaadminusergroupmodify';
+
+		$result = URL::getContext();
+
+		$this->assertEquals($expected, $result);
+
+		putenv('SIDE');
+		putenv('MODULE');
+		putenv('CONTROLLER');
+	}
 }
