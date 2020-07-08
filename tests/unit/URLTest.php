@@ -97,6 +97,36 @@ final class URLTest extends TestCase
 
 	// URL::route()
 
+	public function testRouteWithFullUrl()
+	{
+		$url = 'https://google.com';
+		$expected = 'https://google.com';
+
+		$result = URL::route($url);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testRouteWithFullUrlAndForceToSecure()
+	{
+		$url = 'http://google.com';
+		$expected = 'https://google.com';
+
+		$result = URL::route($url, true);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testRouteWithFullUrlAndForceToNotSecure()
+	{
+		$url = 'https://google.com';
+		$expected = 'http://google.com';
+
+		$result = URL::route($url, false);
+
+		$this->assertEquals($expected, $result);
+	}
+
 	/**
 	 * @param string $string
 	 * @param bool   $secure
