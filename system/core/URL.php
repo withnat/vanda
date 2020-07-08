@@ -242,7 +242,9 @@ final class URL
 	 */
 	public static function getUser(string $url) : ?string
 	{
-		return @static::parse($url)['user'];
+		$data = static::parse($url);
+
+		return $data['user'] ?? null;
 	}
 
 	/**
