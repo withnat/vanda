@@ -275,7 +275,9 @@ final class URL
 	 */
 	public static function getPort(string $url) : ?int
 	{
-		return @static::parse($url)['port'];
+		$data = static::parse($url);
+
+		return $data['port'] ?? null;
 	}
 
 	/**
