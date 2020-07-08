@@ -619,4 +619,24 @@ final class URLTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// URL::getPort()
+
+	public function testMethodGetPortCase1()
+	{
+		$result = URL::getPort('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetPortCase2()
+	{
+		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
+		$expected = 9090;
+
+		$result = URL::getPort($url);
+
+		$this->assertIsInt($result);
+		$this->assertEquals($expected, $result);
+	}
 }
