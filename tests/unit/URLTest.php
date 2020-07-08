@@ -581,4 +581,23 @@ final class URLTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// URL::getPass()
+
+	public function testMethodGetPassCase1()
+	{
+		$result = URL::getPass('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetPassCase2()
+	{
+		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
+		$expected = 'password';
+
+		$result = URL::getPass($url);
+
+		$this->assertEquals($expected, $result);
+	}
 }
