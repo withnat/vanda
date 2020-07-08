@@ -397,6 +397,17 @@ final class Inflector
 	}
 
 	/**
+	 * @param  string $string
+	 * @return string
+	 */
+	public static function controllerize(string $string) : string
+	{
+		$controller = static::camelize($string) . 'Controller';
+
+		return $controller;
+	}
+
+	/**
 	 * Converts a list of words into a sentence.
 	 *
 	 * Special treatment is done for the last few words. For example,
