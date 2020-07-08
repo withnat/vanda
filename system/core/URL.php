@@ -310,7 +310,9 @@ final class URL
 	 */
 	public static function getQuery(string $url) : ?string
 	{
-		return @static::parse($url)['query'];
+		$data = static::parse($url);
+
+		return $data['query'] ?? null;
 	}
 
 	/**
