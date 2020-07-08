@@ -89,10 +89,8 @@ final class Inflector
 	 */
 	public static function pluralize(string $string) : string
 	{
-		$result = strval($string);
-
-		if (!static::isCountable($result))
-			return $result;
+		if (!static::isCountable($string))
+			return $string;
 
 		$rules = [
 			'/(quiz)$/'                => '\1zes',      // quiz > quizzes
@@ -140,14 +138,14 @@ final class Inflector
 
 		foreach ($rules as $rule => $replacement)
 		{
-			if (preg_match($rule, $result))
+			if (preg_match($rule, $string))
 			{
-				$result = preg_replace($rule, $replacement, $result);
+				$string = preg_replace($rule, $replacement, $string);
 				break;
 			}
 		}
 
-		return $result;
+		return $string;
 	}
 
 	/**
@@ -159,10 +157,8 @@ final class Inflector
 	 */
 	public static function singularize(string $string) : string
 	{
-		$result = strval($string);
-
-		if (!static::isCountable($result))
-			return $result;
+		if (!static::isCountable($string))
+			return $string;
 
 		$rules = [
 			'/(matr)ices$/'            => '\1ix',       // matrices > matrix
@@ -206,14 +202,14 @@ final class Inflector
 
 		foreach ($rules as $rule => $replacement)
 		{
-			if (preg_match($rule, $result))
+			if (preg_match($rule, $string))
 			{
-				$result = preg_replace($rule, $replacement, $result);
+				$string = preg_replace($rule, $replacement, $string);
 				break;
 			}
 		}
 
-		return $result;
+		return $string;
 	}
 
 	/**
@@ -316,9 +312,10 @@ final class Inflector
 	public static function variablize(string $string) : string
 	{
 		$string   = static::camelize(static::underscore($string));
-		$result   = mb_strtolower(mb_substr($string, 0, 1));
+		$firstChar   = mb_strtolower(mb_substr($string, 0, 1));
+		$string = preg_replace('/\\w/', $firstChar, $string, 1);
 
-		return preg_replace('/\\w/', $result, $string, 1);
+		return $string;
 	}
 
 	/**
@@ -369,7 +366,9 @@ final class Inflector
 		if ($lowercase)
 			$string = mb_strtolower($string);
 
-		return trim(trim($string, $separator));
+		$string = trim(trim($string, $separator));
+
+		return $string;
 	}
 
 	/**
@@ -386,14 +385,19 @@ final class Inflector
 		switch ($number % 10)
 		{
 			case 1:
-				return $number . 'st';
+				$string = $number . 'st';
+				break;
 			case 2:
-				return $number . 'nd';
+				$string = $number . 'nd';
+				break;
 			case 3:
-				return $number . 'rd';
+				$string = $number . 'rd';
+				break;
 			default:
-				return $number . 'th';
+				$string = $number . 'th';
 		}
+
+		return $string;
 	}
 
 	/**
@@ -448,13 +452,18 @@ final class Inflector
 		switch (count($words))
 		{
 			case 0:
-				return '';
+				$string = '';
+				break;
 			case 1:
-				return reset($words);
+				$string = reset($words);
+				break;
 			case 2:
-				return implode($lastWordConnector, $words);
+				$string = implode($lastWordConnector, $words);
+				break;
 			default:
-				return implode($connector, array_slice($words, 0, -1)) . $lastWordConnector . end($words);
+				$string = implode($connector, array_slice($words, 0, -1)) . $lastWordConnector . end($words);
 		}
+
+		return $string;
 	}
 }
