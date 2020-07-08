@@ -480,4 +480,15 @@ final class URLTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// URL::decode()
+
+	public function testMethodDecodeCase1()
+	{
+		$expected = 'https://localhost/vanda?name=Nat+Withe';
+
+		$result = URL::decode('aHR0cHM6Ly9sb2NhbGhvc3QvdmFuZGE_bmFtZT1OYXQrV2l0aGU=');
+
+		$this->assertEquals($expected, $result);
+	}
 }
