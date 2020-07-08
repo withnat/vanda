@@ -639,4 +639,23 @@ final class URLTest extends TestCase
 		$this->assertIsInt($result);
 		$this->assertEquals($expected, $result);
 	}
+
+	// URL::getPath()
+
+	public function testMethodGetPathCase1()
+	{
+		$result = URL::getPath('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetPathCase2()
+	{
+		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
+		$expected = '/path';
+
+		$result = URL::getPath($url);
+
+		$this->assertEquals($expected, $result);
+	}
 }
