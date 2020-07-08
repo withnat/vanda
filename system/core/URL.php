@@ -253,7 +253,9 @@ final class URL
 	 */
 	public static function getPass(string $url) : ?string
 	{
-		return @static::parse($url)['pass'];
+		$data = static::parse($url);
+
+		return $data['pass'] ?? null;
 	}
 
 	/**
