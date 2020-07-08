@@ -38,13 +38,13 @@ declare(strict_types=1);
 namespace System;
 
 /**
- * Class Uri
+ * Class URL
  * @package System
  */
-final class Uri
+final class URL
 {
 	/**
-	 * Uri constructor.
+	 * URL constructor.
 	 */
 	private function __construct(){}
 
@@ -75,21 +75,23 @@ final class Uri
 			if ($side == 'frontend')
 			{
 				$lang = ($lang ? '/' . $lang : '');
-				$uri = Request::baseUrl() . $prefix . $lang . $uri;
+				$url = Request::baseUrl() . $prefix . $lang . $uri;
 			}
 			else
 			{
 				$backendpath = \Setting::get('backendpath', '/admin');
-				$uri = Request::baseUrl() . $prefix . $backendpath . $uri;
+				$url = Request::baseUrl() . $prefix . $backendpath . $uri;
 			}
 
-			if ($secure === true and substr($uri, 0, 7) == 'http://')
-				$uri = substr_replace($uri, 'https://', 0, 7);
-			elseif ($secure === false and substr($uri, 0, 8) == 'https://')
-				$uri = substr_replace($uri, 'http://', 0, 8);
+			if ($secure === true and substr($url, 0, 7) == 'http://')
+				$url = substr_replace($url, 'https://', 0, 7);
+			elseif ($secure === false and substr($url, 0, 8) == 'https://')
+				$url = substr_replace($url, 'http://', 0, 8);
 		}
+		else
+			$url = $uri;
 
-		return $uri;
+		return $url;
 	}
 
 	/**
@@ -125,9 +127,9 @@ final class Uri
 				$uri = getenv('MODULE') . '/' . getenv('CONTROLLER') . '/' . $action;
 		}
 
-		$uri = static::route($uri);
+		$url = static::route($uri);
 
-		return $uri;
+		return $url;
 	}
 
 	/**
