@@ -600,4 +600,23 @@ final class URLTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// URL::getHost()
+
+	public function testMethodGetHostCase1()
+	{
+		$result = URL::getHost('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetHostCase2()
+	{
+		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
+		$expected = 'hostname';
+
+		$result = URL::getHost($url);
+
+		$this->assertEquals($expected, $result);
+	}
 }
