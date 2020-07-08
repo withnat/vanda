@@ -151,6 +151,15 @@ final class InflectorTest extends TestCase
 		];
 	}
 
+	public function actionizeProvider()
+	{
+		return [
+			['Some Day', 'SomeDayAction'],
+			['some_day', 'SomeDayAction'],
+			['She\'s hot', 'SheSHotAction']
+		];
+	}
+
 	public function sentenceProvider()
 	{
 		return [
@@ -343,6 +352,20 @@ final class InflectorTest extends TestCase
 	public function testMethodControllerize(string $string, string $expected) : void
 	{
 		$result = Inflector::controllerize($string);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	// Inflector::actionize()
+
+	/**
+	 * @param string $string
+	 * @param string $expected
+	 * @dataProvider actionizeProvider
+	 */
+	public function testMethodActionize(string $string, string $expected) : void
+	{
+		$result = Inflector::actionize($string);
 
 		$this->assertEquals($expected, $result);
 	}
