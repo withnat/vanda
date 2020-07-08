@@ -204,12 +204,12 @@ final class Uri
 	 * Parse a URL and return its components.
 	 * This is just an alias for PHP's native parse_url().
 	 *
-	 * @param  string $uri
+	 * @param  string $url
 	 * @return array
 	 */
-	public static function parse(string $uri) : array
+	public static function parse(string $url) : array
 	{
-		return parse_url($uri);
+		return parse_url($url);
 	}
 
 	/**
