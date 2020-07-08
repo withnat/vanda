@@ -231,7 +231,9 @@ final class URL
 	 */
 	public static function getScheme(string $url) : ?string
 	{
-		return @static::parse($url)['scheme'];
+		$data = static::parse($url);
+
+		return $data['scheme'] ?? null;
 	}
 
 	/**
