@@ -82,14 +82,14 @@ final class URL
 				$backendpath = \Setting::get('backendpath', '/admin');
 				$url = Request::baseUrl() . $prefix . $backendpath . $uri;
 			}
-
-			if ($secure === true and substr($url, 0, 7) == 'http://')
-				$url = substr_replace($url, 'https://', 0, 7);
-			elseif ($secure === false and substr($url, 0, 8) == 'https://')
-				$url = substr_replace($url, 'http://', 0, 8);
 		}
 		else
 			$url = $uri;
+
+		if ($secure === true and substr($url, 0, 7) == 'http://')
+			$url = substr_replace($url, 'https://', 0, 7);
+		elseif ($secure === false and substr($url, 0, 8) == 'https://')
+			$url = substr_replace($url, 'http://', 0, 8);
 
 		return $url;
 	}
