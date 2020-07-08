@@ -264,7 +264,9 @@ final class URL
 	 */
 	public static function getHost(string $url) : ?string
 	{
-		return @static::parse($url)['host'];
+		$data = static::parse($url);
+
+		return $data['host'] ?? null;
 	}
 
 	/**
