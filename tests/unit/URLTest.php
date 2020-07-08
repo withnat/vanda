@@ -658,4 +658,23 @@ final class URLTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// URL::getQuery()
+
+	public function testMethodGetQueryCase1()
+	{
+		$result = URL::getQuery('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetQueryCase2()
+	{
+		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
+		$expected = 'arg=value';
+
+		$result = URL::getQuery($url);
+
+		$this->assertEquals($expected, $result);
+	}
 }
