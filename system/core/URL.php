@@ -226,105 +226,114 @@ final class URL
 	/**
 	 * Parse a URL and return scheme value.
 	 *
-	 * @param  string $url
-	 * @return string
+	 * @param  string      $url
+	 * @return string|null
 	 */
 	public static function getScheme(string $url) : ?string
 	{
 		$data = static::parse($url);
+		$value = $data['scheme'] ?? null;
 
-		return $data['scheme'] ?? null;
+		return $value;
 	}
 
 	/**
 	 * Parse a URL and return user value.
 	 *
-	 * @param  string $url
-	 * @return string
+	 * @param  string      $url
+	 * @return string|null
 	 */
 	public static function getUser(string $url) : ?string
 	{
 		$data = static::parse($url);
+		$value = $data['user'] ?? null;
 
-		return $data['user'] ?? null;
+		return $value;
 	}
 
 	/**
 	 * Parse a URL and return password value.
 	 *
-	 * @param  string $url
-	 * @return string
+	 * @param  string      $url
+	 * @return string|null
 	 */
 	public static function getPass(string $url) : ?string
 	{
 		$data = static::parse($url);
+		$value = $data['pass'] ?? null;
 
-		return $data['pass'] ?? null;
+		return $value;
 	}
 
 	/**
 	 * Parse a URL and return host value.
 	 *
-	 * @param  string $url
-	 * @return string
+	 * @param  string      $url
+	 * @return string|null
 	 */
 	public static function getHost(string $url) : ?string
 	{
 		$data = static::parse($url);
+		$value = $data['host'] ?? null;
 
-		return $data['host'] ?? null;
+		return $value;
 	}
 
 	/**
 	 * Parse a URL and return port value.
 	 *
-	 * @param  string $url
-	 * @return int
+	 * @param  string   $url
+	 * @return int|null
 	 */
 	public static function getPort(string $url) : ?int
 	{
 		$data = static::parse($url);
+		$value = $data['port'] ?? null;
 
-		return $data['port'] ?? null;
+		return $value;
 	}
 
 	/**
 	 * Parse a URL and return path value.
 	 *
-	 * @param  string $url
-	 * @return string
+	 * @param  string      $url
+	 * @return string|null
 	 */
 	public static function getPath(string $url) : ?string
 	{
 		$data = static::parse($url);
 
 		// Path index is always exist and be a string.
-		return $data['path'] ?: null;
+		$value = $data['path'] ?: null;
+
+		return $value;
 	}
 
 	/**
 	 * Parse a URL and return query string.
 	 *
-	 * @param  string $url
-	 * @return string
+	 * @param  string      $url
+	 * @return string|null
 	 */
 	public static function getQuery(string $url) : ?string
 	{
 		$data = static::parse($url);
+		$value = $data['query'] ?? null;
 
-		return $data['query'] ?? null;
+		return $value;
 	}
 
 	/**
 	 * Parse a URL and return fragment value.
 	 *
-	 * @param  string $url
-	 * @return string
+	 * @param  string      $url
+	 * @return string|null
 	 */
 	public static function getFragment(string $url) : ?string
 	{
 		$data = static::parse($url);
+		$value = $data['fragment'] ?? null;
 
-		return $data['fragment'] ?? null;
+		return $value;
 	}
 }
