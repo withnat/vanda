@@ -290,11 +290,8 @@ final class URL
 	{
 		$data = static::parse($url);
 
-		// Path value is always exist and be a string.
-		if ($data['path'])
-			return $data['path'];
-		else
-			return null;
+		// Path index is always exist and be a string.
+		return $data['path'] ?: null;
 	}
 
 	/**
