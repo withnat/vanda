@@ -469,4 +469,15 @@ final class URLTest extends TestCase
 		putenv('MODULE');
 		putenv('CONTROLLER');
 	}
+
+	// URL::encode()
+
+	public function testMethodEncodeCase1()
+	{
+		$expected = 'aHR0cHM6Ly9sb2NhbGhvc3QvdmFuZGE_bmFtZT1OYXQrV2l0aGU=';
+
+		$result = URL::encode('https://localhost/vanda?name=Nat+Withe');
+
+		$this->assertEquals($expected, $result);
+	}
 }
