@@ -408,6 +408,17 @@ final class Inflector
 	}
 
 	/**
+	 * @param  string $string
+	 * @return string
+	 */
+	public static function actionize(string $string) : string
+	{
+		$action = static::camelize($string) . 'Action';
+
+		return $action;
+	}
+
+	/**
 	 * Converts a list of words into a sentence.
 	 *
 	 * Special treatment is done for the last few words. For example,
