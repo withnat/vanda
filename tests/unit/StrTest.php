@@ -66,6 +66,50 @@ final class StrTest extends TestCase
 		$this->assertEquals(30, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLengthCase3() : void
+	{
+		$mockedSetting = \Mockery::mock('alias:\System\Config');
+		$mockedSetting->shouldReceive('app')
+			->once()
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'charset')
+					return 'UTF-8';
+				else
+					return '';
+			});
+
+		$result = Str::length(static::$_string);
+
+		$this->assertEquals(30, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLengthCase4() : void
+	{
+		$mockedSetting = \Mockery::mock('alias:\System\Config');
+		$mockedSetting->shouldReceive('app')
+			->once()
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'charset')
+					return '';
+				else
+					return '';
+			});
+
+		$result = Str::length(static::$_string);
+
+		$this->assertEquals(30, $result);
+	}
+
 	// Str::count()
 
 	public function testMethodCountCase1() : void
