@@ -271,9 +271,9 @@ final class URL
 	 * Parse a URL and return port value.
 	 *
 	 * @param  string $url
-	 * @return string
+	 * @return int
 	 */
-	public static function getPort(string $url) : ?string
+	public static function getPort(string $url) : ?int
 	{
 		return @static::parse($url)['port'];
 	}
