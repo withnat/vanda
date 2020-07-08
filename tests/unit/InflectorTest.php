@@ -142,6 +142,15 @@ final class InflectorTest extends TestCase
 		];
 	}
 
+	public function controllerizeProvider()
+	{
+		return [
+			['Some Day', 'SomeDayController'],
+			['some_day', 'SomeDayController'],
+			['She\'s hot', 'SheSHotController']
+		];
+	}
+
 	public function sentenceProvider()
 	{
 		return [
@@ -320,6 +329,20 @@ final class InflectorTest extends TestCase
 	{
 		$expected = $number . $suffix;
 		$result = Inflector::ordinalize($number);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	// Inflector::controllerize()
+
+	/**
+	 * @param string $string
+	 * @param string $expected
+	 * @dataProvider controllerizeProvider
+	 */
+	public function testMethodControllerize(string $string, string $expected) : void
+	{
+		$result = Inflector::controllerize($string);
 
 		$this->assertEquals($expected, $result);
 	}
