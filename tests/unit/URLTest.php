@@ -521,4 +521,26 @@ final class URLTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// URL::parse()
+
+	public function testMethodParseCase1()
+	{
+		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
+
+		$expected = [
+			'scheme' => 'http',
+			'host' => 'hostname',
+			'port' => '9090',
+			'user' => 'username',
+			'pass' => 'password',
+			'path' => '/path',
+			'query' => 'arg=value',
+			'fragment' => 'anchor',
+		];
+
+		$result = URL::parse($url);
+
+		$this->assertEquals($expected, $result);
+	}
 }
