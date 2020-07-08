@@ -323,6 +323,8 @@ final class URL
 	 */
 	public static function getFragment(string $url) : ?string
 	{
-		return @static::parse($url)['fragment'];
+		$data = static::parse($url);
+
+		return $data['fragment'] ?? null;
 	}
 }
