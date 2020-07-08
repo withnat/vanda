@@ -205,7 +205,10 @@ final class URL
 	 */
 	public static function decode(string $string) : string
 	{
-		return base64_decode(strtr($string, '-_', '+/'));
+		$string = str_replace(['-', '_'], ['+', '/'], $string);
+		$string = base64_decode($string);
+
+		return $string;
 	}
 
 	/**
