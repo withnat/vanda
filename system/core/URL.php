@@ -158,6 +158,9 @@ final class URL
 		$arr = explode('?', $url);
 		$url = $arr[0];
 
+		$module = getenv('MODULE');
+		$controller = getenv('CONTROLLER');
+
 		// Replace same module and controller name with module name.
 		// ie. http://localhost/vanda/admin/user/user
 		// --> http://localhost/vanda/admin/user
@@ -165,8 +168,8 @@ final class URL
 		// 2 above urls. But Paginator will detect these urls in
 		// different context (user and user/user) and will return
 		// different 'pagesize' value.
-		if (MODULE === CONTROLLER and stripos($url, MODULE . '/' . CONTROLLER))
-			$url = str_replace(MODULE . '/' . CONTROLLER, MODULE, $url);
+		if ($module === $controller and stripos($url, $module . '/' . $controller))
+			$url = str_replace($module . '/' . $controller, $module, $url);
 
 		$context = preg_replace('/[^a-z0-9]+/i', '', $url);
 
