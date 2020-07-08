@@ -286,7 +286,13 @@ final class URL
 	 */
 	public static function getPath(string $url) : ?string
 	{
-		return @static::parse($url)['path'];
+		$data = static::parse($url);
+
+		// Path value is always exist and be a string.
+		if ($data['path'])
+			return $data['path'];
+		else
+			return null;
 	}
 
 	/**
