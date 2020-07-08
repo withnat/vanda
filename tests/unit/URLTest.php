@@ -677,4 +677,23 @@ final class URLTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// URL::getFragment()
+
+	public function testMethodGetFragmentCase1()
+	{
+		$result = URL::getFragment('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetFragmentCase2()
+	{
+		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
+		$expected = 'anchor';
+
+		$result = URL::getFragment($url);
+
+		$this->assertEquals($expected, $result);
+	}
 }
