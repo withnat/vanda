@@ -26,11 +26,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package		Vanda
- * @author		Nat Withe <nat@withnat.com>
- * @copyright	Copyright (c) 2010 - 2020, Nat Withe. All rights reserved.
- * @license		MIT
- * @link		http://vanda.io
+ * @package     Vanda
+ * @author      Nat Withe <nat@withnat.com>
+ * @copyright   Copyright (c) 2010 - 2020, Nat Withe. All rights reserved.
+ * @license     MIT
+ * @link        http://vanda.io
  */
 
 declare(strict_types=1);
@@ -43,9 +43,6 @@ namespace System;
  */
 final class Uri
 {
-	protected static $_routeByUris = [];
-	protected static $_routeByActions = [];
-
 	/**
 	 * Uri constructor.
 	 */
@@ -53,46 +50,46 @@ final class Uri
 
 	/**
 	 * @param  string|null $uri
-	 * @param  bool        $secure
+	 * @param  bool|null   $secure
 	 * @return string
 	 */
-	public static function route(string $uri = null, bool $secure = false) : string
+	public static function route(string $uri = null, bool $secure = null) : string
 	{
+		// If the given $string is null, convert to string first.
 		$uri = (string)$uri;
 		$uri = trim($uri);
-		$key = $uri;
 
-//		if (!isset(static::$_routeByUris[$key]))
-//		{
-			if (stripos($uri, 'http://') === false and stripos($uri, 'https://') === false)
+		if (stripos($uri, 'http://') === false and stripos($uri, 'https://') === false)
+		{
+			if (substr($uri, 0, 1) != '/')
+				$uri = '/' . $uri;
+
+			if ((int)\Setting::get('sef'))
+				$prefix = '';
+			else
+				$prefix = '/index.php';
+
+			$side = getenv('SIDE');
+			$lang = getenv('LANG');
+
+			if ($side == 'frontend')
 			{
-				if (substr($uri, 0, 1) != '/')
-					$uri = '/' . $uri;
-
-				if ((int)\Setting::get('sef'))
-					$prefix = '';
-				else
-					$prefix = '/index.php';
-
-				if (SIDE === 'frontend')
-				{
-					$lang = (LANG ? '/' . LANG : '');
-					$uri = Request::baseUrl() . $prefix . $lang . $uri;
-				}
-				else
-				{
-					$backendpath = \Setting::get('backendpath', '/admin');
-					$uri = Request::baseUrl() . $prefix . $backendpath . $uri;
-				}
-
-				if ($secure)
-					$uri = str_replace('http://', 'https://', $uri);
-
-		//		static::$_routeByUris[$key] = $uri;
+				$lang = ($lang ? '/' . $lang : '');
+				$uri = Request::baseUrl() . $prefix . $lang . $uri;
 			}
-		//}
-return $uri;
-		//return static::$_routeByUris[$key];
+			else
+			{
+				$backendpath = \Setting::get('backendpath', '/admin');
+				$uri = Request::baseUrl() . $prefix . $backendpath . $uri;
+			}
+
+			if ($secure === true and substr($uri, 0, 7) == 'http://')
+				$uri = substr_replace($uri, 'https://', 0, 7);
+			elseif ($secure === false and substr($uri, 0, 8) == 'https://')
+				$uri = substr_replace($uri, 'http://', 0, 8);
+		}
+
+		return $uri;
 	}
 
 	/**
@@ -113,7 +110,7 @@ return $uri;
 			}
 			else
 			{
-				$module = MODULE;
+				$module = getenv('MODULE');
 				$controller = $arr[0];
 				$action = $arr[1];
 			}
@@ -122,10 +119,10 @@ return $uri;
 		}
 		else
 		{
-			if (MODULE === CONTROLLER)
-				$uri = MODULE . '/' . $action;
+			if (getenv('MODULE') === getenv('CONTROLLER'))
+				$uri = getenv('MODULE') . '/' . $action;
 			else
-				$uri = MODULE . '/' . CONTROLLER . '/' . $action;
+				$uri = getenv('MODULE') . '/' . getenv('CONTROLLER') . '/' . $action;
 		}
 
 		$uri = static::route($uri);
@@ -134,20 +131,20 @@ return $uri;
 	}
 
 	/**
-	 * @param  string $url
+	 * @param  string $uri
 	 * @return string
 	 */
-	public static function hashSPA(string $url) : string
+	public static function hashSPA(string $uri) : string
 	{
-		$idPos = strpos($url, '?id=');
-		$amPos = strpos($url, '&', $idPos);
+		$idPos = strpos($uri, '?id=');
+		$amPos = strpos($uri, '&', (int)$idPos);
 
 		if ($idPos and $amPos === false)
-			$url = str_replace('?id=', ':', $url);
+			$uri = str_replace('?id=', ':', $uri);
 
-		$url = '#' . $url;
+		$hash = '#' . $uri;
 
-		return $url;
+		return $hash;
 	}
 
 	/**
@@ -172,40 +169,6 @@ return $uri;
 		$context = preg_replace('/[^a-z0-9]+/i', '', $url);
 
 		return $context;
-	}
-
-	/**
-	 * @param  string $uriSegment
-	 * @return string
-	 */
-	public static function toControllerFormat(string $uriSegment) : string
-	{
-		$uriSegment = str_replace('_', '-', $uriSegment);
-		$arr = explode('-', $uriSegment);
-
-		for ($i = 0, $n = count($arr); $i < $n; ++$i)
-			$arr[$i] = ucfirst($arr[$i]);
-
-		$controller = implode('', $arr) . 'Controller';
-
-		return $controller;
-	}
-
-	/**
-	 * @param  string $uriSegment
-	 * @return string
-	 */
-	public static function toActionFormat(string $uriSegment) : string
-	{
-		$uriSegment = str_replace('_', '-', $uriSegment);
-		$arr = explode('-', $uriSegment);
-
-		for ($i = 1, $n = count($arr); $i < $n; ++$i)
-			$arr[$i] = ucfirst($arr[$i]);
-
-		$action = implode('', $arr) . 'Action';
-
-		return $action;
 	}
 
 	/**
