@@ -555,4 +555,16 @@ final class URLTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// URL::getUser()
+
+	public function testMethodGetUserCase1()
+	{
+		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
+		$expected = 'username';
+
+		$result = URL::getUser($url);
+
+		$this->assertEquals($expected, $result);
+	}
 }
