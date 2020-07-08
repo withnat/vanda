@@ -104,7 +104,7 @@ final class URLTest extends TestCase
 	 * @dataProvider routeBackendWithSefProvider
 	 * @runInSeparateProcess
 	 */
-	public function testRouteBackendSef(string $string, bool $secure, string $expected) : void
+	public function testRouteBackendWithSef(string $string, bool $secure, string $expected) : void
 	{
 		putenv('SIDE=backend');
 
@@ -138,7 +138,7 @@ final class URLTest extends TestCase
 	 * @dataProvider routeBackendWithoutSefProvider
 	 * @runInSeparateProcess
 	 */
-	public function testRouteBackendNoSef(string $string, bool $secure, string $expected) : void
+	public function testRouteBackendWithoutSef(string $string, bool $secure, string $expected) : void
 	{
 		putenv('SIDE=backend');
 
@@ -173,7 +173,7 @@ final class URLTest extends TestCase
 	 * @dataProvider routeFrontendWithSefProvider
 	 * @runInSeparateProcess
 	 */
-	public function testRouteFrontendSef(string $string, string $lang, bool $secure, string $expected) : void
+	public function testRouteFrontendWithSef(string $string, string $lang, bool $secure, string $expected) : void
 	{
 		putenv('SIDE=frontend');
 		putenv('LANG=' . $lang);
@@ -207,7 +207,7 @@ final class URLTest extends TestCase
 	 * @dataProvider routeFrontendWithoutSefProvider
 	 * @runInSeparateProcess
 	 */
-	public function testRouteFrontendNoSef(string $string, string $lang, bool $secure, string $expected) : void
+	public function testRouteFrontendWithoutSef(string $string, string $lang, bool $secure, string $expected) : void
 	{
 		putenv('SIDE=frontend');
 		putenv('LANG=' . $lang);
@@ -236,7 +236,7 @@ final class URLTest extends TestCase
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function testRouteSecure() : void
+	public function testRouteWithSecure() : void
 	{
 		putenv('SIDE=frontend');
 		putenv('LANG=en');
@@ -268,7 +268,7 @@ final class URLTest extends TestCase
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function testMethodRouteByActionHasOneDotInUri()
+	public function testMethodRouteByActionThatHasOneDotInUri()
 	{
 		putenv('SIDE=admin');
 
@@ -298,7 +298,7 @@ final class URLTest extends TestCase
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function testMethodRouteByActionHasTwoDotsInUri()
+	public function testMethodRouteByActionThatHasTwoDotsInUri()
 	{
 		putenv('SIDE=admin');
 
@@ -328,7 +328,7 @@ final class URLTest extends TestCase
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function testMethodRouteByActionModuleIsSameAsController()
+	public function testMethodRouteByActionThatModuleIsSameAsController()
 	{
 		putenv('SIDE=admin');
 		putenv('MODULE=user');
@@ -362,7 +362,7 @@ final class URLTest extends TestCase
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function testMethodRouteByActionModuleIsNotSameAsController()
+	public function testMethodRouteByActionThatModuleIsNotSameAsController()
 	{
 		putenv('SIDE=admin');
 		putenv('MODULE=user');
@@ -395,7 +395,7 @@ final class URLTest extends TestCase
 
 	// URL::hashSPA()
 
-	public function testHashSPACase1()
+	public function testMethodHashSPACase1()
 	{
 		$expected = '#user';
 
@@ -404,7 +404,7 @@ final class URLTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testHashSPACase2()
+	public function testMethodHashSPACase2()
 	{
 		$expected = '#user:1';
 
@@ -413,7 +413,7 @@ final class URLTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testHashSPACase3()
+	public function testMethodHashSPACase3()
 	{
 		$expected = '#user?id=1&param=value';
 
