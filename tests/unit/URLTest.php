@@ -133,6 +133,7 @@ final class URLTest extends TestCase
 	 * @param string $expected
 	 * @dataProvider routeBackendWithSefProvider
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testRouteBackendWithSef(string $string, bool $secure, string $expected) : void
 	{
@@ -167,6 +168,7 @@ final class URLTest extends TestCase
 	 * @param string $expected
 	 * @dataProvider routeBackendWithoutSefProvider
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testRouteBackendWithoutSef(string $string, bool $secure, string $expected) : void
 	{
@@ -202,6 +204,7 @@ final class URLTest extends TestCase
 	 * @param string $expected
 	 * @dataProvider routeFrontendWithSefProvider
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testRouteFrontendWithSef(string $string, string $lang, bool $secure, string $expected) : void
 	{
@@ -236,6 +239,7 @@ final class URLTest extends TestCase
 	 * @param string $expected
 	 * @dataProvider routeFrontendWithoutSefProvider
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testRouteFrontendWithoutSef(string $string, string $lang, bool $secure, string $expected) : void
 	{
@@ -265,6 +269,7 @@ final class URLTest extends TestCase
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testRouteWithSecure() : void
 	{
@@ -297,6 +302,7 @@ final class URLTest extends TestCase
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testMethodRouteByActionThatHasOneDotInUri()
 	{
@@ -327,6 +333,7 @@ final class URLTest extends TestCase
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testMethodRouteByActionThatHasTwoDotsInUri()
 	{
@@ -357,6 +364,7 @@ final class URLTest extends TestCase
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testMethodRouteByActionThatModuleIsSameAsController()
 	{
@@ -391,6 +399,7 @@ final class URLTest extends TestCase
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testMethodRouteByActionThatModuleIsNotSameAsController()
 	{
@@ -456,6 +465,7 @@ final class URLTest extends TestCase
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testMethodGetContextCase1()
 	{
@@ -479,6 +489,7 @@ final class URLTest extends TestCase
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testMethodGetContextCase2()
 	{
