@@ -40,14 +40,14 @@ namespace System;
 use System\Exception\InvalidArgumentException;
 
 /**
- * Class CSV
+ * Class Csv
  * @package System
  */
-final class CSV
+final class Csv
 {
 
 	/**
-	 * CSV constructor.
+	 * Csv constructor.
 	 */
 	private function __construct(){}
 
