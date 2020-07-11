@@ -38,14 +38,14 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use stdClass;
-use System\CSV;
+use System\Csv;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class CSVTest
+ * Class CsvTest
  * @package Tests\Unit
  */
-final class CSVTest extends TestCase
+final class CsvTest extends TestCase
 {
 	protected static $_dataset;
 	protected static $_recordset;
@@ -102,39 +102,39 @@ final class CSVTest extends TestCase
 		static::$_csvString = null;
 	}
 
-	// CSV::fromDataset()
+	// Csv::fromDataset()
 
 	public function testMethodFromDatasetCase1() : void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		CSV::fromDataset(['string']);
+		Csv::fromDataset(['string']);
 	}
 
 	public function testMethodFromDatasetCase2() : void
 	{
-		$result = CSV::fromDataset(static::$_dataset);
+		$result = Csv::fromDataset(static::$_dataset);
 
 		$this->assertEquals(static::$_csvString, $result);
 	}
 
-	// CSV::fromRecordset()
+	// Csv::fromRecordset()
 
 	public function testMethodFromRecordsetCase1() : void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		CSV::fromRecordset(['string']);
+		Csv::fromRecordset(['string']);
 	}
 
 	public function testMethodFromRecordsetCase2() : void
 	{
-		$result = CSV::fromRecordset(static::$_recordset);
+		$result = Csv::fromRecordset(static::$_recordset);
 
 		$this->assertEquals(static::$_csvString, $result);
 	}
 
-	// CSV::toArray()
+	// Csv::toArray()
 
 	public function testMethodToArrayCase1() : void
 	{
@@ -149,39 +149,39 @@ final class CSVTest extends TestCase
 				'Nat',
 				'Withe',
 				'Web Developer',
-				'10000' // CSV::toArray() will converts number to string.
+				'10000' // Csv::toArray() will converts number to string.
 			],
 			[
 				'Angela',
 				'SG',
 				'Marketing Director',
-				'10000' // CSV::toArray() will converts number to string.
+				'10000' // Csv::toArray() will converts number to string.
 			]
 		];
 
-		$result = CSV::toArray(static::$_csvString);
+		$result = Csv::toArray(static::$_csvString);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	// CSV::toDataset()
+	// Csv::toDataset()
 
 	public function testMethodToAssociativeCase1() : void
 	{
-		// CSV::toArray() will converts number to string.
+		// Csv::toArray() will converts number to string.
 		$expected = static::$_dataset;
 		$expected[0]['salary'] = '10000';
 		$expected[1]['salary'] = '10000';
 
-		$result = CSV::toDataset(static::$_csvString);
+		$result = Csv::toDataset(static::$_csvString);
 
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	// CSV::toRecordset()
+	// Csv::toRecordset()
 
 	public function testMethodToRecordsetCase1() : void
 	{
@@ -191,11 +191,11 @@ final class CSVTest extends TestCase
 		$expected[0] = (array)$expected[0];
 		$expected[1] = (array)$expected[1];
 
-		// CSV::toArray() will converts number to string.
+		// Csv::toArray() will converts number to string.
 		$expected[0]['salary'] = '10000';
 		$expected[1]['salary'] = '10000';
 
-		$result = CSV::toRecordset(static::$_csvString);
+		$result = Csv::toRecordset(static::$_csvString);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
@@ -208,5 +208,5 @@ final class CSVTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// CSV::safe() (tested via another methods)
+	// Csv::safe() (tested via another methods)
 }
