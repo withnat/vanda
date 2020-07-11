@@ -41,13 +41,13 @@ use Exception;
 use System\Exception\InvalidArgumentException;
 
 /**
- * Class XML
+ * Class Xml
  * @package System
  */
-final class XML
+final class Xml
 {
 	/**
-	 * XML constructor.
+	 * Xml constructor.
 	 */
 	private function __construct(){}
 
