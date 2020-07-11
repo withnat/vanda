@@ -38,13 +38,13 @@ declare(strict_types=1);
 namespace System;
 
 /**
- * Class URL
+ * Class Url
  * @package System
  */
-final class URL
+final class Url
 {
 	/**
-	 * URL constructor.
+	 * Url constructor.
 	 */
 	private function __construct(){}
 
