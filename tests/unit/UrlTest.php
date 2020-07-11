@@ -38,14 +38,14 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use stdClass;
-use System\URL;
+use System\Url;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class URLTest
+ * Class UrlTest
  * @package Tests\Unit
  */
-final class URLTest extends TestCase
+final class UrlTest extends TestCase
 {
 	public function routeBackendWithSefProvider()
 	{
@@ -95,14 +95,14 @@ final class URLTest extends TestCase
 		];
 	}
 
-	// URL::route()
+	// Url::route()
 
 	public function testRouteWithFullUrl()
 	{
 		$url = 'https://google.com';
 		$expected = 'https://google.com';
 
-		$result = URL::route($url);
+		$result = Url::route($url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -112,7 +112,7 @@ final class URLTest extends TestCase
 		$url = 'http://google.com';
 		$expected = 'https://google.com';
 
-		$result = URL::route($url, true);
+		$result = Url::route($url, true);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -122,7 +122,7 @@ final class URLTest extends TestCase
 		$url = 'https://google.com';
 		$expected = 'http://google.com';
 
-		$result = URL::route($url, false);
+		$result = Url::route($url, false);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -155,7 +155,7 @@ final class URLTest extends TestCase
 					return '';
 			});
 
-		$result = URL::route($string, $secure);
+		$result = Url::route($string, $secure);
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -190,7 +190,7 @@ final class URLTest extends TestCase
 					return '';
 			});
 
-		$result = URL::route($string, $secure);
+		$result = Url::route($string, $secure);
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -225,7 +225,7 @@ final class URLTest extends TestCase
 					return '';
 			});
 
-		$result = URL::route($string, $secure);
+		$result = Url::route($string, $secure);
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -260,7 +260,7 @@ final class URLTest extends TestCase
 					return '';
 			});
 
-		$result = URL::route($string, $secure);
+		$result = Url::route($string, $secure);
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -291,14 +291,14 @@ final class URLTest extends TestCase
 			});
 
 		$expected = 'http://localhost/en/contact';
-		$result = URL::route('contact', false);
+		$result = Url::route('contact', false);
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
 		putenv('LANG');
 	}
 
-	// URL::routeByAction()
+	// Url::routeByAction()
 
 	/**
 	 * @runInSeparateProcess
@@ -325,7 +325,7 @@ final class URLTest extends TestCase
 			});
 
 		$expected = 'https://localhost/admin/user/add';
-		$result = URL::routeByAction('user.add');
+		$result = Url::routeByAction('user.add');
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -356,7 +356,7 @@ final class URLTest extends TestCase
 			});
 
 		$expected = 'https://localhost/admin/user/group/add';
-		$result = URL::routeByAction('user.group.add');
+		$result = Url::routeByAction('user.group.add');
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -389,7 +389,7 @@ final class URLTest extends TestCase
 			});
 
 		$expected = 'https://localhost/admin/user/add';
-		$result = URL::routeByAction('add');
+		$result = Url::routeByAction('add');
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -424,7 +424,7 @@ final class URLTest extends TestCase
 			});
 
 		$expected = 'https://localhost/admin/user/group/add';
-		$result = URL::routeByAction('add');
+		$result = Url::routeByAction('add');
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -432,13 +432,13 @@ final class URLTest extends TestCase
 		putenv('CONTROLLER');
 	}
 
-	// URL::hashSPA()
+	// Url::hashSPA()
 
 	public function testMethodHashSPACase1()
 	{
 		$expected = '#user';
 
-		$result = URL::hashSPA('user');
+		$result = Url::hashSPA('user');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -447,7 +447,7 @@ final class URLTest extends TestCase
 	{
 		$expected = '#user:1';
 
-		$result = URL::hashSPA('user?id=1');
+		$result = Url::hashSPA('user?id=1');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -456,12 +456,12 @@ final class URLTest extends TestCase
 	{
 		$expected = '#user?id=1&param=value';
 
-		$result = URL::hashSPA('user?id=1&param=value');
+		$result = Url::hashSPA('user?id=1&param=value');
 
 		$this->assertEquals($expected, $result);
 	}
 
-	// URL::getContext()
+	// Url::getContext()
 
 	/**
 	 * @runInSeparateProcess
@@ -478,7 +478,7 @@ final class URLTest extends TestCase
 
 		$expected = 'httpslocalhostvandaadminusermodify';
 
-		$result = URL::getContext();
+		$result = Url::getContext();
 
 		$this->assertEquals($expected, $result);
 
@@ -502,7 +502,7 @@ final class URLTest extends TestCase
 
 		$expected = 'httpslocalhostvandaadminusergroupmodify';
 
-		$result = URL::getContext();
+		$result = Url::getContext();
 
 		$this->assertEquals($expected, $result);
 
@@ -511,29 +511,29 @@ final class URLTest extends TestCase
 		putenv('CONTROLLER');
 	}
 
-	// URL::encode()
+	// Url::encode()
 
 	public function testMethodEncodeCase1()
 	{
 		$expected = 'aHR0cHM6Ly9sb2NhbGhvc3QvdmFuZGE_bmFtZT1OYXQrV2l0aGU=';
 
-		$result = URL::encode('https://localhost/vanda?name=Nat+Withe');
+		$result = Url::encode('https://localhost/vanda?name=Nat+Withe');
 
 		$this->assertEquals($expected, $result);
 	}
 
-	// URL::decode()
+	// Url::decode()
 
 	public function testMethodDecodeCase1()
 	{
 		$expected = 'https://localhost/vanda?name=Nat+Withe';
 
-		$result = URL::decode('aHR0cHM6Ly9sb2NhbGhvc3QvdmFuZGE_bmFtZT1OYXQrV2l0aGU=');
+		$result = Url::decode('aHR0cHM6Ly9sb2NhbGhvc3QvdmFuZGE_bmFtZT1OYXQrV2l0aGU=');
 
 		$this->assertEquals($expected, $result);
 	}
 
-	// URL::parse()
+	// Url::parse()
 
 	public function testMethodParseCase1()
 	{
@@ -550,16 +550,16 @@ final class URLTest extends TestCase
 			'fragment' => 'anchor',
 		];
 
-		$result = URL::parse($url);
+		$result = Url::parse($url);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	// URL::getScheme()
+	// Url::getScheme()
 
 	public function testMethodGetSchemeCase1()
 	{
-		$result = URL::getScheme('');
+		$result = Url::getScheme('');
 
 		$this->assertNull($result);
 	}
@@ -569,16 +569,16 @@ final class URLTest extends TestCase
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'http';
 
-		$result = URL::getScheme($url);
+		$result = Url::getScheme($url);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	// URL::getUser()
+	// Url::getUser()
 
 	public function testMethodGetUserCase1()
 	{
-		$result = URL::getUser('');
+		$result = Url::getUser('');
 
 		$this->assertNull($result);
 	}
@@ -588,16 +588,16 @@ final class URLTest extends TestCase
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'username';
 
-		$result = URL::getUser($url);
+		$result = Url::getUser($url);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	// URL::getPass()
+	// Url::getPass()
 
 	public function testMethodGetPassCase1()
 	{
-		$result = URL::getPass('');
+		$result = Url::getPass('');
 
 		$this->assertNull($result);
 	}
@@ -607,16 +607,16 @@ final class URLTest extends TestCase
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'password';
 
-		$result = URL::getPass($url);
+		$result = Url::getPass($url);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	// URL::getHost()
+	// Url::getHost()
 
 	public function testMethodGetHostCase1()
 	{
-		$result = URL::getHost('');
+		$result = Url::getHost('');
 
 		$this->assertNull($result);
 	}
@@ -626,16 +626,16 @@ final class URLTest extends TestCase
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'hostname';
 
-		$result = URL::getHost($url);
+		$result = Url::getHost($url);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	// URL::getPort()
+	// Url::getPort()
 
 	public function testMethodGetPortCase1()
 	{
-		$result = URL::getPort('');
+		$result = Url::getPort('');
 
 		$this->assertNull($result);
 	}
@@ -645,17 +645,17 @@ final class URLTest extends TestCase
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 9090;
 
-		$result = URL::getPort($url);
+		$result = Url::getPort($url);
 
 		$this->assertIsInt($result);
 		$this->assertEquals($expected, $result);
 	}
 
-	// URL::getPath()
+	// Url::getPath()
 
 	public function testMethodGetPathCase1()
 	{
-		$result = URL::getPath('');
+		$result = Url::getPath('');
 
 		$this->assertNull($result);
 	}
@@ -665,16 +665,16 @@ final class URLTest extends TestCase
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = '/path';
 
-		$result = URL::getPath($url);
+		$result = Url::getPath($url);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	// URL::getQuery()
+	// Url::getQuery()
 
 	public function testMethodGetQueryCase1()
 	{
-		$result = URL::getQuery('');
+		$result = Url::getQuery('');
 
 		$this->assertNull($result);
 	}
@@ -684,16 +684,16 @@ final class URLTest extends TestCase
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'arg=value';
 
-		$result = URL::getQuery($url);
+		$result = Url::getQuery($url);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	// URL::getFragment()
+	// Url::getFragment()
 
 	public function testMethodGetFragmentCase1()
 	{
-		$result = URL::getFragment('');
+		$result = Url::getFragment('');
 
 		$this->assertNull($result);
 	}
@@ -703,7 +703,7 @@ final class URLTest extends TestCase
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'anchor';
 
-		$result = URL::getFragment($url);
+		$result = Url::getFragment($url);
 
 		$this->assertEquals($expected, $result);
 	}
