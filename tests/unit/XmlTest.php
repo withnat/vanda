@@ -38,14 +38,14 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use stdClass;
-use System\XML;
+use System\Xml;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class XMLTest
+ * Class XmlTest
  * @package Tests\Unit
  */
-final class XMLTest extends TestCase
+final class XmlTest extends TestCase
 {
 	protected static $_dataset;
 	protected static $_recordset;
@@ -113,39 +113,39 @@ final class XMLTest extends TestCase
 		static::$_xmlString = null;
 	}
 
-	// XML::fromDataset()
+	// Xml::fromDataset()
 
 	public function testMethodFromDatasetCase1() : void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		XML::fromDataset(['string']);
+		Xml::fromDataset(['string']);
 	}
 
 	public function testMethodFromDatasetCase2() : void
 	{
-		$result = XML::fromDataset(static::$_dataset);
+		$result = Xml::fromDataset(static::$_dataset);
 
 		$this->assertEquals(static::$_xmlString, $result);
 	}
 
-	// XML::fromRecordset()
+	// Xml::fromRecordset()
 
 	public function testMethodFromRecordsetCase1() : void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		XML::fromRecordset(['string']);
+		Xml::fromRecordset(['string']);
 	}
 
 	public function testMethodFromRecordsetCase2() : void
 	{
-		$result = XML::fromRecordset(static::$_recordset);
+		$result = Xml::fromRecordset(static::$_recordset);
 
 		$this->assertEquals(static::$_xmlString, $result);
 	}
 
-	// XML::toArray()
+	// Xml::toArray()
 
 	public function testMethodToArrayCase1() : void
 	{
@@ -155,28 +155,28 @@ final class XMLTest extends TestCase
 					'name' => 'Nat',
 					'surname' => 'Withe',
 					'work' => 'Web Developer',
-					'salary' => '10000' // XML::toArray() will converts number to string.
+					'salary' => '10000' // Xml::toArray() will converts number to string.
 				],
 				[
 					'name' => 'Angela',
 					'surname' => 'SG',
 					'work' => 'Marketing Director',
-					'salary' => '10000' // XML::toArray() will converts number to string.
+					'salary' => '10000' // Xml::toArray() will converts number to string.
 				]
 			]
 		];
 
-		$result = XML::toArray(static::$_xmlString);
+		$result = Xml::toArray(static::$_xmlString);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	// XML::toObject()
+	// Xml::toObject()
 
 	public function testMethodToObjectCase1() : void
 	{
-		$result = XML::toObject('');
+		$result = Xml::toObject('');
 
 		$this->assertFalse($result);
 	}
@@ -200,7 +200,7 @@ final class XMLTest extends TestCase
 			]
 		];
 
-		$result = XML::toObject(static::$_xmlString);
+		$result = Xml::toObject(static::$_xmlString);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
@@ -212,13 +212,13 @@ final class XMLTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// XML::safe()
+	// Xml::safe()
 
 	public function testMethodSafeCase1() : void
 	{
 		$expected = 'string&amp;&lt;&gt;&quot;&apos;&#45;';
 
-		$result = XML::safe('string&<>"\'-', true);
+		$result = Xml::safe('string&<>"\'-', true);
 
 		$this->assertEquals($expected, $result);
 	}
