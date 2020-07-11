@@ -41,14 +41,14 @@ use ErrorException;
 use System\Exception\InvalidArgumentException;
 
 /**
- * Class JSON
+ * Class Json
  * Wrapper for the default JSON methods that handles all errors uniformly.
  * @package System
  */
-final class JSON
+final class Json
 {
 	/**
-	 * JSON constructor.
+	 * Json constructor.
 	 */
 	private function __construct(){}
 
