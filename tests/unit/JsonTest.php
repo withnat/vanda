@@ -39,14 +39,14 @@ namespace Tests\Unit;
 
 use ErrorException;
 use stdClass;
-use System\JSON;
+use System\Json;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class JSONTest
+ * Class JsonTest
  * @package Tests\Unit
  */
-final class JSONTest extends TestCase
+final class JsonTest extends TestCase
 {
 	protected static $_array;
 	protected static $_object;
@@ -141,30 +141,30 @@ final class JSONTest extends TestCase
 		static::$_jsonString = null;
 	}
 
-	// JSON::isValid()
+	// Json::isValid()
 
 	public function testMethodIsValidCase1() : void
 	{
-		$result = JSON::isValid('');
+		$result = Json::isValid('');
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsValidCase2() : void
 	{
-		$result = JSON::isValid('string');
+		$result = Json::isValid('string');
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodIsValidCase3() : void
 	{
-		$result = JSON::isValid(static::$_jsonString);
+		$result = Json::isValid(static::$_jsonString);
 
 		$this->assertTrue($result);
 	}
 
-	// JSON::encode()
+	// Json::encode()
 
 	/**
 	 * @throws ErrorException
@@ -173,7 +173,7 @@ final class JSONTest extends TestCase
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		JSON::encode(tmpfile());
+		Json::encode(tmpfile());
 	}
 
 	/**
@@ -181,7 +181,7 @@ final class JSONTest extends TestCase
 	 */
 	public function testMethodEncodeCase2() : void
 	{
-		$result = JSON::encode(static::$_array);
+		$result = Json::encode(static::$_array);
 
 		$this->assertEquals(static::$_jsonString, $result);
 	}
@@ -191,7 +191,7 @@ final class JSONTest extends TestCase
 	 */
 	public function testMethodEncodeCase3() : void
 	{
-		$result = JSON::encode(static::$_object);
+		$result = Json::encode(static::$_object);
 
 		$this->assertEquals(static::$_jsonString, $result);
 	}
@@ -201,7 +201,7 @@ final class JSONTest extends TestCase
 	 */
 	public function testMethodEncodeCase4() : void
 	{
-		$result = JSON::encode([]);
+		$result = Json::encode([]);
 
 		$this->assertEquals('[]', $result);
 	}
@@ -211,7 +211,7 @@ final class JSONTest extends TestCase
 	 */
 	public function testMethodEncodeCase5() : void
 	{
-		$result = JSON::encode('Nat');
+		$result = Json::encode('Nat');
 
 		$this->assertEquals('"Nat"', $result);
 	}
@@ -221,7 +221,7 @@ final class JSONTest extends TestCase
 	 */
 	public function testMethodEncodeCase6() : void
 	{
-		$result = JSON::encode(13);
+		$result = Json::encode(13);
 
 		$this->assertEquals('13', $result);
 	}
@@ -231,7 +231,7 @@ final class JSONTest extends TestCase
 	 */
 	public function testMethodEncodeCase7() : void
 	{
-		$result = JSON::encode(true);
+		$result = Json::encode(true);
 
 		$this->assertEquals('true', $result);
 	}
@@ -241,12 +241,12 @@ final class JSONTest extends TestCase
 	 */
 	public function testMethodEncodeCase8() : void
 	{
-		$result = JSON::encode(null);
+		$result = Json::encode(null);
 
 		$this->assertEquals('null', $result);
 	}
 
-	// JSON::decode()
+	// Json::decode()
 
 	/**
 	 * @throws ErrorException
@@ -255,7 +255,7 @@ final class JSONTest extends TestCase
 	{
 		$this->expectException(ErrorException::class);
 
-		JSON::decode('InvalidJsonString');
+		Json::decode('InvalidJsonString');
 	}
 
 	/**
@@ -263,7 +263,7 @@ final class JSONTest extends TestCase
 	 */
 	public function testMethodDecodeCase2() : void
 	{
-		$result = JSON::decode(static::$_jsonString);
+		$result = Json::decode(static::$_jsonString);
 
 		$this->assertIsObject($result);
 
@@ -280,7 +280,7 @@ final class JSONTest extends TestCase
 	 */
 	public function testMethodDecodeCase3() : void
 	{
-		$result = JSON::decode(static::$_jsonString, true);
+		$result = Json::decode(static::$_jsonString, true);
 
 		$this->assertIsArray($result);
 		$compare = ($result === static::$_array);
@@ -295,28 +295,28 @@ final class JSONTest extends TestCase
 	{
 		$this->expectException(ErrorException::class);
 
-		JSON::decode('{"j": 1 ] }');
+		Json::decode('{"j": 1 ] }');
 	}
 
-	// JSON::dataTable()
+	// Json::dataTable()
 
 	public function testMethodDataTableCase1() : void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		JSON::dataTable(['InvalidDataSource']);
+		Json::dataTable(['InvalidDataSource']);
 	}
 
 	public function testMethodDataTableCase2() : void
 	{
-		$result = JSON::dataTable(static::$_dataset);
+		$result = Json::dataTable(static::$_dataset);
 
 		$this->assertEquals(static::$_dataTableString, $result);
 	}
 
 	public function testMethodDataTableCase3() : void
 	{
-		$result = JSON::dataTable(static::$_recordset);
+		$result = Json::dataTable(static::$_recordset);
 
 		$this->assertEquals(static::$_dataTableString, $result);
 	}
