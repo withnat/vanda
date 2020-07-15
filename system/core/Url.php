@@ -49,11 +49,35 @@ final class Url
 	private function __construct(){}
 
 	/**
+	 * @return string
+	 */
+	public static function base() : string
+	{
+
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function default() : string
+	{
+
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function current() : string
+	{
+
+	}
+
+	/**
 	 * @param  string|null $uri
 	 * @param  bool|null   $secure
 	 * @return string
 	 */
-	public static function route(string $uri = null, bool $secure = null) : string
+	public static function create(string $uri = null, bool $secure = null) : string
 	{
 		// If the given $string is null, convert to string first.
 		$uri = (string)$uri;
@@ -98,7 +122,7 @@ final class Url
 	 * @param  string $action
 	 * @return string
 	 */
-	public static function routeByAction(string $action) : string
+	public static function createFromAction(string $action) : string
 	{
 		if (strpos($action, '.'))
 		{
@@ -127,7 +151,7 @@ final class Url
 				$uri = getenv('MODULE') . '/' . getenv('CONTROLLER') . '/' . $action;
 		}
 
-		$url = static::route($uri);
+		$url = static::create($uri);
 
 		return $url;
 	}
