@@ -47,7 +47,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class UrlTest extends TestCase
 {
-	public function routeBackendWithSefProvider()
+	public function createBackendUrlWithSefProvider()
 	{
 		return [
 			['foo', false, 'http://localhost/admin/foo'],
@@ -57,7 +57,7 @@ final class UrlTest extends TestCase
 		];
 	}
 
-	public function routeBackendWithoutSefProvider()
+	public function createBackendUrlWithoutSefProvider()
 	{
 		return [
 			['foo', false, 'http://localhost/index.php/admin/foo'],
@@ -67,7 +67,7 @@ final class UrlTest extends TestCase
 		];
 	}
 
-	public function routeFrontendWithSefProvider()
+	public function createFrontendUrlWithSefProvider()
 	{
 		return [
 			['foo', '', false, 'http://localhost/foo'],
@@ -81,7 +81,7 @@ final class UrlTest extends TestCase
 		];
 	}
 
-	public function routeFrontendWithoutSefProvider()
+	public function createFrontendUrlWithoutSefProvider()
 	{
 		return [
 			['foo', '', false, 'http://localhost/index.php/foo'],
@@ -95,34 +95,34 @@ final class UrlTest extends TestCase
 		];
 	}
 
-	// Url::route()
+	// Url::create()
 
-	public function testRouteWithFullUrl()
+	public function testCreateFromUrl()
 	{
 		$url = 'https://google.com';
 		$expected = 'https://google.com';
 
-		$result = Url::route($url);
+		$result = Url::create($url);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testRouteWithFullUrlAndForceToSecure()
+	public function testCreateFromUrlAndForceToSecure()
 	{
 		$url = 'http://google.com';
 		$expected = 'https://google.com';
 
-		$result = Url::route($url, true);
+		$result = Url::create($url, true);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testRouteWithFullUrlAndForceToNotSecure()
+	public function testCreateFromUrlAndForceToNotSecure()
 	{
 		$url = 'https://google.com';
 		$expected = 'http://google.com';
 
-		$result = Url::route($url, false);
+		$result = Url::create($url, false);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -131,11 +131,11 @@ final class UrlTest extends TestCase
 	 * @param string $string
 	 * @param bool   $secure
 	 * @param string $expected
-	 * @dataProvider routeBackendWithSefProvider
+	 * @dataProvider createBackendUrlWithSefProvider
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testRouteBackendWithSef(string $string, bool $secure, string $expected) : void
+	public function testCreateBackenUrldWithSef(string $string, bool $secure, string $expected) : void
 	{
 		putenv('SIDE=backend');
 
@@ -155,7 +155,7 @@ final class UrlTest extends TestCase
 					return '';
 			});
 
-		$result = Url::route($string, $secure);
+		$result = Url::create($string, $secure);
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -166,11 +166,11 @@ final class UrlTest extends TestCase
 	 * @param string $string
 	 * @param bool   $secure
 	 * @param string $expected
-	 * @dataProvider routeBackendWithoutSefProvider
+	 * @dataProvider createBackendUrlWithoutSefProvider
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testRouteBackendWithoutSef(string $string, bool $secure, string $expected) : void
+	public function testCreateBackendUrlWithoutSef(string $string, bool $secure, string $expected) : void
 	{
 		putenv('SIDE=backend');
 
@@ -190,7 +190,7 @@ final class UrlTest extends TestCase
 					return '';
 			});
 
-		$result = Url::route($string, $secure);
+		$result = Url::create($string, $secure);
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -202,11 +202,11 @@ final class UrlTest extends TestCase
 	 * @param string $lang
 	 * @param bool   $secure
 	 * @param string $expected
-	 * @dataProvider routeFrontendWithSefProvider
+	 * @dataProvider createFrontendUrlWithSefProvider
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testRouteFrontendWithSef(string $string, string $lang, bool $secure, string $expected) : void
+	public function testCreateFrontenUrldWithSef(string $string, string $lang, bool $secure, string $expected) : void
 	{
 		putenv('SIDE=frontend');
 		putenv('LANG=' . $lang);
@@ -225,7 +225,7 @@ final class UrlTest extends TestCase
 					return '';
 			});
 
-		$result = Url::route($string, $secure);
+		$result = Url::create($string, $secure);
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -237,11 +237,11 @@ final class UrlTest extends TestCase
 	 * @param string $lang
 	 * @param bool   $secure
 	 * @param string $expected
-	 * @dataProvider routeFrontendWithoutSefProvider
+	 * @dataProvider createFrontendUrlWithoutSefProvider
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testRouteFrontendWithoutSef(string $string, string $lang, bool $secure, string $expected) : void
+	public function testCreateFrontendUrlWithoutSef(string $string, string $lang, bool $secure, string $expected) : void
 	{
 		putenv('SIDE=frontend');
 		putenv('LANG=' . $lang);
@@ -260,7 +260,7 @@ final class UrlTest extends TestCase
 					return '';
 			});
 
-		$result = Url::route($string, $secure);
+		$result = Url::create($string, $secure);
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -271,7 +271,7 @@ final class UrlTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testRouteWithSecure() : void
+	public function testCreateUrlWithSecure() : void
 	{
 		putenv('SIDE=frontend');
 		putenv('LANG=en');
@@ -291,20 +291,20 @@ final class UrlTest extends TestCase
 			});
 
 		$expected = 'http://localhost/en/contact';
-		$result = Url::route('contact', false);
+		$result = Url::create('contact', false);
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
 		putenv('LANG');
 	}
 
-	// Url::routeByAction()
+	// Url::createFromAction()
 
 	/**
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodRouteByActionThatHasOneDotInUri()
+	public function testMethodCreateFromActionThatHasOneDotInUri()
 	{
 		putenv('SIDE=admin');
 
@@ -325,7 +325,7 @@ final class UrlTest extends TestCase
 			});
 
 		$expected = 'https://localhost/admin/user/add';
-		$result = Url::routeByAction('user.add');
+		$result = Url::createFromAction('user.add');
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -335,7 +335,7 @@ final class UrlTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodRouteByActionThatHasTwoDotsInUri()
+	public function testMethodCreateFromActionThatHasTwoDotsInUri()
 	{
 		putenv('SIDE=admin');
 
@@ -356,7 +356,7 @@ final class UrlTest extends TestCase
 			});
 
 		$expected = 'https://localhost/admin/user/group/add';
-		$result = Url::routeByAction('user.group.add');
+		$result = Url::createFromAction('user.group.add');
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -366,7 +366,7 @@ final class UrlTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodRouteByActionThatModuleIsSameAsController()
+	public function testMethodCreateFromActionThatModuleIsSameAsController()
 	{
 		putenv('SIDE=admin');
 		putenv('MODULE=user');
@@ -389,7 +389,7 @@ final class UrlTest extends TestCase
 			});
 
 		$expected = 'https://localhost/admin/user/add';
-		$result = Url::routeByAction('add');
+		$result = Url::createFromAction('add');
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
@@ -401,7 +401,7 @@ final class UrlTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodRouteByActionThatModuleIsNotSameAsController()
+	public function testMethodCreateFromActionThatModuleIsNotSameAsController()
 	{
 		putenv('SIDE=admin');
 		putenv('MODULE=user');
@@ -424,7 +424,7 @@ final class UrlTest extends TestCase
 			});
 
 		$expected = 'https://localhost/admin/user/group/add';
-		$result = Url::routeByAction('add');
+		$result = Url::createFromAction('add');
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
