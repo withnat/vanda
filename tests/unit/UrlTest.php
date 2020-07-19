@@ -829,6 +829,19 @@ final class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	// Url::setQuery()
+
+	public function testMethodSetQueryCase1()
+	{
+		$value = 'value';
+
+		Url::setQuery($value);
+
+		$result = Url::getQuery();
+
+		$this->assertEquals($value, $result);
+	}
+
 	// Url::getFragment()
 
 	public function testMethodGetFragmentCase1()
