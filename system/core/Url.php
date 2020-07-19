@@ -50,6 +50,7 @@ final class Url
 	private static $_port;
 	private static $_path;
 	private static $_query;
+	private static $_fragment;
 
 	/**
 	 * Url constructor.
@@ -412,13 +413,18 @@ final class Url
 	/**
 	 * Parse a URL and return fragment value.
 	 *
-	 * @param  string      $url
+	 * @param  string|null $url
 	 * @return string|null
 	 */
-	public static function getFragment(string $url) : ?string
+	public static function getFragment(string $url = null) : ?string
 	{
-		$data = static::parse($url);
-		$value = $data['fragment'] ?? null;
+		if ($url)
+		{
+			$data = static::parse($url);
+			$value = $data['fragment'] ?? null;
+		}
+		else
+			$value = static::$_fragment;
 
 		return $value;
 	}
