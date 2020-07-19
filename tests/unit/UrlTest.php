@@ -650,12 +650,19 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetHostCase1()
 	{
-		$result = Url::getHost('');
+		$result = Url::getHost();
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetHostCase2()
+	{
+		$result = Url::getHost('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetHostCase3()
 	{
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'hostname';
