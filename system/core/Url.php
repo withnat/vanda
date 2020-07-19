@@ -48,6 +48,7 @@ final class Url
 	private static $_pass;
 	private static $_host;
 	private static $_port;
+	private static $_path;
 
 	/**
 	 * Url constructor.
@@ -370,15 +371,20 @@ final class Url
 	/**
 	 * Parse a URL and return path value.
 	 *
-	 * @param  string      $url
+	 * @param  string|null $url
 	 * @return string|null
 	 */
-	public static function getPath(string $url) : ?string
+	public static function getPath(string $url = null) : ?string
 	{
-		$data = static::parse($url);
+		if ($url)
+		{
+			$data = static::parse($url);
 
-		// Path index is always exist and be a string.
-		$value = $data['path'] ?: null;
+			// Path index is always exist and be a string.
+			$value = $data['path'] ?: null;
+		}
+		else
+			$value = static::$_path;
 
 		return $value;
 	}
