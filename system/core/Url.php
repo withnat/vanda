@@ -49,6 +49,7 @@ final class Url
 	private static $_host;
 	private static $_port;
 	private static $_path;
+	private static $_query;
 
 	/**
 	 * Url constructor.
@@ -392,13 +393,18 @@ final class Url
 	/**
 	 * Parse a URL and return query string.
 	 *
-	 * @param  string      $url
+	 * @param  string|null $url
 	 * @return string|null
 	 */
-	public static function getQuery(string $url) : ?string
+	public static function getQuery(string $url = null) : ?string
 	{
-		$data = static::parse($url);
-		$value = $data['query'] ?? null;
+		if ($url)
+		{
+			$data = static::parse($url);
+			$value = $data['query'] ?? null;
+		}
+		else
+			$value = static::$_query;
 
 		return $value;
 	}
