@@ -633,6 +633,19 @@ final class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	// Url::setUser()
+
+	public function testMethodSetUserCase1()
+	{
+		$value = 'value';
+
+		Url::setUser($value);
+
+		$result = Url::getUser();
+
+		$this->assertEquals($value, $result);
+	}
+
 	// Url::getPass()
 
 	public function testMethodGetPassCase1()
