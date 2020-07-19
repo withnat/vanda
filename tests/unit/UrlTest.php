@@ -461,13 +461,26 @@ final class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// Url::getContext()
+	// Url::toContext()
 
 	/**
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodGetContextCase1()
+	public function testMethodtoContextCase1()
+	{
+		$expected = 'httpslocalhost';
+
+		$result = Url::toContext('https://localhost');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodtoContextCase2()
 	{
 		putenv('SIDE=admin');
 		putenv('MODULE=user');
@@ -478,7 +491,7 @@ final class UrlTest extends TestCase
 
 		$expected = 'httpslocalhostvandaadminusermodify';
 
-		$result = Url::getContext();
+		$result = Url::toContext();
 
 		$this->assertEquals($expected, $result);
 
@@ -491,7 +504,7 @@ final class UrlTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodGetContextCase2()
+	public function testMethodtoContextCase3()
 	{
 		putenv('SIDE=admin');
 		putenv('MODULE=user');
@@ -502,7 +515,7 @@ final class UrlTest extends TestCase
 
 		$expected = 'httpslocalhostvandaadminusergroupmodify';
 
-		$result = Url::getContext();
+		$result = Url::toContext();
 
 		$this->assertEquals($expected, $result);
 
