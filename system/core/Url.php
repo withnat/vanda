@@ -415,6 +415,17 @@ final class Url
 	}
 
 	/**
+	 * Set port value.
+	 *
+	 * @param  string $port
+	 * @return void
+	 */
+	public static function setPort(int $port) : void
+	{
+		static::$_port = $port;
+	}
+
+	/**
 	 * Parse a URL and return path value.
 	 *
 	 * @param  string|null $url
