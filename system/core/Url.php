@@ -44,6 +44,7 @@ namespace System;
 final class Url
 {
 	private static $_scheme;
+	private static $_user;
 
 	/**
 	 * Url constructor.
@@ -290,13 +291,18 @@ final class Url
 	/**
 	 * Parse a URL and return user value.
 	 *
-	 * @param  string      $url
+	 * @param  string|null $url
 	 * @return string|null
 	 */
-	public static function getUser(string $url) : ?string
+	public static function getUser(string $url = null) : ?string
 	{
-		$data = static::parse($url);
-		$value = $data['user'] ?? null;
+		if ($url)
+		{
+			$data = static::parse($url);
+			$value = $data['user'] ?? null;
+		}
+		else
+			$value = static::$_user;
 
 		return $value;
 	}
