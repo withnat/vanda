@@ -43,6 +43,8 @@ namespace System;
  */
 final class Url
 {
+	private static $_scheme;
+
 	/**
 	 * Url constructor.
 	 */
@@ -269,13 +271,18 @@ final class Url
 	/**
 	 * Parse a URL and return scheme value.
 	 *
-	 * @param  string      $url
+	 * @param  string|null $url
 	 * @return string|null
 	 */
-	public static function getScheme(string $url) : ?string
+	public static function getScheme(string $url = null) : ?string
 	{
-		$data = static::parse($url);
-		$value = $data['scheme'] ?? null;
+		if ($url)
+		{
+			$data = static::parse($url);
+			$value = $data['scheme'] ?? null;
+		}
+		else
+			$value = static::$_scheme;
 
 		return $value;
 	}
