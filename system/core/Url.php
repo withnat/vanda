@@ -477,6 +477,17 @@ final class Url
 	}
 
 	/**
+	 * Set query value.
+	 *
+	 * @param  string $query
+	 * @return void
+	 */
+	public static function setQuery(string $query) : void
+	{
+		static::$_query = $query;
+	}
+
+	/**
 	 * Parse a URL and return fragment value.
 	 *
 	 * @param  string|null $url
