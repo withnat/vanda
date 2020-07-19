@@ -755,12 +755,19 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetFragmentCase1()
 	{
-		$result = Url::getFragment('');
+		$result = Url::getFragment();
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetFragmentCase2()
+	{
+		$result = Url::getFragment('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetFragmentCase3()
 	{
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'anchor';
