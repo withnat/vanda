@@ -572,7 +572,7 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetSchemeCase1()
 	{
-		$result = Url::getScheme('');
+		$result = Url::getScheme();
 
 		$this->assertNull($result);
 	}
