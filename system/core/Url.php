@@ -57,9 +57,18 @@ final class Url
 	}
 
 	/**
+	 * @param  string|null $side
 	 * @return string
 	 */
-	public static function default() : string
+	public static function default($side = null) : string
+	{
+
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function uri() : string
 	{
 
 	}
@@ -174,26 +183,36 @@ final class Url
 	}
 
 	/**
+	 * @param  string|null $url
 	 * @return string
 	 */
-	public static function getContext() : string
+	public static function toContext($url = null) : string
 	{
-		$url = Request::url();
-		$arr = explode('?', $url);
-		$url = $arr[0];
+		if (!$url)
+		{
+			$url = Request::url();
 
-		$module = getenv('MODULE');
-		$controller = getenv('CONTROLLER');
+			$arr = explode('?', $url);
+			$url = $arr[0];
 
-		// Replace same module and controller name with module name.
-		// ie. http://localhost/vanda/admin/user/user
-		// --> http://localhost/vanda/admin/user
-		// Because you can access index action of module user using
-		// 2 above urls. But Paginator will detect these urls in
-		// different context (user and user/user) and will return
-		// different 'pagesize' value.
-		if ($module === $controller and stripos($url, $module . '/' . $controller))
-			$url = str_replace($module . '/' . $controller, $module, $url);
+			$module = getenv('MODULE');
+			$controller = getenv('CONTROLLER');
+
+			// Replace same module and controller name with module name.
+			// ie. http://localhost/vanda/admin/user/user
+			// --> http://localhost/vanda/admin/user
+			// Because you can access index action of module user using
+			// 2 above urls. But Paginator will detect these urls in
+			// different context (user and user/user) and will return
+			// different 'pagesize' value.
+			if ($module === $controller and stripos($url, $module . '/' . $controller))
+				$url = str_replace($module . '/' . $controller, $module, $url);
+		}
+		else
+		{
+			$arr = explode('?', $url);
+			$url = $arr[0];
+		}
 
 		$context = preg_replace('/[^a-z0-9]+/i', '', $url);
 
