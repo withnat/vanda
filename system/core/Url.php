@@ -505,4 +505,15 @@ final class Url
 
 		return $value;
 	}
+
+	/**
+	 * Set fragment value.
+	 *
+	 * @param  string $fragment
+	 * @return void
+	 */
+	public static function setFragment(string $fragment) : void
+	{
+		static::$_fragment = $fragment;
+	}
 }
