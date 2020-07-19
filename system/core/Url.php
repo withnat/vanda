@@ -47,6 +47,7 @@ final class Url
 	private static $_user;
 	private static $_pass;
 	private static $_host;
+	private static $_port;
 
 	/**
 	 * Url constructor.
@@ -350,13 +351,18 @@ final class Url
 	/**
 	 * Parse a URL and return port value.
 	 *
-	 * @param  string   $url
+	 * @param  string|null $url
 	 * @return int|null
 	 */
-	public static function getPort(string $url) : ?int
+	public static function getPort(string $url = null) : ?int
 	{
-		$data = static::parse($url);
-		$value = $data['port'] ?? null;
+		if ($url)
+		{
+			$data = static::parse($url);
+			$value = $data['port'] ?? null;
+		}
+		else
+			$value = static::$_port;
 
 		return $value;
 	}
