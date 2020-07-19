@@ -579,6 +579,13 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetSchemeCase2()
 	{
+		$result = Url::getScheme('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetSchemeCase3()
+	{
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'http';
 
