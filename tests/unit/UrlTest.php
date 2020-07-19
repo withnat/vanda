@@ -624,12 +624,19 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetPassCase1()
 	{
-		$result = Url::getPass('');
+		$result = Url::getPass();
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetPassCase2()
+	{
+		$result = Url::getPass('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetPassCase3()
 	{
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'password';
