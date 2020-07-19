@@ -447,6 +447,17 @@ final class Url
 	}
 
 	/**
+	 * Set path value.
+	 *
+	 * @param  string $path
+	 * @return void
+	 */
+	public static function setPath(string $path) : void
+	{
+		static::$_path = $path;
+	}
+
+	/**
 	 * Parse a URL and return query string.
 	 *
 	 * @param  string|null $url
