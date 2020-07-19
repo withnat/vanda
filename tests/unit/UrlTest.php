@@ -729,12 +729,19 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetQueryCase1()
 	{
-		$result = Url::getQuery('');
+		$result = Url::getQuery();
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetQueryCase2()
+	{
+		$result = Url::getQuery('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetQueryCase3()
 	{
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'arg=value';
