@@ -867,4 +867,17 @@ final class UrlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// Url::setFragment()
+
+	public function testMethodSetFragmentCase1()
+	{
+		$value = 'value';
+
+		Url::setFragment($value);
+
+		$result = Url::getFragment();
+
+		$this->assertEquals($value, $result);
+	}
 }
