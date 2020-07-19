@@ -790,6 +790,19 @@ final class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	// Url::setPath()
+
+	public function testMethodSetPathCase1()
+	{
+		$value = 'value';
+
+		Url::setPath($value);
+
+		$result = Url::getPath();
+
+		$this->assertEquals($value, $result);
+	}
+
 	// Url::getQuery()
 
 	public function testMethodGetQueryCase1()
