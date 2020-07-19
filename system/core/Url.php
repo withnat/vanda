@@ -417,7 +417,7 @@ final class Url
 	/**
 	 * Set port value.
 	 *
-	 * @param  string $port
+	 * @param  int  $port
 	 * @return void
 	 */
 	public static function setPort(int $port) : void
