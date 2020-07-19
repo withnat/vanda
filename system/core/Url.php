@@ -385,6 +385,17 @@ final class Url
 	}
 
 	/**
+	 * Set host value.
+	 *
+	 * @param  string $host
+	 * @return void
+	 */
+	public static function setHost(string $host) : void
+	{
+		static::$_host = $host;
+	}
+
+	/**
 	 * Parse a URL and return port value.
 	 *
 	 * @param  string|null $url
