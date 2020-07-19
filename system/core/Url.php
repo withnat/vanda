@@ -325,6 +325,17 @@ final class Url
 	}
 
 	/**
+	 * Set user value.
+	 *
+	 * @param  string $user
+	 * @return void
+	 */
+	public static function setUser(string $user) : void
+	{
+		static::$_user = $user;
+	}
+
+	/**
 	 * Parse a URL and return password value.
 	 *
 	 * @param  string|null $url
