@@ -605,7 +605,7 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetUserCase2()
 	{
-		$result = Url::getUser('http://localhost');
+		$result = Url::getUser('');
 
 		$this->assertNull($result);
 	}
