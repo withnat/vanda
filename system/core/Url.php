@@ -295,6 +295,17 @@ final class Url
 	}
 
 	/**
+	 * Set scheme value.
+	 *
+	 * @param  string $scheme
+	 * @return void
+	 */
+	public static function setScheme(string $scheme) : void
+	{
+		static::$_scheme = $scheme;
+	}
+
+	/**
 	 * Parse a URL and return user value.
 	 *
 	 * @param  string|null $url
