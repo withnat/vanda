@@ -711,6 +711,19 @@ final class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	// Url::setHost()
+
+	public function testMethodSetHostCase1()
+	{
+		$value = 'value';
+
+		Url::setHost($value);
+
+		$result = Url::getHost();
+
+		$this->assertEquals($value, $result);
+	}
+
 	// Url::getPort()
 
 	public function testMethodGetPortCase1()
