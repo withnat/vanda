@@ -594,6 +594,19 @@ final class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	// Url::setScheme()
+
+	public function testMethodSetSchemeCase1()
+	{
+		$value = 'value';
+
+		Url::setScheme($value);
+
+		$result = Url::getScheme();
+
+		$this->assertEquals($value, $result);
+	}
+
 	// Url::getUser()
 
 	public function testMethodGetUserCase1()
