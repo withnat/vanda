@@ -355,6 +355,17 @@ final class Url
 	}
 
 	/**
+	 * Set password value.
+	 *
+	 * @param  string $pass
+	 * @return void
+	 */
+	public static function setPass(string $pass) : void
+	{
+		static::$_pass = $pass;
+	}
+
+	/**
 	 * Parse a URL and return host value.
 	 *
 	 * @param  string|null $url
