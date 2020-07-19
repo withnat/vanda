@@ -676,12 +676,19 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetPortCase1()
 	{
-		$result = Url::getPort('');
+		$result = Url::getPort();
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetPortCase2()
+	{
+		$result = Url::getPort('');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetPortCase3()
 	{
 		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 9090;
