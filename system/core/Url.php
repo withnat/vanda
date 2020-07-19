@@ -45,6 +45,7 @@ final class Url
 {
 	private static $_scheme;
 	private static $_user;
+	private static $_pass;
 
 	/**
 	 * Url constructor.
@@ -310,13 +311,18 @@ final class Url
 	/**
 	 * Parse a URL and return password value.
 	 *
-	 * @param  string      $url
+	 * @param  string|null $url
 	 * @return string|null
 	 */
-	public static function getPass(string $url) : ?string
+	public static function getPass(string $url = null) : ?string
 	{
-		$data = static::parse($url);
-		$value = $data['pass'] ?? null;
+		if ($url)
+		{
+			$data = static::parse($url);
+			$value = $data['pass'] ?? null;
+		}
+		else
+			$value = static::$_pass;
 
 		return $value;
 	}
