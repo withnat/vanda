@@ -46,6 +46,7 @@ final class Url
 	private static $_scheme;
 	private static $_user;
 	private static $_pass;
+	private static $_host;
 
 	/**
 	 * Url constructor.
@@ -330,13 +331,18 @@ final class Url
 	/**
 	 * Parse a URL and return host value.
 	 *
-	 * @param  string      $url
+	 * @param  string|null $url
 	 * @return string|null
 	 */
-	public static function getHost(string $url) : ?string
+	public static function getHost(string $url = null) : ?string
 	{
-		$data = static::parse($url);
-		$value = $data['host'] ?? null;
+		if ($url)
+		{
+			$data = static::parse($url);
+			$value = $data['host'] ?? null;
+		}
+		else
+			$value = static::$_host;
 
 		return $value;
 	}
