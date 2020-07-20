@@ -43,6 +43,7 @@ namespace System;
  */
 final class Url
 {
+	private static $_baseUrl;
 	private static $_scheme;
 	private static $_user;
 	private static $_pass;
@@ -59,10 +60,14 @@ final class Url
 
 	/**
 	 * @return string
+	 * @codeCoverageIgnore
 	 */
 	public static function base() : string
 	{
+		if (!static::$_baseUrl)
+			static::$_baseUrl = Request::host() . Request::basePath();
 
+		return static::$_baseUrl;
 	}
 
 	/**
