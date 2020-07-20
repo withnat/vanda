@@ -47,6 +47,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class UrlTest extends TestCase
 {
+	protected static $_url = 'http://username:password@hostname:9090/path?arg=value#anchor';
+
 	public function createBackendUrlWithSefProvider()
 	{
 		return [
@@ -601,8 +603,6 @@ final class UrlTest extends TestCase
 
 	public function testMethodParseCase1()
 	{
-		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
-
 		$expected = [
 			'scheme' => 'http',
 			'host' => 'hostname',
@@ -614,7 +614,7 @@ final class UrlTest extends TestCase
 			'fragment' => 'anchor',
 		];
 
-		$result = Url::parse($url);
+		$result = Url::parse(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -637,10 +637,9 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetSchemeCase3()
 	{
-		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'http';
 
-		$result = Url::getScheme($url);
+		$result = Url::getScheme(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -676,10 +675,9 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetUserCase3()
 	{
-		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'username';
 
-		$result = Url::getUser($url);
+		$result = Url::getUser(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -715,10 +713,9 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetPassCase3()
 	{
-		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'password';
 
-		$result = Url::getPass($url);
+		$result = Url::getPass(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -754,10 +751,9 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetHostCase3()
 	{
-		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'hostname';
 
-		$result = Url::getHost($url);
+		$result = Url::getHost(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -793,10 +789,9 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetPortCase3()
 	{
-		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 9090;
 
-		$result = Url::getPort($url);
+		$result = Url::getPort(static::$_url);
 
 		$this->assertIsInt($result);
 		$this->assertEquals($expected, $result);
@@ -833,10 +828,9 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetPathCase3()
 	{
-		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = '/path';
 
-		$result = Url::getPath($url);
+		$result = Url::getPath(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -872,10 +866,9 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetQueryCase3()
 	{
-		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'arg=value';
 
-		$result = Url::getQuery($url);
+		$result = Url::getQuery(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -911,10 +904,9 @@ final class UrlTest extends TestCase
 
 	public function testMethodGetFragmentCase3()
 	{
-		$url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 		$expected = 'anchor';
 
-		$result = Url::getFragment($url);
+		$result = Url::getFragment(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
