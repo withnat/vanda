@@ -536,4 +536,20 @@ final class Url
 	{
 		static::$_fragment = $fragment;
 	}
+
+	/**
+	 * @codeCoverageIgnore
+	 */
+	public static function reset() : void
+	{
+		static::$_baseUrl = null;
+		static::$_scheme = null;
+		static::$_user = null;
+		static::$_pass = null;
+		static::$_host = null;
+		static::$_port = null;
+		static::$_path = null;
+		static::$_query = null;
+		static::$_fragment = null;
+	}
 }
