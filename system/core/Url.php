@@ -81,10 +81,11 @@ final class Url
 
 	/**
 	 * @return string
+	 * @codeCoverageIgnore
 	 */
 	public static function uri() : string
 	{
-
+		return Request::uri();
 	}
 
 	/**
