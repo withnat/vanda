@@ -181,6 +181,20 @@ final class Url
 	}
 
 	/**
+	 * Determine if the given path is a valid URL.
+	 *
+	 * @param  string $path
+	 * @return bool
+	 */
+	public static function isValid($path) : bool
+	{
+		if (!preg_match('~^(#|//|https?://|(mailto|tel|sms):)~', $path))
+			return (filter_var($path, FILTER_VALIDATE_URL) !== false);
+
+		return true;
+	}
+
+	/**
 	 * @param  string $uri
 	 * @return string
 	 */
