@@ -432,6 +432,57 @@ final class UrlTest extends TestCase
 		putenv('CONTROLLER');
 	}
 
+	// Url::isValid()
+
+	public function testMethodIsValidCase1()
+	{
+		$result = Url::isValid('');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsValidCase2()
+	{
+		$result = Url::isValid('foo/bar');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsValidCase3()
+	{
+		$result = Url::isValid('http://localhost');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase4()
+	{
+		$result = Url::isValid('https://localhost');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase5()
+	{
+		$result = Url::isValid('mailto:nat@withnat.com');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase6()
+	{
+		$result = Url::isValid('tel:0816386632');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsValidCase7()
+	{
+		$result = Url::isValid('sms:0816386632');
+
+		$this->assertTrue($result);
+	}
+
 	// Url::hashSPA()
 
 	public function testMethodHashSPACase1()
