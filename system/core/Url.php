@@ -97,20 +97,20 @@ final class Url
 	}
 
 	/**
-	 * @param  string|null $uri
+	 * @param  string|null $path
 	 * @param  bool|null   $secure
 	 * @return string
 	 */
-	public static function create(string $uri = null, bool $secure = null) : string
+	public static function create(string $path = null, bool $secure = null) : string
 	{
-		// If the given $string is null, convert to string first.
-		$uri = (string)$uri;
-		$uri = trim($uri);
+		// If the given $path is null, convert to string first.
+		$path = (string)$path;
+		$path = trim($path);
 
-		if (stripos($uri, 'http://') === false and stripos($uri, 'https://') === false)
+		if (!static::isValid($path))
 		{
-			if (substr($uri, 0, 1) != '/')
-				$uri = '/' . $uri;
+			if (substr($path, 0, 1) != '/')
+				$path = '/' . $path;
 
 			if ((int)\Setting::get('sef'))
 				$prefix = '';
@@ -123,16 +123,16 @@ final class Url
 			if ($side == 'frontend')
 			{
 				$lang = ($lang ? '/' . $lang : '');
-				$url = Request::baseUrl() . $prefix . $lang . $uri;
+				$url = Request::baseUrl() . $prefix . $lang . $path;
 			}
 			else
 			{
 				$backendpath = \Setting::get('backendpath', '/admin');
-				$url = Request::baseUrl() . $prefix . $backendpath . $uri;
+				$url = Request::baseUrl() . $prefix . $backendpath . $path;
 			}
 		}
 		else
-			$url = $uri;
+			$url = $path;
 
 		if ($secure === true and substr($url, 0, 7) == 'http://')
 			$url = substr_replace($url, 'https://', 0, 7);
