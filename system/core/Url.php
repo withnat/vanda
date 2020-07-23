@@ -148,6 +148,8 @@ final class Url
 	 */
 	public static function createFromAction(string $action) : string
 	{
+		static::reset();
+
 		if (strpos($action, '.'))
 		{
 			$arr = explode('.', $action);
