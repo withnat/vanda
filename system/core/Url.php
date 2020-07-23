@@ -139,6 +139,8 @@ final class Url
 		elseif ($secure === false and substr($url, 0, 8) == 'https://')
 			$url = substr_replace($url, 'http://', 0, 8);
 
+		static::reset();
+		
 		return $url;
 	}
 
