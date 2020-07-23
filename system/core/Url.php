@@ -140,7 +140,7 @@ final class Url
 			$url = substr_replace($url, 'http://', 0, 8);
 
 		static::reset();
-		
+
 		return $url;
 	}
 
