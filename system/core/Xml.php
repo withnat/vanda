@@ -42,6 +42,10 @@ use System\Exception\InvalidArgumentException;
 
 /**
  * Class Xml
+ *
+ * The Xml class allows you to transform arrays or objects into SimpleXMLElement
+ * or DOMDocument objects, and back into arrays or objects again.
+ *
  * @package System
  */
 final class Xml
