@@ -39,6 +39,11 @@ namespace System;
 
 /**
  * Class Url
+ *
+ * The Url class provides methods that help you retrieve information from your
+ * URL strings. If you use URL routing, you can also retrieve information about
+ * the re-routed segments.
+ *
  * @package System
  */
 final class Url
