@@ -95,10 +95,13 @@ final class Url
 
 	/**
 	 * @return string
+	 * @codeCoverageIgnore
 	 */
 	public static function current() : string
 	{
+		$url = static::base() . static::uri();
 
+		return $url;
 	}
 
 	/**
