@@ -351,6 +351,30 @@ final class Data
 	}
 
 	/**
+	 * Verify that the content of a variable is an array or an object
+	 * implementing Countable.
+	 *
+	 * @param  mixed $data  The data to check.
+	 * @return bool         Returns TRUE if data is countable, FALSE otherwise.
+	 */
+	public static function isCountable($data) : bool
+	{
+		// PHP 7 >= 7.3.0
+		if (function_exists('is_countable'))
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			// @codeCoverageIgnoreStart
+			return is_countable($data);
+			// @codeCoverageIgnoreEnd
+		}
+		else
+			return is_array($data) or
+				$data instanceof \Countable or
+				$data instanceof \ResourceBundle or
+				$data instanceof \SimpleXmlElement;
+	}
+
+	/**
 	 * @param  array $allowedDataTypes
 	 * @param  int   $argument
 	 * @param  mixed $data
