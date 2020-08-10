@@ -131,12 +131,12 @@ final class Url
 			if ($side == 'frontend')
 			{
 				$lang = ($lang ? '/' . $lang : '');
-				$url = Request::baseUrl() . $prefix . $lang . $path;
+				$url = static::base() . $prefix . $lang . $path;
 			}
 			else
 			{
 				$backendpath = \Setting::get('backendpath', '/admin');
-				$url = Request::baseUrl() . $prefix . $backendpath . $path;
+				$url = static::base() . $prefix . $backendpath . $path;
 			}
 		}
 		else
