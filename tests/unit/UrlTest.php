@@ -142,7 +142,8 @@ final class UrlTest extends TestCase
 		putenv('SIDE=backend');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['baseurl' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
@@ -177,7 +178,8 @@ final class UrlTest extends TestCase
 		putenv('SIDE=backend');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['baseurl' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
@@ -214,7 +216,8 @@ final class UrlTest extends TestCase
 		putenv('LANG=' . $lang);
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['baseurl' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
@@ -249,7 +252,8 @@ final class UrlTest extends TestCase
 		putenv('LANG=' . $lang);
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['baseurl' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
@@ -279,7 +283,8 @@ final class UrlTest extends TestCase
 		putenv('LANG=en');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['baseurl' => 'https://localhost']);
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
@@ -311,7 +316,8 @@ final class UrlTest extends TestCase
 		putenv('SIDE=admin');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['baseurl' => 'https://localhost']);
+		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
@@ -342,7 +348,8 @@ final class UrlTest extends TestCase
 		putenv('SIDE=admin');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['baseurl' => 'https://localhost']);
+		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
@@ -375,7 +382,8 @@ final class UrlTest extends TestCase
 		putenv('CONTROLLER=user');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['baseurl' => 'https://localhost']);
+		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
@@ -410,7 +418,8 @@ final class UrlTest extends TestCase
 		putenv('CONTROLLER=group');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['baseurl' => 'https://localhost']);
+		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
