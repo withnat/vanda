@@ -37,6 +37,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use stdClass;
 use System\Request;
 use PHPUnit\Framework\TestCase;
 
@@ -46,4 +47,46 @@ use PHPUnit\Framework\TestCase;
  */
 final class RequestTest extends TestCase
 {
+	// Request::set()
+
+	public function testMethodSetCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Request::set('arg', new stdClass());
+	}
+
+	public function testMethodSetCase2() : void
+	{
+		Request::set('arg', 'value');
+
+		$result = $_GET['arg'];
+
+		$this->assertEquals('value', $result);
+	}
+
+	public function testMethodSetCase3() : void
+	{
+		Request::set('arg', 'value', 'get');
+
+		$result = $_GET['arg'];
+
+		$this->assertEquals('value', $result);
+	}
+
+	public function testMethodSetCase4() : void
+	{
+		Request::set('arg', 'value', 'post');
+
+		$result = $_POST['arg'];
+
+		$this->assertEquals('value', $result);
+	}
+
+	public function testMethodSetCase5() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Request::set('arg', 'value', 'x');
+	}
 }
