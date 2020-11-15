@@ -277,14 +277,18 @@ final class UrlTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testCreateUrlWithSecure() : void
+	public function testCreateFullUrlWithPathParam() : void
 	{
 		putenv('SIDE=frontend');
 		putenv('LANG=en');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
-		$mockedRequest->shouldReceive(['basePath' => '']);
+		Url::setScheme('http');
+		Url::setUser('user');
+		Url::setPass('pass');
+		Url::setHost('hostname');
+		Url::setPort(9090);
+		Url::setQuery('arg=value');
+		Url::setFragment('anchor');
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
@@ -297,8 +301,110 @@ final class UrlTest extends TestCase
 					return '';
 			});
 
-		$expected = 'http://localhost/en/contact';
+		$expected = 'http://user:pass@hostname:9090/en/contact?arg=value#anchor';
 		$result = Url::create('contact', false);
+		$this->assertEquals($expected, $result);
+
+		putenv('SIDE');
+		putenv('LANG');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testCreateFullUrlWithOutPathParam() : void
+	{
+		putenv('SIDE=frontend');
+		putenv('LANG=en');
+
+		Url::setScheme('http');
+		Url::setUser('user');
+		Url::setPass('pass');
+		Url::setHost('hostname');
+		Url::setPort(9090);
+		Url::setPath('contact');
+		Url::setQuery('arg=value');
+		Url::setFragment('anchor');
+
+		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting->shouldReceive('get')
+			->once()
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'sef')
+					return '1';
+				else
+					return '';
+			});
+
+		$expected = 'http://user:pass@hostname:9090/en/contact?arg=value#anchor';
+		$result = Url::create(null, false);
+
+		$this->assertEquals($expected, $result);
+
+		putenv('SIDE');
+		putenv('LANG');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testCreateFullUrlWithUserHasNoPass() : void
+	{
+		putenv('SIDE=frontend');
+		putenv('LANG=en');
+
+		Url::setScheme('http');
+		Url::setUser('user');
+		Url::setHost('hostname');
+
+		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting->shouldReceive('get')
+			->once()
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'sef')
+					return '1';
+				else
+					return '';
+			});
+
+		$expected = 'http://user@hostname/en';
+		$result = Url::create(null, false);
+		$this->assertEquals($expected, $result);
+
+		putenv('SIDE');
+		putenv('LANG');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testCreateFullUrlWithPassButNoUser() : void
+	{
+		putenv('SIDE=frontend');
+		putenv('LANG=en');
+
+		Url::setScheme('http');
+		Url::setPass('pass');
+		Url::setHost('hostname');
+
+		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting->shouldReceive('get')
+			->once()
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'sef')
+					return '1';
+				else
+					return '';
+			});
+
+		$expected = 'http://:pass@hostname/en';
+		$result = Url::create(null, false);
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
