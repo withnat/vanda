@@ -440,7 +440,7 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodCreateFromActionThatHasOneDotInUri()
 	{
-		putenv('SIDE=admin');
+		putenv('SIDE=backend');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
@@ -472,7 +472,7 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodCreateFromActionThatHasTwoDotsInUri()
 	{
-		putenv('SIDE=admin');
+		putenv('SIDE=backend');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
@@ -504,7 +504,7 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodCreateFromActionThatModuleIsSameAsController()
 	{
-		putenv('SIDE=admin');
+		putenv('SIDE=backend');
 		putenv('MODULE=user');
 		putenv('CONTROLLER=user');
 
@@ -540,7 +540,7 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodCreateFromActionThatModuleIsNotSameAsController()
 	{
-		putenv('SIDE=admin');
+		putenv('SIDE=backend');
 		putenv('MODULE=user');
 		putenv('CONTROLLER=group');
 
@@ -671,7 +671,6 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodtoContextCase2()
 	{
-		putenv('SIDE=admin');
 		putenv('MODULE=user');
 		putenv('CONTROLLER=user');
 
@@ -684,7 +683,6 @@ final class UrlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
 		putenv('MODULE');
 		putenv('CONTROLLER');
 	}
@@ -695,7 +693,6 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodtoContextCase3()
 	{
-		putenv('SIDE=admin');
 		putenv('MODULE=user');
 		putenv('CONTROLLER=group');
 
@@ -708,7 +705,6 @@ final class UrlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
 		putenv('MODULE');
 		putenv('CONTROLLER');
 	}
