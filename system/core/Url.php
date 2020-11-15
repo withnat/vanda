@@ -586,6 +586,7 @@ final class Url
 	 */
 	public static function setFragment(string $fragment) : void
 	{
+		$fragment = ltrim($fragment, '#');
 		static::$_fragment = $fragment;
 	}
 
