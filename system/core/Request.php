@@ -52,6 +52,11 @@ use System\Exception\InvalidArgumentException;
 final class Request
 {
 	/**
+	 * Request constructor.
+	 */
+	private function __construct(){}
+
+	/**
 	 * @param  string           $name
 	 * @param  string|int|float $value
 	 * @param  string           $method
