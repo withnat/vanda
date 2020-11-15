@@ -526,6 +526,7 @@ final class Url
 	 */
 	public static function setPath(string $path) : void
 	{
+		$path = ltrim($path, '/');
 		static::$_path = $path;
 	}
 
