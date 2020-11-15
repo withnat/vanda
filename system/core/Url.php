@@ -49,6 +49,7 @@ namespace System;
 final class Url
 {
 	private static $_baseUrl;
+	private static $_defaultUrl;
 	private static $_scheme;
 	private static $_user;
 	private static $_pass;
@@ -76,12 +77,20 @@ final class Url
 	}
 
 	/**
-	 * @param  string|null $side
 	 * @return string
+	 * @codeCoverageIgnore
 	 */
-	public static function default($side = null) : string
+	public static function default() : string
 	{
+		if (!static::$_defaultUrl)
+		{
+			if (isSPA())
+				static::$_defaultUrl = '';
+			else
+				static::$_defaultUrl = Url::create();
+		}
 
+		return static::$_defaultUrl;
 	}
 
 	/**
