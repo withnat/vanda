@@ -102,6 +102,14 @@ final class UrlTest extends TestCase
 	public function createFrontendUrlWithoutSefProvider()
 	{
 		return [
+			[null, '', false, 'http://localhost/index.php'],
+			[null, '', true, 'https://localhost/index.php'],
+			['', '', false, 'http://localhost/index.php'],
+			['', '', true, 'https://localhost/index.php'],
+			[null, 'en', false, 'http://localhost/index.php/en'],
+			[null, 'en', true, 'https://localhost/index.php/en'],
+			['', 'en', false, 'http://localhost/index.php/en'],
+			['', 'en', true, 'https://localhost/index.php/en'],
 			['foo', '', false, 'http://localhost/index.php/foo'],
 			['foo', '', true, 'https://localhost/index.php/foo'],
 			['foo/bar', '', false, 'http://localhost/index.php/foo/bar'],
@@ -254,15 +262,15 @@ final class UrlTest extends TestCase
 	}
 
 	/**
-	 * @param string $string
-	 * @param string $lang
-	 * @param bool   $secure
-	 * @param string $expected
+	 * @param $string
+	 * @param $lang
+	 * @param $secure
+	 * @param $expected
 	 * @dataProvider createFrontendUrlWithoutSefProvider
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testCreateFrontendUrlWithoutSef(string $string, string $lang, bool $secure, string $expected) : void
+	public function testCreateFrontendUrlWithoutSef($string, $lang, $secure, $expected) : void
 	{
 		putenv('SIDE=frontend');
 		putenv('LANG=' . $lang);
