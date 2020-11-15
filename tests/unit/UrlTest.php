@@ -80,6 +80,14 @@ final class UrlTest extends TestCase
 	public function createFrontendUrlWithSefProvider()
 	{
 		return [
+			[null, '', false, 'http://localhost'],
+			[null, '', true, 'https://localhost'],
+			['', '', false, 'http://localhost'],
+			['', '', true, 'https://localhost'],
+			[null, 'en', false, 'http://localhost/en'],
+			[null, 'en', true, 'https://localhost/en'],
+			['', 'en', false, 'http://localhost/en'],
+			['', 'en', true, 'https://localhost/en'],
 			['foo', '', false, 'http://localhost/foo'],
 			['foo', '', true, 'https://localhost/foo'],
 			['foo/bar', '', false, 'http://localhost/foo/bar'],
@@ -210,15 +218,15 @@ final class UrlTest extends TestCase
 	}
 
 	/**
-	 * @param string $string
-	 * @param string $lang
-	 * @param bool   $secure
-	 * @param string $expected
+	 * @param $string
+	 * @param $lang
+	 * @param $secure
+	 * @param $expected
 	 * @dataProvider createFrontendUrlWithSefProvider
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testCreateFrontenUrldWithSef(string $string, string $lang, bool $secure, string $expected) : void
+	public function testCreateFrontenUrldWithSef($string, $lang, $secure, $expected) : void
 	{
 		putenv('SIDE=frontend');
 		putenv('LANG=' . $lang);
