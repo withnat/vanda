@@ -37,7 +37,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use stdClass;
 use System\Url;
 use PHPUnit\Framework\TestCase;
 
@@ -186,7 +185,6 @@ final class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
-		putenv('LANG');
 	}
 
 	/**
@@ -222,7 +220,6 @@ final class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 
 		putenv('SIDE');
-		putenv('LANG');
 	}
 
 	/**
