@@ -52,6 +52,10 @@ final class UrlTest extends TestCase
 	public function createBackendUrlWithSefProvider()
 	{
 		return [
+			[null, false, 'http://localhost/admin'],
+			[null, true, 'https://localhost/admin'],
+			['', false, 'http://localhost/admin'],
+			['', true, 'https://localhost/admin'],
 			['foo', false, 'http://localhost/admin/foo'],
 			['foo', true, 'https://localhost/admin/foo'],
 			['foo/bar', false, 'http://localhost/admin/foo/bar'],
@@ -130,14 +134,14 @@ final class UrlTest extends TestCase
 	}
 
 	/**
-	 * @param string $string
-	 * @param bool   $secure
-	 * @param string $expected
+	 * @param $string
+	 * @param $secure
+	 * @param $expected
 	 * @dataProvider createBackendUrlWithSefProvider
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testCreateBackenUrldWithSef(string $string, bool $secure, string $expected) : void
+	public function testCreateBackenUrldWithSef($string, $secure, $expected) : void
 	{
 		putenv('SIDE=backend');
 
