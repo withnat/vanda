@@ -37,6 +37,8 @@ declare(strict_types=1);
 
 namespace System;
 
+use System\Exception\InvalidArgumentException;
+
 /**
  * Class Request
  *
@@ -49,4 +51,31 @@ namespace System;
  */
 final class Request
 {
+	/**
+	 * @param  string           $name
+	 * @param  string|int|float $value
+	 * @param  string           $method
+	 * @return void
+	 */
+	public static function set(string $name, $value, string $method = 'GET') : void
+	{
+		if (!is_string($value) and !is_int($value) and !is_float($value))
+			throw InvalidArgumentException::typeError(2, ['string','int','float'], $value);
+
+		$method = trim(strtoupper($method));
+
+		if (!in_array($method, ['GET', 'POST']))
+			throw InvalidArgumentException::valueError(3, '$method must be "GET" or "POST"', $method);
+
+		switch ($method)
+		{
+			case 'GET':
+				$_GET[$name] = $value;
+				break;
+
+			case 'POST':
+				$_POST[$name] = $value;
+				break;
+		}
+	}
 }
