@@ -105,19 +105,43 @@ final class Url
 	}
 
 	/**
+	 * Example url
+	 * http://user:pass@hostname:9090/path?arg=value#anchor
+	 *
 	 * @param  string|null $path
 	 * @param  bool|null   $secure
 	 * @return string
 	 */
 	public static function create(string $path = null, bool $secure = null) : string
 	{
-		// If the given $path is null, convert to string first.
+		if (is_null($path))
+			$path = static::$_path;
+
+		// If the $path is still null, convert it to string.
 		$path = (string)$path;
+		// And remove white-space.
 		$path = trim($path);
 
 		if (!static::isValid($path))
 		{
-			if (substr($path, 0, 1) != '/')
+			if (static::$_scheme)
+				$url = static::$_scheme . '://';
+			else
+				$url = static::base();
+
+			if (static::$_user and static::$_pass)
+				$url .= static::$_user . ':' . static::$_pass . '@';
+			elseif (static::$_user)
+				$url .= static::$_user . '@';
+			elseif (static::$_pass)
+				$url .= ':' . static::$_pass . '@';
+
+			$url .= static::$_host;
+
+			if (static::$_port)
+				$url .= ':' . static::$_port;
+			
+			if ($path and substr($path, 0, 1) != '/')
 				$path = '/' . $path;
 
 			if ((int)\Setting::get('sef'))
@@ -131,16 +155,32 @@ final class Url
 			if ($side == 'frontend')
 			{
 				$lang = ($lang ? '/' . $lang : '');
-				$url = static::base() . $prefix . $lang . $path;
+				$url .= $prefix . $lang . $path;
 			}
 			else
 			{
 				$backendpath = \Setting::get('backendpath', '/admin');
-				$url = static::base() . $prefix . $backendpath . $path;
+				$url .= $prefix . $backendpath . $path;
 			}
 		}
 		else
 			$url = $path;
+
+		if (static::$_query)
+		{
+			if (substr(static::$_query, 0, 1) != '?')
+				$url .= '?';
+
+			$url .= static::$_query;
+		}
+
+		if (static::$_fragment)
+		{
+			if (substr(static::$_fragment, 0, 1) != '#')
+				$url .= '#';
+
+			$url .= static::$_fragment;
+		}
 
 		if ($secure === true and substr($url, 0, 7) == 'http://')
 			$url = substr_replace($url, 'https://', 0, 7);
