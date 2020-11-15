@@ -556,6 +556,7 @@ final class Url
 	 */
 	public static function setQuery(string $query) : void
 	{
+		$query = ltrim($query, '?');
 		static::$_query = $query;
 	}
 
