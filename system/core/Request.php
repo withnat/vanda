@@ -183,4 +183,13 @@ final class Request
 
 		return static::$_method;
 	}
+
+	/**
+	 * @return string|null
+	 * @codeCoverageIgnore
+	 */
+	public static function referer()
+	{
+		return static::server('HTTP_REFERER');
+	}
 }
