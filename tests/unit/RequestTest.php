@@ -196,4 +196,111 @@ final class RequestTest extends TestCase
 
 		$this->assertEquals('default', $result);
 	}
+
+	// Request::post()
+
+	public function testMethodPostCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Request::post('arg', tmpfile());
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodPostCase2() : void
+	{
+		$getValues = new stdClass();
+		$getValues->arg = 'value';
+
+		$mockedRequest = \Mockery::mock('alias:\System\Arr');
+		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+
+		$mockedRequest = \Mockery::mock('alias:\System\Security');
+		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+
+		$result = Request::post();
+
+		$this->assertEquals($getValues, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodPostCase3() : void
+	{
+		$getValues = new stdClass();
+		$getValues->arg = 'value';
+
+		$mockedRequest = \Mockery::mock('alias:\System\Arr');
+		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+
+		$mockedRequest = \Mockery::mock('alias:\System\Security');
+		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+
+		$result = Request::post(null, null, false);
+
+		$this->assertEquals($getValues, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodPostCase4() : void
+	{
+		$getValues = new stdClass();
+		$getValues->arg = 'value';
+
+		$mockedRequest = \Mockery::mock('alias:\System\Arr');
+		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+
+		$mockedRequest = \Mockery::mock('alias:\System\Security');
+		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+
+		$result = Request::post('arg');
+
+		$this->assertEquals('value', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodPostCase5() : void
+	{
+		$getValues = new stdClass();
+
+		$mockedRequest = \Mockery::mock('alias:\System\Arr');
+		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+
+		$mockedRequest = \Mockery::mock('alias:\System\Security');
+		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+
+		$result = Request::post('arg', 'default');
+
+		$this->assertEquals('default', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodPostCase6() : void
+	{
+		$getValues = new stdClass();
+
+		$mockedRequest = \Mockery::mock('alias:\System\Arr');
+		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+
+		$mockedRequest = \Mockery::mock('alias:\System\Security');
+		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+
+		$result = Request::post('arg', 'default', false);
+
+		$this->assertEquals('default', $result);
+	}
 }
