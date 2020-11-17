@@ -55,6 +55,7 @@ final class Request
 	protected static $_getValuesXSS;
 	protected static $_postValues;
 	protected static $_postValuesXSS;
+	protected static $_method;
 
 	/**
 	 * Request constructor.
@@ -163,5 +164,23 @@ final class Request
 	public static function server(string $key)
 	{
 		return $_SERVER[$key] ?? null;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public static function method() : ?string
+	{
+		if (!static::$_method)
+		{
+			$method = static::server('REQUEST_METHOD');
+
+			if ($method)
+				$method = strtolower($method);
+
+			static::$_method = $method;
+		}
+
+		return static::$_method;
 	}
 }
