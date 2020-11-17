@@ -3509,7 +3509,7 @@ final class ArrTest extends TestCase
 		$result = Arr::toDataset($data);
 		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodToDatasetCase6() : void
@@ -3550,7 +3550,7 @@ final class ArrTest extends TestCase
 		$result = Arr::toDataset(static::$_recordsetArray);
 		$compare = ($result === $expected);
 
-		$this->assertEquals($expected, $result);
+		$this->assertTrue($compare);
 	}
 
 	// Arr::toRecordset()
