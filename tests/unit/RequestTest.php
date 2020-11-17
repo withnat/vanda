@@ -328,4 +328,13 @@ final class RequestTest extends TestCase
 
 		$this->assertNull($result);
 	}
+
+	public function testMethodMethodCase2() : void
+	{
+		$_SERVER['REQUEST_METHOD'] = 'get';
+
+		$result = Request::method();
+
+		$this->assertEquals('get', $result);
+	}
 }
