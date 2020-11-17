@@ -51,6 +51,9 @@ use System\Exception\InvalidArgumentException;
  */
 final class Request
 {
+	protected static $_getValues;
+	protected static $_getValuesXSS;
+
 	/**
 	 * Request constructor.
 	 */
@@ -81,6 +84,42 @@ final class Request
 			case 'POST':
 				$_POST[$name] = $value;
 				break;
+		}
+	}
+
+	/**
+	 * @param  string|null                        $name
+	 * @param  string|int|float|array|object|null $default
+	 * @param  bool                               $xssClean
+	 * @return mixed
+	 */
+	public static function get(string $name = null, $default = null, ?bool $xssClean = true)
+	{
+		if (is_resource($default))
+			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
+
+		if (is_null(static::$_getValues))
+		{
+			$values = Arr::toObject($_GET);
+			static::$_getValues = $values;
+
+			$values = Security::xssClean($values);
+			static::$_getValuesXSS = $values;
+		}
+
+		if (is_null($name))
+		{
+			if ($xssClean)
+				return (empty((array)static::$_getValuesXSS) ? $default : static::$_getValuesXSS);
+			else
+				return (empty((array)static::$_getValues) ? $default : static::$_getValues);
+		}
+		else
+		{
+			if ($xssClean)
+				return static::$_getValuesXSS->{$name} ?? $default;
+			else
+				return static::$_getValues->{$name} ?? $default;
 		}
 	}
 }
