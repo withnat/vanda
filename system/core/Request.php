@@ -53,6 +53,8 @@ final class Request
 {
 	protected static $_getValues;
 	protected static $_getValuesXSS;
+	protected static $_postValues;
+	protected static $_postValuesXSS;
 
 	/**
 	 * Request constructor.
@@ -98,28 +100,59 @@ final class Request
 		if (is_resource($default))
 			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
 
-		if (is_null(static::$_getValues))
+		return static::_requestByMethod($name, $default, $xssClean, 'get');
+	}
+
+	/**
+	 * @param  string|null                        $name
+	 * @param  string|int|float|array|object|null $default
+	 * @param  bool                               $xssClean
+	 * @return mixed
+	 */
+	public static function post(string $name = null, $default = null, ?bool $xssClean = true)
+	{
+		if (is_resource($default))
+			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
+
+		return static::_requestByMethod($name, $default, $xssClean, 'post');
+	}
+
+	/**
+	 * @param  string                             $method
+	 * @param  string|null                        $name
+	 * @param  string|int|float|array|object|null $default
+	 * @param  bool                               $xssClean
+	 * @return mixed
+	 */
+	private static function _requestByMethod(string $method, string $name = null, $default = null, ?bool $xssClean = true)
+	{
+		if (is_null(static::${'_' . $method . 'Values'}))
 		{
-			$values = Arr::toObject($_GET);
-			static::$_getValues = $values;
+			if ($method == 'get')
+				$values = $_GET;
+			else
+				$values = $_POST;
+
+			$values = Arr::toObject($values);
+			static::${'_' . $method . 'Values'} = $values;
 
 			$values = Security::xssClean($values);
-			static::$_getValuesXSS = $values;
+			static::${'_' . $method . 'ValuesXSS'} = $values;
 		}
 
 		if (is_null($name))
 		{
 			if ($xssClean)
-				return (empty((array)static::$_getValuesXSS) ? $default : static::$_getValuesXSS);
+				return (empty((array)static::${'_' . $method . 'ValuesXSS'}) ? $default : static::${'_' . $method . 'ValuesXSS'});
 			else
-				return (empty((array)static::$_getValues) ? $default : static::$_getValues);
+				return (empty((array)static::${'_' . $method . 'Values'}) ? $default : static::${'_' . $method . 'Values'});
 		}
 		else
 		{
 			if ($xssClean)
-				return static::$_getValuesXSS->{$name} ?? $default;
+				return static::${'_' . $method . 'ValuesXSS'}->{$name} ?? $default;
 			else
-				return static::$_getValues->{$name} ?? $default;
+				return static::${'_' . $method . 'Values'}->{$name} ?? $default;
 		}
 	}
 }
