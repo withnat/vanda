@@ -319,4 +319,13 @@ final class RequestTest extends TestCase
 
 		$this->assertIsArray($result);
 	}
+
+	// Request::method()
+
+	public function testMethodMethodCase1() : void
+	{
+		$result = Request::method();
+
+		$this->assertNull($result);
+	}
 }
