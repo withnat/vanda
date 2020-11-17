@@ -162,7 +162,6 @@ final class Request
 	 */
 	public static function server(string $key)
 	{
-		return $_SERVER[$key];
+		return $_SERVER[$key] ?? null;
 	}
-
 }
