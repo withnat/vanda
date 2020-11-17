@@ -100,7 +100,7 @@ final class Request
 		if (is_resource($default))
 			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
 
-		return static::_requestByMethod($name, $default, $xssClean, 'get');
+		return static::_requestByMethod('get', $name, $default, $xssClean);
 	}
 
 	/**
@@ -114,7 +114,7 @@ final class Request
 		if (is_resource($default))
 			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
 
-		return static::_requestByMethod($name, $default, $xssClean, 'post');
+		return static::_requestByMethod('post', $name, $default, $xssClean);
 	}
 
 	/**
