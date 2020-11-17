@@ -155,4 +155,14 @@ final class Request
 				return static::${'_' . $method . 'Values'}->{$name} ?? $default;
 		}
 	}
+
+	/**
+	 * @param  string      $key
+	 * @return mixed
+	 */
+	public static function server(string $key)
+	{
+		return $_SERVER[$key];
+	}
+
 }
