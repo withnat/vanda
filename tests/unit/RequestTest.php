@@ -303,4 +303,20 @@ final class RequestTest extends TestCase
 
 		$this->assertEquals('default', $result);
 	}
+
+	// Request::server()
+
+	public function testMethodServerCase1() : void
+	{
+		$result = Request::server('xxx');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodServerCase2() : void
+	{
+		$result = Request::server('argv');
+
+		$this->assertIsArray($result);
+	}
 }
