@@ -337,4 +337,16 @@ final class RequestTest extends TestCase
 
 		$this->assertEquals('get', $result);
 	}
+
+	// Reqeust::ip()
+
+	public function testMethodIpCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('alias:\System\Data');
+		$mockedRequest->shouldReceive(['isValidIP' => false]);
+
+		$result = Request::ip();
+
+		$this->assertEquals('0.0.0.0', $result);
+	}
 }
