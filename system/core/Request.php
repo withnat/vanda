@@ -192,4 +192,17 @@ final class Request
 	{
 		return static::server('HTTP_REFERER');
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function ip() : string
+	{
+		$ip = (string)static::server('REMOTE_ADDR');
+
+		if (!Data::isValidIP($ip))
+			$ip = '0.0.0.0';
+
+		return $ip;
+	}
 }
