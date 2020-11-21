@@ -504,4 +504,36 @@ final class RequestTest extends TestCase
 
 		unset($_SERVER['REQUEST_METHOD']);
 	}
+
+	// Request::isPost()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsPostCase1() : void
+	{
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+
+		$result = Request::isPost();
+
+		$this->assertTrue($result);
+
+		unset($_SERVER['REQUEST_METHOD']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsPostCase2() : void
+	{
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+
+		$result = Request::isPost();
+
+		$this->assertFalse($result);
+
+		unset($_SERVER['REQUEST_METHOD']);
+	}
 }
