@@ -205,4 +205,16 @@ final class Request
 
 		return $ip;
 	}
+
+	/**
+	 * @return bool
+	 * @codeCoverageIgnore
+	 */
+	public static function isSecure() : bool
+	{
+		if (Arr::has(['1', 'on'], static::server('HTTPS'), true) or static::server('SERVER_PORT') == 443)
+			return true;
+		else
+			return false;
+	}
 }
