@@ -219,4 +219,19 @@ final class Request
 		else
 			return false;
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function host() : string
+	{
+		if (static::isSecure())
+			$protocol = 'https://';
+		else
+			$protocol = 'http://';
+
+		$host = $protocol . static::server('HTTP_HOST');
+
+		return $host;
+	}
 }
