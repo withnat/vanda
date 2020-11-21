@@ -564,4 +564,13 @@ final class RequestTest extends TestCase
 
 		unset($_SERVER['HTTP_X_REQUESTED_WITH']);
 	}
+
+	// Request::isCli()
+
+	public function testMethodIsCliCase1() : void
+	{
+		$result = Request::isCli();
+
+		$this->assertTrue($result);
+	}
 }
