@@ -349,4 +349,43 @@ final class RequestTest extends TestCase
 
 		$this->assertEquals('0.0.0.0', $result);
 	}
+
+	// Request::isSecure()
+
+	public function testMethodIsSecureCase1() : void
+	{
+		$_SERVER['HTTPS'] = '0';
+		$_SERVER['SERVER_PORT'] = 80;
+
+		$result = Request::isSecure();
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodIsSecureCase2() : void
+	{
+		$_SERVER['HTTPS'] = '1';
+
+		$result = Request::isSecure();
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsSecureCase3() : void
+	{
+		$_SERVER['HTTPS'] = 'on';
+
+		$result = Request::isSecure();
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsSecureCase4() : void
+	{
+		$_SERVER['SERVER_PORT'] = 443;
+
+		$result = Request::isSecure();
+
+		$this->assertTrue($result);
+	}
 }
