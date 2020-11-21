@@ -268,4 +268,12 @@ final class Request
 	{
 		return static::method() === 'get';
 	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isPost() : bool
+	{
+		return static::method() === 'post';
+	}
 }
