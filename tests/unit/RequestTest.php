@@ -536,4 +536,32 @@ final class RequestTest extends TestCase
 
 		unset($_SERVER['REQUEST_METHOD']);
 	}
+
+	// Request::isAjax()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsAjaxCase1() : void
+	{
+		$result = Request::isAjax();
+
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsAjaxCase2() : void
+	{
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
+
+		$result = Request::isAjax();
+
+		$this->assertTrue($result);
+
+		unset($_SERVER['HTTP_X_REQUESTED_WITH']);
+	}
 }
