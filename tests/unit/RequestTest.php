@@ -388,4 +388,26 @@ final class RequestTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Request::host()
+
+	public function testMethodHostCase1() : void
+	{
+		$_SERVER['HTTP_HOST'] = 'localhost';
+		$_SERVER['SERVER_PORT'] = 80;
+
+		$result = Request::host();
+
+		$this->assertEquals('http://localhost', $result);
+	}
+
+	public function testMethodHostCase2() : void
+	{
+		$_SERVER['HTTP_HOST'] = 'localhost';
+		$_SERVER['SERVER_PORT'] = 443;
+
+		$result = Request::host();
+
+		$this->assertEquals('https://localhost', $result);
+	}
 }
