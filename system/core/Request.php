@@ -56,6 +56,7 @@ final class Request
 	protected static $_postValues;
 	protected static $_postValuesXSS;
 	protected static $_method;
+	protected static $_basePath;
 
 	/**
 	 * Request constructor.
@@ -233,5 +234,16 @@ final class Request
 		$host = $protocol . static::server('HTTP_HOST');
 
 		return $host;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function basePath() : string
+	{
+		if (!static::$_basePath)
+			static::$_basePath = rtrim(dirname(static::server('SCRIPT_NAME')), '/\\');
+
+		return static::$_basePath;
 	}
 }
