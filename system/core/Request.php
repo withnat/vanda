@@ -260,4 +260,12 @@ final class Request
 		// If not, it will remove all matches ie remove 'foo' from /foo/home/foobar.
 		return preg_replace('/' . str_replace('/', '\/', static::basePath()) . '/i', '', static::server('REQUEST_URI'), 1);
 	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isGet() : bool
+	{
+		return static::method() === 'get';
+	}
 }
