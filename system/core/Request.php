@@ -302,7 +302,6 @@ final class Request
 	 * via the command line.
 	 *
 	 * @return bool
-	 * @codeCoverageIgnore
 	 */
 	public static function isCli() : bool
 	{
