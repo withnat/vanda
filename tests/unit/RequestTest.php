@@ -444,4 +444,32 @@ final class RequestTest extends TestCase
 
 		unset($_SERVER['SCRIPT_NAME']);
 	}
+
+	// Request::uri()
+
+	public function testMethodUriCase1() : void
+	{
+		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.4.41 (Ubuntu)';
+		$_SERVER['REQUEST_URI'] = '/index.php?arg=value';
+
+		$result = Request::uri();
+
+		$this->assertEquals('/index.php?arg=value', $result);
+
+		unset($_SERVER['SERVER_SOFTWARE']);
+		unset($_SERVER['REQUEST_URI']);
+	}
+
+	public function testMethodUriCase2() : void
+	{
+		$_SERVER['SERVER_SOFTWARE'] = 'IIS';
+		$_SERVER['PHP_SELF'] = '/index.php?arg=value';
+
+		$result = Request::uri();
+
+		$this->assertEquals('/index.php?arg=value', $result);
+
+		unset($_SERVER['SERVER_SOFTWARE']);
+		unset($_SERVER['PHP_SELF']);
+	}
 }
