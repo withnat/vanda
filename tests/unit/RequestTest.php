@@ -472,4 +472,28 @@ final class RequestTest extends TestCase
 		unset($_SERVER['SERVER_SOFTWARE']);
 		unset($_SERVER['PHP_SELF']);
 	}
+
+	// Request::isGet()
+
+	public function testMethodIsGetCase1() : void
+	{
+		$_SERVER['REQUEST_METHOD'] = 'get';
+
+		$result = Request::isGet();
+
+		$this->assertTrue($result);
+
+		unset($_SERVER['REQUEST_METHOD']);
+	}
+
+	public function testMethodIsGetCase2() : void
+	{
+		$_SERVER['REQUEST_METHOD'] = 'post';
+
+		$result = Request::isGet();
+
+		$this->assertFalse($result);
+
+		unset($_SERVER['REQUEST_METHOD']);
+	}
 }
