@@ -57,6 +57,7 @@ final class Request
 	protected static $_postValuesXSS;
 	protected static $_method;
 	protected static $_basePath;
+	protected static $_isAjax;
 
 	/**
 	 * Request constructor.
@@ -275,5 +276,24 @@ final class Request
 	public static function isPost() : bool
 	{
 		return static::method() === 'post';
+	}
+
+	/**
+	 * Checks if the current request was sent
+	 * with a XMLHttpRequest header as sent by javascript.
+	 *
+	 * @return bool
+	 */
+	public static function isAjax() : bool
+	{
+		if (is_null(static::$_isAjax))
+		{
+			if ((string)static::server('HTTP_X_REQUESTED_WITH') == 'xmlhttprequest')
+				static::$_isAjax = true;
+			else
+				static::$_isAjax = false;
+		}
+
+		return static::$_isAjax;
 	}
 }
