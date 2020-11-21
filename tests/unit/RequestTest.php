@@ -475,9 +475,13 @@ final class RequestTest extends TestCase
 
 	// Request::isGet()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIsGetCase1() : void
 	{
-		$_SERVER['REQUEST_METHOD'] = 'get';
+		$_SERVER['REQUEST_METHOD'] = 'GET';
 
 		$result = Request::isGet();
 
@@ -486,9 +490,13 @@ final class RequestTest extends TestCase
 		unset($_SERVER['REQUEST_METHOD']);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIsGetCase2() : void
 	{
-		$_SERVER['REQUEST_METHOD'] = 'post';
+		$_SERVER['REQUEST_METHOD'] = 'POST';
 
 		$result = Request::isGet();
 
