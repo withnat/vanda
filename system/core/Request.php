@@ -296,4 +296,16 @@ final class Request
 
 		return static::$_isAjax;
 	}
+
+	/**
+	 * Checks if the current request was sent
+	 * via the command line.
+	 *
+	 * @return bool
+	 * @codeCoverageIgnore
+	 */
+	public static function isCli() : bool
+	{
+		return PHP_SAPI === 'cli' or defined('STDIN');
+	}
 }
