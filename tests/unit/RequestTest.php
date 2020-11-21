@@ -336,10 +336,16 @@ final class RequestTest extends TestCase
 		$result = Request::method();
 
 		$this->assertEquals('get', $result);
+
+		unset($_SERVER['REQUEST_METHOD']);
 	}
 
 	// Reqeust::ip()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIpCase1() : void
 	{
 		$mockedRequest = \Mockery::mock('alias:\System\Data');
@@ -360,6 +366,9 @@ final class RequestTest extends TestCase
 		$result = Request::isSecure();
 
 		$this->assertFalse($result);
+
+		unset($_SERVER['HTTPS']);
+		unset($_SERVER['SERVER_PORT']);
 	}
 
 	public function testMethodIsSecureCase2() : void
@@ -369,6 +378,8 @@ final class RequestTest extends TestCase
 		$result = Request::isSecure();
 
 		$this->assertTrue($result);
+
+		unset($_SERVER['HTTPS']);
 	}
 
 	public function testMethodIsSecureCase3() : void
@@ -378,6 +389,8 @@ final class RequestTest extends TestCase
 		$result = Request::isSecure();
 
 		$this->assertTrue($result);
+
+		unset($_SERVER['HTTPS']);
 	}
 
 	public function testMethodIsSecureCase4() : void
@@ -387,6 +400,8 @@ final class RequestTest extends TestCase
 		$result = Request::isSecure();
 
 		$this->assertTrue($result);
+
+		unset($_SERVER['SERVER_PORT']);
 	}
 
 	// Request::host()
@@ -399,6 +414,9 @@ final class RequestTest extends TestCase
 		$result = Request::host();
 
 		$this->assertEquals('http://localhost', $result);
+
+		unset($_SERVER['HTTP_HOST']);
+		unset($_SERVER['SERVER_PORT']);
 	}
 
 	public function testMethodHostCase2() : void
@@ -409,5 +427,8 @@ final class RequestTest extends TestCase
 		$result = Request::host();
 
 		$this->assertEquals('https://localhost', $result);
+
+		unset($_SERVER['HTTP_HOST']);
+		unset($_SERVER['SERVER_PORT']);
 	}
 }
