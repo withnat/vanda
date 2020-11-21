@@ -431,4 +431,17 @@ final class RequestTest extends TestCase
 		unset($_SERVER['HTTP_HOST']);
 		unset($_SERVER['SERVER_PORT']);
 	}
+
+	// Request::basePath()
+
+	public function testMethodBasePathCase1() : void
+	{
+		$_SERVER['SCRIPT_NAME'] = '/home/me/www/index.php';
+
+		$result = Request::basePath();
+
+		$this->assertEquals('/home/me/www', $result);
+
+		unset($_SERVER['SCRIPT_NAME']);
+	}
 }
