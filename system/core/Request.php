@@ -208,11 +208,13 @@ final class Request
 
 	/**
 	 * @return bool
-	 * @codeCoverageIgnore
 	 */
 	public static function isSecure() : bool
 	{
-		if (Arr::has(['1', 'on'], static::server('HTTPS'), true) or static::server('SERVER_PORT') == 443)
+		$https = static::server('HTTPS');
+		$serverPort = static::server('SERVER_PORT');
+
+		if ($https == '1' or $https == 'on' or $serverPort == 443)
 			return true;
 		else
 			return false;
