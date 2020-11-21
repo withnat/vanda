@@ -246,4 +246,18 @@ final class Request
 
 		return static::$_basePath;
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function uri() : string
+	{
+		// IIS not recognizing ‘REQUEST_URI’
+		if (strpos((string)static::server('SERVER_SOFTWARE'), 'IIS') !== false)
+			$_SERVER['REQUEST_URI'] = substr(static::server('PHP_SELF'), 0);
+
+		// Remove static::getBasePath() string only first occurrence of a string match.
+		// If not, it will remove all matches ie remove 'foo' from /foo/home/foobar.
+		return preg_replace('/' . str_replace('/', '\/', static::basePath()) . '/i', '', static::server('REQUEST_URI'), 1);
+	}
 }
