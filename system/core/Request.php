@@ -352,4 +352,24 @@ final class Request
 			Response::redirect($redirect);
 		}
 	}
+
+	/**
+	 * The built-in CLI web server does not support getallheaders().
+	 * So don't test this method by adding 'codeCoverageIgnore' annotation.
+	 *
+	 * @param  string      $name
+	 * @return string|null
+	 * @codeCoverageIgnore
+	 *
+	 */
+	public static function header(string $name)
+	{
+		// Don't add "ext-apache" to composer.json.
+		// It will make updating composer fail.
+		foreach (getallheaders() as $key => $value)
+		{
+			if (strtolower($key) === strtolower($name))
+				return $value;
+		}
+	}
 }
