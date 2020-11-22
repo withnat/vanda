@@ -160,7 +160,7 @@ final class Request
 	}
 
 	/**
-	 * @param  string      $key
+	 * @param  string $key
 	 * @return mixed
 	 */
 	public static function server(string $key)
