@@ -337,4 +337,19 @@ final class Request
 			Response::redirect($redirect);
 		}
 	}
+
+	/**
+	 * @param  string|null $redirect
+	 * @return void
+	 */
+	public static function ensureIsPost(string $redirect = null) : void
+	{
+		if (!static::isPost())
+		{
+			if (!trim((string)$redirect))
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
 }
