@@ -322,4 +322,19 @@ final class Request
 			Response::redirect($redirect);
 		}
 	}
+
+	/**
+	 * @param  string|null $redirect
+	 * @return void
+	 */
+	public static function ensureIsGet(string $redirect = null) : void
+	{
+		if (!static::isGet())
+		{
+			if (!trim((string)$redirect))
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
 }
