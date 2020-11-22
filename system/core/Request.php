@@ -360,7 +360,6 @@ final class Request
 	 * @param  string      $name
 	 * @return string|null
 	 * @codeCoverageIgnore
-	 *
 	 */
 	public static function header(string $name)
 	{
