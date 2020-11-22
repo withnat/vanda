@@ -371,4 +371,15 @@ final class Request
 				return $value;
 		}
 	}
+
+	/**
+	 * Get the server protocol.
+	 *
+	 * @return string|null
+	 * @codeCoverageIgnore
+	 */
+	public static function protocol() : ?string
+	{
+		return $_SERVER['SERVER_PROTOCOL'] ?? null;
+	}
 }
