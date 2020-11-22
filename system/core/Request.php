@@ -307,4 +307,19 @@ final class Request
 	{
 		return PHP_SAPI === 'cli' or defined('STDIN');
 	}
+
+	/**
+	 * @param  string|null $redirect
+	 * @return void
+	 */
+	public static function ensureIsAjax(string $redirect = null) : void
+	{
+		if (!static::isAjax())
+		{
+			if (!trim((string)$redirect))
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
 }
