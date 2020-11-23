@@ -181,6 +181,17 @@ final class Request
 	}
 
 	/**
+	 * Get the scheme.
+	 *
+	 * @return string|null
+	 * @codeCoverageIgnore
+	 */
+	public static function scheme() : ?string
+	{
+		return $_SERVER['REQUEST_SCHEME'] ?? null;
+	}
+
+	/**
 	 * @return string
 	 */
 	public static function host() : string
