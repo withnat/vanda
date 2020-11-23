@@ -120,6 +120,59 @@ final class UrlTest extends TestCase
 		];
 	}
 
+	// Url::base()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodBaseCase1()
+	{
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
+
+		$expected = 'http://localhost';
+
+		$result = Url::base();
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodBaseCase2()
+	{
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
+
+		$expected = 'http://localhost';
+
+		$result = Url::base(false);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodBaseCase3()
+	{
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
+
+		$expected = 'https://localhost';
+
+		$result = Url::base(true);
+
+		$this->assertEquals($expected, $result);
+	}
+
 	// Url::create()
 
 	public function testCreateFromUrl()
