@@ -153,7 +153,7 @@ final class Request
 	 */
 	public static function referer()
 	{
-		return static::server('HTTP_REFERER');
+		return $_SERVER['HTTP_REFERER'] ?? null;
 	}
 
 	/**
@@ -212,7 +212,7 @@ final class Request
 	public static function basePath() : string
 	{
 		if (!static::$_basePath)
-			static::$_basePath = rtrim(dirname(static::server('SCRIPT_NAME')), '/\\');
+			static::$_basePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
 		return static::$_basePath;
 	}
@@ -224,11 +224,11 @@ final class Request
 	{
 		// IIS not recognizing ‘REQUEST_URI’
 		if (strpos((string)static::server('SERVER_SOFTWARE'), 'IIS') !== false)
-			$_SERVER['REQUEST_URI'] = substr(static::server('PHP_SELF'), 0);
+			$_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 0);
 
 		// Remove static::getBasePath() string only first occurrence of a string match.
 		// If not, it will remove all matches ie remove 'foo' from /foo/home/foobar.
-		return preg_replace('/' . str_replace('/', '\/', static::basePath()) . '/i', '', static::server('REQUEST_URI'), 1);
+		return preg_replace('/' . str_replace('/', '\/', static::basePath()) . '/i', '', $_SERVER['REQUEST_URI'], 1);
 	}
 
 	/**
