@@ -65,15 +65,23 @@ final class Url
 	private function __construct(){}
 
 	/**
+	 * @param  bool|null $secure
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public static function base() : string
+	public static function base(bool $secure = null) : string
 	{
 		if (!static::$_baseUrl)
 			static::$_baseUrl = Request::host() . Request::basePath();
 
-		return static::$_baseUrl;
+		$baseUrl = static::$_baseUrl;
+
+		if ($secure === true and substr($baseUrl, 0, 7) == 'http://')
+			$baseUrl = substr_replace($baseUrl, 'https://', 0, 7);
+		elseif ($secure === false and substr($baseUrl, 0, 8) == 'https://')
+			$baseUrl = substr_replace($baseUrl, 'http://', 0, 8);
+
+		return $baseUrl;
 	}
 
 	/**
