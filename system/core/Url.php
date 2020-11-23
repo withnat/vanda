@@ -50,7 +50,7 @@ final class Url
 {
 	private static $_baseUrl;
 	private static $_defaultUrl;
-	private static $_scheme;
+	private static $_schema;
 	private static $_user;
 	private static $_pass;
 	private static $_host;
@@ -84,10 +84,19 @@ final class Url
 	{
 		if (!static::$_defaultUrl)
 		{
-			if (isSPA())
-				static::$_defaultUrl = '';
+			if (!isSPA())
+			{
+				$side = getenv('SIDE');
+
+				if ($side == 'backend' and Config::app('defaultBackendModule'))
+					static::$_defaultUrl = Config::app('defaultBackendModule');
+				elseif ($side == 'frontend' and Config::app('defaultFrontendModule'))
+					static::$_defaultUrl = Config::app('defaultFrontendModule');
+				else
+					static::$_defaultUrl = Url::create();
+			}
 			else
-				static::$_defaultUrl = Url::create();
+				static::$_defaultUrl = '';
 		}
 
 		return static::$_defaultUrl;
@@ -133,8 +142,8 @@ final class Url
 
 		if (!static::isValid($path))
 		{
-			if (static::$_scheme)
-				$url = static::$_scheme . '://';
+			if (static::$_schema)
+				$url = static::$_schema . '://';
 			else
 				$url = static::base();
 
@@ -357,33 +366,33 @@ final class Url
 	}
 
 	/**
-	 * Parse a URL and return scheme value.
+	 * Parse a URL and return schema value.
 	 *
 	 * @param  string|null $url
 	 * @return string|null
 	 */
-	public static function getScheme(string $url = null) : ?string
+	public static function getschema(string $url = null) : ?string
 	{
 		if ($url)
 		{
 			$data = static::parse($url);
-			$value = $data['scheme'] ?? null;
+			$value = $data['schema'] ?? null;
 		}
 		else
-			$value = static::$_scheme;
+			$value = static::$_schema;
 
 		return $value;
 	}
 
 	/**
-	 * Set scheme value.
+	 * Set schema value.
 	 *
-	 * @param  string $scheme
+	 * @param  string $schema
 	 * @return void
 	 */
-	public static function setScheme(string $scheme) : void
+	public static function setschema(string $schema) : void
 	{
-		static::$_scheme = $scheme;
+		static::$_schema = $schema;
 	}
 
 	/**
@@ -607,7 +616,7 @@ final class Url
 	public static function reset() : void
 	{
 		static::$_baseUrl = null;
-		static::$_scheme = null;
+		static::$_schema = null;
 		static::$_user = null;
 		static::$_pass = null;
 		static::$_host = null;
