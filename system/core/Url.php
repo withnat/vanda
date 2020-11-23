@@ -50,7 +50,7 @@ final class Url
 {
 	private static $_baseUrl;
 	private static $_defaultUrl;
-	private static $_schema;
+	private static $_scheme;
 	private static $_user;
 	private static $_pass;
 	private static $_host;
@@ -150,8 +150,8 @@ final class Url
 
 		if (!static::isValid($path))
 		{
-			if (static::$_schema)
-				$url = static::$_schema . '://';
+			if (static::$_scheme)
+				$url = static::$_scheme . '://';
 			else
 				$url = static::base();
 
@@ -374,33 +374,33 @@ final class Url
 	}
 
 	/**
-	 * Parse a URL and return schema value.
+	 * Parse a URL and return scheme value.
 	 *
 	 * @param  string|null $url
 	 * @return string|null
 	 */
-	public static function getschema(string $url = null) : ?string
+	public static function getscheme(string $url = null) : ?string
 	{
 		if ($url)
 		{
 			$data = static::parse($url);
-			$value = $data['schema'] ?? null;
+			$value = $data['scheme'] ?? null;
 		}
 		else
-			$value = static::$_schema;
+			$value = static::$_scheme;
 
 		return $value;
 	}
 
 	/**
-	 * Set schema value.
+	 * Set scheme value.
 	 *
-	 * @param  string $schema
+	 * @param  string $scheme
 	 * @return void
 	 */
-	public static function setschema(string $schema) : void
+	public static function setscheme(string $scheme) : void
 	{
-		static::$_schema = $schema;
+		static::$_scheme = $scheme;
 	}
 
 	/**
@@ -624,7 +624,7 @@ final class Url
 	public static function reset() : void
 	{
 		static::$_baseUrl = null;
-		static::$_schema = null;
+		static::$_scheme = null;
 		static::$_user = null;
 		static::$_pass = null;
 		static::$_host = null;
