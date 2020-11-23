@@ -232,6 +232,17 @@ final class Request
 	}
 
 	/**
+	 * Get the query string.
+	 *
+	 * @return string|null
+	 * @codeCoverageIgnore
+	 */
+	public static function queryString() : ?string
+	{
+		return $_SERVER['QUERY_STRING'] ?? null;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public static function isSecure() : bool
