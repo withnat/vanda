@@ -121,45 +121,6 @@ final class Request
 	}
 
 	/**
-	 * @param  string                             $method
-	 * @param  string|null                        $name
-	 * @param  string|int|float|array|object|null $default
-	 * @param  bool                               $xssClean
-	 * @return mixed
-	 */
-	private static function _requestByMethod(string $method, string $name = null, $default = null, ?bool $xssClean = true)
-	{
-		if (is_null(static::${'_' . $method . 'Values'}))
-		{
-			if ($method == 'get')
-				$values = $_GET;
-			else
-				$values = $_POST;
-
-			$values = Arr::toObject($values);
-			static::${'_' . $method . 'Values'} = $values;
-
-			$values = Security::xssClean($values);
-			static::${'_' . $method . 'ValuesXSS'} = $values;
-		}
-
-		if (is_null($name))
-		{
-			if ($xssClean)
-				return (empty((array)static::${'_' . $method . 'ValuesXSS'}) ? $default : static::${'_' . $method . 'ValuesXSS'});
-			else
-				return (empty((array)static::${'_' . $method . 'Values'}) ? $default : static::${'_' . $method . 'Values'});
-		}
-		else
-		{
-			if ($xssClean)
-				return static::${'_' . $method . 'ValuesXSS'}->{$name} ?? $default;
-			else
-				return static::${'_' . $method . 'Values'}->{$name} ?? $default;
-		}
-	}
-
-	/**
 	 * @param  string $key
 	 * @return mixed
 	 */
@@ -209,17 +170,14 @@ final class Request
 	}
 
 	/**
-	 * @return bool
+	 * Get the server protocol.
+	 *
+	 * @return string|null
+	 * @codeCoverageIgnore
 	 */
-	public static function isSecure() : bool
+	public static function protocol() : ?string
 	{
-		$https = static::server('HTTPS');
-		$serverPort = static::server('SERVER_PORT');
-
-		if ($https == '1' or $https == 'on' or $serverPort == 443)
-			return true;
-		else
-			return false;
+		return $_SERVER['SERVER_PROTOCOL'] ?? null;
 	}
 
 	/**
@@ -260,6 +218,20 @@ final class Request
 		// Remove static::getBasePath() string only first occurrence of a string match.
 		// If not, it will remove all matches ie remove 'foo' from /foo/home/foobar.
 		return preg_replace('/' . str_replace('/', '\/', static::basePath()) . '/i', '', static::server('REQUEST_URI'), 1);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isSecure() : bool
+	{
+		$https = static::server('HTTPS');
+		$serverPort = static::server('SERVER_PORT');
+
+		if ($https == '1' or $https == 'on' or $serverPort == 443)
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -312,21 +284,6 @@ final class Request
 	 * @param  string|null $redirect
 	 * @return void
 	 */
-	public static function ensureIsAjax(string $redirect = null) : void
-	{
-		if (!static::isAjax())
-		{
-			if (!trim((string)$redirect))
-				$redirect = Url::default();
-
-			Response::redirect($redirect);
-		}
-	}
-
-	/**
-	 * @param  string|null $redirect
-	 * @return void
-	 */
 	public static function ensureIsGet(string $redirect = null) : void
 	{
 		if (!static::isGet())
@@ -345,6 +302,21 @@ final class Request
 	public static function ensureIsPost(string $redirect = null) : void
 	{
 		if (!static::isPost())
+		{
+			if (!trim((string)$redirect))
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
+
+	/**
+	 * @param  string|null $redirect
+	 * @return void
+	 */
+	public static function ensureIsAjax(string $redirect = null) : void
+	{
+		if (!static::isAjax())
 		{
 			if (!trim((string)$redirect))
 				$redirect = Url::default();
@@ -373,13 +345,41 @@ final class Request
 	}
 
 	/**
-	 * Get the server protocol.
-	 *
-	 * @return string|null
-	 * @codeCoverageIgnore
+	 * @param  string                             $method
+	 * @param  string|null                        $name
+	 * @param  string|int|float|array|object|null $default
+	 * @param  bool                               $xssClean
+	 * @return mixed
 	 */
-	public static function protocol() : ?string
+	private static function _requestByMethod(string $method, string $name = null, $default = null, ?bool $xssClean = true)
 	{
-		return $_SERVER['SERVER_PROTOCOL'] ?? null;
+		if (is_null(static::${'_' . $method . 'Values'}))
+		{
+			if ($method == 'get')
+				$values = $_GET;
+			else
+				$values = $_POST;
+
+			$values = Arr::toObject($values);
+			static::${'_' . $method . 'Values'} = $values;
+
+			$values = Security::xssClean($values);
+			static::${'_' . $method . 'ValuesXSS'} = $values;
+		}
+
+		if (is_null($name))
+		{
+			if ($xssClean)
+				return (empty((array)static::${'_' . $method . 'ValuesXSS'}) ? $default : static::${'_' . $method . 'ValuesXSS'});
+			else
+				return (empty((array)static::${'_' . $method . 'Values'}) ? $default : static::${'_' . $method . 'Values'});
+		}
+		else
+		{
+			if ($xssClean)
+				return static::${'_' . $method . 'ValuesXSS'}->{$name} ?? $default;
+			else
+				return static::${'_' . $method . 'Values'}->{$name} ?? $default;
+		}
 	}
 }
