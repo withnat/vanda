@@ -356,54 +356,6 @@ final class RequestTest extends TestCase
 		$this->assertEquals('0.0.0.0', $result);
 	}
 
-	// Request::isSecure()
-
-	public function testMethodIsSecureCase1() : void
-	{
-		$_SERVER['HTTPS'] = '0';
-		$_SERVER['SERVER_PORT'] = 80;
-
-		$result = Request::isSecure();
-
-		$this->assertFalse($result);
-
-		unset($_SERVER['HTTPS']);
-		unset($_SERVER['SERVER_PORT']);
-	}
-
-	public function testMethodIsSecureCase2() : void
-	{
-		$_SERVER['HTTPS'] = '1';
-
-		$result = Request::isSecure();
-
-		$this->assertTrue($result);
-
-		unset($_SERVER['HTTPS']);
-	}
-
-	public function testMethodIsSecureCase3() : void
-	{
-		$_SERVER['HTTPS'] = 'on';
-
-		$result = Request::isSecure();
-
-		$this->assertTrue($result);
-
-		unset($_SERVER['HTTPS']);
-	}
-
-	public function testMethodIsSecureCase4() : void
-	{
-		$_SERVER['SERVER_PORT'] = 443;
-
-		$result = Request::isSecure();
-
-		$this->assertTrue($result);
-
-		unset($_SERVER['SERVER_PORT']);
-	}
-
 	// Request::host()
 
 	public function testMethodHostCase1() : void
@@ -471,6 +423,54 @@ final class RequestTest extends TestCase
 
 		unset($_SERVER['SERVER_SOFTWARE']);
 		unset($_SERVER['PHP_SELF']);
+	}
+
+	// Request::isSecure()
+
+	public function testMethodIsSecureCase1() : void
+	{
+		$_SERVER['HTTPS'] = '0';
+		$_SERVER['SERVER_PORT'] = 80;
+
+		$result = Request::isSecure();
+
+		$this->assertFalse($result);
+
+		unset($_SERVER['HTTPS']);
+		unset($_SERVER['SERVER_PORT']);
+	}
+
+	public function testMethodIsSecureCase2() : void
+	{
+		$_SERVER['HTTPS'] = '1';
+
+		$result = Request::isSecure();
+
+		$this->assertTrue($result);
+
+		unset($_SERVER['HTTPS']);
+	}
+
+	public function testMethodIsSecureCase3() : void
+	{
+		$_SERVER['HTTPS'] = 'on';
+
+		$result = Request::isSecure();
+
+		$this->assertTrue($result);
+
+		unset($_SERVER['HTTPS']);
+	}
+
+	public function testMethodIsSecureCase4() : void
+	{
+		$_SERVER['SERVER_PORT'] = 443;
+
+		$result = Request::isSecure();
+
+		$this->assertTrue($result);
+
+		unset($_SERVER['SERVER_PORT']);
 	}
 
 	// Request::isGet()
