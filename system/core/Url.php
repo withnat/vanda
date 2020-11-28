@@ -379,7 +379,7 @@ final class Url
 	 * @param  string|null $url
 	 * @return string|null
 	 */
-	public static function getscheme(string $url = null) : ?string
+	public static function getScheme(string $url = null) : ?string
 	{
 		if ($url)
 		{
@@ -398,7 +398,7 @@ final class Url
 	 * @param  string $scheme
 	 * @return void
 	 */
-	public static function setscheme(string $scheme) : void
+	public static function setScheme(string $scheme) : void
 	{
 		static::$_scheme = $scheme;
 	}
