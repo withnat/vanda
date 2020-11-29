@@ -1067,7 +1067,7 @@ final class Str
 		if (Arr::isAssociative($replaces))
 		{
 			foreach ($replaces as $key => $value)
-				$string = str_replace($marker . $key, $value, $string);
+				$string = str_replace($marker . $key, (string)$value, $string);
 		}
 		else
 		{
