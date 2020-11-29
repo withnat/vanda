@@ -186,16 +186,16 @@ final class InflectorTest extends TestCase
 		];
 	}
 
-	// Inflector::isCountable()
+	// Inflector::isCountableWord()
 
 	/**
 	 * @param string $string
 	 * @param bool   $expected
 	 * @dataProvider isCountableProvider
 	 */
-	public function testMethodIsCountable(string $string, bool $expected) : void
+	public function testMethodIsCountableWord(string $string, bool $expected) : void
 	{
-		$result = Inflector::isCountable($string);
+		$result = Inflector::isCountableWord($string);
 
 		$this->assertSame($expected, $result);
 	}

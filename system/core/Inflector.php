@@ -59,17 +59,8 @@ final class Inflector
 	 * @param  string $word  Word to check
 	 * @return bool
 	 */
-	public static function isCountable(string $word) : bool
+	public static function isCountableWord(string $word) : bool
 	{
-		// PHP 7.3+
-		if (function_exists('is_countable'))
-		{
-			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
-			// @codeCoverageIgnoreStart
-			return is_countable($word);
-			// @codeCoverageIgnoreEnd
-		}
-
 		$word = mb_strtolower($word);
 		$unCountableWords = Config::inflector('unCountableWords');
 		$unCountableWords = array_map('mb_strtolower', $unCountableWords);
@@ -89,7 +80,7 @@ final class Inflector
 	 */
 	public static function pluralize(string $string) : string
 	{
-		if (!static::isCountable($string))
+		if (!static::isCountableWord($string))
 			return $string;
 
 		$rules = [
@@ -157,7 +148,7 @@ final class Inflector
 	 */
 	public static function singularize(string $string) : string
 	{
-		if (!static::isCountable($string))
+		if (!static::isCountableWord($string))
 			return $string;
 
 		$rules = [
