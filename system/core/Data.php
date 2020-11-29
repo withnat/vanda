@@ -37,6 +37,7 @@ declare(strict_types=1);
 
 namespace System;
 
+use Error;
 use Exception;
 use System\Exception\InvalidArgumentException;
 
@@ -254,7 +255,8 @@ final class Data
 				{
 					return eval('return array' . $value . ';');
 				}
-				catch (Exception $e)
+				// Use Error for PHP 7.2+ and Exception for PHP 8
+				catch (Error | Exception $e)
 				{
 					return [];
 				}
@@ -265,7 +267,8 @@ final class Data
 				{
 					return eval('return ' . $value . ';');
 				}
-				catch (Exception $e)
+				// Use Error for PHP 7.2+ and Exception for PHP 8
+				catch (Error | Exception $e)
 				{
 					return [];
 				}
