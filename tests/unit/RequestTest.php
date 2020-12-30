@@ -348,12 +348,48 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIpCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('alias:\System\Data');
-		$mockedRequest->shouldReceive(['isValidIP' => false]);
+		$mockedRequest = \Mockery::mock('alias:\System\Validator');
+		$mockedRequest->shouldReceive(['isValidIp' => false]);
 
 		$result = Request::ip();
 
 		$this->assertEquals('0.0.0.0', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIpCase2() : void
+	{
+		putenv('HTTP_X_FORWARDED_FOR=75.184.124.93, 10.194.95.79');
+
+		$mockedRequest = \Mockery::mock('alias:\System\Validator');
+		$mockedRequest->shouldReceive(['isValidIp' => true]);
+
+		$result = Request::ip();
+
+		$this->assertEquals('75.184.124.93', $result);
+
+		putenv('HTTP_X_FORWARDED_FOR');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIpCase3() : void
+	{
+		putenv('REMOTE_ADDR=223.24.187.34');
+
+		$mockedRequest = \Mockery::mock('alias:\System\Validator');
+		$mockedRequest->shouldReceive(['isValidIp' => true]);
+
+		$result = Request::ip();
+
+		$this->assertEquals('223.24.187.34', $result);
+
+		putenv('REMOTE_ADDR');
 	}
 
 	// Request::host()
