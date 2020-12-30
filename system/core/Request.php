@@ -56,6 +56,7 @@ final class Request
 	protected static $_postValues;
 	protected static $_postValuesXSS;
 	protected static $_method;
+	protected static $_ip;
 	protected static $_basePath;
 	protected static $_isAjax;
 
@@ -157,16 +158,79 @@ final class Request
 	}
 
 	/**
+	 * Get the current visitor's IP address
+	 *
 	 * @return string
 	 */
 	public static function ip() : string
 	{
-		$ip = (string)static::server('REMOTE_ADDR');
+		if (!Request::$_ip)
+		{
+			// ref : https://stackoverflow.com/questions/3003145/how-to-get-the-client-ip-address-in-php/3003233
+			//
+			// There are different types of users behind the Internet, so we want
+			// to catch the IP address from different portions. Those are:
+			//
+			// 1. $_SERVER['REMOTE_ADDR'] - Normal, non-proxied server or server
+			// behind a transparent proxy. This contains the real IP address of
+			// the client. That is the most reliable value you can find from the user.
+			//
+			// 2. $_SERVER['HTTP_CLIENT_IP'] - This will fetch the IP address when
+			// the user is from shared Internet services (e.g. non-transparent proxy).
+			//
+			// 3. $_SERVER['HTTP_X_FORWARDED_FOR'] - This will fetch the IP address
+			// from the user when he/she is behind the proxy (e.g. NginX).
+			//
+			// So we can use this following combined function to get the real IP
+			// address from users who are viewing in diffrent positions,
 
-		if (!Data::isValidIP($ip))
-			$ip = '0.0.0.0';
+			$ip = '';
 
-		return $ip;
+			// Normally the $_SERVER superglobal is set
+			if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+				$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			elseif (isset($_SERVER['HTTP_CLIENT_IP']))
+				$ip = $_SERVER['HTTP_CLIENT_IP'];
+			elseif(isset($_SERVER['REMOTE_ADDR']))
+				$ip = $_SERVER['REMOTE_ADDR'];
+
+			// This part is executed on PHP running as CGI, or on SAPIs which do
+			// not set the $_SERVER superglobal
+			if (!$ip and function_exists('getenv'))
+			{
+				if (getenv('HTTP_X_FORWARDED_FOR'))
+					$ip = getenv('HTTP_X_FORWARDED_FOR');
+				elseif (getenv('HTTP_CLIENT_IP'))
+					$ip = getenv('HTTP_CLIENT_IP');
+				elseif (getenv('REMOTE_ADDR'))
+					$ip = getenv('REMOTE_ADDR');
+			}
+
+			// ***
+			// (In the future, check more information from this sources to improve above code.
+			// https://www.ipqualityscore.com/articles/view/1/how-to-detect-proxies-with-php
+			// and
+			// https://stackoverflow.com/questions/7623187/will-the-value-of-a-set-serverhttp-client-ip-be-an-empty-string)
+			// ***
+
+			// Some proxies typically list the whole chain of IP
+			// addresses through which the client has reached us.
+			// e.g. Format: "X-Forwarded-For: client_ip, proxy_ip1, proxy_ip2, ..." etc.
+			// ref : https://stackoverflow.com/questions/2422395/why-is-request-envremote-addr-returning-two-ips
+			if ($ip)
+			{
+				$arr = explode(',', $ip);
+				$ip = $arr[0];
+				$ip = trim($ip);
+			}
+
+			if (!Validator::isValidIp($ip))
+				$ip = '0.0.0.0';
+
+			Request::$_ip = $ip;
+		}
+
+		return Request::$_ip;
 	}
 
 	/**
