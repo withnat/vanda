@@ -420,6 +420,13 @@ final class RequestTest extends TestCase
 		unset($_SERVER['SERVER_PORT']);
 	}
 
+	public function testMethodHostCase3() : void
+	{
+		$result = Request::host();
+
+		$this->assertNull($result);
+	}
+
 	// Request::basePath()
 
 	public function testMethodBasePathCase1() : void
