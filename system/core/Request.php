@@ -152,7 +152,7 @@ final class Request
 	 * @return string|null
 	 * @codeCoverageIgnore
 	 */
-	public static function referer()
+	public static function referer() : ?string
 	{
 		return $_SERVER['HTTP_REFERER'] ?? null;
 	}
