@@ -207,10 +207,10 @@ final class Request
 			}
 
 			// ***
-			// (In the future, check more information from this sources to improve above code.
+			// (In the future, check more information from the following sources to improve above code.
 			// https://www.ipqualityscore.com/articles/view/1/how-to-detect-proxies-with-php
-			// and
-			// https://stackoverflow.com/questions/7623187/will-the-value-of-a-set-serverhttp-client-ip-be-an-empty-string)
+			// https://stackoverflow.com/questions/7623187/will-the-value-of-a-set-serverhttp-client-ip-be-an-empty-string
+			//https://stackoverflow.com/questions/1634782/what-is-the-most-accurate-way-to-retrieve-a-users-correct-ip-address-in-php)
 			// ***
 
 			// Some proxies typically list the whole chain of IP
