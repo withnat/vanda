@@ -123,18 +123,16 @@ final class Request
 	}
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public static function method() : ?string
+	public static function method() : string
 	{
-		if (!Request::$_method)
+		if (is_null(Request::$_method))
 		{
-			$method = Request::server('REQUEST_METHOD');
-
-			if ($method)
-				$method = strtolower($method);
-
-			Request::$_method = $method;
+			if (isset($_SERVER['REQUEST_METHOD']))
+				Request::$_method = strtolower($_SERVER['REQUEST_METHOD']);
+			else // CLI
+				Request::$_method = '';
 		}
 
 		return Request::$_method;
