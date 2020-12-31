@@ -152,19 +152,19 @@ final class Arr
 	 */
 	public static function column(array $data, string $columnKey, string $indexKey = null) : array
 	{
-		if (!static::isDataset($data) and !static::isRecordset($data))
+		if (!Arr::isDataset($data) and !Arr::isRecordset($data))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
 
-		$columnKey = static::formatKeySyntax($columnKey);
+		$columnKey = Arr::formatKeySyntax($columnKey);
 
 		if ($indexKey)
-			$indexKey = static::formatKeySyntax($indexKey);
+			$indexKey = Arr::formatKeySyntax($indexKey);
 
 		$result = [];
 
 		foreach ($data as $row)
 		{
-			$row = static::toArray($row);
+			$row = Arr::toArray($row);
 
 			$syntax = '$value = $row' . $columnKey . ';';
 			eval($syntax);
@@ -308,11 +308,11 @@ final class Arr
 
 		if ($array)
 		{
-			if (static::isMultidimensional($array))
+			if (Arr::isMultidimensional($array))
 			{
 				foreach ($keys as $key)
 				{
-					$key = static::formatKeySyntax($key);
+					$key = Arr::formatKeySyntax($key);
 					$syntax = '$result' . $key . ' = $array' . $key . ';';
 					eval($syntax);
 				}
@@ -344,11 +344,11 @@ final class Arr
 
 		$keys = Str::explode($keys, ',');
 
-		if (static::isMultidimensional($array))
+		if (Arr::isMultidimensional($array))
 		{
 			foreach ($keys as $key)
 			{
-				$key = static::formatKeySyntax($key);
+				$key = Arr::formatKeySyntax($key);
 
 				if (is_array($result))
 				{
@@ -425,22 +425,22 @@ final class Arr
 	 */
 	public static function map(array $data, string $from, string $to, string $group = null) : array
 	{
-		if (!static::isDataset($data) and !static::isRecordset($data))
+		if (!Arr::isDataset($data) and !Arr::isRecordset($data))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
 
-		if (static::isRecordset($data))
-			$data = static::toArray($data);
+		if (Arr::isRecordset($data))
+			$data = Arr::toArray($data);
 
 		$result = [];
 
 		foreach ($data as $item)
 		{
-			$key = static::get($item, $from);
-			$value = static::get($item, $to);
+			$key = Arr::get($item, $from);
+			$value = Arr::get($item, $to);
 
 			if ($group)
 			{
-				$groupKey = static::get($item, $group);
+				$groupKey = Arr::get($item, $group);
 				$result[$groupKey][$key] = $value;
 			}
 			else
@@ -465,7 +465,7 @@ final class Arr
 
 		foreach ($keys as $key)
 		{
-			$arrayPointer .= static::formatKeySyntax($key);
+			$arrayPointer .= Arr::formatKeySyntax($key);
 			$var4If = '';
 
 			// use @ to prevent error in case of key does not exists.
@@ -555,7 +555,7 @@ final class Arr
 		else
 		{
 			// Remove data types that not compat with mb_strtolower().
-			$array = static::removeType($array, 'array,object,resource');
+			$array = Arr::removeType($array, 'array,object,resource');
 
 			return in_array(mb_strtolower($search), array_map('mb_strtolower', $array), true);
 		}
@@ -565,7 +565,7 @@ final class Arr
 	{
 		foreach ($searches as $search)
 		{
-			if (static::has($array, $search, $caseSensitive))
+			if (Arr::has($array, $search, $caseSensitive))
 				return true;
 		}
 
@@ -576,7 +576,7 @@ final class Arr
 	{
 		foreach ($searches as $search)
 		{
-			if (!static::has($array, $search, $caseSensitive))
+			if (!Arr::has($array, $search, $caseSensitive))
 				return false;
 		}
 
@@ -621,12 +621,12 @@ final class Arr
 		if (array_key_exists($key, $array))
 			return true;
 
-		if (strpos($key, '.') and static::isMultidimensional($array))
+		if (strpos($key, '.') and Arr::isMultidimensional($array))
 		{
 			$pos = strrpos($key, '.');
 
 			$keyOfArrayToSearch = substr($key, 0, $pos);
-			$keyOfArrayToSearch = static::formatKeySyntax($keyOfArrayToSearch);
+			$keyOfArrayToSearch = Arr::formatKeySyntax($keyOfArrayToSearch);
 
 			$value = '';
 
@@ -648,7 +648,7 @@ final class Arr
 	{
 		foreach ($keys as $key)
 		{
-			if (static::hasKey($array, $key))
+			if (Arr::hasKey($array, $key))
 				return true;
 		}
 
@@ -708,14 +708,14 @@ final class Arr
 	{
 		if ($direction === 'asc')
 		{
-			if (static::isAssociative($array))
+			if (Arr::isAssociative($array))
 				asort($array);
 			else
 				sort($array);
 		}
 		else
 		{
-			if (static::isAssociative($array))
+			if (Arr::isAssociative($array))
 				arsort($array);
 			else
 				rsort($array);
@@ -724,7 +724,7 @@ final class Arr
 		foreach ($array as $key => $value)
 		{
 			if ($recursive and is_array($value))
-				$array[$key] = static::sort($value, $direction, $recursive);
+				$array[$key] = Arr::sort($value, $direction, $recursive);
 		}
 
 		return $array;
@@ -748,7 +748,7 @@ final class Arr
 		foreach ($array as $key => $value)
 		{
 			if ($recursive and is_array($value))
-				$array[$key] = static::sortKey($value, $direction, $recursive);
+				$array[$key] = Arr::sortKey($value, $direction, $recursive);
 		}
 
 		return $array;
@@ -764,7 +764,7 @@ final class Arr
 	 */
 	public static function sortDataset(array $dataset, string $key, string $direction = 'asc') : array
 	{
-		if (!static::isDataset($dataset))
+		if (!Arr::isDataset($dataset))
 			throw InvalidArgumentException::typeError(1, ['dataset'], $dataset);
 
 		if (strtolower($direction) === 'desc')
@@ -801,7 +801,7 @@ final class Arr
 	 */
 	public static function sortRecordset(array $recordset, string $key, string $direction = 'asc') : array
 	{
-		if (!static::isRecordset($recordset))
+		if (!Arr::isRecordset($recordset))
 			throw InvalidArgumentException::typeError(1, ['recordset'], $recordset);
 
 		if (strtolower($direction) === 'desc')
@@ -843,7 +843,7 @@ final class Arr
 			if (is_array($piece))
 			{
 				if ($recursive)
-					$string .= static::implode($piece, $glue).$glue;
+					$string .= Arr::implode($piece, $glue).$glue;
 			}
 			else
 				$string .= $piece . $glue;
@@ -886,7 +886,7 @@ final class Arr
 		foreach ($array as $key => $value)
 		{
 			if (is_array($value) and !empty($value))
-				$result = array_merge($result, static::dot($value, $prepend . $key . '.'));
+				$result = array_merge($result, Arr::dot($value, $prepend . $key . '.'));
 			else
 				$result[$prepend . $key] = $value;
 		}
@@ -1004,8 +1004,8 @@ final class Arr
 		if (!is_array($data))
 			return false;
 
-		if (static::isAssociative($data))
-			$data = static::toSequential($data);
+		if (Arr::isAssociative($data))
+			$data = Arr::toSequential($data);
 
 		// rsort() sorts all the sub-arrays towards the beginning
 		// of the parent array, and re-indexes the array.
@@ -1040,7 +1040,7 @@ final class Arr
 			// check the types of the search value in the given array.
 			// So, to support an indexed array also (numeric key), not
 			// only an associative, use (string) to ensure $key is string.
-			if (!$givenKeys or static::has($givenKeys, (string)$key))
+			if (!$givenKeys or Arr::has($givenKeys, (string)$key))
 			{
 				if ($recursive)
 				{
@@ -1053,7 +1053,7 @@ final class Arr
 
 					// Go to next level (recursive).
 					if (is_object($value))
-						$result[$key] = static::fromObject($value, $recursive);
+						$result[$key] = Arr::fromObject($value, $recursive);
 					else
 						$result[$key] = $value;
 				}
@@ -1104,12 +1104,12 @@ final class Arr
 				// check the types of the search value in the given array.
 				// So, to support an indexed array also (numeric key), not
 				// only an associative, use (string) to ensure $key is string.
-				if (!$givenKeys or static::has($givenKeys, (string)$key))
+				if (!$givenKeys or Arr::has($givenKeys, (string)$key))
 				{
 					if (is_array($value) or is_object($value))
 					{
 						if ($recursive)
-							$result[$key] = static::toArray($value, $recursive);
+							$result[$key] = Arr::toArray($value, $recursive);
 						else
 							$result[$key] = [];
 					}
@@ -1144,7 +1144,7 @@ final class Arr
 			// check the types of the search value in the given array.
 			// So, to support an indexed array also (numeric key), not
 			// only an associative, use (string) to ensure $key is string.
-			if (!$givenKeys or static::has($givenKeys, (string)$key))
+			if (!$givenKeys or Arr::has($givenKeys, (string)$key))
 			{
 				if ($recursive)
 				{
@@ -1157,7 +1157,7 @@ final class Arr
 
 					// Go to next level (recursive).
 					if (is_array($value))
-						$obj->{$key} = static::toObject($value, $class, $recursive);
+						$obj->{$key} = Arr::toObject($value, $class, $recursive);
 					else
 						$obj->{$key} = $value;
 				}
@@ -1199,12 +1199,12 @@ final class Arr
 				// check the types of the search value in the given array.
 				// So, to support an indexed array also (numeric key), not
 				// only an associative, use (string) to ensure $key is string.
-				if (!$givenKeys or static::has($givenKeys, (string)$key))
+				if (!$givenKeys or Arr::has($givenKeys, (string)$key))
 				{
 					if (is_array($value))
 					{
 						if ($recursive)
-							$output[] = static::toString($value, $innerGlue, $outerGlue, $valueDelimiter, $recursive);
+							$output[] = Arr::toString($value, $innerGlue, $outerGlue, $valueDelimiter, $recursive);
 					}
 					else
 						$output[] = $key . $innerGlue . $valueDelimiter . $value . $valueDelimiter;
@@ -1212,7 +1212,7 @@ final class Arr
 			}
 		}
 
-		return static::implode($output, $outerGlue);
+		return Arr::implode($output, $outerGlue);
 	}
 
 	/**
@@ -1237,9 +1237,9 @@ final class Arr
 	 */
 	public static function toDataset($data) : array
 	{
-		$data = static::toArray($data);
+		$data = Arr::toArray($data);
 
-		if (!static::isMultidimensional($data))
+		if (!Arr::isMultidimensional($data))
 			$data = [$data];
 
 		$dataset = [];
@@ -1259,9 +1259,9 @@ final class Arr
 	 */
 	public static function toRecordset($data) : array
 	{
-		$data = static::toArray($data);
+		$data = Arr::toArray($data);
 
-		if (!static::isMultidimensional($data))
+		if (!Arr::isMultidimensional($data))
 			$data = [$data];
 
 		$recordset = [];
@@ -1281,10 +1281,10 @@ final class Arr
 	 */
 	public static function toMultidimensional($data) : array
 	{
-		if (static::isMultidimensional($data))
+		if (Arr::isMultidimensional($data))
 			return $data;
 
-		$data = [static::toArray($data)];
+		$data = [Arr::toArray($data)];
 
 		return $data;
 	}
@@ -1308,7 +1308,7 @@ final class Arr
 					$value = (array)$value;
 
 				if (is_array($value))
-					$data[$i] = static::toSequential($value);
+					$data[$i] = Arr::toSequential($value);
 			}
 		}
 		else
@@ -1355,7 +1355,7 @@ final class Arr
 				if (is_array($itemValue))
 				{
 					if ($recursive)
-						$array[$itemKey] = static::remove($itemValue, $value, $caseSensitive, $recursive);
+						$array[$itemKey] = Arr::remove($itemValue, $value, $caseSensitive, $recursive);
 				}
 				else
 				{
@@ -1399,7 +1399,7 @@ final class Arr
 				if ((string)$itemKey === (string)$key)
 					unset($array[$itemKey]);
 				elseif ($recursive and is_array($itemValue))
-					$array[$itemKey] = static::removeKey($itemValue, $keys, $recursive);
+					$array[$itemKey] = Arr::removeKey($itemValue, $keys, $recursive);
 			}
 		}
 
@@ -1445,7 +1445,7 @@ final class Arr
 				if ($dataType === strtolower(gettype($itemValue)))
 					unset($array[$itemKey]);
 				elseif ($recursive and is_array($itemValue))
-					$array[$itemKey] = static::removeType($itemValue, $dataTypes, $recursive);
+					$array[$itemKey] = Arr::removeType($itemValue, $dataTypes, $recursive);
 			}
 		}
 
@@ -1464,7 +1464,7 @@ final class Arr
 			if (is_array($value))
 			{
 				if ($recursive)
-					$array[$key] = static::removeBlank($value, $recursive);
+					$array[$key] = Arr::removeBlank($value, $recursive);
 			}
 			elseif (Str::isBlank($value))
 				unset($array[$key]);
@@ -1483,7 +1483,7 @@ final class Arr
 	 */
 	public static function pullColumns(array &$data, string $keys) : array
 	{
-		if (!static::isDataset($data) and !static::isRecordset($data))
+		if (!Arr::isDataset($data) and !Arr::isRecordset($data))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
 
 		$keys = Str::explode($keys, ',');
@@ -1526,7 +1526,7 @@ final class Arr
 	 */
 	public static function removeColumn(array $array, string $keys) : array
 	{
-		if (!static::isDataset($array) and !static::isRecordset($array))
+		if (!Arr::isDataset($array) and !Arr::isRecordset($array))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $array);
 
 		$keys = Str::explode($keys, ',');
@@ -1575,8 +1575,8 @@ final class Arr
 		// Checks if the given array is an associative
 		// before removing duplicate values. If checking
 		// after removing duplicate values, it will always
-		// return true. See more at static::isAssociative()
-		$isAssociative = static::isAssociative($array);
+		// return true. See more at Arr::isAssociative()
+		$isAssociative = Arr::isAssociative($array);
 
 		$array = array_unique($array, SORT_REGULAR);
 
@@ -1585,7 +1585,7 @@ final class Arr
 			foreach ($array as $key => $value)
 			{
 				if (is_array($value))
-					$array[$key] = static::unique($value, $recursive, $recursive);
+					$array[$key] = Arr::unique($value, $recursive, $recursive);
 			}
 		}
 

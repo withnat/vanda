@@ -71,10 +71,10 @@ final class Url
 	 */
 	public static function base(bool $secure = null) : string
 	{
-		if (!static::$_baseUrl)
-			static::$_baseUrl = Request::host() . Request::basePath();
+		if (!Url::$_baseUrl)
+			Url::$_baseUrl = Request::host() . Request::basePath();
 
-		$baseUrl = static::$_baseUrl;
+		$baseUrl = Url::$_baseUrl;
 
 		if ($secure === true and substr($baseUrl, 0, 7) == 'http://')
 			$baseUrl = substr_replace($baseUrl, 'https://', 0, 7);
@@ -90,24 +90,24 @@ final class Url
 	 */
 	public static function default() : string
 	{
-		if (!static::$_defaultUrl)
+		if (!Url::$_defaultUrl)
 		{
 			if (!isSPA())
 			{
 				$side = getenv('SIDE');
 
 				if ($side == 'backend' and Config::app('defaultBackendModule'))
-					static::$_defaultUrl = Config::app('defaultBackendModule');
+					Url::$_defaultUrl = Config::app('defaultBackendModule');
 				elseif ($side == 'frontend' and Config::app('defaultFrontendModule'))
-					static::$_defaultUrl = Config::app('defaultFrontendModule');
+					Url::$_defaultUrl = Config::app('defaultFrontendModule');
 				else
-					static::$_defaultUrl = Url::create();
+					Url::$_defaultUrl = Url::create();
 			}
 			else
-				static::$_defaultUrl = '';
+				Url::$_defaultUrl = '';
 		}
 
-		return static::$_defaultUrl;
+		return Url::$_defaultUrl;
 	}
 
 	/**
@@ -125,7 +125,7 @@ final class Url
 	 */
 	public static function current() : string
 	{
-		$url = static::base() . static::uri();
+		$url = Url::base() . Url::uri();
 
 		return $url;
 	}
@@ -141,31 +141,31 @@ final class Url
 	public static function create(string $path = null, bool $secure = null) : string
 	{
 		if (is_null($path))
-			$path = static::$_path;
+			$path = Url::$_path;
 
 		// If the $path is still null, convert it to string.
 		$path = (string)$path;
 		// And remove white-space.
 		$path = trim($path);
 
-		if (!static::isValid($path))
+		if (!Url::isValid($path))
 		{
-			if (static::$_scheme)
-				$url = static::$_scheme . '://';
+			if (Url::$_scheme)
+				$url = Url::$_scheme . '://';
 			else
-				$url = static::base();
+				$url = Url::base();
 
-			if (static::$_user and static::$_pass)
-				$url .= static::$_user . ':' . static::$_pass . '@';
-			elseif (static::$_user)
-				$url .= static::$_user . '@';
-			elseif (static::$_pass)
-				$url .= ':' . static::$_pass . '@';
+			if (Url::$_user and Url::$_pass)
+				$url .= Url::$_user . ':' . Url::$_pass . '@';
+			elseif (Url::$_user)
+				$url .= Url::$_user . '@';
+			elseif (Url::$_pass)
+				$url .= ':' . Url::$_pass . '@';
 
-			$url .= static::$_host;
+			$url .= Url::$_host;
 
-			if (static::$_port)
-				$url .= ':' . static::$_port;
+			if (Url::$_port)
+				$url .= ':' . Url::$_port;
 			
 			if ($path and substr($path, 0, 1) != '/')
 				$path = '/' . $path;
@@ -192,20 +192,20 @@ final class Url
 		else
 			$url = $path;
 
-		if (static::$_query)
+		if (Url::$_query)
 		{
-			if (substr(static::$_query, 0, 1) != '?')
+			if (substr(Url::$_query, 0, 1) != '?')
 				$url .= '?';
 
-			$url .= static::$_query;
+			$url .= Url::$_query;
 		}
 
-		if (static::$_fragment)
+		if (Url::$_fragment)
 		{
-			if (substr(static::$_fragment, 0, 1) != '#')
+			if (substr(Url::$_fragment, 0, 1) != '#')
 				$url .= '#';
 
-			$url .= static::$_fragment;
+			$url .= Url::$_fragment;
 		}
 
 		if ($secure === true and substr($url, 0, 7) == 'http://')
@@ -213,7 +213,7 @@ final class Url
 		elseif ($secure === false and substr($url, 0, 8) == 'https://')
 			$url = substr_replace($url, 'http://', 0, 8);
 
-		static::reset();
+		Url::reset();
 
 		return $url;
 	}
@@ -224,7 +224,7 @@ final class Url
 	 */
 	public static function createFromAction(string $action) : string
 	{
-		static::reset();
+		Url::reset();
 
 		if (strpos($action, '.'))
 		{
@@ -253,7 +253,7 @@ final class Url
 				$uri = getenv('MODULE') . '/' . getenv('CONTROLLER') . '/' . $action;
 		}
 
-		$url = static::create($uri);
+		$url = Url::create($uri);
 
 		return $url;
 	}
@@ -383,11 +383,11 @@ final class Url
 	{
 		if ($url)
 		{
-			$data = static::parse($url);
+			$data = Url::parse($url);
 			$value = $data['scheme'] ?? null;
 		}
 		else
-			$value = static::$_scheme;
+			$value = Url::$_scheme;
 
 		return $value;
 	}
@@ -400,7 +400,7 @@ final class Url
 	 */
 	public static function setScheme(string $scheme) : void
 	{
-		static::$_scheme = $scheme;
+		Url::$_scheme = $scheme;
 	}
 
 	/**
@@ -413,11 +413,11 @@ final class Url
 	{
 		if ($url)
 		{
-			$data = static::parse($url);
+			$data = Url::parse($url);
 			$value = $data['user'] ?? null;
 		}
 		else
-			$value = static::$_user;
+			$value = Url::$_user;
 
 		return $value;
 	}
@@ -430,7 +430,7 @@ final class Url
 	 */
 	public static function setUser(string $user) : void
 	{
-		static::$_user = $user;
+		Url::$_user = $user;
 	}
 
 	/**
@@ -443,11 +443,11 @@ final class Url
 	{
 		if ($url)
 		{
-			$data = static::parse($url);
+			$data = Url::parse($url);
 			$value = $data['pass'] ?? null;
 		}
 		else
-			$value = static::$_pass;
+			$value = Url::$_pass;
 
 		return $value;
 	}
@@ -460,7 +460,7 @@ final class Url
 	 */
 	public static function setPass(string $pass) : void
 	{
-		static::$_pass = $pass;
+		Url::$_pass = $pass;
 	}
 
 	/**
@@ -473,11 +473,11 @@ final class Url
 	{
 		if ($url)
 		{
-			$data = static::parse($url);
+			$data = Url::parse($url);
 			$value = $data['host'] ?? null;
 		}
 		else
-			$value = static::$_host;
+			$value = Url::$_host;
 
 		return $value;
 	}
@@ -490,7 +490,7 @@ final class Url
 	 */
 	public static function setHost(string $host) : void
 	{
-		static::$_host = $host;
+		Url::$_host = $host;
 	}
 
 	/**
@@ -503,11 +503,11 @@ final class Url
 	{
 		if ($url)
 		{
-			$data = static::parse($url);
+			$data = Url::parse($url);
 			$value = $data['port'] ?? null;
 		}
 		else
-			$value = static::$_port;
+			$value = Url::$_port;
 
 		return $value;
 	}
@@ -520,7 +520,7 @@ final class Url
 	 */
 	public static function setPort(int $port) : void
 	{
-		static::$_port = $port;
+		Url::$_port = $port;
 	}
 
 	/**
@@ -533,13 +533,13 @@ final class Url
 	{
 		if ($url)
 		{
-			$data = static::parse($url);
+			$data = Url::parse($url);
 
 			// Path index is always exist and be a string.
 			$value = $data['path'] ?: null;
 		}
 		else
-			$value = static::$_path;
+			$value = Url::$_path;
 
 		return $value;
 	}
@@ -553,7 +553,7 @@ final class Url
 	public static function setPath(string $path) : void
 	{
 		$path = ltrim($path, '/');
-		static::$_path = $path;
+		Url::$_path = $path;
 	}
 
 	/**
@@ -566,11 +566,11 @@ final class Url
 	{
 		if ($url)
 		{
-			$data = static::parse($url);
+			$data = Url::parse($url);
 			$value = $data['query'] ?? null;
 		}
 		else
-			$value = static::$_query;
+			$value = Url::$_query;
 
 		return $value;
 	}
@@ -584,7 +584,7 @@ final class Url
 	public static function setQuery(string $query) : void
 	{
 		$query = ltrim($query, '?');
-		static::$_query = $query;
+		Url::$_query = $query;
 	}
 
 	/**
@@ -597,11 +597,11 @@ final class Url
 	{
 		if ($url)
 		{
-			$data = static::parse($url);
+			$data = Url::parse($url);
 			$value = $data['fragment'] ?? null;
 		}
 		else
-			$value = static::$_fragment;
+			$value = Url::$_fragment;
 
 		return $value;
 	}
@@ -615,7 +615,7 @@ final class Url
 	public static function setFragment(string $fragment) : void
 	{
 		$fragment = ltrim($fragment, '#');
-		static::$_fragment = $fragment;
+		Url::$_fragment = $fragment;
 	}
 
 	/**
@@ -623,14 +623,14 @@ final class Url
 	 */
 	public static function reset() : void
 	{
-		static::$_baseUrl = null;
-		static::$_scheme = null;
-		static::$_user = null;
-		static::$_pass = null;
-		static::$_host = null;
-		static::$_port = null;
-		static::$_path = null;
-		static::$_query = null;
-		static::$_fragment = null;
+		Url::$_baseUrl = null;
+		Url::$_scheme = null;
+		Url::$_user = null;
+		Url::$_pass = null;
+		Url::$_host = null;
+		Url::$_port = null;
+		Url::$_path = null;
+		Url::$_query = null;
+		Url::$_fragment = null;
 	}
 }

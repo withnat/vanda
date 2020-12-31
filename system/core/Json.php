@@ -88,7 +88,7 @@ final class Json
 			$data = Arr::removeType($data, 'resource');
 
 		$result = json_encode($data);
-		$error = static::_getError();
+		$error = Json::_getError();
 
 		if ($error)
 		{
@@ -112,7 +112,7 @@ final class Json
 	{
 		$json = stripslashes($json);
 		$result = json_decode($json, $assoc);
-		$error = static::_getError();
+		$error = Json::_getError();
 
 		if ($error)
 			throw new ErrorException('Json Error: ' . $error);

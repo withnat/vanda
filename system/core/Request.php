@@ -104,7 +104,7 @@ final class Request
 		if (is_resource($default))
 			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
 
-		return static::_requestByMethod('get', $name, $default, $xssClean);
+		return Request::_requestByMethod('get', $name, $default, $xssClean);
 	}
 
 	/**
@@ -118,7 +118,7 @@ final class Request
 		if (is_resource($default))
 			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
 
-		return static::_requestByMethod('post', $name, $default, $xssClean);
+		return Request::_requestByMethod('post', $name, $default, $xssClean);
 	}
 
 	/**
@@ -135,17 +135,17 @@ final class Request
 	 */
 	public static function method() : ?string
 	{
-		if (!static::$_method)
+		if (!Request::$_method)
 		{
-			$method = static::server('REQUEST_METHOD');
+			$method = Request::server('REQUEST_METHOD');
 
 			if ($method)
 				$method = strtolower($method);
 
-			static::$_method = $method;
+			Request::$_method = $method;
 		}
 
-		return static::$_method;
+		return Request::$_method;
 	}
 
 	/**
@@ -260,12 +260,12 @@ final class Request
 	 */
 	public static function host() : string
 	{
-		if (static::isSecure())
+		if (Request::isSecure())
 			$protocol = 'https://';
 		else
 			$protocol = 'http://';
 
-		$host = $protocol . static::server('HTTP_HOST');
+		$host = $protocol . Request::server('HTTP_HOST');
 
 		return $host;
 	}
@@ -275,10 +275,10 @@ final class Request
 	 */
 	public static function basePath() : string
 	{
-		if (!static::$_basePath)
-			static::$_basePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+		if (!Request::$_basePath)
+			Request::$_basePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
-		return static::$_basePath;
+		return Request::$_basePath;
 	}
 
 	/**
@@ -287,12 +287,12 @@ final class Request
 	public static function uri() : string
 	{
 		// IIS not recognizing ‘REQUEST_URI’
-		if (strpos((string)static::server('SERVER_SOFTWARE'), 'IIS') !== false)
+		if (strpos((string)Request::server('SERVER_SOFTWARE'), 'IIS') !== false)
 			$_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 0);
 
-		// Remove static::getBasePath() string only first occurrence of a string match.
+		// Remove Request::getBasePath() string only first occurrence of a string match.
 		// If not, it will remove all matches ie remove 'foo' from /foo/home/foobar.
-		return preg_replace('/' . str_replace('/', '\/', static::basePath()) . '/i', '', $_SERVER['REQUEST_URI'], 1);
+		return preg_replace('/' . str_replace('/', '\/', Request::basePath()) . '/i', '', $_SERVER['REQUEST_URI'], 1);
 	}
 
 	/**
@@ -311,8 +311,8 @@ final class Request
 	 */
 	public static function isSecure() : bool
 	{
-		$https = static::server('HTTPS');
-		$serverPort = static::server('SERVER_PORT');
+		$https = Request::server('HTTPS');
+		$serverPort = Request::server('SERVER_PORT');
 
 		if ($https == '1' or $https == 'on' or $serverPort == 443)
 			return true;
@@ -325,7 +325,7 @@ final class Request
 	 */
 	public static function isGet() : bool
 	{
-		return static::method() === 'get';
+		return Request::method() === 'get';
 	}
 
 	/**
@@ -333,7 +333,7 @@ final class Request
 	 */
 	public static function isPost() : bool
 	{
-		return static::method() === 'post';
+		return Request::method() === 'post';
 	}
 
 	/**
@@ -344,15 +344,15 @@ final class Request
 	 */
 	public static function isAjax() : bool
 	{
-		if (is_null(static::$_isAjax))
+		if (is_null(Request::$_isAjax))
 		{
-			if ((string)static::server('HTTP_X_REQUESTED_WITH') == 'xmlhttprequest')
-				static::$_isAjax = true;
+			if ((string)Request::server('HTTP_X_REQUESTED_WITH') == 'xmlhttprequest')
+				Request::$_isAjax = true;
 			else
-				static::$_isAjax = false;
+				Request::$_isAjax = false;
 		}
 
-		return static::$_isAjax;
+		return Request::$_isAjax;
 	}
 
 	/**
@@ -372,7 +372,7 @@ final class Request
 	 */
 	public static function ensureIsGet(string $redirect = null) : void
 	{
-		if (!static::isGet())
+		if (!Request::isGet())
 		{
 			if (!trim((string)$redirect))
 				$redirect = Url::default();
@@ -387,7 +387,7 @@ final class Request
 	 */
 	public static function ensureIsPost(string $redirect = null) : void
 	{
-		if (!static::isPost())
+		if (!Request::isPost())
 		{
 			if (!trim((string)$redirect))
 				$redirect = Url::default();
@@ -402,7 +402,7 @@ final class Request
 	 */
 	public static function ensureIsAjax(string $redirect = null) : void
 	{
-		if (!static::isAjax())
+		if (!Request::isAjax())
 		{
 			if (!trim((string)$redirect))
 				$redirect = Url::default();
@@ -439,7 +439,7 @@ final class Request
 	 */
 	private static function _requestByMethod(string $method, string $name = null, $default = null, ?bool $xssClean = true)
 	{
-		if (is_null(static::${'_' . $method . 'Values'}))
+		if (is_null(Request::${'_' . $method . 'Values'}))
 		{
 			if ($method == 'get')
 				$values = $_GET;
@@ -447,25 +447,25 @@ final class Request
 				$values = $_POST;
 
 			$values = Arr::toObject($values);
-			static::${'_' . $method . 'Values'} = $values;
+			Request::${'_' . $method . 'Values'} = $values;
 
 			$values = Security::xssClean($values);
-			static::${'_' . $method . 'ValuesXSS'} = $values;
+			Request::${'_' . $method . 'ValuesXSS'} = $values;
 		}
 
 		if (is_null($name))
 		{
 			if ($xssClean)
-				return (empty((array)static::${'_' . $method . 'ValuesXSS'}) ? $default : static::${'_' . $method . 'ValuesXSS'});
+				return (empty((array)Request::${'_' . $method . 'ValuesXSS'}) ? $default : Request::${'_' . $method . 'ValuesXSS'});
 			else
-				return (empty((array)static::${'_' . $method . 'Values'}) ? $default : static::${'_' . $method . 'Values'});
+				return (empty((array)Request::${'_' . $method . 'Values'}) ? $default : Request::${'_' . $method . 'Values'});
 		}
 		else
 		{
 			if ($xssClean)
-				return static::${'_' . $method . 'ValuesXSS'}->{$name} ?? $default;
+				return Request::${'_' . $method . 'ValuesXSS'}->{$name} ?? $default;
 			else
-				return static::${'_' . $method . 'Values'}->{$name} ?? $default;
+				return Request::${'_' . $method . 'Values'}->{$name} ?? $default;
 		}
 	}
 }

@@ -74,7 +74,7 @@ final class Xml
 		if (!Arr::isDataset($dataset))
 			throw InvalidArgumentException::typeError(1, ['dataset'], $dataset);
 
-		$xml = static::_fromDatasetOrRecordset($dataset, $root, $element, $newline, $tab);
+		$xml = Xml::_fromDatasetOrRecordset($dataset, $root, $element, $newline, $tab);
 
 		return $xml;
 	}
@@ -98,7 +98,7 @@ final class Xml
 		if (!Arr::isRecordset($recordset))
 			throw InvalidArgumentException::typeError(1, ['recordset'], $recordset);
 
-		$xml = static::_fromDatasetOrRecordset($recordset, $root, $element, $newline, $tab);
+		$xml = Xml::_fromDatasetOrRecordset($recordset, $root, $element, $newline, $tab);
 
 		return $xml;
 	}
@@ -111,7 +111,7 @@ final class Xml
 		string $xml
 	) : array
 	{
-		$object = static::toObject($xml);
+		$object = Xml::toObject($xml);
 		$array = Arr::fromObject($object);
 
 		return $array;
@@ -199,7 +199,7 @@ final class Xml
 			foreach ($row as $key => $value)
 			{
 				if (is_string($value))
-					$value = static::safe($value);
+					$value = Xml::safe($value);
 
 				$xml .= $tab . $tab . '<' . $key . '>' . $value . '</' . $key . '>' . $newline;
 			}

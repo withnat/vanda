@@ -71,7 +71,7 @@ class InvalidArgumentException extends \InvalidArgumentException
 	{
 		$trace = debug_backtrace(0);
 
-		list($class, $function, $file, $line) = static::_list($trace);
+		list($class, $function, $file, $line) = InvalidArgumentException::_list($trace);
 
 		if ($customMsg)
 		{
@@ -101,7 +101,7 @@ class InvalidArgumentException extends \InvalidArgumentException
 	{
 		$trace = debug_backtrace(0);
 
-		list($class, $function, $file, $line) = static::_list($trace);
+		list($class, $function, $file, $line) = InvalidArgumentException::_list($trace);
 
 		$msg = 'Argument ' . $argument . ' passed to ' . $class . '::' . $function . '(), ' . $errorMsg;
 

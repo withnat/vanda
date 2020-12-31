@@ -59,9 +59,9 @@ final class Number
 
 		// After trim
 		if (!$unit)
-			$unit = static::getUnitByFileSize($size);
+			$unit = Number::getUnitByFileSize($size);
 
-		$size = static::getFileSizeByUnit($size, $unit);
+		$size = Number::getFileSizeByUnit($size, $unit);
 		$size = number_format($size, $precision);
 
 		// Remove trailing zero after decimal point

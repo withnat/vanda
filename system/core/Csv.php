@@ -68,7 +68,7 @@ final class Csv
 		if (!Arr::isDataset($dataset))
 			throw InvalidArgumentException::typeError(1, ['dataset'], $dataset);
 
-		$csv = static::_fromDatasetOrRecordset($dataset, $delimiter, $newline, $enclosure);
+		$csv = Csv::_fromDatasetOrRecordset($dataset, $delimiter, $newline, $enclosure);
 
 		return $csv;
 	}
@@ -90,7 +90,7 @@ final class Csv
 		if (!Arr::isRecordset($recordset))
 			throw InvalidArgumentException::typeError(1, ['recordset'], $recordset);
 
-		$csv = static::_fromDatasetOrRecordset($recordset, $delimiter, $newline, $enclosure);
+		$csv = Csv::_fromDatasetOrRecordset($recordset, $delimiter, $newline, $enclosure);
 
 		return $csv;
 	}
@@ -116,7 +116,7 @@ final class Csv
 		{
 			if ($line)
 			{
-				$columns = static::_parseLine($line, $delimiter, $enclosure);
+				$columns = Csv::_parseLine($line, $delimiter, $enclosure);
 				$data[] = $columns;
 			}
 		}
@@ -146,7 +146,7 @@ final class Csv
 		{
 			if ($line)
 			{
-				$columns = static::_parseLine($line, $delimiter, $enclosure);
+				$columns = Csv::_parseLine($line, $delimiter, $enclosure);
 
 				if (is_null($header))
 					$header = $columns;
@@ -172,7 +172,7 @@ final class Csv
 		string $enclosure = '"'
 	) : object
 	{
-		$array = static::toDataset($csv, $delimiter, $newline, $enclosure);
+		$array = Csv::toDataset($csv, $delimiter, $newline, $enclosure);
 		$object = Arr::toObject($array);
 
 		return $object;
@@ -235,9 +235,9 @@ final class Csv
 			foreach ($row as $key => $value)
 			{
 				if ($i == 0)
-					$header .= $enclosure . static::safe($key, $enclosure) . $enclosure . $delimiter;
+					$header .= $enclosure . Csv::safe($key, $enclosure) . $enclosure . $delimiter;
 
-				$csv .= $enclosure . static::safe($value, $enclosure) . $enclosure . $delimiter;
+				$csv .= $enclosure . Csv::safe($value, $enclosure) . $enclosure . $delimiter;
 			}
 
 			$csv = substr($csv, 0, (0 - mb_strlen($delimiter))) . $newline;

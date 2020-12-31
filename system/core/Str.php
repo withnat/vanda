@@ -67,17 +67,17 @@ final class Str
 	 */
 	private static function _getEncoding(string $encoding = null) : string
 	{
-		if (!$encoding and !static::$_encoding)
+		if (!$encoding and !Str::$_encoding)
 		{
 			if (Config::app('charset'))
 				$encoding = Config::app('charset');
 			else
 				$encoding = mb_internal_encoding();
 
-			static::$_encoding = $encoding;
+			Str::$_encoding = $encoding;
 		}
 		else
-			$encoding = static::$_encoding;
+			$encoding = Str::$_encoding;
 
 		return $encoding;
 	}
@@ -92,7 +92,7 @@ final class Str
 	 */
 	public static function length(string $string, string $encoding = null) : int
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$length = mb_strlen($string, $encoding);
 
 		return $length;
@@ -111,7 +111,7 @@ final class Str
 	 */
 	public static function count(string $string, string $substring, bool $caseSensitive = true, string $encoding = null) : int
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 
 		if (!$caseSensitive)
 		{
@@ -149,7 +149,7 @@ final class Str
 	 */
 	public static function left(string $string, int $length = 1, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$string = mb_substr($string, 0, $length, $encoding);
 
 		return $string;
@@ -168,7 +168,7 @@ final class Str
 		if ($length == 0)
 			return '';
 
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 
 		$string = mb_substr($string, (0 - $length), null, $encoding);
 
@@ -185,10 +185,10 @@ final class Str
 	 */
 	public static function at(string $string, int $index, string $encoding = null) : string
 	{
-		if ($index < 0 and abs($index) > static::length($string))
+		if ($index < 0 and abs($index) > Str::length($string))
 			return '';
 
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$string = mb_substr($string, $index, 1, $encoding);
 
 		return $string;
@@ -205,7 +205,7 @@ final class Str
 	 */
 	public static function slice(string $string, int $start, int $length = null, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$string = mb_substr($string, $start, $length, $encoding);
 
 		return $string;
@@ -227,7 +227,7 @@ final class Str
 		if ($length <= 0)
 			return $suffix;
 
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 
 		// Remove control characters.
 		// \x0B is Vertical tab
@@ -275,7 +275,7 @@ final class Str
 		if ($words <= 0)
 			return $suffix;
 
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$pattern = '/^\s*+(?:\S++\s*+){1,' . $words . '}/u';
 
 		preg_match($pattern, $string, $matches);
@@ -300,7 +300,7 @@ final class Str
 	 */
 	public static function position(string $string, string $search, int $offset = 0, string $encoding = null)
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$pos = mb_strpos($string, $search, $offset, $encoding);
 
 		return $pos;
@@ -318,7 +318,7 @@ final class Str
 	 */
 	public static function lastPosition(string $string, string $search, int $offset = 0, string $encoding = null)
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$pos = mb_strrpos($string, $search, $offset, $encoding);
 
 		return $pos;
@@ -339,7 +339,7 @@ final class Str
 		if ($offset < 0)
 			throw InvalidArgumentException::valueError(4, '$offset must be greater than zero', $offset);
 
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 
 		$startPos = mb_strpos($string, $start, $offset, $encoding);
 
@@ -370,8 +370,8 @@ final class Str
 	{
 		if (is_string($characterMask) or is_null($characterMask) or is_int($characterMask))
 		{
-			$string = static::trimLeft($string, $characterMask, $encoding);
-			$string = static::trimRight($string, $characterMask, $encoding);
+			$string = Str::trimLeft($string, $characterMask, $encoding);
+			$string = Str::trimRight($string, $characterMask, $encoding);
 		}
 		else
 			throw InvalidArgumentException::typeError(2, ['string','int','null'], $characterMask);
@@ -399,7 +399,7 @@ final class Str
 		elseif (is_int($characterMask))
 		{
 			$start = $characterMask;
-			$encoding = static::_getEncoding($encoding);
+			$encoding = Str::_getEncoding($encoding);
 			$string = mb_substr($string, $start, null, $encoding);
 		}
 		else
@@ -427,7 +427,7 @@ final class Str
 			$string = rtrim($string, $characterMask);
 		elseif (is_int($characterMask))
 		{
-			$encoding = static::_getEncoding($encoding);
+			$encoding = Str::_getEncoding($encoding);
 			$length = $characterMask;
 
 			if ($length < 0)
@@ -616,7 +616,7 @@ final class Str
 	 */
 	public static function removeLeft(string $string, string $substring, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$length = mb_strlen($substring, $encoding);
 
 		if (mb_substr($string, 0, $length, $encoding) === $substring)
@@ -639,7 +639,7 @@ final class Str
 	 */
 	public static function removeRight(string $string, string $substring, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$length = mb_strlen($substring, $encoding);
 
 		if (mb_substr($string, (0 - $length), null, $encoding) === $substring)
@@ -698,7 +698,7 @@ final class Str
 	 */
 	public static function lowerCase(string $string, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$string = mb_strtolower($string, $encoding);
 
 		return $string;
@@ -714,7 +714,7 @@ final class Str
 	 */
 	public static function lowerCaseFirst(string $string, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$firstChar = mb_substr($string, 0, 1, $encoding);
 		$rest = mb_substr($string, 1, null, $encoding);
 
@@ -736,7 +736,7 @@ final class Str
 		$words = explode(' ', $string);
 
 		for ($i = 0, $n = count($words); $i < $n; ++$i)
-			$words[$i] = static::lowerCaseFirst($words[$i], $encoding);
+			$words[$i] = Str::lowerCaseFirst($words[$i], $encoding);
 
 		$string = implode(' ', $words);
 
@@ -752,7 +752,7 @@ final class Str
 	 */
 	public static function upperCase(string $string, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$string = mb_strtoupper($string, $encoding);
 
 		return $string;
@@ -768,7 +768,7 @@ final class Str
 	 */
 	public static function upperCaseFirst(string $string, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$firstChar = mb_substr($string, 0, 1, $encoding);
 		$rest = mb_substr($string, 1, null, $encoding);
 
@@ -787,7 +787,7 @@ final class Str
 	 */
 	public static function upperCaseWords(string $string, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$string = mb_convert_case($string, MB_CASE_TITLE, $encoding);
 
 		return $string;
@@ -832,7 +832,7 @@ final class Str
 
 		if (is_int($limit))
 		{
-			$encoding = static::_getEncoding($encoding);
+			$encoding = Str::_getEncoding($encoding);
 			$length = mb_strlen($search, $encoding);
 
 			for ($i = 0; $i < $limit; ++$i)
@@ -842,7 +842,7 @@ final class Str
 				if ($start === false)
 					break;
 
-				$string = static::subreplace($string, $replace, $start, $length, $encoding);
+				$string = Str::subreplace($string, $replace, $start, $length, $encoding);
 			}
 		}
 		else
@@ -865,13 +865,13 @@ final class Str
 		if ($search === '')
 			return $string;
 
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$start = mb_strpos($string, $search, 0, $encoding);
 
 		if ($start !== false)
 		{
 			$length = mb_strlen($search, $encoding);
-			$string = static::subreplace($string, $replace, $start, $length, $encoding);
+			$string = Str::subreplace($string, $replace, $start, $length, $encoding);
 		}
 
 		return $string;
@@ -891,13 +891,13 @@ final class Str
 		if ($search === '')
 			return $string;
 
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$start = mb_strrpos($string, $search, 0, $encoding);
 
 		if ($start !== false)
 		{
 			$length = mb_strlen($search, $encoding);
-			$string = static::subreplace($string, $replace, $start, $length, $encoding);
+			$string = Str::subreplace($string, $replace, $start, $length, $encoding);
 		}
 
 		return $string;
@@ -923,7 +923,7 @@ final class Str
 
 		if (is_int($limit))
 		{
-			$encoding = static::_getEncoding($encoding);
+			$encoding = Str::_getEncoding($encoding);
 			$length = mb_strlen($search, $encoding);
 
 			for ($i = 0; $i < $limit; ++$i)
@@ -933,7 +933,7 @@ final class Str
 				if ($start === false)
 					break;
 
-				$string = static::subreplace($string, $replace, $start, $length, $encoding);
+				$string = Str::subreplace($string, $replace, $start, $length, $encoding);
 			}
 		}
 		else
@@ -956,13 +956,13 @@ final class Str
 		if ($search === '')
 			return $string;
 
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$start = mb_stripos($string, $search, 0, $encoding);
 
 		if ($start !== false)
 		{
 			$length = mb_strlen($search, $encoding);
-			$string = static::subreplace($string, $replace, $start, $length, $encoding);
+			$string = Str::subreplace($string, $replace, $start, $length, $encoding);
 		}
 
 		return $string;
@@ -982,13 +982,13 @@ final class Str
 		if ($search === '')
 			return $string;
 
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$start = mb_strripos($string, $search, 0, $encoding);
 
 		if ($start !== false)
 		{
 			$length = mb_strlen($search, $encoding);
-			$string = static::subreplace($string, $replace, $start, $length, $encoding);
+			$string = Str::subreplace($string, $replace, $start, $length, $encoding);
 		}
 
 		return $string;
@@ -1015,7 +1015,7 @@ final class Str
 	 */
 	public static function subreplace(string $string, string $replace, int $start, int $length = null, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$stringLength = mb_strlen($string, $encoding);
 
 		if ($start < 0)
@@ -1096,7 +1096,7 @@ final class Str
 	public static function reverse(string $string, string $encoding = null) : string
 	{
 		$reversed = '';
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$length = mb_strlen($string, $encoding);
 
 		for ($i = $length - 1; $i >= 0; --$i)
@@ -1118,7 +1118,7 @@ final class Str
 	 */
 	public static function startsWith(string $string, string $prefix, bool $caseSensitive = true, string $encoding = null) : bool
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$length = mb_strlen($prefix, $encoding);
 		$search = mb_substr($string, 0, $length, $encoding);
 
@@ -1146,7 +1146,7 @@ final class Str
 	{
 		foreach ($prefixes as $prefix)
 		{
-			if (static::startsWith($string, $prefix, $caseSensitive, $encoding))
+			if (Str::startsWith($string, $prefix, $caseSensitive, $encoding))
 				return true;
 		}
 
@@ -1164,7 +1164,7 @@ final class Str
 	 */
 	public static function endsWith(string $string, string $suffix, bool $caseSensitive = true, string $encoding = null) : bool
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$length = mb_strlen($suffix, $encoding);
 		$search = mb_substr($string, (0 - $length), null, $encoding);
 
@@ -1192,7 +1192,7 @@ final class Str
 	{
 		foreach ($suffixes as $suffix)
 		{
-			if (static::endsWith($string, $suffix, $caseSensitive, $encoding))
+			if (Str::endsWith($string, $suffix, $caseSensitive, $encoding))
 				return true;
 		}
 
@@ -1209,7 +1209,7 @@ final class Str
 	 */
 	public static function ensureStartsWith(string $string, string $prefix, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$length = mb_strlen($prefix, $encoding);
 
 		if (mb_substr($string, 0, $length, $encoding) !== $prefix)
@@ -1228,7 +1228,7 @@ final class Str
 	 */
 	public static function ensureEndsWith(string $string, string $suffix, string $encoding = null) : string
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$length = mb_strlen($suffix, $encoding);
 
 		if (mb_substr($string, (0 - $length), null, $encoding) !== $suffix)
@@ -1250,8 +1250,8 @@ final class Str
 		if (empty($string))
 			return $character . $character;
 
-		$string = static::ensureStartsWith($string, $character, $encoding);
-		$string = static::ensureEndsWith($string, $character, $encoding);
+		$string = Str::ensureStartsWith($string, $character, $encoding);
+		$string = Str::ensureEndsWith($string, $character, $encoding);
 
 		return $string;
 	}
@@ -1276,7 +1276,7 @@ final class Str
 			return array_reverse(explode($search, $string, 2))[0];
 		else
 		{
-			$encoding = static::_getEncoding($encoding);
+			$encoding = Str::_getEncoding($encoding);
 			$start = mb_stripos($string, $search, 0, $encoding);
 			$start += mb_strlen($search, $encoding);
 			$string = mb_substr($string, $start, null, $encoding);
@@ -1303,7 +1303,7 @@ final class Str
 			return array_reverse(explode($search, $string))[0];
 		else
 		{
-			$encoding = static::_getEncoding($encoding);
+			$encoding = Str::_getEncoding($encoding);
 			$start = mb_strripos($string, $search, 0, $encoding);
 			$start += mb_strlen($search, $encoding);
 			$string = mb_substr($string, $start, null, $encoding);
@@ -1330,7 +1330,7 @@ final class Str
 			return explode($search, $string)[0];
 		else
 		{
-			$encoding = static::_getEncoding($encoding);
+			$encoding = Str::_getEncoding($encoding);
 			$pos = mb_stripos($string, $search, 0, $encoding);
 			$string = mb_substr($string, 0, $pos, $encoding);
 
@@ -1352,7 +1352,7 @@ final class Str
 		if ($search === '')
 			return $string;
 
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 
 		if ($caseSensitive)
 			$pos = mb_strrpos($string, $search, 0, $encoding);
@@ -1679,7 +1679,7 @@ final class Str
 	 */
 	public static function contains(string $string, string $needle, bool $caseSensitive = true, string $encoding = null) : bool
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 
 		if ($caseSensitive)
 			$result = ($needle !== '' and mb_strpos($string, $needle, 0, $encoding) !== false);
@@ -1702,7 +1702,7 @@ final class Str
 	{
 		foreach ($needles as $needle)
 		{
-			if (static::contains($string, $needle, $caseSensitive, $encoding))
+			if (Str::contains($string, $needle, $caseSensitive, $encoding))
 				return true;
 		}
 
@@ -1725,7 +1725,7 @@ final class Str
 
 		foreach ($needles as $needle)
 		{
-			if (!static::contains($string, $needle, $caseSensitive, $encoding))
+			if (!Str::contains($string, $needle, $caseSensitive, $encoding))
 				return false;
 		}
 
@@ -1769,7 +1769,7 @@ final class Str
 	 */
 	public static function chars(string $string, string $encoding = null) : array
 	{
-		$encoding = static::_getEncoding($encoding);
+		$encoding = Str::_getEncoding($encoding);
 		$chars = [];
 
 		for ($i = 0, $n = mb_strlen($string, $encoding); $i < $n; ++$i)

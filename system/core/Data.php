@@ -450,30 +450,30 @@ final class Data
 			switch ($toType)
 			{
 				case 'string':
-					$data = static::ensureString($data);
+					$data = Data::ensureString($data);
 					break;
 
 				case 'int':
 				case 'integer':
-					$data = static::ensureInt($data);
+					$data = Data::ensureInt($data);
 					break;
 
 				case 'float':
 				case 'double':
-					$data = static::ensureFloat($data);
+					$data = Data::ensureFloat($data);
 					break;
 
 				case 'bool':
 				case 'boolean':
-					$data = static::ensureBool($data);
+					$data = Data::ensureBool($data);
 					break;
 
 				case 'array':
-					$data = static::ensureArray($data);
+					$data = Data::ensureArray($data);
 					break;
 
 				case 'object':
-					$data = static::ensureObject($data);
+					$data = Data::ensureObject($data);
 					break;
 
 				case 'null':

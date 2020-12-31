@@ -113,67 +113,67 @@ class Model
 
 	public function __construct()
 	{
-		static::_setTable();
+		Model::_setTable();
 
-		$table = static::_getTable();
+		$table = Model::_getTable();
 		$columns = DB::getColumnListing($table);
 
-		static::$_instance[$table] = $this;
+		Model::$_instance[$table] = $this;
 
 		foreach ($columns as $column)
-			static::$_instance[$table]->$column = null;
+			Model::$_instance[$table]->$column = null;
 
-		return static::$_instance[$table];
+		return Model::$_instance[$table];
 	}
 
 	private static function _getInstance()
 	{
-		$table = static::_getTable();
+		$table = Model::_getTable();
 
-		if (!isset(static::$_instance[$table]))
+		if (!isset(Model::$_instance[$table]))
 			new static();
 
-		return static::$_instance[$table];
+		return Model::$_instance[$table];
 	}
 
 	public static function table($table)
 	{
-		static::$_table = $table;
+		Model::$_table = $table;
 
-		return static::_getInstance();
+		return Model::_getInstance();
 	}
 
 	private static function _getTable()
 	{
-		if (empty(static::$table))
-			static::_setTable();
+		if (empty(Model::$table))
+			Model::_setTable();
 		else
-			static::$_table = static::$table;
+			Model::$_table = Model::$table;
 
-		return static::$_table;
+		return Model::$_table;
 	}
 
 	private static function _setTable()
 	{
-		if (empty(static::$_table))
-			static::$_table = get_called_class();
+		if (empty(Model::$_table))
+			Model::$_table = get_called_class();
 	}
 
 	public static function __callStatic($method, $args)
 	{
-		return static::_processCall($method, $args);
+		return Model::_processCall($method, $args);
 	}
 
 	public function __call($method, $args)
 	{
-		return static::_processCall($method, $args);
+		return Model::_processCall($method, $args);
 	}
 
 	private static function _processCall($method, $args)
 	{
-		$tasks = static::$_tasks;
-		$scopes = static::$_scopes;
-		$bys = static::$_bys;
+		$tasks = Model::$_tasks;
+		$scopes = Model::$_scopes;
+		$bys = Model::$_bys;
 
 		foreach ($tasks as $task)
 		{
@@ -186,7 +186,7 @@ class Model
 					if (substr($method, 0, strlen($pattern)) === $pattern)
 					{
 						$column = substr($method, strlen($pattern));
-						return static::{'_' . $task}($column, $args, $scope);
+						return Model::{'_' . $task}($column, $args, $scope);
 					}
 				}
 			}
@@ -210,17 +210,17 @@ class Model
 
 	private static function _load($column, $args, $scope)
 	{
-		$table = static::_getTable();
+		$table = Model::_getTable();
 
 		if ($column === 'Where')
-			static::_buildWhere($column, $args);
+			Model::_buildWhere($column, $args);
 		else
 		{
 			$columns = DB::getColumnListing($table);
 
 			if (in_array('status', $columns))
 			{
-				$cs = static::_extractColumn($column);
+				$cs = Model::_extractColumn($column);
 
 				$autoWhereStatus = true;
 				$seeklist = ['StatusGreaterThan',
@@ -262,7 +262,7 @@ class Model
 					{
 						DB::where(function () use ($column, $args)
 						{
-							static::_buildWhere($column, $args);
+							Model::_buildWhere($column, $args);
 						});
 					}
 
@@ -272,10 +272,10 @@ class Model
 						DB::where('status', 2);
 				}
 				elseif ($column)
-					static::_buildWhere($column, $args);
+					Model::_buildWhere($column, $args);
 			}
 			elseif ($column)
-				static::_buildWhere($column, $args);
+				Model::_buildWhere($column, $args);
 		}
 
 		$data = DB::table($table)->{'load' . $scope}();
@@ -284,8 +284,8 @@ class Model
 			return $data;
 		else
 		{
-			static::_getInstance();
-			$instance = static::$_instance[$table];
+			Model::_getInstance();
+			$instance = Model::$_instance[$table];
 
 			foreach ($data as $key => $value)
 				$instance->$key = $value;
@@ -296,40 +296,40 @@ class Model
 
 	private static function _activate($column, $args)
 	{
-		DB::table(static::_getTable());
-		static::_buildWhere($column, $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($column, $args);
 
 		return DB::activate();
 	}
 
 	private static function _deactivate($column, $args)
 	{
-		DB::table(static::_getTable());
-		static::_buildWhere($column, $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($column, $args);
 
 		return DB::deactivate();
 	}
 
 	private static function _archive($column, $args)
 	{
-		DB::table(static::_getTable());
-		static::_buildWhere($column, $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($column, $args);
 
 		return DB::archive();
 	}
 
 	private static function _trash($column, $args)
 	{
-		DB::table(static::_getTable());
-		static::_buildWhere($column, $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($column, $args);
 
 		return DB::trash();
 	}
 
 	private static function _discontinue($column, $args)
 	{
-		DB::table(static::_getTable());
-		static::_buildWhere($column, $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($column, $args);
 
 		return DB::discontinue();
 	}
@@ -337,10 +337,10 @@ class Model
 	private static function _increase($column, $args)
 	{
 		$arr = explode('By', $column);
-		$column = static::_formatColumnName($arr[0]);
+		$column = Model::_formatColumnName($arr[0]);
 
-		DB::table(static::_getTable());
-		static::_buildWhere($arr[1], $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($arr[1], $args);
 
 		return DB::increase($column, Arr::last($args));
 	}
@@ -348,10 +348,10 @@ class Model
 	private static function _decrease($column, $args)
 	{
 		$arr = explode('By', $column);
-		$column = static::_formatColumnName($arr[0]);
+		$column = Model::_formatColumnName($arr[0]);
 
-		DB::table(static::_getTable());
-		static::_buildWhere($arr[1], $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($arr[1], $args);
 
 		if ($arr[1] === 'Where')
 		{
@@ -378,7 +378,7 @@ class Model
 		}
 		else
 		{
-			$columns = static::_extractColumn($arr[1]);
+			$columns = Model::_extractColumn($arr[1]);
 
 			// Product::decreaseOrderingById(1, 2, 3);
 			// $num should be 2 not 3
@@ -393,31 +393,31 @@ class Model
 
 	private static function _delete($column, $args)
 	{
-		DB::table(static::_getTable());
-		static::_buildWhere($column, $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($column, $args);
 
 		return DB::delete(true);
 	}
 
 	private static function _truncate()
 	{
-		return DB::table(static::_getTable())->truncate(true);
+		return DB::table(Model::_getTable())->truncate(true);
 	}
 
 	private static function _count($column, $args)
 	{
 		$arr = explode('By', $column);
-		DB::table(static::_getTable());
+		DB::table(Model::_getTable());
 
 		if (count($arr) > 1)
 		{
-			$column = static::_formatColumnName($arr[0]);
-			static::_buildWhere($arr[1], $args);
+			$column = Model::_formatColumnName($arr[0]);
+			Model::_buildWhere($arr[1], $args);
 		}
 		else
 		{
 			$column = '*';
-			static::_buildWhere($arr[0], $args);
+			Model::_buildWhere($arr[0], $args);
 		}
 
 		return DB::count($column);
@@ -426,10 +426,10 @@ class Model
 	private static function _sum($column, $args)
 	{
 		$arr = explode('By', $column);
-		$column = static::_formatColumnName($arr[0]);
+		$column = Model::_formatColumnName($arr[0]);
 
-		DB::table(static::_getTable());
-		static::_buildWhere($arr[1], $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($arr[1], $args);
 
 		return DB::sum($column);
 	}
@@ -437,10 +437,10 @@ class Model
 	private static function _min($column, $args)
 	{
 		$arr = explode('By', $column);
-		$column = static::_formatColumnName($arr[0]);
+		$column = Model::_formatColumnName($arr[0]);
 
-		DB::table(static::_getTable());
-		static::_buildWhere($arr[1], $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($arr[1], $args);
 
 		return DB::min($column);
 	}
@@ -448,10 +448,10 @@ class Model
 	private static function _max($column, $args)
 	{
 		$arr = explode('By', $column);
-		$column = static::_formatColumnName($arr[0]);
+		$column = Model::_formatColumnName($arr[0]);
 
-		DB::table(static::_getTable());
-		static::_buildWhere($arr[1], $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($arr[1], $args);
 
 		return DB::max($column);
 	}
@@ -459,10 +459,10 @@ class Model
 	private static function _avg($column, $args)
 	{
 		$arr = explode('By', $column);
-		$column = static::_formatColumnName($arr[0]);
+		$column = Model::_formatColumnName($arr[0]);
 
-		DB::table(static::_getTable());
-		static::_buildWhere($arr[1], $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($arr[1], $args);
 
 		return DB::avg($column);
 	}
@@ -470,10 +470,10 @@ class Model
 	private static function _std($column, $args)
 	{
 		$arr = explode('By', $column);
-		$column = static::_formatColumnName($arr[0]);
+		$column = Model::_formatColumnName($arr[0]);
 
-		DB::table(static::_getTable());
-		static::_buildWhere($arr[1], $args);
+		DB::table(Model::_getTable());
+		Model::_buildWhere($arr[1], $args);
 
 		return DB::std($column);
 	}
@@ -504,7 +504,7 @@ class Model
 		// Product::loadById(1);
 		else
 		{
-			$columns = static::_extractColumn($column);
+			$columns = Model::_extractColumn($column);
 
 			foreach ($columns as $index => $column)
 			{
@@ -525,31 +525,31 @@ class Model
 				if (substr($column, -14) === 'NotGreaterThan')
 				{
 					$column = rtrim($column, 'NotGreaterThan');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method}($column, '<=', $value);
 				}
 				elseif (substr($column, -11) === 'GreaterThan')
 				{
 					$column = rtrim($column, 'GreaterThan');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method}($column, '>', $value);
 				}
 				elseif (substr($column, -11) === 'NotLessThan')
 				{
 					$column = rtrim($column, 'NotLessThan');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method}($column, '>=', $value);
 				}
 				elseif (substr($column, -8) === 'LessThan')
 				{
 					$column = rtrim($column, 'LessThan');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method}($column, '<', $value);
 				}
 				elseif (substr($column, -10) === 'NotContain')
 				{
 					$column = rtrim($column, 'NotContain');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 
 					if (is_array($value) or is_object($value))
 					{
@@ -565,7 +565,7 @@ class Model
 				elseif (substr($column, -7) === 'Contain')
 				{
 					$column = rtrim($column, 'Contain');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 
 					if (is_array($value) or is_object($value))
 					{
@@ -581,7 +581,7 @@ class Model
 				elseif (substr($column, -12) === 'NotStartWith')
 				{
 					$column = rtrim($column, 'NotStartWith');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 
 					if (is_array($value) or is_object($value))
 					{
@@ -597,7 +597,7 @@ class Model
 				elseif (substr($column, -9) === 'StartWith')
 				{
 					$column = rtrim($column, 'StartWith');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 
 					if (is_array($value) or is_object($value))
 					{
@@ -613,7 +613,7 @@ class Model
 				elseif (substr($column, -10) === 'NotEndWith')
 				{
 					$column = rtrim($column, 'NotEndWith');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 
 					if (is_array($value) or is_object($value))
 					{
@@ -629,7 +629,7 @@ class Model
 				elseif (substr($column, -7) === 'EndWith')
 				{
 					$column = rtrim($column, 'EndWith');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 
 					if (is_array($value) or is_object($value))
 					{
@@ -645,48 +645,48 @@ class Model
 				elseif (substr($column, -10) === 'NotBetween')
 				{
 					$column = rtrim($column, 'NotBetween');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method . 'NotBetween'}($column, Arr::first($value), Arr::last($value));
 				}
 				elseif (substr($column, -7) === 'Between')
 				{
 					$column = rtrim($column, 'Between');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method . 'Between'}($column, Arr::first($value), Arr::last($value));
 				}
 				elseif (substr($column, -5) === 'NotIn')
 				{
 					$column = rtrim($column, 'NotIn');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method . 'NotIn'}($column, $value);
 				}
 				elseif (substr($column, -2) === 'In')
 				{
 					$column = rtrim($column, 'In');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method . 'In'}($column, $value);
 				}
 				elseif (substr($column, -9) === 'IsNotNull')
 				{
 					$column = rtrim($column, 'IsNotNull');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method . 'NotNull'}($column);
 				}
 				elseif (substr($column, -6) === 'IsNull')
 				{
 					$column = rtrim($column, 'IsNull');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method . 'Null'}($column);
 				}
 				elseif (substr($column, -3) === 'Not')
 				{
 					$column = rtrim($column, 'Not');
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method}($column, '!=', $value);
 				}
 				else
 				{
-					$column = static::_formatColumnName($column);
+					$column = Model::_formatColumnName($column);
 					DB::{$method}($column, $value);
 				}
 			}
@@ -720,7 +720,7 @@ class Model
 			$args = @$args[1];
 		}
 
-		return DB::table(static::_getTable())->where($where, $args)->load();
+		return DB::table(Model::_getTable())->where($where, $args)->load();
 	}
 
 	public static function __loadAllWhere($where)
@@ -739,12 +739,12 @@ class Model
 			$args = @$args[1];
 		}
 
-		return DB::table(static::_getTable())->where($where, $args)->loadAll();
+		return DB::table(Model::_getTable())->where($where, $args)->loadAll();
 	}
 
 	/*public static function deleteAll()
 	{
-		return DB::table(static::_getTable())->deleteAll();
+		return DB::table(Model::_getTable())->deleteAll();
 	}*/
 
 	// abstract method
@@ -755,12 +755,12 @@ class Model
 
 	public static function errorInfo()
 	{
-		return static::$error;
+		return Model::$error;
 	}
 
 	private static function _validate()
 	{
-		$columns = static::rules();
+		$columns = Model::rules();
 
 		foreach ($columns as $column => $validate)
 		{
@@ -852,7 +852,7 @@ class Model
 
 			foreach ($rules as $rule => $value)
 			{
-				$data = trim(@static::$_writeData[$column]);
+				$data = trim(@Model::$_writeData[$column]);
 
 				$error = '';
 				$spec = $value['value'];
@@ -930,7 +930,7 @@ class Model
 						$error = $label . ($message ? $message : ' length must between ' . $min . ' and ' . $max);
 				}
 
-				elseif ($rule === 'equalto' and $data != trim(@static::$_writeData[$spec]))
+				elseif ($rule === 'equalto' and $data != trim(@Model::$_writeData[$spec]))
 					$error = $label . ($message ? $message : ' must same as ' . $spec);
 
 				// other
@@ -967,11 +967,11 @@ class Model
 					foreach ($arr as $key)
 					{
 						if (trim($key))
-							$dataSet[$key] = @static::$_readData[$key];
+							$dataSet[$key] = @Model::$_readData[$key];
 					}
 					*/
 
-					if (DB::table(static::$_table)->duplicate($dataSet, static::$_readData['id']))
+					if (DB::table(Model::$_table)->duplicate($dataSet, Model::$_readData['id']))
 						$error = $label . ($message ? $message : ' is exists.');
 
 					unset($dataSet); // Don't forget to reset variable for each loop
@@ -979,15 +979,15 @@ class Model
 
 				if ($error)
 				{
-					static::$error .= '<li>' . $error . '</li>';
+					Model::$error .= '<li>' . $error . '</li>';
 					break;
 				}
 			}
 		}
 
-		if (static::$error)
+		if (Model::$error)
 		{
-			static::$error = '<ul>' . static::$error . '</ul>';
+			Model::$error = '<ul>' . Model::$error . '</ul>';
 			return false;
 		}
 
@@ -996,7 +996,7 @@ class Model
 
 	public static function exists($data = null)
 	{
-		return DB::table(static::_getTable())->exists($data, true);
+		return DB::table(Model::_getTable())->exists($data, true);
 	}
 
 	public static function bind($data)
@@ -1005,20 +1005,20 @@ class Model
 			$data = $data[0];
 
 		foreach ($data as $key => $value)
-			static::$_instance[static::_getTable()]->$key = $value;
+			Model::$_instance[Model::_getTable()]->$key = $value;
 	}
 
 	public static function save()
 	{
 
-//		if (!static::_validate())
+//		if (!Model::_validate())
 //		{
-//			echo static::$error;
+//			echo Model::$error;
 //			return false;
 //		}
 
-		$instance = static::$_instance[static::_getTable()];
-		$columns = DB::getColumnListing(static::$_table);
+		$instance = Model::$_instance[Model::_getTable()];
+		$columns = DB::getColumnListing(Model::$_table);
 		$userId = (int)@Auth::identity()->id;
 
 		if (@$instance->id)
@@ -1034,12 +1034,12 @@ class Model
 
 			$instance = Arr::fromObject($instance);
 
-			DB::table(static::$_table)->update($instance);
+			DB::table(Model::$_table)->update($instance);
 		}
 		else
 		{
 			if (in_array('ordering', $columns))
-				$instance->ordering = DB::table(static::$_table)->getNewOrdering();
+				$instance->ordering = DB::table(Model::$_table)->getNewOrdering();
 
 			if (in_array('created', $columns))
 				$instance->created = date('Y-m-d H:i:s');
@@ -1049,7 +1049,7 @@ class Model
 
 			$instance = Arr::fromObject($instance);
 
-			DB::table(static::$_table)->insert($instance);
+			DB::table(Model::$_table)->insert($instance);
 			$instance->id = DB::getLastInsertId();
 		}
 

@@ -80,7 +80,7 @@ final class Inflector
 	 */
 	public static function pluralize(string $string) : string
 	{
-		if (!static::isCountableWord($string))
+		if (!Inflector::isCountableWord($string))
 			return $string;
 
 		$rules = [
@@ -148,7 +148,7 @@ final class Inflector
 	 */
 	public static function singularize(string $string) : string
 	{
-		if (!static::isCountableWord($string))
+		if (!Inflector::isCountableWord($string))
 			return $string;
 
 		$rules = [
@@ -251,7 +251,7 @@ final class Inflector
 	 */
 	public static function explode(string $string) : array
 	{
-		$string = explode('_', static::underscore($string));
+		$string = explode('_', Inflector::underscore($string));
 
 		return $string;
 	}
@@ -266,7 +266,7 @@ final class Inflector
 	 */
 	public static function implode(array $string) : string
 	{
-		$string = static::camelize(implode('_', $string));
+		$string = Inflector::camelize(implode('_', $string));
 
 		return $string;
 	}
@@ -302,7 +302,7 @@ final class Inflector
 	 */
 	public static function variablize(string $string) : string
 	{
-		$string   = static::camelize(static::underscore($string));
+		$string   = Inflector::camelize(Inflector::underscore($string));
 		$firstChar   = mb_strtolower(mb_substr($string, 0, 1));
 		$string = preg_replace('/\\w/', $firstChar, $string, 1);
 
@@ -319,7 +319,7 @@ final class Inflector
 	{
 		if ($string)
 		{
-			$string = static::variablize($string);
+			$string = Inflector::variablize($string);
 			$string = Str::ensureEndsWith($string, 'Id');
 		}
 
@@ -397,7 +397,7 @@ final class Inflector
 	 */
 	public static function controllerize(string $string) : string
 	{
-		$controller = static::camelize($string) . 'Controller';
+		$controller = Inflector::camelize($string) . 'Controller';
 
 		return $controller;
 	}
@@ -408,7 +408,7 @@ final class Inflector
 	 */
 	public static function actionize(string $string) : string
 	{
-		$action = static::camelize($string) . 'Action';
+		$action = Inflector::camelize($string) . 'Action';
 
 		return $action;
 	}

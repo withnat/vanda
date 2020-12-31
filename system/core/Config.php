@@ -63,7 +63,7 @@ final class Config
 		$keys = explode('.', $key);
 		$file = current($keys);
 
-		if (!array_key_exists($file, static::$configs))
+		if (!array_key_exists($file, Config::$configs))
 		{
 			$path = PATH_BASE . DS . 'config' . DS . ENV . DS . $file . '.php';
 
@@ -72,10 +72,10 @@ final class Config
 
 			// Don't use include_once because /System/requirements.php need to include config file too!
 			// However, above IF array_key_exists condition will include config file once.
-			static::$configs[$file] = include($path);
+			Config::$configs[$file] = include($path);
 		}
 
-		return Arr::get(static::$configs, $key, $default);
+		return Arr::get(Config::$configs, $key, $default);
 	}
 
 	/**
@@ -87,7 +87,7 @@ final class Config
 	 */
 	public static function set(string $key, $value) : void
 	{
-		Arr::set(static::$configs, $key, $value);
+		Arr::set(Config::$configs, $key, $value);
 	}
 
 	/**
@@ -98,7 +98,7 @@ final class Config
 	 */
 	public static function remove(string $key) : void
 	{
-		Arr::removeKey(static::$configs, $key);
+		Arr::removeKey(Config::$configs, $key);
 	}
 
 	/**
@@ -122,6 +122,6 @@ final class Config
 		else
 			$default = null;
 
-		return static::get($key, $default);
+		return Config::get($key, $default);
 	}
 }

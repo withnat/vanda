@@ -65,7 +65,7 @@ final class Language
 		else
 			$code = DB::where('default', 1)->loadSingle();
 
-		static::$_code = $code;
+		Language::$_code = $code;
 	}
 
 	/**
@@ -86,7 +86,7 @@ final class Language
 		if ($direction != 'rtl')
 			$direction = 'ltr';
 
-		static::$_direction = $direction;
+		Language::$_direction = $direction;
 	}
 
 	/**
@@ -95,10 +95,10 @@ final class Language
 	 */
 	private static function _getLanguage(int $langId = null) : void
 	{
-		static::_getCode($langId);
-		static::_getDirection($langId);
+		Language::_getCode($langId);
+		Language::_getDirection($langId);
 
-		$code = static::$_code;
+		$code = Language::$_code;
 
 		$langPaths = [
 			PATH_APP . DS . 'languages' . DS . SIDE . DS . $code . DS . $code . '.ini',
@@ -132,7 +132,7 @@ final class Language
 			}
 		}
 
-		static::$_strings[$langId] = array_merge($globalStrings, $moduleStrings);
+		Language::$_strings[$langId] = array_merge($globalStrings, $moduleStrings);
 	}
 
 	/**
@@ -145,11 +145,11 @@ final class Language
 		if (!$string)
 			return '';
 
-		if (!isset(static::$_strings[$langId]))
-			static::_getLanguage($langId);
+		if (!isset(Language::$_strings[$langId]))
+			Language::_getLanguage($langId);
 
-		if (isset(static::$_strings[$langId][$string]))
-			$string = static::$_strings[$langId][$string];
+		if (isset(Language::$_strings[$langId][$string]))
+			$string = Language::$_strings[$langId][$string];
 
 		return $string;
 	}
@@ -160,10 +160,10 @@ final class Language
 	 */
 	public static function code(int $langId = null) : string
 	{
-		if (!static::$_code)
-			static::_getCode($langId);
+		if (!Language::$_code)
+			Language::_getCode($langId);
 
-		return static::$_code;
+		return Language::$_code;
 	}
 
 	/**
@@ -172,9 +172,9 @@ final class Language
 	 */
 	public static function direction(int $langId = null) : string
 	{
-		if (!static::$_direction)
-			static::_getDirection($langId);
+		if (!Language::$_direction)
+			Language::_getDirection($langId);
 
-		return static::$_direction;
+		return Language::$_direction;
 	}
 }
