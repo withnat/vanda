@@ -57,6 +57,7 @@ final class Request
 	protected static $_postValuesXSS;
 	protected static $_method;
 	protected static $_ip;
+	protected static $_host;
 	protected static $_basePath;
 	protected static $_isAjax;
 
@@ -216,23 +217,26 @@ final class Request
 	}
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public static function host() : ?string
+	public static function host() : string
 	{
-		if (isset($_SERVER['HTTP_HOST']))
+		if (is_null(Request::$_host))
 		{
-			if (Request::isSecure())
-				$protocol = 'https://';
-			else
-				$protocol = 'http://';
+			if (isset($_SERVER['HTTP_HOST']))
+			{
+				if (Request::isSecure())
+					$protocol = 'https://';
+				else
+					$protocol = 'http://';
 
-			$host = $protocol . Request::server('HTTP_HOST');
-
-			return $host;
+				Request::$_host = $protocol . Request::server('HTTP_HOST');
+			}
+			else // CLI
+				Request::$_host = '';
 		}
-		else // CLI
-			return null;
+
+		return Request::$_host;
 	}
 
 	/**
