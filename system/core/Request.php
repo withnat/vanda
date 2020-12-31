@@ -122,15 +122,6 @@ final class Request
 	}
 
 	/**
-	 * @param  string $key
-	 * @return mixed
-	 */
-	public static function server(string $key)
-	{
-		return $_SERVER[$key] ?? null;
-	}
-
-	/**
 	 * @return string|null
 	 */
 	public static function method() : ?string
@@ -146,15 +137,6 @@ final class Request
 		}
 
 		return Request::$_method;
-	}
-
-	/**
-	 * @return string|null
-	 * @codeCoverageIgnore
-	 */
-	public static function referer() : ?string
-	{
-		return $_SERVER['HTTP_REFERER'] ?? null;
 	}
 
 	/**
@@ -231,28 +213,6 @@ final class Request
 		}
 
 		return Request::$_ip;
-	}
-
-	/**
-	 * Get the server protocol.
-	 *
-	 * @return string|null
-	 * @codeCoverageIgnore
-	 */
-	public static function protocol() : ?string
-	{
-		return $_SERVER['SERVER_PROTOCOL'] ?? null;
-	}
-
-	/**
-	 * Get the scheme.
-	 *
-	 * @return string|null
-	 * @codeCoverageIgnore
-	 */
-	public static function scheme() : ?string
-	{
-		return $_SERVER['REQUEST_SCHEME'] ?? null;
 	}
 
 	/**
@@ -409,6 +369,46 @@ final class Request
 
 			Response::redirect($redirect);
 		}
+	}
+
+	/**
+	 * @param  string $key
+	 * @return mixed
+	 */
+	public static function server(string $key)
+	{
+		return $_SERVER[$key] ?? null;
+	}
+
+	/**
+	 * @return string|null
+	 * @codeCoverageIgnore
+	 */
+	public static function referer() : ?string
+	{
+		return $_SERVER['HTTP_REFERER'] ?? null;
+	}
+
+	/**
+	 * Get the server protocol.
+	 *
+	 * @return string|null
+	 * @codeCoverageIgnore
+	 */
+	public static function protocol() : ?string
+	{
+		return $_SERVER['SERVER_PROTOCOL'] ?? null;
+	}
+
+	/**
+	 * Get the scheme.
+	 *
+	 * @return string|null
+	 * @codeCoverageIgnore
+	 */
+	public static function scheme() : ?string
+	{
+		return $_SERVER['REQUEST_SCHEME'] ?? null;
 	}
 
 	/**
