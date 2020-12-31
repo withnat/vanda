@@ -428,6 +428,8 @@ final class Request
 			if (strtolower($key) === strtolower($name))
 				return $value;
 		}
+
+		return null;
 	}
 
 	/**
