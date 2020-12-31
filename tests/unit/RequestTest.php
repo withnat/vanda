@@ -394,6 +394,10 @@ final class RequestTest extends TestCase
 
 	// Request::host()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodHostCase1() : void
 	{
 		$_SERVER['HTTP_HOST'] = 'localhost';
@@ -407,6 +411,10 @@ final class RequestTest extends TestCase
 		unset($_SERVER['SERVER_PORT']);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodHostCase2() : void
 	{
 		$_SERVER['HTTP_HOST'] = 'localhost';
@@ -420,11 +428,15 @@ final class RequestTest extends TestCase
 		unset($_SERVER['SERVER_PORT']);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodHostCase3() : void
 	{
 		$result = Request::host();
 
-		$this->assertNull($result);
+		$this->assertEmpty('', $result);
 	}
 
 	// Request::basePath()
