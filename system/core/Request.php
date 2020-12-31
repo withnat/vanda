@@ -216,18 +216,23 @@ final class Request
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public static function host() : string
+	public static function host() : ?string
 	{
-		if (Request::isSecure())
-			$protocol = 'https://';
-		else
-			$protocol = 'http://';
+		if (isset($_SERVER['HTTP_HOST']))
+		{
+			if (Request::isSecure())
+				$protocol = 'https://';
+			else
+				$protocol = 'http://';
 
-		$host = $protocol . Request::server('HTTP_HOST');
+			$host = $protocol . Request::server('HTTP_HOST');
 
-		return $host;
+			return $host;
+		}
+		else // CLI
+			return null;
 	}
 
 	/**
