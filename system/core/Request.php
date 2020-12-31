@@ -419,7 +419,7 @@ final class Request
 	 * @return string|null
 	 * @codeCoverageIgnore
 	 */
-	public static function header(string $name)
+	public static function header(string $name) : ?string
 	{
 		// Don't add "ext-apache" to composer.json.
 		// It will make updating composer fail.
