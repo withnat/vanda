@@ -322,13 +322,21 @@ final class RequestTest extends TestCase
 
 	// Request::method()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodMethodCase1() : void
 	{
 		$result = Request::method();
 
-		$this->assertNull($result);
+		$this->assertEquals('', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodMethodCase2() : void
 	{
 		$_SERVER['REQUEST_METHOD'] = 'get';
