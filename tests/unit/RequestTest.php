@@ -485,6 +485,25 @@ final class RequestTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
+	public function testMethodUriCase11() : void
+	{
+		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.4.41 (Ubuntu)';
+		$_SERVER['SCRIPT_NAME'] = '/index.php'; // for method Request::basePath()
+		$_SERVER['REQUEST_URI'] = '/index.php';
+
+		$result = Request::uri();
+
+		$this->assertEquals('/index.php', $result);
+
+		unset($_SERVER['SERVER_SOFTWARE']);
+		unset($_SERVER['SCRIPT_NAME']);
+		unset($_SERVER['REQUEST_URI']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodUriCase2() : void
 	{
 		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.4.41 (Ubuntu)';
@@ -506,6 +525,25 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodUriCase3() : void
 	{
+		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.4.41 (Ubuntu)';
+		$_SERVER['SCRIPT_NAME'] = '/vanda/index.php'; // for method Request::basePath()
+		$_SERVER['REQUEST_URI'] = '/vanda/index.php';
+
+		$result = Request::uri();
+
+		$this->assertEquals('/index.php', $result);
+
+		unset($_SERVER['SERVER_SOFTWARE']);
+		unset($_SERVER['SCRIPT_NAME']);
+		unset($_SERVER['REQUEST_URI']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodUriCase4() : void
+	{
 		$_SERVER['SERVER_SOFTWARE'] = 'Microsoft-IIS/10.0';
 		$_SERVER['SCRIPT_NAME'] = '/index.php'; // for method Request::basePath() and IIS
 		$_SERVER['QUERY_STRING'] = 'arg=value';
@@ -523,7 +561,24 @@ final class RequestTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodUriCase4() : void
+	public function testMethodUriCase5() : void
+	{
+		$_SERVER['SERVER_SOFTWARE'] = 'Microsoft-IIS/10.0';
+		$_SERVER['SCRIPT_NAME'] = '/index.php'; // for method Request::basePath() and IIS
+
+		$result = Request::uri();
+
+		$this->assertEquals('/index.php', $result);
+
+		unset($_SERVER['SERVER_SOFTWARE']);
+		unset($_SERVER['SCRIPT_NAME']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodUriCase6() : void
 	{
 		$_SERVER['SERVER_SOFTWARE'] = 'Microsoft-IIS/10.0';
 		$_SERVER['SCRIPT_NAME'] = '/vanda/index.php'; // for method Request::basePath() and IIS
@@ -542,7 +597,24 @@ final class RequestTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodUriCase5() : void
+	public function testMethodUriCase7() : void
+	{
+		$_SERVER['SERVER_SOFTWARE'] = 'Microsoft-IIS/10.0';
+		$_SERVER['SCRIPT_NAME'] = '/vanda/index.php'; // for method Request::basePath() and IIS
+
+		$result = Request::uri();
+
+		$this->assertEquals('/index.php', $result);
+
+		unset($_SERVER['SERVER_SOFTWARE']);
+		unset($_SERVER['SCRIPT_NAME']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodUriCase8() : void
 	{
 		// CLI mode must return ''
 		$result = Request::uri();
