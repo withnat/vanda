@@ -59,6 +59,7 @@ final class Request
 	protected static $_ip;
 	protected static $_host;
 	protected static $_basePath;
+	protected static $_uri;
 	protected static $_isAjax;
 
 	/**
@@ -253,13 +254,36 @@ final class Request
 	 */
 	public static function uri() : string
 	{
-		// IIS not recognizing ‘REQUEST_URI’
-		if (strpos((string)Request::server('SERVER_SOFTWARE'), 'IIS') !== false)
-			$_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 0);
+		if (is_null(Request::$_uri))
+		{
+			// HTTP Request (Don't use Request::isCli(). Otherwise,
+			// cannot test using PHPUnit that always run in CLI mode.
+			if (isset($_SERVER['SERVER_SOFTWARE']))
+			{
+				// Some versions of IIS not recognizing ‘REQUEST_URI’.
+				if (!isset($_SERVER['REQUEST_URI']))
+				{
+					// Some versions of IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable.
+					$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
 
-		// Remove Request::getBasePath() string only first occurrence of a string match.
-		// If not, it will remove all matches ie remove 'foo' from /foo/home/foobar.
-		return preg_replace('/' . str_replace('/', '\/', Request::basePath()) . '/i', '', $_SERVER['REQUEST_URI'], 1);
+					if (!empty($_SERVER['QUERY_STRING']))
+						$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
+				}
+
+				// Remove Request::basePath() string only first occurrence of a string match.
+				// Otherwise, it will remove all matches ie remove 'foo' from /foo/home/foobar.
+				$pattern = '/' . str_replace('/', '\/', Request::basePath()) . '/i';
+				$replacement = '';
+				$subject = $_SERVER['REQUEST_URI'];
+				$limit = 1;
+
+				Request::$_uri = preg_replace($pattern, $replacement, $subject, $limit);
+			}
+			else // CLI
+				Request::$_uri = '';
+		}
+
+		return Request::$_uri;
 	}
 
 	/**
