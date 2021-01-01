@@ -544,8 +544,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodUriCase5() : void
 	{
-		// Tell the framework we are runing in CLI mode,
-		// by don't specify $_SERVER['SERVER_SOFTWARE'] variable.
+		// CLI mode must return ''
 		$result = Request::uri();
 
 		$this->assertEquals('', $result);
