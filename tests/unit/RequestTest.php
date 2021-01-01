@@ -462,9 +462,14 @@ final class RequestTest extends TestCase
 
 	// Request::uri()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodUriCase1() : void
 	{
 		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.4.41 (Ubuntu)';
+		$_SERVER['SCRIPT_NAME'] = '/index.php'; // for method Request::basePath()
 		$_SERVER['REQUEST_URI'] = '/index.php?arg=value';
 
 		$result = Request::uri();
@@ -472,20 +477,78 @@ final class RequestTest extends TestCase
 		$this->assertEquals('/index.php?arg=value', $result);
 
 		unset($_SERVER['SERVER_SOFTWARE']);
+		unset($_SERVER['SCRIPT_NAME']);
 		unset($_SERVER['REQUEST_URI']);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodUriCase2() : void
 	{
-		$_SERVER['SERVER_SOFTWARE'] = 'IIS';
-		$_SERVER['PHP_SELF'] = '/index.php?arg=value';
+		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.4.41 (Ubuntu)';
+		$_SERVER['SCRIPT_NAME'] = '/vanda/index.php'; // for method Request::basePath()
+		$_SERVER['REQUEST_URI'] = '/vanda/index.php?arg=value';
 
 		$result = Request::uri();
 
 		$this->assertEquals('/index.php?arg=value', $result);
 
 		unset($_SERVER['SERVER_SOFTWARE']);
-		unset($_SERVER['PHP_SELF']);
+		unset($_SERVER['SCRIPT_NAME']);
+		unset($_SERVER['REQUEST_URI']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodUriCase3() : void
+	{
+		$_SERVER['SERVER_SOFTWARE'] = 'Microsoft-IIS/10.0';
+		$_SERVER['SCRIPT_NAME'] = '/index.php'; // for method Request::basePath() and IIS
+		$_SERVER['QUERY_STRING'] = 'arg=value';
+
+		$result = Request::uri();
+
+		$this->assertEquals('/index.php?arg=value', $result);
+
+		unset($_SERVER['SERVER_SOFTWARE']);
+		unset($_SERVER['SCRIPT_NAME']);
+		unset($_SERVER['QUERY_STRING']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodUriCase4() : void
+	{
+		$_SERVER['SERVER_SOFTWARE'] = 'Microsoft-IIS/10.0';
+		$_SERVER['SCRIPT_NAME'] = '/vanda/index.php'; // for method Request::basePath() and IIS
+		$_SERVER['QUERY_STRING'] = 'arg=value';
+
+		$result = Request::uri();
+
+		$this->assertEquals('/index.php?arg=value', $result);
+
+		unset($_SERVER['SERVER_SOFTWARE']);
+		unset($_SERVER['SCRIPT_NAME']);
+		unset($_SERVER['QUERY_STRING']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodUriCase5() : void
+	{
+		// Tell the framework we are runing in CLI mode,
+		// by don't specify $_SERVER['SERVER_SOFTWARE'] variable.
+		$result = Request::uri();
+
+		$this->assertEquals('', $result);
 	}
 
 	// Request::isSecure()
