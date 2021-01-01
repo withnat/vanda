@@ -256,20 +256,19 @@ final class Request
 	{
 		if (is_null(Request::$_uri))
 		{
-			// HTTP Request (Don't use Request::isCli(). Otherwise,
-			// cannot test using PHPUnit that always run in CLI mode.
-			if (isset($_SERVER['SERVER_SOFTWARE']))
+			// Some versions of IIS not recognizing ‘REQUEST_URI’ variable but
+			// uses the 'SCRIPT_NAME' variable instead of a 'REQUEST_URI' variable.
+			// (At least I know IIS/10.0 recognizing 'REQUEST_URI' variable)
+			if (empty($_SERVER['REQUEST_URI']) and strpos((string)Request::server('SERVER_SOFTWARE'), 'IIS') !== false)
 			{
-				// Some versions of IIS not recognizing ‘REQUEST_URI’.
-				if (!isset($_SERVER['REQUEST_URI']))
-				{
-					// Some versions of IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable.
-					$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
+				$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
 
-					if (!empty($_SERVER['QUERY_STRING']))
-						$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
-				}
+				if (!empty($_SERVER['QUERY_STRING']))
+					$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
+			}
 
+			if (!empty($_SERVER['REQUEST_URI']))
+			{
 				// Remove Request::basePath() string only first occurrence of a string match.
 				// Otherwise, it will remove all matches ie remove 'foo' from /foo/home/foobar.
 				$pattern = '/' . str_replace('/', '\/', Request::basePath()) . '/i';
@@ -279,7 +278,7 @@ final class Request
 
 				Request::$_uri = preg_replace($pattern, $replacement, $subject, $limit);
 			}
-			else // CLI
+			else
 				Request::$_uri = '';
 		}
 
