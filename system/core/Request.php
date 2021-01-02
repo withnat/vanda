@@ -304,7 +304,7 @@ final class Request
 		$https = Request::server('HTTPS');
 		$serverPort = Request::server('SERVER_PORT');
 
-		if ($https == '1' or $https == 'on' or $serverPort == 443)
+		if ($https === '1' or $https === 'on' or $serverPort === 443)
 			return true;
 		else
 			return false;
@@ -336,7 +336,7 @@ final class Request
 	{
 		if (is_null(Request::$_isAjax))
 		{
-			if ((string)Request::server('HTTP_X_REQUESTED_WITH') == 'xmlhttprequest')
+			if ((string)Request::server('HTTP_X_REQUESTED_WITH') === 'xmlhttprequest')
 				Request::$_isAjax = true;
 			else
 				Request::$_isAjax = false;
@@ -473,7 +473,7 @@ final class Request
 	{
 		if (is_null(Request::${'_' . $method . 'Values'}))
 		{
-			if ($method == 'get')
+			if ($method === 'get')
 				$values = $_GET;
 			else
 				$values = $_POST;

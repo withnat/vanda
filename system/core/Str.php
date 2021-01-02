@@ -165,7 +165,7 @@ final class Str
 	 */
 	public static function right(string $string, int $length = 1, string $encoding = null) : string
 	{
-		if ($length == 0)
+		if ($length === 0)
 			return '';
 
 		$encoding = Str::_getEncoding($encoding);

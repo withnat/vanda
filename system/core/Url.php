@@ -76,9 +76,9 @@ final class Url
 
 		$baseUrl = Url::$_baseUrl;
 
-		if ($secure === true and substr($baseUrl, 0, 7) == 'http://')
+		if ($secure === true and substr($baseUrl, 0, 7) === 'http://')
 			$baseUrl = substr_replace($baseUrl, 'https://', 0, 7);
-		elseif ($secure === false and substr($baseUrl, 0, 8) == 'https://')
+		elseif ($secure === false and substr($baseUrl, 0, 8) === 'https://')
 			$baseUrl = substr_replace($baseUrl, 'http://', 0, 8);
 
 		return $baseUrl;
@@ -96,9 +96,9 @@ final class Url
 			{
 				$side = getenv('SIDE');
 
-				if ($side == 'backend' and Config::app('defaultBackendModule'))
+				if ($side === 'backend' and Config::app('defaultBackendModule'))
 					Url::$_defaultUrl = Config::app('defaultBackendModule');
-				elseif ($side == 'frontend' and Config::app('defaultFrontendModule'))
+				elseif ($side === 'frontend' and Config::app('defaultFrontendModule'))
 					Url::$_defaultUrl = Config::app('defaultFrontendModule');
 				else
 					Url::$_defaultUrl = Url::create();
@@ -178,7 +178,7 @@ final class Url
 			$side = getenv('SIDE');
 			$lang = getenv('LANG');
 
-			if ($side == 'frontend')
+			if ($side === 'frontend')
 			{
 				$lang = ($lang ? '/' . $lang : '');
 				$url .= $prefix . $lang . $path;
@@ -208,9 +208,9 @@ final class Url
 			$url .= Url::$_fragment;
 		}
 
-		if ($secure === true and substr($url, 0, 7) == 'http://')
+		if ($secure === true and substr($url, 0, 7) === 'http://')
 			$url = substr_replace($url, 'https://', 0, 7);
-		elseif ($secure === false and substr($url, 0, 8) == 'https://')
+		elseif ($secure === false and substr($url, 0, 8) === 'https://')
 			$url = substr_replace($url, 'http://', 0, 8);
 
 		Url::reset();

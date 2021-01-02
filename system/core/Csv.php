@@ -234,7 +234,7 @@ final class Csv
 		{
 			foreach ($row as $key => $value)
 			{
-				if ($i == 0)
+				if ($i === 0)
 					$header .= $enclosure . Csv::safe($key, $enclosure) . $enclosure . $delimiter;
 
 				$csv .= $enclosure . Csv::safe($value, $enclosure) . $enclosure . $delimiter;
