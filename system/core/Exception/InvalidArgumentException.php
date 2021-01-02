@@ -62,7 +62,7 @@ class InvalidArgumentException extends \InvalidArgumentException
 
 	/**
 	 * @param  int         $argument
-	 * @param  array       $allowedDataTypes
+	 * @param  array|null  $allowedDataTypes
 	 * @param  mixed|null  $value
 	 * @param  string|null $customMsg
 	 * @return InvalidArgumentException
