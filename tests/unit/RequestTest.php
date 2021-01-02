@@ -354,6 +354,60 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIpCase2() : void
 	{
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '75.184.124.93, 10.194.95.79';
+
+		$mockedRequest = \Mockery::mock('alias:\System\Validator');
+		$mockedRequest->shouldReceive(['isValidIp' => true]);
+
+		$result = Request::ip();
+
+		$this->assertEquals('75.184.124.93', $result);
+
+		unset($_SERVER['HTTP_X_FORWARDED_FOR']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIpCase3() : void
+	{
+		$_SERVER['HTTP_CLIENT_IP'] = '75.184.124.93, 10.194.95.79';
+
+		$mockedRequest = \Mockery::mock('alias:\System\Validator');
+		$mockedRequest->shouldReceive(['isValidIp' => true]);
+
+		$result = Request::ip();
+
+		$this->assertEquals('75.184.124.93', $result);
+
+		unset($_SERVER['HTTP_CLIENT_IP']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIpCase4() : void
+	{
+		$_SERVER['REMOTE_ADDR'] = '223.24.187.34';
+
+		$mockedRequest = \Mockery::mock('alias:\System\Validator');
+		$mockedRequest->shouldReceive(['isValidIp' => true]);
+
+		$result = Request::ip();
+
+		$this->assertEquals('223.24.187.34', $result);
+
+		unset($_SERVER['REMOTE_ADDR']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIpCase5() : void
+	{
 		putenv('HTTP_X_FORWARDED_FOR=75.184.124.93, 10.194.95.79');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Validator');
@@ -370,7 +424,25 @@ final class RequestTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodIpCase3() : void
+	public function testMethodIpCase6() : void
+	{
+		putenv('HTTP_CLIENT_IP=75.184.124.93, 10.194.95.79');
+
+		$mockedRequest = \Mockery::mock('alias:\System\Validator');
+		$mockedRequest->shouldReceive(['isValidIp' => true]);
+
+		$result = Request::ip();
+
+		$this->assertEquals('75.184.124.93', $result);
+
+		putenv('HTTP_CLIENT_IP');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIpCase7() : void
 	{
 		putenv('REMOTE_ADDR=223.24.187.34');
 
