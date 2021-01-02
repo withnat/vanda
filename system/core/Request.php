@@ -256,9 +256,9 @@ final class Request
 	{
 		if (is_null(Request::$_uri))
 		{
-			// Some versions of IIS not recognizing ‘REQUEST_URI’ variable but
-			// uses the 'SCRIPT_NAME' variable instead of a 'REQUEST_URI' variable.
-			// (At least I know IIS/10.0 recognizing 'REQUEST_URI' variable)
+			// ‘REQUEST_URI’ variable is not recognized by some versions of IIS.
+			// (At least I know IIS 10 recognize 'REQUEST_URI' variable)
+			// Use a 'SCRIPT_NAME' variable instead of a 'REQUEST_URI' variable for IIS.
 			if (empty($_SERVER['REQUEST_URI']) and strpos((string)Request::server('SERVER_SOFTWARE'), 'IIS') !== false)
 			{
 				$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
