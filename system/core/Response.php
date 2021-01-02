@@ -52,4 +52,48 @@ final class Response
 	 * Response constructor.
 	 */
 	private function __construct(){}
+
+	/**
+	 * @param  string|null $url
+	 * @return void
+	 */
+	public static function redirect(string $url = null) : void
+	{
+		if (isSPA() and Request::isAjax())
+		{
+			$data = [
+				'title' => '',
+				'content' => '',
+				'redirect' => Uri::hashSPA($url)
+			];
+
+			echo json_encode($data);
+			exit;
+		}
+		else
+		{
+			header('Location:' . Uri::route($url));
+			exit;
+		}
+	}
+
+	public static function spa($data)
+	{
+		$data = [
+			'title' => @$data['title'],
+			'content' => @$data['content'],
+			'flash' => @$data['flash'],
+			'redirect' => Uri::hashSPA(@$data['url'])
+		];
+
+		$data = json_encode($data);
+
+		header('Expires: Mon, 27 Jul 1981 08:00:00 GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Cache-Control: no-store, no-cache, must-revalidate');
+		header('Cache-Control: post-check=0, pre-check=0', false);
+		header('Pragma: no-cache');
+
+		echo $data;
+	}
 }
