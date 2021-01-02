@@ -60,6 +60,7 @@ final class Request
 	protected static $_host;
 	protected static $_basePath;
 	protected static $_uri;
+	protected static $_isSecure;
 	protected static $_isAjax;
 
 	/**
@@ -132,7 +133,7 @@ final class Request
 		{
 			if (isset($_SERVER['REQUEST_METHOD']))
 				Request::$_method = strtolower($_SERVER['REQUEST_METHOD']);
-			else // CLI
+			else // if php is running from cli
 				Request::$_method = '';
 		}
 
@@ -229,9 +230,9 @@ final class Request
 				else
 					$protocol = 'http://';
 
-				Request::$_host = $protocol . Request::server('HTTP_HOST');
+				Request::$_host = $protocol . $_SERVER['HTTP_HOST'];
 			}
-			else // CLI
+			else // if php is running from cli
 				Request::$_host = '';
 		}
 
@@ -297,111 +298,6 @@ final class Request
 	}
 
 	/**
-	 * @return bool
-	 */
-	public static function isSecure() : bool
-	{
-		$https = Request::server('HTTPS');
-		$serverPort = Request::server('SERVER_PORT');
-
-		if ($https === '1' or $https === 'on' or $serverPort === 443)
-			return true;
-		else
-			return false;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function isGet() : bool
-	{
-		return Request::method() === 'get';
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function isPost() : bool
-	{
-		return Request::method() === 'post';
-	}
-
-	/**
-	 * Checks if the current request was sent
-	 * with a XMLHttpRequest header as sent by javascript.
-	 *
-	 * @return bool
-	 */
-	public static function isAjax() : bool
-	{
-		if (is_null(Request::$_isAjax))
-		{
-			if ((string)Request::server('HTTP_X_REQUESTED_WITH') === 'xmlhttprequest')
-				Request::$_isAjax = true;
-			else
-				Request::$_isAjax = false;
-		}
-
-		return Request::$_isAjax;
-	}
-
-	/**
-	 * Checks if the current request was sent
-	 * via the command line.
-	 *
-	 * @return bool
-	 */
-	public static function isCli() : bool
-	{
-		return PHP_SAPI === 'cli' or defined('STDIN');
-	}
-
-	/**
-	 * @param  string|null $redirect
-	 * @return void
-	 */
-	public static function ensureIsGet(string $redirect = null) : void
-	{
-		if (!Request::isGet())
-		{
-			if (!trim((string)$redirect))
-				$redirect = Url::default();
-
-			Response::redirect($redirect);
-		}
-	}
-
-	/**
-	 * @param  string|null $redirect
-	 * @return void
-	 */
-	public static function ensureIsPost(string $redirect = null) : void
-	{
-		if (!Request::isPost())
-		{
-			if (!trim((string)$redirect))
-				$redirect = Url::default();
-
-			Response::redirect($redirect);
-		}
-	}
-
-	/**
-	 * @param  string|null $redirect
-	 * @return void
-	 */
-	public static function ensureIsAjax(string $redirect = null) : void
-	{
-		if (!Request::isAjax())
-		{
-			if (!trim((string)$redirect))
-				$redirect = Url::default();
-
-			Response::redirect($redirect);
-		}
-	}
-
-	/**
 	 * @param  string $key
 	 * @return mixed
 	 */
@@ -460,6 +356,119 @@ final class Request
 		}
 
 		return null;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isSecure() : bool
+	{
+		if (is_null(Request::$_isSecure))
+		{
+			$https = (string)Request::server('HTTPS');
+			$serverPort = (string)Request::server('SERVER_PORT');
+
+			if ($https === '1' or $https === 'on' or $serverPort === '443')
+				Request::$_isSecure = true;
+			else
+				Request::$_isSecure = false;
+		}
+
+		return Request::$_isSecure;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isGet() : bool
+	{
+		return Request::method() === 'get';
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isPost() : bool
+	{
+		return Request::method() === 'post';
+	}
+
+	/**
+	 * Checks if the current request was sent
+	 * with a XMLHttpRequest header as sent by javascript.
+	 *
+	 * @return bool
+	 */
+	public static function isAjax() : bool
+	{
+		if (is_null(Request::$_isAjax))
+		{
+			if ((string)Request::server('HTTP_X_REQUESTED_WITH') === 'xmlhttprequest')
+				Request::$_isAjax = true;
+			else
+				Request::$_isAjax = false;
+		}
+
+		return Request::$_isAjax;
+	}
+
+	/**
+	 * Checks if the current request was sent
+	 * via the command line.
+	 *
+	 * @return bool
+	 */
+	public static function isCli() : bool
+	{
+		return PHP_SAPI === 'cli' or defined('STDIN');
+	}
+
+	/**
+	 * @param  string|null $redirect
+	 * @return void
+	 * @codeCoverageIgnore
+	 */
+	public static function ensureIsGet(string $redirect = null) : void
+	{
+		if (!Request::isGet())
+		{
+			if (!trim((string)$redirect))
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
+
+	/**
+	 * @param  string|null $redirect
+	 * @return void
+	 * @codeCoverageIgnore
+	 */
+	public static function ensureIsPost(string $redirect = null) : void
+	{
+		if (!Request::isPost())
+		{
+			if (!trim((string)$redirect))
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
+
+	/**
+	 * @param  string|null $redirect
+	 * @return void
+	 * @codeCoverageIgnore
+	 */
+	public static function ensureIsAjax(string $redirect = null) : void
+	{
+		if (!Request::isAjax())
+		{
+			if (!trim((string)$redirect))
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
 	}
 
 	/**

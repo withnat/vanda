@@ -304,22 +304,6 @@ final class RequestTest extends TestCase
 		$this->assertEquals('default', $result);
 	}
 
-	// Request::server()
-
-	public function testMethodServerCase1() : void
-	{
-		$result = Request::server('xxx');
-
-		$this->assertNull($result);
-	}
-
-	public function testMethodServerCase2() : void
-	{
-		$result = Request::server('argv');
-
-		$this->assertIsArray($result);
-	}
-
 	// Request::method()
 
 	/**
@@ -622,12 +606,32 @@ final class RequestTest extends TestCase
 		$this->assertEquals('', $result);
 	}
 
+	// Request::server()
+
+	public function testMethodServerCase1() : void
+	{
+		$result = Request::server('xxx');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodServerCase2() : void
+	{
+		$result = Request::server('argv');
+
+		$this->assertIsArray($result);
+	}
+
 	// Request::isSecure()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIsSecureCase1() : void
 	{
 		$_SERVER['HTTPS'] = '0';
-		$_SERVER['SERVER_PORT'] = 80;
+		$_SERVER['SERVER_PORT'] = '80';
 
 		$result = Request::isSecure();
 
@@ -637,6 +641,10 @@ final class RequestTest extends TestCase
 		unset($_SERVER['SERVER_PORT']);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIsSecureCase2() : void
 	{
 		$_SERVER['HTTPS'] = '1';
@@ -648,6 +656,10 @@ final class RequestTest extends TestCase
 		unset($_SERVER['HTTPS']);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIsSecureCase3() : void
 	{
 		$_SERVER['HTTPS'] = 'on';
@@ -659,9 +671,13 @@ final class RequestTest extends TestCase
 		unset($_SERVER['HTTPS']);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIsSecureCase4() : void
 	{
-		$_SERVER['SERVER_PORT'] = 443;
+		$_SERVER['SERVER_PORT'] = '443';
 
 		$result = Request::isSecure();
 
