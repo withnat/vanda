@@ -39,6 +39,10 @@ use System\Arr;
 use System\Request;
 use System\Language;
 
+/**
+ * Miscellaneous helper functions.
+ */
+
 if (!function_exists('t'))
 {
 	/**
