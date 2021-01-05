@@ -125,6 +125,50 @@ final class Response
 	 */
 	private function __construct(){}
 
+	public static function setStatus()
+	{
+	}
+
+	public function getHeader()
+	{
+	}
+
+	public static function setHeader()
+	{
+	}
+
+	public static function prependHeader()
+	{
+	}
+
+	public static function appendHeader()
+	{
+	}
+
+	public static function removeHeader()
+	{
+	}
+
+	public static function clearHeaders()
+	{
+	}
+
+	public static function getBody()
+	{
+	}
+
+	public static function setBody()
+	{
+	}
+
+	public static function prependBody()
+	{
+	}
+
+	public static function appendBody()
+	{
+	}
+
 	/**
 	 * @param  string|null $url
 	 * @return void
