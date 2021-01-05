@@ -200,8 +200,17 @@ final class Response
 		return Response::$_body;
 	}
 
-	public static function setBody()
+	/**
+	 * Set body content.
+	 *
+	 * @param  string   $content  The content to set as the response body.
+	 * @return Response           Instance of $this to allow chaining.
+	 */
+	public static function setBody(string $content) : Response
 	{
+		Response::$_body = $content;
+
+		return Response::$_instance;
 	}
 
 	public static function prependBody()
