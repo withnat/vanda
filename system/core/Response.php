@@ -134,8 +134,18 @@ final class Response
 			Response::$_instance = $this;
 	}
 
-	public static function setStatus()
+	/**
+	 * Sets the response status code.
+	 *
+	 * @param  int $status  The status code.
+	 *
+	 * @return Response     Instance of $this to allow chaining.
+	 */
+	public static function setStatus($status = 200) : Response
 	{
+		Response::$_status = $status;
+
+		return Response::$_instance;
 	}
 
 	public function getHeader()
