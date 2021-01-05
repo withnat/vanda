@@ -190,8 +190,14 @@ final class Response
 	{
 	}
 
-	public static function getBody()
+	/**
+	 * Return the body content.
+	 *
+	 * @return string  The body content.
+	 */
+	public static function getBody() : string
 	{
+		return Response::$_body;
 	}
 
 	public static function setBody()
