@@ -141,7 +141,7 @@ final class Response
 	 *
 	 * @return Response     Instance of $this to allow chaining.
 	 */
-	public static function setStatus($status = 200) : Response
+	public static function setStatus(int $status) : Response
 	{
 		Response::$_status = $status;
 
