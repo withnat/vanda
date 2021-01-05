@@ -226,8 +226,17 @@ final class Response
 		return Response::$_instance;
 	}
 
-	public static function appendBody()
+	/**
+	 * Append content to the body content.
+	 *
+	 * @param  string   $content  The content to append to the response body.
+	 * @return Response           Instance of $this to allow chaining.
+	 */
+	public static function appendBody(string $content) : Response
 	{
+		Response::$_body .= $content;
+
+		return Response::$_instance;
 	}
 
 	/**
