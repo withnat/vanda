@@ -148,12 +148,30 @@ final class Response
 		return Response::$_instance;
 	}
 
-	public function getHeader()
+	/**
+	 * Returns a single header object. If multiple headers with the same
+	 * name exist, then will return an array of header objects.
+	 *
+	 * @param  string $name  The name of the header to get.
+	 * @return string|null   The value of the header.
+	 */
+	public function getHeader(string $name) : ?string
 	{
+		return Response::$_headers[$name] ?? null;
 	}
 
-	public static function setHeader()
+	/**
+	 * Set a header and it's value to the queue.
+	 *
+	 * @param  string   $name     The name of the header to set.
+	 * @param  string   $value    The value of the header to set.
+	 * @return Response           Instance of $this to allow chaining.
+	 */
+	public static function setHeader(string $name, string $value) : Response
 	{
+		Response::$_headers[$name] = $value;
+
+		return Response::$_instance;
 	}
 
 	public static function prependHeader()
