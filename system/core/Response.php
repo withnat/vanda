@@ -201,7 +201,7 @@ final class Response
 	}
 
 	/**
-	 * Set body content.
+	 * Set body content. If body content already defined, this will replace it.
 	 *
 	 * @param  string   $content  The content to set as the response body.
 	 * @return Response           Instance of $this to allow chaining.
