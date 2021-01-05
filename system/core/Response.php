@@ -119,6 +119,11 @@ final class Response
 		510 => 'Not Extended',
 		511 => 'Network Authentication Required'
 	];
+	
+	protected static $_instance;
+	protected static $_status = 200;
+	protected static $_headers = [];
+	protected static $_body;
 
 	/**
 	 * Response constructor.
