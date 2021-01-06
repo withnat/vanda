@@ -56,9 +56,16 @@ final class ResponseTest extends TestCase
 		$this->assertEquals(200, $result);
 	}
 
-	// Response::getStatus()
+	// Response::setStatus()
 
 	public function testMethodSetStatusCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Response::setStatus(900);
+	}
+
+	public function testMethodSetStatusCase2() : void
 	{
 		$result = Response::setStatus(404);
 		$this->assertInstanceOf('System\Response', $result);
