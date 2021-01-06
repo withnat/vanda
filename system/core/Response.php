@@ -204,12 +204,30 @@ final class Response
 	 * If multiple headers with the same name exist,
 	 * then will return an array of header objects.
 	 *
-	 * @param  string $name  The name of the header to get.
-	 * @return string|null   The value of the header.
+	 * @param  string $name       The name of the header to get.
+	 * @return string|array|null  The value of the header.
 	 */
-	public function getHeader(string $name) : ?string
+	public static function getHeader(string $name)
 	{
-		return Response::$_headers[$name] ?? null;
+		$values = [];
+
+		foreach (Response::$_headers as $key => $value)
+		{
+			if ($key === $name)
+				$values[] = $value;
+		}
+
+		switch (count($values))
+		{
+			case 0:
+				return null;
+				break;
+			case 1:
+				return $values[0];
+				break;
+			default:
+				return $values;
+		}
 	}
 
 	/**
@@ -236,7 +254,7 @@ final class Response
 	 */
 	public static function setHeader(string $name, string $value) : Response
 	{
-		Response::$_headers[$name] = $value;
+		Response::$_headers[] = [$name, $value];
 
 		return Response::_getInstance();
 	}
