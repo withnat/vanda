@@ -219,8 +219,19 @@ final class Response
 		return Response::$_instance;
 	}
 
-	public static function appendHeader()
+	/**
+	 * Append a header and it's value to the queue.
+	 *
+	 * @param  string   $name   The name of the header to set.
+	 * @param  string   $value  The value of the header to set.
+	 * @return Response         Instance of $this to allow chaining.
+	 */
+	public static function appendHeader(string $name, string $value) : Response
 	{
+		unset(Response::$_headers[$name]);
+		Response::$_headers[] = [$name, $value];
+
+		return Response::$_instance;
 	}
 
 	public static function removeHeader()
