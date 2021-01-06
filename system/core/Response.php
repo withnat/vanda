@@ -268,8 +268,7 @@ final class Response
 	 */
 	public static function prependHeader(string $name, string $value) : Response
 	{
-		unset(Response::$_headers[$name]);
-		array_unshift(Response::$_headers, [$name, $value]);
+		array_unshift(Response::$_headers, [$name => $value]);
 
 		return Response::_getInstance();
 	}
