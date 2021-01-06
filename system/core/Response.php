@@ -213,8 +213,8 @@ final class Response
 
 		foreach (Response::$_headers as $key => $value)
 		{
-			if ($key === $name)
-				$values[] = $value;
+			if (array_keys($value)[0] === $name)
+				$values[] = $value[$name];
 		}
 
 		switch (count($values))
