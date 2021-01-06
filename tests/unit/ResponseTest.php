@@ -323,4 +323,22 @@ final class ResponseTest extends TestCase
 
 		$this->assertTrue($compare);
 	}
+
+	// Response::clearHeaders
+
+	public function testMethodClearHeaderCase1() : void
+	{
+		$result = Response::clearHeaders();
+		
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
+	public function testMethodClearHeaderCase2() : void
+	{
+		Response::clearHeaders();
+
+		$result = Response::getHeaderList();
+
+		$this->assertEquals([], $result);
+	}
 }
