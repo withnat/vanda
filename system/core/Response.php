@@ -254,7 +254,7 @@ final class Response
 	 */
 	public static function setHeader(string $name, string $value) : Response
 	{
-		Response::$_headers[] = [$name, $value];
+		Response::$_headers[] = [$name => $value];
 
 		return Response::_getInstance();
 	}
