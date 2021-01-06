@@ -185,7 +185,7 @@ final class Response
 	 *
 	 * @return array
 	 */
-	public static function getHeaders() : array
+	public static function getHeaderList() : array
 	{
 		return Response::$_headers;
 	}
