@@ -73,4 +73,13 @@ final class ResponseTest extends TestCase
 		$result = Response::getStatus();
 		$this->assertEquals(404, $result);
 	}
+
+	// Response::getHeader()
+
+	public function testMethodGetHeaderCase1() : void
+	{
+		$result = Response::getHeader('test');
+
+		$this->assertNull($result);
+	}
 }
