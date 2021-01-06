@@ -248,9 +248,9 @@ final class Response
 	 * Duplicate HTTP response headers are acceptable.
 	 * see : https://stackoverflow.com/questions/4371328/are-duplicate-http-response-headers-acceptable
 	 *
-	 * @param  string   $name     The name of the header to set.
-	 * @param  string   $value    The value of the header to set.
-	 * @return Response           Instance of $this to allow chaining.
+	 * @param  string   $name   The name of the header to set.
+	 * @param  string   $value  The value of the header to set.
+	 * @return Response         Instance of $this to allow chaining.
 	 */
 	public static function setHeader(string $name, string $value) : Response
 	{
@@ -275,6 +275,7 @@ final class Response
 
 	/**
 	 * Append a header and it's value to the queue.
+	 * An alias for the Response::setHeader() method.
 	 *
 	 * @param  string   $name   The name of the header to set.
 	 * @param  string   $value  The value of the header to set.
@@ -282,10 +283,7 @@ final class Response
 	 */
 	public static function appendHeader(string $name, string $value) : Response
 	{
-		unset(Response::$_headers[$name]);
-		Response::$_headers[] = [$name, $value];
-
-		return Response::_getInstance();
+		return Response::setHeader($name, $value);
 	}
 
 	/**
