@@ -82,4 +82,13 @@ final class ResponseTest extends TestCase
 
 		$this->assertNull($result);
 	}
+
+	public function testMethodGetHeaderCase2() : void
+	{
+		Response::setHeader('Pragma', 'cache');
+
+		$result = Response::getHeader('Pragma');
+
+		$this->assertEquals('cache', $result);
+	}
 }
