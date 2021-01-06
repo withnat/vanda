@@ -55,4 +55,15 @@ final class ResponseTest extends TestCase
 
 		$this->assertEquals(200, $result);
 	}
+
+	// Response::getStatus()
+
+	public function testMethodSetStatusCase1() : void
+	{
+		$result = Response::setStatus(404);
+		$this->assertInstanceOf('System\Response', $result);
+
+		$result = Response::getStatus();
+		$this->assertEquals(404, $result);
+	}
 }
