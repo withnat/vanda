@@ -131,24 +131,24 @@ final class Response
 	 *
 	 * @var Response  Instance of this class.
 	 */
-	protected static $_instance;
+	private static $_instance;
 
 	/**
 	 * The current status code for this response.
 	 *
 	 * @var int   The HTTP status code.
 	 */
-	protected static $_status = 200;
+	private static $_status = 200;
 
 	/**
 	 * @var array  An array of HTTP headers.
 	 */
-	protected static $_headers = [];
+	private static $_headers = [];
 
 	/**
 	 * @var string  A body content of the response.
 	 */
-	protected static $_body;
+	private static $_body;
 
 	/**
 	 * Response constructor.
