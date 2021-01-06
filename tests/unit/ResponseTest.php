@@ -47,4 +47,12 @@ use PHPUnit\Framework\TestCase;
  */
 final class ResponseTest extends TestCase
 {
+	// Response::getStatus()
+
+	public function testMethodGetStatusCase1() : void
+	{
+		$result = Response::getStatus();
+
+		$this->assertEquals(200, $result);
+	}
 }
