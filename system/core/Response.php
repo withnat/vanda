@@ -154,6 +154,16 @@ final class Response
 	}
 
 	/**
+	 * Get the current response status code.
+	 *
+	 * @return int  The current status code.
+	 */
+	public static function getStatus() : int
+	{
+		return Response::$_status;
+	}
+
+	/**
 	 * Sets the response status code.
 	 *
 	 * @param  int $status  The status code.
