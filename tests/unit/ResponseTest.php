@@ -356,4 +356,22 @@ final class ResponseTest extends TestCase
 
 		$this->assertEquals('', $result);
 	}
+
+	// Response::setBody()
+
+	public function testMethodSetBodyCase1() : void
+	{
+		$result = Response::setBody('foo');
+
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
+	public function testMethodSetBodyCase2() : void
+	{
+		Response::setBody('foo');
+
+		$result = Response::getBody();
+
+		$this->assertEquals('foo', $result);
+	}
 }
