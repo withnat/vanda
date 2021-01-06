@@ -153,10 +153,20 @@ final class Response
 	/**
 	 * Response constructor.
 	 */
-	public function __construct()
+	private function __construct(){}
+
+	/**
+	 * Returns a reference to the global Response object,
+	 * only creating it if it doesn't already exist.
+	 *
+	 * @return Response
+	 */
+	private static function _getInstance() : Response
 	{
 		if (is_null(Response::$_instance))
-			Response::$_instance = $this;
+			Response::$_instance = new Response;
+
+		return Response::$_instance;
 	}
 
 	/**
@@ -179,7 +189,7 @@ final class Response
 	{
 		Response::$_status = $status;
 
-		return Response::$_instance;
+		return Response::_getInstance();
 	}
 
 	/**
