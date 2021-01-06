@@ -481,4 +481,30 @@ final class ResponseTest extends TestCase
 
 		$this->assertEquals('blafoobar', $result);
 	}
+
+	// Response::clearBody()
+
+	public function testMethodClearBodyCase1() : void
+	{
+		$result = Response::clearBody();
+
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodClearBodyCase2() : void
+	{
+		Response::setBody('foo')
+			->appendBody('bar')
+			->prependBody('bla');
+
+		Response::clearBody();
+
+		$result = Response::getBody();
+
+		$this->assertEquals('', $result);
+	}
 }
