@@ -234,8 +234,17 @@ final class Response
 		return Response::$_instance;
 	}
 
-	public static function removeHeader()
+	/**
+	 * Removes a header from the list of headers.
+	 *
+	 * @param  string   $name  The header name
+	 * @return Response        Instance of $this to allow chaining.
+	 */
+	public static function removeHeader(string $name) : Response
 	{
+		unset(Response::$_headers[$name]);
+
+		return Response::$_instance;
 	}
 
 	/**
