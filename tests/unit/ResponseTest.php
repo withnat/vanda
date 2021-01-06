@@ -130,6 +130,18 @@ final class ResponseTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
+	// Response::setHeader(), additional test for checking instance object.
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSetHeaderCase1() : void
+	{
+		$result = Response::setHeader('Pragma', 'cache');
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
 	// Response::getHeaderList()
 
 	public function testMethodGetHeaderListCase1() : void
@@ -167,7 +179,17 @@ final class ResponseTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodPrependHeaderListCase1() : void
+	public function testMethodPrependHeaderCase1() : void
+	{
+		$result = Response::prependHeader('Pragma', 'cache');
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodPrependHeaderListCase2() : void
 	{
 		$expected = [
 			['Cache-Control' => 'no-store'],
@@ -187,7 +209,7 @@ final class ResponseTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodPrependHeaderListCase2() : void
+	public function testMethodPrependHeaderListCase3() : void
 	{
 		$expected = [
 			['Cache-Control' => 'no-store'],
@@ -207,7 +229,7 @@ final class ResponseTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodPrependHeaderListCase3() : void
+	public function testMethodPrependHeaderListCase4() : void
 	{
 		$expected = [
 			['Cache-Control' => 'no-store']
@@ -228,6 +250,16 @@ final class ResponseTest extends TestCase
 	 * @preserveGlobalState disabled
 	 */
 	public function testMethodAppendHeaderCase1() : void
+	{
+		$result = Response::appendHeader('Pragma', 'cache');
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAppendHeaderCase2() : void
 	{
 		$expected = ['no-cache', 'no-store'];
 
