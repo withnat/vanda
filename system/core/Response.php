@@ -120,9 +120,28 @@ final class Response
 		511 => 'Network Authentication Required'
 	];
 
+	/**
+	 * Stores the singleton instance of this class.
+	 *
+	 * @var Response  Instance of this class.
+	 */
 	protected static $_instance;
+
+	/**
+	 * The current status code for this response.
+	 *
+	 * @var int   The HTTP status code.
+	 */
 	protected static $_status = 200;
+
+	/**
+	 * @var array  An array of HTTP headers.
+	 */
 	protected static $_headers = [];
+
+	/**
+	 * @var string  A body content of the response.
+	 */
 	protected static $_body;
 
 	/**
