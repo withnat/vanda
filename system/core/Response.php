@@ -168,7 +168,7 @@ final class Response
 		if (is_null(Response::$_instance))
 			Response::$_instance = new Response;
 
-		return Response::_getInstance();
+		return Response::$_instance;
 	}
 
 	/**
