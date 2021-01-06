@@ -48,6 +48,12 @@ namespace System;
  */
 final class Response
 {
+	/**
+	 * A map of integer HTTP 1.1 response codes to the full HTTP Status for the headers.
+	 *
+	 * @var array  An array of standard HTTP status codes and reason phrases.
+	 * @link http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+	 */
 	protected static $_statuses = [
 		// 1xx: Informational
 		100 => 'Continue',
