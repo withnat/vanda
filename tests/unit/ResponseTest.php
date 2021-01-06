@@ -68,12 +68,14 @@ final class ResponseTest extends TestCase
 	public function testMethodSetStatusCase2() : void
 	{
 		$result = Response::setStatus(404);
+
 		$this->assertInstanceOf('System\Response', $result);
 	}
 
 	public function testMethodSetStatusCase3() : void
 	{
 		Response::setStatus(404);
+
 		$result = Response::getStatus();
 
 		$this->assertEquals(404, $result);
@@ -144,6 +146,7 @@ final class ResponseTest extends TestCase
 	public function testMethodSetHeaderCase1() : void
 	{
 		$result = Response::setHeader('Pragma', 'cache');
+
 		$this->assertInstanceOf('System\Response', $result);
 	}
 
@@ -187,6 +190,7 @@ final class ResponseTest extends TestCase
 	public function testMethodPrependHeaderCase1() : void
 	{
 		$result = Response::prependHeader('Pragma', 'cache');
+
 		$this->assertInstanceOf('System\Response', $result);
 	}
 
@@ -257,6 +261,7 @@ final class ResponseTest extends TestCase
 	public function testMethodAppendHeaderCase1() : void
 	{
 		$result = Response::appendHeader('Pragma', 'cache');
+
 		$this->assertInstanceOf('System\Response', $result);
 	}
 
@@ -286,6 +291,7 @@ final class ResponseTest extends TestCase
 	public function testMethodRemoveHeaderCase1() : void
 	{
 		$result = Response::removeHeader('test');
+
 		$this->assertInstanceOf('System\Response', $result);
 	}
 
@@ -329,7 +335,7 @@ final class ResponseTest extends TestCase
 	public function testMethodClearHeaderCase1() : void
 	{
 		$result = Response::clearHeaders();
-		
+
 		$this->assertInstanceOf('System\Response', $result);
 	}
 
