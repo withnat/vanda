@@ -347,4 +347,13 @@ final class ResponseTest extends TestCase
 
 		$this->assertEquals([], $result);
 	}
+
+	// Response::getBody()
+
+	public function testMethodGetBodyCase1() : void
+	{
+		$result = Response::getBody();
+
+		$this->assertEquals('', $result);
+	}
 }
