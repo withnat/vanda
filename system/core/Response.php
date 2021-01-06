@@ -365,6 +365,18 @@ final class Response
 	}
 
 	/**
+	 * Method to clear the body content.
+	 *
+	 * @return Response  Instance of $this to allow chaining.
+	 */
+	public static function clearBody() : Response
+	{
+		Response::$_body = '';
+
+		return Response::_getInstance();
+	}
+
+	/**
 	 * @param  string|null $url
 	 * @return void
 	 */
