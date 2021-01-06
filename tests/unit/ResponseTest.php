@@ -170,12 +170,12 @@ final class ResponseTest extends TestCase
 	public function testMethodPrependHeaderListCase1() : void
 	{
 		$expected = [
-			['Pragma' => 'cache'],
+			['Cache-Control' => 'no-store'],
 			['Cache-Control' => 'no-cache']
 		];
 
 		Response::setHeader('Cache-Control', 'no-cache');
-		Response::prependHeader('Pragma', 'cache');
+		Response::prependHeader('Cache-Control', 'no-store');
 
 		$result = Response::getHeaderList();
 		$compare = ($result === $expected);
@@ -190,12 +190,12 @@ final class ResponseTest extends TestCase
 	public function testMethodPrependHeaderListCase2() : void
 	{
 		$expected = [
-			['Pragma' => 'cache'],
+			['Cache-Control' => 'no-store'],
 			['Cache-Control' => 'no-cache']
 		];
 
 		Response::setHeader('Cache-Control', 'no-cache')
-			->prependHeader('Pragma', 'cache');
+			->prependHeader('Cache-Control', 'no-store');
 
 		$result = Response::getHeaderList();
 		$compare = ($result === $expected);
