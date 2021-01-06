@@ -166,7 +166,7 @@ final class Response
 		if (is_null(Response::$_instance))
 			Response::$_instance = new Response;
 
-		return Response::$_instance;
+		return Response::_getInstance();
 	}
 
 	/**
@@ -233,7 +233,7 @@ final class Response
 	{
 		Response::$_headers[$name] = $value;
 
-		return Response::$_instance;
+		return Response::_getInstance();
 	}
 
 	/**
@@ -248,7 +248,7 @@ final class Response
 		unset(Response::$_headers[$name]);
 		array_unshift(Response::$_headers, [$name, $value]);
 
-		return Response::$_instance;
+		return Response::_getInstance();
 	}
 
 	/**
@@ -263,7 +263,7 @@ final class Response
 		unset(Response::$_headers[$name]);
 		Response::$_headers[] = [$name, $value];
 
-		return Response::$_instance;
+		return Response::_getInstance();
 	}
 
 	/**
@@ -276,7 +276,7 @@ final class Response
 	{
 		unset(Response::$_headers[$name]);
 
-		return Response::$_instance;
+		return Response::_getInstance();
 	}
 
 	/**
@@ -288,7 +288,7 @@ final class Response
 	{
 		Response::$_headers = [];
 
-		return Response::$_instance;
+		return Response::_getInstance();
 	}
 
 	/**
@@ -311,7 +311,7 @@ final class Response
 	{
 		Response::$_body = $content;
 
-		return Response::$_instance;
+		return Response::_getInstance();
 	}
 
 	/**
@@ -324,7 +324,7 @@ final class Response
 	{
 		Response::$_body = $content . Response::$_body;
 
-		return Response::$_instance;
+		return Response::_getInstance();
 	}
 
 	/**
@@ -337,7 +337,7 @@ final class Response
 	{
 		Response::$_body .= $content;
 
-		return Response::$_instance;
+		return Response::_getInstance();
 	}
 
 	/**
