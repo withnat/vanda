@@ -37,6 +37,8 @@ declare(strict_types=1);
 
 namespace System;
 
+use System\Exception\InvalidArgumentException;
+
 /**
  * Class Response
  *
@@ -187,6 +189,9 @@ final class Response
 	 */
 	public static function setStatus(int $status) : Response
 	{
+		if (!array_key_exists($status, Response::$_statuses))
+				throw InvalidArgumentException::valueError(1, '$status is not a valid HTTP return status code', $status);
+
 		Response::$_status = $status;
 
 		return Response::_getInstance();
