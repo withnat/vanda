@@ -423,4 +423,45 @@ final class ResponseTest extends TestCase
 
 		$this->assertEquals('barfoo', $result);
 	}
+
+	// Response::appendBody()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAppendBodyCase1() : void
+	{
+		$result = Response::appendBody('foo');
+
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAppendBodyCase2() : void
+	{
+		Response::setBody('foo');
+		Response::appendBody('bar');
+
+		$result = Response::getBody();
+
+		$this->assertEquals('foobar', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAppendBodyCase3() : void
+	{
+		Response::setBody('foo')
+			->appendBody('bar');
+
+		$result = Response::getBody();
+
+		$this->assertEquals('foobar', $result);
+	}
 }
