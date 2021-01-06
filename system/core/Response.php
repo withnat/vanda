@@ -180,6 +180,17 @@ final class Response
 	}
 
 	/**
+	 * Get the array of header informations to be
+	 * sent when the response is sent to the client.
+	 *
+	 * @return array
+	 */
+	public static function getHeaders() : array
+	{
+		return Response::$_headers;
+	}
+
+	/**
 	 * Set a header and it's value to the queue.
 	 *
 	 * @param  string   $name     The name of the header to set.
