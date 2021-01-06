@@ -202,4 +202,22 @@ final class ResponseTest extends TestCase
 
 		$this->assertTrue($compare);
 	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodPrependHeaderListCase3() : void
+	{
+		$expected = [
+			['Cache-Control' => 'no-store']
+		];
+
+		Response::prependHeader('Cache-Control', 'no-store');
+
+		$result = Response::getHeaderList();
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
 }
