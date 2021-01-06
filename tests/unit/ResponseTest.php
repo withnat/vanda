@@ -359,6 +359,10 @@ final class ResponseTest extends TestCase
 
 	// Response::setBody()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSetBodyCase1() : void
 	{
 		$result = Response::setBody('foo');
@@ -366,6 +370,10 @@ final class ResponseTest extends TestCase
 		$this->assertInstanceOf('System\Response', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSetBodyCase2() : void
 	{
 		Response::setBody('foo');
