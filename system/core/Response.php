@@ -173,7 +173,6 @@ final class Response
 	 * Sets the response status code.
 	 *
 	 * @param  int $status  The status code.
-	 *
 	 * @return Response     Instance of $this to allow chaining.
 	 */
 	public static function setStatus(int $status) : Response
@@ -184,8 +183,11 @@ final class Response
 	}
 
 	/**
-	 * Returns a single header object. If multiple headers with the same
-	 * name exist, then will return an array of header objects.
+	 * Get a single header information to be sent
+	 * when the response is sent to the client.
+	 *
+	 * If multiple headers with the same name exist,
+	 * then will return an array of header objects.
 	 *
 	 * @param  string $name  The name of the header to get.
 	 * @return string|null   The value of the header.
@@ -196,8 +198,8 @@ final class Response
 	}
 
 	/**
-	 * Get the array of header informations to be
-	 * sent when the response is sent to the client.
+	 * Get the array of header informations to be sent
+	 * when the response is sent to the client.
 	 *
 	 * @return array
 	 */
@@ -207,7 +209,11 @@ final class Response
 	}
 
 	/**
-	 * Set a header and it's value to the queue.
+	 * Set a header and it's value to the queue. If the replace flag is set
+	 * then all headers with the given name will be replaced by the new one.
+	 *
+	 * Duplicate HTTP response headers are acceptable.
+	 * see : https://stackoverflow.com/questions/4371328/are-duplicate-http-response-headers-acceptable
 	 *
 	 * @param  string   $name     The name of the header to set.
 	 * @param  string   $value    The value of the header to set.
