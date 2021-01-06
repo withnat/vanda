@@ -150,7 +150,7 @@ final class Response
 	/**
 	 * @var string  A body content of the response.
 	 */
-	private static $_body;
+	private static $_body = '';
 
 	/**
 	 * Response constructor.
