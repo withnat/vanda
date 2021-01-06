@@ -129,4 +129,35 @@ final class ResponseTest extends TestCase
 
 		$this->assertTrue($compare);
 	}
+
+	// Response::getHeaderList()
+
+	public function testMethodGetHeaderListCase1() : void
+	{
+		$result = Response::getHeaderList();
+
+		$this->assertEquals([], $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetHeaderListCase2() : void
+	{
+		$expected = [
+			['Pragma' => 'cache'],
+			['Cache-Control' => 'no-cache'],
+			['Cache-Control' => 'no-store']
+		];
+
+		Response::setHeader('Pragma', 'cache')
+			->setHeader('Cache-Control', 'no-cache')
+			->setHeader('Cache-Control', 'no-store');
+
+		$result = Response::getHeaderList();
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
 }
