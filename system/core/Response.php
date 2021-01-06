@@ -186,8 +186,16 @@ final class Response
 	{
 	}
 
-	public static function clearHeaders()
+	/**
+	 * Method to clear any set response headers.
+	 *
+	 * @return Response  Instance of $this to allow chaining.
+	 */
+	public static function clearHeaders() : Response
 	{
+		Response::$_headers = [];
+
+		return Response::$_instance;
 	}
 
 	/**
