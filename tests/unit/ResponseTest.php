@@ -74,7 +74,7 @@ final class ResponseTest extends TestCase
 		$this->assertEquals(404, $result);
 	}
 
-	// Response::getHeader()
+	// Response::getHeader() & Response::setHeader()
 
 	public function testMethodGetHeaderCase1() : void
 	{
@@ -83,6 +83,10 @@ final class ResponseTest extends TestCase
 		$this->assertNull($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodGetHeaderCase2() : void
 	{
 		Response::setHeader('Pragma', 'cache');
@@ -90,5 +94,39 @@ final class ResponseTest extends TestCase
 		$result = Response::getHeader('Pragma');
 
 		$this->assertEquals('cache', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetHeaderCase3() : void
+	{
+		$expected = ['no-cache', 'no-store'];
+
+		Response::setHeader('Cache-Control', 'no-cache');
+		Response::setHeader('Cache-Control', 'no-store');
+
+		$result = Response::getHeader('Cache-Control');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetHeaderCase4() : void
+	{
+		$expected = ['no-cache', 'no-store'];
+
+		Response::setHeader('Cache-Control', 'no-cache')
+			->setHeader('Cache-Control', 'no-store');
+
+		$result = Response::getHeader('Cache-Control');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 }
