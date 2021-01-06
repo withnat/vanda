@@ -239,4 +239,51 @@ final class ResponseTest extends TestCase
 
 		$this->assertTrue($compare);
 	}
+
+	// Response::removedHeader()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodRemoveHeaderCase1() : void
+	{
+		$result = Response::removeHeader('test');
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodRemoveHeaderCase2() : void
+	{
+		Response::removeHeader('test');
+
+		$result = Response::getHeaderList();
+
+		$this->assertEquals([], $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodRemoveHeaderCase3() : void
+	{
+		$expected = [
+			['Pragma' => 'cache']
+		];
+
+		Response::setHeader('Pragma', 'cache')
+			->appendHeader('Cache-Control', 'no-cache')
+			->appendHeader('Cache-Control', 'no-store');
+
+		Response::removeHeader('Cache-Control');
+
+		$result = Response::getHeaderList();
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
 }
