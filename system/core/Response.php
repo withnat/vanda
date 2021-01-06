@@ -294,7 +294,11 @@ final class Response
 	 */
 	public static function removeHeader(string $name) : Response
 	{
-		unset(Response::$_headers[$name]);
+		foreach (Response::$_headers as $key => $value)
+		{
+			if (array_keys($value)[0] === $name)
+				unset(Response::$_headers[$key]);
+		}
 
 		return Response::_getInstance();
 	}
