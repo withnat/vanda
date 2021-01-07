@@ -140,7 +140,14 @@ final class Response
 	 *
 	 * @var int   The HTTP status code.
 	 */
-	private static $_status = 200;
+	private static $_statusCode = 200;
+
+	/**
+	 * The current reason phrase for this response.
+	 *
+	 * @var string  The HTTP status reason phrase.
+	 */
+	private static $_statusReason;
 
 	/**
 	 * @var array  An array of HTTP headers.
@@ -176,23 +183,37 @@ final class Response
 	 *
 	 * @return int  The current status code.
 	 */
-	public static function getStatus() : int
+	public static function getStatusCode() : int
 	{
-		return Response::$_status;
+		return Response::$_statusCode;
+	}
+
+	/**
+	 * Gets the response response phrase associated with the status code.
+	 *
+	 * @return string  The HTTP status reason phrase.
+	 */
+	public static function getStatusReason() : string
+	{
+		if (!Response::$_statusReason)
+			Response::$_statusReason = Response::$_statuses[Response::$_statusCode];
+
+		return Response::$_statusReason;
 	}
 
 	/**
 	 * Sets the response status code.
 	 *
-	 * @param  int $status  The status code.
-	 * @return Response     Instance of $this to allow chaining.
+	 * @param  int $statusCode  The status code.
+	 * @return Response         Instance of $this to allow chaining.
 	 */
-	public static function setStatus(int $status) : Response
+	public static function setStatusCode(int $statusCode) : Response
 	{
-		if (!array_key_exists($status, Response::$_statuses))
-				throw InvalidArgumentException::valueError(1, '$status is not a valid HTTP return status code', $status);
+		if (!array_key_exists($statusCode, Response::$_statuses))
+				throw InvalidArgumentException::valueError(1, '$status is not a valid HTTP return status code', $statusCode);
 
-		Response::$_status = $status;
+		Response::$_statusCode = $statusCode;
+		Response::$_statusReason = Response::$_statuses[$statusCode];
 
 		return Response::_getInstance();
 	}
