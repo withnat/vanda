@@ -47,38 +47,57 @@ use PHPUnit\Framework\TestCase;
  */
 final class ResponseTest extends TestCase
 {
-	// Response::getStatus()
+	// Response::getStatusCode()
 
-	public function testMethodGetStatusCase1() : void
+	public function testMethodGetStatusCodeCase1() : void
 	{
-		$result = Response::getStatus();
+		$result = Response::getStatusCode();
 
 		$this->assertEquals(200, $result);
 	}
 
-	// Response::setStatus()
+	// Response::getStatusReason()
 
-	public function testMethodSetStatusCase1() : void
+	public function testMethodGetStatusReasonCase1() : void
+	{
+		$result = Response::getStatusReason();
+
+		$this->assertEquals('OK', $result);
+	}
+
+	public function testMethodGetStatusReasonCase2() : void
+	{
+		Response::setStatusCode(404);
+		$result = Response::getStatusReason();
+
+		$this->assertEquals('Not Found', $result);
+	}
+
+	// Response::setStatusCode()
+
+	public function testMethodSetStatusCodeCase1() : void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		Response::setStatus(900);
+		Response::setStatusCode(900);
 	}
 
-	public function testMethodSetStatusCase2() : void
+	public function testMethodSetStatusCodeCase2() : void
 	{
-		$result = Response::setStatus(404);
+		$result = Response::setStatusCode(404);
 
 		$this->assertInstanceOf('System\Response', $result);
 	}
 
-	public function testMethodSetStatusCase3() : void
+	public function testMethodSetStatusCodeCase3() : void
 	{
-		Response::setStatus(404);
+		Response::setStatusCode(404);
 
-		$result = Response::getStatus();
-
+		$result = Response::getStatusCode();
 		$this->assertEquals(404, $result);
+
+		$result = Response::getStatusReason();
+		$this->assertEquals('Not Found', $result);
 	}
 
 	// Response::getHeader() & Response::setHeader()
