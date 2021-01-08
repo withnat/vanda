@@ -48,7 +48,7 @@ use System\Exception\InvalidArgumentException;
  *
  * @package System
  */
-final class Response
+class Response
 {
 	/**
 	 * A map of integer HTTP 1.1 response codes to the full HTTP Status for the headers.
@@ -242,10 +242,8 @@ final class Response
 		{
 			case 0:
 				return null;
-				break;
 			case 1:
 				return $values[0];
-				break;
 			default:
 				return $values;
 		}
@@ -398,26 +396,62 @@ final class Response
 	}
 
 	/**
-	 * @param  string|null $url
+	 * Redirect to another URL.
+	 *
+	 * If the headers have not been sent the redirect will be accomplished using
+	 * a "303 See Other" code in the header pointing to the new location. If the
+	 * headers have already been sent this will be accomplished using a JavaScript
+	 * statement.
+	 *
+	 * Why 303?
+	 *
+	 *  - A 302 redirect indicates that the redirect is temporary, clients should
+	 *    check back at the original URL in future requests.
+	 *  - A 303 redirect is meant to redirect a POST request to a GET resource
+	 *    (otherwise, the client assumes that the request method for the new
+	 *    location is the same as for the original resource).
+	 *
+	 * see : https://serverfault.com/questions/391181/examples-of-302-vs-303
+	 *
+	 * @param  string|null $url         The URI to redirect to.
+	 * @param  int         $statusCode  The type of redirection, defaults to 303.
 	 * @return void
 	 */
-	public static function redirect(string $url = null) : void
+	public static function redirect(string $url = null, int $statusCode = 303) : void
 	{
+		if (!array_key_exists($statusCode, static::$_statuses))
+			throw InvalidArgumentException::valueError(2, '$statusCode is not a valid HTTP return status code', $statusCode);
+
 		if (isSPA() and Request::isAjax())
 		{
 			$data = [
 				'title' => '',
 				'content' => '',
-				'redirect' => Uri::hashSPA($url)
+				'redirect' => Url::hashSPA($url)
 			];
 
 			echo json_encode($data);
-			exit;
 		}
 		else
 		{
-			header('Location:' . Uri::route($url));
-			exit;
+			$url = Url::create($url);
+
+			if (static::isHeadersSent())
+			{
+				$url = str_replace("'", '&apos;', $url);
+
+				echo '<script>document.location.href="' . $url . "\";</script>\n";
+			}
+			else
+			{
+				// The refresh header works better on certain servers like IIS.
+				if (strpos((string)Request::server('SERVER_SOFTWARE'), 'IIS') !== false)
+					static::setHeader('Refresh', '0; url=' . $url);
+				else
+					static::setHeader('Location', $url);
+
+				static::setStatusCode($statusCode);
+			}
 		}
 	}
 
@@ -439,5 +473,20 @@ final class Response
 		header('Pragma: no-cache');
 
 		echo $data;
+	}
+
+	/**
+	 * Checks if or where headers have been sent.
+	 * An alias for PHP's headers_sent() function.
+	 *
+	 * I am wrapping this to isolate the built-in PHP
+	 * function from my code base for testing reasons.
+	 *
+	 * @return bool  True if the headers have already been sent.
+	 * @see headers_sent()
+	 */
+	protected static function isHeadersSent() : bool
+	{
+		return headers_sent();
 	}
 }
