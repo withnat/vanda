@@ -273,11 +273,14 @@ final class Url
 	}
 
 	/**
-	 * @param  string $uri
+	 * @param  string|null $uri
 	 * @return string
 	 */
-	public static function hashSPA(string $uri) : string
+	public static function hashSPA(string $uri = null) : string
 	{
+		if (is_null($uri))
+			$uri = static::create();
+
 		$idPos = strpos($uri, '?id=');
 		$amPos = strpos($uri, '&', (int)$idPos);
 
