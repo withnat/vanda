@@ -37,7 +37,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use stdClass;
 use System\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -525,5 +524,182 @@ final class ResponseTest extends TestCase
 		$result = Response::getBody();
 
 		$this->assertEquals('', $result);
+	}
+
+	// Response::redirect()
+
+	public function testMethodRedirectCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Response::redirect('user', 900);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodRedirectCase2() : void
+	{
+		putenv('SIDE=frontend');
+		putenv('FRONTEND_SPA_MODE=1');
+
+		$expected = '{"title":"","content":"","redirect":"#http:\/\/localhost\/index.php\/en_US.UTF-8"}';
+
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
+		$mockedRequest->shouldReceive(['isAjax' => true]);
+
+		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting->shouldReceive('get')
+			->once()
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'sef')
+					return '0';
+				else
+					return '';
+			});
+
+		Response::redirect();
+
+		$this->expectOutputString($expected);
+
+		putenv('SIDE');
+		putenv('FRONTEND_SPA_MODE');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodRedirectCase3() : void
+	{
+		$expected = "<script>document.location.href=\"http://localhost/index.php\";</script>\n";
+
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
+
+		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting->shouldReceive('get')
+			->once()
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'sef')
+					return '0';
+				else
+					return '';
+			});
+
+		$mockedResponse = \Mockery::mock("System\Response")
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
+
+		$mockedResponse->shouldReceive("isHeadersSent")
+			->andReturn(true);
+
+		$mockedResponse->redirect();
+
+		$this->expectOutputString($expected);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodRedirectCase4() : void
+	{
+		$expectedStatusContent = '0; url=http://localhost/index.php/user';
+		$expectedStatusCode = 302;
+
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
+		$mockedRequest->shouldReceive('server')
+			->once()
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'SERVER_SOFTWARE')
+					return 'Microsoft-IIS/10.0';
+				else
+					return '';
+			});
+
+		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting->shouldReceive('get')
+			->once()
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'sef')
+					return '0';
+				else
+					return '';
+			});
+
+		$mockedResponse = \Mockery::mock("System\Response")
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
+
+		$mockedResponse->shouldReceive("isHeadersSent")
+			->andReturn(false);
+
+		$mockedResponse->redirect('user', 302);
+
+		$result = $mockedResponse->getHeader('Refresh');
+		$this->assertEquals($expectedStatusContent, $result);
+
+		$result = $mockedResponse->getStatusCode();
+		$this->assertEquals($expectedStatusCode, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodRedirectCase5() : void
+	{
+		$expectedStatusContent = 'http://localhost/index.php/user';
+		$expectedStatusCode = 302;
+
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['basePath' => '']);
+		$mockedRequest->shouldReceive('server')
+			->once()
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'SERVER_SOFTWARE')
+					return 'Apache/2.4.41 (Ubuntu)';
+				else
+					return '';
+			});
+
+		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting->shouldReceive('get')
+			->once()
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'sef')
+					return '0';
+				else
+					return '';
+			});
+
+		$mockedResponse = \Mockery::mock("System\Response")
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
+
+		$mockedResponse->shouldReceive("isHeadersSent")
+			->andReturn(false);
+
+		$mockedResponse->redirect('user', 302);
+
+		$result = $mockedResponse->getHeader('Location');
+		$this->assertEquals($expectedStatusContent, $result);
+
+		$result = $mockedResponse->getStatusCode();
+		$this->assertEquals($expectedStatusCode, $result);
 	}
 }
