@@ -108,11 +108,11 @@ final class RequestTest extends TestCase
 		$getValues = new stdClass();
 		$getValues->arg = 'value';
 
-		$mockedRequest = \Mockery::mock('alias:\System\Arr');
-		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Security');
-		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::get();
 
@@ -128,11 +128,11 @@ final class RequestTest extends TestCase
 		$getValues = new stdClass();
 		$getValues->arg = 'value';
 
-		$mockedRequest = \Mockery::mock('alias:\System\Arr');
-		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Security');
-		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::get(null, null, false);
 
@@ -148,11 +148,11 @@ final class RequestTest extends TestCase
 		$getValues = new stdClass();
 		$getValues->arg = 'value';
 
-		$mockedRequest = \Mockery::mock('alias:\System\Arr');
-		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Security');
-		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::get('arg');
 
@@ -167,11 +167,11 @@ final class RequestTest extends TestCase
 	{
 		$getValues = new stdClass();
 
-		$mockedRequest = \Mockery::mock('alias:\System\Arr');
-		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Security');
-		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::get('arg', 'default');
 
@@ -186,11 +186,11 @@ final class RequestTest extends TestCase
 	{
 		$getValues = new stdClass();
 
-		$mockedRequest = \Mockery::mock('alias:\System\Arr');
-		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Security');
-		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::get('arg', 'default', false);
 
@@ -215,11 +215,11 @@ final class RequestTest extends TestCase
 		$getValues = new stdClass();
 		$getValues->arg = 'value';
 
-		$mockedRequest = \Mockery::mock('alias:\System\Arr');
-		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Security');
-		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::post();
 
@@ -235,11 +235,11 @@ final class RequestTest extends TestCase
 		$getValues = new stdClass();
 		$getValues->arg = 'value';
 
-		$mockedRequest = \Mockery::mock('alias:\System\Arr');
-		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Security');
-		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::post(null, null, false);
 
@@ -255,11 +255,11 @@ final class RequestTest extends TestCase
 		$getValues = new stdClass();
 		$getValues->arg = 'value';
 
-		$mockedRequest = \Mockery::mock('alias:\System\Arr');
-		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Security');
-		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::post('arg');
 
@@ -274,11 +274,11 @@ final class RequestTest extends TestCase
 	{
 		$getValues = new stdClass();
 
-		$mockedRequest = \Mockery::mock('alias:\System\Arr');
-		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Security');
-		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::post('arg', 'default');
 
@@ -293,11 +293,11 @@ final class RequestTest extends TestCase
 	{
 		$getValues = new stdClass();
 
-		$mockedRequest = \Mockery::mock('alias:\System\Arr');
-		$mockedRequest->shouldReceive(['toObject' => $getValues]);
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Security');
-		$mockedRequest->shouldReceive(['xssClean' => $getValues]);
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::post('arg', 'default', false);
 
@@ -340,8 +340,8 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIpCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('alias:\System\Validator');
-		$mockedRequest->shouldReceive(['isValidIp' => false]);
+		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator->shouldReceive(['isValidIp' => false]);
 
 		$result = Request::ip();
 
@@ -356,8 +356,8 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '75.184.124.93, 10.194.95.79';
 
-		$mockedRequest = \Mockery::mock('alias:\System\Validator');
-		$mockedRequest->shouldReceive(['isValidIp' => true]);
+		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
 
@@ -374,8 +374,8 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['HTTP_CLIENT_IP'] = '75.184.124.93, 10.194.95.79';
 
-		$mockedRequest = \Mockery::mock('alias:\System\Validator');
-		$mockedRequest->shouldReceive(['isValidIp' => true]);
+		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
 
@@ -392,8 +392,8 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['REMOTE_ADDR'] = '223.24.187.34';
 
-		$mockedRequest = \Mockery::mock('alias:\System\Validator');
-		$mockedRequest->shouldReceive(['isValidIp' => true]);
+		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
 
@@ -410,8 +410,8 @@ final class RequestTest extends TestCase
 	{
 		putenv('HTTP_X_FORWARDED_FOR=75.184.124.93, 10.194.95.79');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Validator');
-		$mockedRequest->shouldReceive(['isValidIp' => true]);
+		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
 
@@ -428,8 +428,8 @@ final class RequestTest extends TestCase
 	{
 		putenv('HTTP_CLIENT_IP=75.184.124.93, 10.194.95.79');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Validator');
-		$mockedRequest->shouldReceive(['isValidIp' => true]);
+		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
 
@@ -446,8 +446,8 @@ final class RequestTest extends TestCase
 	{
 		putenv('REMOTE_ADDR=223.24.187.34');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Validator');
-		$mockedRequest->shouldReceive(['isValidIp' => true]);
+		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
 

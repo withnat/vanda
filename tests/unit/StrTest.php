@@ -72,8 +72,8 @@ final class StrTest extends TestCase
 	 */
 	public function testMethodLengthCase3() : void
 	{
-		$mockedSetting = \Mockery::mock('alias:\System\Config');
-		$mockedSetting->shouldReceive('app')
+		$mockedConfig = \Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')
 			->once()
 			->andReturnUsing(function ($arg)
 			{
@@ -94,8 +94,8 @@ final class StrTest extends TestCase
 	 */
 	public function testMethodLengthCase4() : void
 	{
-		$mockedSetting = \Mockery::mock('alias:\System\Config');
-		$mockedSetting->shouldReceive('app')
+		$mockedConfig = \Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')
 			->once()
 			->andReturnUsing(function ($arg)
 			{
