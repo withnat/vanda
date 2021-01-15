@@ -46,6 +46,11 @@ use PHPUnit\Framework\TestCase;
  */
 final class ResponseTest extends TestCase
 {
+    protected function tearDown() : void
+    {
+        \Mockery::close();
+    }
+
 	// Response::getStatusCode()
 
 	public function testMethodGetStatusCodeCase1() : void

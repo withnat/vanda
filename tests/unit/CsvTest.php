@@ -100,6 +100,8 @@ final class CsvTest extends TestCase
 		static::$_dataset = null;
 		static::$_recordset = null;
 		static::$_csvString = null;
+
+        \Mockery::close();
 	}
 
 	// Csv::fromDataset()

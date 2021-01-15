@@ -279,6 +279,8 @@ final class ArrTest extends TestCase
 		static::$_expectedSortDatasetByNameDesc = null;
 		static::$_expectedSortRecordsetByNameAsc = null;
 		static::$_expectedSortRecordsetByNameDesc = null;
+
+        \Mockery::close();
 	}
 
 	// Arr::get()

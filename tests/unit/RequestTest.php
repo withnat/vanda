@@ -47,6 +47,11 @@ use PHPUnit\Framework\TestCase;
  */
 final class RequestTest extends TestCase
 {
+    protected function tearDown() : void
+    {
+        \Mockery::close();
+    }
+
 	// Request::set()
 
 	public function testMethodSetCase1() : void

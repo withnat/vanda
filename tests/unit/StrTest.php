@@ -50,6 +50,11 @@ final class StrTest extends TestCase
 	protected static $_string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	protected static $_text = 'Nat is so tall, and handsome as hell. Nat is so bad but he does it so well.';
 
+    protected function tearDown() : void
+    {
+        \Mockery::close();
+    }
+
 	// Str::length()
 
 	public function testMethodLengthCase1() : void

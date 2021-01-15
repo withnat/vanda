@@ -48,6 +48,11 @@ final class UrlTest extends TestCase
 {
 	protected static $_url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 
+    protected function tearDown() : void
+    {
+        \Mockery::close();
+    }
+
 	public function createBackendUrlWithSefProvider()
 	{
 		return [

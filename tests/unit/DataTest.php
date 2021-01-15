@@ -82,6 +82,8 @@ final class DataTest extends TestCase
 		static::$_dataArray = null;
 		static::$_dataArrayAssoc = null;
 		static::$_dataObject = null;
+
+        \Mockery::close();
 	}
 
 	// Data::get()
