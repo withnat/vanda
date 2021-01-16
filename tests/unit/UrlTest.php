@@ -228,7 +228,6 @@ final class UrlTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -263,7 +262,6 @@ final class UrlTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -336,7 +334,6 @@ final class UrlTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -371,7 +368,6 @@ final class UrlTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -408,7 +404,6 @@ final class UrlTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -441,7 +436,6 @@ final class UrlTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -473,7 +467,6 @@ final class UrlTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -506,7 +499,6 @@ final class UrlTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -538,7 +530,6 @@ final class UrlTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -572,7 +563,6 @@ final class UrlTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -608,7 +598,6 @@ final class UrlTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')

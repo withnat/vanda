@@ -558,7 +558,6 @@ final class ResponseTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -589,7 +588,6 @@ final class ResponseTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -623,7 +621,6 @@ final class ResponseTest extends TestCase
 		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 		$mockedRequest->shouldReceive('server')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'SERVER_SOFTWARE')
@@ -634,7 +631,6 @@ final class ResponseTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
@@ -672,7 +668,6 @@ final class ResponseTest extends TestCase
 		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 		$mockedRequest->shouldReceive('server')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'SERVER_SOFTWARE')
@@ -683,7 +678,6 @@ final class ResponseTest extends TestCase
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')

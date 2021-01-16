@@ -79,7 +79,6 @@ final class StrTest extends TestCase
 	{
 		$mockedConfig = \Mockery::mock('alias:\System\Config');
 		$mockedConfig->shouldReceive('app')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'charset')
@@ -101,7 +100,6 @@ final class StrTest extends TestCase
 	{
 		$mockedConfig = \Mockery::mock('alias:\System\Config');
 		$mockedConfig->shouldReceive('app')
-			->once()
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'charset')

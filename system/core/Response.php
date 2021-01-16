@@ -423,6 +423,15 @@ class Response
 		if (!array_key_exists($statusCode, static::$_statuses))
 			throw InvalidArgumentException::valueError(2, '$statusCode is not a valid HTTP return status code', $statusCode);
 
+		// Scrub all output buffer before we redirect.
+		// The ob_get_level() function indicates how many output buffers are
+		// currently on the stack. PHP may be configured to automatically
+		// create an output buffer when the script begins, which is why the
+		// buffer level may be 1 without calling ob_start().
+		// @see http://www.mombu.com/php/php/t-output-buffering-and-zlib-compression-issue-3554315-last.html
+		while (ob_get_level() > 1)
+			ob_end_clean();
+
 		if (isSPA() and Request::isAjax())
 		{
 			$data = [
