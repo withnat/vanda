@@ -54,8 +54,8 @@ class Response
 	 * A map of integer HTTP 1.1 response codes to the full HTTP Status for the headers.
 	 *
 	 * @var array  An array of standard HTTP status codes and reason phrases.
-	 * @link http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
-     * @link https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+	 * @see http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+     * @see https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 	 */
 	protected static $_statuses = [
 		// 1xx: Informational
