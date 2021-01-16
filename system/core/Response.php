@@ -429,8 +429,10 @@ class Response
 		// create an output buffer when the script begins, which is why the
 		// buffer level may be 1 without calling ob_start().
 		// @see http://www.mombu.com/php/php/t-output-buffering-and-zlib-compression-issue-3554315-last.html
+		// @codeCoverageIgnoreStart
 		while (ob_get_level() > 1)
-			ob_end_clean();
+			static::clean();
+		// @codeCoverageIgnoreEnd
 
 		if (isSPA() and Request::isAjax())
 		{
@@ -494,6 +496,7 @@ class Response
 	 *
 	 * @return bool  True if the headers have already been sent.
 	 * @see headers_sent()
+	 * @codeCoverageIgnore
 	 */
 	protected static function isHeadersSent() : bool
 	{
