@@ -189,9 +189,9 @@ final class ResponseTest extends TestCase
 	public function testMethodGetHeaderListCase2() : void
 	{
 		$expected = [
-			['Pragma' => 'cache'],
-			['Cache-Control' => 'no-cache'],
-			['Cache-Control' => 'no-store']
+			['Pragma', 'cache'],
+			['Cache-Control', 'no-cache'],
+			['Cache-Control', 'no-store']
 		];
 
 		Response::setHeader('Pragma', 'cache')
@@ -224,8 +224,8 @@ final class ResponseTest extends TestCase
 	public function testMethodPrependHeaderListCase2() : void
 	{
 		$expected = [
-			['Cache-Control' => 'no-store'],
-			['Cache-Control' => 'no-cache']
+			['Cache-Control', 'no-store'],
+			['Cache-Control', 'no-cache']
 		];
 
 		Response::setHeader('Cache-Control', 'no-cache');
@@ -244,8 +244,8 @@ final class ResponseTest extends TestCase
 	public function testMethodPrependHeaderListCase3() : void
 	{
 		$expected = [
-			['Cache-Control' => 'no-store'],
-			['Cache-Control' => 'no-cache']
+			['Cache-Control', 'no-store'],
+			['Cache-Control', 'no-cache']
 		];
 
 		Response::setHeader('Cache-Control', 'no-cache')
@@ -264,7 +264,7 @@ final class ResponseTest extends TestCase
 	public function testMethodPrependHeaderListCase4() : void
 	{
 		$expected = [
-			['Cache-Control' => 'no-store']
+			['Cache-Control', 'no-store']
 		];
 
 		Response::prependHeader('Cache-Control', 'no-store');
@@ -338,7 +338,7 @@ final class ResponseTest extends TestCase
 	public function testMethodRemoveHeaderCase3() : void
 	{
 		$expected = [
-			['Pragma' => 'cache']
+			['Pragma', 'cache']
 		];
 
 		Response::setHeader('Pragma', 'cache')

@@ -233,10 +233,10 @@ class Response
 	{
 		$values = [];
 
-		foreach (Response::$_headers as $key => $value)
+		foreach (Response::$_headers as $header)
 		{
-			if (array_keys($value)[0] === $name)
-				$values[] = $value[$name];
+			if ($header[0] === $name)
+				$values[] = $header[1];
 		}
 
 		switch (count($values))
@@ -274,7 +274,7 @@ class Response
 	 */
 	public static function setHeader(string $name, string $value) : Response
 	{
-		Response::$_headers[] = [$name => $value];
+		Response::$_headers[] = [$name, $value];
 
 		return Response::_getInstance();
 	}
@@ -288,7 +288,7 @@ class Response
 	 */
 	public static function prependHeader(string $name, string $value) : Response
 	{
-		array_unshift(Response::$_headers, [$name => $value]);
+		array_unshift(Response::$_headers, [$name, $value]);
 
 		return Response::_getInstance();
 	}
@@ -314,9 +314,9 @@ class Response
 	 */
 	public static function removeHeader(string $name) : Response
 	{
-		foreach (Response::$_headers as $key => $value)
+		foreach (Response::$_headers as $key => $header)
 		{
-			if (array_keys($value)[0] === $name)
+			if ($header[0] === $name)
 				unset(Response::$_headers[$key]);
 		}
 
@@ -500,7 +500,7 @@ class Response
 		{
 			foreach (Response::$_headers as $header)
 			{
-				if (strtolower(array_keys($header)[0]) === 'content-type')
+				if (strtolower($header[0]) === 'content-type')
 				{
 					$hasContentType = true;
 					break;
@@ -514,10 +514,7 @@ class Response
 		// Output headers.
 
 		foreach (Response::$_headers as $header)
-		{
-			$key = array_keys($header)[0];
-			header($key . ': ' . $header[$key]);
-		}
+			header($header[0] . ': ' . $header[1]);
 
 		return Response::_getInstance();
 	}
