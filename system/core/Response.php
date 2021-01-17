@@ -467,6 +467,73 @@ class Response
 		}
 	}
 
+	/**
+	 * Sends the output to the browser.
+	 *
+	 * @return Response
+	 */
+	public static function send() : Response
+	{
+		static::sendHeaders();
+		static::sendBody();
+
+		return Response::_getInstance();
+	}
+
+	/**
+	 * Send all headers of this HTTP request to the browser.
+	 *
+	 * @return Response
+	 */
+	public static function sendHeaders() : Response
+	{
+		// Don't send headers for CLI.
+		if (Request::isCli())
+			return Response::_getInstance();
+
+		// Always make sure we send the content type.
+
+		$hasContentType = false;
+
+		// If array is not empty.
+		if (Response::$_headers)
+		{
+			foreach (Response::$_headers as $header)
+			{
+				if (strtolower(array_keys($header)[0]) === 'content-type')
+				{
+					$hasContentType = true;
+					break;
+				}
+			}
+		}
+
+		if (!$hasContentType)
+			static::setHeader('content-type', 'text/html; charset=' . Config::app('charset', 'UTF-8'));
+
+		// Output headers.
+
+		foreach (Response::$_headers as $header)
+		{
+			$key = array_keys($header)[0];
+			header($key . ': ' . $header[$key]);
+		}
+
+		return Response::_getInstance();
+	}
+
+	/**
+	 * Sends the Body of the message to the browser.
+	 *
+	 * @return Response
+	 */
+	public static function sendBody() : Response
+	{
+		echo Response::$_body;
+
+		return Response::_getInstance();
+	}
+
 	public static function spa($data)
 	{
 		$data = [
