@@ -701,4 +701,77 @@ final class ResponseTest extends TestCase
 		$result = $mockedResponse->getStatusCode();
 		$this->assertEquals($expectedStatusCode, $result);
 	}
+
+	// Response::send() & Response::sendHeaders() & Response::sendBody()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSendCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['isCli' => true]);
+
+		$result = Response::send();
+
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSendCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['isCli' => false]);
+
+		$result = Response::send();
+
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSendCase3() : void
+	{
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['isCli' => false]);
+
+		Response::setHeader('Pragma', 'cache');
+		Response::setBody('Nat is handsome.');
+
+		$result = Response::send();
+
+		$headers = xdebug_get_headers();
+
+		$this->assertContains('Pragma: cache', $headers);
+		$this->assertContains('content-type: text/html; charset=UTF-8', $headers);
+		$this->expectOutputString('Nat is handsome.');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSendCase4() : void
+	{
+		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['isCli' => false]);
+
+		Response::setHeader('Pragma', 'cache');
+		Response::setHeader('content-type', 'text/html; charset=UTF-8');
+		Response::setBody('Nat is handsome.');
+
+		$result = Response::send();
+
+		$headers = xdebug_get_headers();
+
+		$this->assertContains('Pragma: cache', $headers);
+		$this->assertContains('content-type: text/html; charset=UTF-8', $headers);
+		$this->expectOutputString('Nat is handsome.');
+	}
 }
