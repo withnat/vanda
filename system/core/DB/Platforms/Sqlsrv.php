@@ -25,4 +25,7 @@ use PDOException;
  */
 final class Sqlsrv extends AbstractPlatform
 {
+	protected static function _connect() : void
+	{
+	}
 }
