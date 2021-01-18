@@ -211,7 +211,7 @@ class Response
 	public static function setStatusCode(int $statusCode) : Response
 	{
 		if (!array_key_exists($statusCode, Response::$_statuses))
-				throw InvalidArgumentException::valueError(1, '$status is not a valid HTTP return status code', $statusCode);
+				throw InvalidArgumentException::valueError(1, '$statusCode is not a valid HTTP return status code', $statusCode);
 
 		Response::$_statusCode = $statusCode;
 		Response::$_statusReason = Response::$_statuses[$statusCode];
