@@ -98,7 +98,7 @@ final class Html
 	 */
 	public static function linkUnlessCurrent(string $url = null, string $title = null, $attribs = null) : string
 	{
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::create(3, ['string','array','null'], $attribs);
 
 		$currentUrl = Request::url();
@@ -126,7 +126,7 @@ final class Html
 	 */
 	public static function mailto(string $email, string $title = null, $attribs = null) : string
 	{
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::create(3, ['string','array','null'], $attribs);
 
 		if (is_array($attribs))
@@ -146,7 +146,7 @@ final class Html
 	 */
 	public static function image(string $url, string $alt = null, $attribs = null) : string
 	{
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::create(3, ['string','array','null'], $attribs);
 
 		if (is_array($attribs))
@@ -193,7 +193,7 @@ final class Html
 	 */
 	public static function css(string $url, $attribs = null) : string
 	{
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::create(2, ['string','array','null'], $attribs);
 
 		list($url, $query) = static::_getCssUrl($url);
@@ -222,7 +222,7 @@ final class Html
 	 */
 	public static function addCss(string $url, $attribs = null) : void
 	{
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::create(2, ['string','array','null'], $attribs);
 
 		list($url, $query) = static::_getCssUrl($url);
@@ -415,7 +415,7 @@ final class Html
 		if (!is_array($items) and !is_object($items))
 			throw InvalidArgumentException::create(1, ['array','object'], $items);
 
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::create(2, ['string','array','null'], $attribs);
 
 		if (is_array($attribs))
@@ -441,7 +441,7 @@ final class Html
 		if (!is_array($items) and !is_object($items))
 			throw InvalidArgumentException::create(1, ['array','object'], $items);
 
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::create(2, ['string','array','null'], $attribs);
 
 		if (is_array($attribs))
@@ -464,7 +464,7 @@ final class Html
 	 */
 	public static function table(array $items, $attribs = null) : string
 	{
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::create(2, ['string','array','null'], $attribs);
 
 		if (is_array($attribs))
@@ -511,7 +511,7 @@ final class Html
 	 */
 	public static function setAttribute($attribs, string $attribName, string $attribValue) : string
 	{
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::create(1, ['string','array','null'], $attribs);
 
 		if (is_null($attribs))
