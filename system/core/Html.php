@@ -63,10 +63,10 @@ final class Html
 	 */
 	public static function link(string $url = null, string $title = null, $attribs = null) : string
 	{
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
-			throw InvalidArgumentException::create(3, ['string','array','null'], $attribs);
+		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
+			throw InvalidArgumentException::typeError(3, ['string','array','null'], $attribs);
 
-		$routeUrl = Uri::route($url);
+		$routeUrl = Url::create($url);
 
 		if (is_null($attribs))
 			$attribs = '';
@@ -76,9 +76,9 @@ final class Html
 		if (Str::isBlank($title))
 			$title = $routeUrl;
 
-		if (isSPA())
+		if (Request::isSPA())
 		{
-			$hash = Uri::hashSPA((string)$url);
+			$hash = Url::hashSPA((string)$url);
 			$attribs = static::setAttribute($attribs, 'href', $hash);
 			$attribs = static::setAttribute($attribs, 'data-url', $routeUrl);
 		}
@@ -102,7 +102,7 @@ final class Html
 			throw InvalidArgumentException::create(3, ['string','array','null'], $attribs);
 
 		$currentUrl = Request::url();
-		$url = Uri::route($url);
+		$url = Url::create($url);
 
 		if (Str::isBlank($title))
 			$title = $url;
