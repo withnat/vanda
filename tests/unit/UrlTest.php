@@ -138,7 +138,6 @@ final class UrlTest extends TestCase
 		$mockedRequest->shouldReceive(['basePath' => '']);
 
 		$expected = 'http://localhost';
-
 		$result = Url::base();
 
 		$this->assertEquals($expected, $result);
@@ -151,11 +150,10 @@ final class UrlTest extends TestCase
 	public function testMethodBaseCase2()
 	{
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 
 		$expected = 'http://localhost';
-
 		$result = Url::base(false);
 
 		$this->assertEquals($expected, $result);
@@ -169,16 +167,68 @@ final class UrlTest extends TestCase
 	{
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
-		$mockedRequest->shouldReceive(['basePath' => '']);
+		$mockedRequest->shouldReceive(['basePath' => '/vanda']);
 
-		$expected = 'https://localhost';
-
+		$expected = 'https://localhost/vanda';
 		$result = Url::base(true);
 
 		$this->assertEquals($expected, $result);
 	}
 
 	// Url::create()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testCreateFrontendUrlFromEmpty()
+	{
+		putenv('APP_SIDE=frontend');
+
+		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl->shouldReceive('base')->andReturn('http://localhost/vanda');
+
+		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
+
+		$expected = 'http://localhost/vanda';
+		$result = $mockedUrl->create();
+
+		$this->assertEquals($expected, $result);
+
+		putenv('APP_SIDE');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testCreateBackendUrlFromEmpty()
+	{
+		putenv('APP_SIDE=backend');
+
+		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl->shouldReceive('base')->andReturn('http://localhost/vanda');
+
+		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting->shouldReceive('get')
+			->andReturnUsing(function ($arg)
+			{
+				if ($arg == 'sef')
+					return true;
+				elseif ($arg == 'backendpath')
+					return '/admin';
+				else
+					return '';
+			});
+
+		$expected = 'http://localhost/vanda/admin';
+		$result = $mockedUrl->create();
+
+		$this->assertEquals($expected, $result);
+
+		putenv('APP_SIDE');
+	}
 
 	public function testCreateFromUrl()
 	{
@@ -211,75 +261,75 @@ final class UrlTest extends TestCase
 	}
 
 	/**
-	 * @param $string
+	 * @param $uri
 	 * @param $secure
 	 * @param $expected
 	 * @dataProvider createBackendUrlWithSefProvider
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testCreateBackenUrldWithSef($string, $secure, $expected) : void
+	public function testCreateBackenUrldWithSef($uri, $secure, $expected) : void
 	{
-		putenv('SIDE=backend');
+		putenv('APP_SIDE=backend');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
-		$mockedRequest->shouldReceive(['basePath' => '']);
+		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl->shouldReceive('base')->andReturn('http://localhost');
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
-					return '1';
+					return true;
 				elseif ($arg == 'backendpath')
 					return '/admin';
 				else
 					return '';
 			});
 
-		$result = Url::create($string, $secure);
+		$result = $mockedUrl->create($uri, $secure);
+
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
+		putenv('APP_SIDE');
 	}
 
 	/**
-	 * @param $string
+	 * @param $uri
 	 * @param $secure
 	 * @param $expected
 	 * @dataProvider createBackendUrlWithoutSefProvider
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testCreateBackendUrlWithoutSef($string, $secure, $expected) : void
+	public function testCreateBackendUrlWithoutSef($uri, $secure, $expected) : void
 	{
-		putenv('SIDE=backend');
+		putenv('APP_SIDE=backend');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
-		$mockedRequest->shouldReceive(['basePath' => '']);
+		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl->shouldReceive('base')->andReturn('http://localhost');
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
-					return '0';
+					return false;
 				elseif ($arg == 'backendpath')
 					return '/admin';
 				else
 					return '';
 			});
 
-		$result = Url::create($string, $secure);
+		$result = $mockedUrl->create($uri, $secure);
+
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
+		putenv('APP_SIDE');
 	}
 
 	/**
-	 * @param $string
+	 * @param $uri
 	 * @param $lang
 	 * @param $secure
 	 * @param $expected
@@ -287,35 +337,27 @@ final class UrlTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testCreateFrontenUrldWithSef($string, $lang, $secure, $expected) : void
+	public function testCreateFrontenUrldWithSef($uri, $lang, $secure, $expected) : void
 	{
-		putenv('SIDE=frontend');
-		putenv('LANG=' . $lang);
+		putenv('APP_SIDE=frontend');
+		putenv('APP_LANG=' . $lang);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
-		$mockedRequest->shouldReceive(['basePath' => '']);
+		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl->shouldReceive('base')->andReturn('http://localhost');
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
-		$mockedSetting->shouldReceive('get')
-			->once()
-			->andReturnUsing(function ($arg)
-			{
-				if ($arg == 'sef')
-					return '1';
-				else
-					return '';
-			});
+		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
 
-		$result = Url::create($string, $secure);
+		$result = $mockedUrl->create($uri, $secure);
+
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
-		putenv('LANG');
+		putenv('APP_SIDE');
+		putenv('APP_LANG');
 	}
 
 	/**
-	 * @param $string
+	 * @param $uri
 	 * @param $lang
 	 * @param $secure
 	 * @param $expected
@@ -323,30 +365,23 @@ final class UrlTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testCreateFrontendUrlWithoutSef($string, $lang, $secure, $expected) : void
+	public function testCreateFrontendUrlWithoutSef($uri, $lang, $secure, $expected) : void
 	{
-		putenv('SIDE=frontend');
-		putenv('LANG=' . $lang);
+		putenv('APP_SIDE=frontend');
+		putenv('APP_LANG=' . $lang);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
-		$mockedRequest->shouldReceive(['basePath' => '']);
+		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl->shouldReceive('base')->andReturn('http://localhost');
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
-		$mockedSetting->shouldReceive('get')
-			->andReturnUsing(function ($arg)
-			{
-				if ($arg == 'sef')
-					return '0';
-				else
-					return '';
-			});
+		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(false);
 
-		$result = Url::create($string, $secure);
+		$result = $mockedUrl->create($uri, $secure);
+
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
-		putenv('LANG');
+		putenv('APP_SIDE');
+		putenv('APP_LANG');
 	}
 
 	/**
@@ -355,8 +390,8 @@ final class UrlTest extends TestCase
 	 */
 	public function testCreateFullUrlWithPathParam() : void
 	{
-		putenv('SIDE=frontend');
-		putenv('LANG=en');
+		putenv('APP_SIDE=frontend');
+		putenv('APP_LANG=en');
 
 		Url::setScheme('http');
 		Url::setUser('user');
@@ -367,21 +402,15 @@ final class UrlTest extends TestCase
 		Url::setFragment('anchor');
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
-		$mockedSetting->shouldReceive('get')
-			->andReturnUsing(function ($arg)
-			{
-				if ($arg == 'sef')
-					return '1';
-				else
-					return '';
-			});
+		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
 
 		$expected = 'http://user:pass@hostname:9090/en/contact?arg=value#anchor';
 		$result = Url::create('contact', false);
+
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
-		putenv('LANG');
+		putenv('APP_SIDE');
+		putenv('APP_LANG');
 	}
 
 	/**
@@ -390,8 +419,8 @@ final class UrlTest extends TestCase
 	 */
 	public function testCreateFullUrlWithOutPathParam() : void
 	{
-		putenv('SIDE=frontend');
-		putenv('LANG=en');
+		putenv('APP_SIDE=frontend');
+		putenv('APP_LANG=en');
 
 		Url::setScheme('http');
 		Url::setUser('user');
@@ -403,22 +432,15 @@ final class UrlTest extends TestCase
 		Url::setFragment('anchor');
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
-		$mockedSetting->shouldReceive('get')
-			->andReturnUsing(function ($arg)
-			{
-				if ($arg == 'sef')
-					return '1';
-				else
-					return '';
-			});
+		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
 
 		$expected = 'http://user:pass@hostname:9090/en/contact?arg=value#anchor';
 		$result = Url::create(null, false);
 
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
-		putenv('LANG');
+		putenv('APP_SIDE');
+		putenv('APP_LANG');
 	}
 
 	/**
@@ -427,29 +449,23 @@ final class UrlTest extends TestCase
 	 */
 	public function testCreateFullUrlWithUserHasNoPass() : void
 	{
-		putenv('SIDE=frontend');
-		putenv('LANG=en');
+		putenv('APP_SIDE=frontend');
+		putenv('APP_LANG=en');
 
 		Url::setScheme('http');
 		Url::setUser('user');
 		Url::setHost('hostname');
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
-		$mockedSetting->shouldReceive('get')
-			->andReturnUsing(function ($arg)
-			{
-				if ($arg == 'sef')
-					return '1';
-				else
-					return '';
-			});
+		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
 
 		$expected = 'http://user@hostname/en';
 		$result = Url::create(null, false);
+
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
-		putenv('LANG');
+		putenv('APP_SIDE');
+		putenv('APP_LANG');
 	}
 
 	/**
@@ -458,29 +474,23 @@ final class UrlTest extends TestCase
 	 */
 	public function testCreateFullUrlWithPassButNoUser() : void
 	{
-		putenv('SIDE=frontend');
-		putenv('LANG=en');
+		putenv('APP_SIDE=frontend');
+		putenv('APP_LANG=en');
 
 		Url::setScheme('http');
 		Url::setPass('pass');
 		Url::setHost('hostname');
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
-		$mockedSetting->shouldReceive('get')
-			->andReturnUsing(function ($arg)
-			{
-				if ($arg == 'sef')
-					return '1';
-				else
-					return '';
-			});
+		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
 
 		$expected = 'http://:pass@hostname/en';
 		$result = Url::create(null, false);
+
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
-		putenv('LANG');
+		putenv('APP_SIDE');
+		putenv('APP_LANG');
 	}
 
 	// Url::createFromAction()
@@ -491,7 +501,7 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodCreateFromActionThatHasOneDotInUri()
 	{
-		putenv('SIDE=backend');
+		putenv('APP_SIDE=backend');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
@@ -502,7 +512,7 @@ final class UrlTest extends TestCase
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
-					return '1';
+					return true;
 				elseif ($arg == 'backendpath')
 					return '/admin';
 				else
@@ -511,9 +521,10 @@ final class UrlTest extends TestCase
 
 		$expected = 'https://localhost/admin/user/add';
 		$result = Url::createFromAction('user.add');
+
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
+		putenv('APP_SIDE');
 	}
 
 	/**
@@ -522,7 +533,7 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodCreateFromActionThatHasTwoDotsInUri()
 	{
-		putenv('SIDE=backend');
+		putenv('APP_SIDE=backend');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
@@ -533,7 +544,7 @@ final class UrlTest extends TestCase
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
-					return '1';
+					return true;
 				elseif ($arg == 'backendpath')
 					return '/admin';
 				else
@@ -541,10 +552,11 @@ final class UrlTest extends TestCase
 			});
 
 		$expected = 'https://localhost/admin/user/group/add';
+
 		$result = Url::createFromAction('user.group.add');
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
+		putenv('APP_SIDE');
 	}
 
 	/**
@@ -553,9 +565,9 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodCreateFromActionThatModuleIsSameAsController()
 	{
-		putenv('SIDE=backend');
-		putenv('MODULE=user');
-		putenv('CONTROLLER=user');
+		putenv('APP_SIDE=backend');
+		putenv('APP_MODULE=user');
+		putenv('APP_CONTROLLER=user');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
@@ -566,7 +578,7 @@ final class UrlTest extends TestCase
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
-					return '1';
+					return true;
 				elseif ($arg == 'backendpath')
 					return '/admin';
 				else
@@ -575,11 +587,12 @@ final class UrlTest extends TestCase
 
 		$expected = 'https://localhost/admin/user/add';
 		$result = Url::createFromAction('add');
+
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
-		putenv('MODULE');
-		putenv('CONTROLLER');
+		putenv('APP_SIDE');
+		putenv('APP_MODULE');
+		putenv('APP_CONTROLLER');
 	}
 
 	/**
@@ -588,9 +601,9 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodCreateFromActionThatModuleIsNotSameAsController()
 	{
-		putenv('SIDE=backend');
-		putenv('MODULE=user');
-		putenv('CONTROLLER=group');
+		putenv('APP_SIDE=backend');
+		putenv('APP_MODULE=user');
+		putenv('APP_CONTROLLER=group');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
@@ -601,7 +614,7 @@ final class UrlTest extends TestCase
 			->andReturnUsing(function ($arg)
 			{
 				if ($arg == 'sef')
-					return '1';
+					return true;
 				elseif ($arg == 'backendpath')
 					return '/admin';
 				else
@@ -610,11 +623,12 @@ final class UrlTest extends TestCase
 
 		$expected = 'https://localhost/admin/user/group/add';
 		$result = Url::createFromAction('add');
+
 		$this->assertEquals($expected, $result);
 
-		putenv('SIDE');
-		putenv('MODULE');
-		putenv('CONTROLLER');
+		putenv('APP_SIDE');
+		putenv('APP_MODULE');
+		putenv('APP_CONTROLLER');
 	}
 
 	// Url::isValid()
@@ -670,28 +684,42 @@ final class UrlTest extends TestCase
 
 	// Url::hashSPA()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodHashSPACase1()
 	{
-		$expected = '#user';
+		putenv('APP_SIDE=frontend');
 
-		$result = Url::hashSPA('user');
+		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl->shouldReceive('create')->andReturn('http://localhost/vanda');
+
+		$expected = 'http://localhost/vanda';
+		$result = $mockedUrl->hashSPA();
 
 		$this->assertEquals($expected, $result);
 	}
 
 	public function testMethodHashSPACase2()
 	{
-		$expected = '#user:1';
-
-		$result = Url::hashSPA('user?id=1');
+		$expected = '#user';
+		$result = Url::hashSPA('user');
 
 		$this->assertEquals($expected, $result);
 	}
 
 	public function testMethodHashSPACase3()
 	{
-		$expected = '#user?id=1&param=value';
+		$expected = '#user:1';
+		$result = Url::hashSPA('user?id=1');
 
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodHashSPACase4()
+	{
+		$expected = '#user?id=1&param=value';
 		$result = Url::hashSPA('user?id=1&param=value');
 
 		$this->assertEquals($expected, $result);
@@ -706,7 +734,6 @@ final class UrlTest extends TestCase
 	public function testMethodtoContextCase1()
 	{
 		$expected = 'httpslocalhost';
-
 		$result = Url::toContext('https://localhost');
 
 		$this->assertEquals($expected, $result);
@@ -718,20 +745,19 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodtoContextCase2()
 	{
-		putenv('MODULE=user');
-		putenv('CONTROLLER=user');
+		putenv('APP_MODULE=user');
+		putenv('APP_CONTROLLER=user');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['url' => 'https://localhost/vanda/admin/user/user/modify?id=1']);
 
 		$expected = 'httpslocalhostvandaadminusermodify';
-
 		$result = Url::toContext();
 
 		$this->assertEquals($expected, $result);
 
-		putenv('MODULE');
-		putenv('CONTROLLER');
+		putenv('APP_MODULE');
+		putenv('APP_CONTROLLER');
 	}
 
 	/**
@@ -740,20 +766,19 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodtoContextCase3()
 	{
-		putenv('MODULE=user');
-		putenv('CONTROLLER=group');
+		putenv('APP_MODULE=user');
+		putenv('APP_CONTROLLER=group');
 
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['url' => 'https://localhost/vanda/admin/user/group/modify?id=1']);
 
 		$expected = 'httpslocalhostvandaadminusergroupmodify';
-
 		$result = Url::toContext();
 
 		$this->assertEquals($expected, $result);
 
-		putenv('MODULE');
-		putenv('CONTROLLER');
+		putenv('APP_MODULE');
+		putenv('APP_CONTROLLER');
 	}
 
 	// Url::encode()
@@ -761,7 +786,6 @@ final class UrlTest extends TestCase
 	public function testMethodEncodeCase1()
 	{
 		$expected = 'aHR0cHM6Ly9sb2NhbGhvc3QvdmFuZGE_bmFtZT1OYXQrV2l0aGU=';
-
 		$result = Url::encode('https://localhost/vanda?name=Nat+Withe');
 
 		$this->assertEquals($expected, $result);
@@ -772,7 +796,6 @@ final class UrlTest extends TestCase
 	public function testMethodDecodeCase1()
 	{
 		$expected = 'https://localhost/vanda?name=Nat+Withe';
-
 		$result = Url::decode('aHR0cHM6Ly9sb2NhbGhvc3QvdmFuZGE_bmFtZT1OYXQrV2l0aGU=');
 
 		$this->assertEquals($expected, $result);
@@ -817,7 +840,6 @@ final class UrlTest extends TestCase
 	public function testMethodGetSchemeCase3()
 	{
 		$expected = 'http';
-
 		$result = Url::getScheme(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
@@ -855,7 +877,6 @@ final class UrlTest extends TestCase
 	public function testMethodGetUserCase3()
 	{
 		$expected = 'username';
-
 		$result = Url::getUser(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
@@ -893,7 +914,6 @@ final class UrlTest extends TestCase
 	public function testMethodGetPassCase3()
 	{
 		$expected = 'password';
-
 		$result = Url::getPass(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
@@ -931,7 +951,6 @@ final class UrlTest extends TestCase
 	public function testMethodGetHostCase3()
 	{
 		$expected = 'hostname';
-
 		$result = Url::getHost(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
@@ -969,7 +988,6 @@ final class UrlTest extends TestCase
 	public function testMethodGetPortCase3()
 	{
 		$expected = 9090;
-
 		$result = Url::getPort(UrlTest::$_url);
 
 		$this->assertIsInt($result);
@@ -1008,7 +1026,6 @@ final class UrlTest extends TestCase
 	public function testMethodGetPathCase3()
 	{
 		$expected = '/path';
-
 		$result = Url::getPath(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
@@ -1046,7 +1063,6 @@ final class UrlTest extends TestCase
 	public function testMethodGetQueryCase3()
 	{
 		$expected = 'arg=value';
-
 		$result = Url::getQuery(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
@@ -1084,7 +1100,6 @@ final class UrlTest extends TestCase
 	public function testMethodGetFragmentCase3()
 	{
 		$expected = 'anchor';
-
 		$result = Url::getFragment(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
