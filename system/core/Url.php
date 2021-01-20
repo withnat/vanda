@@ -91,7 +91,7 @@ class Url
 	{
 		if (!static::$_defaultUrl)
 		{
-			if (!Request::isSPA())
+			if (!Request::isSpa())
 			{
 				$side = getenv('SIDE');
 

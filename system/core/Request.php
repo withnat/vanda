@@ -436,7 +436,7 @@ final class Request
 	 *
 	 * @return bool
 	 */
-	public static function isSPA() : bool
+	public static function isSpa() : bool
 	{
 		$side = getenv('SIDE');
 		$frontendSpaMode = getenv('FRONTEND_SPA_MODE');
