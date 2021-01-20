@@ -78,14 +78,7 @@ final class StrTest extends TestCase
 	public function testMethodLengthCase3() : void
 	{
 		$mockedConfig = \Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')
-			->andReturnUsing(function ($arg)
-			{
-				if ($arg == 'charset')
-					return 'UTF-8';
-				else
-					return '';
-			});
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::length(StrTest::$_string);
 
@@ -99,14 +92,7 @@ final class StrTest extends TestCase
 	public function testMethodLengthCase4() : void
 	{
 		$mockedConfig = \Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')
-			->andReturnUsing(function ($arg)
-			{
-				if ($arg == 'charset')
-					return '';
-				else
-					return '';
-			});
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('');
 
 		$result = Str::length(StrTest::$_string);
 

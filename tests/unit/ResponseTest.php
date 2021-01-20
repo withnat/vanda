@@ -596,11 +596,11 @@ final class ResponseTest extends TestCase
 					return '';
 			});
 
-		$mockedResponse = \Mockery::mock("System\Response")
+		$mockedResponse = \Mockery::mock('System\Response')
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
-		$mockedResponse->shouldReceive("isHeadersSent")
+		$mockedResponse->shouldReceive('isHeadersSent')
 			->andReturn(true);
 
 		$mockedResponse->redirect();
@@ -639,11 +639,11 @@ final class ResponseTest extends TestCase
 					return '';
 			});
 
-		$mockedResponse = \Mockery::mock("System\Response")
+		$mockedResponse = \Mockery::mock('System\Response')
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
-		$mockedResponse->shouldReceive("isHeadersSent")
+		$mockedResponse->shouldReceive('isHeadersSent')
 			->andReturn(false);
 
 		$mockedResponse->redirect('user', 302);
@@ -686,11 +686,11 @@ final class ResponseTest extends TestCase
 					return '';
 			});
 
-		$mockedResponse = \Mockery::mock("System\Response")
+		$mockedResponse = \Mockery::mock('System\Response')
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
-		$mockedResponse->shouldReceive("isHeadersSent")
+		$mockedResponse->shouldReceive('isHeadersSent')
 			->andReturn(false);
 
 		$mockedResponse->redirect('user', 302);

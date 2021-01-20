@@ -3944,7 +3944,7 @@ final class ArrTest extends TestCase
 	public function testMethodToJson() : void
 	{
 		$mockedJson = \Mockery::mock('alias:\System\JSON');
-		$mockedJson->shouldReceive(['encode' => '[]'])->once();
+		$mockedJson->shouldReceive('encode')->andReturn('[]');
 
 		$result = Arr::toJSON([]);
 
