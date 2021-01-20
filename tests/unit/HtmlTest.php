@@ -71,7 +71,7 @@ final class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkCase2() : void
 	{
-		$expected = '<a  href="http://localhost" >http://localhost</a>';
+		$expected = '<a href="http://localhost">http://localhost</a>';
 
 		$stubUrl = \Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive(['create' => 'http://localhost']);
@@ -90,7 +90,7 @@ final class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkCase3() : void
 	{
-		$expected = '<a style="font-weight:bold;" href="http://localhost" >User Management System</a>';
+		$expected = '<a style="font-weight:bold;" href="http://localhost">User Management System</a>';
 
 		$stubUrl = \Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive(['create' => 'http://localhost']);
@@ -109,7 +109,7 @@ final class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkCase4() : void
 	{
-		$expected = '<a style="font-weight:bold;" href="http://localhost" >User Management System</a>';
+		$expected = '<a style="font-weight:bold;" href="http://localhost">User Management System</a>';
 
 		$stubUrl = \Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive(['create' => 'http://localhost']);
@@ -128,7 +128,7 @@ final class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkCase5() : void
 	{
-		$expected = '<a  href="#user"  data-url="http://localhost" >http://localhost</a>';
+		$expected = '<a href="#user" data-url="http://localhost">http://localhost</a>';
 
 		$stubUrl = \Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive(['create' => 'http://localhost']);

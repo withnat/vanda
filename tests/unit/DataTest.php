@@ -53,7 +53,7 @@ final class DataTest extends TestCase
 
 	protected function setUp() : void
 	{
-		static::$_dataArray = [
+		DataTest::$_dataArray = [
 			'A',
 			'B',
 			['X', 'Y']
@@ -63,25 +63,25 @@ final class DataTest extends TestCase
 		$work->position = 'Web Developer';
 		$work->salary = 10000;
 
-		static::$_dataArrayAssoc = [
+		DataTest::$_dataArrayAssoc = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
 			'work' => $work
 		];
 
-		static::$_dataObject = new stdClass();
-		static::$_dataObject->name = 'Nat';
-		static::$_dataObject->surname = 'Withe';
-		static::$_dataObject->age = 38;
-		static::$_dataObject->work = $work;
+		DataTest::$_dataObject = new stdClass();
+		DataTest::$_dataObject->name = 'Nat';
+		DataTest::$_dataObject->surname = 'Withe';
+		DataTest::$_dataObject->age = 38;
+		DataTest::$_dataObject->work = $work;
 	}
 
 	protected function tearDown() : void
 	{
-		static::$_dataArray = null;
-		static::$_dataArrayAssoc = null;
-		static::$_dataObject = null;
+		DataTest::$_dataArray = null;
+		DataTest::$_dataArrayAssoc = null;
+		DataTest::$_dataObject = null;
 	}
 
 	// Data::get()
@@ -116,112 +116,112 @@ final class DataTest extends TestCase
 
 	public function testMethodGetCase5() : void
 	{
-		$result = Data::get(static::$_dataArray, 'missingkey');
+		$result = Data::get(DataTest::$_dataArray, 'missingkey');
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetCase6() : void
 	{
-		$result = Data::get(static::$_dataArray, 0);
+		$result = Data::get(DataTest::$_dataArray, 0);
 
 		$this->assertEquals('A', $result);
 	}
 
 	public function testMethodGetCase7() : void
 	{
-		$result = Data::get(static::$_dataArray, '2.0.missingkey');
+		$result = Data::get(DataTest::$_dataArray, '2.0.missingkey');
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetCase8() : void
 	{
-		$result = Data::get(static::$_dataArray, '2.0');
+		$result = Data::get(DataTest::$_dataArray, '2.0');
 
 		$this->assertEquals('X', $result);
 	}
 
 	public function testMethodGetCase9() : void
 	{
-		$result = Data::get(static::$_dataArrayAssoc, 'missingkey');
+		$result = Data::get(DataTest::$_dataArrayAssoc, 'missingkey');
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetCase10() : void
 	{
-		$result = Data::get(static::$_dataArrayAssoc, 'missingkey', 'I love you.');
+		$result = Data::get(DataTest::$_dataArrayAssoc, 'missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
 	public function testMethodGetCase11() : void
 	{
-		$result = Data::get(static::$_dataArrayAssoc, 'name');
+		$result = Data::get(DataTest::$_dataArrayAssoc, 'name');
 
 		$this->assertEquals('Nat', $result);
 	}
 
 	public function testMethodGetCase12() : void
 	{
-		$result = Data::get(static::$_dataArrayAssoc, 'work.missingkey', 'I love you.');
+		$result = Data::get(DataTest::$_dataArrayAssoc, 'work.missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
 	public function testMethodGetCase13() : void
 	{
-		$result = Data::get(static::$_dataArrayAssoc, 'work.position.missingkey');
+		$result = Data::get(DataTest::$_dataArrayAssoc, 'work.position.missingkey');
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetCase14() : void
 	{
-		$result = Data::get(static::$_dataArrayAssoc, 'work.position');
+		$result = Data::get(DataTest::$_dataArrayAssoc, 'work.position');
 
 		$this->assertEquals('Web Developer', $result);
 	}
 
 	public function testMethodGetCase15() : void
 	{
-		$result = Data::get(static::$_dataObject, 'missingkey');
+		$result = Data::get(DataTest::$_dataObject, 'missingkey');
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetCase16() : void
 	{
-		$result = Data::get(static::$_dataObject, 'missingkey', 'I love you.');
+		$result = Data::get(DataTest::$_dataObject, 'missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
 	public function testMethodGetCase17() : void
 	{
-		$result = Data::get(static::$_dataObject, 'name');
+		$result = Data::get(DataTest::$_dataObject, 'name');
 
 		$this->assertEquals('Nat', $result);
 	}
 
 	public function testMethodGetCase18() : void
 	{
-		$result = Data::get(static::$_dataObject, 'work.missingkey', 'I love you.');
+		$result = Data::get(DataTest::$_dataObject, 'work.missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
 	public function testMethodGetCase19() : void
 	{
-		$result = Data::get(static::$_dataObject, 'work.missingkey');
+		$result = Data::get(DataTest::$_dataObject, 'work.missingkey');
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetCase20() : void
 	{
-		$result = Data::get(static::$_dataObject, 'work.position');
+		$result = Data::get(DataTest::$_dataObject, 'work.position');
 
 		$this->assertEquals('Web Developer', $result);
 	}
@@ -243,7 +243,7 @@ final class DataTest extends TestCase
 			['X', 'Y']
 		];
 
-		$result = Data::set(static::$_dataArray, '0.0.0.0', 'C');
+		$result = Data::set(DataTest::$_dataArray, '0.0.0.0', 'C');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -264,7 +264,7 @@ final class DataTest extends TestCase
 			]
 		];
 
-		$result = Data::set(static::$_dataObject, 'work.a.b', 'C');
+		$result = Data::set(DataTest::$_dataObject, 'work.a.b', 'C');
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
