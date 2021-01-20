@@ -47,7 +47,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class InflectorTest extends TestCase
 {
-	public function isCountableProvider()
+	public function isCountableProvider() : array
 	{
 		return [
 			['audio', false],
@@ -56,7 +56,7 @@ final class InflectorTest extends TestCase
 		];
 	}
 
-	public function pluralizeProvider()
+	public function pluralizeProvider() : array
 	{
 		return [
 			['audio', 'audio'],
@@ -81,7 +81,7 @@ final class InflectorTest extends TestCase
 		];
 	}
 
-	public function singularizeProvider()
+	public function singularizeProvider() : array
 	{
 		return [
 			['matrices', 'matrix'],
@@ -108,7 +108,7 @@ final class InflectorTest extends TestCase
 		];
 	}
 
-	public function camelizeProvider()
+	public function camelizeProvider() : array
 	{
 		return [
 			['Some Day', 'SomeDay'],
@@ -117,7 +117,7 @@ final class InflectorTest extends TestCase
 		];
 	}
 
-	public function underscoreProvider()
+	public function underscoreProvider() : array
 	{
 		return [
 			['FooBar', 'foo_bar'],
@@ -125,7 +125,7 @@ final class InflectorTest extends TestCase
 		];
 	}
 
-	public function variablizeProvider()
+	public function variablizeProvider() : array
 	{
 		return [
 			['Some Day', 'someDay'],
@@ -134,7 +134,7 @@ final class InflectorTest extends TestCase
 		];
 	}
 
-	public function foreignKeyProvider()
+	public function foreignKeyProvider() : array
 	{
 		return [
 			['', ''],
@@ -142,7 +142,7 @@ final class InflectorTest extends TestCase
 		];
 	}
 
-	public function controllerizeProvider()
+	public function controllerizeProvider() : array
 	{
 		return [
 			['Some Day', 'SomeDayController'],
@@ -151,7 +151,7 @@ final class InflectorTest extends TestCase
 		];
 	}
 
-	public function actionizeProvider()
+	public function actionizeProvider() : array
 	{
 		return [
 			['Some Day', 'SomeDayAction'],
@@ -160,7 +160,7 @@ final class InflectorTest extends TestCase
 		];
 	}
 
-	public function sentenceProvider()
+	public function sentenceProvider() : array
 	{
 		return [
 			[[], ''],
@@ -169,7 +169,7 @@ final class InflectorTest extends TestCase
 		];
 	}
 
-	public function ordinalizeProvider()
+	public function ordinalizeProvider() : array
 	{
 		return [
 			[1, 'st'],
