@@ -512,11 +512,11 @@ final class RequestTest extends TestCase
 
 	public function testMethodBasePathCase1() : void
 	{
-		$_SERVER['SCRIPT_NAME'] = '/home/me/www/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/vanda/index.php';
 
 		$result = Request::basePath();
 
-		$this->assertEquals('/home/me/www', $result);
+		$this->assertEquals('/vanda', $result);
 
 		unset($_SERVER['SCRIPT_NAME']);
 	}
