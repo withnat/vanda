@@ -793,7 +793,7 @@ final class UrlTest extends TestCase
 			'fragment' => 'anchor',
 		];
 
-		$result = Url::parse(static::$_url);
+		$result = Url::parse(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -818,7 +818,7 @@ final class UrlTest extends TestCase
 	{
 		$expected = 'http';
 
-		$result = Url::getScheme(static::$_url);
+		$result = Url::getScheme(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -856,7 +856,7 @@ final class UrlTest extends TestCase
 	{
 		$expected = 'username';
 
-		$result = Url::getUser(static::$_url);
+		$result = Url::getUser(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -894,7 +894,7 @@ final class UrlTest extends TestCase
 	{
 		$expected = 'password';
 
-		$result = Url::getPass(static::$_url);
+		$result = Url::getPass(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -932,7 +932,7 @@ final class UrlTest extends TestCase
 	{
 		$expected = 'hostname';
 
-		$result = Url::getHost(static::$_url);
+		$result = Url::getHost(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -970,7 +970,7 @@ final class UrlTest extends TestCase
 	{
 		$expected = 9090;
 
-		$result = Url::getPort(static::$_url);
+		$result = Url::getPort(UrlTest::$_url);
 
 		$this->assertIsInt($result);
 		$this->assertEquals($expected, $result);
@@ -1009,7 +1009,7 @@ final class UrlTest extends TestCase
 	{
 		$expected = '/path';
 
-		$result = Url::getPath(static::$_url);
+		$result = Url::getPath(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -1047,7 +1047,7 @@ final class UrlTest extends TestCase
 	{
 		$expected = 'arg=value';
 
-		$result = Url::getQuery(static::$_url);
+		$result = Url::getQuery(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -1085,7 +1085,7 @@ final class UrlTest extends TestCase
 	{
 		$expected = 'anchor';
 
-		$result = Url::getFragment(static::$_url);
+		$result = Url::getFragment(UrlTest::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
