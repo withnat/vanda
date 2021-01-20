@@ -53,7 +53,7 @@ final class UrlTest extends TestCase
         \Mockery::close();
     }
 
-	public function createBackendUrlWithSefProvider()
+	public function createBackendUrlWithSefProvider() : array
 	{
 		return [
 			[null, false, 'http://localhost/admin'],
@@ -67,7 +67,7 @@ final class UrlTest extends TestCase
 		];
 	}
 
-	public function createBackendUrlWithoutSefProvider()
+	public function createBackendUrlWithoutSefProvider() : array
 	{
 		return [
 			[null, false, 'http://localhost/index.php/admin'],
@@ -81,7 +81,7 @@ final class UrlTest extends TestCase
 		];
 	}
 
-	public function createFrontendUrlWithSefProvider()
+	public function createFrontendUrlWithSefProvider() : array
 	{
 		return [
 			[null, '', false, 'http://localhost'],
@@ -103,7 +103,7 @@ final class UrlTest extends TestCase
 		];
 	}
 
-	public function createFrontendUrlWithoutSefProvider()
+	public function createFrontendUrlWithoutSefProvider() : array
 	{
 		return [
 			[null, '', false, 'http://localhost/index.php'],
