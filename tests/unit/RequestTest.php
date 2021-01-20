@@ -63,16 +63,14 @@ final class RequestTest extends TestCase
 
 	public function testMethodSetCase2() : void
 	{
-		Request::set('arg', 'value');
+		$this->expectException(\InvalidArgumentException::class);
 
-		$result = $_GET['arg'];
-
-		$this->assertEquals('value', $result);
+		Request::set('arg', 'value', 'InvalidMethod');
 	}
 
 	public function testMethodSetCase3() : void
 	{
-		Request::set('arg', 'value', 'get');
+		Request::set('arg', 'value');
 
 		$result = $_GET['arg'];
 
@@ -81,6 +79,15 @@ final class RequestTest extends TestCase
 
 	public function testMethodSetCase4() : void
 	{
+		Request::set('arg', 'value', 'get');
+
+		$result = $_GET['arg'];
+
+		$this->assertEquals('value', $result);
+	}
+
+	public function testMethodSetCase5() : void
+	{
 		Request::set('arg', 'value', 'post');
 
 		$result = $_POST['arg'];
@@ -88,11 +95,56 @@ final class RequestTest extends TestCase
 		$this->assertEquals('value', $result);
 	}
 
-	public function testMethodSetCase5() : void
+	public function testMethodSetCase6() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		Request::set('arg', 'value', 'cookie');
 
-		Request::set('arg', 'value', 'x');
+		$result = $_COOKIE['arg'];
+
+		$this->assertEquals('value', $result);
+	}
+
+	public function testMethodSetCase7() : void
+	{
+		Request::set('arg', 'value', 'files');
+
+		$result = $_FILES['arg'];
+
+		$this->assertEquals('value', $result);
+	}
+
+	public function testMethodSetCase8() : void
+	{
+		Request::set('arg', 'value', 'env');
+
+		$result = $_ENV['arg'];
+
+		$this->assertEquals('value', $result);
+	}
+
+	public function testMethodSetCase9() : void
+	{
+		Request::set('arg', 'value', 'server');
+
+		$result = $_SERVER['arg'];
+
+		$this->assertEquals('value', $result);
+	}
+
+	public function testMethodSetCase10() : void
+	{
+		$_SERVER['REQUEST_METHOD'] = 'get';
+
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isCli')->andReturn(false);
+
+		$mockedRequest->set('arg', 'value');
+
+		$result = $_SERVER['arg'];
+
+		$this->assertEquals('value', $result);
+
+		unset($_SERVER['REQUEST_METHOD']);
 	}
 
 	// Request::get()
@@ -332,7 +384,7 @@ final class RequestTest extends TestCase
 
 		$result = Request::method();
 
-		$this->assertEquals('get', $result);
+		$this->assertEquals('GET', $result);
 
 		unset($_SERVER['REQUEST_METHOD']);
 	}
