@@ -69,9 +69,11 @@ final class Request
 	private function __construct(){}
 
 	/**
-	 * @param  string           $name
-	 * @param  string|int|float $value
-	 * @param  string           $method
+	 * Set a request variable.
+	 *
+	 * @param  string           $name    The variable name.
+	 * @param  string|int|float $value   The variable value.
+	 * @param  string           $method  The request variable to set (POST and GET).
 	 * @return void
 	 */
 	public static function set(string $name, $value, string $method = 'GET') : void
@@ -125,6 +127,8 @@ final class Request
 	}
 
 	/**
+	 * Get the server request method.
+	 *
 	 * @return string
 	 */
 	public static function method() : string
@@ -217,6 +221,8 @@ final class Request
 	}
 
 	/**
+	 * Get the host name.
+	 *
 	 * @return string
 	 */
 	public static function host() : string
@@ -251,6 +257,8 @@ final class Request
 	}
 
 	/**
+	 * Detect the requested URI from server environment variables.
+	 *
 	 * @return string
 	 */
 	public static function uri() : string
@@ -287,7 +295,7 @@ final class Request
 	}
 
 	/**
-	 * Get the query string.
+	 * Get the query string, null if not available.
 	 *
 	 * @return string|null
 	 * @codeCoverageIgnore
@@ -298,6 +306,8 @@ final class Request
 	}
 
 	/**
+	 * Get a server variable from the request, null if not available.
+	 *
 	 * @param  string $key
 	 * @return mixed
 	 */
@@ -307,6 +317,8 @@ final class Request
 	}
 
 	/**
+	 * Get the URL referrer, null if not available.
+	 *
 	 * @return string|null
 	 * @codeCoverageIgnore
 	 */
@@ -316,7 +328,7 @@ final class Request
 	}
 
 	/**
-	 * Get the server protocol.
+	 * Get the server protocol, null if not available.
 	 *
 	 * @return string|null
 	 * @codeCoverageIgnore
@@ -327,7 +339,7 @@ final class Request
 	}
 
 	/**
-	 * Get the scheme.
+	 * Get the scheme, null if not available.
 	 *
 	 * @return string|null
 	 * @codeCoverageIgnore
@@ -338,6 +350,8 @@ final class Request
 	}
 
 	/**
+	 * Get a header from the request.
+	 *
 	 * The built-in CLI web server does not support getallheaders().
 	 * So don't test this method by adding 'codeCoverageIgnore' annotation.
 	 *
@@ -359,6 +373,8 @@ final class Request
 	}
 
 	/**
+	 * Determine if we are using a secure (SSL) connection.
+	 *
 	 * @return bool
 	 */
 	public static function isSecure() : bool
@@ -378,6 +394,8 @@ final class Request
 	}
 
 	/**
+	 * Whether this is a GET request.
+	 *
 	 * @return bool
 	 */
 	public static function isGet() : bool
@@ -386,6 +404,8 @@ final class Request
 	}
 
 	/**
+	 * Whether this is a POST request.
+	 *
 	 * @return bool
 	 */
 	public static function isPost() : bool
@@ -394,8 +414,7 @@ final class Request
 	}
 
 	/**
-	 * Checks if the current request was sent
-	 * with a XMLHttpRequest header as sent by javascript.
+	 * Whether this is an AJAX (XMLHttpRequest) request.
 	 *
 	 * @return bool
 	 */
@@ -413,7 +432,7 @@ final class Request
 	}
 
 	/**
-	 * Checks if the system is running in single-page application mode.
+	 * Whether the system is running in single-page application mode.
 	 *
 	 * @return bool
 	 */
@@ -430,8 +449,7 @@ final class Request
 	}
 
 	/**
-	 * Checks if the current request was sent
-	 * via the command line.
+	 * Checks if the current request was sent via the command line.
 	 *
 	 * @return bool
 	 */
@@ -441,6 +459,8 @@ final class Request
 	}
 
 	/**
+	 * Redirect to the default URL if this is not a GET request.
+	 *
 	 * @param  string|null $redirect
 	 * @return void
 	 * @codeCoverageIgnore
@@ -457,6 +477,8 @@ final class Request
 	}
 
 	/**
+	 * Redirect to the default URL if this is not a POST request.
+	 *
 	 * @param  string|null $redirect
 	 * @return void
 	 * @codeCoverageIgnore
@@ -473,6 +495,8 @@ final class Request
 	}
 
 	/**
+	 * Redirect to the default URL if this is not an AJAX (XMLHttpRequest) request.
+	 *
 	 * @param  string|null $redirect
 	 * @return void
 	 * @codeCoverageIgnore
