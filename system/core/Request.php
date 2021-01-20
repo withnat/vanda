@@ -49,7 +49,7 @@ use System\Exception\InvalidArgumentException;
  *
  * @package System
  */
-final class Request
+class Request
 {
 	protected static $_getValues;
 	protected static $_getValuesXSS;
@@ -69,31 +69,58 @@ final class Request
 	private function __construct(){}
 
 	/**
-	 * Set a request variable.
+	 * Set a variable in one of the request variables.
 	 *
-	 * @param  string           $name    The variable name.
-	 * @param  string|int|float $value   The variable value.
-	 * @param  string           $method  The request variable to set (POST and GET).
+	 * @param  string           $name   The variable name.
+	 * @param  string|int|float $value  The variable value.
+	 * @param  string           $hash   The request variable to set GET, POST, (COOKIE, FILES, ENV and SERVER).
 	 * @return void
 	 */
-	public static function set(string $name, $value, string $method = 'GET') : void
+	public static function set(string $name, $value, string $hash = 'method') : void
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
 			throw InvalidArgumentException::typeError(2, ['string','int','float'], $value);
 
-		$method = trim(strtoupper($method));
+		$hash = trim(strtoupper($hash));
 
-		if (!in_array($method, ['GET', 'POST']))
-			throw InvalidArgumentException::valueError(3, '$method must be "GET" or "POST"', $method);
+		if ($hash === 'METHOD')
+		{
+			if (static::isCli())
+				$hash = 'GET';
+			else
+				$hash = static::method();
+		}
 
-		switch ($method)
+		if (!in_array($hash, ['GET', 'POST', 'COOKIE', 'FILES', 'ENV', 'SERVER']))
+			throw InvalidArgumentException::valueError(3, '$hash must be "GET", "POST", "COOKIE", "FILES", "ENV" or "SERVER"', $hash);
+
+		switch ($hash)
 		{
 			case 'GET':
 				$_GET[$name] = $value;
+				$_REQUEST[$name] = $value;
 				break;
 
 			case 'POST':
 				$_POST[$name] = $value;
+				$_REQUEST[$name] = $value;
+				break;
+
+			case 'COOKIE':
+				$_COOKIE[$name] = $value;
+				$_REQUEST[$name] = $value;
+				break;
+
+			case 'FILES':
+				$_FILES[$name] = $value;
+				break;
+
+			case 'ENV':
+				$_ENV[$name] = $value;
+				break;
+
+			case 'SERVER':
+				$_SERVER[$name] = $value;
 				break;
 		}
 	}
@@ -109,7 +136,7 @@ final class Request
 		if (is_resource($default))
 			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
 
-		return Request::_requestByMethod('get', $name, $default, $xssClean);
+		return static::_requestByMethod('get', $name, $default, $xssClean);
 	}
 
 	/**
@@ -123,7 +150,7 @@ final class Request
 		if (is_resource($default))
 			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
 
-		return Request::_requestByMethod('post', $name, $default, $xssClean);
+		return static::_requestByMethod('post', $name, $default, $xssClean);
 	}
 
 	/**
@@ -133,15 +160,15 @@ final class Request
 	 */
 	public static function method() : string
 	{
-		if (is_null(Request::$_method))
+		if (is_null(static::$_method))
 		{
 			if (isset($_SERVER['REQUEST_METHOD']))
-				Request::$_method = strtolower($_SERVER['REQUEST_METHOD']);
+				static::$_method = strtoupper($_SERVER['REQUEST_METHOD']);
 			else // if php is running from cli
-				Request::$_method = '';
+				static::$_method = '';
 		}
 
-		return Request::$_method;
+		return static::$_method;
 	}
 
 	/**
@@ -151,7 +178,7 @@ final class Request
 	 */
 	public static function ip() : string
 	{
-		if (!Request::$_ip)
+		if (!static::$_ip)
 		{
 			// ref : https://stackoverflow.com/questions/3003145/how-to-get-the-client-ip-address-in-php/3003233
 			//
@@ -214,10 +241,10 @@ final class Request
 			if (!Validator::isValidIp($ip))
 				$ip = '0.0.0.0';
 
-			Request::$_ip = $ip;
+			static::$_ip = $ip;
 		}
 
-		return Request::$_ip;
+		return static::$_ip;
 	}
 
 	/**
@@ -227,22 +254,22 @@ final class Request
 	 */
 	public static function host() : string
 	{
-		if (is_null(Request::$_host))
+		if (is_null(static::$_host))
 		{
 			if (isset($_SERVER['HTTP_HOST']))
 			{
-				if (Request::isSecure())
+				if (static::isSecure())
 					$protocol = 'https://';
 				else
 					$protocol = 'http://';
 
-				Request::$_host = $protocol . $_SERVER['HTTP_HOST'];
+				static::$_host = $protocol . $_SERVER['HTTP_HOST'];
 			}
 			else // if php is running from cli
-				Request::$_host = '';
+				static::$_host = '';
 		}
 
-		return Request::$_host;
+		return static::$_host;
 	}
 
 	/**
@@ -250,10 +277,10 @@ final class Request
 	 */
 	public static function basePath() : string
 	{
-		if (!Request::$_basePath)
-			Request::$_basePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+		if (!static::$_basePath)
+			static::$_basePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
-		return Request::$_basePath;
+		return static::$_basePath;
 	}
 
 	/**
@@ -263,12 +290,12 @@ final class Request
 	 */
 	public static function uri() : string
 	{
-		if (is_null(Request::$_uri))
+		if (is_null(static::$_uri))
 		{
 			// ‘REQUEST_URI’ variable is not recognized by some versions of IIS.
 			// (At least I know IIS 10 recognize 'REQUEST_URI' variable)
 			// Use a 'SCRIPT_NAME' variable instead of a 'REQUEST_URI' variable for IIS.
-			if (empty($_SERVER['REQUEST_URI']) and strpos((string)Request::server('SERVER_SOFTWARE'), 'IIS') !== false)
+			if (empty($_SERVER['REQUEST_URI']) and strpos((string)static::server('SERVER_SOFTWARE'), 'IIS') !== false)
 			{
 				$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
 
@@ -278,20 +305,20 @@ final class Request
 
 			if (!empty($_SERVER['REQUEST_URI']))
 			{
-				// Remove Request::basePath() string only first occurrence of a string match.
+				// Remove static::basePath() string only first occurrence of a string match.
 				// Otherwise, it will remove all matches ie remove 'foo' from /foo/home/foobar.
-				$pattern = '/' . str_replace('/', '\/', Request::basePath()) . '/i';
+				$pattern = '/' . str_replace('/', '\/', static::basePath()) . '/i';
 				$replacement = '';
 				$subject = $_SERVER['REQUEST_URI'];
 				$limit = 1;
 
-				Request::$_uri = preg_replace($pattern, $replacement, $subject, $limit);
+				static::$_uri = preg_replace($pattern, $replacement, $subject, $limit);
 			}
 			else
-				Request::$_uri = '';
+				static::$_uri = '';
 		}
 
-		return Request::$_uri;
+		return static::$_uri;
 	}
 
 	/**
@@ -379,18 +406,18 @@ final class Request
 	 */
 	public static function isSecure() : bool
 	{
-		if (is_null(Request::$_isSecure))
+		if (is_null(static::$_isSecure))
 		{
-			$https = (string)Request::server('HTTPS');
-			$serverPort = (string)Request::server('SERVER_PORT');
+			$https = (string)static::server('HTTPS');
+			$serverPort = (string)static::server('SERVER_PORT');
 
 			if ($https === '1' or $https === 'on' or $serverPort === '443')
-				Request::$_isSecure = true;
+				static::$_isSecure = true;
 			else
-				Request::$_isSecure = false;
+				static::$_isSecure = false;
 		}
 
-		return Request::$_isSecure;
+		return static::$_isSecure;
 	}
 
 	/**
@@ -400,7 +427,7 @@ final class Request
 	 */
 	public static function isGet() : bool
 	{
-		return Request::method() === 'get';
+		return static::method() === 'GET';
 	}
 
 	/**
@@ -410,7 +437,7 @@ final class Request
 	 */
 	public static function isPost() : bool
 	{
-		return Request::method() === 'post';
+		return static::method() === 'POST';
 	}
 
 	/**
@@ -420,15 +447,15 @@ final class Request
 	 */
 	public static function isAjax() : bool
 	{
-		if (is_null(Request::$_isAjax))
+		if (is_null(static::$_isAjax))
 		{
-			if ((string)Request::server('HTTP_X_REQUESTED_WITH') === 'xmlhttprequest')
-				Request::$_isAjax = true;
+			if ((string)static::server('HTTP_X_REQUESTED_WITH') === 'xmlhttprequest')
+				static::$_isAjax = true;
 			else
-				Request::$_isAjax = false;
+				static::$_isAjax = false;
 		}
 
-		return Request::$_isAjax;
+		return static::$_isAjax;
 	}
 
 	/**
@@ -438,9 +465,9 @@ final class Request
 	 */
 	public static function isSpa() : bool
 	{
-		$side = getenv('SIDE');
-		$frontendSpaMode = getenv('FRONTEND_SPA_MODE');
-		$backendSpaMode = getenv('BACKEND_SPA_MODE');
+		$side = getenv('APP_SIDE');
+		$frontendSpaMode = getenv('APP_FRONTEND_SPA_MODE');
+		$backendSpaMode = getenv('APP_BACKEND_SPA_MODE');
 
 		if (($side === 'frontend' and $frontendSpaMode) or ($side === 'backend' and $backendSpaMode))
 			return true;
@@ -467,7 +494,7 @@ final class Request
 	 */
 	public static function ensureIsGet(string $redirect = null) : void
 	{
-		if (!Request::isGet())
+		if (!static::isGet())
 		{
 			if (!trim((string)$redirect))
 				$redirect = Url::default();
@@ -485,7 +512,7 @@ final class Request
 	 */
 	public static function ensureIsPost(string $redirect = null) : void
 	{
-		if (!Request::isPost())
+		if (!static::isPost())
 		{
 			if (!trim((string)$redirect))
 				$redirect = Url::default();
@@ -503,7 +530,7 @@ final class Request
 	 */
 	public static function ensureIsAjax(string $redirect = null) : void
 	{
-		if (!Request::isAjax())
+		if (!static::isAjax())
 		{
 			if (!trim((string)$redirect))
 				$redirect = Url::default();
@@ -521,7 +548,7 @@ final class Request
 	 */
 	private static function _requestByMethod(string $method, string $name = null, $default = null, ?bool $xssClean = true)
 	{
-		if (is_null(Request::${'_' . $method . 'Values'}))
+		if (is_null(static::${'_' . $method . 'Values'}))
 		{
 			if ($method === 'get')
 				$values = $_GET;
@@ -529,25 +556,25 @@ final class Request
 				$values = $_POST;
 
 			$values = Arr::toObject($values);
-			Request::${'_' . $method . 'Values'} = $values;
+			static::${'_' . $method . 'Values'} = $values;
 
 			$values = Security::xssClean($values);
-			Request::${'_' . $method . 'ValuesXSS'} = $values;
+			static::${'_' . $method . 'ValuesXSS'} = $values;
 		}
 
 		if (is_null($name))
 		{
 			if ($xssClean)
-				return (empty((array)Request::${'_' . $method . 'ValuesXSS'}) ? $default : Request::${'_' . $method . 'ValuesXSS'});
+				return (empty((array)static::${'_' . $method . 'ValuesXSS'}) ? $default : static::${'_' . $method . 'ValuesXSS'});
 			else
-				return (empty((array)Request::${'_' . $method . 'Values'}) ? $default : Request::${'_' . $method . 'Values'});
+				return (empty((array)static::${'_' . $method . 'Values'}) ? $default : static::${'_' . $method . 'Values'});
 		}
 		else
 		{
 			if ($xssClean)
-				return Request::${'_' . $method . 'ValuesXSS'}->{$name} ?? $default;
+				return static::${'_' . $method . 'ValuesXSS'}->{$name} ?? $default;
 			else
-				return Request::${'_' . $method . 'Values'}->{$name} ?? $default;
+				return static::${'_' . $method . 'Values'}->{$name} ?? $default;
 		}
 	}
 }
