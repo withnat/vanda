@@ -212,24 +212,6 @@ if (!function_exists('setValueIfEmpty'))
 	}
 }
 
-if (!function_exists('isSPA'))
-{
-	/**
-	 * @return bool
-	 */
-	function isSPA() : bool
-	{
-		$side = getenv('SIDE');
-		$frontendSpaMode = getenv('FRONTEND_SPA_MODE');
-		$backendSpaMode = getenv('BACKEND_SPA_MODE');
-
-		if (($side === 'frontend' and $frontendSpaMode) or ($side === 'backend' and $backendSpaMode))
-			return true;
-		else
-			return false;
-	}
-}
-
 if (!function_exists('isSPAExclude'))
 {
 	/**
