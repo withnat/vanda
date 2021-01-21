@@ -215,6 +215,33 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodGetCase7() : void
 	{
+		$product = new stdClass();
+		$product->price = 100;
+
+		$form = new stdClass();
+		$form->product = $product;
+
+		$getValues = new stdClass();
+		$getValues->form = $form;
+
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
+
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
+
+		$result = Request::get('form.product');
+		$result = $result->price;
+
+		$this->assertEquals(100, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetCase8() : void
+	{
 		$getValues = new stdClass();
 
 		$mockedArr = \Mockery::mock('alias:\System\Arr');
@@ -348,6 +375,33 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodPostCase7() : void
 	{
+		$product = new stdClass();
+		$product->price = 100;
+
+		$form = new stdClass();
+		$form->product = $product;
+
+		$postValues = new stdClass();
+		$postValues->form = $form;
+
+		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $postValues]);
+
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
+
+		$result = Request::post('form.product');
+		$result = $result->price;
+
+		$this->assertEquals(100, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodPostCase8() : void
+	{
 		$postValues = new stdClass();
 
 		$mockedArr = \Mockery::mock('alias:\System\Arr');
@@ -360,6 +414,8 @@ final class RequestTest extends TestCase
 
 		$this->assertEquals('default', $result);
 	}
+
+	// Request::switcher()
 
 	/**
 	 * @runInSeparateProcess
