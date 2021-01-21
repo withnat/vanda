@@ -361,6 +361,99 @@ final class RequestTest extends TestCase
 		$this->assertEquals('default', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSwitcherCase1() : void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Request::switcher('status', 'InvalidMethod');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSwitcherCase2() : void
+	{
+		$postValues = new stdClass();
+
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
+
+		$result = Request::switcher('status');
+
+		$this->assertEquals(0, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSwitcherCase3() : void
+	{
+		$postValues = new stdClass();
+
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
+
+		$result = Request::switcher('status', 'post');
+
+		$this->assertEquals(0, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSwitcherCase4() : void
+	{
+		$postValues = new stdClass();
+		$postValues->status = 'something';
+
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
+
+		$result = Request::switcher('status', 'post');
+
+		$this->assertEquals(1, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSwitcherCase5() : void
+	{
+		$postValues = new stdClass();
+
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
+
+		$result = Request::switcher('status', 'get');
+
+		$this->assertEquals(0, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSwitcherCase6() : void
+	{
+		$postValues = new stdClass();
+		$postValues->status = 'something';
+
+		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
+
+		$result = Request::switcher('status', 'get');
+
+		$this->assertEquals(1, $result);
+	}
+
 	// Request::method()
 
 	/**
