@@ -373,7 +373,7 @@ class Request
 	}
 
 	/**
-	 * Get a header from the request.
+	 * Get a header from the request, null if not available.
 	 *
 	 * The built-in CLI web server does not support getallheaders().
 	 * So don't test this method by adding 'codeCoverageIgnore' annotation.
