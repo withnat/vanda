@@ -123,6 +123,26 @@ class Request
 	}
 
 	/**
+	 * Get data from a radio/checkbox form submission and convert to integer.
+	 *
+	 * @param  string $name    The variable name.
+	 * @param  string $method  Where the variable should come from (GET or POST).
+	 * @return int
+	 */
+	public static function switcher(string $name, string $method = 'POST') : int
+	{
+		$method = trim(strtoupper($method));
+
+		if (!in_array($method, ['GET', 'POST']))
+			throw InvalidArgumentException::valueError(2, '$method must be "GET" or "POST"', $method);
+
+		if (static::$method($name))
+			return 1;
+		else
+			return 0;
+	}
+
+	/**
 	 * Get the server request method.
 	 *
 	 * @return string
