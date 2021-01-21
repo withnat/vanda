@@ -52,9 +52,7 @@ use System\Exception\InvalidArgumentException;
 class Request
 {
 	protected static $_getValues;
-	protected static $_getValuesXSS;
 	protected static $_postValues;
-	protected static $_postValuesXSS;
 	protected static $_method;
 	protected static $_ip;
 	protected static $_host;
@@ -69,88 +67,59 @@ class Request
 	private function __construct(){}
 
 	/**
-	 * Set a variable in one of the request variables.
+	 * Set a request variable.
 	 *
-	 * @param  string           $name   The variable name.
-	 * @param  string|int|float $value  The variable value.
-	 * @param  string           $hash   The request variable to set GET, POST, (COOKIE, FILES, ENV and SERVER).
+	 * @param  string           $name    The variable name.
+	 * @param  string|int|float $value   The variable value.
+	 * @param  string           $method  The request variable to set (GET or POST). Default to POST.
 	 * @return void
 	 */
-	public static function set(string $name, $value, string $hash = 'method') : void
+	public static function set(string $name, $value, string $method = 'POST') : void
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
 			throw InvalidArgumentException::typeError(2, ['string','int','float'], $value);
 
-		$hash = trim(strtoupper($hash));
+		$method = trim(strtoupper($method));
 
-		if ($hash === 'METHOD')
-		{
-			if (static::isCli())
-				$hash = 'GET';
-			else
-				$hash = static::method();
-		}
+		if (!in_array($method, ['GET', 'POST']))
+			throw InvalidArgumentException::valueError(3, '$method must be "GET" or "POST"', $method);
 
-		if (!in_array($hash, ['GET', 'POST', 'COOKIE', 'FILES', 'ENV', 'SERVER']))
-			throw InvalidArgumentException::valueError(3, '$hash must be "GET", "POST", "COOKIE", "FILES", "ENV" or "SERVER"', $hash);
+		if ($method === 'POST')
+			$_POST[$name] = $value;
+		else
+			$_GET[$name] = $value;
 
-		switch ($hash)
-		{
-			case 'GET':
-				$_GET[$name] = $value;
-				$_REQUEST[$name] = $value;
-				break;
-
-			case 'POST':
-				$_POST[$name] = $value;
-				$_REQUEST[$name] = $value;
-				break;
-
-			case 'COOKIE':
-				$_COOKIE[$name] = $value;
-				$_REQUEST[$name] = $value;
-				break;
-
-			case 'FILES':
-				$_FILES[$name] = $value;
-				break;
-
-			case 'ENV':
-				$_ENV[$name] = $value;
-				break;
-
-			case 'SERVER':
-				$_SERVER[$name] = $value;
-				break;
-		}
+		$_REQUEST[$name] = $value;
 	}
 
 	/**
-	 * @param  string|null                        $name
-	 * @param  string|int|float|array|object|null $default
-	 * @param  bool                               $xssClean
+	 * Get a request variable on the GET request method.
+	 *
+	 * @param  string|null                        $name     The variable name.
+	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
 	 * @return mixed
 	 */
-	public static function get(string $name = null, $default = null, ?bool $xssClean = true)
+	public static function get(string $name = null, $default = null)
 	{
 		if (is_resource($default))
 			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
 
-		return static::_requestByMethod('get', $name, $default, $xssClean);
+		return static::_requestByMethod('get', $name, $default);
 	}
 
 	/**
-	 * @param  string|null                        $name
-	 * @param  string|int|float|array|object|null $default
-	 * @param  bool                               $xssClean
+	 * Get a request variable on the POST request method.
+	 *
+	 * @param  string|null                        $name     The variable name.
+	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
 	 * @return mixed
 	 */
-	public static function post(string $name = null, $default = null, ?bool $xssClean = true)
+	public static function post(string $name = null, $default = null)
 	{
 		if (is_resource($default))
 			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
 
-		return static::_requestByMethod('post', $name, $default, $xssClean);
+		return static::_requestByMethod('post', $name, $default);
 	}
 
 	/**
@@ -540,41 +509,69 @@ class Request
 	}
 
 	/**
-	 * @param  string                             $method
-	 * @param  string|null                        $name
-	 * @param  string|int|float|array|object|null $default
-	 * @param  bool                               $xssClean
+	 * Fetches and returns a given variable depending on the request method.
+	 *
+	 * @param  string                             $method   Where the variable should come from (GET or POST).
+	 * @param  string|null                        $name     The variable name.
+	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
 	 * @return mixed
 	 */
-	private static function _requestByMethod(string $method, string $name = null, $default = null, ?bool $xssClean = true)
+	private static function _requestByMethod(string $method, string $name = null, $default = null)
 	{
 		if (is_null(static::${'_' . $method . 'Values'}))
 		{
-			if ($method === 'get')
-				$values = $_GET;
-			else
+			if ($method === 'post')
 				$values = $_POST;
+			else
+				$values = $_GET;
 
 			$values = Arr::toObject($values);
-			static::${'_' . $method . 'Values'} = $values;
-
 			$values = Security::xssClean($values);
-			static::${'_' . $method . 'ValuesXSS'} = $values;
+
+			static::${'_' . $method . 'Values'} = $values;
 		}
 
-		if (is_null($name))
+		if (is_string($name))
 		{
-			if ($xssClean)
-				return (empty((array)static::${'_' . $method . 'ValuesXSS'}) ? $default : static::${'_' . $method . 'ValuesXSS'});
+			if (strpos($name, '.') === false)
+			{
+				if (empty(static::${'_' . $method . 'Values'}->{$name}))
+					$value = $default;
+				else
+					$value = static::${'_' . $method . 'Values'}->{$name};
+			}
 			else
-				return (empty((array)static::${'_' . $method . 'Values'}) ? $default : static::${'_' . $method . 'Values'});
+			{
+				$arrNames = explode('.', $name);
+				$name = $arrNames[0];
+
+				if (empty(static::${'_' . $method . 'Values'}->{$name}))
+					$value = $default;
+				else
+					$value = static::${'_' . $method . 'Values'}->{$name};
+
+				array_shift($arrNames);
+
+				foreach ($arrNames as $key)
+				{
+					if (empty($value->{$key}))
+					{
+						$value = $default;
+						break;
+					}
+
+					$value = $value->{$key};
+				}
+			}
 		}
-		else
+		else // NULL
 		{
-			if ($xssClean)
-				return static::${'_' . $method . 'ValuesXSS'}->{$name} ?? $default;
+			if (empty((array)static::${'_' . $method . 'Values'}))
+				$value = $default;
 			else
-				return static::${'_' . $method . 'Values'}->{$name} ?? $default;
+				$value = static::${'_' . $method . 'Values'};
 		}
+
+		return $value;
 	}
 }
