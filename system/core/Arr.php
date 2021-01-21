@@ -244,7 +244,6 @@ final class Arr
 		// PHP 7.3+
 		if (function_exists('array_key_first'))
 		{
-			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
 			// @codeCoverageIgnoreStart
 			return array_key_first($array);
 			// @codeCoverageIgnoreEnd
@@ -474,7 +473,7 @@ final class Arr
 
 			if (!is_array($var4If))
 			{
-				$arrayAssigner = $arrayPointer . ' = [];';;
+				$arrayAssigner = $arrayPointer . ' = [];';
 				eval($arrayAssigner);
 			}
 		}
