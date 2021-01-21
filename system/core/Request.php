@@ -123,7 +123,7 @@ class Request
 	}
 
 	/**
-	 * Get data from a radio/checkbox form submission and convert to integer.
+	 * Get data from a radio/single checkbox form submission and convert to integer.
 	 *
 	 * @param  string $name    The variable name.
 	 * @param  string $method  Where the variable should come from (GET or POST).
