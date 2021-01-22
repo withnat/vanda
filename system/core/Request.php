@@ -614,6 +614,23 @@ class Request
 	}
 
 	/**
+	 * Redirect to another location if this is not a HEAD request.
+	 *
+	 * @param  string|null $redirect
+	 * @return void
+	 */
+	public static function ensureIsHead(string $redirect = null) : void
+	{
+		if (!static::isHead())
+		{
+			if (!$redirect)
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
+
+	/**
 	 * Redirect to another location if this is not a POST request.
 	 *
 	 * @param  string|null $redirect
