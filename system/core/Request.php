@@ -60,6 +60,7 @@ class Request
 	protected static $_uri;
 	protected static $_isSecure;
 	protected static $_isAjax;
+	protected static $_isPjax;
 
 	/**
 	 * Request constructor.
@@ -567,6 +568,24 @@ class Request
 		}
 
 		return static::$_isAjax;
+	}
+
+	/**
+	 * Returns whether this is an PJAX request.
+	 *
+	 * @return bool
+	 */
+	public static function isPjax() : bool
+	{
+		if (is_null(static::$_isPjax))
+		{
+			if (static::isAjax() and static::hasHeader('X-Pjax'))
+				static::$_isPjax = true;
+			else
+				static::$_isPjax = false;
+		}
+
+		return static::$_isPjax;
 	}
 
 	/**
