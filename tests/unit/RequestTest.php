@@ -1054,6 +1054,37 @@ final class RequestTest extends TestCase
 		$this->assertFalse($result);
 	}
 
+	// Request::isHead()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsHeadCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
+		$mockedRequest->shouldReceive('header')->andReturn('HEAD');
+
+		$result = $mockedRequest->isHead();
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsHeadCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
+
+		$result = $mockedRequest->isHead();
+
+		$this->assertFalse($result);
+	}
+
 	// Request::isPost()
 
 	/**
