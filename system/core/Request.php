@@ -378,7 +378,7 @@ class Request
 	 * The built-in CLI web server does not support getallheaders().
 	 * So don't test this method by adding 'codeCoverageIgnore' annotation.
 	 *
-	 * @param  string      $name
+	 * @param  string      $name     The variable name.
 	 * @param  string|null $default  Default value if the variable does not exist.
 	 * @return string|null
 	 * @codeCoverageIgnore
