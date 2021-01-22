@@ -682,45 +682,28 @@ final class UrlTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Url::hashSPA()
+	// Url::hashSpa()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodHashSPACase1()
 	{
-		putenv('APP_SIDE=frontend');
-
-		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
-		$mockedUrl->shouldReceive('create')->andReturn('http://localhost/vanda');
-
-		$expected = 'http://localhost/vanda';
-		$result = $mockedUrl->hashSPA();
+		$expected = '#user';
+		$result = Url::hashSpa('user');
 
 		$this->assertEquals($expected, $result);
 	}
 
 	public function testMethodHashSPACase2()
 	{
-		$expected = '#user';
-		$result = Url::hashSPA('user');
+		$expected = '#user:1';
+		$result = Url::hashSpa('user?id=1');
 
 		$this->assertEquals($expected, $result);
 	}
 
 	public function testMethodHashSPACase3()
 	{
-		$expected = '#user:1';
-		$result = Url::hashSPA('user?id=1');
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodHashSPACase4()
-	{
 		$expected = '#user?id=1&param=value';
-		$result = Url::hashSPA('user?id=1&param=value');
+		$result = Url::hashSpa('user?id=1&param=value');
 
 		$this->assertEquals($expected, $result);
 	}
