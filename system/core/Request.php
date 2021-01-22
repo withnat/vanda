@@ -399,7 +399,7 @@ class Request
 	/**
 	 * Determine if the request has a given header.
 	 *
-	 * @param  string  $name  The variable name.
+	 * @param  string $name  The variable name.
 	 * @return bool
 	 * @codeCoverageIgnore
 	 */
@@ -409,6 +409,24 @@ class Request
 			return false;
 
 		return true;
+	}
+
+	/**
+	 * Determine if the request has any given header.
+	 *
+	 * @param  array $names  The variable name.
+	 * @return bool
+	 * @codeCoverageIgnore
+	 */
+	public static function hasAnyHeader(array $names) : bool
+	{
+		foreach ($names as $name)
+		{
+			if (!is_null(static::header($name)))
+				return true;
+		}
+
+		return false;
 	}
 
 	/**
