@@ -1046,16 +1046,12 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsOptionsCase2() : void
 	{
-		$_SERVER['REQUEST_METHOD'] = 'POST';
-
 		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->isOptions();
 
 		$this->assertFalse($result);
-
-		unset($_SERVER['REQUEST_METHOD']);
 	}
 
 	// Request::isPost()
