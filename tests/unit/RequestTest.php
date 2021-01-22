@@ -1123,6 +1123,37 @@ final class RequestTest extends TestCase
 		unset($_SERVER['REQUEST_METHOD']);
 	}
 
+	// Request::isDelete()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsDeleteCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
+		$mockedRequest->shouldReceive('header')->andReturn('DELETE');
+
+		$result = $mockedRequest->isDelete();
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsDeleteCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
+
+		$result = $mockedRequest->isDelete();
+
+		$this->assertFalse($result);
+	}
+
 	// Request::isAjax()
 
 	/**
