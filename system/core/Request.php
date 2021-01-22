@@ -735,6 +735,23 @@ class Request
 	}
 
 	/**
+	 * Redirect to another location if this is not an PJAX request.
+	 *
+	 * @param  string|null $redirect
+	 * @return void
+	 */
+	public static function ensureIsPjax(string $redirect = null) : void
+	{
+		if (!static::isPjax())
+		{
+			if (!$redirect)
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
+
+	/**
 	 * Fetches and returns a given variable depending on the request method.
 	 *
 	 * @param  string                             $method   Where the variable should come from (GET or POST).
