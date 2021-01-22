@@ -597,6 +597,23 @@ class Request
 	}
 
 	/**
+	 * Redirect to another location if this is not a OPTIONS request.
+	 *
+	 * @param  string|null $redirect
+	 * @return void
+	 */
+	public static function ensureIsOptions(string $redirect = null) : void
+	{
+		if (!static::isOptions())
+		{
+			if (!$redirect)
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
+
+	/**
 	 * Redirect to another location if this is not a POST request.
 	 *
 	 * @param  string|null $redirect
