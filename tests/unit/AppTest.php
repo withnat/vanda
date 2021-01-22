@@ -51,7 +51,7 @@ final class AppTest extends TestCase
         \Mockery::close();
     }
 
-	// Request::isSpa()
+	// App::isSpa()
 
 	/**
 	 * @runInSeparateProcess
