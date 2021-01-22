@@ -1289,10 +1289,6 @@ final class RequestTest extends TestCase
 		$mockedResponse = \Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
-		$mockedUrl = \Mockery::mock('alias:\System\Url');
-		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
-		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
-
 		$mockedRequest->ensureIsGet();
 
 		$this->assertTrue(true);
