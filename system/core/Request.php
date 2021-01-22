@@ -143,7 +143,8 @@ class Request
 	}
 
 	/**
-	 * Get the server request method.
+	 * Get the method of the current request (e.g. GET, POST, HEAD, PUT, PATCH, DELETE).
+	 * Default to '' if not available. (e.g. PHP is running from cli).
 	 *
 	 * @return string
 	 */
@@ -151,7 +152,19 @@ class Request
 	{
 		if (is_null(static::$_method))
 		{
-			if (isset($_SERVER['REQUEST_METHOD']))
+			// Example of X-HTTP-Method-Override.
+			// $.ajax({
+			//     url: “http://localhost/api/Authors/1”,
+			//     type: “POST”,
+			//     data: JSON.stringify(authorData),
+			//     headers: {
+			//         “Content-Type”: “application/json”,
+			//         “X-HTTP-Method-Override”: “PUT”
+			//     }
+			// })
+			if (static::hasHeader('X-Http-Method-Override'))
+				static::$_method = strtoupper(static::header('X-Http-Method-Override'));
+			elseif (isset($_SERVER['REQUEST_METHOD']))
 				static::$_method = strtoupper($_SERVER['REQUEST_METHOD']);
 			else // if php is running from cli
 				static::$_method = '';
