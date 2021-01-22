@@ -1185,6 +1185,37 @@ final class RequestTest extends TestCase
 		$this->assertFalse($result);
 	}
 
+	// Request::isPatch()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsPatchCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
+		$mockedRequest->shouldReceive('header')->andReturn('PATCH');
+
+		$result = $mockedRequest->isPatch();
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsPatchCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
+
+		$result = $mockedRequest->isPatch();
+
+		$this->assertFalse($result);
+	}
+
 	// Request::isAjax()
 
 	/**
