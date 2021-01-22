@@ -93,7 +93,7 @@ class Url
 		{
 			if (!Request::isSpa())
 			{
-				$side = getenv('SIDE');
+				$side = getenv('APP_SIDE');
 
 				if ($side === 'backend' and Config::app('defaultBackendModule'))
 					static::$_defaultUrl = Config::app('defaultBackendModule');
