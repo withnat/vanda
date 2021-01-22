@@ -482,7 +482,7 @@ class Request
 	}
 
 	/**
-	 * Whether this is a GET request.
+	 * Returns whether this is a GET request.
 	 *
 	 * @return bool
 	 */
@@ -492,7 +492,7 @@ class Request
 	}
 
 	/**
-	 * Whether this is a POST request.
+	 * Returns whether this is a POST request.
 	 *
 	 * @return bool
 	 */
@@ -502,7 +502,7 @@ class Request
 	}
 
 	/**
-	 * Whether this is an AJAX (XMLHttpRequest) request.
+	 * Returns whether this is an AJAX (XMLHttpRequest) request.
 	 *
 	 * @return bool
 	 */
