@@ -518,9 +518,13 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodMethodCase1() : void
 	{
-		$result = Request::method();
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
+		$mockedRequest->shouldReceive('header')->andReturn('PUT');
 
-		$this->assertEquals('', $result);
+		$result = $mockedRequest->method();
+
+		$this->assertEquals('PUT', $result);
 	}
 
 	/**
@@ -529,9 +533,26 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodMethodCase2() : void
 	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
+
+		$result = $mockedRequest->method();
+
+		$this->assertEquals('', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodMethodCase3() : void
+	{
 		$_SERVER['REQUEST_METHOD'] = 'get';
 
-		$result = Request::method();
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
+
+		$result = $mockedRequest->method();
 
 		$this->assertEquals('GET', $result);
 
@@ -974,7 +995,10 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
-		$result = Request::isGet();
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
+
+		$result = $mockedRequest->isGet();
 
 		$this->assertTrue($result);
 
@@ -989,7 +1013,10 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 
-		$result = Request::isGet();
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
+
+		$result = $mockedRequest->isGet();
 
 		$this->assertFalse($result);
 
@@ -1006,7 +1033,10 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 
-		$result = Request::isPost();
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
+
+		$result = $mockedRequest->isPost();
 
 		$this->assertTrue($result);
 
@@ -1021,7 +1051,10 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
-		$result = Request::isPost();
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
+
+		$result = $mockedRequest->isPost();
 
 		$this->assertFalse($result);
 
