@@ -1333,4 +1333,44 @@ final class RequestTest extends TestCase
 
 		$this->assertTrue(true);
 	}
+
+	// Request::ensureIsAjax()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodEnsureIsAjaxCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isAjax')->andReturn(false);
+
+		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse->shouldReceive('redirect')->once();
+
+		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
+		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
+
+		$mockedRequest->ensureIsAjax();
+
+		$this->assertTrue(true);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodEnsureIsAjaxCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isAjax')->andReturn(true);
+
+		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse->shouldReceive('redirect')->never();
+
+		$mockedRequest->ensureIsAjax();
+
+		$this->assertTrue(true);
+	}
 }
