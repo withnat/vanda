@@ -430,6 +430,24 @@ class Request
 	}
 
 	/**
+	 * Determine if the request has all given headers.
+	 *
+	 * @param  array $names  The variable name.
+	 * @return bool
+	 * @codeCoverageIgnore
+	 */
+	public static function hasAllHeaders(array $names) : bool
+	{
+		foreach ($names as $name)
+		{
+			if (is_null(static::header($name)))
+				return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Determine if we are using a secure (SSL) connection.
 	 *
 	 * @return bool
