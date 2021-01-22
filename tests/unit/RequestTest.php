@@ -1023,6 +1023,41 @@ final class RequestTest extends TestCase
 		unset($_SERVER['REQUEST_METHOD']);
 	}
 
+	// Request::isOptions()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsOptionsCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
+		$mockedRequest->shouldReceive('header')->andReturn('OPTIONS');
+
+		$result = $mockedRequest->isOptions();
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsOptionsCase2() : void
+	{
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
+
+		$result = $mockedRequest->isOptions();
+
+		$this->assertFalse($result);
+
+		unset($_SERVER['REQUEST_METHOD']);
+	}
+
 	// Request::isPost()
 
 	/**
