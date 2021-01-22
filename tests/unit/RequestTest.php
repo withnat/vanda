@@ -1154,6 +1154,37 @@ final class RequestTest extends TestCase
 		$this->assertFalse($result);
 	}
 
+	// Request::isPut()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsPutCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
+		$mockedRequest->shouldReceive('header')->andReturn('PUT');
+
+		$result = $mockedRequest->isPut();
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsPutCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
+
+		$result = $mockedRequest->isPut();
+
+		$this->assertFalse($result);
+	}
+
 	// Request::isAjax()
 
 	/**
