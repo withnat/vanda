@@ -273,14 +273,13 @@ class Url
 	}
 
 	/**
-	 * @param  string|null $uri
+	 * Generate a uri fragment with a hash mark (#)for singgle-page application mode.
+	 *
+	 * @param  string $uri
 	 * @return string
 	 */
-	public static function hashSPA(string $uri = null) : string
+	public static function hashSpa(string $uri) : string
 	{
-		if (is_null($uri))
-			return static::create();
-
 		$idPos = strpos($uri, '?id=');
 		$amPos = strpos($uri, '&', (int)$idPos);
 
