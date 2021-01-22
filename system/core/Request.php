@@ -379,20 +379,21 @@ class Request
 	 * So don't test this method by adding 'codeCoverageIgnore' annotation.
 	 *
 	 * @param  string      $name
+	 * @param  string|null $default  Default value if the variable does not exist.
 	 * @return string|null
 	 * @codeCoverageIgnore
 	 */
-	public static function header(string $name) : ?string
+	public static function header(string $name, string $default = null) : ?string
 	{
 		// Don't add "ext-apache" to composer.json.
 		// It will make updating composer fail.
-		foreach (getallheaders() as $key => $value)
+		foreach (\getallheaders() as $key => $value)
 		{
 			if (strtolower($key) === strtolower($name))
 				return $value;
 		}
 
-		return null;
+		return $default;
 	}
 
 	/**
