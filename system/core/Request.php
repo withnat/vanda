@@ -522,6 +522,16 @@ class Request
 	}
 
 	/**
+	 * Returns whether this is a DELETE request.
+	 *
+	 * @return bool
+	 */
+	public static function isDelete() : bool
+	{
+		return static::method() === 'DELETE';
+	}
+
+	/**
 	 * Returns whether this is an AJAX (XMLHttpRequest) request.
 	 *
 	 * @return bool
