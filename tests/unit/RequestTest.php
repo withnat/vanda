@@ -1601,4 +1601,44 @@ final class RequestTest extends TestCase
 
 		$this->assertTrue(true);
 	}
+
+	// Request::ensureIsPjax()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodEnsureIsPjaxCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isPjax')->andReturn(false);
+
+		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse->shouldReceive('redirect')->once();
+
+		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
+		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
+
+		$mockedRequest->ensureIsPjax();
+
+		$this->assertTrue(true);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodEnsureIsPjaxCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isPjax')->andReturn(true);
+
+		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse->shouldReceive('redirect')->never();
+
+		$mockedRequest->ensureIsPjax();
+
+		$this->assertTrue(true);
+	}
 }
