@@ -365,7 +365,6 @@ final class Data
 		// PHP 7 >= 7.3.0
 		if (function_exists('is_countable'))
 		{
-			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
 			// @codeCoverageIgnoreStart
 			return is_countable($data);
 			// @codeCoverageIgnoreEnd
