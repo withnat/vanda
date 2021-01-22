@@ -60,6 +60,7 @@ class Request
 	protected static $_uri;
 	protected static $_isSecure;
 	protected static $_isAjax;
+	protected static $_isSpa;
 
 	/**
 	 * Request constructor.
@@ -461,14 +462,19 @@ class Request
 	 */
 	public static function isSpa() : bool
 	{
-		$side = getenv('APP_SIDE');
-		$frontendSpaMode = getenv('APP_FRONTEND_SPA_MODE');
-		$backendSpaMode = getenv('APP_BACKEND_SPA_MODE');
+		if (is_null(static::$_isSpa))
+		{
+			$side = getenv('APP_SIDE');
+			$frontendSpaMode = getenv('APP_FRONTEND_SPA_MODE');
+			$backendSpaMode = getenv('APP_BACKEND_SPA_MODE');
 
-		if (($side === 'frontend' and $frontendSpaMode) or ($side === 'backend' and $backendSpaMode))
-			return true;
-		else
-			return false;
+			if (($side === 'frontend' and $frontendSpaMode) or ($side === 'backend' and $backendSpaMode))
+				static::$_isSpa = true;
+			else
+				static::$_isSpa = false;
+		}
+
+		return static::$_isSpa;
 	}
 
 	/**
