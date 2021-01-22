@@ -1245,6 +1245,34 @@ final class RequestTest extends TestCase
 		unset($_SERVER['HTTP_X_REQUESTED_WITH']);
 	}
 
+	// Request::isPjax()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsPjaxCase1() : void
+	{
+		$result = Request::isPjax();
+
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsPjaxCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isAjax')->andReturn(true);
+		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
+
+		$result = $mockedRequest->isPjax();
+
+		$this->assertTrue($result);
+	}
+
 	// Request::isCli()
 
 	public function testMethodIsCliCase1() : void
