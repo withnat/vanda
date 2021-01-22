@@ -1414,6 +1414,46 @@ final class RequestTest extends TestCase
 		$this->assertTrue(true);
 	}
 
+	// Request::ensureIsDelete()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodEnsureIsDeleteCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isDelete')->andReturn(false);
+
+		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse->shouldReceive('redirect')->once();
+
+		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
+		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
+
+		$mockedRequest->ensureIsDelete();
+
+		$this->assertTrue(true);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodEnsureIsDeleteCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isDelete')->andReturn(true);
+
+		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse->shouldReceive('redirect')->never();
+
+		$mockedRequest->ensureIsDelete();
+
+		$this->assertTrue(true);
+	}
+
 	// Request::ensureIsAjax()
 
 	/**
