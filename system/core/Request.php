@@ -648,6 +648,23 @@ class Request
 	}
 
 	/**
+	 * Redirect to another location if this is not a DELETE request.
+	 *
+	 * @param  string|null $redirect
+	 * @return void
+	 */
+	public static function ensureIsDelete(string $redirect = null) : void
+	{
+		if (!static::isDelete())
+		{
+			if (!$redirect)
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
+
+	/**
 	 * Redirect to another location if this is not an AJAX (XMLHttpRequest) request.
 	 *
 	 * @param  string|null $redirect
