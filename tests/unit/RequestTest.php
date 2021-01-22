@@ -1494,6 +1494,46 @@ final class RequestTest extends TestCase
 		$this->assertTrue(true);
 	}
 
+	// Request::ensureIsPatch()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodEnsureIsPatchCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isPatch')->andReturn(false);
+
+		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse->shouldReceive('redirect')->once();
+
+		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
+		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
+
+		$mockedRequest->ensureIsPatch();
+
+		$this->assertTrue(true);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodEnsureIsPatchCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isPatch')->andReturn(true);
+
+		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse->shouldReceive('redirect')->never();
+
+		$mockedRequest->ensureIsPatch();
+
+		$this->assertTrue(true);
+	}
+
 	// Request::ensureIsAjax()
 
 	/**
