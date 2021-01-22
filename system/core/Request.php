@@ -542,6 +542,16 @@ class Request
 	}
 
 	/**
+	 * Returns whether this is a PATCH request.
+	 *
+	 * @return bool
+	 */
+	public static function isPatch() : bool
+	{
+		return static::method() === 'PATCH';
+	}
+
+	/**
 	 * Returns whether this is an AJAX (XMLHttpRequest) request.
 	 *
 	 * @return bool
