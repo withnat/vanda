@@ -532,6 +532,16 @@ class Request
 	}
 
 	/**
+	 * Returns whether this is a PUT request.
+	 *
+	 * @return bool
+	 */
+	public static function isPut() : bool
+	{
+		return static::method() === 'PUT';
+	}
+
+	/**
 	 * Returns whether this is an AJAX (XMLHttpRequest) request.
 	 *
 	 * @return bool
