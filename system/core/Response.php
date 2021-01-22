@@ -434,7 +434,7 @@ class Response
 			static::clean();
 		// @codeCoverageIgnoreEnd
 
-		if (Request::isSpa() and Request::isAjax())
+		if (App::isSpa() and Request::isAjax())
 		{
 			$data = [
 				'title' => '',
