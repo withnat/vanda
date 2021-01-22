@@ -580,7 +580,7 @@ class Request
 	}
 
 	/**
-	 * Redirect to the default URL if this is not a GET request.
+	 * Redirect to another location if this is not a GET request.
 	 *
 	 * @param  string|null $redirect
 	 * @return void
@@ -597,7 +597,7 @@ class Request
 	}
 
 	/**
-	 * Redirect to the default URL if this is not a POST request.
+	 * Redirect to another location if this is not a POST request.
 	 *
 	 * @param  string|null $redirect
 	 * @return void
@@ -614,7 +614,7 @@ class Request
 	}
 
 	/**
-	 * Redirect to the default URL if this is not an AJAX (XMLHttpRequest) request.
+	 * Redirect to another location if this is not an AJAX (XMLHttpRequest) request.
 	 *
 	 * @param  string|null $redirect
 	 * @return void
