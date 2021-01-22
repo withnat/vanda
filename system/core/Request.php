@@ -502,6 +502,16 @@ class Request
 	}
 
 	/**
+	 * Returns whether this is a HEAD request.
+	 *
+	 * @return bool
+	 */
+	public static function isHead() : bool
+	{
+		return static::method() === 'HEAD';
+	}
+
+	/**
 	 * Returns whether this is a POST request.
 	 *
 	 * @return bool
