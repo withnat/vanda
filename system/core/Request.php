@@ -397,6 +397,21 @@ class Request
 	}
 
 	/**
+	 * Determine if the request has a given header.
+	 *
+	 * @param  string  $name  The variable name.
+	 * @return bool
+	 * @codeCoverageIgnore
+	 */
+	public static function hasHeader(string $name) : bool
+	{
+		if (is_null(static::header($name)))
+			return false;
+
+		return true;
+	}
+
+	/**
 	 * Determine if we are using a secure (SSL) connection.
 	 *
 	 * @return bool
