@@ -665,6 +665,23 @@ class Request
 	}
 
 	/**
+	 * Redirect to another location if this is not a PUT request.
+	 *
+	 * @param  string|null $redirect
+	 * @return void
+	 */
+	public static function ensureIsPut(string $redirect = null) : void
+	{
+		if (!static::isPut())
+		{
+			if (!$redirect)
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
+
+	/**
 	 * Redirect to another location if this is not an AJAX (XMLHttpRequest) request.
 	 *
 	 * @param  string|null $redirect
