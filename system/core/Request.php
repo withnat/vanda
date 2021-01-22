@@ -682,6 +682,23 @@ class Request
 	}
 
 	/**
+	 * Redirect to another location if this is not a PATCH request.
+	 *
+	 * @param  string|null $redirect
+	 * @return void
+	 */
+	public static function ensureIsPatch(string $redirect = null) : void
+	{
+		if (!static::isPatch())
+		{
+			if (!$redirect)
+				$redirect = Url::default();
+
+			Response::redirect($redirect);
+		}
+	}
+
+	/**
 	 * Redirect to another location if this is not an AJAX (XMLHttpRequest) request.
 	 *
 	 * @param  string|null $redirect
