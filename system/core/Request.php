@@ -492,6 +492,16 @@ class Request
 	}
 
 	/**
+	 * Returns whether this is a OPTIONS request.
+	 *
+	 * @return bool
+	 */
+	public static function isOptions() : bool
+	{
+		return static::method() === 'OPTIONS';
+	}
+
+	/**
 	 * Returns whether this is a POST request.
 	 *
 	 * @return bool
