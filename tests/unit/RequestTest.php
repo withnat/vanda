@@ -39,6 +39,7 @@ namespace Tests\Unit;
 
 use stdClass;
 use System\Request;
+use System\Response;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -1251,5 +1252,49 @@ final class RequestTest extends TestCase
 		$result = Request::isCli();
 
 		$this->assertTrue($result);
+	}
+
+	// Request::ensureIsGet()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodEnsureIsGetCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isGet')->andReturn(false);
+
+		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse->shouldReceive('redirect')->once();
+
+		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
+		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
+
+		$mockedRequest->ensureIsGet();
+
+		$this->assertTrue(true);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodEnsureIsGetCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('isGet')->andReturn(true);
+
+		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse->shouldReceive('redirect')->never();
+
+		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
+		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
+
+		$mockedRequest->ensureIsGet();
+
+		$this->assertTrue(true);
 	}
 }
