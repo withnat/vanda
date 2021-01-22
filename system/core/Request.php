@@ -584,13 +584,12 @@ class Request
 	 *
 	 * @param  string|null $redirect
 	 * @return void
-	 * @codeCoverageIgnore
 	 */
 	public static function ensureIsGet(string $redirect = null) : void
 	{
 		if (!static::isGet())
 		{
-			if (!trim((string)$redirect))
+			if (!$redirect)
 				$redirect = Url::default();
 
 			Response::redirect($redirect);
@@ -602,13 +601,12 @@ class Request
 	 *
 	 * @param  string|null $redirect
 	 * @return void
-	 * @codeCoverageIgnore
 	 */
 	public static function ensureIsPost(string $redirect = null) : void
 	{
 		if (!static::isPost())
 		{
-			if (!trim((string)$redirect))
+			if (!$redirect)
 				$redirect = Url::default();
 
 			Response::redirect($redirect);
@@ -620,13 +618,12 @@ class Request
 	 *
 	 * @param  string|null $redirect
 	 * @return void
-	 * @codeCoverageIgnore
 	 */
 	public static function ensureIsAjax(string $redirect = null) : void
 	{
 		if (!static::isAjax())
 		{
-			if (!trim((string)$redirect))
+			if (!$redirect)
 				$redirect = Url::default();
 
 			Response::redirect($redirect);
