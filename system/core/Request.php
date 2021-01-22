@@ -60,7 +60,6 @@ class Request
 	protected static $_uri;
 	protected static $_isSecure;
 	protected static $_isAjax;
-	protected static $_isSpa;
 
 	/**
 	 * Request constructor.
@@ -453,28 +452,6 @@ class Request
 		}
 
 		return static::$_isAjax;
-	}
-
-	/**
-	 * Whether the system is running in single-page application mode.
-	 *
-	 * @return bool
-	 */
-	public static function isSpa() : bool
-	{
-		if (is_null(static::$_isSpa))
-		{
-			$side = getenv('APP_SIDE');
-			$frontendSpaMode = getenv('APP_FRONTEND_SPA_MODE');
-			$backendSpaMode = getenv('APP_BACKEND_SPA_MODE');
-
-			if (($side === 'frontend' and $frontendSpaMode) or ($side === 'backend' and $backendSpaMode))
-				static::$_isSpa = true;
-			else
-				static::$_isSpa = false;
-		}
-
-		return static::$_isSpa;
 	}
 
 	/**
