@@ -37,9 +37,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Csv;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class CsvTest
@@ -106,7 +107,7 @@ final class CsvTest extends TestCase
 
 	public function testMethodFromDatasetCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Csv::fromDataset(['string']);
 	}
@@ -122,7 +123,7 @@ final class CsvTest extends TestCase
 
 	public function testMethodFromRecordsetCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Csv::fromRecordset(['string']);
 	}

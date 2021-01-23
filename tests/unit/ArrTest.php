@@ -38,9 +38,11 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use ErrorException;
+use InvalidArgumentException;
+use Mockery;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Arr;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class ArrTest
@@ -280,14 +282,14 @@ final class ArrTest extends TestCase
 		ArrTest::$_expectedSortRecordsetByNameAsc = null;
 		ArrTest::$_expectedSortRecordsetByNameDesc = null;
 
-        \Mockery::close();
+        Mockery::close();
 	}
 
 	// Arr::get()
 
 	public function testMethodGetCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Arr::get([], 3.14);
 	}
@@ -458,7 +460,7 @@ final class ArrTest extends TestCase
 
 	public function testMethodColumnCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Arr::column([], 'missingkey');
 	}
@@ -1131,7 +1133,7 @@ final class ArrTest extends TestCase
 
 	public function testMethodMapCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Arr::map([], 'missingkeyFrom', 'missingkeyTo');
 	}
@@ -1517,7 +1519,7 @@ final class ArrTest extends TestCase
 
 	public function testMethodHasKeyCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Arr::hasKey([], 3.14);
 	}
@@ -2074,7 +2076,7 @@ final class ArrTest extends TestCase
 
 	public function testMethodSortDatasetCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Arr::sortDataset([], 'missingkey');
 	}
@@ -2107,7 +2109,7 @@ final class ArrTest extends TestCase
 
 	public function testMethodSortRecordsetCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Arr::sortRecordset([], 'missingkey');
 	}
@@ -3943,7 +3945,7 @@ final class ArrTest extends TestCase
 	 */
 	public function testMethodToJson() : void
 	{
-		$mockedJson = \Mockery::mock('alias:\System\JSON');
+		$mockedJson = Mockery::mock('alias:\System\JSON');
 		$mockedJson->shouldReceive('encode')->andReturn('[]');
 
 		$result = Arr::toJSON([]);
@@ -3955,7 +3957,7 @@ final class ArrTest extends TestCase
 
 	public function testMethodRemoveCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Arr::remove([], new stdClass());
 	}
@@ -4510,7 +4512,7 @@ final class ArrTest extends TestCase
 	{
 		$array = [];
 
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Arr::pullColumns($array, 'missingkey');
 	}
@@ -4611,7 +4613,7 @@ final class ArrTest extends TestCase
 
 	public function testMethodRemoveColumnCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Arr::removeColumn([], 'missingkey');
 	}

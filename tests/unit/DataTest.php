@@ -37,9 +37,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Data;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class DataTest
@@ -88,14 +89,14 @@ final class DataTest extends TestCase
 
 	public function testMethodGetCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Data::get('', 'key');
 	}
 
 	public function testMethodGetCase2() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Data::get([], 3.14);
 	}
@@ -230,7 +231,7 @@ final class DataTest extends TestCase
 
 	public function testMethodSetCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Data::set('', 'key', 'value');
 	}
@@ -556,7 +557,9 @@ final class DataTest extends TestCase
 
 	public function testMethodIsCase7() : void
 	{
-		Data::is('null', 1, null);
+		$data = null;
+
+		Data::is('null', 1, $data);
 
 		$this->assertTrue(true);
 	}
@@ -570,7 +573,7 @@ final class DataTest extends TestCase
 
 	public function testMethodIsCase9() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Data::is('string', 1, 13);
 	}
@@ -589,7 +592,7 @@ final class DataTest extends TestCase
 
 	public function testMethodExpectsCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Data::expects(['string'], 1, 3.14);
 	}
@@ -702,7 +705,7 @@ final class DataTest extends TestCase
 		Data::convert('float', 'object', $data);
 
 		$this->assertIsObject($data);
-		$this->assertEquals(3.14, $data->scalar);
+		$this->assertEquals(3.14, $data->{'scalar'});
 	}
 
 	public function testMethodConvertCase10() : void

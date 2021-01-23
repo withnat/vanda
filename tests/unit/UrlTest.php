@@ -37,8 +37,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use System\Url;
+use Mockery;
 use PHPUnit\Framework\TestCase;
+use System\Url;
 
 /**
  * Class UrlTest
@@ -50,7 +51,7 @@ final class UrlTest extends TestCase
 
     protected function tearDown() : void
     {
-        \Mockery::close();
+        Mockery::close();
     }
 
 	public function createBackendUrlWithSefProvider() : array
@@ -133,7 +134,7 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodBaseCase1()
 	{
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 
@@ -149,7 +150,7 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodBaseCase2()
 	{
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 
@@ -165,7 +166,7 @@ final class UrlTest extends TestCase
 	 */
 	public function testMethodBaseCase3()
 	{
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '/vanda']);
 
@@ -185,10 +186,10 @@ final class UrlTest extends TestCase
 	{
 		putenv('APP_SIDE=frontend');
 
-		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl = Mockery::mock('\System\Url')->makePartial();
 		$mockedUrl->shouldReceive('base')->andReturn('http://localhost/vanda');
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
 
 		$expected = 'http://localhost/vanda';
@@ -207,10 +208,10 @@ final class UrlTest extends TestCase
 	{
 		putenv('APP_SIDE=backend');
 
-		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl = Mockery::mock('\System\Url')->makePartial();
 		$mockedUrl->shouldReceive('base')->andReturn('http://localhost/vanda');
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -272,10 +273,10 @@ final class UrlTest extends TestCase
 	{
 		putenv('APP_SIDE=backend');
 
-		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl = Mockery::mock('\System\Url')->makePartial();
 		$mockedUrl->shouldReceive('base')->andReturn('http://localhost');
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -306,10 +307,10 @@ final class UrlTest extends TestCase
 	{
 		putenv('APP_SIDE=backend');
 
-		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl = Mockery::mock('\System\Url')->makePartial();
 		$mockedUrl->shouldReceive('base')->andReturn('http://localhost');
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -342,10 +343,10 @@ final class UrlTest extends TestCase
 		putenv('APP_SIDE=frontend');
 		putenv('APP_LANG=' . $lang);
 
-		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl = Mockery::mock('\System\Url')->makePartial();
 		$mockedUrl->shouldReceive('base')->andReturn('http://localhost');
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
 
 		$result = $mockedUrl->create($uri, $secure);
@@ -370,10 +371,10 @@ final class UrlTest extends TestCase
 		putenv('APP_SIDE=frontend');
 		putenv('APP_LANG=' . $lang);
 
-		$mockedUrl = \Mockery::mock('\System\Url')->makePartial();
+		$mockedUrl = Mockery::mock('\System\Url')->makePartial();
 		$mockedUrl->shouldReceive('base')->andReturn('http://localhost');
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(false);
 
 		$result = $mockedUrl->create($uri, $secure);
@@ -401,7 +402,7 @@ final class UrlTest extends TestCase
 		Url::setQuery('arg=value');
 		Url::setFragment('anchor');
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
 
 		$expected = 'http://user:pass@hostname:9090/en/contact?arg=value#anchor';
@@ -431,7 +432,7 @@ final class UrlTest extends TestCase
 		Url::setQuery('arg=value');
 		Url::setFragment('anchor');
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
 
 		$expected = 'http://user:pass@hostname:9090/en/contact?arg=value#anchor';
@@ -456,7 +457,7 @@ final class UrlTest extends TestCase
 		Url::setUser('user');
 		Url::setHost('hostname');
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
 
 		$expected = 'http://user@hostname/en';
@@ -481,7 +482,7 @@ final class UrlTest extends TestCase
 		Url::setPass('pass');
 		Url::setHost('hostname');
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')->with('sef')->andReturn(true);
 
 		$expected = 'http://:pass@hostname/en';
@@ -503,11 +504,11 @@ final class UrlTest extends TestCase
 	{
 		putenv('APP_SIDE=backend');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -535,11 +536,11 @@ final class UrlTest extends TestCase
 	{
 		putenv('APP_SIDE=backend');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -569,11 +570,11 @@ final class UrlTest extends TestCase
 		putenv('APP_MODULE=user');
 		putenv('APP_CONTROLLER=user');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -605,11 +606,11 @@ final class UrlTest extends TestCase
 		putenv('APP_MODULE=user');
 		putenv('APP_CONTROLLER=group');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'https://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -731,7 +732,7 @@ final class UrlTest extends TestCase
 		putenv('APP_MODULE=user');
 		putenv('APP_CONTROLLER=user');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['url' => 'https://localhost/vanda/admin/user/user/modify?id=1']);
 
 		$expected = 'httpslocalhostvandaadminusermodify';
@@ -752,7 +753,7 @@ final class UrlTest extends TestCase
 		putenv('APP_MODULE=user');
 		putenv('APP_CONTROLLER=group');
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['url' => 'https://localhost/vanda/admin/user/group/modify?id=1']);
 
 		$expected = 'httpslocalhostvandaadminusergroupmodify';

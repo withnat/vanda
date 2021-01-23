@@ -37,8 +37,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use System\Response;
+use InvalidArgumentException;
+use Mockery;
 use PHPUnit\Framework\TestCase;
+use System\Response;
 
 /**
  * Class ResponseTest
@@ -48,7 +50,7 @@ final class ResponseTest extends TestCase
 {
     protected function tearDown() : void
     {
-        \Mockery::close();
+        Mockery::close();
     }
 
 	// Response::getStatusCode()
@@ -81,7 +83,7 @@ final class ResponseTest extends TestCase
 
 	public function testMethodSetStatusCodeCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Response::setStatusCode(900);
 	}
@@ -535,7 +537,7 @@ final class ResponseTest extends TestCase
 
 	public function testMethodRedirectCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Response::redirect('user', 900);
 	}
@@ -551,19 +553,19 @@ final class ResponseTest extends TestCase
 
 		$expected = '{"title":"","content":"","redirect":"#http:\/\/localhost\/index.php\/en_US.UTF-8"}';
 
-		$appRequest = \Mockery::mock('alias:\System\App');
+		$appRequest = Mockery::mock('alias:\System\App');
 		$appRequest->shouldReceive(['isSpa' => true]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		//$mockedRequest->shouldReceive(['host' => 'http://localhost']);
 		//$mockedRequest->shouldReceive(['basePath' => '']);
 		$mockedRequest->shouldReceive(['isSpa' => true]);
 		$mockedRequest->shouldReceive(['isAjax' => true]);
 
-		$mockedRequest = \Mockery::mock('alias:\System\Url');
+		$mockedRequest = Mockery::mock('alias:\System\Url');
 		$mockedRequest->shouldReceive(['hashSPA' => 'http://localhost']);
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -589,11 +591,11 @@ final class ResponseTest extends TestCase
 	{
 		$expected = "<script>document.location.href=\"http://localhost/index.php\";</script>\n";
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -603,7 +605,7 @@ final class ResponseTest extends TestCase
 					return '';
 			});
 
-		$mockedResponse = \Mockery::mock('System\Response')
+		$mockedResponse = Mockery::mock('System\Response')
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
@@ -624,7 +626,7 @@ final class ResponseTest extends TestCase
 		$expectedStatusContent = '0; url=http://localhost/index.php/user';
 		$expectedStatusCode = 302;
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 		$mockedRequest->shouldReceive('server')
@@ -636,7 +638,7 @@ final class ResponseTest extends TestCase
 					return '';
 			});
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -646,7 +648,7 @@ final class ResponseTest extends TestCase
 					return '';
 			});
 
-		$mockedResponse = \Mockery::mock('System\Response')
+		$mockedResponse = Mockery::mock('System\Response')
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
@@ -671,7 +673,7 @@ final class ResponseTest extends TestCase
 		$expectedStatusContent = 'http://localhost/index.php/user';
 		$expectedStatusCode = 302;
 
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
 		$mockedRequest->shouldReceive(['basePath' => '']);
 		$mockedRequest->shouldReceive('server')
@@ -683,7 +685,7 @@ final class ResponseTest extends TestCase
 					return '';
 			});
 
-		$mockedSetting = \Mockery::mock('alias:\Setting');
+		$mockedSetting = Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -693,7 +695,7 @@ final class ResponseTest extends TestCase
 					return '';
 			});
 
-		$mockedResponse = \Mockery::mock('System\Response')
+		$mockedResponse = Mockery::mock('System\Response')
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
@@ -717,7 +719,7 @@ final class ResponseTest extends TestCase
 	 */
 	public function testMethodSendCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['isCli' => true]);
 
 		$result = Response::send();
@@ -731,7 +733,7 @@ final class ResponseTest extends TestCase
 	 */
 	public function testMethodSendCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['isCli' => false]);
 
 		$result = Response::send();
@@ -745,13 +747,13 @@ final class ResponseTest extends TestCase
 	 */
 	public function testMethodSendCase3() : void
 	{
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['isCli' => false]);
 
 		Response::setHeader('Pragma', 'cache');
 		Response::setBody('Nat is handsome.');
 
-		$result = Response::send();
+		Response::send();
 
 		$headers = xdebug_get_headers();
 
@@ -766,14 +768,14 @@ final class ResponseTest extends TestCase
 	 */
 	public function testMethodSendCase4() : void
 	{
-		$mockedRequest = \Mockery::mock('alias:\System\Request');
+		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['isCli' => false]);
 
 		Response::setHeader('Pragma', 'cache');
 		Response::setHeader('content-type', 'text/html; charset=UTF-8');
 		Response::setBody('Nat is handsome.');
 
-		$result = Response::send();
+		Response::send();
 
 		$headers = xdebug_get_headers();
 

@@ -37,8 +37,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use System\Number;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use System\Number;
 
 /**
  * Class NumberTest
@@ -133,21 +134,21 @@ final class NumberTest extends TestCase
 
 	public function testMethodInRangeCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Number::inrange('value', 1, 100);
 	}
 
 	public function testMethodInRangeCase2() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Number::inrange(50, 'value', 100);
 	}
 
 	public function testMethodInRangeCase3() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Number::inrange(50, 1, 'value');
 	}

@@ -37,9 +37,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Xml;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class XmlTest
@@ -117,7 +118,7 @@ final class XmlTest extends TestCase
 
 	public function testMethodFromDatasetCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Xml::fromDataset(['string']);
 	}
@@ -133,7 +134,7 @@ final class XmlTest extends TestCase
 
 	public function testMethodFromRecordsetCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Xml::fromRecordset(['string']);
 	}

@@ -37,9 +37,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use InvalidArgumentException;
+use Mockery;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Html;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class XmlTest
@@ -49,7 +51,7 @@ final class HtmlTest extends TestCase
 {
 	protected function tearDown() : void
 	{
-		\Mockery::close();
+		Mockery::close();
 	}
 
 	// Html::link()
@@ -60,7 +62,7 @@ final class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Html::link('user', 'User', new stdClass());
 	}
@@ -73,10 +75,10 @@ final class HtmlTest extends TestCase
 	{
 		$expected = '<a href="http://localhost">http://localhost</a>';
 
-		$stubUrl = \Mockery::mock('alias:\System\Url');
+		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive(['create' => 'http://localhost']);
 
-		$stubRequest = \Mockery::mock('alias:\System\Request');
+		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive(['isSPA' => false]);
 
 		$result = Html::link();
@@ -92,10 +94,10 @@ final class HtmlTest extends TestCase
 	{
 		$expected = '<a style="font-weight:bold;" href="http://localhost">User Management System</a>';
 
-		$stubUrl = \Mockery::mock('alias:\System\Url');
+		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive(['create' => 'http://localhost']);
 
-		$stubRequest = \Mockery::mock('alias:\System\Request');
+		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive(['isSPA' => false]);
 
 		$result = Html::link('user', 'User Management System', 'style="font-weight:bold;"');
@@ -111,10 +113,10 @@ final class HtmlTest extends TestCase
 	{
 		$expected = '<a style="font-weight:bold;" href="http://localhost">User Management System</a>';
 
-		$stubUrl = \Mockery::mock('alias:\System\Url');
+		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive(['create' => 'http://localhost']);
 
-		$stubRequest = \Mockery::mock('alias:\System\Request');
+		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive(['isSPA' => false]);
 
 		$result = Html::link('user', 'User Management System', ['style' => 'font-weight:bold;']);
@@ -130,11 +132,11 @@ final class HtmlTest extends TestCase
 	{
 		$expected = '<a href="#user" data-url="http://localhost">http://localhost</a>';
 
-		$stubUrl = \Mockery::mock('alias:\System\Url');
+		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive(['create' => 'http://localhost']);
 		$stubUrl->shouldReceive(['hashSPA' => '#user']);
 
-		$stubRequest = \Mockery::mock('alias:\System\Request');
+		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive(['isSPA' => true]);
 
 		$result = Html::link();

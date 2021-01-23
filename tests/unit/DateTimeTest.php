@@ -37,8 +37,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use System\DateTime;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use System\DateTime;
 
 /**
  * Override time() in the current namespace for testing.
@@ -191,7 +192,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodDefaultCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::_([]);
 	}
@@ -214,7 +215,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodSortableCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::sortable([]);
 	}
@@ -237,7 +238,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodMysqlCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::mysql([]);
 	}
@@ -260,7 +261,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodShortDateCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::shortDate([]);
 	}
@@ -283,7 +284,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodLongDateCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::longDate([]);
 	}
@@ -306,7 +307,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodShortTimeCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::shortTime([]);
 	}
@@ -329,7 +330,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodLongTimeCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::longTime([]);
 	}
@@ -352,7 +353,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodFullDateTimeCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::fullDateTime([]);
 	}
@@ -375,7 +376,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodFullLongDateTimeCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::fullLongDateTime([]);
 	}
@@ -398,7 +399,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodDayMonthCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::dayMonth([]);
 	}
@@ -421,7 +422,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodMonthYearCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::monthYear([]);
 	}
@@ -444,7 +445,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodDayCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::day([]);
 	}
@@ -467,7 +468,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodShortDayNameCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::shortDayName([]);
 	}
@@ -490,7 +491,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodFullDayNameCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::fullDayName([]);
 	}
@@ -513,7 +514,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodHourCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::hour([]);
 	}
@@ -536,7 +537,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodHour24Case1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::hour24([]);
 	}
@@ -559,7 +560,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodMinuteCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::minute([]);
 	}
@@ -582,7 +583,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodSecondCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::second([]);
 	}
@@ -605,7 +606,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodMonthCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::month([]);
 	}
@@ -628,7 +629,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodShortMonthNameCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::shortMonthName([]);
 	}
@@ -651,7 +652,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodMonthNameCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::monthName([]);
 	}
@@ -674,7 +675,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodApmNameCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::apm([]);
 	}
@@ -697,7 +698,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodYearCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::year([]);
 	}
@@ -720,7 +721,7 @@ final class DateTimeTest extends TestCase
 
 	public function testMethodShortYearCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		DateTime::shortYear([]);
 	}

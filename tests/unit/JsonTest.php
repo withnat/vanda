@@ -38,9 +38,10 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use ErrorException;
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Json;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class JsonTest
@@ -171,7 +172,7 @@ final class JsonTest extends TestCase
 	 */
 	public function testMethodEncodeCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Json::encode(tmpfile());
 	}
@@ -302,7 +303,7 @@ final class JsonTest extends TestCase
 
 	public function testMethodDataTableCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Json::dataTable(['InvalidDataSource']);
 	}

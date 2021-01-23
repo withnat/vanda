@@ -37,10 +37,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use InvalidArgumentException;
+use Mockery;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Request;
-use System\Response;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class RequestTest
@@ -50,21 +51,21 @@ final class RequestTest extends TestCase
 {
     protected function tearDown() : void
     {
-        \Mockery::close();
+        Mockery::close();
     }
 
 	// Request::set()
 
 	public function testMethodSetCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Request::set('arg', new stdClass());
 	}
 
 	public function testMethodSetCase2() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Request::set('arg', 'value', 'InvalidMethod');
 	}
@@ -100,7 +101,7 @@ final class RequestTest extends TestCase
 
 	public function testMethodGetCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Request::get('arg', tmpfile());
 	}
@@ -114,10 +115,10 @@ final class RequestTest extends TestCase
 		$getValues = new stdClass();
 		$getValues->arg = 'value';
 
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr = Mockery::mock('alias:\System\Arr');
 		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::get();
@@ -134,30 +135,10 @@ final class RequestTest extends TestCase
 		$getValues = new stdClass();
 		$getValues->arg = 'value';
 
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr = Mockery::mock('alias:\System\Arr');
 		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
-		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
-
-		$result = Request::get(null, null);
-
-		$this->assertEquals($getValues, $result);
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodGetCase4() : void
-	{
-		$getValues = new stdClass();
-		$getValues->arg = 'value';
-
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive(['toObject' => $getValues]);
-
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::get('arg');
@@ -169,19 +150,45 @@ final class RequestTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodGetCase5() : void
+	public function testMethodGetCase4() : void
 	{
 		$getValues = new stdClass();
 
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr = Mockery::mock('alias:\System\Arr');
 		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::get('arg', 'default');
 
 		$this->assertEquals('default', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetCase5() : void
+	{
+		$product = new stdClass();
+		$product->price = 100;
+
+		$form = new stdClass();
+		$form->product = $product;
+
+		$getValues = new stdClass();
+		$getValues->form = $form;
+
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $getValues]);
+
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
+
+		$result = Request::get('form.product.price');
+
+		$this->assertEquals(100, $result);
 	}
 
 	/**
@@ -199,36 +206,10 @@ final class RequestTest extends TestCase
 		$getValues = new stdClass();
 		$getValues->form = $form;
 
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr = Mockery::mock('alias:\System\Arr');
 		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
-		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
-
-		$result = Request::get('form.product.price');
-
-		$this->assertEquals(100, $result);
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodGetCase7() : void
-	{
-		$product = new stdClass();
-		$product->price = 100;
-
-		$form = new stdClass();
-		$form->product = $product;
-
-		$getValues = new stdClass();
-		$getValues->form = $form;
-
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive(['toObject' => $getValues]);
-
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::get('form.product');
@@ -241,14 +222,14 @@ final class RequestTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodGetCase8() : void
+	public function testMethodGetCase7() : void
 	{
 		$getValues = new stdClass();
 
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr = Mockery::mock('alias:\System\Arr');
 		$mockedArr->shouldReceive(['toObject' => $getValues]);
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $getValues]);
 
 		$result = Request::get('form.product.price', 'default');
@@ -260,7 +241,7 @@ final class RequestTest extends TestCase
 
 	public function testMethodPostCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Request::post('arg', tmpfile());
 	}
@@ -274,10 +255,10 @@ final class RequestTest extends TestCase
 		$postValues = new stdClass();
 		$postValues->arg = 'value';
 
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr = Mockery::mock('alias:\System\Arr');
 		$mockedArr->shouldReceive(['toObject' => $postValues]);
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
 
 		$result = Request::post();
@@ -294,30 +275,10 @@ final class RequestTest extends TestCase
 		$postValues = new stdClass();
 		$postValues->arg = 'value';
 
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr = Mockery::mock('alias:\System\Arr');
 		$mockedArr->shouldReceive(['toObject' => $postValues]);
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
-		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
-
-		$result = Request::post(null, null);
-
-		$this->assertEquals($postValues, $result);
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodPostCase4() : void
-	{
-		$postValues = new stdClass();
-		$postValues->arg = 'value';
-
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive(['toObject' => $postValues]);
-
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
 
 		$result = Request::post('arg');
@@ -329,19 +290,45 @@ final class RequestTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodPostCase5() : void
+	public function testMethodPostCase4() : void
 	{
 		$postValues = new stdClass();
 
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr = Mockery::mock('alias:\System\Arr');
 		$mockedArr->shouldReceive(['toObject' => $postValues]);
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
 
 		$result = Request::post('arg', 'default');
 
 		$this->assertEquals('default', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodPostCase5() : void
+	{
+		$product = new stdClass();
+		$product->price = 100;
+
+		$form = new stdClass();
+		$form->product = $product;
+
+		$postValues = new stdClass();
+		$postValues->form = $form;
+
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive(['toObject' => $postValues]);
+
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
+		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
+
+		$result = Request::post('form.product.price');
+
+		$this->assertEquals(100, $result);
 	}
 
 	/**
@@ -359,36 +346,10 @@ final class RequestTest extends TestCase
 		$postValues = new stdClass();
 		$postValues->form = $form;
 
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr = Mockery::mock('alias:\System\Arr');
 		$mockedArr->shouldReceive(['toObject' => $postValues]);
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
-		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
-
-		$result = Request::post('form.product.price');
-
-		$this->assertEquals(100, $result);
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodPostCase7() : void
-	{
-		$product = new stdClass();
-		$product->price = 100;
-
-		$form = new stdClass();
-		$form->product = $product;
-
-		$postValues = new stdClass();
-		$postValues->form = $form;
-
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive(['toObject' => $postValues]);
-
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
 
 		$result = Request::post('form.product');
@@ -401,14 +362,14 @@ final class RequestTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodPostCase8() : void
+	public function testMethodPostCase7() : void
 	{
 		$postValues = new stdClass();
 
-		$mockedArr = \Mockery::mock('alias:\System\Arr');
+		$mockedArr = Mockery::mock('alias:\System\Arr');
 		$mockedArr->shouldReceive(['toObject' => $postValues]);
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
 
 		$result = Request::post('form.product.price', 'default');
@@ -424,7 +385,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodSwitcherCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Request::switcher('status', 'InvalidMethod');
 	}
@@ -437,7 +398,7 @@ final class RequestTest extends TestCase
 	{
 		$postValues = new stdClass();
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
 
 		$result = Request::switcher('status');
@@ -453,7 +414,7 @@ final class RequestTest extends TestCase
 	{
 		$postValues = new stdClass();
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
 
 		$result = Request::switcher('status', 'post');
@@ -470,7 +431,7 @@ final class RequestTest extends TestCase
 		$postValues = new stdClass();
 		$postValues->status = 'something';
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
 
 		$result = Request::switcher('status', 'post');
@@ -486,7 +447,7 @@ final class RequestTest extends TestCase
 	{
 		$postValues = new stdClass();
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
 
 		$result = Request::switcher('status', 'get');
@@ -503,7 +464,7 @@ final class RequestTest extends TestCase
 		$postValues = new stdClass();
 		$postValues->status = 'something';
 
-		$mockedSecurity = \Mockery::mock('alias:\System\Security');
+		$mockedSecurity = Mockery::mock('alias:\System\Security');
 		$mockedSecurity->shouldReceive(['xssClean' => $postValues]);
 
 		$result = Request::switcher('status', 'get');
@@ -519,7 +480,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodMethodCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
 		$mockedRequest->shouldReceive('header')->andReturn('PUT');
 
@@ -534,7 +495,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodMethodCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->method();
@@ -550,7 +511,7 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'get';
 
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->method();
@@ -568,7 +529,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIpCase1() : void
 	{
-		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator = Mockery::mock('alias:\System\Validator');
 		$mockedValidator->shouldReceive(['isValidIp' => false]);
 
 		$result = Request::ip();
@@ -584,7 +545,7 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '75.184.124.93, 10.194.95.79';
 
-		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator = Mockery::mock('alias:\System\Validator');
 		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
@@ -602,7 +563,7 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['HTTP_CLIENT_IP'] = '75.184.124.93, 10.194.95.79';
 
-		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator = Mockery::mock('alias:\System\Validator');
 		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
@@ -620,7 +581,7 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['REMOTE_ADDR'] = '223.24.187.34';
 
-		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator = Mockery::mock('alias:\System\Validator');
 		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
@@ -638,7 +599,7 @@ final class RequestTest extends TestCase
 	{
 		putenv('HTTP_X_FORWARDED_FOR=75.184.124.93, 10.194.95.79');
 
-		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator = Mockery::mock('alias:\System\Validator');
 		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
@@ -656,7 +617,7 @@ final class RequestTest extends TestCase
 	{
 		putenv('HTTP_CLIENT_IP=75.184.124.93, 10.194.95.79');
 
-		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator = Mockery::mock('alias:\System\Validator');
 		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
@@ -674,7 +635,7 @@ final class RequestTest extends TestCase
 	{
 		putenv('REMOTE_ADDR=223.24.187.34');
 
-		$mockedValidator = \Mockery::mock('alias:\System\Validator');
+		$mockedValidator = Mockery::mock('alias:\System\Validator');
 		$mockedValidator->shouldReceive(['isValidIp' => true]);
 
 		$result = Request::ip();
@@ -926,7 +887,7 @@ final class RequestTest extends TestCase
 
 	public function testMethodHeaderCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
@@ -939,7 +900,7 @@ final class RequestTest extends TestCase
 
 	public function testMethodHeaderCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
@@ -952,7 +913,7 @@ final class RequestTest extends TestCase
 
 	public function testMethodHeaderCase3() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
@@ -967,7 +928,7 @@ final class RequestTest extends TestCase
 
 	public function testMethodHasHeaderCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
@@ -980,7 +941,7 @@ final class RequestTest extends TestCase
 
 	public function testMethodHasHeaderCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('allHeaders')->andReturn([]);
 
 		$result = $mockedRequest->hasHeader('host');
@@ -992,7 +953,7 @@ final class RequestTest extends TestCase
 
 	public function testMethodHasAnyHeaderCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
@@ -1005,7 +966,7 @@ final class RequestTest extends TestCase
 
 	public function testMethodHasAnyHeaderCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
@@ -1020,7 +981,7 @@ final class RequestTest extends TestCase
 
 	public function testMethodHasAllHeadersCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
@@ -1033,7 +994,7 @@ final class RequestTest extends TestCase
 
 	public function testMethodHasAllHeadersCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
@@ -1118,7 +1079,7 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->isGet();
@@ -1136,7 +1097,7 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->isGet();
@@ -1154,7 +1115,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsOptionsCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
 		$mockedRequest->shouldReceive('header')->andReturn('OPTIONS');
 
@@ -1169,7 +1130,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsOptionsCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->isOptions();
@@ -1185,7 +1146,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsHeadCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
 		$mockedRequest->shouldReceive('header')->andReturn('HEAD');
 
@@ -1200,7 +1161,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsHeadCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->isHead();
@@ -1218,7 +1179,7 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->isPost();
@@ -1236,7 +1197,7 @@ final class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->isPost();
@@ -1254,7 +1215,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsDeleteCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
 		$mockedRequest->shouldReceive('header')->andReturn('DELETE');
 
@@ -1269,7 +1230,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsDeleteCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->isDelete();
@@ -1285,7 +1246,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsPutCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
 		$mockedRequest->shouldReceive('header')->andReturn('PUT');
 
@@ -1300,7 +1261,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsPutCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->isPut();
@@ -1316,7 +1277,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsPatchCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
 		$mockedRequest->shouldReceive('header')->andReturn('PATCH');
 
@@ -1331,7 +1292,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsPatchCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(false);
 
 		$result = $mockedRequest->isPatch();
@@ -1386,7 +1347,7 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodIsPjaxCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isAjax')->andReturn(true);
 		$mockedRequest->shouldReceive('hasHeader')->andReturn(true);
 
@@ -1412,13 +1373,13 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsGetCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isGet')->andReturn(false);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
 
-		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl = Mockery::mock('alias:\System\Url');
 		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
 		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
 
@@ -1433,10 +1394,10 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsGetCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isGet')->andReturn(true);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
 		$mockedRequest->ensureIsGet();
@@ -1452,13 +1413,13 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsOptionsCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isOptions')->andReturn(false);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
 
-		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl = Mockery::mock('alias:\System\Url');
 		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
 		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
 
@@ -1473,10 +1434,10 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsOptionsCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isOptions')->andReturn(true);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
 		$mockedRequest->ensureIsOptions();
@@ -1492,13 +1453,13 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsHeadCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isHead')->andReturn(false);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
 
-		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl = Mockery::mock('alias:\System\Url');
 		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
 		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
 
@@ -1513,10 +1474,10 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsHeadCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isHead')->andReturn(true);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
 		$mockedRequest->ensureIsHead();
@@ -1532,13 +1493,13 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPostCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isPost')->andReturn(false);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
 
-		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl = Mockery::mock('alias:\System\Url');
 		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
 		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
 
@@ -1553,10 +1514,10 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPostCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isPost')->andReturn(true);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
 		$mockedRequest->ensureIsPost();
@@ -1572,13 +1533,13 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsDeleteCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isDelete')->andReturn(false);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
 
-		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl = Mockery::mock('alias:\System\Url');
 		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
 		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
 
@@ -1593,10 +1554,10 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsDeleteCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isDelete')->andReturn(true);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
 		$mockedRequest->ensureIsDelete();
@@ -1612,13 +1573,13 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPutCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isPut')->andReturn(false);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
 
-		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl = Mockery::mock('alias:\System\Url');
 		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
 		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
 
@@ -1633,10 +1594,10 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPutCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isPut')->andReturn(true);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
 		$mockedRequest->ensureIsPut();
@@ -1652,13 +1613,13 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPatchCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isPatch')->andReturn(false);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
 
-		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl = Mockery::mock('alias:\System\Url');
 		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
 		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
 
@@ -1673,10 +1634,10 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPatchCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isPatch')->andReturn(true);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
 		$mockedRequest->ensureIsPatch();
@@ -1692,13 +1653,13 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsAjaxCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isAjax')->andReturn(false);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
 
-		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl = Mockery::mock('alias:\System\Url');
 		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
 		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
 
@@ -1713,10 +1674,10 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsAjaxCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isAjax')->andReturn(true);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
 		$mockedRequest->ensureIsAjax();
@@ -1732,13 +1693,13 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPjaxCase1() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isPjax')->andReturn(false);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
 
-		$mockedUrl = \Mockery::mock('alias:\System\Url');
+		$mockedUrl = Mockery::mock('alias:\System\Url');
 		$mockedUrl->shouldReceive('default')->andReturn('http://localhost');
 		$mockedUrl->shouldReceive('create')->andReturn('http://localhost');
 
@@ -1753,10 +1714,10 @@ final class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPjaxCase2() : void
 	{
-		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest = Mockery::mock('\System\Request')->makePartial();
 		$mockedRequest->shouldReceive('isPjax')->andReturn(true);
 
-		$mockedResponse = \Mockery::mock('alias:\System\Response');
+		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
 		$mockedRequest->ensureIsPjax();

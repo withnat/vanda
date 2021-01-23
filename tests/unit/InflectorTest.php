@@ -37,8 +37,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use System\Inflector;
 use PHPUnit\Framework\TestCase;
+use System\Inflector;
 
 /**
  * Class InflectorTest

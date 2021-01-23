@@ -37,8 +37,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use System\Str;
+use InvalidArgumentException;
+use Mockery;
 use PHPUnit\Framework\TestCase;
+use System\Str;
 
 /**
  * Class StrTest
@@ -52,7 +54,7 @@ final class StrTest extends TestCase
 
     protected function tearDown() : void
     {
-        \Mockery::close();
+        Mockery::close();
     }
 
 	// Str::length()
@@ -77,7 +79,7 @@ final class StrTest extends TestCase
 	 */
 	public function testMethodLengthCase3() : void
 	{
-		$mockedConfig = \Mockery::mock('alias:\System\Config');
+		$mockedConfig = Mockery::mock('alias:\System\Config');
 		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::length(StrTest::$_string);
@@ -91,7 +93,7 @@ final class StrTest extends TestCase
 	 */
 	public function testMethodLengthCase4() : void
 	{
-		$mockedConfig = \Mockery::mock('alias:\System\Config');
+		$mockedConfig = Mockery::mock('alias:\System\Config');
 		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('');
 
 		$result = Str::length(StrTest::$_string);
@@ -469,7 +471,7 @@ final class StrTest extends TestCase
 
 	public function testMethodBetweenCase2() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Str::between(StrTest::$_string, ':', ':', -10);
 	}
@@ -499,7 +501,7 @@ final class StrTest extends TestCase
 
 	public function testMethodTrimCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Str::trim('', 3.14);
 	}
@@ -535,7 +537,7 @@ final class StrTest extends TestCase
 
 	public function testMethodTrimLeftCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Str::trimLeft('', 3.14);
 	}
@@ -571,7 +573,7 @@ final class StrTest extends TestCase
 
 	public function testMethodTrimRightCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Str::trimRight('', 3.14);
 	}
@@ -881,14 +883,14 @@ final class StrTest extends TestCase
 
 	public function testMethodReplaceCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Str::replace('string', 'search', 3.14);
 	}
 
 	public function testMethodReplaceCase2() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Str::replace('string', 3.14, 'replace');
 	}
@@ -964,14 +966,14 @@ final class StrTest extends TestCase
 
 	public function testMethodIReplaceCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Str::ireplace('string', 'search', 3.14);
 	}
 
 	public function testMethodIReplaceCase2() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Str::ireplace('string', 3.14, 'replace');
 	}
@@ -1434,7 +1436,7 @@ final class StrTest extends TestCase
 
 	public function testMethodFloatToStringCase1() : void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		Str::floatToString('3.14');
 	}
@@ -2061,30 +2063,30 @@ final class StrTest extends TestCase
 
 	public function testMethodRandomCase2() : void
 	{
-		$result = Str::random(8, 'alnum');
+		$result = Str::random(10, 'alnum');
 
-		$this->assertRegExp('/^[a-hj-km-np-zA-NP-Z2-9]{8}$/', $result);
+		$this->assertRegExp('/^[a-hj-km-np-zA-NP-Z2-9]{10}$/', $result);
 	}
 
 	public function testMethodRandomCase3() : void
 	{
-		$result = Str::random(8, 'alpha');
+		$result = Str::random(10, 'alpha');
 
-		$this->assertRegExp('/^[a-zA-Z]{8}$/', $result);
+		$this->assertRegExp('/^[a-zA-Z]{10}$/', $result);
 	}
 
 	public function testMethodRandomCase4() : void
 	{
-		$result = Str::random(8, 'numeric');
+		$result = Str::random(10, 'numeric');
 
-		$this->assertRegExp('/^[0-9]{8}$/', $result);
+		$this->assertRegExp('/^[0-9]{10}$/', $result);
 	}
 
 	public function testMethodRandomCase5() : void
 	{
-		$result = Str::random(8, 'nozero');
+		$result = Str::random(10, 'nozero');
 
-		$this->assertRegExp('/^[1-9]{8}$/', $result);
+		$this->assertRegExp('/^[1-9]{10}$/', $result);
 	}
 
 	// Str::base64encode()
