@@ -294,9 +294,9 @@ final class Arr
 
 	/**
 	 * Returns only the specified key/value pairs from the given array.
-	 * Data can be one or multi-dimensional array (not recordset).
+	 * Data can be one or multi-dimensional array, but not a recordset.
 	 *
-	 * @param  array  $array  Data can be one or multi-dimensional array (not recordset).
+	 * @param  array  $array  Data can be one or multi-dimensional array, but not a recordset.
 	 * @param  string $keys   The column of values to return. The $keys can be 'name,work.position'
 	 * @return array
 	 */
@@ -328,9 +328,9 @@ final class Arr
 
 	/**
 	 * Returns and removes an element by key from an array.
-	 * Data can be one or multi-dimensional array (not recordset).
+	 * Data can be one or multi-dimensional array, but not a recordset.
 	 *
-	 * @param  array  $array  Data can be one or multi-dimensional array (not recordset).
+	 * @param  array  $array  Data can be one or multi-dimensional array, but not a recordset.
 	 * @param  string $keys   The column of values to return. The $keys can be 'name,work.position'
 	 * @return mixed
 	 */
