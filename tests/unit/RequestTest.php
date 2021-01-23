@@ -963,6 +963,31 @@ final class RequestTest extends TestCase
 		$this->assertEquals('default', $result);
 	}
 
+	// Request::hasHeader()
+
+	public function testMethodHasHeaderCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('allHeaders')->andReturn([
+			'Host' => 'localhost',
+			'Connection' => 'keep-alive'
+		]);
+
+		$result = $mockedRequest->hasHeader('host');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasHeaderCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('allHeaders')->andReturn([]);
+
+		$result = $mockedRequest->hasHeader('host');
+
+		$this->assertFalse($result);
+	}
+
 	// Request::isSecure()
 
 	/**
