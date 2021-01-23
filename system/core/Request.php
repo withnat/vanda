@@ -387,10 +387,28 @@ class Request
 	}
 
 	/**
-	 * Get a header from the request, null if not available.
+	 * Fetch and return all HTTP request headers.
+	 *
+	 * An alias for PHP's getallheaders() function.
+	 *
+	 * This method is mainly used by test scripts to simulate
+	 * getallheaders() function.
 	 *
 	 * The built-in CLI web server does not support getallheaders().
 	 * So don't test this method by adding 'codeCoverageIgnore' annotation.
+	 *
+	 * @return array
+	 * @codeCoverageIgnore
+	 */
+	public static function allHeaders() : array
+	{
+		// Don't add "ext-apache" to composer.json.
+		// It will make updating composer fail.
+		return \getallheaders();
+	}
+
+	/**
+	 * Get a header from the request, null if not available.
 	 *
 	 * @param  string      $name     The variable name.
 	 * @param  string|null $default  Default value if the variable does not exist.
@@ -399,9 +417,7 @@ class Request
 	 */
 	public static function header(string $name, string $default = null) : ?string
 	{
-		// Don't add "ext-apache" to composer.json.
-		// It will make updating composer fail.
-		foreach (\getallheaders() as $key => $value)
+		foreach (static::allHeaders() as $key => $value)
 		{
 			if (strtolower($key) === strtolower($name))
 				return $value;
