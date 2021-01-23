@@ -40,11 +40,8 @@ namespace Tests;
 use System\Autoloader;
 
 // Set constants used in Vanda.
-putenv('APP_ENV=development');
-
 define('VD', 1);
-define('ENV', getenv('APP_ENV'));
-
+define('ENV', 'development'); // 'development', 'test', 'staging' or 'production'
 define('DS', DIRECTORY_SEPARATOR);
 define('PATH_BASE', __DIR__ . DS . '..');
 define('PATH_APP', PATH_BASE . DS . 'app');
@@ -53,8 +50,6 @@ define('PATH_STORAGE', PATH_BASE . DS . 'storage');
 define('PATH_SYSTEM', PATH_BASE . DS . 'system');
 define('PATH_THEMES', PATH_BASE . DS . 'themes');
 define('PATH_VENDOR', PATH_BASE . DS . 'vendor');
-
-define('DEV_MODE', true);
 
 // Load the Vanda autoloader.
 require PATH_SYSTEM . '/Autoloader.php';
