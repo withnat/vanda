@@ -922,6 +922,47 @@ final class RequestTest extends TestCase
 		$this->assertIsArray($result);
 	}
 
+	// Request::header()
+
+	public function testMethodHeaderCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('allHeaders')->andReturn([
+			'Host' => 'localhost',
+			'Connection' => 'keep-alive'
+		]);
+
+		$result = $mockedRequest->header('host');
+
+		$this->assertEquals('localhost', $result);
+	}
+
+	public function testMethodHeaderCase2() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('allHeaders')->andReturn([
+			'Host' => 'localhost',
+			'Connection' => 'keep-alive'
+		]);
+
+		$result = $mockedRequest->header('NotExistKey');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodHeaderCase3() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('allHeaders')->andReturn([
+			'Host' => 'localhost',
+			'Connection' => 'keep-alive'
+		]);
+
+		$result = $mockedRequest->header('NotExistKey', 'default');
+
+		$this->assertEquals('default', $result);
+	}
+
 	// Request::isSecure()
 
 	/**
