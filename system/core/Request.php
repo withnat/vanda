@@ -413,7 +413,6 @@ class Request
 	 * @param  string      $name     The variable name.
 	 * @param  string|null $default  Default value if the variable does not exist.
 	 * @return string|null
-	 * @codeCoverageIgnore
 	 */
 	public static function header(string $name, string $default = null) : ?string
 	{
@@ -431,7 +430,6 @@ class Request
 	 *
 	 * @param  string $name  The variable name.
 	 * @return bool
-	 * @codeCoverageIgnore
 	 */
 	public static function hasHeader(string $name) : bool
 	{
@@ -446,7 +444,6 @@ class Request
 	 *
 	 * @param  array $names  The variable name.
 	 * @return bool
-	 * @codeCoverageIgnore
 	 */
 	public static function hasAnyHeader(array $names) : bool
 	{
@@ -464,7 +461,6 @@ class Request
 	 *
 	 * @param  array $names  The variable name.
 	 * @return bool
-	 * @codeCoverageIgnore
 	 */
 	public static function hasAllHeaders(array $names) : bool
 	{
