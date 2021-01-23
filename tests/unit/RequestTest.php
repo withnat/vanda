@@ -988,6 +988,21 @@ final class RequestTest extends TestCase
 		$this->assertFalse($result);
 	}
 
+	// Request::hasAnyHeader()
+
+	public function testMethodHasAnyHeaderCase1() : void
+	{
+		$mockedRequest = \Mockery::mock('\System\Request')->makePartial();
+		$mockedRequest->shouldReceive('allHeaders')->andReturn([
+			'Host' => 'localhost',
+			'Connection' => 'keep-alive'
+		]);
+
+		$result = $mockedRequest->hasAnyHeader(['host', 'NotExistKey']);
+
+		$this->assertTrue($result);
+	}
+
 	// Request::isSecure()
 
 	/**
