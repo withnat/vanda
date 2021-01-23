@@ -551,10 +551,17 @@ final class ResponseTest extends TestCase
 
 		$expected = '{"title":"","content":"","redirect":"#http:\/\/localhost\/index.php\/en_US.UTF-8"}';
 
+		$appRequest = \Mockery::mock('alias:\System\App');
+		$appRequest->shouldReceive(['isSpa' => true]);
+
 		$mockedRequest = \Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['host' => 'http://localhost']);
-		$mockedRequest->shouldReceive(['basePath' => '']);
+		//$mockedRequest->shouldReceive(['host' => 'http://localhost']);
+		//$mockedRequest->shouldReceive(['basePath' => '']);
+		$mockedRequest->shouldReceive(['isSpa' => true]);
 		$mockedRequest->shouldReceive(['isAjax' => true]);
+
+		$mockedRequest = \Mockery::mock('alias:\System\Url');
+		$mockedRequest->shouldReceive(['hashSPA' => 'http://localhost']);
 
 		$mockedSetting = \Mockery::mock('alias:\Setting');
 		$mockedSetting->shouldReceive('get')
