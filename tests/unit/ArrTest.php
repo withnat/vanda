@@ -55,6 +55,8 @@ final class ArrTest extends TestCase
 	protected static $_assocArray;
 	protected static $_assocArrayMulti;
 	protected static $_datasetArray;
+	protected static $_anotherDatasetArray;
+	protected static $_fakeRecordsetArray;
 	protected static $_recordsetArray;
 	protected static $_object;
 	protected static $_objectEmpty;
@@ -164,6 +166,19 @@ final class ArrTest extends TestCase
 					'position' => 'Marketing Director',
 					'salary' => 10000
 				]
+			]
+		];
+
+		//
+
+		ArrTest::$_anotherDatasetArray = [
+			[
+				'0.1',
+				'0.2'
+			],
+			[
+				'1.1',
+				'1.2'
 			]
 		];
 
@@ -2496,6 +2511,13 @@ final class ArrTest extends TestCase
 	public function testMethodIsDatasetCase13() : void
 	{
 		$result = Arr::isDataset(ArrTest::$_datasetArray);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsDatasetCase14() : void
+	{
+		$result = Arr::isDataset(ArrTest::$_anotherDatasetArray);
 
 		$this->assertTrue($result);
 	}
