@@ -477,7 +477,21 @@ class ArrTest extends TestCase
 	{
 		$this->expectException(InvalidArgumentException::class);
 
-		Arr::column([], 'missingkey');
+		Arr::column([], 'columnKey');
+	}
+
+	public function testMethodColumnCase1x() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::column(static::$_datasetArray, 3.14);
+	}
+
+	public function testMethodColumnCase1xx() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::column(static::$_datasetArray, 'columnKey', 3.14);
 	}
 
 	public function testMethodColumnCase2() : void
@@ -506,6 +520,33 @@ class ArrTest extends TestCase
 		];
 
 		$result = Arr::column(static::$_datasetArray, 'work.position', 'name');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodColumnCase3x() : void
+	{
+		$expected = [
+			'0.1',
+			'1.1'
+		];
+
+		$result = Arr::column(static::$_anotherDatasetArray, 0);
+		print_r($result);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodColumnCase3xx() : void
+	{
+		$expected = [
+			'0.2' => '0.1',
+			'1.2' => '1.1'
+		];
+
+		$result = Arr::column(static::$_anotherDatasetArray, 0, 1);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
