@@ -957,14 +957,14 @@ class ArrTest extends TestCase
 	{
 		$result = Arr::only(static::$_array, '1');
 
-		$this->assertEquals(['1' => 20], $result);
+		$this->assertEquals([1 => 20], $result);
 	}
 
 	public function testMethodOnlyCase4() : void
 	{
 		$result = Arr::only(static::$_array, 1);
 
-		$this->assertEquals(['1' => 20], $result);
+		$this->assertEquals([1 => 20], $result);
 	}
 
 	public function testMethodOnlyCase5() : void
@@ -984,24 +984,24 @@ class ArrTest extends TestCase
 	{
 		$result = Arr::only(static::$_arrayMulti, '1');
 
-		$this->assertEquals(['1' => 20], $result);
+		$this->assertEquals([1 => 20], $result);
 	}
 
 	public function testMethodOnlyCase7() : void
 	{
 		$result = Arr::only(static::$_arrayMulti, 1);
 
-		$this->assertEquals(['1' => 20], $result);
+		$this->assertEquals([1 => 20], $result);
 	}
 
 	public function testMethodOnlyCase8() : void
 	{
 		$expected = [
-			10,
-			20
+			1 => 20,
+			2 => 'A'
 		];
 
-		$result = Arr::only(static::$_arrayMulti, '0,1');
+		$result = Arr::only(static::$_arrayMulti, '1,2');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
