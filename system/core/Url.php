@@ -130,7 +130,7 @@ class Url
 	}
 
 	/**
-	 * Example url
+	 * Example url.
 	 * http://user:pass@hostname:9090/path?arg=value#anchor
 	 *
 	 * @param  string|null $path
