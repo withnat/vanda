@@ -663,8 +663,20 @@ final class Arr
 		return false;
 	}
 
-	public static function hasAnyKey(array $array, array $keys) : bool
+	/**
+	 * @param  array            $array
+	 * @param  string|int|array $keys
+	 * @return bool
+	 */
+	public static function hasAnyKey(array $array, $keys) : bool
 	{
+		if (is_string($keys))
+			$keys = explode(',', $keys);
+		elseif (is_int($keys))
+			$keys = [$keys];
+		elseif (!is_array($keys))
+			throw InvalidArgumentException::typeError(2, ['int', 'string', 'array'], $keys);
+
 		foreach ($keys as $key)
 		{
 			if (Arr::hasKey($array, $key))
