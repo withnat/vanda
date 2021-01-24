@@ -44,7 +44,7 @@ use System\Hash;
  * Class HashTest
  * @package Tests\Unit
  */
-final class HashTest extends TestCase
+class HashTest extends TestCase
 {
 	// Hash::make() & Hash::varify()
 

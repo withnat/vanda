@@ -45,7 +45,7 @@ use System\Url;
  * Class UrlTest
  * @package Tests\Unit
  */
-final class UrlTest extends TestCase
+class UrlTest extends TestCase
 {
 	protected static $_url = 'http://username:password@hostname:9090/path?arg=value#anchor';
 
@@ -800,7 +800,7 @@ final class UrlTest extends TestCase
 			'fragment' => 'anchor',
 		];
 
-		$result = Url::parse(UrlTest::$_url);
+		$result = Url::parse(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -824,7 +824,7 @@ final class UrlTest extends TestCase
 	public function testMethodGetSchemeCase3()
 	{
 		$expected = 'http';
-		$result = Url::getScheme(UrlTest::$_url);
+		$result = Url::getScheme(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -861,7 +861,7 @@ final class UrlTest extends TestCase
 	public function testMethodGetUserCase3()
 	{
 		$expected = 'username';
-		$result = Url::getUser(UrlTest::$_url);
+		$result = Url::getUser(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -898,7 +898,7 @@ final class UrlTest extends TestCase
 	public function testMethodGetPassCase3()
 	{
 		$expected = 'password';
-		$result = Url::getPass(UrlTest::$_url);
+		$result = Url::getPass(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -935,7 +935,7 @@ final class UrlTest extends TestCase
 	public function testMethodGetHostCase3()
 	{
 		$expected = 'hostname';
-		$result = Url::getHost(UrlTest::$_url);
+		$result = Url::getHost(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -972,7 +972,7 @@ final class UrlTest extends TestCase
 	public function testMethodGetPortCase3()
 	{
 		$expected = 9090;
-		$result = Url::getPort(UrlTest::$_url);
+		$result = Url::getPort(static::$_url);
 
 		$this->assertIsInt($result);
 		$this->assertEquals($expected, $result);
@@ -1010,7 +1010,7 @@ final class UrlTest extends TestCase
 	public function testMethodGetPathCase3()
 	{
 		$expected = '/path';
-		$result = Url::getPath(UrlTest::$_url);
+		$result = Url::getPath(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -1047,7 +1047,7 @@ final class UrlTest extends TestCase
 	public function testMethodGetQueryCase3()
 	{
 		$expected = 'arg=value';
-		$result = Url::getQuery(UrlTest::$_url);
+		$result = Url::getQuery(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -1084,7 +1084,7 @@ final class UrlTest extends TestCase
 	public function testMethodGetFragmentCase3()
 	{
 		$expected = 'anchor';
-		$result = Url::getFragment(UrlTest::$_url);
+		$result = Url::getFragment(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}

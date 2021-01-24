@@ -45,7 +45,7 @@ use System\App;
  * Class AppTest
  * @package Tests\Unit
  */
-final class AppTest extends TestCase
+class AppTest extends TestCase
 {
     protected function tearDown() : void
     {

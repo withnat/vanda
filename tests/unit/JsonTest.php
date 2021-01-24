@@ -47,7 +47,7 @@ use System\Json;
  * Class JsonTest
  * @package Tests\Unit
  */
-final class JsonTest extends TestCase
+class JsonTest extends TestCase
 {
 	protected static $_array;
 	protected static $_object;
@@ -58,7 +58,7 @@ final class JsonTest extends TestCase
 
 	protected function setUp() : void
 	{
-		JsonTest::$_array = [
+		static::$_array = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'work' => 'Web Developer',
@@ -67,15 +67,15 @@ final class JsonTest extends TestCase
 
 		//
 
-		JsonTest::$_object = new stdClass();
-		JsonTest::$_object->name = 'Nat';
-		JsonTest::$_object->surname = 'Withe';
-		JsonTest::$_object->work = 'Web Developer';
-		JsonTest::$_object->salary = 10000;
+		static::$_object = new stdClass();
+		static::$_object->name = 'Nat';
+		static::$_object->surname = 'Withe';
+		static::$_object->work = 'Web Developer';
+		static::$_object->salary = 10000;
 
 		//
 
-		JsonTest::$_dataset = [
+		static::$_dataset = [
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
@@ -92,7 +92,7 @@ final class JsonTest extends TestCase
 
 		//
 
-		JsonTest::$_recordset = [];
+		static::$_recordset = [];
 
 		$data = new stdClass();
 		$data->name = 'Nat';
@@ -100,7 +100,7 @@ final class JsonTest extends TestCase
 		$data->work = 'Web Developer';
 		$data->salary = 10000;
 
-		JsonTest::$_recordset[] = $data;
+		static::$_recordset[] = $data;
 
 		$data = new stdClass();
 		$data->name = 'Angela';
@@ -108,15 +108,15 @@ final class JsonTest extends TestCase
 		$data->work = 'Marketing Director';
 		$data->salary = 10000;
 
-		JsonTest::$_recordset[] = $data;
+		static::$_recordset[] = $data;
 
 		//
 
-		JsonTest::$_jsonString = '{"name":"Nat","surname":"Withe","work":"Web Developer","salary":10000}';
+		static::$_jsonString = '{"name":"Nat","surname":"Withe","work":"Web Developer","salary":10000}';
 
 		//
 
-		// Below JsonTest::$_dataTableString is something like this:
+		// Below static::$_dataTableString is something like this:
 		// {
 		//   "recordsTotal": 2,
 		//   "recordsFiltered": 2,
@@ -125,21 +125,21 @@ final class JsonTest extends TestCase
 		//     {"name":"Angela","surname":"SG","work":"Marketing Director","salary":10000}
 		//   ]
 		// }
-		JsonTest::$_dataTableString = '{' . "\n";
-		JsonTest::$_dataTableString .= "\t" . '"recordsTotal": 2,' . "\n";
-		JsonTest::$_dataTableString .= "\t" . '"recordsFiltered": 2,' . "\n";
-		JsonTest::$_dataTableString .= "\t" . '"data": [{"name":"Nat","surname":"Withe","work":"Web Developer","salary":10000},';
-		JsonTest::$_dataTableString .= '{"name":"Angela","surname":"SG","work":"Marketing Director","salary":10000}]' . "\n";
-		JsonTest::$_dataTableString .= '}';
+		static::$_dataTableString = '{' . "\n";
+		static::$_dataTableString .= "\t" . '"recordsTotal": 2,' . "\n";
+		static::$_dataTableString .= "\t" . '"recordsFiltered": 2,' . "\n";
+		static::$_dataTableString .= "\t" . '"data": [{"name":"Nat","surname":"Withe","work":"Web Developer","salary":10000},';
+		static::$_dataTableString .= '{"name":"Angela","surname":"SG","work":"Marketing Director","salary":10000}]' . "\n";
+		static::$_dataTableString .= '}';
 	}
 
 	protected function tearDown() : void
 	{
-		JsonTest::$_array = null;
-		JsonTest::$_object = null;
-		JsonTest::$_dataset = null;
-		JsonTest::$_recordset = null;
-		JsonTest::$_jsonString = null;
+		static::$_array = null;
+		static::$_object = null;
+		static::$_dataset = null;
+		static::$_recordset = null;
+		static::$_jsonString = null;
 	}
 
 	// Json::isValid()
@@ -160,7 +160,7 @@ final class JsonTest extends TestCase
 
 	public function testMethodIsValidCase3() : void
 	{
-		$result = Json::isValid(JsonTest::$_jsonString);
+		$result = Json::isValid(static::$_jsonString);
 
 		$this->assertTrue($result);
 	}
@@ -182,9 +182,9 @@ final class JsonTest extends TestCase
 	 */
 	public function testMethodEncodeCase2() : void
 	{
-		$result = Json::encode(JsonTest::$_array);
+		$result = Json::encode(static::$_array);
 
-		$this->assertEquals(JsonTest::$_jsonString, $result);
+		$this->assertEquals(static::$_jsonString, $result);
 	}
 
 	/**
@@ -192,9 +192,9 @@ final class JsonTest extends TestCase
 	 */
 	public function testMethodEncodeCase3() : void
 	{
-		$result = Json::encode(JsonTest::$_object);
+		$result = Json::encode(static::$_object);
 
-		$this->assertEquals(JsonTest::$_jsonString, $result);
+		$this->assertEquals(static::$_jsonString, $result);
 	}
 
 	/**
@@ -264,14 +264,14 @@ final class JsonTest extends TestCase
 	 */
 	public function testMethodDecodeCase2() : void
 	{
-		$result = Json::decode(JsonTest::$_jsonString);
+		$result = Json::decode(static::$_jsonString);
 
 		$this->assertIsObject($result);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
-		$compare = ($result === JsonTest::$_array);
+		$compare = ($result === static::$_array);
 
 		$this->assertTrue($compare);
 	}
@@ -281,10 +281,10 @@ final class JsonTest extends TestCase
 	 */
 	public function testMethodDecodeCase3() : void
 	{
-		$result = Json::decode(JsonTest::$_jsonString, true);
+		$result = Json::decode(static::$_jsonString, true);
 
 		$this->assertIsArray($result);
-		$compare = ($result === JsonTest::$_array);
+		$compare = ($result === static::$_array);
 
 		$this->assertTrue($compare);
 	}
@@ -310,15 +310,15 @@ final class JsonTest extends TestCase
 
 	public function testMethodDataTableCase2() : void
 	{
-		$result = Json::dataTable(JsonTest::$_dataset);
+		$result = Json::dataTable(static::$_dataset);
 
-		$this->assertEquals(JsonTest::$_dataTableString, $result);
+		$this->assertEquals(static::$_dataTableString, $result);
 	}
 
 	public function testMethodDataTableCase3() : void
 	{
-		$result = Json::dataTable(JsonTest::$_recordset);
+		$result = Json::dataTable(static::$_recordset);
 
-		$this->assertEquals(JsonTest::$_dataTableString, $result);
+		$this->assertEquals(static::$_dataTableString, $result);
 	}
 }

@@ -46,7 +46,7 @@ use System\Csv;
  * Class CsvTest
  * @package Tests\Unit
  */
-final class CsvTest extends TestCase
+class CsvTest extends TestCase
 {
 	protected static $_dataset;
 	protected static $_recordset;
@@ -54,7 +54,7 @@ final class CsvTest extends TestCase
 
 	protected function setUp() : void
 	{
-		CsvTest::$_dataset = [
+		static::$_dataset = [
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
@@ -71,7 +71,7 @@ final class CsvTest extends TestCase
 
 		//
 
-		CsvTest::$_recordset = [];
+		static::$_recordset = [];
 
 		$data = new stdClass();
 		$data->name = 'Nat';
@@ -79,7 +79,7 @@ final class CsvTest extends TestCase
 		$data->work = 'Web Developer';
 		$data->salary = 10000;
 
-		CsvTest::$_recordset[] = $data;
+		static::$_recordset[] = $data;
 
 		$data = new stdClass();
 		$data->name = 'Angela';
@@ -87,20 +87,20 @@ final class CsvTest extends TestCase
 		$data->work = 'Marketing Director';
 		$data->salary = 10000;
 
-		CsvTest::$_recordset[] = $data;
+		static::$_recordset[] = $data;
 
 		//
 
-		CsvTest::$_csvString = '"name","surname","work","salary"' . "\n";
-		CsvTest::$_csvString .= '"Nat","Withe","Web Developer","10000"' . "\n";
-		CsvTest::$_csvString .= '"Angela","SG","Marketing Director","10000"' . "\n";
+		static::$_csvString = '"name","surname","work","salary"' . "\n";
+		static::$_csvString .= '"Nat","Withe","Web Developer","10000"' . "\n";
+		static::$_csvString .= '"Angela","SG","Marketing Director","10000"' . "\n";
 	}
 
 	protected function tearDown() : void
 	{
-		CsvTest::$_dataset = null;
-		CsvTest::$_recordset = null;
-		CsvTest::$_csvString = null;
+		static::$_dataset = null;
+		static::$_recordset = null;
+		static::$_csvString = null;
 	}
 
 	// Csv::fromDataset()
@@ -114,9 +114,9 @@ final class CsvTest extends TestCase
 
 	public function testMethodFromDatasetCase2() : void
 	{
-		$result = Csv::fromDataset(CsvTest::$_dataset);
+		$result = Csv::fromDataset(static::$_dataset);
 
-		$this->assertEquals(CsvTest::$_csvString, $result);
+		$this->assertEquals(static::$_csvString, $result);
 	}
 
 	// Csv::fromRecordset()
@@ -130,9 +130,9 @@ final class CsvTest extends TestCase
 
 	public function testMethodFromRecordsetCase2() : void
 	{
-		$result = Csv::fromRecordset(CsvTest::$_recordset);
+		$result = Csv::fromRecordset(static::$_recordset);
 
-		$this->assertEquals(CsvTest::$_csvString, $result);
+		$this->assertEquals(static::$_csvString, $result);
 	}
 
 	// Csv::toArray()
@@ -160,7 +160,7 @@ final class CsvTest extends TestCase
 			]
 		];
 
-		$result = Csv::toArray(CsvTest::$_csvString);
+		$result = Csv::toArray(static::$_csvString);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -171,11 +171,11 @@ final class CsvTest extends TestCase
 	public function testMethodToAssociativeCase1() : void
 	{
 		// Csv::toArray() will converts number to string.
-		$expected = CsvTest::$_dataset;
+		$expected = static::$_dataset;
 		$expected[0]['salary'] = '10000';
 		$expected[1]['salary'] = '10000';
 
-		$result = Csv::toDataset(CsvTest::$_csvString);
+		$result = Csv::toDataset(static::$_csvString);
 
 		$compare = ($result === $expected);
 
@@ -186,7 +186,7 @@ final class CsvTest extends TestCase
 
 	public function testMethodToRecordsetCase1() : void
 	{
-		$expected = CsvTest::$_recordset;
+		$expected = static::$_recordset;
 		$expected = (array)$expected;
 
 		$expected[0] = (array)$expected[0];
@@ -196,7 +196,7 @@ final class CsvTest extends TestCase
 		$expected[0]['salary'] = '10000';
 		$expected[1]['salary'] = '10000';
 
-		$result = Csv::toRecordset(CsvTest::$_csvString);
+		$result = Csv::toRecordset(static::$_csvString);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.

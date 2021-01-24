@@ -47,7 +47,7 @@ use System\Request;
  * Class RequestTest
  * @package Tests\Unit
  */
-final class RequestTest extends TestCase
+class RequestTest extends TestCase
 {
     protected function tearDown() : void
     {

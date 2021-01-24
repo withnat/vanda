@@ -44,7 +44,7 @@ use System\Struct;
  * Class StructTest
  * @package Tests\Unit
  */
-final class StructTest extends TestCase
+class StructTest extends TestCase
 {
 	// Struct::factory()
 

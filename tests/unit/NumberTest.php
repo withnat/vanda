@@ -45,7 +45,7 @@ use System\Number;
  * Class NumberTest
  * @package Tests\Unit
  */
-final class NumberTest extends TestCase
+class NumberTest extends TestCase
 {
 	// Number::byteFormat()
 

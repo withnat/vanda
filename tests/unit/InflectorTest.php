@@ -45,7 +45,7 @@ use System\Inflector;
  * @package Tests\Unit
  * @see https://www.cl.cam.ac.uk/~mgk25/ucs/examples/quickbrown.txt
  */
-final class InflectorTest extends TestCase
+class InflectorTest extends TestCase
 {
 	public function isCountableProvider() : array
 	{

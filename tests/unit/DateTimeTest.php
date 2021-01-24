@@ -56,7 +56,7 @@ function time() : int
  * @package Tests\Unit
  * @see https://www.cl.cam.ac.uk/~mgk25/ucs/examples/quickbrown.txt
  */
-final class DateTimeTest extends TestCase
+class DateTimeTest extends TestCase
 {
 	public static $now;
 

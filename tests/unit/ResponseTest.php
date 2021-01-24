@@ -46,7 +46,7 @@ use System\Response;
  * Class ResponseTest
  * @package Tests\Unit
  */
-final class ResponseTest extends TestCase
+class ResponseTest extends TestCase
 {
     protected function tearDown() : void
     {
