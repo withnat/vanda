@@ -4145,7 +4145,7 @@ final class ArrTest extends TestCase
 			'other' => ''
 		];
 
-		$result = Arr::remove(ArrTest::$_assocArrayMulti, ['Web Developer', 87.5, true, null]);
+		$result = Arr::remove(ArrTest::$_assocArrayMulti, ['Web Developer', 87.5, true, null], false);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
