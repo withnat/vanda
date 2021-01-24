@@ -145,7 +145,7 @@ final class Data
 
 				if (!is_object($var4If))
 				{
-					$dataAssigner = $dataPointer . ' = new \stdClass();';;
+					$dataAssigner = $dataPointer . ' = new \stdClass();';
 					eval($dataAssigner);
 				}
 			}
