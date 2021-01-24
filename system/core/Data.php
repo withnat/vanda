@@ -55,7 +55,8 @@ final class Data
 	/**
 	 * Return a specific element from the given array or object.
 	 * A $keys variable supports both array and object.
-	 * If the array element / object property is empty it returns NULL (or whatever you specify as the default value).
+	 * If the array element / object property is empty it returns
+	 * NULL (or whatever you specify as the default value).
 	 *
 	 * For example,
 	 *
@@ -82,14 +83,14 @@ final class Data
 	public static function get($data, $keys, $default = null)
 	{
 		if (!is_array($data) and !is_object($data))
-			throw InvalidArgumentException::typeError(1, ['array','object'], $data);
+			throw InvalidArgumentException::typeError(1, ['array', 'object'], $data);
 
 		if (is_string($keys))
 			$keys = Str::explode($keys, '.');
 		elseif (is_int($keys))
 			$keys = [$keys];
 		else
-			throw InvalidArgumentException::typeError(2, ['int','string'], $keys);
+			throw InvalidArgumentException::typeError(2, ['int', 'string'], $keys);
 
 		foreach ($keys as $key)
 		{
@@ -123,7 +124,7 @@ final class Data
 	public static function set($data, string $key, $value)
 	{
 		if (!is_array($data) and !is_object($data))
-			throw InvalidArgumentException::typeError(1, ['array','object'], $data);
+			throw InvalidArgumentException::typeError(1, ['array', 'object'], $data);
 
 		if (is_object($data))
 		{
@@ -236,6 +237,7 @@ final class Data
 	 * consisting of each of the elements will be returned. If the value is a string
 	 * and it is not in this form then an array consisting of just the string will be returned,
 	 * if the string is empty an empty array will be returned.
+	 *
 	 * If the value is not a string then it will return an array containing that value or
 	 * the same value in case it is already an array.
 	 *

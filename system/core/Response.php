@@ -309,7 +309,7 @@ class Response
 	/**
 	 * Removes a header from the list of headers.
 	 *
-	 * @param  string   $name  The header name
+	 * @param  string   $name  The header name.
 	 * @return Response        Instance of $this to allow chaining.
 	 */
 	public static function removeHeader(string $name) : Response
@@ -564,6 +564,6 @@ class Response
 	 */
 	protected static function isHeadersSent() : bool
 	{
-		return headers_sent();
+		return \headers_sent();
 	}
 }

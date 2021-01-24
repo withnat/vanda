@@ -72,7 +72,7 @@ final class Arr
 		elseif (is_int($keys))
 			$keys = [$keys];
 		else
-			throw InvalidArgumentException::typeError(2, ['int','string'], $keys);
+			throw InvalidArgumentException::typeError(2, ['int', 'string'], $keys);
 
 		foreach ($keys as $key)
 		{
@@ -303,7 +303,7 @@ final class Arr
 	public static function only(array $array, $keys) : array
 	{
 		if (!is_string($keys) and !is_int($keys))
-			throw InvalidArgumentException::typeError(2, ['int','string'], $keys);
+			throw InvalidArgumentException::typeError(2, ['string', 'int'], $keys);
 
 		$keys = (string)$keys;
 		$keys = explode(',', $keys);
@@ -341,7 +341,7 @@ final class Arr
 	public static function pull(array &$array, $keys)
 	{
 		if (!is_string($keys) and !is_int($keys))
-			throw InvalidArgumentException::typeError(2, ['int','string'], $keys);
+			throw InvalidArgumentException::typeError(2, ['string', 'int'], $keys);
 
 		$keys = (string)$keys;
 		$keys = explode(',', $keys);
@@ -500,7 +500,7 @@ final class Arr
 
 	/**
 	 * Wraps the given value in an array format.
-	 * ie 'name' to ['name'], 'work.position' to ['work']['position']
+	 * ie 'name' to ['name'], 'work.position' to ['work']['position'].
 	 *
 	 * @param  string $key
 	 * @return string
@@ -511,7 +511,7 @@ final class Arr
 		if ($key === '')
 			return '';
 
-		// Use preg_replace to prevent string injection
+		// Use preg_replace to prevent string injection.
 		$key = preg_replace('/[^.a-zA-Z0-9_]+/', '', $key);
 		$keys = str_replace('.', '\'][\'', $key);
 		$keys = "['$keys']";
@@ -591,7 +591,7 @@ final class Arr
 	}
 
 	/**
-	 * Checks if the given key or index exists in the array
+	 * Checks if the given key or index exists in the array.
 	 *
 	 * For example,
 	 *
@@ -622,7 +622,7 @@ final class Arr
 	public static function hasKey(array $array, $key) : bool
 	{
 		if (!is_int($key) and !is_string($key))
-			throw InvalidArgumentException::typeError(1, ['int','string'], $key);
+			throw InvalidArgumentException::typeError(1, ['int', 'string'], $key);
 
 		// Is in base array?
 		if (array_key_exists($key, $array))
@@ -880,7 +880,8 @@ final class Arr
 	}
 
 	/**
-	 * The Arr::dot method flattens a multi-dimensional array into a single level array that uses "dot" notation to indicate depth:
+	 * The Arr::dot method flattens a multi-dimensional array into
+	 * a single level array that uses "dot" notation to indicate depth.
 	 *
 	 * @param  array  $array
 	 * @param  string $prepend
@@ -1040,7 +1041,7 @@ final class Arr
 	{
 		$keys = (string)$keys;
 
-		if ($keys !== '') // can be '0'
+		if ($keys !== '') // can be '0'.
 			$givenKeys = explode(',', $keys);
 		else
 			$givenKeys = [];
@@ -1110,7 +1111,7 @@ final class Arr
 		{
 			$keys = (string)$keys;
 
-			if ($keys !== '') // can be '0'
+			if ($keys !== '') // can be '0'.
 				$givenKeys = explode(',', $keys);
 			else
 				$givenKeys = [];
@@ -1156,7 +1157,7 @@ final class Arr
 	{
 		$keys = (string)$keys;
 
-		if ($keys !== '') // can be '0'
+		if ($keys !== '') // can be '0'.
 			$givenKeys = explode(',', $keys);
 		else
 			$givenKeys = [];
@@ -1213,7 +1214,7 @@ final class Arr
 	public static function toString(array $array, string $innerGlue = '=', string $outerGlue = ' ', string $valueDelimiter = '"', bool $recursive = true, $keys = null) : string
 	{
 		if (!is_null($keys) and !is_string($keys) and !is_int($keys))
-			throw InvalidArgumentException::typeError(6, ['int','string','null'], $keys);
+			throw InvalidArgumentException::typeError(6, ['string', 'int', 'null'], $keys);
 
 		$output = [];
 
@@ -1221,7 +1222,7 @@ final class Arr
 		{
 			$keys = (string)$keys;
 
-			if ($keys !== '') // can be '0'
+			if ($keys !== '') // can be '0'.
 				$givenKeys = explode(',', $keys);
 			else
 				$givenKeys = [];
@@ -1374,7 +1375,7 @@ final class Arr
 	public static function remove(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
 	{
 		if (is_object($value) and !is_resource($value))
-			throw InvalidArgumentException::typeError(2, ['string','int','float','bool','array','null'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'bool', 'array', 'null'], $value);
 
 		if (is_array($value))
 			$values = $value;
@@ -1420,7 +1421,7 @@ final class Arr
 	public static function removeKey(array $array, $keys, bool $recursive = true) : array
 	{
 		if (!is_string($keys) and !is_int($keys))
-			throw InvalidArgumentException::typeError(2, ['int','string'], $keys);
+			throw InvalidArgumentException::typeError(2, ['string', 'int'], $keys);
 
 		$keys = (string)$keys;
 		$givenKeys = explode(',', $keys);
@@ -1511,7 +1512,7 @@ final class Arr
 	}
 
 	/**
-	 * Returns and removes a column by key from a dataset or recordset .
+	 * Returns and removes a column by key from a dataset or recordset.
 	 *
 	 * @param  array  $data  A multi-dimensional array contains array (dataset) or object (recordset)
 	 *                       from which to pull a column of values.
@@ -1612,7 +1613,7 @@ final class Arr
 		// Checks if the given array is an associative
 		// before removing duplicate values. If checking
 		// after removing duplicate values, it will always
-		// return true. See more at Arr::isAssociative()
+		// return true. See more at Arr::isAssociative().
 		$isAssociative = Arr::isAssociative($array);
 
 		$array = array_unique($array, SORT_REGULAR);

@@ -44,7 +44,7 @@ namespace System;
 class Struct
 {
 	/**
-	 * Using Example
+	 * Using Example.
 	 *
 	 * // Define a 'coordinates' struct with 3 properties.
 	 * $coords = Struct::factory('degree', 'minute', 'pole');

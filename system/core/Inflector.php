@@ -56,7 +56,7 @@ final class Inflector
 	/**
 	 * Checks if the given word has a plural version.
 	 *
-	 * @param  string $word  Word to check
+	 * @param  string $word  Word to check.
 	 * @return bool
 	 */
 	public static function isCountableWord(string $word) : bool
@@ -72,7 +72,7 @@ final class Inflector
 	}
 
 	/**
-	 * Takes a singular word and makes it plural
+	 * Takes a singular word and makes it plural.
 	 *
 	 * @param  string $string  Input string to pluralize.
 	 * @return string          Plural noun.
@@ -140,7 +140,7 @@ final class Inflector
 	}
 
 	/**
-	 * Takes a plural word and makes it singular
+	 * Takes a plural word and makes it singular.
 	 *
 	 * @param  string $string  Input string to singularize.
 	 * @return string          Singular noun.
@@ -227,8 +227,8 @@ final class Inflector
 	/**
 	 * Convert any "CamelCased" or "vanda framework" into an "vanda_framework".
 	 *
-	 * @param  string $string  Word to underscore
-	 * @return string          Underscored word
+	 * @param  string $string  Word to underscore.
+	 * @return string          Underscored word.
 	 */
 	public static function underscore(string $string) : string
 	{
@@ -239,15 +239,15 @@ final class Inflector
 	}
 
 	/**
-	 * Convert any "CamelCased" word into an array of strings
+	 * Convert any "CamelCased" word into an array of strings.
 	 *
 	 * Returns an array of strings each of which is a substring of string formed
 	 * by splitting it at the camelcased letters.
 	 *
 	 * ie. "FooBar" to ["foo", "bar"]
 	 *
-	 * @param  string $string  Word to explode
-	 * @return array           Array of strings
+	 * @param  string $string  Word to explode.
+	 * @return array           Array of strings.
 	 */
 	public static function explode(string $string) : array
 	{
@@ -261,8 +261,8 @@ final class Inflector
 	 *
 	 * ie. ["foo", "bar"] to "FooBar"
 	 *
-	 * @param  array  $string  Array to implode
-	 * @return string          UpperCamelCasedWord
+	 * @param  array  $string  Array to implode.
+	 * @return string          UpperCamelCasedWord.
 	 */
 	public static function implode(array $string) : string
 	{
@@ -278,11 +278,11 @@ final class Inflector
 	 * the separator with a space, and by upper-casing the initial
 	 * character by default.
 	 *
-	 * ie. "I had my car fixed_yesTerday" to "I Had My Car Fixed Yesterday"
+	 * ie. "I had my car fixed_yesTerday" to "I Had My Car Fixed Yesterday".
 	 *
-	 * @param  string $string     Input string
-	 * @param  string $separator  Input separator
-	 * @return string             Human-readable word
+	 * @param  string $string     Input string.
+	 * @param  string $separator  Input separator.
+	 * @return string             Human-readable word.
 	 */
 	public static function humanize(string $string, string $separator = '_') : string
 	{
@@ -327,15 +327,15 @@ final class Inflector
 	}
 
 	/**
-	 * Create URL Title
+	 * Create URL Title.
 	 *
 	 * Takes a "title" string as input and creates a
 	 * human-friendly URL string with a "separator" string
 	 * as the word separator.
 	 *
-	 * @param  string $string     Input string
-	 * @param  string $separator  Word separator (usually '-' or '_')
-	 * @param  bool   $lowercase  Whether to transform the output string to lowercase
+	 * @param  string $string     Input string.
+	 * @param  string $separator  Word separator (usually '-' or '_').
+	 * @param  bool   $lowercase  Whether to transform the output string to lowercase.
 	 * @return string
 	 */
 	public static function slugify(string $string, string $separator = '-', bool $lowercase = true) : string

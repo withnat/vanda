@@ -79,7 +79,7 @@ final class Config
 	}
 
 	/**
-	 * Sets a value in the config array
+	 * Sets a value in the config array.
 	 *
 	 * @param  string $key
 	 * @param  mixed  $value
@@ -91,7 +91,7 @@ final class Config
 	}
 
 	/**
-	 * Removes value in the config array
+	 * Removes value in the config array.
 	 *
 	 * @param  string $key
 	 * @return void
@@ -103,7 +103,7 @@ final class Config
 
 	/**
 	 * Returns a value from the config array using the
-	 * method call as the file reference
+	 * method call as the file reference.
 	 *
 	 * @example Config::app('url');
 	 * @param   string $method

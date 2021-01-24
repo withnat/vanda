@@ -99,7 +99,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('Y-m-d H:i', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -111,7 +111,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('Y-m-d H:i:s', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -123,7 +123,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('Y-m-d H:i:s', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -135,7 +135,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('d/m/Y', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -147,7 +147,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('d F Y', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -159,7 +159,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('H:i', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -171,7 +171,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('H:i:s', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -183,7 +183,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('d F Y H:i', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -195,7 +195,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('d F Y H:i:s', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -207,7 +207,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('d F', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -219,7 +219,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('F Y', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -231,7 +231,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('d', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -243,7 +243,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('D', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -255,7 +255,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('l', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -267,7 +267,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('h', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -279,7 +279,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('H', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -291,7 +291,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('i', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -303,7 +303,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('s', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -315,7 +315,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('m', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -327,7 +327,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('M', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -339,7 +339,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('F', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -351,7 +351,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('A', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -363,7 +363,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('Y', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**
@@ -375,7 +375,7 @@ final class DateTime extends \DateTime
 		if (is_string($datetime) or is_int($datetime))
 			return DateTime::_create('y', $datetime);
 		else
-			throw InvalidArgumentException::typeError(1, ['string','int'], $datetime);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $datetime);
 	}
 
 	/**

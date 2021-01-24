@@ -78,7 +78,7 @@ class Request
 	public static function set(string $name, $value, string $method = 'POST') : void
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::typeError(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$method = trim(strtoupper($method));
 
@@ -103,7 +103,7 @@ class Request
 	public static function get(string $name = null, $default = null)
 	{
 		if (is_resource($default))
-			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'array', 'object', 'null'], $default);
 
 		return static::_requestByMethod('get', $name, $default);
 	}
@@ -118,7 +118,7 @@ class Request
 	public static function post(string $name = null, $default = null)
 	{
 		if (is_resource($default))
-			throw InvalidArgumentException::typeError(2, ['string','int','float','array','object','null'], $default);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'array', 'object', 'null'], $default);
 
 		return static::_requestByMethod('post', $name, $default);
 	}
@@ -175,7 +175,7 @@ class Request
 	}
 
 	/**
-	 * Get the current visitor's IP address
+	 * Get the current visitor's IP address.
 	 *
 	 * @return string
 	 */
@@ -199,11 +199,11 @@ class Request
 			// from the user when he/she is behind the proxy (e.g. NginX).
 			//
 			// So we can use this following combined function to get the real IP
-			// address from users who are viewing in diffrent positions,
+			// address from users who are viewing in diffrent positions.
 
 			$ip = '';
 
-			// Normally the $_SERVER superglobal is set
+			// Normally the $_SERVER superglobal is set.
 			if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
 				$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 			elseif (isset($_SERVER['HTTP_CLIENT_IP']))
@@ -212,7 +212,7 @@ class Request
 				$ip = $_SERVER['REMOTE_ADDR'];
 
 			// This part is executed on PHP running as CGI, or on SAPIs which do
-			// not set the $_SERVER superglobal
+			// not set the $_SERVER superglobal.
 			if (!$ip and function_exists('getenv'))
 			{
 				if (getenv('HTTP_X_FORWARDED_FOR'))
@@ -302,8 +302,8 @@ class Request
 	{
 		if (is_null(static::$_uri))
 		{
-			// ‘REQUEST_URI’ variable is not recognized by some versions of IIS.
-			// (At least I know IIS 10 recognize 'REQUEST_URI' variable)
+			// ‘REQUEST_URI’ variable is not recognized by some versions of IIS
+			// (at least I know IIS 10 recognize 'REQUEST_URI' variable).
 			// Use a 'SCRIPT_NAME' variable instead of a 'REQUEST_URI' variable for IIS.
 			if (empty($_SERVER['REQUEST_URI']) and strpos((string)static::server('SERVER_SOFTWARE'), 'IIS') !== false)
 			{

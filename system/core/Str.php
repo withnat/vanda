@@ -374,7 +374,7 @@ final class Str
 			$string = Str::trimRight($string, $characterMask, $encoding);
 		}
 		else
-			throw InvalidArgumentException::typeError(2, ['string','int','null'], $characterMask);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'null'], $characterMask);
 
 		return $string;
 	}
@@ -403,7 +403,7 @@ final class Str
 			$string = mb_substr($string, $start, null, $encoding);
 		}
 		else
-			throw InvalidArgumentException::typeError(2, ['string','int','null'], $characterMask);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'null'], $characterMask);
 
 		return $string;
 	}
@@ -438,7 +438,7 @@ final class Str
 			$string = mb_substr($string, 0, $length, $encoding);
 		}
 		else
-			throw InvalidArgumentException::typeError(2, ['string','int','null'], $characterMask);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'null'], $characterMask);
 
 		return $string;
 	}
@@ -571,7 +571,7 @@ final class Str
 	}
 
 	/**
-	 * Remove Invisible Characters
+	 * Remove Invisible Characters.
 	 *
 	 * This prevents sandwiching null characters
 	 * between ascii characters, like Java\0script.
@@ -744,7 +744,7 @@ final class Str
 	}
 
 	/**
-	 * Convert the given string to upper-case..
+	 * Convert the given string to upper-case.
 	 *
 	 * @param  string      $string
 	 * @param  string|null $encoding
@@ -822,10 +822,10 @@ final class Str
 	public static function replace(string $string, $search, $replace, int $limit = null, string $encoding = null) : string
 	{
 		if (!is_string($search) and !is_array($search))
-			throw InvalidArgumentException::typeError(2, ['string','array'], $search);
+			throw InvalidArgumentException::typeError(2, ['string', 'array'], $search);
 
 		if (!is_string($replace) and !is_array($replace))
-			throw InvalidArgumentException::typeError(2, ['string','array'], $replace);
+			throw InvalidArgumentException::typeError(2, ['string', 'array'], $replace);
 
 		if (empty($search))
 			return $string;
@@ -916,10 +916,10 @@ final class Str
 	public static function ireplace(string $string, $search, $replace, int $limit = null, string $encoding = null) : string
 	{
 		if (!is_string($search) and !is_array($search))
-			throw InvalidArgumentException::typeError(2, ['string','array'], $search);
+			throw InvalidArgumentException::typeError(2, ['string', 'array'], $search);
 
 		if (!is_string($replace) and !is_array($replace))
-			throw InvalidArgumentException::typeError(2, ['string','array'], $replace);
+			throw InvalidArgumentException::typeError(2, ['string', 'array'], $replace);
 
 		if (is_int($limit))
 		{
@@ -1397,7 +1397,7 @@ final class Str
 	}
 
 	/**
-	 * Add's _1 to a string or increment the ending number to allow _2, _3, etc
+	 * Add's _1 to a string or increment the ending number to allow _2, _3, etc.
 	 *
 	 * @param  string $string     The string.
 	 * @param  string $separator  What should the duplicate number be appended with.
@@ -1427,7 +1427,7 @@ final class Str
 	public static function floatToString($number) : string
 	{
 		if (!is_float($number) and !is_int($number))
-			throw InvalidArgumentException::typeError(1, ['float','int'], $number);
+			throw InvalidArgumentException::typeError(1, ['float', 'int'], $number);
 
 		$string = str_replace(',', '.', (string)$number);
 
@@ -1765,7 +1765,7 @@ final class Str
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  string|null $encoding  The character encoding.
-	 * @return array                  An array of string chars
+	 * @return array                  An array of string chars.
 	 */
 	public static function chars(string $string, string $encoding = null) : array
 	{
@@ -1820,7 +1820,7 @@ final class Str
 
 		$string = (string)$string;
 
-		if (mb_strlen($string)) // $string can be '0'
+		if (mb_strlen($string)) // $string can be '0'.
 		{
 			$array = explode($delimeter, $string);
 			$array = array_map('trim', $array);
@@ -1931,7 +1931,7 @@ final class Str
 	}
 
 	/**
-	 * Generate a random UUID version 4
+	 * Generate a random UUID version 4.
 	 *
 	 * Warning: This method should not be used as a random seed for any cryptographic operations.
 	 * Instead you should use the openssl or mcrypt extensions.
@@ -1969,10 +1969,10 @@ final class Str
 	}
 
 	/**
-	 * Normalise a string replacing foreign characters
+	 * Normalise a string replacing foreign characters.
 	 *
-	 * @param  string $string  String to normalise
-	 * @return string          Normalised string
+	 * @param  string $string  String to normalise.
+	 * @return string          Normalised string.
 	 */
 	public static function normalize($string)
 	{

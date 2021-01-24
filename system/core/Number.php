@@ -137,13 +137,13 @@ final class Number
 	public static function inrange($value, $min, $max)
 	{
 		if (!is_int($value) and !is_float($value))
-			throw InvalidArgumentException::typeError(1, ['int','float'], $value);
+			throw InvalidArgumentException::typeError(1, ['int', 'float'], $value);
 
 		if (!is_int($min) and !is_float($min))
-			throw InvalidArgumentException::typeError(2, ['int','float'], $min);
+			throw InvalidArgumentException::typeError(2, ['int', 'float'], $min);
 
 		if (!is_int($max) and !is_float($max))
-			throw InvalidArgumentException::typeError(3, ['int','float'], $max);
+			throw InvalidArgumentException::typeError(3, ['int', 'float'], $max);
 
 		if ($value > $max)
 			$value = $max;
