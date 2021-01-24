@@ -3407,12 +3407,19 @@ final class ArrTest extends TestCase
 
 	public function testMethodToStringCase1() : void
 	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::toString([], 'innerGlue', 'outerGlue', 'valueDelimiter', true, 0.1);
+	}
+
+	public function testMethodToStringCase2() : void
+	{
 		$result = Arr::toString([]);
 
 		$this->assertEquals('', $result);
 	}
 
-	public function testMethodToStringCase2() : void
+	public function testMethodToStringCase3() : void
 	{
 		$expected = '0="10" 1="20" 2="A" 3="b" 0="x" 1="y" 5="" 6="1" 7="100"';
 		$result = Arr::toString(ArrTest::$_arrayMulti);
@@ -3420,7 +3427,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodToStringCase3() : void
+	public function testMethodToStringCase4() : void
 	{
 		$expected = '0=\'10\' 1=\'20\' 2=\'A\' 3=\'b\' 5=\'\' 6=\'1\' 7=\'100\'';
 		$result = Arr::toString(ArrTest::$_arrayMulti, '=', ' ', '\'', false);
@@ -3428,7 +3435,23 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodToStringCase4() : void
+	public function testMethodToStringCase5() : void
+	{
+		$expected = '1="20"';
+		$result = Arr::toString(ArrTest::$_arrayMulti, '=', ' ', '"', false, 1);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodToStringCase6() : void
+	{
+		$expected = '1="20"';
+		$result = Arr::toString(ArrTest::$_arrayMulti, '=', ' ', '"', false, '1');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodToStringCase7() : void
 	{
 		$expected = '0="10" 1="20"';
 		$result = Arr::toString(ArrTest::$_arrayMulti, '=', ' ', '"', false, '0,1');
@@ -3436,7 +3459,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodToStringCase5() : void
+	public function testMethodToStringCase8() : void
 	{
 		$expected = 'name="Nat" position="Web Developer" salary="10000" hrscore="9.8" excellent="1" other=""';
 		$result = Arr::toString(ArrTest::$_assocArrayMulti, '=', ' ', '"', true, 'name,work');
@@ -3444,7 +3467,7 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodToStringCase6() : void
+	public function testMethodToStringCase9() : void
 	{
 		$expected = 'name="Nat"';
 		$result = Arr::toString(ArrTest::$_assocArrayMulti, '=', ' ', '"', false, 'name,work');
@@ -3452,21 +3475,21 @@ final class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodToStringCase7() : void
+	public function testMethodToStringCase10() : void
 	{
 		$result = Arr::toString(ArrTest::$_datasetArray, '=', ' ', '"', true, 'name');
 
 		$this->assertEquals('', $result);
 	}
 
-	public function testMethodToStringCase8() : void
+	public function testMethodToStringCase11() : void
 	{
 		$result = Arr::toString(ArrTest::$_datasetArray, '=', ' ', '"', false);
 
 		$this->assertEquals('', $result);
 	}
 
-	public function testMethodToStringCase9() : void
+	public function testMethodToStringCase12() : void
 	{
 		$expected = 'name="Nat" surname="Withe" position="Web Developer" salary="10000" '
 			. 'name="Rosie" surname="Marshman" position="Staff" salary="8000" '
