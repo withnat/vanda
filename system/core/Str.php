@@ -1797,6 +1797,15 @@ final class Str
 	 * whitespace and other predefined characters from both sides
 	 * of each element of an output array, and skips empty ones.
 	 *
+	 * The difference between built-in PHP function explode() and
+	 * this method is in case of $input = '' (empty string).
+	 *
+	 * explode(',', $input) will return [''] (array with empty string).
+	 *
+	 * but
+	 *
+	 * Str::explode($input, ',') will returns [] (empty array).
+	 *
 	 * An optional integer $limit will truncate the results.
 	 *
 	 * @param  string|null $string
