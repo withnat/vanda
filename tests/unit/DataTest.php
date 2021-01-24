@@ -578,6 +578,22 @@ final class DataTest extends TestCase
 		Data::is('string', 1, 13);
 	}
 
+	// Data::isCountable()
+
+	public function testMethodIsCountableCase1() : void
+	{
+		$result = Data::isCountable([]);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodIsCountableCase2() : void
+	{
+		$result = Data::isCountable('string');
+
+		$this->assertFalse($result);
+	}
+
 	// Data::expects()
 
 	// PHPUnit 7.5 doesn’t have a doNotExpectException assertion,
