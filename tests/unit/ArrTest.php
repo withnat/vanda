@@ -1810,7 +1810,7 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAnyKeyCase8() : void
 	{
-		$result = Arr::hasAnyKey(static::$_assocArrayMulti, ['name', 'surname']);
+		$result = Arr::hasAnyKey(static::$_assocArrayMulti, ['name', 'missingkey']);
 
 		$this->assertTrue($result);
 	}
