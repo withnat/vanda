@@ -1025,6 +1025,13 @@ final class ArrTest extends TestCase
 
 	public function testMethodPullCase1() : void
 	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::pull(ArrTest::$_array, 0.1);
+	}
+
+	public function testMethodPullCase2() : void
+	{
 		$this->assertCount(7, ArrTest::$_array);
 
 		$result = Arr::pull(ArrTest::$_array, '0');
@@ -1034,7 +1041,18 @@ final class ArrTest extends TestCase
 		$this->assertArrayNotHasKey(0, ArrTest::$_array);
 	}
 
-	public function testMethodPullCase2() : void
+	public function testMethodPullCase3() : void
+	{
+		$this->assertCount(7, ArrTest::$_array);
+
+		$result = Arr::pull(ArrTest::$_array, 0);
+
+		$this->assertEquals(10, $result);
+		$this->assertCount(6, ArrTest::$_array);
+		$this->assertArrayNotHasKey(0, ArrTest::$_array);
+	}
+
+	public function testMethodPullCase4() : void
 	{
 		$this->assertCount(7, ArrTest::$_array);
 
@@ -1046,7 +1064,7 @@ final class ArrTest extends TestCase
 		$this->assertArrayNotHasKey(1, ArrTest::$_array);
 	}
 
-	public function testMethodPullCase3() : void
+	public function testMethodPullCase5() : void
 	{
 		$this->assertCount(8, ArrTest::$_arrayMulti);
 
@@ -1064,7 +1082,7 @@ final class ArrTest extends TestCase
 		$this->assertArrayNotHasKey(4, ArrTest::$_arrayMulti);
 	}
 
-	public function testMethodPullCase4() : void
+	public function testMethodPullCase6() : void
 	{
 		$this->assertCount(9, ArrTest::$_assocArray);
 
@@ -1075,7 +1093,7 @@ final class ArrTest extends TestCase
 		$this->assertArrayNotHasKey('name', ArrTest::$_assocArray);
 	}
 
-	public function testMethodPullCase5() : void
+	public function testMethodPullCase7() : void
 	{
 		$this->assertCount(9, ArrTest::$_assocArray);
 
@@ -1093,7 +1111,7 @@ final class ArrTest extends TestCase
 		$this->assertArrayNotHasKey('surname', ArrTest::$_assocArray);
 	}
 
-	public function testMethodPullCase6() : void
+	public function testMethodPullCase8() : void
 	{
 		$this->assertCount(10, ArrTest::$_assocArrayMulti);
 
@@ -1104,7 +1122,7 @@ final class ArrTest extends TestCase
 		$this->assertArrayNotHasKey('name', ArrTest::$_assocArrayMulti);
 	}
 
-	public function testMethodPullCase7() : void
+	public function testMethodPullCase9() : void
 	{
 		$this->assertCount(10, ArrTest::$_assocArrayMulti);
 
@@ -1128,7 +1146,7 @@ final class ArrTest extends TestCase
 		$this->assertArrayNotHasKey('work', ArrTest::$_assocArrayMulti);
 	}
 
-	public function testMethodPullCase8() : void
+	public function testMethodPullCase10() : void
 	{
 		$this->assertCount(10, ArrTest::$_assocArrayMulti);
 		$this->assertCount(5, ArrTest::$_assocArrayMulti['work']);
