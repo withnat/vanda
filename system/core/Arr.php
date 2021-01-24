@@ -615,6 +615,18 @@ final class Arr
 	 * // the result is: False
 	 * ```
 	 *
+	 * For an indexed array, numerice key and string key are not difference.
+	 *
+	 * ```php
+	 * $array = ['Nat'];
+	 *
+	 * $result = Arr::hasKey($array, '0');
+	 * // the result is: True
+	 *
+	 * $result = Arr::hasKey($array, 0);
+	 * // the result is: True
+	 * ```
+	 *
 	 * @param  array      $array  An array with keys to check.
 	 * @param  int|string $key    Value to check.
 	 * @return bool
@@ -624,7 +636,7 @@ final class Arr
 		if (!is_int($key) and !is_string($key))
 			throw InvalidArgumentException::typeError(2, ['int', 'string'], $key);
 
-		// Is in base array?
+		// Is in base array (first dimension of array)?
 		if (array_key_exists($key, $array))
 			return true;
 
