@@ -37,7 +37,6 @@ declare(strict_types=1);
 
 namespace System;
 
-use Exception;
 use System\Exception\InvalidArgumentException;
 
 /**
