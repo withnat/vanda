@@ -302,6 +302,10 @@ final class Arr
 	 */
 	public static function only(array $array, $keys) : array
 	{
+		if (!is_string($keys) and !is_int($keys))
+			throw InvalidArgumentException::typeError(2, ['int','string'], $keys);
+
+		$keys = (string)$keys;
 		$keys = explode(',', $keys);
 		$result = [];
 
