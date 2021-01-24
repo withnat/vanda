@@ -622,7 +622,7 @@ final class Arr
 	public static function hasKey(array $array, $key) : bool
 	{
 		if (!is_int($key) and !is_string($key))
-			throw InvalidArgumentException::typeError(1, ['int', 'string'], $key);
+			throw InvalidArgumentException::typeError(2, ['int', 'string'], $key);
 
 		// Is in base array?
 		if (array_key_exists($key, $array))

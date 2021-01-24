@@ -825,7 +825,7 @@ final class Str
 			throw InvalidArgumentException::typeError(2, ['string', 'array'], $search);
 
 		if (!is_string($replace) and !is_array($replace))
-			throw InvalidArgumentException::typeError(2, ['string', 'array'], $replace);
+			throw InvalidArgumentException::typeError(3, ['string', 'array'], $replace);
 
 		if (empty($search))
 			return $string;
@@ -919,7 +919,7 @@ final class Str
 			throw InvalidArgumentException::typeError(2, ['string', 'array'], $search);
 
 		if (!is_string($replace) and !is_array($replace))
-			throw InvalidArgumentException::typeError(2, ['string', 'array'], $replace);
+			throw InvalidArgumentException::typeError(3, ['string', 'array'], $replace);
 
 		if (is_int($limit))
 		{
