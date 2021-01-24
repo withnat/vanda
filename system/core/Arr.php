@@ -68,7 +68,7 @@ final class Arr
 	public static function get(array $array, $keys, $default = null)
 	{
 		if (is_string($keys))
-			$keys = Str::explode($keys, '.');
+			$keys = explode('.', $keys);
 		elseif (is_int($keys))
 			$keys = [$keys];
 		else
@@ -296,13 +296,13 @@ final class Arr
 	 * Returns only the specified key/value pairs from the given array.
 	 * Data can be one or multi-dimensional array, but not a recordset.
 	 *
-	 * @param  array  $array  Data can be one or multi-dimensional array, but not a recordset.
-	 * @param  string $keys   The column of values to return. The $keys can be 'name,work.position'
+	 * @param  array      $array  Data can be one or multi-dimensional array, but not a recordset.
+	 * @param  string|int $keys   The column of values to return. The $keys can be 0, '0', '0,1', 'name,work.position'.
 	 * @return array
 	 */
-	public static function only(array $array, string $keys) : array
+	public static function only(array $array, $keys) : array
 	{
-		$keys = Str::explode($keys, ',');
+		$keys = explode(',', $keys);
 		$result = [];
 
 		if ($array)
@@ -341,7 +341,7 @@ final class Arr
 		else
 			$result = '';
 
-		$keys = Str::explode($keys, ',');
+		$keys = explode(',', $keys);
 
 		if (Arr::isMultidimensional($array))
 		{
@@ -1030,7 +1030,13 @@ final class Arr
 	 */
 	public static function fromObject(object $data, bool $recursive = true, string $keys = null) : array
 	{
-		$givenKeys = Str::explode($keys, ',');
+		$keys = (string)$keys;
+
+		if ($keys !== '') // can be '0'
+			$givenKeys = explode(',', $keys);
+		else
+			$givenKeys = [];
+
 		$result = [];
 
 		foreach ($data as $key => $value)
@@ -1094,7 +1100,13 @@ final class Arr
 	{
 		if (is_array($data) or is_object($data))
 		{
-			$givenKeys = Str::explode($keys, ',');
+			$keys = (string)$keys;
+
+			if ($keys !== '') // can be '0'
+				$givenKeys = explode(',', $keys);
+			else
+				$givenKeys = [];
+
 			$result = [];
 
 			foreach ($data as $key => $value)
@@ -1134,7 +1146,13 @@ final class Arr
 	 */
 	public static function toObject(array $array, string $class = 'stdClass', bool $recursive = true, string $keys = null) : object
 	{
-		$givenKeys = Str::explode($keys, ',');
+		$keys = (string)$keys;
+
+		if ($keys !== '') // can be '0'
+			$givenKeys = explode(',', $keys);
+		else
+			$givenKeys = [];
+
 		$obj = new $class;
 
 		foreach ($array as $key => $value)
@@ -1190,7 +1208,12 @@ final class Arr
 
 		if (is_array($array))
 		{
-			$givenKeys = Str::explode($keys, ',');
+			$keys = (string)$keys;
+
+			if ($keys !== '') // can be '0'
+				$givenKeys = explode(',', $keys);
+			else
+				$givenKeys = [];
 
 			foreach ($array as $key => $value)
 			{
@@ -1385,7 +1408,7 @@ final class Arr
 	 */
 	public static function removeKey(array $array, string $keys, bool $recursive = true) : array
 	{
-		$givenKeys = Str::explode($keys, ',');
+		$givenKeys = explode(',', $keys);
 
 		foreach ($givenKeys as $key)
 		{
@@ -1413,7 +1436,7 @@ final class Arr
 	 */
 	public static function removeType(array $array, string $dataTypes, bool $recursive = true) : array
 	{
-		$arrDataTypes = Str::explode($dataTypes, ',');
+		$arrDataTypes = explode(',', $dataTypes);
 
 		foreach ($arrDataTypes as $dataType)
 		{
@@ -1465,7 +1488,7 @@ final class Arr
 				if ($recursive)
 					$array[$key] = Arr::removeBlank($value, $recursive);
 			}
-			elseif (Str::isBlank($value))
+			elseif (!strlen(trim((string)$value)))
 				unset($array[$key]);
 		}
 
@@ -1485,7 +1508,7 @@ final class Arr
 		if (!Arr::isDataset($data) and !Arr::isRecordset($data))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
 
-		$keys = Str::explode($keys, ',');
+		$keys = explode(',', $keys);
 		$result = [];
 
 		for ($i = 0, $n = count($data); $i < $n; ++$i)
@@ -1528,7 +1551,7 @@ final class Arr
 		if (!Arr::isDataset($array) and !Arr::isRecordset($array))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $array);
 
-		$keys = Str::explode($keys, ',');
+		$keys = explode(',', $keys);
 
 		for ($i = 0, $n = count($array); $i < $n; ++$i)
 		{
