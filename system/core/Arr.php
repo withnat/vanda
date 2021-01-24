@@ -640,6 +640,10 @@ final class Arr
 		if (array_key_exists($key, $array))
 			return true;
 
+		// Numeric key is not in base array.
+		if (is_int($key))
+			return false;
+
 		if (strpos($key, '.') and Arr::isMultidimensional($array))
 		{
 			$pos = strrpos($key, '.');
