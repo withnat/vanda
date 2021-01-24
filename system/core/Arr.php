@@ -144,16 +144,22 @@ final class Arr
 	 *         [Angela] => Maketing Director
 	 * )
 	 *
-	 * @param  array       $data       A multi-dimensional array contains array (dataset) or object (recordset)
-	 *                                 from which to pull a column of values.
-	 * @param  string      $columnKey  The column of values to return.
-	 * @param  string|null $indexKey   The column to use as the index/keys for the returned array.
-	 * @return array                   Returns an array of values representing a single column from the input array.
+	 * @param  array           $data       A multi-dimensional array contains array (dataset) or object (recordset)
+	 *                                     from which to pull a column of values.
+	 * @param  string|int      $columnKey  The column of values to return.
+	 * @param  string|int|null $indexKey   The column to use as the index/keys for the returned array.
+	 * @return array                       Returns an array of values representing a single column from the input array.
 	 */
-	public static function column(array $data, string $columnKey, string $indexKey = null) : array
+	public static function column(array $data, $columnKey, $indexKey = null) : array
 	{
 		if (!Arr::isDataset($data) and !Arr::isRecordset($data))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
+
+		if (!is_string($columnKey) and !is_int($columnKey))
+			throw InvalidArgumentException::typeError(2, ['string', 'int'], $columnKey);
+
+		if (!is_null($indexKey) and !is_string($indexKey) and !is_int($indexKey))
+			throw InvalidArgumentException::typeError(3, ['string', 'int', 'null'], $indexKey);
 
 		$columnKey = Arr::formatKeySyntax($columnKey);
 
@@ -500,23 +506,30 @@ final class Arr
 
 	/**
 	 * Wraps the given value in an array format.
-	 * ie 'name' to ['name'], 'work.position' to ['work']['position'].
+	 * e.g., 0 to [0], 'name' to ['name'], 'work.position' to ['work']['position'].
 	 *
-	 * @param  string $key
+	 * @param  string|int $key
 	 * @return string
 	 */
-	public static function formatKeySyntax(string $key) : string
+	public static function formatKeySyntax($key) : string
 	{
-		// $key can be '0'.
-		if ($key === '')
-			return '';
+		if (!is_string($key) and !is_int($key))
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $key);
 
-		// Use preg_replace to prevent string injection.
-		$key = preg_replace('/[^.a-zA-Z0-9_]+/', '', $key);
-		$keys = str_replace('.', '\'][\'', $key);
-		$keys = "['$keys']";
+		if (is_string($key))
+		{
+			// $key can be '0'.
+			if ($key === '')
+				return '';
 
-		return $keys;
+			// Use preg_replace to prevent string injection.
+			$key = preg_replace('/[^.a-zA-Z0-9_]+/', '', $key);
+			$key = str_replace('.', '\'][\'', $key);
+		}
+
+		$key = "['$key']";
+
+		return $key;
 	}
 
 	/**
