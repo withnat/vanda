@@ -316,7 +316,7 @@ class Request
 			if (!empty($_SERVER['REQUEST_URI']))
 			{
 				// Remove static::basePath() string only first occurrence of a string match.
-				// Otherwise, it will remove all matches ie remove 'foo' from /foo/home/foobar.
+				// Otherwise, it will remove all matches e.g., remove 'foo' from /foo/home/foobar.
 				$pattern = '/' . str_replace('/', '\/', static::basePath()) . '/i';
 				$replacement = '';
 				$subject = $_SERVER['REQUEST_URI'];

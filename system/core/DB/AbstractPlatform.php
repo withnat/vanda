@@ -1532,7 +1532,7 @@ abstract class AbstractPlatform
 			$sortdir = Paginator::getSortDir();
 
 			// Clean up values from cookie.
-			// (Don't remove dot! In case order by alias table nam ie t.name)
+			// (Don't remove dot! In case order by alias table nam e.g., t.name)
 			$sortcol = preg_replace('/[^.a-z0-9]+/i', '', $sortcol);
 
 			if (!in_array(strtolower($sortdir), ['asc', 'desc']))
@@ -2170,7 +2170,7 @@ abstract class AbstractPlatform
 
 		// Have to use both of is_string() and is_numeric()
 		// function to check data type because number sent
-		// via url ie delete?id[]=1&id[]=2 will be string.
+		// via url e.g., delete?id[]=1&id[]=2 will be string.
 		// Update : use is_int() and is_float() is faster
 		// than is_numeric().
 		if (is_string($value) and (!is_int($value) and !is_float($value)))
