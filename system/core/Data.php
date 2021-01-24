@@ -267,7 +267,8 @@ final class Data
 			{
 				try
 				{
-					return eval('return ' . $value . ';');
+					$syntax = 'return ' . $value . ';';
+					return eval($syntax);
 				}
 				// Use Error for PHP 7.2+ and Exception for PHP 8
 				catch (Error | Exception $e)
