@@ -564,6 +564,6 @@ class Response
 	 */
 	protected static function isHeadersSent() : bool
 	{
-		return \headers_sent();
+		return headers_sent();
 	}
 }
