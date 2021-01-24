@@ -264,7 +264,7 @@ class Url
 	 * @param  string $path
 	 * @return bool
 	 */
-	public static function isValid($path) : bool
+	public static function isValid(string $path) : bool
 	{
 		if (!preg_match('~^(#|//|https?://|(mailto|tel|sms):)~', $path))
 			return (filter_var($path, FILTER_VALIDATE_URL) !== false);
