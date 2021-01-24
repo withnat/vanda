@@ -4133,12 +4133,36 @@ final class ArrTest extends TestCase
 
 	public function testMethodRemoveKeyCase1() : void
 	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::removeKey([], 3.14);
+	}
+
+	public function testMethodRemoveKeyCase2() : void
+	{
 		$result = Arr::removeKey([], 'missingkey');
 
 		$this->assertEquals([], $result);
 	}
 
-	public function testMethodRemoveKeyCase2() : void
+	public function testMethodRemoveKeyCase3() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A', // upper case
+			3 => 'b', // lower case
+			4 => null,
+			5 => true,
+			6 => 100
+		];
+
+		$result = Arr::removeKey(ArrTest::$_array, 0);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase4() : void
 	{
 		$expected = [
 			10,
@@ -4151,7 +4175,20 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase3() : void
+	public function testMethodRemoveKeyCase5() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A'
+		];
+
+		$result = Arr::removeKey(ArrTest::$_array, '0,3,4,5,6');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase6() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4171,7 +4208,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase4() : void
+	public function testMethodRemoveKeyCase7() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4184,7 +4221,7 @@ final class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase5() : void
+	public function testMethodRemoveKeyCase8() : void
 	{
 		$expected = [
 			'name' => 'Nat',
