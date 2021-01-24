@@ -37,8 +37,11 @@ declare(strict_types=1);
 
 namespace System;
 
+use Countable;
 use Error;
 use Exception;
+use ResourceBundle;
+use SimpleXmlElement;
 use System\Exception\InvalidArgumentException;
 
 /**
@@ -374,9 +377,9 @@ final class Data
 		}
 		else
 			return is_array($data) or
-				$data instanceof \Countable or
-				$data instanceof \ResourceBundle or
-				$data instanceof \SimpleXmlElement;
+				$data instanceof Countable or
+				$data instanceof ResourceBundle or
+				$data instanceof SimpleXmlElement;
 	}
 
 	/**
