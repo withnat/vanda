@@ -404,7 +404,7 @@ class Request
 	{
 		// Don't add "ext-apache" to composer.json.
 		// It will make updating composer fail.
-		return \getallheaders();
+		return getallheaders();
 	}
 
 	/**
