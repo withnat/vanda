@@ -1410,15 +1410,19 @@ final class Arr
 	}
 
 	/**
-	 * Get all of the given array except for a specified key.
+	 * Get all of the given array except for a specified key/index.
 	 *
-	 * @param  array  $array      An array to remove an element by key.
-	 * @param  string $keys       The key name to remove.
-	 * @param  bool   $recursive  True to recurve through multi-level arrays.
+	 * @param  array      $array      An array to remove an element by key.
+	 * @param  string|int $keys       The key name or index to remove.
+	 * @param  bool       $recursive  True to recurve through multi-level arrays.
 	 * @return array
 	 */
-	public static function removeKey(array $array, string $keys, bool $recursive = true) : array
+	public static function removeKey(array $array, $keys, bool $recursive = true) : array
 	{
+		if (!is_string($keys) and !is_int($keys))
+			throw InvalidArgumentException::typeError(2, ['int','string'], $keys);
+
+		$keys = (string)$keys;
 		$givenKeys = explode(',', $keys);
 
 		foreach ($givenKeys as $key)
