@@ -687,6 +687,29 @@ final class Arr
 	}
 
 	/**
+	 * @param  array            $array
+	 * @param  string|int|array $keys
+	 * @return bool
+	 */
+	public static function hasAllKeys(array $array, $keys) : bool
+	{
+		if (is_string($keys))
+			$keys = explode(',', $keys);
+		elseif (is_int($keys))
+			$keys = [$keys];
+		elseif (!is_array($keys))
+			throw InvalidArgumentException::typeError(2, ['int', 'string', 'array'], $keys);
+
+		foreach ($keys as $key)
+		{
+			if (!Arr::hasKey($array, $key))
+				return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Random Element Value - Takes an array as input and returns a random element value.
 	 *
 	 * @param  array $array  The array to random.
