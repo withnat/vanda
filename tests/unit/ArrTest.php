@@ -1592,21 +1592,74 @@ final class ArrTest extends TestCase
 
 	public function testMethodHasAllCase4() : void
 	{
-		$result = Arr::hasAll(ArrTest::$_array, ['a']);
+		$result = Arr::hasAll(ArrTest::$_array, ['10', 20]);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodHasAllCase5() : void
 	{
-		$result = Arr::hasAll(ArrTest::$_array, ['a', 'b', null], false);
+		$result = Arr::hasAll(ArrTest::$_array, [10, 20]);
 
 		$this->assertTrue($result);
 	}
 
 	public function testMethodHasAllCase6() : void
 	{
+		$result = Arr::hasAll(ArrTest::$_array, ['a']);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasAllCase7() : void
+	{
+		$result = Arr::hasAll(ArrTest::$_array, ['a', 'b', null], false);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasAllCase8() : void
+	{
 		$result = Arr::hasAll(ArrTest::$_arrayMulti, ['a', 'b', ['x', 'y'], null], false);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasAllCase9() : void
+	{
+		$result = Arr::hasAll(ArrTest::$_assocArray, ['missingvalue', 'Nat']);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasAllCase10() : void
+	{
+		$result = Arr::hasAll(ArrTest::$_assocArray, ['38', 181]);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasAllCase11() : void
+	{
+		$result = Arr::hasAll(ArrTest::$_assocArray, [38, 181]);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasAllCase12() : void
+	{
+		$search = [
+			'Nat',
+			[
+				'position' => 'Web Developer',
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'excellent' => true,
+				'other' => ''
+			]
+		];
+
+		$result = Arr::hasAll(ArrTest::$_assocArrayMulti, $search);
 
 		$this->assertTrue($result);
 	}
