@@ -334,18 +334,22 @@ final class Arr
 	 * Returns and removes an element by key from an array.
 	 * Data can be one or multi-dimensional array, but not a recordset.
 	 *
-	 * @param  array  $array  Data can be one or multi-dimensional array, but not a recordset.
-	 * @param  string $keys   The column of values to return. The $keys can be 'name,work.position'
+	 * @param  array      $array  Data can be one or multi-dimensional array, but not a recordset.
+	 * @param  string|int $keys   The column of values to return. The $keys can be 0, '0', '0,1', 'name,work.position'.
 	 * @return mixed
 	 */
-	public static function pull(array &$array, string $keys)
+	public static function pull(array &$array, $keys)
 	{
-		if (strpos($keys, ','))
+		if (!is_string($keys) and !is_int($keys))
+			throw InvalidArgumentException::typeError(2, ['int','string'], $keys);
+
+		$keys = (string)$keys;
+		$keys = explode(',', $keys);
+
+		if (count($keys) > 1)
 			$result = [];
 		else
 			$result = '';
-
-		$keys = explode(',', $keys);
 
 		if (Arr::isMultidimensional($array))
 		{
