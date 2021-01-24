@@ -1374,7 +1374,7 @@ final class Arr
 	 */
 	public static function remove(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
 	{
-		if (is_object($value) and !is_resource($value))
+		if (is_object($value) or is_resource($value))
 			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'bool', 'array', 'null'], $value);
 
 		if (is_array($value))
@@ -1393,14 +1393,14 @@ final class Arr
 				}
 				else
 				{
-					if ($caseSensitive)
+					if (is_string($itemValue) and is_string($value) and !$caseSensitive)
 					{
-						if ($itemValue === $value)
+						if (mb_strtolower($itemValue) === mb_strtolower($value))
 							unset($array[$itemKey]);
 					}
 					else
 					{
-						if (mb_strtolower($itemValue) === mb_strtolower($value))
+						if ($itemValue === $value)
 							unset($array[$itemKey]);
 					}
 				}
