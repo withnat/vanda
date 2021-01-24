@@ -1875,7 +1875,7 @@ final class Str
 	 * @param  string $type    alnum|numeric|alpha|nozero
 	 * @return string
 	 */
-	public static function random($length = 8, $type = 'alnum')
+	public static function random(int $length = 8, string $type = 'alnum') : string
 	{
 		switch ($type)
 		{
@@ -1974,7 +1974,7 @@ final class Str
 	 * @param  string $string  String to normalise.
 	 * @return string          Normalised string.
 	 */
-	public static function normalize($string)
+	public static function normalize(string $string) : string
 	{
 		$from = ['À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É',
 			'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô',
