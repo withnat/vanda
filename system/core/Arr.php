@@ -1202,16 +1202,19 @@ final class Arr
 	/**
 	 * Utility function to map an array to a string.
 	 *
-	 * @param  array       $array           The array to map.
-	 * @param  string      $innerGlue       The glue (optional, defaults to '=') between the key and the value.
-	 * @param  string      $outerGlue       The glue (optional, defaults to ' ') between array elements.
-	 * @param  string      $valueDelimiter  Value delimiter.
-	 * @param  bool        $recursive       True to recurve through multi-level arrays.
-	 * @param  string|null $keys            An optional field names. Only be used in top level elements.
-	 * @return string                       The string mapped from the given array.
+	 * @param  array           $array           The array to map.
+	 * @param  string          $innerGlue       The glue (optional, defaults to '=') between the key and the value.
+	 * @param  string          $outerGlue       The glue (optional, defaults to ' ') between array elements.
+	 * @param  string          $valueDelimiter  Value delimiter.
+	 * @param  bool            $recursive       True to recurve through multi-level arrays.
+	 * @param  string|int|null $keys            An optional field names. Only be used in top level elements.
+	 * @return string                           The string mapped from the given array.
 	 */
-	public static function toString(array $array, string $innerGlue = '=', string $outerGlue = ' ', string $valueDelimiter = '"', bool $recursive = true, string $keys = null) : string
+	public static function toString(array $array, string $innerGlue = '=', string $outerGlue = ' ', string $valueDelimiter = '"', bool $recursive = true, $keys = null) : string
 	{
+		if (!is_null($keys) and !is_string($keys) and !is_int($keys))
+			throw InvalidArgumentException::typeError(6, ['int','string','null'], $keys);
+
 		$output = [];
 
 		if (is_array($array))
