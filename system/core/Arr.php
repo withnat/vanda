@@ -86,6 +86,8 @@ class Arr
 	}
 
 	/**
+	 * Searches the array for a given value and returns the first corresponding key if successful.
+	 *
 	 * @param  array $array  The array.
 	 * @param  mixed $value  The searched value.
 	 * @return mixed         Returns the key for needle if it is found in the array, NULL otherwise.
