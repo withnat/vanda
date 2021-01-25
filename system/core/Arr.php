@@ -61,7 +61,7 @@ class Arr
 	 * If the element is empty it returns NULL (or whatever you specify as the default value).
 	 *
 	 * @param  array      $array    The array.
-	 * @param  int|string $key     The searched key.
+	 * @param  string|int $key      The searched key.
 	 * @param  mixed      $default  Default value.
 	 * @return mixed                Depends on what the array contains.
 	 */
@@ -72,7 +72,7 @@ class Arr
 		elseif (is_int($key))
 			$keys = [$key];
 		else
-			throw InvalidArgumentException::typeError(2, ['int', 'string'], $key);
+			throw InvalidArgumentException::typeError(2, ['string', 'int'], $key);
 
 		foreach ($keys as $key)
 		{
