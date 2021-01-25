@@ -55,7 +55,7 @@ class ArrTest extends TestCase
 	protected static $_assocArray;
 	protected static $_assocArrayMulti;
 	protected static $_datasetArray;
-	protected static $_anotherDatasetArray;
+	protected static $_numericDatasetArray;
 	protected static $_fakeRecordsetArray;
 	protected static $_recordsetArray;
 	protected static $_object;
@@ -171,7 +171,7 @@ class ArrTest extends TestCase
 
 		//
 
-		static::$_anotherDatasetArray = [
+		static::$_numericDatasetArray = [
 			[
 				'0.1',
 				'0.2'
@@ -290,7 +290,7 @@ class ArrTest extends TestCase
 		static::$_assocArray = null;
 		static::$_assocArrayMulti = null;
 		static::$_datasetArray = null;
-		static::$_anotherDatasetArray = null;
+		static::$_numericDatasetArray = null;
 		static::$_fakeRecordsetArray = null;
 		static::$_recordsetArray = null;
 		static::$_object = null;
@@ -533,21 +533,21 @@ class ArrTest extends TestCase
 		Arr::column([], 'columnKey');
 	}
 
-	public function testMethodColumnCase1x() : void
+	public function testMethodColumnCase2() : void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::column(static::$_datasetArray, 3.14);
 	}
 
-	public function testMethodColumnCase1xx() : void
+	public function testMethodColumnCase3() : void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::column(static::$_datasetArray, 'columnKey', 3.14);
 	}
 
-	public function testMethodColumnCase2() : void
+	public function testMethodColumnCase4() : void
 	{
 		$expected = [
 			'Web Developer',
@@ -563,7 +563,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase3() : void
+	public function testMethodColumnCase5() : void
 	{
 		$expected = [
 			'Nat' => 'Web Developer',
@@ -578,33 +578,59 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase3x() : void
+	public function testMethodColumnCase6() : void
 	{
 		$expected = [
 			'0.1',
 			'1.1'
 		];
 
-		$result = Arr::column(static::$_anotherDatasetArray, 0);
+		$result = Arr::column(static::$_numericDatasetArray, 0);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase3xx() : void
+	public function testMethodColumnCase7() : void
+	{
+		$expected = [
+			'0.1',
+			'1.1'
+		];
+
+		$result = Arr::column(static::$_numericDatasetArray, '0');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodColumnCase8() : void
 	{
 		$expected = [
 			'0.2' => '0.1',
 			'1.2' => '1.1'
 		];
 
-		$result = Arr::column(static::$_anotherDatasetArray, 0, 1);
+		$result = Arr::column(static::$_numericDatasetArray, 0, 1);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase4() : void
+	public function testMethodColumnCase9() : void
+	{
+		$expected = [
+			'0.2' => '0.1',
+			'1.2' => '1.1'
+		];
+
+		$result = Arr::column(static::$_numericDatasetArray, '0', '1');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodColumnCase10() : void
 	{
 		$expected = [
 			'Web Developer',
@@ -620,7 +646,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase5() : void
+	public function testMethodColumnCase11() : void
 	{
 		$expected = [
 			'Nat' => 'Web Developer',
@@ -3119,7 +3145,7 @@ class ArrTest extends TestCase
 
 	public function testMethodIsDatasetCase14() : void
 	{
-		$result = Arr::isDataset(static::$_anotherDatasetArray);
+		$result = Arr::isDataset(static::$_numericDatasetArray);
 
 		$this->assertTrue($result);
 	}
