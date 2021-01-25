@@ -476,23 +476,52 @@ class ArrTest extends TestCase
 
 	public function testMethodGetKeyCase3() : void
 	{
+		$result = Arr::getKey(static::$_array, '10');
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodGetKeyCase4() : void
+	{
 		$result = Arr::getKey(static::$_array, null);
 
 		$this->assertEquals(4, $result);
 	}
 
-	public function testMethodGetKeyCase4() : void
+	public function testMethodGetKeyCase5() : void
+	{
+		$result = Arr::getKey(static::$_arrayMulti, ['x', 'y']);
+
+		$this->assertEquals(4, $result);
+	}
+
+	public function testMethodGetKeyCase6() : void
 	{
 		$result = Arr::getKey(static::$_assocArray, 'missingvalue');
 
 		$this->assertNull($result);
 	}
 
-	public function testMethodGetKeyCase5() : void
+	public function testMethodGetKeyCase7() : void
 	{
 		$result = Arr::getKey(static::$_assocArray, 38);
 
 		$this->assertEquals('age', $result);
+	}
+
+	public function testMethodGetKeyCase8() : void
+	{
+		$search = [
+			'position' => 'Web Developer',
+			'salary' => 10000,
+			'hrscore' => 9.8,
+			'excellent' => true,
+			'other' => ''
+		];
+
+		$result = Arr::getKey(static::$_assocArrayMulti, $search);
+
+		$this->assertEquals('work', $result);
 	}
 
 	// Arr::column()
