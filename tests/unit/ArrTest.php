@@ -350,19 +350,26 @@ class ArrTest extends TestCase
 
 	public function testMethodGetCase7() : void
 	{
+		$result = Arr::get(static::$_array, '0');
+
+		$this->assertEquals(10, $result);
+	}
+
+	public function testMethodGetCase8() : void
+	{
 		$result = Arr::get(static::$_arrayMulti, 'missingkey');
 
 		$this->assertNull($result);
 	}
 
-	public function testMethodGetCase8() : void
+	public function testMethodGetCase9() : void
 	{
 		$result = Arr::get(static::$_arrayMulti, 'missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
-	public function testMethodGetCase9() : void
+	public function testMethodGetCase10() : void
 	{
 		$expected = [
 			'x',
@@ -375,63 +382,76 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodGetCase10() : void
+	public function testMethodGetCase11() : void
+	{
+		$expected = [
+			'x',
+			'y'
+		];
+
+		$result = Arr::get(static::$_arrayMulti, 4);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodGetCase12() : void
 	{
 		$result = Arr::get(static::$_arrayMulti, '4.0');
 
 		$this->assertEquals('x', $result);
 	}
 
-	public function testMethodGetCase11() : void
+	public function testMethodGetCase13() : void
 	{
 		$result = Arr::get(static::$_arrayMulti, '4.missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
-	public function testMethodGetCase12() : void
+	public function testMethodGetCase14() : void
 	{
 		$result = Arr::get(static::$_assocArray, 'missingkey');
 
 		$this->assertNull($result);
 	}
 
-	public function testMethodGetCase13() : void
+	public function testMethodGetCase15() : void
 	{
 		$result = Arr::get(static::$_assocArray, 'missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
-	public function testMethodGetCase14() : void
+	public function testMethodGetCase16() : void
 	{
 		$result = Arr::get(static::$_assocArray, 'name');
 
 		$this->assertEquals('Nat', $result);
 	}
 
-	public function testMethodGetCase15() : void
+	public function testMethodGetCase17() : void
 	{
 		$result = Arr::get(static::$_assocArrayMulti, 'missingkey');
 
 		$this->assertNull($result);
 	}
 
-	public function testMethodGetCase16() : void
+	public function testMethodGetCase18() : void
 	{
 		$result = Arr::get(static::$_assocArrayMulti, 'missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
-	public function testMethodGetCase17() : void
+	public function testMethodGetCase19() : void
 	{
 		$result = Arr::get(static::$_assocArrayMulti, 'work.missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
-	public function testMethodGetCase18() : void
+	public function testMethodGetCase20() : void
 	{
 		$result = Arr::get(static::$_assocArrayMulti, 'work.salary');
 
