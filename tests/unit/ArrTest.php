@@ -686,16 +686,21 @@ class ArrTest extends TestCase
 
 	public function testMethodFirstCase4() : void
 	{
-		$result = Arr::first(static::$_array, 1);
+		$expected = [
+			0 => 10
+		];
 
-		$this->assertEquals([10], $result);
+		$result = Arr::first(static::$_array, 1);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodFirstCase5() : void
 	{
 		$expected = [
-			10,
-			20
+			0 => 10,
+			1 => 20
 		];
 
 		$result = Arr::first(static::$_array, 2);
@@ -717,11 +722,11 @@ class ArrTest extends TestCase
 	public function testMethodFirstCase7() : void
 	{
 		$expected = [
-			10,
-			20,
-			'A',
-			'b',
-			[
+			0 => 10,
+			1 => 20,
+			2 => 'A',
+			3 => 'b',
+			4 => [
 				'x',
 				'y'
 			]
@@ -742,9 +747,14 @@ class ArrTest extends TestCase
 
 	public function testMethodFirstCase9() : void
 	{
-		$result = Arr::first(static::$_assocArray, 1);
+		$expected = [
+			'name' => 'Nat'
+		];
 
-		$this->assertEquals(['name' => 'Nat'], $result);
+		$result = Arr::first(static::$_assocArray, 1);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodFirstCase10() : void
@@ -842,16 +852,21 @@ class ArrTest extends TestCase
 
 	public function testMethodLastCase4() : void
 	{
-		$result = Arr::last(static::$_array, 1);
+		$expected = [
+			6 => 100
+		];
 
-		$this->assertEquals([100], $result);
+		$result = Arr::last(static::$_array, 1);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodLastCase5() : void
 	{
 		$expected = [
-			true,
-			100
+			5 => true,
+			6 => 100
 		];
 
 		$result = Arr::last(static::$_array, 2);
@@ -873,13 +888,13 @@ class ArrTest extends TestCase
 	public function testMethodLastCase7() : void
 	{
 		$expected = [
-			[
+			4 => [
 				'x',
 				'y'
 			],
-			null,
-			true,
-			100
+			5 => null,
+			6 => true,
+			7 => 100
 		];
 
 		$result = Arr::last(static::$_arrayMulti, 4);
@@ -897,9 +912,14 @@ class ArrTest extends TestCase
 
 	public function testMethodLastCase9() : void
 	{
-		$result = Arr::last(static::$_assocArray, 1);
+		$expected = [
+			'extra' => null
+		];
 
-		$this->assertEquals(['extra' => null], $result);
+		$result = Arr::last(static::$_assocArray, 1);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	public function testMethodLastCase10() : void
@@ -1016,37 +1036,106 @@ class ArrTest extends TestCase
 
 	public function testMethodLastKeyCase1() : void
 	{
-		$result = Arr::lastKey([]);
+		$this->expectException(InvalidArgumentException::class);
+
+		$result = Arr::lastKey([], -1);
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodLastKeyCase2() : void
 	{
+		$result = Arr::lastKey([]);
+
+		$this->assertNull($result);
+	}
+
+	public function testMethodLastKeyCase3() : void
+	{
 		$result = Arr::lastKey(static::$_array);
 
 		$this->assertEquals(6, $result);
 	}
 
-	public function testMethodLastKeyCase3() : void
+	public function testMethodLastKeyCase4() : void
+	{
+		$result = Arr::lastKey(static::$_array, 1);
+
+		$this->assertEquals([6], $result);
+	}
+
+	public function testMethodLastKeyCase5() : void
+	{
+		$expected = [5, 6];
+
+		$result = Arr::lastKey(static::$_array, 2);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodLastKeyCase6() : void
+	{
+		$expected = [0, 1, 2, 3, 4, 5, 6];
+
+		$result = Arr::lastKey(static::$_array, 100);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodLastKeyCase7() : void
 	{
 		$result = Arr::lastKey(static::$_arrayMulti);
 
 		$this->assertEquals(7, $result);
 	}
 
-	public function testMethodLastKeyCase4() : void
+	public function testMethodLastKeyCase8() : void
+	{
+		$result = Arr::lastKey(static::$_arrayMulti);
+
+		$this->assertEquals(7, $result);
+	}
+
+	public function testMethodLastKeyCase9() : void
 	{
 		$result = Arr::lastKey(static::$_assocArray);
 
 		$this->assertEquals('extra', $result);
 	}
 
-	public function testMethodLastKeyCase5() : void
+	public function testMethodLastKeyCase10() : void
+	{
+		$expected = [
+			'other',
+			'extra'
+		];
+
+		$result = Arr::lastKey(static::$_assocArray, 2);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodLastKeyCase11() : void
 	{
 		$result = Arr::lastKey(static::$_assocArrayMulti);
 
 		$this->assertEquals('extra', $result);
+	}
+
+	public function testMethodLastKeyCase12() : void
+	{
+		$expected = [
+			'other',
+			'extra'
+		];
+
+		$result = Arr::lastKey(static::$_assocArrayMulti, 2);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
 	}
 
 	// Arr::only()
