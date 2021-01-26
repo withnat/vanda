@@ -248,36 +248,63 @@ class Arr
 	}
 
 	/**
-	 * Gets the first key of an array.
+	 * Gets the first {$length} keys from the given array.
 	 *
-	 * @param  array $array  An array.
-	 * @return mixed         Returns the first key of array if the array is not empty; NULL otherwise.
+	 * @param  array $array      The input array.
+	 * @param  int|null $length
+	 * @return mixed             Returns the first key of array if the array is not empty; NULL otherwise.
 	 */
-	public static function firstKey(array $array)
+	public static function firstKey(array $array, int $length = null)
 	{
-		// PHP 7.3+
-		if (function_exists('array_key_first'))
+		if ($length < 0)
+			throw InvalidArgumentException::valueError(2, '$length must be greater than zero', $length);
+
+		if (is_null($length) or $length === 1)
 		{
-			// @codeCoverageIgnoreStart
-			return array_key_first($array);
-			// @codeCoverageIgnoreEnd
+			// PHP 7.3+
+			if (function_exists('array_key_first'))
+			{
+				// @codeCoverageIgnoreStart
+				return array_key_first($array);
+				// @codeCoverageIgnoreEnd
+			}
+			// PHP 7.2
+			else
+			{
+				// Move the internal pointer to the first of the array.
+				reset($array);
+
+				// The key() function returns the index
+				// element of the current array position.
+				$key = key($array);
+			}
+
+			if ($length === 1)
+				$key = [$key];
 		}
-		// PHP 7.2
 		else
 		{
-			// Move the internal pointer to the first of the array.
-			reset($array);
+			$keys = [];
+			$i = 0;
 
-			// The key() function returns the index
-			// element of the current array position.
-			$key = key($array);
+			foreach ($array as $key => $value)
+			{
+				$keys[] = $key;
 
-			return $key;
+				++$i;
+
+				if ($i === $length)
+					break;
+			}
+
+			$key = $keys;
 		}
+
+		return $key;
 	}
 
 	/**
-	 * Gets the last {$length} key from the given array.
+	 * Gets the last {$length} keys from the given array.
 	 *
 	 * @param  array    $array   The input array.
 	 * @param  int|null $length
