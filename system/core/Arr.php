@@ -215,7 +215,7 @@ class Arr
 			$value = array_shift($array);
 		}
 		else
-			$value = array_slice($array, 0, $length);
+			$value = array_slice($array, 0, $length, true);
 
 		return $value;
 	}
@@ -242,7 +242,7 @@ class Arr
 				$value = null;
 		}
 		else
-			$value = array_slice($array, count($array) - $length);
+			$value = array_slice($array, count($array) - $length, null, true);
 
 		return $value;
 	}
@@ -277,33 +277,52 @@ class Arr
 	}
 
 	/**
-	 * Gets the last key of an array.
+	 * Gets the last {$length} key from the given array.
 	 *
-	 * @param  array $array  An array.
-	 * @return mixed         Returns the last key of array if the array is not empty; NULL otherwise.
+	 * @param  array    $array   The input array.
+	 * @param  int|null $length
+	 * @return mixed             Returns the last key of array if the array is not empty; NULL otherwise.
 	 */
-	public static function lastKey(array $array)
+	public static function lastKey(array $array, int $length = null)
 	{
-		// PHP 7.3+
-		if (function_exists('array_key_first'))
+		if ($length < 0)
+			throw InvalidArgumentException::valueError(2, '$length must be greater than zero', $length);
+
+		if (is_null($length) or $length === 1)
 		{
-			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
-			// @codeCoverageIgnoreStart
-			return array_key_last($array);
-			// @codeCoverageIgnoreEnd
+			// PHP 7.3+
+			if (function_exists('array_key_last'))
+			{
+				// @codeCoverageIgnoreStart
+				$key = array_key_last($array);
+				// @codeCoverageIgnoreEnd
+			}
+			// PHP 7.2
+			else
+			{
+				// Move the internal pointer to the end of the array.
+				end($array);
+
+				// The key() function returns the index
+				// element of the current array position.
+				$key = key($array);
+			}
+
+			if ($length === 1)
+				$key = [$key];
 		}
-		// PHP 7.2
 		else
 		{
-			// Move the internal pointer to the end of the array.
-			end($array);
+			$array = static::last($array, $length);
+			$keys = [];
 
-			// The key() function returns the index
-			// element of the current array position.
-			$key = key($array);
+			foreach ($array as $key => $value)
+				$keys[] = $key;
 
-			return $key;
+			$key = $keys;
 		}
+
+		return $key;
 	}
 
 	/**
