@@ -663,6 +663,13 @@ class ArrTest extends TestCase
 
 	// Arr::first()
 
+	public function testMethodFirstCase0() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::first([], -1);
+	}
+
 	public function testMethodFirstCase1() : void
 	{
 		$result = Arr::first([]);
@@ -699,6 +706,16 @@ class ArrTest extends TestCase
 
 	public function testMethodFirstCase5() : void
 	{
+		$expected = static::$_array;
+
+		$result = Arr::first(static::$_array, 100);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodFirstCase6() : void
+	{
 		$expected = [
 			10,
 			20,
@@ -716,21 +733,21 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodFirstCase6() : void
+	public function testMethodFirstCase7() : void
 	{
 		$result = Arr::first(static::$_assocArray);
 
 		$this->assertEquals('Nat', $result);
 	}
 
-	public function testMethodFirstCase7() : void
+	public function testMethodFirstCase8() : void
 	{
 		$result = Arr::first(static::$_assocArray, 1);
 
 		$this->assertEquals(['name' => 'Nat'], $result);
 	}
 
-	public function testMethodFirstCase8() : void
+	public function testMethodFirstCase9() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -743,7 +760,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodFirstCase9() : void
+	public function testMethodFirstCase10() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -764,7 +781,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodFirstCase10() : void
+	public function testMethodFirstCase11() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -781,7 +798,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodFirstCase11() : void
+	public function testMethodFirstCase12() : void
 	{
 		$expected = [
 			'name' => 'Nat',
