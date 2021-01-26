@@ -1435,6 +1435,26 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
+	public function testMethodOnlyCase21() : void
+	{
+		$expected = [static::$_datasetArray[0]];
+
+		$result = Arr::only(static::$_datasetArray, 0);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodOnlyCase22() : void
+	{
+		$expected = [static::$_recordsetArray[0]];
+
+		$result = Arr::only(static::$_recordsetArray, 0);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
 	// Arr::pull()
 
 	public function testMethodPullCase1() : void
