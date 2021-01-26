@@ -356,8 +356,11 @@ class Arr
 	 * Returns only the specified key/value pairs from the given array.
 	 * Data can be one or multi-dimensional array, but not a recordset.
 	 *
+	 * The $keys can be 0, '0', '0,1', 'name,work.position'.
+	 * Note, For numeric array, an index key 0 (int) is same as '0' (string).
+	 *
 	 * @param  array            $array  Data can be one or multi-dimensional array, but not a recordset.
-	 * @param  string|int|array $keys   The column of values to return. The $keys can be 0, '0', '0,1', 'name,work.position'.
+	 * @param  string|int|array $keys   The column of values to return.
 	 * @return array
 	 */
 	public static function only(array $array, $keys) : array
