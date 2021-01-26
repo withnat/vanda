@@ -265,7 +265,7 @@ class Arr
 			if (function_exists('array_key_first'))
 			{
 				// @codeCoverageIgnoreStart
-				return array_key_first($array);
+				$key = array_key_first($array);
 				// @codeCoverageIgnoreEnd
 			}
 			// PHP 7.2
