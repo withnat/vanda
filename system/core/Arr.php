@@ -370,7 +370,7 @@ class Arr
 		elseif (is_int($keys))
 			$keys = [$keys];
 		elseif (!is_array($keys))
-			throw InvalidArgumentException::typeError(2, ['string', 'int'], $keys);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
 
 		$result = [];
 
