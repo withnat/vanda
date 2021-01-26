@@ -821,26 +821,33 @@ class ArrTest extends TestCase
 
 	public function testMethodLastCase1() : void
 	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::last([], -1);
+	}
+
+	public function testMethodLastCase2() : void
+	{
 		$result = Arr::last([]);
 
 		$this->assertNull($result);
 	}
 
-	public function testMethodLastCase2() : void
+	public function testMethodLastCase3() : void
 	{
 		$result = Arr::last(static::$_array);
 
 		$this->assertEquals(100, $result);
 	}
 
-	public function testMethodLastCase3() : void
+	public function testMethodLastCase4() : void
 	{
 		$result = Arr::last(static::$_array, 1);
 
 		$this->assertEquals([100], $result);
 	}
 
-	public function testMethodLastCase4() : void
+	public function testMethodLastCase5() : void
 	{
 		$expected = [
 			true,
@@ -853,7 +860,17 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodLastCase5() : void
+	public function testMethodLastCase6() : void
+	{
+		$expected = static::$_array;
+
+		$result = Arr::last(static::$_array, 100);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodLastCase7() : void
 	{
 		$expected = [
 			[
@@ -871,21 +888,21 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodLastCase6() : void
+	public function testMethodLastCase8() : void
 	{
 		$result = Arr::last(static::$_assocArray);
 
 		$this->assertNull($result);
 	}
 
-	public function testMethodLastCase7() : void
+	public function testMethodLastCase9() : void
 	{
 		$result = Arr::last(static::$_assocArray, 1);
 
 		$this->assertEquals(['extra' => null], $result);
 	}
 
-	public function testMethodLastCase8() : void
+	public function testMethodLastCase10() : void
 	{
 		$expected = [
 			'other' => '',
@@ -898,7 +915,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodLastCase9() : void
+	public function testMethodLastCase11() : void
 	{
 		$expected = [
 			'work' => [
@@ -922,7 +939,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodLastCase10() : void
+	public function testMethodLastCase12() : void
 	{
 		$expected = [
 			'name' => 'Angela',
@@ -939,7 +956,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodLastCase11() : void
+	public function testMethodLastCase13() : void
 	{
 		$expected = [
 			'name' => 'Angela',
