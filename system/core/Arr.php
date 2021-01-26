@@ -211,7 +211,7 @@ class Arr
 		{
 			$array = array_values($array);
 
-			// array_shift() returns NULL if the array is empty.
+			// array_shift() returns NULL if the given array is empty.
 			$value = array_shift($array);
 		}
 		else
@@ -236,8 +236,9 @@ class Arr
 		{
 			$value = end($array);
 
-			// end() returns FALSE if the array is empty.
-			// So, convert it to NULL.
+			// The end() function returns FALSE if the array is empty.
+			// So, convert it to NULL to make output same as result of
+			// Arr::first() method is case of the given array is empty.
 			if ($value === false)
 				$value = null;
 		}
@@ -256,7 +257,7 @@ class Arr
 	 */
 	public static function firstKey(array $array, int $length = null)
 	{
-		if ($length < 0)
+		if (is_int($length) and $length < 1)
 			throw InvalidArgumentException::valueError(2, '$length must be greater than zero', $length);
 
 		if (is_null($length) or $length === 1)
@@ -312,7 +313,7 @@ class Arr
 	 */
 	public static function lastKey(array $array, int $length = null)
 	{
-		if ($length < 0)
+		if (is_int($length) and $length < 1)
 			throw InvalidArgumentException::valueError(2, '$length must be greater than zero', $length);
 
 		if (is_null($length) or $length === 1)
@@ -399,8 +400,11 @@ class Arr
 	 * Returns and removes an element by key from an array.
 	 * Data can be one or multi-dimensional array, but not a recordset.
 	 *
+	 * The $keys can be 0, '0', '0,1', 'name,work.position'.
+	 * Note, For numeric array, an index key 0 (int) is same as '0' (string).
+	 *
 	 * @param  array            $array  Data can be one or multi-dimensional array, but not a recordset.
-	 * @param  string|int|array $keys   The column of values to return. The $keys can be 0, '0', '0,1', 'name,work.position'.
+	 * @param  string|int|array $keys   The column of values to return.
 	 * @return mixed
 	 */
 	public static function pull(array &$array, $keys)
@@ -410,7 +414,7 @@ class Arr
 		elseif (is_int($keys))
 			$keys = [$keys];
 		elseif (!is_array($keys))
-			throw InvalidArgumentException::typeError(2, ['string', 'int'], $keys);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
 
 		if (count($keys) > 1)
 			$result = [];
