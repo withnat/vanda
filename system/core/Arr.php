@@ -357,12 +357,12 @@ class Arr
 	 * Returns only the specified key/value pairs from the given array.
 	 *
 	 * The given array can be one or multi-dimensional array.
-	 * The $keys can be 0, '0', '0,1', 'name,work.position'.
+	 * The $keys can be 0, '0', '0,1', [0, 1], 'name,work.position', ['name, work.position'].
 	 *
 	 * Note, For numeric array, an index key 0 (int) is same as '0' (string).
 	 *
 	 * @param  array            $array  The given array.
-	 * @param  string|int|array $keys   e.g., 0, '0', '0,1', 'name,work.position'.
+	 * @param  string|int|array $keys   e.g., 0, '0', '0,1', [0, 1], 'name,work.position'.
 	 * @return array
 	 */
 	public static function only(array $array, $keys) : array
@@ -402,12 +402,12 @@ class Arr
 	 * Data can be one or multi-dimensional array, but not a recordset.
 	 *
 	 * The given array can be one or multi-dimensional array.
-	 * The $keys can be 0, '0', '0,1', 'name,work.position'.
+	 * The $keys can be 0, '0', '0,1', [0, 1], 'name,work.position', ['name, work.position'].
 	 *
 	 * Note, For numeric array, an index key 0 (int) is same as '0' (string).
 	 *
 	 * @param  array            $array  The given array.
-	 * @param  string|int|array $keys   e.g., 0, '0', '0,1', 'name,work.position'.
+	 * @param  string|int|array $keys   e.g., 0, '0', '0,1', [0, 1], 'name,work.position'.
 	 * @return mixed
 	 */
 	public static function pull(array &$array, $keys)
