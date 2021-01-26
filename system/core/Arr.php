@@ -196,7 +196,7 @@ class Arr
 	}
 
 	/**
-	 * Returns the first {$length} element from the given array.
+	 * Returns the first {$length} elements from the given array.
 	 *
 	 * @param  array    $array   The input array.
 	 * @param  int|null $length
@@ -221,15 +221,18 @@ class Arr
 	}
 
 	/**
-	 * Return the last element in the given array.
+	 * Return the last {$length} elements from the given array.
 	 *
-	 * @param  array    $array  An array.
-	 * @param  int|null $n
+	 * @param  array    $array  The input array.
+	 * @param  int|null $length
 	 * @return mixed            Returns the last value of array if the array is not empty; NULL otherwise.
 	 */
-	public static function last(array $array, int $n = null)
+	public static function last(array $array, int $length = null)
 	{
-		if (is_null($n))
+		if ($length < 0)
+			throw InvalidArgumentException::valueError(2, '$length must be greater than zero', $length);
+
+		if (is_null($length))
 		{
 			$value = end($array);
 
@@ -239,7 +242,7 @@ class Arr
 				$value = null;
 		}
 		else
-			$value = array_slice($array, count($array) - $n);
+			$value = array_slice($array, count($array) - $length);
 
 		return $value;
 	}
