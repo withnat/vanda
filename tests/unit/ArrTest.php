@@ -5495,6 +5495,108 @@ class ArrTest extends TestCase
 
 	public function testMethodRemoveCase6() : void
 	{
+		$expected = static::$_arrayMulti;
+
+		$result = Arr::remove(static::$_arrayMulti, '10');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase7() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A', // upper case
+			3 => 'b', // lower case
+			4 => ['x', 'y'], // lower case
+			5 => null,
+			6 => true,
+			7 => 100
+		];
+
+		$result = Arr::remove(static::$_arrayMulti, 10);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase8() : void
+	{
+		$expected = [
+			2 => 'A', // upper case
+			3 => 'b', // lower case
+			4 => ['x', 'y'], // lower case
+			5 => null,
+			6 => true,
+			7 => 100
+		];
+
+		$result = Arr::remove(static::$_arrayMulti, [10, 20]);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase9() : void
+	{
+		$expected = [
+			10,
+			20,
+			'A', // upper case
+			'b', // lower case
+			[],
+			null,
+			true,
+			100
+		];
+
+		$result = Arr::remove(static::$_arrayMulti, ['x', 'y']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase10() : void
+	{
+		$expected = [
+			10,
+			20,
+			'A', // upper case
+			'b', // lower case
+			['x'],
+			null,
+			true,
+			100
+		];
+
+		$result = Arr::remove(static::$_arrayMulti, ['X', 'y']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase11() : void
+	{
+		$expected = [
+			10,
+			20,
+			'A', // upper case
+			'b', // lower case
+			[],
+			null,
+			true,
+			100
+		];
+
+		$result = Arr::remove(static::$_arrayMulti, ['X', 'y'], false);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase12() : void
+	{
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
@@ -5519,7 +5621,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveCase7() : void
+	public function testMethodRemoveCase13() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -5577,6 +5679,23 @@ class ArrTest extends TestCase
 	public function testMethodRemoveKeyCase4() : void
 	{
 		$expected = [
+			1 => 20,
+			2 => 'A', // upper case
+			3 => 'b', // lower case
+			4 => null,
+			5 => true,
+			6 => 100
+		];
+
+		$result = Arr::removeKey(static::$_array, '0');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase4() : void
+	{
+		$expected = [
 			10,
 			20
 		];
@@ -5590,6 +5709,19 @@ class ArrTest extends TestCase
 	public function testMethodRemoveKeyCase5() : void
 	{
 		$expected = [
+			10,
+			20
+		];
+
+		$result = Arr::removeKey(static::$_array, [2, 3, 4, 5, 6]);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase6() : void
+	{
+		$expected = [
 			1 => 20,
 			2 => 'A'
 		];
@@ -5600,7 +5732,20 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase6() : void
+	public function testMethodRemoveKeyCase7() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A'
+		];
+
+		$result = Arr::removeKey(static::$_array, ['0', '3', '4', '5', '6']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase8() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -5620,7 +5765,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase7() : void
+	public function testMethodRemoveKeyCase9() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -5633,7 +5778,20 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase8() : void
+	public function testMethodRemoveKeyCase10() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe'
+		];
+
+		$result = Arr::removeKey(static::$_assocArrayMulti, ['age', 'work', 'height', 'weight', 'handsome', 'ugly', 'other', 'extra']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase11() : void
 	{
 		$expected = [
 			'name' => 'Nat',
