@@ -639,21 +639,32 @@ class Arr
 	{
 		$searchDataType = gettype($search);
 
-		// Only string that compatible with mb_strtolower().
-		if ($searchDataType !== 'string')
-			$caseSensitive = true;
-
-		if ($caseSensitive)
+		if ($searchDataType === 'string')
 		{
-			// Each object and resource has its own #id.
-			// Comparison in strict mode will always difference.
-			if (in_array($searchDataType, ['object', 'resource']))
-				return in_array($search, $array);
+			if (!$caseSensitive)
+			{
+				// Remove data types that not compatible with mb_strtolower().
+				$array = static::removeType($array, 'array,object,resource');
+
+				return in_array(mb_strtolower($search), array_map('mb_strtolower', $array), true);
+			}
 			else
 				return in_array($search, $array, true);
 		}
 		else
-			return in_array(mb_strtolower($search), array_map('mb_strtolower', $array), true);
+		{
+			// Each object and resource has its own object/resource#id.
+			// Comparison in strict mode will always return false.
+			if (in_array($searchDataType, ['object', 'resource']))
+				return in_array($search, $array);
+			// If the searched value is an array that contains string
+			// and compare value in case-sensitive mode.
+			elseif ($searchDataType === 'array' and !$caseSensitive)
+				return in_array($search, $array);
+			// If the searched value is an array and other.
+			else
+				return in_array($search, $array, true);
+		}
 	}
 
 	public static function hasAny(array $array, array $searches, bool $caseSensitive = true) : bool
