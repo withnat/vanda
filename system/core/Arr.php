@@ -1599,7 +1599,7 @@ class Arr
 		elseif (is_int($keys))
 			$givenKeys = [$keys];
 		else
-			throw InvalidArgumentException::typeError(2, ['string', 'in', 'array'], $keys);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
 
 		foreach ($givenKeys as $key)
 		{
@@ -1620,14 +1620,20 @@ class Arr
 	}
 
 	/**
-	 * @param  array  $array      An array to remove an element by data type.
-	 * @param  string $dataTypes  The data type to remove.
-	 * @param  bool   $recursive  True to recurve through multi-level arrays.
+	 * @param  array        $array      An array to remove an element by data type.
+	 * @param  string|array $dataTypes  The data type to remove.
+	 * @param  bool         $recursive  True to recurve through multi-level arrays.
 	 * @return array
 	 */
-	public static function removeType(array $array, string $dataTypes, bool $recursive = true) : array
+	public static function removeType(array $array, $dataTypes, bool $recursive = true) : array
 	{
-		$arrDataTypes = explode(',', $dataTypes);
+		if (!is_string($dataTypes) and !is_array($dataTypes))
+			throw InvalidArgumentException::typeError(2, ['string', 'array'], $dataTypes);
+
+		if (is_string($dataTypes))
+			$arrDataTypes = explode(',', $dataTypes);
+		else
+			$arrDataTypes = $dataTypes;
 
 		foreach ($arrDataTypes as $dataType)
 		{
