@@ -1523,10 +1523,11 @@ class Arr
 	 * @param  array  $array  An array to encode.
 	 * @return string
 	 * @throws ErrorException
+	 * @codeCoverageIgnore
 	 */
-	public static function toJSON(array $array) : string
+	public static function toJson(array $array) : string
 	{
-		return JSON::encode($array);
+		return Json::encode($array);
 	}
 
 	/**
