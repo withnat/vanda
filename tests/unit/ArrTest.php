@@ -5427,23 +5427,6 @@ class ArrTest extends TestCase
 		$this->assertEquals([], $result);
 	}
 
-	// Arr::toJSON()
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 * @throws ErrorException
-	 */
-	public function testMethodToJson() : void
-	{
-		$mockedJson = Mockery::mock('alias:\System\JSON');
-		$mockedJson->shouldReceive('encode')->andReturn('[]');
-
-		$result = Arr::toJSON([]);
-
-		$this->assertEquals('[]', $result);
-	}
-
 	// Arr::remove()
 
 	public function testMethodRemoveCase1() : void
