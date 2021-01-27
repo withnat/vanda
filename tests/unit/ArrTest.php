@@ -2059,7 +2059,7 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAnyCase7() : void
 	{
-		$result = Arr::hasAny(static::$_array, ['a'], false);
+		$result = Arr::hasAny(static::$_array, ['a', 'B'], false);
 
 		$this->assertTrue($result);
 	}
@@ -2080,19 +2080,26 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAnyCase10() : void
 	{
+		$result = Arr::hasAny(static::$_assocArray, ['missingvalue', 'nat'], false);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasAnyCase11() : void
+	{
 		$result = Arr::hasAny(static::$_assocArray, ['38', '181']);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodHasAnyCase11() : void
+	public function testMethodHasAnyCase12() : void
 	{
 		$result = Arr::hasAny(static::$_assocArray, ['38', 181]);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodHasAnyCase12() : void
+	public function testMethodHasAnyCase13() : void
 	{
 		$search = [
 			'missingvalue',
