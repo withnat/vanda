@@ -2163,40 +2163,54 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAllCase7() : void
 	{
-		$result = Arr::hasAll(static::$_array, ['a', 'b', null], false);
+		$result = Arr::hasAll(static::$_array, ['a', 'b']);
 
-		$this->assertTrue($result);
+		$this->assertFalse($result);
 	}
 
 	public function testMethodHasAllCase8() : void
 	{
-		$result = Arr::hasAll(static::$_arrayMulti, ['a', 'b', ['x', 'y'], null], false);
+		$result = Arr::hasAll(static::$_array, ['a', 'b', null], false);
 
 		$this->assertTrue($result);
 	}
 
 	public function testMethodHasAllCase9() : void
 	{
+		$result = Arr::hasAll(static::$_arrayMulti, ['a', 'b', ['x', 'y'], null], false);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasAllCase10() : void
+	{
+		$result = Arr::hasAll(static::$_arrayMulti, ['A', 'b', ['X', 'y'], null], false);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasAllCase11() : void
+	{
 		$result = Arr::hasAll(static::$_assocArray, ['missingvalue', 'Nat']);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodHasAllCase10() : void
+	public function testMethodHasAllCase12() : void
 	{
 		$result = Arr::hasAll(static::$_assocArray, ['38', 181]);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodHasAllCase11() : void
+	public function testMethodHasAllCase13() : void
 	{
 		$result = Arr::hasAll(static::$_assocArray, [38, 181]);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodHasAllCase12() : void
+	public function testMethodHasAllCase14() : void
 	{
 		$search = [
 			'Nat',
@@ -2210,6 +2224,42 @@ class ArrTest extends TestCase
 		];
 
 		$result = Arr::hasAll(static::$_assocArrayMulti, $search);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasAllCase15() : void
+	{
+		$search = [
+			'Nat',
+			[
+				'position' => 'web developer', // lower case.
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'excellent' => true,
+				'other' => ''
+			]
+		];
+
+		$result = Arr::hasAll(static::$_assocArrayMulti, $search);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasAllCase16() : void
+	{
+		$search = [
+			'Nat',
+			[
+				'position' => 'web developer', // lower case.
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'excellent' => true,
+				'other' => ''
+			]
+		];
+
+		$result = Arr::hasAll(static::$_assocArrayMulti, $search, false);
 
 		$this->assertTrue($result);
 	}
