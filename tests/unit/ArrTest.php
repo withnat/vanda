@@ -4157,7 +4157,7 @@ class ArrTest extends TestCase
 			'surname' => 'Withe',
 		];
 
-		$result = Arr::toArray(static::$_assocArray, true, ['name','surname']);
+		$result = Arr::toArray(static::$_assocArray, true, ['name', 'surname']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -4216,7 +4216,7 @@ class ArrTest extends TestCase
 			'work' => []
 		];
 
-		$result = Arr::toArray(static::$_assocArrayMulti, false, ['name','surname','work']);
+		$result = Arr::toArray(static::$_assocArrayMulti, false, ['name', 'surname', 'work']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -4256,7 +4256,7 @@ class ArrTest extends TestCase
 			],
 		];
 
-		$result = Arr::toArray(static::$_assocArrayMulti, true, ['name','surname','work']);
+		$result = Arr::toArray(static::$_assocArrayMulti, true, ['name', 'surname', 'work']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -4366,7 +4366,7 @@ class ArrTest extends TestCase
 			]
 		];
 
-		$result = Arr::toArray(static::$_object, true, ['name','surname','address']);
+		$result = Arr::toArray(static::$_object, true, ['name', 'surname', 'address']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -4394,7 +4394,7 @@ class ArrTest extends TestCase
 			'address' => []
 		];
 
-		$result = Arr::toArray(static::$_object, false, ['name','surname','address']);
+		$result = Arr::toArray(static::$_object, false, ['name', 'surname', 'address']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
