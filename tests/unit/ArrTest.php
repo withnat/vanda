@@ -4107,7 +4107,7 @@ class ArrTest extends TestCase
 		$this->assertEquals(['Nat'], $result);
 	}
 
-	public function testMethodToArrayCase7() : void
+	public function testMethodToArrayCase7x() : void
 	{
 		$expected = static::$_array;
 
@@ -4117,7 +4117,70 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
+	public function testMethodToArrayCase7() : void
+	{
+		$expected = [
+			1 => 20
+		];
+
+		$result = Arr::toArray(static::$_array, false, 1);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
 	public function testMethodToArrayCase8() : void
+	{
+		$expected = [
+			1 => 20
+		];
+
+		$result = Arr::toArray(static::$_array, false, '1');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToArrayCase9() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A'
+		];
+
+		$result = Arr::toArray(static::$_array, false, '1,2');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToArrayCase10() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A'
+		];
+
+		$result = Arr::toArray(static::$_array, false, [1, 2]);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToArrayCase11() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A'
+		];
+
+		$result = Arr::toArray(static::$_array, false, ['1', 2]);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToArrayCase12() : void
 	{
 		$expected = static::$_arrayMulti;
 
@@ -4127,7 +4190,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase9() : void
+	public function testMethodToArrayCase13() : void
 	{
 		$expected = static::$_assocArray;
 
@@ -4137,7 +4200,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase10() : void
+	public function testMethodToArrayCase14() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4150,7 +4213,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase11() : void
+	public function testMethodToArrayCase15() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4163,7 +4226,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase12() : void
+	public function testMethodToArrayCase16() : void
 	{
 		$expected = static::$_assocArrayMulti;
 
@@ -4173,7 +4236,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase13() : void
+	public function testMethodToArrayCase17() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4194,7 +4257,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase14() : void
+	public function testMethodToArrayCase18() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4208,7 +4271,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase15() : void
+	public function testMethodToArrayCase19() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4222,7 +4285,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase16() : void
+	public function testMethodToArrayCase20() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4242,7 +4305,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase17() : void
+	public function testMethodToArrayCase21() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4262,14 +4325,14 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase18() : void
+	public function testMethodToArrayCase22() : void
 	{
 		$result = Arr::toArray(static::$_objectEmpty);
 
 		$this->assertEquals([], $result);
 	}
 
-	public function testMethodToArrayCase19() : void
+	public function testMethodToArrayCase23() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4295,7 +4358,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase20() : void
+	public function testMethodToArrayCase24() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4312,7 +4375,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase21() : void
+	public function testMethodToArrayCase25() : void
 	{
 		$expected = [
 			'address' => []
@@ -4324,7 +4387,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase22() : void
+	public function testMethodToArrayCase26() : void
 	{
 		$expected = [
 			'address' => []
@@ -4336,7 +4399,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase23() : void
+	public function testMethodToArrayCase27() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4354,7 +4417,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase24() : void
+	public function testMethodToArrayCase28() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4372,7 +4435,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase25() : void
+	public function testMethodToArrayCase29() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4386,7 +4449,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToArrayCase26() : void
+	public function testMethodToArrayCase30() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -4412,6 +4475,7 @@ class ArrTest extends TestCase
 	public function testMethodToObjectCase1() : void
 	{
 		$expected = new stdClass();
+
 		$result = Arr::toObject([]);
 
 		$this->assertEquals($expected, $result);
@@ -4422,6 +4486,22 @@ class ArrTest extends TestCase
 		$expected = static::$_array;
 
 		$result = Arr::toObject(static::$_array);
+
+		$this->assertIsObject($result);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result = (array)$result;
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToObjectCase3x() : void
+	{
+		$expected = [10];
+
+		$result = Arr::toObject(static::$_array, 'stdClass', false, 1);
 
 		$this->assertIsObject($result);
 
@@ -4452,7 +4532,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToObjectCase3x() : void
+	public function testMethodToObjectCase3xx() : void
 	{
 		$expected = [
 			10,
@@ -4471,7 +4551,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodToObjectCase3xx() : void
+	public function testMethodToObjectCase3xxx() : void
 	{
 		$expected = [
 			10,
