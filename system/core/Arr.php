@@ -1212,9 +1212,6 @@ class Arr
 
 		foreach ($data as $key => $value)
 		{
-			// Use in_array() function instead of Arr::has() method
-			// because I don't need strict type comparison. For numeric
-			// array, an index key 0 (int) is same as '0' (string).
 			if (!$givenKeys or in_array($key, $givenKeys))
 			{
 				if ($recursive)
