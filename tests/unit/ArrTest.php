@@ -4007,7 +4007,7 @@ class ArrTest extends TestCase
 			]
 		];
 
-		$result = Arr::fromObject(static::$_object, true, ['name','surname','address']);
+		$result = Arr::fromObject(static::$_object, true, ['name', 'surname', 'address']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -4035,7 +4035,7 @@ class ArrTest extends TestCase
 			'address' => []
 		];
 
-		$result = Arr::fromObject(static::$_object, false, ['name','surname','address']);
+		$result = Arr::fromObject(static::$_object, false, ['name', 'surname', 'address']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
