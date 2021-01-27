@@ -1502,7 +1502,7 @@ class ArrTest extends TestCase
 	{
 		$this->assertCount(7, static::$_array);
 
-		$result = Arr::pull(static::$_array, [0,1]);
+		$result = Arr::pull(static::$_array, [0, 1]);
 
 		$this->assertEquals([10, 20], $result);
 		$this->assertCount(5, static::$_array);
@@ -1519,7 +1519,7 @@ class ArrTest extends TestCase
 			'4' => ['x', 'y']
 		];
 
-		$result = Arr::pull(static::$_arrayMulti, '0,4');
+		$result = Arr::pull(static::$_arrayMulti, '0, 4');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -1537,7 +1537,7 @@ class ArrTest extends TestCase
 			'4' => ['x', 'y']
 		];
 
-		$result = Arr::pull(static::$_arrayMulti, ['0','4']);
+		$result = Arr::pull(static::$_arrayMulti, ['0', '4']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -1584,7 +1584,7 @@ class ArrTest extends TestCase
 			'surname' => 'Withe'
 		];
 
-		$result = Arr::pull(static::$_assocArray, ['name','surname']);
+		$result = Arr::pull(static::$_assocArray, ['name', 'surname']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -1643,7 +1643,7 @@ class ArrTest extends TestCase
 			]
 		];
 
-		$result = Arr::pull(static::$_assocArrayMulti, ['name','work']);
+		$result = Arr::pull(static::$_assocArrayMulti, ['name', 'work']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
