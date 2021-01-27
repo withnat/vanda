@@ -67,10 +67,10 @@ final class Number
 		// Remove trailing zero after decimal point
 		// and keep thousand separator (comma).
 
-		// ie. 140,176.0 becomes 140,176.
+		// e.g., 140,176.0 becomes 140,176.
 		$size = rtrim($size, '0');
 
-		// ie. 140,176. becomes 140,176
+		// e.g., 140,176. becomes 140,176
 		$size = rtrim($size, '.');
 
 		$size .= ' ' . $unit;

@@ -367,7 +367,7 @@ class Model
 			{
 				$args = Arr::flatten($args);
 
-				// Remove where string (ie id=?) from first element
+				// Remove where string (e.g., id=?) from first element
 				array_shift($args);
 			}
 			else
@@ -490,7 +490,7 @@ class Model
 			{
 				$args = Arr::flatten($args);
 
-				// Remove where string (ie id=?) from first element
+				// Remove where string (e.g., id=?) from first element
 				array_shift($args);
 			}
 			else
@@ -696,7 +696,7 @@ class Model
 		{
 			// Don't need to format column name.
 			// Maybe column name is where statement
-			// ie. id=? or id=:id etc
+			// e.g., id=? or id=:id etc
 			$column = $args[0];
 			array_shift($args);
 			DB::where($column, $args);
@@ -711,7 +711,7 @@ class Model
 		if (strpos($args[0], ':') === false)
 		{
 			$args = Arr::flatten($args);
-			// Remove where string (ie id=?) from first element
+			// Remove where string (e.g., id=?) from first element
 			array_shift($args);
 		}
 		else
@@ -730,7 +730,7 @@ class Model
 		if (strpos($args[0], ':') === false)
 		{
 			$args = Arr::flatten($args);
-			// Remove where string (ie id=?) from first element
+			// Remove where string (e.g., id=?) from first element
 			array_shift($args);
 		}
 		else

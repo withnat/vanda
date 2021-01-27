@@ -1220,7 +1220,7 @@ class Arr
 				if ($recursive)
 				{
 					// Data under this level maybe is an object.
-					// ie. object > array (this level) > object > ...
+					// e.g., object > array (this level) > object > ...
 					// So convert array to object to ensure it will
 					// go to next level recursively.
 					if (is_array($value))
@@ -1348,7 +1348,7 @@ class Arr
 				if ($recursive)
 				{
 					// Data under this level maybe is an array.
-					// ie. array > object (this level) > array > ...
+					// e.g., array > object (this level) > array > ...
 					// So convert object to array to ensure it will
 					// go to next level recursively.
 					if (is_object($value))
@@ -1604,7 +1604,7 @@ class Arr
 			foreach ($array as $itemKey => $itemValue)
 			{
 				// Foreach function may fetch $itemKey to integer (0 is not equal '0')
-				// ie. Arr::removeKey(['a'], ['0']); The first index 'a' would be 0
+				// e.g., Arr::removeKey(['a'], ['0']); The first index 'a' would be 0
 				// and this method will remove array index 'a'. But, in fact, it should not!
 				// So use (string) function to convert and compare it as string.
 				if ((string)$itemKey === (string)$key)

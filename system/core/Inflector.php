@@ -244,7 +244,7 @@ final class Inflector
 	 * Returns an array of strings each of which is a substring of string formed
 	 * by splitting it at the camelcased letters.
 	 *
-	 * ie. "FooBar" to ["foo", "bar"]
+	 * e.g., "FooBar" to ["foo", "bar"]
 	 *
 	 * @param  string $string  Word to explode.
 	 * @return array           Array of strings.
@@ -259,7 +259,7 @@ final class Inflector
 	/**
 	 * Convert an array of strings into a "CamelCased" word.
 	 *
-	 * ie. ["foo", "bar"] to "FooBar"
+	 * e.g., ["foo", "bar"] to "FooBar"
 	 *
 	 * @param  array  $string  Array to implode.
 	 * @return string          UpperCamelCasedWord.
@@ -278,7 +278,7 @@ final class Inflector
 	 * the separator with a space, and by upper-casing the initial
 	 * character by default.
 	 *
-	 * ie. "I had my car fixed_yesTerday" to "I Had My Car Fixed Yesterday".
+	 * e.g., "I had my car fixed_yesTerday" to "I Had My Car Fixed Yesterday".
 	 *
 	 * @param  string $string     Input string.
 	 * @param  string $separator  Input separator.
@@ -295,7 +295,7 @@ final class Inflector
 	/**
 	 * Returns camelBacked version of a string. Same as camelize but first char is lowercased.
 	 *
-	 * ie. "Some Day" or "some_day" ot "someDay", "She's hot" to "sheSHot"
+	 * e.g., "Some Day" or "some_day" ot "someDay", "She's hot" to "sheSHot"
 	 *
 	 * @param  string $string  String to be camelBacked.
 	 * @return string

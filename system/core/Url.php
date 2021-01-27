@@ -308,8 +308,8 @@ class Url
 			$controller = getenv('APP_CONTROLLER');
 
 			// Replace same module and controller name with module name.
-			// ie. http://localhost/vanda/admin/user/user
-			// --> http://localhost/vanda/admin/user
+			// e.g., http://localhost/vanda/admin/user/user
+			// ----> http://localhost/vanda/admin/user
 			// Because you can access index action of module user using
 			// 2 above urls. But Paginator will detect these urls in
 			// different context (user and user/user) and will return
