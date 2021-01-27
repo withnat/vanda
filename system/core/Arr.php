@@ -1533,10 +1533,10 @@ class Arr
 	/**
 	 * Get all of the given array except for a specified value.
 	 *
-	 * @param  array        $array          An array to remove an element by value.
-	 * @param  string|array $value          The value to remove.
-	 * @param  bool         $caseSensitive  Case-sensitive or not.
-	 * @param  bool         $recursive      True to recurve through multi-level arrays.
+	 * @param  array $array          An array to remove an element by value.
+	 * @param  mixed $value          The value to remove.
+	 * @param  bool  $caseSensitive  Case-sensitive or not.
+	 * @param  bool  $recursive      True to recurve through multi-level arrays.
 	 * @return array
 	 */
 	public static function remove(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
@@ -1580,18 +1580,26 @@ class Arr
 	/**
 	 * Get all of the given array except for a specified key/index.
 	 *
-	 * @param  array      $array      An array to remove an element by key.
-	 * @param  string|int $keys       The key name or index to remove.
-	 * @param  bool       $recursive  True to recurve through multi-level arrays.
+	 * @param  array            $array      An array to remove an element by key.
+	 * @param  string|int|array $keys       The key name or index to remove.
+	 * @param  bool             $recursive  True to recurve through multi-level arrays.
 	 * @return array
 	 */
 	public static function removeKey(array $array, $keys, bool $recursive = true) : array
 	{
-		if (!is_string($keys) and !is_int($keys))
-			throw InvalidArgumentException::typeError(2, ['string', 'int'], $keys);
-
-		$keys = (string)$keys;
-		$givenKeys = explode(',', $keys);
+		if (is_string($keys))
+		{
+			if ($keys !== '') // can be '0'.
+				$givenKeys = explode(',', $keys);
+			else
+				$givenKeys = [];
+		}
+		elseif (is_array($keys))
+			$givenKeys = $keys;
+		elseif (is_int($keys))
+			$givenKeys = [$keys];
+		else
+			throw InvalidArgumentException::typeError(2, ['string', 'in', 'array'], $keys);
 
 		foreach ($givenKeys as $key)
 		{
