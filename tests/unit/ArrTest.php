@@ -5693,7 +5693,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase4() : void
+	public function testMethodRemoveKeyCase5() : void
 	{
 		$expected = [
 			10,
@@ -5706,7 +5706,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase5() : void
+	public function testMethodRemoveKeyCase6() : void
 	{
 		$expected = [
 			10,
@@ -5719,7 +5719,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase6() : void
+	public function testMethodRemoveKeyCase7() : void
 	{
 		$expected = [
 			1 => 20,
@@ -5732,7 +5732,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase7() : void
+	public function testMethodRemoveKeyCase8() : void
 	{
 		$expected = [
 			1 => 20,
@@ -5745,7 +5745,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase8() : void
+	public function testMethodRemoveKeyCase9() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -5765,7 +5765,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase9() : void
+	public function testMethodRemoveKeyCase10() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -5778,7 +5778,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase10() : void
+	public function testMethodRemoveKeyCase11() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -5791,7 +5791,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveKeyCase11() : void
+	public function testMethodRemoveKeyCase12() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -5821,12 +5821,19 @@ class ArrTest extends TestCase
 
 	public function testMethodRemoveTypeCase1() : void
 	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::removeType([], 3.14);
+	}
+
+	public function testMethodRemoveTypeCase2() : void
+	{
 		$result = Arr::removeType([], 'string');
 
 		$this->assertEquals([], $result);
 	}
 
-	public function testMethodRemoveTypeCase2() : void
+	public function testMethodRemoveTypeCase3() : void
 	{
 		$expected = [
 			'age' => 38,
@@ -5848,7 +5855,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveTypeCase3() : void
+	public function testMethodRemoveTypeCase4() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -5872,7 +5879,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveTypeCase4() : void
+	public function testMethodRemoveTypeCase5() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -6078,7 +6085,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveTypeCase5() : void
+	public function testMethodRemoveTypeCase15() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -6099,6 +6106,22 @@ class ArrTest extends TestCase
 
 		// Set recursive to false.
 		$result = Arr::removeType(static::$_assocArrayMulti, 'int', false);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase16() : void
+	{
+		$expected = [
+			'age' => 38,
+			'work' => [
+				'salary' => 10000
+			],
+			'height' => 181
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, ['string', 'float', 'bool', 'null']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
