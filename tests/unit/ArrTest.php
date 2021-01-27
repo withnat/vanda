@@ -2514,21 +2514,21 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAnyKeyCase2() : void
 	{
-		$result = Arr::hasAnyKey([], ['missingkey']);
+		$result = Arr::hasAnyKey([], 'missingkey');
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodHasAnyKeyCase3() : void
 	{
-		$result = Arr::hasAnyKey(static::$_array, ['missingkey']);
+		$result = Arr::hasAnyKey(static::$_array, 'missingkey');
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodHasAnyKeyCase4() : void
 	{
-		$result = Arr::hasAnyKey(static::$_array, 'missingkey');
+		$result = Arr::hasAnyKey(static::$_array, ['missingkey']);
 
 		$this->assertFalse($result);
 	}
@@ -2570,7 +2570,7 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAnyKeyCase10() : void
 	{
-		$result = Arr::hasAnyKey(static::$_arrayMulti, ['missingkey', '4.missingkey']);
+		$result = Arr::hasAnyKey(static::$_arrayMulti, 'missingkey,missingkey.missingkey');
 
 		$this->assertFalse($result);
 	}
@@ -2584,9 +2584,9 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAnyKeyCase12() : void
 	{
-		$result = Arr::hasAnyKey(static::$_arrayMulti, ['missingkey', '4.0']);
+		$result = Arr::hasAnyKey(static::$_arrayMulti, ['missingkey', '4.missingkey']);
 
-		$this->assertTrue($result);
+		$this->assertFalse($result);
 	}
 
 	public function testMethodHasAnyKeyCase13() : void
@@ -2598,49 +2598,77 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAnyKeyCase14() : void
 	{
-		$result = Arr::hasAnyKey(static::$_assocArray, ['missingkey', 'name']);
+		$result = Arr::hasAnyKey(static::$_arrayMulti, ['missingkey', '4.0']);
 
 		$this->assertTrue($result);
 	}
 
 	public function testMethodHasAnyKeyCase15() : void
 	{
+		$result = Arr::hasAnyKey(static::$_arrayMulti, ['missingkey', 'missingkey.0']);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasAnyKeyCase16() : void
+	{
 		$result = Arr::hasAnyKey(static::$_assocArray, 'missingkey,name');
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodHasAnyKeyCase16() : void
-	{
-		$result = Arr::hasAnyKey(static::$_assocArrayMulti, ['missingkey']);
-
-		$this->assertFalse($result);
-	}
-
 	public function testMethodHasAnyKeyCase17() : void
 	{
-		$result = Arr::hasAnyKey(static::$_assocArrayMulti, ['name', 'missingkey']);
+		$result = Arr::hasAnyKey(static::$_assocArray, ['missingkey', 'name']);
 
 		$this->assertTrue($result);
 	}
 
 	public function testMethodHasAnyKeyCase18() : void
 	{
-		$result = Arr::hasAnyKey(static::$_assocArrayMulti, 'name,missingkey');
+		$result = Arr::hasAnyKey(static::$_assocArrayMulti, ['missingkey']);
 
-		$this->assertTrue($result);
+		$this->assertFalse($result);
 	}
 
 	public function testMethodHasAnyKeyCase19() : void
 	{
-		$result = Arr::hasAnyKey(static::$_assocArrayMulti, ['missingkey', 'work.position']);
+		$result = Arr::hasAnyKey(static::$_assocArrayMulti, 'name,missingkey');
 
 		$this->assertTrue($result);
 	}
 
 	public function testMethodHasAnyKeyCase20() : void
 	{
+		$result = Arr::hasAnyKey(static::$_assocArrayMulti, ['name', 'missingkey']);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasAnyKeyCase21() : void
+	{
+		$result = Arr::hasAnyKey(static::$_assocArrayMulti, 'missingkey,missingkey.position');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasAnyKeyCase22() : void
+	{
 		$result = Arr::hasAnyKey(static::$_assocArrayMulti, 'missingkey,work.position');
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasAnyKeyCase23() : void
+	{
+		$result = Arr::hasAnyKey(static::$_assocArrayMulti, ['missingkey', 'missingkey.position']);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasAnyKeyCase24() : void
+	{
+		$result = Arr::hasAnyKey(static::$_assocArrayMulti, ['missingkey', 'work.position']);
 
 		$this->assertTrue($result);
 	}
