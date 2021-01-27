@@ -573,7 +573,13 @@ class Arr
 
 	/**
 	 * Wraps the given value in an array format.
-	 * e.g., 0 to [0], 'name' to ['name'], 'work.position' to ['work']['position'].
+	 *
+	 * e.g.,
+	 *
+	 * 0 to [0]
+	 * '0' to ['0']
+	 * 'name' to ['name']
+	 * 'work.position' to ['work']['position']
 	 *
 	 * @param  string|int $key
 	 * @return string
@@ -589,8 +595,6 @@ class Arr
 			if ($key === '')
 				return '';
 
-			// Use preg_replace to prevent string injection.
-			$key = preg_replace('/[^.a-zA-Z0-9_]+/', '', $key);
 			$key = str_replace('.', '\'][\'', $key);
 		}
 
