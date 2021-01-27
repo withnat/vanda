@@ -2073,33 +2073,40 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAnyCase9() : void
 	{
-		$result = Arr::hasAny(static::$_assocArray, ['missingvalue', 'Nat']);
+		$result = Arr::hasAny(static::$_arrayMulti, ['missingvalue', ['X', 'y']], false);
 
 		$this->assertTrue($result);
 	}
 
 	public function testMethodHasAnyCase10() : void
 	{
-		$result = Arr::hasAny(static::$_assocArray, ['missingvalue', 'nat'], false);
+		$result = Arr::hasAny(static::$_assocArray, ['missingvalue', 'Nat']);
 
 		$this->assertTrue($result);
 	}
 
 	public function testMethodHasAnyCase11() : void
 	{
+		$result = Arr::hasAny(static::$_assocArray, ['missingvalue', 'nat'], false);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasAnyCase12() : void
+	{
 		$result = Arr::hasAny(static::$_assocArray, ['38', '181']);
 
 		$this->assertFalse($result);
 	}
 
-	public function testMethodHasAnyCase12() : void
+	public function testMethodHasAnyCase13() : void
 	{
 		$result = Arr::hasAny(static::$_assocArray, ['38', 181]);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodHasAnyCase13() : void
+	public function testMethodHasAnyCase14() : void
 	{
 		$search = [
 			'missingvalue',
@@ -2113,6 +2120,42 @@ class ArrTest extends TestCase
 		];
 
 		$result = Arr::hasAny(static::$_assocArrayMulti, $search);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasAnyCase15() : void
+	{
+		$search = [
+			'missingvalue',
+			[
+				'position' => 'web developer', // lower case.
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'excellent' => true,
+				'other' => ''
+			]
+		];
+
+		$result = Arr::hasAny(static::$_assocArrayMulti, $search);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasAnyCase16() : void
+	{
+		$search = [
+			'missingvalue',
+			[
+				'position' => 'web developer', // lower case.
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'excellent' => true,
+				'other' => ''
+			]
+		];
+
+		$result = Arr::hasAny(static::$_assocArrayMulti, $search, false);
 
 		$this->assertTrue($result);
 	}
