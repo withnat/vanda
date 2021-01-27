@@ -645,18 +645,15 @@ class Arr
 
 		if ($caseSensitive)
 		{
+			// Each object and resource has its own #id.
+			// Comparison in strict mode will always difference.
 			if (in_array($searchDataType, ['object', 'resource']))
 				return in_array($search, $array);
 			else
 				return in_array($search, $array, true);
 		}
 		else
-		{
-			// Remove data types that not compatible with mb_strtolower().
-			$array = static::removeType($array, 'array,object,resource');
-
 			return in_array(mb_strtolower($search), array_map('mb_strtolower', $array), true);
-		}
 	}
 
 	public static function hasAny(array $array, array $searches, bool $caseSensitive = true) : bool
