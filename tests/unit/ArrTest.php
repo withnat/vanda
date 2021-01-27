@@ -1967,19 +1967,33 @@ class ArrTest extends TestCase
 
 	public function testMethodHasCase8() : void
 	{
-		$result = Arr::has(static::$_arrayMulti, ['x', 'y'], false);
+		$result = Arr::has(static::$_arrayMulti, ['x', 'y']);
 
 		$this->assertTrue($result);
 	}
 
 	public function testMethodHasCase9() : void
 	{
+		$result = Arr::has(static::$_arrayMulti, ['X', 'y']);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasCase10() : void
+	{
+		$result = Arr::has(static::$_arrayMulti, ['X', 'y'], false);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasCase11() : void
+	{
 		$result = Arr::has(static::$_assocArray, 'Nat');
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodHasCase10() : void
+	public function testMethodHasCase12() : void
 	{
 		$search = [
 			'position' => 'Web Developer',
@@ -1994,7 +2008,37 @@ class ArrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	public function testMethodHasCase11() : void
+	public function testMethodHasCase13() : void
+	{
+		$search = [
+			'position' => 'web developer', // lower case.
+			'salary' => 10000,
+			'hrscore' => 9.8,
+			'excellent' => true,
+			'other' => ''
+		];
+
+		$result = Arr::has(static::$_assocArrayMulti, $search);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasCase14() : void
+	{
+		$search = [
+			'position' => 'web developer', // lower case.
+			'salary' => 10000,
+			'hrscore' => 9.8,
+			'excellent' => true,
+			'other' => ''
+		];
+
+		$result = Arr::has(static::$_assocArrayMulti, $search, false);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMethodHasCase15() : void
 	{
 		$data = new stdClass();
 		$data->name = 'Nat';
@@ -2011,6 +2055,44 @@ class ArrTest extends TestCase
 		$result = Arr::has($array, $search);
 
 		$this->assertTrue($result);
+	}
+
+	public function testMethodHasCase16() : void
+	{
+		$data = new stdClass();
+		$data->name = 'Nat';
+
+		$array = [
+			'foo',
+			'bar',
+			$data
+		];
+
+		$search = new stdClass();
+		$search->name = 'nat'; // lower case.
+
+		$result = Arr::has($array, $search);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodHasCase17() : void
+	{
+		$data = new stdClass();
+		$data->name = 'Nat';
+
+		$array = [
+			'foo',
+			'bar',
+			$data
+		];
+
+		$search = new stdClass();
+		$search->name = 'nat'; // lower case.
+
+		$result = Arr::has($array, $search, false);
+
+		$this->assertFalse($result);
 	}
 
 	// Arr::hasAny()
