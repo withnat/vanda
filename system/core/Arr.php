@@ -735,7 +735,7 @@ class Arr
 		if (!is_string($key) and !is_int($key))
 			throw InvalidArgumentException::typeError(2, ['string', 'int'], $key);
 
-		// Is in base array (first dimension of array)?
+		// Is key in first dimension of array?
 		if (array_key_exists($key, $array))
 			return true;
 
@@ -743,23 +743,32 @@ class Arr
 		if (is_int($key))
 			return false;
 
+		// If key is string contains dot and is not in first dimension of array.
 		if (strpos($key, '.') and static::isMultidimensional($array))
 		{
 			$pos = strrpos($key, '.');
 
-			$keyOfArrayToSearch = substr($key, 0, $pos);
-			$keyOfArrayToSearch = static::formatKeySyntax($keyOfArrayToSearch);
+			$searchedKey = substr($key, 0, $pos);
+			$searchedKey = static::formatKeySyntax($searchedKey);
 
-			$value = '';
+			$exist = false;
 
-			$syntax = '$value = $array' . $keyOfArrayToSearch . ';';
+			$syntax = '$exist = isset($array' . $searchedKey . ');';
 			eval($syntax);
 
-			if (is_array($value))
+			if ($exist)
 			{
-				$key = substr($key, $pos + 1);
+				$value = '';
 
-				return array_key_exists($key, $value);
+				$syntax = '$value = $array' . $searchedKey . ';';
+				eval($syntax);
+
+				if (is_array($value))
+				{
+					$key = substr($key, $pos + 1);
+
+					return array_key_exists($key, $value);
+				}
 			}
 		}
 
