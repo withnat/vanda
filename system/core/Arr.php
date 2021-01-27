@@ -1258,10 +1258,10 @@ class Arr
 	/**
 	 * Utility function to convert the given data to an array.
 	 *
-	 * @param  mixed              $data       The source data.
-	 * @param  bool               $recursive  True to recurve through multi-level arrays or objects.
-	 * @param  string|array|null  $keys       An optional field names. Only be used in top level elements.
-	 * @return array                          The array mapped from the given object.
+	 * @param  mixed                 $data       The source data.
+	 * @param  bool                  $recursive  True to recurve through multi-level arrays or objects.
+	 * @param  string|int|array|null $keys       An optional field names. Only be used in top level elements.
+	 * @return array                             The array mapped from the given object.
 	 */
 	public static function toArray($data, bool $recursive = true, $keys = null) : array
 	{
@@ -1276,6 +1276,8 @@ class Arr
 				else
 					$givenKeys = [];
 			}
+			elseif (is_int($keys))
+				$givenKeys = [$keys];
 			elseif (is_array($keys))
 				$givenKeys = $keys;
 			else
@@ -1334,9 +1336,6 @@ class Arr
 
 		foreach ($array as $key => $value)
 		{
-			// Use in_array() function instead of Arr::has() method
-			// because I don't need strict type comparison. For numeric
-			// array, an index key 0 (int) is same as '0' (string).
 			if (!$givenKeys or in_array($key, $givenKeys))
 			{
 				if ($recursive)
