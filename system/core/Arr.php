@@ -1108,12 +1108,8 @@ class Arr
 	 */
 	public static function isRecordset($data) : bool
 	{
-		if (!is_array($data) or
-			!isset($data[0]) or
-			!is_object($data[0]))
-		{
+		if (!is_array($data) or !isset($data[0]) or !is_object($data[0]))
 			return false;
-		}
 
 		$data[0] = (array)$data[0];
 		$masterKeys = array_keys($data[0]);
