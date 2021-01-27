@@ -1882,7 +1882,7 @@ class ArrTest extends TestCase
 	{
 		$result = Arr::formatKeySyntax(' key . subkey ');
 
-		$this->assertEquals("['key']['subkey']", $result);
+		$this->assertEquals("[' key '][' subkey ']", $result);
 	}
 
 	// Arr::insert()
