@@ -1896,7 +1896,18 @@ class ArrTest extends TestCase
 
 	public function testMethodInsertCase2() : void
 	{
+		$expected = [0 => 'value'] + static::$_assocArray;
+
+		$result = Arr::insert(static::$_assocArray, 'value');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodInsertCase3() : void
+	{
 		$expected = ['key' => 'value'] + static::$_assocArrayMulti;
+
 		$result = Arr::insert(static::$_assocArrayMulti, 'value', 'key');
 		$compare = ($result === $expected);
 
