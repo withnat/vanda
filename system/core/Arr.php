@@ -1212,6 +1212,12 @@ class Arr
 
 		foreach ($data as $key => $value)
 		{
+			// If the $key is 0 (interger) and the $givenKeys contains only string
+			// e.g., in_array(0, ['a', 'b', 'c'] it always return TRUE.
+			// But numeric key of an object is always string. Don't need to convert it.
+			//if ($key === 0)
+			//	$key = (string)$key;
+
 			if (!$givenKeys or in_array($key, $givenKeys))
 			{
 				if ($recursive)
@@ -1287,6 +1293,11 @@ class Arr
 
 			foreach ($data as $key => $value)
 			{
+				// If the $key is 0 (interger) and the $givenKeys contains only string
+				// e.g., in_array(0, ['a', 'b', 'c'] it always return TRUE.
+				if ($key === 0)
+					$key = (string)$key;
+
 				if (!$givenKeys or in_array($key, $givenKeys))
 				{
 					if (is_array($value) or is_object($value))
@@ -1338,6 +1349,11 @@ class Arr
 
 		foreach ($array as $key => $value)
 		{
+			// If the $key is 0 (interger) and the $givenKeys contains only string
+			// e.g., in_array(0, ['a', 'b', 'c'] it always return TRUE.
+			if ($key === 0)
+				$key = (string)$key;
+
 			if (!$givenKeys or in_array($key, $givenKeys))
 			{
 				if ($recursive)
@@ -1704,7 +1720,7 @@ class Arr
 	 * @param  string|int|array $keys  The column of values to return. The $keys can be 'name,work.position'
 	 * @return array
 	 */
-	public static function pullColumns(array &$data, $keys) : array
+	public static function pullColumn(array &$data, $keys) : array
 	{
 		if (!static::isDataset($data) and !static::isRecordset($data))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
