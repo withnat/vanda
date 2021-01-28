@@ -55,6 +55,47 @@ class Arr
 	private function __construct(){}
 
 	/**
+	 * Sets a value to the element at the specified position in the given array.
+	 *
+	 * @param  array  $array  Array to set a value in.
+	 * @param  string $key    Name of the key to set.
+	 * @param  mixed  $value  Value to set.
+	 * @return array
+	 */
+	public static function set(array $array, string $key, $value) : array
+	{
+		$keys = explode('.', $key);
+		$arrayPointer = '$array';
+
+		foreach ($keys as $key)
+		{
+			$arrayPointer .= static::formatKeySyntax($key);
+			$var4If = '';
+
+			// use @ to prevent error in case of key does not exists.
+			$syntax = '$var4If = @' . $arrayPointer . ';';
+			eval($syntax);
+
+			if (!is_array($var4If))
+			{
+				$arrayAssigner = $arrayPointer . ' = [];';
+				eval($arrayAssigner);
+			}
+		}
+
+		if (is_string($value))
+		{
+			// Escape only single quote and backslash.
+			$value = addcslashes($value, '\\\'');
+		}
+
+		$arrayAssigner = $arrayPointer . ' = \'' . $value . '\';';
+		eval($arrayAssigner);
+
+		return $array;
+	}
+
+	/**
 	 * Return a specific element from the given array.
 	 *
 	 * Lets you determine whether an array index is set and whether it has a value.
@@ -100,99 +141,6 @@ class Arr
 			$key = null;
 
 		return $key;
-	}
-
-	/**
-	 * Return the values from a single column in the input array contains array (dataset) or object (recordset).
-	 *
-	 * Example
-	 *
-	 * $recordset = [
-	 *     [
-	 *         'name' => 'Nat',
-	 *         'surname' => 'With',
-	 *         'job' => [
-	 *             'title' => 'Web Developer',
-	 *             'salary' => 10000
-	 *         ]
-	 *     ],
-	 *     [
-	 *         'name' => 'Angela',
-	 *         'surname' => 'SG',
-	 *         'job' => [
-	 *             'title' => 'Maketing Director',
-	 *             'salary' => 10000
-	 *         ]
-	 *     ]
-	 * ];
-	 *
-	 * $result = Arr::onlyColumn($recordset, 'job.title');
-	 *
-	 * The $result will be:
-	 *
-	 * Array
-	 *     (
-	 *         [0] => Web Developer
-	 *         [1] => Maketing Director
-	 * )
-	 *
-	 * $result = Arr::onlyColumn($recordset, 'job.title', 'name');
-	 *
-	 * The $result will be:
-	 *
-	 * Array
-	 *     (
-	 *         [Nat] => Web Developer
-	 *         [Angela] => Maketing Director
-	 * )
-	 *
-	 * @param  array           $data       A multi-dimensional array contains array (dataset) or object (recordset)
-	 *                                     from which to pull a column of values.
-	 * @param  string|int      $columnKey  The column of values to return.
-	 * @param  string|int|null $indexKey   The column to use as the index/keys for the returned array.
-	 * @return array                       Returns an array of values representing a single column from the input array.
-	 */
-	public static function onlyColumn(array $data, $columnKey, $indexKey = null) : array
-	{
-		if (!static::isDataset($data) and !static::isRecordset($data))
-			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
-
-		if (!is_string($columnKey) and !is_int($columnKey))
-			throw InvalidArgumentException::typeError(2, ['string', 'int'], $columnKey);
-
-		if (!is_null($indexKey) and !is_string($indexKey) and !is_int($indexKey))
-			throw InvalidArgumentException::typeError(3, ['string', 'int', 'null'], $indexKey);
-
-		$columnKey = static::formatKeySyntax($columnKey);
-
-		if ($indexKey)
-			$indexKey = static::formatKeySyntax($indexKey);
-
-		$result = [];
-
-		foreach ($data as $row)
-		{
-			$row = static::toArray($row);
-
-			$syntax = '$value = $row' . $columnKey . ';';
-			eval($syntax);
-
-			if ($indexKey)
-			{
-				$syntax = '$key = $row' . $indexKey . ';';
-				eval($syntax);
-
-				$syntax = '$result[$key] = $value;';
-				eval($syntax);
-			}
-			else
-			{
-				$syntax = '$result[] = $value;';
-				eval($syntax);
-			}
-		}
-
-		return $result;
 	}
 
 	/**
@@ -462,6 +410,347 @@ class Arr
 	}
 
 	/**
+	 * Get all of the given array except for a specified value.
+	 *
+	 * @param  array $array          An array to remove an element by value.
+	 * @param  mixed $value          The value to remove.
+	 * @param  bool  $caseSensitive  Case-sensitive or not.
+	 * @param  bool  $recursive      True to recurve through multi-level arrays.
+	 * @return array
+	 */
+	public static function remove(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
+	{
+		if (is_object($value) or is_resource($value))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'bool', 'array', 'null'], $value);
+
+		if (is_array($value))
+			$values = $value;
+		else
+			$values = [$value];
+
+		foreach ($values as $value)
+		{
+			foreach ($array as $itemKey => $itemValue)
+			{
+				if (is_array($itemValue))
+				{
+					if ($recursive)
+						$array[$itemKey] = static::remove($itemValue, $value, $caseSensitive, $recursive);
+				}
+				else
+				{
+					if (is_string($itemValue) and is_string($value) and !$caseSensitive)
+					{
+						if (mb_strtolower($itemValue) === mb_strtolower($value))
+							unset($array[$itemKey]);
+					}
+					else
+					{
+						if ($itemValue === $value)
+							unset($array[$itemKey]);
+					}
+				}
+			}
+		}
+
+		return $array;
+	}
+
+	/**
+	 * Get all of the given array except for a specified key/index.
+	 *
+	 * @param  array            $array      An array to remove an element by key.
+	 * @param  string|int|array $keys       The key name or index to remove.
+	 * @param  bool             $recursive  True to recurve through multi-level arrays.
+	 * @return array
+	 */
+	public static function removeKey(array $array, $keys, bool $recursive = true) : array
+	{
+		if (is_string($keys))
+		{
+			if ($keys !== '') // can be '0'.
+				$givenKeys = explode(',', $keys);
+			else
+				$givenKeys = [];
+		}
+		elseif (is_array($keys))
+			$givenKeys = $keys;
+		elseif (is_int($keys))
+			$givenKeys = [$keys];
+		else
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
+
+		foreach ($givenKeys as $key)
+		{
+			foreach ($array as $itemKey => $itemValue)
+			{
+				// Foreach function may fetch $itemKey to integer (0 is not equal '0')
+				// e.g., Arr::removeKey(['a'], ['0']); The first index 'a' would be 0
+				// and this method will remove array index 'a'. But, in fact, it should not!
+				// So use (string) function to convert and compare it as string.
+				if ((string)$itemKey === (string)$key)
+					unset($array[$itemKey]);
+				elseif ($recursive and is_array($itemValue))
+					$array[$itemKey] = static::removeKey($itemValue, $keys, $recursive);
+			}
+		}
+
+		return $array;
+	}
+
+	/**
+	 * @param  array        $array      An array to remove an element by data type.
+	 * @param  string|array $dataTypes  The data type to remove.
+	 * @param  bool         $recursive  True to recurve through multi-level arrays.
+	 * @return array
+	 */
+	public static function removeType(array $array, $dataTypes, bool $recursive = true) : array
+	{
+		if (!is_string($dataTypes) and !is_array($dataTypes))
+			throw InvalidArgumentException::typeError(2, ['string', 'array'], $dataTypes);
+
+		if (is_string($dataTypes))
+			$dataTypes = explode(',', $dataTypes);
+
+		foreach ($dataTypes as $dataType)
+		{
+			$dataType = strtolower($dataType);
+
+			// gettype($itemValue) will returns
+			// 'interger', no 'int'
+			// 'double', no 'float'
+			// 'boolean', no 'bool'
+			// so change it to what we can compare below.
+			switch ($dataType)
+			{
+				case 'int':
+					$dataType = 'integer';
+					break;
+
+				case 'float':
+					$dataType = 'double';
+					break;
+
+				case 'bool':
+					$dataType = 'boolean';
+					break;
+			}
+
+			foreach ($array as $itemKey => $itemValue)
+			{
+				if ($dataType === strtolower(gettype($itemValue)))
+					unset($array[$itemKey]);
+				elseif ($recursive and is_array($itemValue))
+					$array[$itemKey] = static::removeType($itemValue, $dataTypes, $recursive);
+			}
+		}
+
+		return $array;
+	}
+
+	/**
+	 * @param  array $array      An array to remove an element by blank value.
+	 * @param  bool  $recursive  True to recurve through multi-level arrays.
+	 * @return array
+	 */
+	public static function removeBlank(array $array, bool $recursive = true) : array
+	{
+		foreach ($array as $key => $value)
+		{
+			if (is_array($value))
+			{
+				if ($recursive)
+					$array[$key] = static::removeBlank($value, $recursive);
+			}
+			elseif (!strlen(trim((string)$value)))
+				unset($array[$key]);
+		}
+
+		return $array;
+	}
+
+	/**
+	 * Return the values from a single column in the input array contains array (dataset) or object (recordset).
+	 *
+	 * Example
+	 *
+	 * $recordset = [
+	 *     [
+	 *         'name' => 'Nat',
+	 *         'surname' => 'With',
+	 *         'job' => [
+	 *             'title' => 'Web Developer',
+	 *             'salary' => 10000
+	 *         ]
+	 *     ],
+	 *     [
+	 *         'name' => 'Angela',
+	 *         'surname' => 'SG',
+	 *         'job' => [
+	 *             'title' => 'Maketing Director',
+	 *             'salary' => 10000
+	 *         ]
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::onlyColumn($recordset, 'job.title');
+	 *
+	 * The $result will be:
+	 *
+	 * Array
+	 *     (
+	 *         [0] => Web Developer
+	 *         [1] => Maketing Director
+	 * )
+	 *
+	 * $result = Arr::onlyColumn($recordset, 'job.title', 'name');
+	 *
+	 * The $result will be:
+	 *
+	 * Array
+	 *     (
+	 *         [Nat] => Web Developer
+	 *         [Angela] => Maketing Director
+	 * )
+	 *
+	 * @param  array           $data       A multi-dimensional array contains array (dataset) or object (recordset)
+	 *                                     from which to pull a column of values.
+	 * @param  string|int      $columnKey  The column of values to return.
+	 * @param  string|int|null $indexKey   The column to use as the index/keys for the returned array.
+	 * @return array                       Returns an array of values representing a single column from the input array.
+	 */
+	public static function onlyColumn(array $data, $columnKey, $indexKey = null) : array
+	{
+		if (!static::isDataset($data) and !static::isRecordset($data))
+			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
+
+		if (!is_string($columnKey) and !is_int($columnKey))
+			throw InvalidArgumentException::typeError(2, ['string', 'int'], $columnKey);
+
+		if (!is_null($indexKey) and !is_string($indexKey) and !is_int($indexKey))
+			throw InvalidArgumentException::typeError(3, ['string', 'int', 'null'], $indexKey);
+
+		$columnKey = static::formatKeySyntax($columnKey);
+
+		if ($indexKey)
+			$indexKey = static::formatKeySyntax($indexKey);
+
+		$result = [];
+
+		foreach ($data as $row)
+		{
+			$row = static::toArray($row);
+
+			$syntax = '$value = $row' . $columnKey . ';';
+			eval($syntax);
+
+			if ($indexKey)
+			{
+				$syntax = '$key = $row' . $indexKey . ';';
+				eval($syntax);
+
+				$syntax = '$result[$key] = $value;';
+				eval($syntax);
+			}
+			else
+			{
+				$syntax = '$result[] = $value;';
+				eval($syntax);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns and removes a column by key from a dataset or recordset.
+	 *
+	 * @param  array            $data  A multi-dimensional array contains array (dataset) or object (recordset)
+	 *                                 from which to pull a column of values.
+	 * @param  string|int|array $keys  The column of values to return. The $keys can be 'name,work.position'
+	 * @return array
+	 */
+	public static function pullColumn(array &$data, $keys) : array
+	{
+		if (!static::isDataset($data) and !static::isRecordset($data))
+			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
+
+		if (!is_string($keys) and !is_int($keys) and !is_array($keys))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
+
+		if (is_string($keys))
+			$keys = explode(',', $keys);
+		elseif (is_int($keys))
+			$keys = [$keys];
+
+		$result = [];
+
+		for ($i = 0, $n = count($data); $i < $n; ++$i)
+		{
+			if (is_object($data[$i]))
+			{
+				$row = new stdClass();
+
+				foreach ($keys as $key)
+				{
+					$row->{$key} = $data[$i]->{$key};
+					unset($data[$i]->{$key});
+				}
+
+				$result[$i] = $row;
+			}
+			else
+			{
+				foreach ($keys as $key)
+				{
+					$result[$i][$key] = $data[$i][$key];
+					unset($data[$i][$key]);
+				}
+			}
+
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Remove a column from an array of arrays (dataset) or objects (recordset).
+	 *
+	 * @param  array            $array  An array to remove an element by key (dataset or recordset).
+	 * @param  string|int|array $keys   The key name to remove.
+	 * @return array
+	 */
+	public static function removeColumn(array $array, $keys) : array
+	{
+		if (!static::isDataset($array) and !static::isRecordset($array))
+			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $array);
+
+		if (!is_string($keys) and !is_int($keys) and !is_array($keys))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
+
+		if (is_string($keys))
+			$keys = explode(',', $keys);
+		elseif (is_int($keys))
+			$keys = [$keys];
+
+		for ($i = 0, $n = count($array); $i < $n; ++$i)
+		{
+			if (is_object($array[$i]))
+			{
+				foreach ($keys as $key)
+					unset($array[$i]->{$key});
+			}
+			else
+			{
+				foreach ($keys as $key)
+					unset($array[$i][$key]);
+			}
+		}
+
+		return $array;
+	}
+
+	/**
 	 * Builds a map (key-value pairs) from a multi-dimensional array (dataset) or an array of objects (recordset).
 	 *
 	 * The `$from` and `$to` parameters specify the key names or property names to set up the map.
@@ -528,79 +817,6 @@ class Arr
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Sets a value to the element at the specified position in the given array.
-	 *
-	 * @param  array  $array  Array to set a value in.
-	 * @param  string $key    Name of the key to set.
-	 * @param  mixed  $value  Value to set.
-	 * @return array
-	 */
-	public static function set(array $array, string $key, $value) : array
-	{
-		$keys = explode('.', $key);
-		$arrayPointer = '$array';
-
-		foreach ($keys as $key)
-		{
-			$arrayPointer .= static::formatKeySyntax($key);
-			$var4If = '';
-
-			// use @ to prevent error in case of key does not exists.
-			$syntax = '$var4If = @' . $arrayPointer . ';';
-			eval($syntax);
-
-			if (!is_array($var4If))
-			{
-				$arrayAssigner = $arrayPointer . ' = [];';
-				eval($arrayAssigner);
-			}
-		}
-
-		if (is_string($value))
-		{
-			// Escape only single quote and backslash.
-			$value = addcslashes($value, '\\\'');
-		}
-
-		$arrayAssigner = $arrayPointer . ' = \'' . $value . '\';';
-		eval($arrayAssigner);
-
-		return $array;
-	}
-
-	/**
-	 * Wraps the given value in an array format.
-	 *
-	 * e.g.,
-	 *
-	 * 0 to [0]
-	 * '0' to ['0']
-	 * 'name' to ['name']
-	 * 'work.position' to ['work']['position']
-	 *
-	 * @param  string|int $key
-	 * @return string
-	 */
-	public static function formatKeySyntax($key) : string
-	{
-		if (!is_string($key) and !is_int($key))
-			throw InvalidArgumentException::typeError(1, ['string', 'int'], $key);
-
-		if (is_string($key))
-		{
-			// $key can be '0'.
-			if ($key === '')
-				return '';
-
-			$key = str_replace('.', '\'][\'', $key);
-		}
-
-		$key = "['$key']";
-
-		return $key;
 	}
 
 	/**
@@ -992,32 +1208,6 @@ class Arr
 		unset($GLOBALS['System\Arr::sortRecordset']);
 
 		return $recordset;
-	}
-
-	/**
-	 * @param  array  $array
-	 * @param  string $glue
-	 * @param  bool   $recursive
-	 * @return string
-	 */
-	public static function implode(array $array, string $glue = '', bool $recursive = true) : string
-	{
-		$string = '';
-
-		foreach ($array as $piece)
-		{
-			if (is_array($piece))
-			{
-				if ($recursive)
-					$string .= static::implode($piece, $glue) . $glue;
-			}
-			else
-				$string .= $piece . $glue;
-		}
-
-		$string = rtrim($string, $glue);
-
-		return $string;
 	}
 
 	/**
@@ -1553,254 +1743,6 @@ class Arr
 	}
 
 	/**
-	 * Get all of the given array except for a specified value.
-	 *
-	 * @param  array $array          An array to remove an element by value.
-	 * @param  mixed $value          The value to remove.
-	 * @param  bool  $caseSensitive  Case-sensitive or not.
-	 * @param  bool  $recursive      True to recurve through multi-level arrays.
-	 * @return array
-	 */
-	public static function remove(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
-	{
-		if (is_object($value) or is_resource($value))
-			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'bool', 'array', 'null'], $value);
-
-		if (is_array($value))
-			$values = $value;
-		else
-			$values = [$value];
-
-		foreach ($values as $value)
-		{
-			foreach ($array as $itemKey => $itemValue)
-			{
-				if (is_array($itemValue))
-				{
-					if ($recursive)
-						$array[$itemKey] = static::remove($itemValue, $value, $caseSensitive, $recursive);
-				}
-				else
-				{
-					if (is_string($itemValue) and is_string($value) and !$caseSensitive)
-					{
-						if (mb_strtolower($itemValue) === mb_strtolower($value))
-							unset($array[$itemKey]);
-					}
-					else
-					{
-						if ($itemValue === $value)
-							unset($array[$itemKey]);
-					}
-				}
-			}
-		}
-
-		return $array;
-	}
-
-	/**
-	 * Get all of the given array except for a specified key/index.
-	 *
-	 * @param  array            $array      An array to remove an element by key.
-	 * @param  string|int|array $keys       The key name or index to remove.
-	 * @param  bool             $recursive  True to recurve through multi-level arrays.
-	 * @return array
-	 */
-	public static function removeKey(array $array, $keys, bool $recursive = true) : array
-	{
-		if (is_string($keys))
-		{
-			if ($keys !== '') // can be '0'.
-				$givenKeys = explode(',', $keys);
-			else
-				$givenKeys = [];
-		}
-		elseif (is_array($keys))
-			$givenKeys = $keys;
-		elseif (is_int($keys))
-			$givenKeys = [$keys];
-		else
-			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
-
-		foreach ($givenKeys as $key)
-		{
-			foreach ($array as $itemKey => $itemValue)
-			{
-				// Foreach function may fetch $itemKey to integer (0 is not equal '0')
-				// e.g., Arr::removeKey(['a'], ['0']); The first index 'a' would be 0
-				// and this method will remove array index 'a'. But, in fact, it should not!
-				// So use (string) function to convert and compare it as string.
-				if ((string)$itemKey === (string)$key)
-					unset($array[$itemKey]);
-				elseif ($recursive and is_array($itemValue))
-					$array[$itemKey] = static::removeKey($itemValue, $keys, $recursive);
-			}
-		}
-
-		return $array;
-	}
-
-	/**
-	 * @param  array        $array      An array to remove an element by data type.
-	 * @param  string|array $dataTypes  The data type to remove.
-	 * @param  bool         $recursive  True to recurve through multi-level arrays.
-	 * @return array
-	 */
-	public static function removeType(array $array, $dataTypes, bool $recursive = true) : array
-	{
-		if (!is_string($dataTypes) and !is_array($dataTypes))
-			throw InvalidArgumentException::typeError(2, ['string', 'array'], $dataTypes);
-
-		if (is_string($dataTypes))
-			$dataTypes = explode(',', $dataTypes);
-
-		foreach ($dataTypes as $dataType)
-		{
-			$dataType = strtolower($dataType);
-
-			// gettype($itemValue) will returns
-			// 'interger', no 'int'
-			// 'double', no 'float'
-			// 'boolean', no 'bool'
-			// so change it to what we can compare below.
-			switch ($dataType)
-			{
-				case 'int':
-					$dataType = 'integer';
-					break;
-
-				case 'float':
-					$dataType = 'double';
-					break;
-
-				case 'bool':
-					$dataType = 'boolean';
-					break;
-			}
-
-			foreach ($array as $itemKey => $itemValue)
-			{
-				if ($dataType === strtolower(gettype($itemValue)))
-					unset($array[$itemKey]);
-				elseif ($recursive and is_array($itemValue))
-					$array[$itemKey] = static::removeType($itemValue, $dataTypes, $recursive);
-			}
-		}
-
-		return $array;
-	}
-
-	/**
-	 * @param  array $array      An array to remove an element by blank value.
-	 * @param  bool  $recursive  True to recurve through multi-level arrays.
-	 * @return array
-	 */
-	public static function removeBlank(array $array, bool $recursive = true) : array
-	{
-		foreach ($array as $key => $value)
-		{
-			if (is_array($value))
-			{
-				if ($recursive)
-					$array[$key] = static::removeBlank($value, $recursive);
-			}
-			elseif (!strlen(trim((string)$value)))
-				unset($array[$key]);
-		}
-
-		return $array;
-	}
-
-	/**
-	 * Returns and removes a column by key from a dataset or recordset.
-	 *
-	 * @param  array            $data  A multi-dimensional array contains array (dataset) or object (recordset)
-	 *                                 from which to pull a column of values.
-	 * @param  string|int|array $keys  The column of values to return. The $keys can be 'name,work.position'
-	 * @return array
-	 */
-	public static function pullColumn(array &$data, $keys) : array
-	{
-		if (!static::isDataset($data) and !static::isRecordset($data))
-			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
-
-		if (!is_string($keys) and !is_int($keys) and !is_array($keys))
-			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
-
-		if (is_string($keys))
-			$keys = explode(',', $keys);
-		elseif (is_int($keys))
-			$keys = [$keys];
-
-		$result = [];
-
-		for ($i = 0, $n = count($data); $i < $n; ++$i)
-		{
-			if (is_object($data[$i]))
-			{
-				$row = new stdClass();
-
-				foreach ($keys as $key)
-				{
-					$row->{$key} = $data[$i]->{$key};
-					unset($data[$i]->{$key});
-				}
-
-				$result[$i] = $row;
-			}
-			else
-			{
-				foreach ($keys as $key)
-				{
-					$result[$i][$key] = $data[$i][$key];
-					unset($data[$i][$key]);
-				}
-			}
-
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Remove a column from an array of arrays (dataset) or objects (recordset).
-	 *
-	 * @param  array            $array  An array to remove an element by key (dataset or recordset).
-	 * @param  string|int|array $keys   The key name to remove.
-	 * @return array
-	 */
-	public static function removeColumn(array $array, $keys) : array
-	{
-		if (!static::isDataset($array) and !static::isRecordset($array))
-			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $array);
-
-		if (!is_string($keys) and !is_int($keys) and !is_array($keys))
-			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
-
-		if (is_string($keys))
-			$keys = explode(',', $keys);
-		elseif (is_int($keys))
-			$keys = [$keys];
-
-		for ($i = 0, $n = count($array); $i < $n; ++$i)
-		{
-			if (is_object($array[$i]))
-			{
-				foreach ($keys as $key)
-					unset($array[$i]->{$key});
-			}
-			else
-			{
-				foreach ($keys as $key)
-					unset($array[$i][$key]);
-			}
-		}
-
-		return $array;
-	}
-
-	/**
 	 * Extract a slice of the array.
 	 * An alias for built-in PHP function array_slice() with preserve_keys parameter default to TRUE.
 	 *
@@ -1845,5 +1787,63 @@ class Arr
 			$array = array_values($array);
 
 		return $array;
+	}
+
+	/**
+	 * @param  array  $array
+	 * @param  string $glue
+	 * @param  bool   $recursive
+	 * @return string
+	 */
+	public static function implode(array $array, string $glue = '', bool $recursive = true) : string
+	{
+		$string = '';
+
+		foreach ($array as $piece)
+		{
+			if (is_array($piece))
+			{
+				if ($recursive)
+					$string .= static::implode($piece, $glue) . $glue;
+			}
+			else
+				$string .= $piece . $glue;
+		}
+
+		$string = rtrim($string, $glue);
+
+		return $string;
+	}
+
+	/**
+	 * Wraps the given value in an array format.
+	 *
+	 * e.g.,
+	 *
+	 * 0 to [0]
+	 * '0' to ['0']
+	 * 'name' to ['name']
+	 * 'work.position' to ['work']['position']
+	 *
+	 * @param  string|int $key
+	 * @return string
+	 */
+	public static function formatKeySyntax($key) : string
+	{
+		if (!is_string($key) and !is_int($key))
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $key);
+
+		if (is_string($key))
+		{
+			// $key can be '0'.
+			if ($key === '')
+				return '';
+
+			$key = str_replace('.', '\'][\'', $key);
+		}
+
+		$key = "['$key']";
+
+		return $key;
 	}
 }
