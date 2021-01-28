@@ -1744,16 +1744,22 @@ class Arr
 	/**
 	 * Remove a column from an array of arrays (dataset) or objects (recordset).
 	 *
-	 * @param  array  $array  An array to remove an element by key (dataset or recordset).
-	 * @param  string $keys   The key name to remove.
+	 * @param  array            $array  An array to remove an element by key (dataset or recordset).
+	 * @param  string|int|array $keys   The key name to remove.
 	 * @return array
 	 */
-	public static function removeColumn(array $array, string $keys) : array
+	public static function removeColumn(array $array, $keys) : array
 	{
 		if (!static::isDataset($array) and !static::isRecordset($array))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $array);
 
-		$keys = explode(',', $keys);
+		if (!is_string($keys) and !is_int($keys) and !is_array($keys))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
+
+		if (is_string($keys))
+			$keys = explode(',', $keys);
+		elseif (is_int($keys))
+			$keys = [$keys];
 
 		for ($i = 0, $n = count($array); $i < $n; ++$i)
 		{
