@@ -1281,7 +1281,7 @@ class Arr
 			elseif (is_array($keys))
 				$givenKeys = $keys;
 			else
-				throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $keys);
+				throw InvalidArgumentException::typeError(3, ['string', 'int', 'array', 'null'], $keys);
 
 			$result = [];
 
