@@ -410,6 +410,150 @@ class Arr
 	}
 
 	/**
+	 * Return the values from a single column in the input array contains array (dataset) or object (recordset).
+	 *
+	 * Example
+	 *
+	 * $recordset = [
+	 *     [
+	 *         'name' => 'Nat',
+	 *         'surname' => 'With',
+	 *         'job' => [
+	 *             'title' => 'Web Developer',
+	 *             'salary' => 10000
+	 *         ]
+	 *     ],
+	 *     [
+	 *         'name' => 'Angela',
+	 *         'surname' => 'SG',
+	 *         'job' => [
+	 *             'title' => 'Maketing Director',
+	 *             'salary' => 10000
+	 *         ]
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::onlyColumn($recordset, 'job.title');
+	 *
+	 * The $result will be:
+	 *
+	 * Array
+	 *     (
+	 *         [0] => Web Developer
+	 *         [1] => Maketing Director
+	 * )
+	 *
+	 * $result = Arr::onlyColumn($recordset, 'job.title', 'name');
+	 *
+	 * The $result will be:
+	 *
+	 * Array
+	 *     (
+	 *         [Nat] => Web Developer
+	 *         [Angela] => Maketing Director
+	 * )
+	 *
+	 * @param  array           $data       A multi-dimensional array contains array (dataset) or object (recordset)
+	 *                                     from which to pull a column of values.
+	 * @param  string|int      $columnKey  The column of values to return.
+	 * @param  string|int|null $indexKey   The column to use as the index/keys for the returned array.
+	 * @return array                       Returns an array of values representing a single column from the input array.
+	 */
+	public static function onlyColumn(array $data, $columnKey, $indexKey = null) : array
+	{
+		if (!static::isDataset($data) and !static::isRecordset($data))
+			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
+
+		if (!is_string($columnKey) and !is_int($columnKey))
+			throw InvalidArgumentException::typeError(2, ['string', 'int'], $columnKey);
+
+		if (!is_null($indexKey) and !is_string($indexKey) and !is_int($indexKey))
+			throw InvalidArgumentException::typeError(3, ['string', 'int', 'null'], $indexKey);
+
+		$columnKey = static::formatKeySyntax($columnKey);
+
+		if ($indexKey)
+			$indexKey = static::formatKeySyntax($indexKey);
+
+		$result = [];
+
+		foreach ($data as $row)
+		{
+			$row = static::toArray($row);
+
+			$syntax = '$value = $row' . $columnKey . ';';
+			eval($syntax);
+
+			if ($indexKey)
+			{
+				$syntax = '$key = $row' . $indexKey . ';';
+				eval($syntax);
+
+				$syntax = '$result[$key] = $value;';
+				eval($syntax);
+			}
+			else
+			{
+				$syntax = '$result[] = $value;';
+				eval($syntax);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns and removes a column by key from a dataset or recordset.
+	 *
+	 * @param  array            $data  A multi-dimensional array contains array (dataset) or object (recordset)
+	 *                                 from which to pull a column of values.
+	 * @param  string|int|array $keys  The column of values to return. The $keys can be 'name,work.position'
+	 * @return array
+	 */
+	public static function pullColumn(array &$data, $keys) : array
+	{
+		if (!static::isDataset($data) and !static::isRecordset($data))
+			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
+
+		if (!is_string($keys) and !is_int($keys) and !is_array($keys))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
+
+		if (is_string($keys))
+			$keys = explode(',', $keys);
+		elseif (is_int($keys))
+			$keys = [$keys];
+
+		$result = [];
+
+		for ($i = 0, $n = count($data); $i < $n; ++$i)
+		{
+			if (is_object($data[$i]))
+			{
+				$row = new stdClass();
+
+				foreach ($keys as $key)
+				{
+					$row->{$key} = $data[$i]->{$key};
+					unset($data[$i]->{$key});
+				}
+
+				$result[$i] = $row;
+			}
+			else
+			{
+				foreach ($keys as $key)
+				{
+					$result[$i][$key] = $data[$i][$key];
+					unset($data[$i][$key]);
+				}
+			}
+
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Get all of the given array except for a specified value.
 	 *
 	 * @param  array $array          An array to remove an element by value.
@@ -567,150 +711,6 @@ class Arr
 		}
 
 		return $array;
-	}
-
-	/**
-	 * Return the values from a single column in the input array contains array (dataset) or object (recordset).
-	 *
-	 * Example
-	 *
-	 * $recordset = [
-	 *     [
-	 *         'name' => 'Nat',
-	 *         'surname' => 'With',
-	 *         'job' => [
-	 *             'title' => 'Web Developer',
-	 *             'salary' => 10000
-	 *         ]
-	 *     ],
-	 *     [
-	 *         'name' => 'Angela',
-	 *         'surname' => 'SG',
-	 *         'job' => [
-	 *             'title' => 'Maketing Director',
-	 *             'salary' => 10000
-	 *         ]
-	 *     ]
-	 * ];
-	 *
-	 * $result = Arr::onlyColumn($recordset, 'job.title');
-	 *
-	 * The $result will be:
-	 *
-	 * Array
-	 *     (
-	 *         [0] => Web Developer
-	 *         [1] => Maketing Director
-	 * )
-	 *
-	 * $result = Arr::onlyColumn($recordset, 'job.title', 'name');
-	 *
-	 * The $result will be:
-	 *
-	 * Array
-	 *     (
-	 *         [Nat] => Web Developer
-	 *         [Angela] => Maketing Director
-	 * )
-	 *
-	 * @param  array           $data       A multi-dimensional array contains array (dataset) or object (recordset)
-	 *                                     from which to pull a column of values.
-	 * @param  string|int      $columnKey  The column of values to return.
-	 * @param  string|int|null $indexKey   The column to use as the index/keys for the returned array.
-	 * @return array                       Returns an array of values representing a single column from the input array.
-	 */
-	public static function onlyColumn(array $data, $columnKey, $indexKey = null) : array
-	{
-		if (!static::isDataset($data) and !static::isRecordset($data))
-			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
-
-		if (!is_string($columnKey) and !is_int($columnKey))
-			throw InvalidArgumentException::typeError(2, ['string', 'int'], $columnKey);
-
-		if (!is_null($indexKey) and !is_string($indexKey) and !is_int($indexKey))
-			throw InvalidArgumentException::typeError(3, ['string', 'int', 'null'], $indexKey);
-
-		$columnKey = static::formatKeySyntax($columnKey);
-
-		if ($indexKey)
-			$indexKey = static::formatKeySyntax($indexKey);
-
-		$result = [];
-
-		foreach ($data as $row)
-		{
-			$row = static::toArray($row);
-
-			$syntax = '$value = $row' . $columnKey . ';';
-			eval($syntax);
-
-			if ($indexKey)
-			{
-				$syntax = '$key = $row' . $indexKey . ';';
-				eval($syntax);
-
-				$syntax = '$result[$key] = $value;';
-				eval($syntax);
-			}
-			else
-			{
-				$syntax = '$result[] = $value;';
-				eval($syntax);
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Returns and removes a column by key from a dataset or recordset.
-	 *
-	 * @param  array            $data  A multi-dimensional array contains array (dataset) or object (recordset)
-	 *                                 from which to pull a column of values.
-	 * @param  string|int|array $keys  The column of values to return. The $keys can be 'name,work.position'
-	 * @return array
-	 */
-	public static function pullColumn(array &$data, $keys) : array
-	{
-		if (!static::isDataset($data) and !static::isRecordset($data))
-			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
-
-		if (!is_string($keys) and !is_int($keys) and !is_array($keys))
-			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
-
-		if (is_string($keys))
-			$keys = explode(',', $keys);
-		elseif (is_int($keys))
-			$keys = [$keys];
-
-		$result = [];
-
-		for ($i = 0, $n = count($data); $i < $n; ++$i)
-		{
-			if (is_object($data[$i]))
-			{
-				$row = new stdClass();
-
-				foreach ($keys as $key)
-				{
-					$row->{$key} = $data[$i]->{$key};
-					unset($data[$i]->{$key});
-				}
-
-				$result[$i] = $row;
-			}
-			else
-			{
-				foreach ($keys as $key)
-				{
-					$result[$i][$key] = $data[$i][$key];
-					unset($data[$i][$key]);
-				}
-			}
-
-		}
-
-		return $result;
 	}
 
 	/**

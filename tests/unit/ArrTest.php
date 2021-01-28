@@ -316,6 +316,105 @@ class ArrTest extends TestCase
         Mockery::close();
 	}
 
+	// Arr::set()
+
+	public function testMethodSetCase1() : void
+	{
+		$result = Arr::set([], 'key', 'value');
+
+		$this->assertEquals(['key' => 'value'], $result);
+	}
+
+	public function testMethodSetCase2() : void
+	{
+		$expected = [
+			'key' => [
+				'subkey' => 'value'
+			]
+		];
+
+		$result = Arr::set([], 'key.subkey', 'value');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodSetCase3() : void
+	{
+		$expected = [
+			'3' => [
+				'14' => 'value'
+			]
+		];
+
+		$result = Arr::set([], '3.14', 'value');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodSetCase4() : void
+	{
+		$expected = [
+			0 => [
+				1 => [
+					2 => [
+						3 => 'value'
+					]
+				]
+			]
+		];
+
+		$result = Arr::set([], '0.1.2.3', 'value');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodSetCase5() : void
+	{
+		$expected = [
+			0 => [
+				1 => [
+					2 => [
+						3 => 'value'
+					]
+				]
+			],
+			1 => 20,
+			2 => 'A',
+			3 => 'b',
+			4 => ['x', 'y'],
+			5 => null,
+			6 => true,
+			7 => 100
+		];
+
+		$result = Arr::set(static::$_arrayMulti, '0.1.2.3', 'value');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodSetCase6() : void
+	{
+		$expected = [
+			0 => 10,
+			1 => 20,
+			2 => 'A',
+			3 => 'b',
+			4 => ['value', 'y'],
+			5 => null,
+			6 => true,
+			7 => 100
+		];
+
+		$result = Arr::set(static::$_arrayMulti, '4.0', 'value');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
 	// Arr::get()
 
 	public function testMethodGetCase1() : void
@@ -534,143 +633,6 @@ class ArrTest extends TestCase
 		$result = Arr::getKey(static::$_assocArrayMulti, $search);
 
 		$this->assertEquals('work', $result);
-	}
-
-	// Arr::onlyColumn()
-
-	public function testMethodOnlyColumnCase1() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::onlyColumn([], 'columnKey');
-	}
-
-	public function testMethodOnlyColumnCase2() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::onlyColumn(static::$_datasetArray, 3.14);
-	}
-
-	public function testMethodOnlyColumnCase3() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::onlyColumn(static::$_datasetArray, 'columnKey', 3.14);
-	}
-
-	public function testMethodOnlyColumnCase4() : void
-	{
-		$expected = [
-			'Web Developer',
-			'Staff',
-			'Staff',
-			'Project Coordinator',
-			'Marketing Director'
-		];
-
-		$result = Arr::onlyColumn(static::$_datasetArray, 'work.position');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodOnlyColumnCase5() : void
-	{
-		$expected = [
-			'Nat' => 'Web Developer',
-			'Rosie' => 'Staff',
-			'Emma' => 'Project Coordinator',
-			'Angela' => 'Marketing Director'
-		];
-
-		$result = Arr::onlyColumn(static::$_datasetArray, 'work.position', 'name');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodOnlyColumnCase6() : void
-	{
-		$expected = [
-			'0.1',
-			'1.1'
-		];
-
-		$result = Arr::onlyColumn(static::$_numericDatasetArray, 0);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodOnlyColumnCase7() : void
-	{
-		$expected = [
-			'0.1',
-			'1.1'
-		];
-
-		$result = Arr::onlyColumn(static::$_numericDatasetArray, '0');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodOnlyColumnCase8() : void
-	{
-		$expected = [
-			'0.2' => '0.1',
-			'1.2' => '1.1'
-		];
-
-		$result = Arr::onlyColumn(static::$_numericDatasetArray, 0, 1);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodOnlyColumnCase9() : void
-	{
-		$expected = [
-			'0.2' => '0.1',
-			'1.2' => '1.1'
-		];
-
-		$result = Arr::onlyColumn(static::$_numericDatasetArray, '0', '1');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodOnlyColumnCase10() : void
-	{
-		$expected = [
-			'Web Developer',
-			'Staff',
-			'Staff',
-			'Project Coordinator',
-			'Marketing Director'
-		];
-
-		$result = Arr::onlyColumn(static::$_recordsetArray, 'work');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodOnlyColumnCase11() : void
-	{
-		$expected = [
-			'Nat' => 'Web Developer',
-			'Rosie' => 'Staff',
-			'Emma' => 'Project Coordinator',
-			'Angela' => 'Marketing Director'
-		];
-
-		$result = Arr::onlyColumn(static::$_recordsetArray, 'work', 'name');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
 	}
 
 	// Arr::first()
@@ -1708,6 +1670,1298 @@ class ArrTest extends TestCase
 		$this->assertArrayNotHasKey('position', static::$_assocArrayMulti['work']);
 	}
 
+	// Arr::onlyColumn()
+
+	public function testMethodOnlyColumnCase1() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::onlyColumn([], 'columnKey');
+	}
+
+	public function testMethodOnlyColumnCase2() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::onlyColumn(static::$_datasetArray, 3.14);
+	}
+
+	public function testMethodOnlyColumnCase3() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::onlyColumn(static::$_datasetArray, 'columnKey', 3.14);
+	}
+
+	public function testMethodOnlyColumnCase4() : void
+	{
+		$expected = [
+			'Web Developer',
+			'Staff',
+			'Staff',
+			'Project Coordinator',
+			'Marketing Director'
+		];
+
+		$result = Arr::onlyColumn(static::$_datasetArray, 'work.position');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodOnlyColumnCase5() : void
+	{
+		$expected = [
+			'Nat' => 'Web Developer',
+			'Rosie' => 'Staff',
+			'Emma' => 'Project Coordinator',
+			'Angela' => 'Marketing Director'
+		];
+
+		$result = Arr::onlyColumn(static::$_datasetArray, 'work.position', 'name');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodOnlyColumnCase6() : void
+	{
+		$expected = [
+			'0.1',
+			'1.1'
+		];
+
+		$result = Arr::onlyColumn(static::$_numericDatasetArray, 0);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodOnlyColumnCase7() : void
+	{
+		$expected = [
+			'0.1',
+			'1.1'
+		];
+
+		$result = Arr::onlyColumn(static::$_numericDatasetArray, '0');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodOnlyColumnCase8() : void
+	{
+		$expected = [
+			'0.2' => '0.1',
+			'1.2' => '1.1'
+		];
+
+		$result = Arr::onlyColumn(static::$_numericDatasetArray, 0, 1);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodOnlyColumnCase9() : void
+	{
+		$expected = [
+			'0.2' => '0.1',
+			'1.2' => '1.1'
+		];
+
+		$result = Arr::onlyColumn(static::$_numericDatasetArray, '0', '1');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodOnlyColumnCase10() : void
+	{
+		$expected = [
+			'Web Developer',
+			'Staff',
+			'Staff',
+			'Project Coordinator',
+			'Marketing Director'
+		];
+
+		$result = Arr::onlyColumn(static::$_recordsetArray, 'work');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodOnlyColumnCase11() : void
+	{
+		$expected = [
+			'Nat' => 'Web Developer',
+			'Rosie' => 'Staff',
+			'Emma' => 'Project Coordinator',
+			'Angela' => 'Marketing Director'
+		];
+
+		$result = Arr::onlyColumn(static::$_recordsetArray, 'work', 'name');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	// Arr::pullColumn()
+
+	public function testMethodPullColumnCase1() : void
+	{
+		$array = [];
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::pullColumn($array, 'missingkey');
+	}
+
+	public function testMethodPullColumnCase2() : void
+	{
+		$array = [[]];
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::pullColumn($array, 3.14);
+	}
+
+	public function testMethodPullColumnCase3() : void
+	{
+		$expected = [
+			['0.1'],
+			['1.1']
+		];
+
+		$result = Arr::pullColumn(static::$_numericDatasetArray, 0);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+
+		$this->assertArrayNotHasKey(0, static::$_numericDatasetArray[0]);
+		$this->assertArrayNotHasKey(0, static::$_numericDatasetArray[1]);
+	}
+
+	public function testMethodPullColumnCase4() : void
+	{
+		$expected = [
+			['0.1'],
+			['1.1']
+		];
+
+		$result = Arr::pullColumn(static::$_numericDatasetArray, '0');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+
+		$this->assertArrayNotHasKey(0, static::$_numericDatasetArray[0]);
+		$this->assertArrayNotHasKey(0, static::$_numericDatasetArray[1]);
+	}
+
+	public function testMethodPullColumnCase5() : void
+	{
+		$expected = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe'
+			],
+			[
+				'name' => 'Rosie',
+				'surname' => 'Marshman'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'McCormick'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'Miller'
+			],
+			[
+				'name' => 'Angela',
+				'surname' => 'SG'
+			]
+		];
+
+		$result = Arr::pullColumn(static::$_datasetArray, 'name,surname');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+
+		$this->assertArrayNotHasKey('name', static::$_datasetArray[0]);
+		$this->assertArrayNotHasKey('surname', static::$_datasetArray[0]);
+		$this->assertArrayNotHasKey('name', static::$_datasetArray[1]);
+		$this->assertArrayNotHasKey('surname', static::$_datasetArray[1]);
+		$this->assertArrayNotHasKey('name', static::$_datasetArray[2]);
+		$this->assertArrayNotHasKey('surname', static::$_datasetArray[2]);
+		$this->assertArrayNotHasKey('name', static::$_datasetArray[3]);
+		$this->assertArrayNotHasKey('surname', static::$_datasetArray[3]);
+		$this->assertArrayNotHasKey('name', static::$_datasetArray[4]);
+		$this->assertArrayNotHasKey('surname', static::$_datasetArray[4]);
+	}
+
+	public function testMethodPullColumnCase6() : void
+	{
+		$expected = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe'
+			],
+			[
+				'name' => 'Rosie',
+				'surname' => 'Marshman'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'McCormick'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'Miller'
+			],
+			[
+				'name' => 'Angela',
+				'surname' => 'SG'
+			]
+		];
+
+		$result = Arr::pullColumn(static::$_datasetArray, ['name', 'surname']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+
+		$this->assertArrayNotHasKey('name', static::$_datasetArray[0]);
+		$this->assertArrayNotHasKey('surname', static::$_datasetArray[0]);
+		$this->assertArrayNotHasKey('name', static::$_datasetArray[1]);
+		$this->assertArrayNotHasKey('surname', static::$_datasetArray[1]);
+		$this->assertArrayNotHasKey('name', static::$_datasetArray[2]);
+		$this->assertArrayNotHasKey('surname', static::$_datasetArray[2]);
+		$this->assertArrayNotHasKey('name', static::$_datasetArray[3]);
+		$this->assertArrayNotHasKey('surname', static::$_datasetArray[3]);
+		$this->assertArrayNotHasKey('name', static::$_datasetArray[4]);
+		$this->assertArrayNotHasKey('surname', static::$_datasetArray[4]);
+	}
+
+	public function testMethodPullColumnCase7() : void
+	{
+		$expected = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe'
+			],
+			[
+				'name' => 'Rosie',
+				'surname' => 'Marshman'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'McCormick'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'Miller'
+			],
+			[
+				'name' => 'Angela',
+				'surname' => 'SG'
+			]
+		];
+
+		$result = Arr::pullColumn(static::$_recordsetArray, 'name,surname');
+
+		$this->assertIsArray($result);
+		$this->assertIsObject($result[0]);
+		$this->assertIsObject($result[1]);
+		$this->assertIsObject($result[2]);
+		$this->assertIsObject($result[3]);
+		$this->assertIsObject($result[4]);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result[0] = (array)$result[0];
+		$result[1] = (array)$result[1];
+		$result[2] = (array)$result[2];
+		$result[3] = (array)$result[3];
+		$result[4] = (array)$result[4];
+
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[0]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[0]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[1]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[1]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[2]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[2]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[3]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[3]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[4]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[4]);
+	}
+
+	public function testMethodPullColumnCase8() : void
+	{
+		$expected = [
+			[
+				'name' => 'Nat',
+				'surname' => 'Withe'
+			],
+			[
+				'name' => 'Rosie',
+				'surname' => 'Marshman'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'McCormick'
+			],
+			[
+				'name' => 'Emma',
+				'surname' => 'Miller'
+			],
+			[
+				'name' => 'Angela',
+				'surname' => 'SG'
+			]
+		];
+
+		$result = Arr::pullColumn(static::$_recordsetArray, ['name', 'surname']);
+
+		$this->assertIsArray($result);
+		$this->assertIsObject($result[0]);
+		$this->assertIsObject($result[1]);
+		$this->assertIsObject($result[2]);
+		$this->assertIsObject($result[3]);
+		$this->assertIsObject($result[4]);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result[0] = (array)$result[0];
+		$result[1] = (array)$result[1];
+		$result[2] = (array)$result[2];
+		$result[3] = (array)$result[3];
+		$result[4] = (array)$result[4];
+
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[0]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[0]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[1]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[1]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[2]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[2]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[3]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[3]);
+		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[4]);
+		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[4]);
+	}
+
+	// Arr::remove()
+
+	public function testMethodRemoveCase1() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::remove([], new stdClass());
+	}
+
+	public function testMethodRemoveCase2() : void
+	{
+		$result = Arr::remove([], 'value');
+
+		$this->assertEquals([], $result);
+	}
+
+	public function testMethodRemoveCase3() : void
+	{
+		$array = [
+			'name' => 'Nat',
+			'surename' => 'Withe'
+		];
+
+		$expected = [
+			'name' => 'Nat',
+		];
+
+		$result = Arr::remove($array, 'Withe');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodRemoveCase4() : void
+	{
+		$array = [
+			'name' => 'Nat',
+			'surename' => 'Withe'
+		];
+
+		$expected = [
+			'name' => 'Nat',
+			'surename' => 'Withe'
+		];
+
+		$result = Arr::remove($array, 'withe');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase5() : void
+	{
+		$array = [
+			'name' => 'Nat',
+			'surename' => 'Withe'
+		];
+
+		$expected = [
+			'name' => 'Nat',
+		];
+
+		$result = Arr::remove($array, 'withe', false);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodRemoveCase6() : void
+	{
+		$expected = static::$_arrayMulti;
+
+		$result = Arr::remove(static::$_arrayMulti, '10');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase7() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A', // upper case
+			3 => 'b', // lower case
+			4 => ['x', 'y'], // lower case
+			5 => null,
+			6 => true,
+			7 => 100
+		];
+
+		$result = Arr::remove(static::$_arrayMulti, 10);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase8() : void
+	{
+		$expected = [
+			2 => 'A', // upper case
+			3 => 'b', // lower case
+			4 => ['x', 'y'], // lower case
+			5 => null,
+			6 => true,
+			7 => 100
+		];
+
+		$result = Arr::remove(static::$_arrayMulti, [10, 20]);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase9() : void
+	{
+		$expected = [
+			10,
+			20,
+			'A', // upper case
+			'b', // lower case
+			[],
+			null,
+			true,
+			100
+		];
+
+		$result = Arr::remove(static::$_arrayMulti, ['x', 'y']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase10() : void
+	{
+		$expected = [
+			10,
+			20,
+			'A', // upper case
+			'b', // lower case
+			['x'],
+			null,
+			true,
+			100
+		];
+
+		$result = Arr::remove(static::$_arrayMulti, ['X', 'y']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase11() : void
+	{
+		$expected = [
+			10,
+			20,
+			'A', // upper case
+			'b', // lower case
+			[],
+			null,
+			true,
+			100
+		];
+
+		$result = Arr::remove(static::$_arrayMulti, ['X', 'y'], false);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase12() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'work' => [
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'excellent' => true,
+				'other' => ''
+			],
+			'height' => 181,
+			'weight' => 87.5,
+			'handsome' => true,
+			'ugly' => false,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::remove(static::$_assocArrayMulti, 'Web Developer');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveCase13() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'work' => [
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'other' => ''
+			],
+			'height' => 181,
+			'ugly' => false,
+			'other' => ''
+		];
+
+		$result = Arr::remove(static::$_assocArrayMulti, ['Web Developer', 87.5, true, null], false);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	// Arr::removeKey()
+
+	public function testMethodRemoveKeyCase1() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::removeKey([], 3.14);
+	}
+
+	public function testMethodRemoveKeyCase2() : void
+	{
+		$result = Arr::removeKey([], 'missingkey');
+
+		$this->assertEquals([], $result);
+	}
+
+	public function testMethodRemoveKeyCase3() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A', // upper case
+			3 => 'b', // lower case
+			4 => null,
+			5 => true,
+			6 => 100
+		];
+
+		$result = Arr::removeKey(static::$_array, 0);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase4() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A', // upper case
+			3 => 'b', // lower case
+			4 => null,
+			5 => true,
+			6 => 100
+		];
+
+		$result = Arr::removeKey(static::$_array, '0');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase5() : void
+	{
+		$expected = [
+			10,
+			20
+		];
+
+		$result = Arr::removeKey(static::$_array, '2,3,4,5,6');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase6() : void
+	{
+		$expected = [
+			10,
+			20
+		];
+
+		$result = Arr::removeKey(static::$_array, [2, 3, 4, 5, 6]);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase7() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A'
+		];
+
+		$result = Arr::removeKey(static::$_array, '0,3,4,5,6');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase8() : void
+	{
+		$expected = [
+			1 => 20,
+			2 => 'A'
+		];
+
+		$result = Arr::removeKey(static::$_array, ['0', '3', '4', '5', '6']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase9() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'height' => 181,
+			'weight' => 87.5,
+			'handsome' => true,
+			'ugly' => false,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::removeKey(static::$_assocArrayMulti, 'work');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase10() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe'
+		];
+
+		$result = Arr::removeKey(static::$_assocArrayMulti, 'age,work,height,weight,handsome,ugly,other,extra');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase11() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe'
+		];
+
+		$result = Arr::removeKey(static::$_assocArrayMulti, ['age', 'work', 'height', 'weight', 'handsome', 'ugly', 'other', 'extra']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveKeyCase12() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'work' => [
+				'position' => 'Web Developer',
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'excellent' => true,
+				'other' => ''
+			],
+			'height' => 181,
+			'weight' => 87.5,
+			'handsome' => true,
+			'ugly' => false,
+			'extra' => null
+		];
+
+		$result = Arr::removeKey(static::$_assocArrayMulti, 'other', false);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	// Arr::removeType()
+
+	public function testMethodRemoveTypeCase1() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::removeType([], 3.14);
+	}
+
+	public function testMethodRemoveTypeCase2() : void
+	{
+		$result = Arr::removeType([], 'string');
+
+		$this->assertEquals([], $result);
+	}
+
+	public function testMethodRemoveTypeCase3() : void
+	{
+		$expected = [
+			'age' => 38,
+			'work' => [
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'excellent' => true
+			],
+			'height' => 181,
+			'weight' => 87.5,
+			'handsome' => true,
+			'ugly' => false,
+			'extra' => null
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'string');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase4() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'work' => [
+				'position' => 'Web Developer',
+				'hrscore' => 9.8,
+				'excellent' => true,
+				'other' => ''
+			],
+			'weight' => 87.5,
+			'handsome' => true,
+			'ugly' => false,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'int');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase5() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'work' => [
+				'position' => 'Web Developer',
+				'hrscore' => 9.8,
+				'excellent' => true,
+				'other' => ''
+			],
+			'weight' => 87.5,
+			'handsome' => true,
+			'ugly' => false,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'integer');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase6() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'work' => [
+				'position' => 'Web Developer',
+				'salary' => 10000,
+				'excellent' => true,
+				'other' => ''
+			],
+			'height' => 181,
+			'handsome' => true,
+			'ugly' => false,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'float');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase7() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'work' => [
+				'position' => 'Web Developer',
+				'salary' => 10000,
+				'excellent' => true,
+				'other' => ''
+			],
+			'height' => 181,
+			'handsome' => true,
+			'ugly' => false,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'double');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase8() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'height' => 181,
+			'weight' => 87.5,
+			'handsome' => true,
+			'ugly' => false,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'array');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase9() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'work' => [
+				'position' => 'Web Developer',
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'other' => ''
+			],
+			'height' => 181,
+			'weight' => 87.5,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'bool');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase10() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'work' => [
+				'position' => 'Web Developer',
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'other' => ''
+			],
+			'height' => 181,
+			'weight' => 87.5,
+			'other' => '',
+			'extra' => null
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'boolean');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase11() : void
+	{
+		$testData = static::$_assocArrayMulti;
+		$data = new stdClass();
+		$testData['object'] = $data;
+
+		$expected = static::$_assocArrayMulti;
+
+		$result = Arr::removeType($testData, 'object');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase12() : void
+	{
+		$testData = [
+			'a' => 'A',
+			'resource' => tmpfile() //fopen('php://memory', 'r')
+		];
+
+		$result = Arr::removeType($testData, 'resource');
+
+		$expected = [
+			'a' => 'A'
+		];
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodRemoveTypeCase13() : void
+	{
+		$testData = [
+			'a' => 'A',
+			'b' => null
+		];
+
+		$expected = [
+			'a' => 'A'
+		];
+
+		$result = Arr::removeType($testData, 'null');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodRemoveTypeCase14() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'work' => [
+				'position' => 'Web Developer',
+				'other' => ''
+			],
+			'other' => ''
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, 'int,float,bool,null');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase15() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'work' => [
+				'position' => 'Web Developer',
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'excellent' => true,
+				'other' => ''
+			],
+			'weight' => 87.5,
+			'handsome' => true,
+			'ugly' => false,
+			'other' => '',
+			'extra' => null
+		];
+
+		// Set recursive to false.
+		$result = Arr::removeType(static::$_assocArrayMulti, 'int', false);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveTypeCase16() : void
+	{
+		$expected = [
+			'age' => 38,
+			'work' => [
+				'salary' => 10000
+			],
+			'height' => 181
+		];
+
+		$result = Arr::removeType(static::$_assocArrayMulti, ['string', 'float', 'bool', 'null']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	// Arr::removeBlank()
+
+	public function testMethodRemoveBlankCase1() : void
+	{
+		$result = Arr::removeBlank([]);
+
+		$this->assertEquals([], $result);
+	}
+
+	public function testMethodRemoveBlankCase2() : void
+	{
+		$expected = [
+			0 => 10,
+			1 => 20,
+			2 => 'A',
+			3 => 'b',
+			4 => ['x', 'y'],
+			6 => true,
+			7 => 100
+		];
+
+		$result = Arr::removeBlank(static::$_arrayMulti);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodRemoveBlankCase3() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'work' => [
+				'position' => 'Web Developer',
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'excellent' => true
+			],
+			'height' => 181,
+			'weight' => 87.5,
+			'handsome' => true
+		];
+
+		$result = Arr::removeBlank(static::$_assocArrayMulti);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodRemoveBlankCase4() : void
+	{
+		$expected = [
+			'name' => 'Nat',
+			'surname' => 'Withe',
+			'age' => 38,
+			'work' => [
+				'position' => 'Web Developer',
+				'salary' => 10000,
+				'hrscore' => 9.8,
+				'excellent' => true,
+				'other' => ''
+			],
+			'height' => 181,
+			'weight' => 87.5,
+			'handsome' => true
+		];
+
+		$result = Arr::removeBlank(static::$_assocArrayMulti, false);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	// Arr::removeColumn()
+
+	public function testMethodRemoveColumnCase1() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::removeColumn([], 'missingkey');
+	}
+
+	public function testMethodRemoveColumnCase2() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::removeColumn([[]], 3.14);
+	}
+
+	public function testMethodRemoveColumnCase3() : void
+	{
+		$expected = [
+			[1 => '0.2'],
+			[1 => '1.2']
+		];
+
+		$result = Arr::removeColumn(static::$_numericDatasetArray, 0);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveColumnCase4() : void
+	{
+		$expected = [
+			[1 => '0.2'],
+			[1 => '1.2']
+		];
+
+		$result = Arr::removeColumn(static::$_numericDatasetArray, '0');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveColumnCase5() : void
+	{
+		$expected = [
+			['name' => 'Nat'],
+			['name' => 'Rosie'],
+			['name' => 'Emma'],
+			['name' => 'Emma'],
+			['name' => 'Angela']
+		];
+
+		$result = Arr::removeColumn(static::$_datasetArray, 'surname,work');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveColumnCase6() : void
+	{
+		$expected = [
+			['name' => 'Nat'],
+			['name' => 'Rosie'],
+			['name' => 'Emma'],
+			['name' => 'Emma'],
+			['name' => 'Angela']
+		];
+
+		$result = Arr::removeColumn(static::$_datasetArray, ['surname', 'work']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveColumnCase7() : void
+	{
+		$expected = [];
+
+		$data = new stdClass();
+		$data->name = 'Nat';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Rosie';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Emma';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Emma';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Angela';
+		$expected[] = $data;
+
+		$result = Arr::removeColumn(static::$_recordsetArray, 'surname,work,salary');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodRemoveColumnCase8() : void
+	{
+		$expected = [];
+
+		$data = new stdClass();
+		$data->name = 'Nat';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Rosie';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Emma';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Emma';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Angela';
+		$expected[] = $data;
+
+		$result = Arr::removeColumn(static::$_recordsetArray, ['surname', 'work', 'salary']);
+
+		$this->assertEquals($expected, $result);
+	}
+
 	// Arr::map()
 
 	public function testMethodMapCase1() : void
@@ -1766,142 +3020,6 @@ class ArrTest extends TestCase
 		$result = Arr::map(static::$_recordsetArray, 'name', 'surname', 'work');
 
 		$this->assertEquals($expected, $result);
-	}
-
-	// Arr::set()
-
-	public function testMethodSetCase1() : void
-	{
-		$result = Arr::set([], 'key', 'value');
-
-		$this->assertEquals(['key' => 'value'], $result);
-	}
-
-	public function testMethodSetCase2() : void
-	{
-		$expected = [
-			'key' => [
-				'subkey' => 'value'
-			]
-		];
-
-		$result = Arr::set([], 'key.subkey', 'value');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodSetCase3() : void
-	{
-		$expected = [
-			'3' => [
-				'14' => 'value'
-			]
-		];
-
-		$result = Arr::set([], '3.14', 'value');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodSetCase4() : void
-	{
-		$expected = [
-			0 => [
-				1 => [
-					2 => [
-						3 => 'value'
-					]
-				]
-			]
-		];
-
-		$result = Arr::set([], '0.1.2.3', 'value');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodSetCase5() : void
-	{
-		$expected = [
-			0 => [
-				1 => [
-					2 => [
-						3 => 'value'
-					]
-				]
-			],
-			1 => 20,
-			2 => 'A',
-			3 => 'b',
-			4 => ['x', 'y'],
-			5 => null,
-			6 => true,
-			7 => 100
-		];
-
-		$result = Arr::set(static::$_arrayMulti, '0.1.2.3', 'value');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodSetCase6() : void
-	{
-		$expected = [
-			0 => 10,
-			1 => 20,
-			2 => 'A',
-			3 => 'b',
-			4 => ['value', 'y'],
-			5 => null,
-			6 => true,
-			7 => 100
-		];
-
-		$result = Arr::set(static::$_arrayMulti, '4.0', 'value');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	// Arr::formatKeySyntax()
-
-	public function testMethodFormatSyntaxCase1() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::formatKeySyntax(3.14);
-	}
-
-	public function testMethodFormatSyntaxCase2() : void
-	{
-		$result = Arr::formatKeySyntax('');
-
-		$this->assertEquals('', $result);
-	}
-
-	public function testMethodFormatSyntaxCase3() : void
-	{
-		$result = Arr::formatKeySyntax('key');
-
-		$this->assertEquals("['key']", $result);
-	}
-
-	public function testMethodFormatSyntaxCase4() : void
-	{
-		$result = Arr::formatKeySyntax('key.subkey');
-
-		$this->assertEquals("['key']['subkey']", $result);
-	}
-
-	public function testMethodFormatSyntaxCase5() : void
-	{
-		$result = Arr::formatKeySyntax(' key . subkey ');
-
-		$this->assertEquals("[' key '][' subkey ']", $result);
 	}
 
 	// Arr::insert()
@@ -3332,31 +4450,6 @@ class ArrTest extends TestCase
 		$compare = ($result === static::$_expectedSortRecordsetByNameDesc);
 
 		$this->assertTrue($compare);
-	}
-
-	// Arr::implode()
-
-	public function testMethodImplodeCase1() : void
-	{
-		$result = Arr::implode([]);
-
-		$this->assertEquals('', $result);
-	}
-
-	public function testMethodImplodeCase2() : void
-	{
-		$expected = 'Nat_Withe_38_181_87.5_1';
-		$result = Arr::implode(static::$_assocArrayMulti, '_', false);
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodImplodeCase3() : void
-	{
-		$expected = 'Nat_Withe_38_Web Developer_10000_9.8_1_181_87.5_1';
-		$result = Arr::implode(static::$_assocArrayMulti, '_');
-
-		$this->assertEquals($expected, $result);
 	}
 
 	// Arr::flatten()
@@ -5767,1161 +6860,6 @@ class ArrTest extends TestCase
 		$this->assertEquals([], $result);
 	}
 
-	// Arr::remove()
-
-	public function testMethodRemoveCase1() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::remove([], new stdClass());
-	}
-
-	public function testMethodRemoveCase2() : void
-	{
-		$result = Arr::remove([], 'value');
-
-		$this->assertEquals([], $result);
-	}
-
-	public function testMethodRemoveCase3() : void
-	{
-		$array = [
-			'name' => 'Nat',
-			'surename' => 'Withe'
-		];
-
-		$expected = [
-			'name' => 'Nat',
-		];
-
-		$result = Arr::remove($array, 'Withe');
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodRemoveCase4() : void
-	{
-		$array = [
-			'name' => 'Nat',
-			'surename' => 'Withe'
-		];
-
-		$expected = [
-			'name' => 'Nat',
-			'surename' => 'Withe'
-		];
-
-		$result = Arr::remove($array, 'withe');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveCase5() : void
-	{
-		$array = [
-			'name' => 'Nat',
-			'surename' => 'Withe'
-		];
-
-		$expected = [
-			'name' => 'Nat',
-		];
-
-		$result = Arr::remove($array, 'withe', false);
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodRemoveCase6() : void
-	{
-		$expected = static::$_arrayMulti;
-
-		$result = Arr::remove(static::$_arrayMulti, '10');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveCase7() : void
-	{
-		$expected = [
-			1 => 20,
-			2 => 'A', // upper case
-			3 => 'b', // lower case
-			4 => ['x', 'y'], // lower case
-			5 => null,
-			6 => true,
-			7 => 100
-		];
-
-		$result = Arr::remove(static::$_arrayMulti, 10);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveCase8() : void
-	{
-		$expected = [
-			2 => 'A', // upper case
-			3 => 'b', // lower case
-			4 => ['x', 'y'], // lower case
-			5 => null,
-			6 => true,
-			7 => 100
-		];
-
-		$result = Arr::remove(static::$_arrayMulti, [10, 20]);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveCase9() : void
-	{
-		$expected = [
-			10,
-			20,
-			'A', // upper case
-			'b', // lower case
-			[],
-			null,
-			true,
-			100
-		];
-
-		$result = Arr::remove(static::$_arrayMulti, ['x', 'y']);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveCase10() : void
-	{
-		$expected = [
-			10,
-			20,
-			'A', // upper case
-			'b', // lower case
-			['x'],
-			null,
-			true,
-			100
-		];
-
-		$result = Arr::remove(static::$_arrayMulti, ['X', 'y']);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveCase11() : void
-	{
-		$expected = [
-			10,
-			20,
-			'A', // upper case
-			'b', // lower case
-			[],
-			null,
-			true,
-			100
-		];
-
-		$result = Arr::remove(static::$_arrayMulti, ['X', 'y'], false);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveCase12() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'work' => [
-				'salary' => 10000,
-				'hrscore' => 9.8,
-				'excellent' => true,
-				'other' => ''
-			],
-			'height' => 181,
-			'weight' => 87.5,
-			'handsome' => true,
-			'ugly' => false,
-			'other' => '',
-			'extra' => null
-		];
-
-		$result = Arr::remove(static::$_assocArrayMulti, 'Web Developer');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveCase13() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'work' => [
-				'salary' => 10000,
-				'hrscore' => 9.8,
-				'other' => ''
-			],
-			'height' => 181,
-			'ugly' => false,
-			'other' => ''
-		];
-
-		$result = Arr::remove(static::$_assocArrayMulti, ['Web Developer', 87.5, true, null], false);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	// Arr::removeKey()
-
-	public function testMethodRemoveKeyCase1() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::removeKey([], 3.14);
-	}
-
-	public function testMethodRemoveKeyCase2() : void
-	{
-		$result = Arr::removeKey([], 'missingkey');
-
-		$this->assertEquals([], $result);
-	}
-
-	public function testMethodRemoveKeyCase3() : void
-	{
-		$expected = [
-			1 => 20,
-			2 => 'A', // upper case
-			3 => 'b', // lower case
-			4 => null,
-			5 => true,
-			6 => 100
-		];
-
-		$result = Arr::removeKey(static::$_array, 0);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveKeyCase4() : void
-	{
-		$expected = [
-			1 => 20,
-			2 => 'A', // upper case
-			3 => 'b', // lower case
-			4 => null,
-			5 => true,
-			6 => 100
-		];
-
-		$result = Arr::removeKey(static::$_array, '0');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveKeyCase5() : void
-	{
-		$expected = [
-			10,
-			20
-		];
-
-		$result = Arr::removeKey(static::$_array, '2,3,4,5,6');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveKeyCase6() : void
-	{
-		$expected = [
-			10,
-			20
-		];
-
-		$result = Arr::removeKey(static::$_array, [2, 3, 4, 5, 6]);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveKeyCase7() : void
-	{
-		$expected = [
-			1 => 20,
-			2 => 'A'
-		];
-
-		$result = Arr::removeKey(static::$_array, '0,3,4,5,6');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveKeyCase8() : void
-	{
-		$expected = [
-			1 => 20,
-			2 => 'A'
-		];
-
-		$result = Arr::removeKey(static::$_array, ['0', '3', '4', '5', '6']);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveKeyCase9() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'height' => 181,
-			'weight' => 87.5,
-			'handsome' => true,
-			'ugly' => false,
-			'other' => '',
-			'extra' => null
-		];
-
-		$result = Arr::removeKey(static::$_assocArrayMulti, 'work');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveKeyCase10() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe'
-		];
-
-		$result = Arr::removeKey(static::$_assocArrayMulti, 'age,work,height,weight,handsome,ugly,other,extra');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveKeyCase11() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe'
-		];
-
-		$result = Arr::removeKey(static::$_assocArrayMulti, ['age', 'work', 'height', 'weight', 'handsome', 'ugly', 'other', 'extra']);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveKeyCase12() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'work' => [
-				'position' => 'Web Developer',
-				'salary' => 10000,
-				'hrscore' => 9.8,
-				'excellent' => true,
-				'other' => ''
-			],
-			'height' => 181,
-			'weight' => 87.5,
-			'handsome' => true,
-			'ugly' => false,
-			'extra' => null
-		];
-
-		$result = Arr::removeKey(static::$_assocArrayMulti, 'other', false);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	// Arr::removeType()
-
-	public function testMethodRemoveTypeCase1() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::removeType([], 3.14);
-	}
-
-	public function testMethodRemoveTypeCase2() : void
-	{
-		$result = Arr::removeType([], 'string');
-
-		$this->assertEquals([], $result);
-	}
-
-	public function testMethodRemoveTypeCase3() : void
-	{
-		$expected = [
-			'age' => 38,
-			'work' => [
-				'salary' => 10000,
-				'hrscore' => 9.8,
-				'excellent' => true
-			],
-			'height' => 181,
-			'weight' => 87.5,
-			'handsome' => true,
-			'ugly' => false,
-			'extra' => null
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'string');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveTypeCase4() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'work' => [
-				'position' => 'Web Developer',
-				'hrscore' => 9.8,
-				'excellent' => true,
-				'other' => ''
-			],
-			'weight' => 87.5,
-			'handsome' => true,
-			'ugly' => false,
-			'other' => '',
-			'extra' => null
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'int');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveTypeCase5() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'work' => [
-				'position' => 'Web Developer',
-				'hrscore' => 9.8,
-				'excellent' => true,
-				'other' => ''
-			],
-			'weight' => 87.5,
-			'handsome' => true,
-			'ugly' => false,
-			'other' => '',
-			'extra' => null
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'integer');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveTypeCase6() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'work' => [
-				'position' => 'Web Developer',
-				'salary' => 10000,
-				'excellent' => true,
-				'other' => ''
-			],
-			'height' => 181,
-			'handsome' => true,
-			'ugly' => false,
-			'other' => '',
-			'extra' => null
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'float');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveTypeCase7() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'work' => [
-				'position' => 'Web Developer',
-				'salary' => 10000,
-				'excellent' => true,
-				'other' => ''
-			],
-			'height' => 181,
-			'handsome' => true,
-			'ugly' => false,
-			'other' => '',
-			'extra' => null
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'double');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveTypeCase8() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'height' => 181,
-			'weight' => 87.5,
-			'handsome' => true,
-			'ugly' => false,
-			'other' => '',
-			'extra' => null
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'array');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveTypeCase9() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'work' => [
-				'position' => 'Web Developer',
-				'salary' => 10000,
-				'hrscore' => 9.8,
-				'other' => ''
-			],
-			'height' => 181,
-			'weight' => 87.5,
-			'other' => '',
-			'extra' => null
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'bool');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveTypeCase10() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'work' => [
-				'position' => 'Web Developer',
-				'salary' => 10000,
-				'hrscore' => 9.8,
-				'other' => ''
-			],
-			'height' => 181,
-			'weight' => 87.5,
-			'other' => '',
-			'extra' => null
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'boolean');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveTypeCase11() : void
-	{
-		$testData = static::$_assocArrayMulti;
-		$data = new stdClass();
-		$testData['object'] = $data;
-
-		$expected = static::$_assocArrayMulti;
-
-		$result = Arr::removeType($testData, 'object');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveTypeCase12() : void
-	{
-		$testData = [
-			'a' => 'A',
-			'resource' => tmpfile() //fopen('php://memory', 'r')
-		];
-
-		$result = Arr::removeType($testData, 'resource');
-
-		$expected = [
-			'a' => 'A'
-		];
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodRemoveTypeCase13() : void
-	{
-		$testData = [
-			'a' => 'A',
-			'b' => null
-		];
-
-		$expected = [
-			'a' => 'A'
-		];
-
-		$result = Arr::removeType($testData, 'null');
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodRemoveTypeCase14() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'work' => [
-				'position' => 'Web Developer',
-				'other' => ''
-			],
-			'other' => ''
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, 'int,float,bool,null');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveTypeCase15() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'work' => [
-				'position' => 'Web Developer',
-				'salary' => 10000,
-				'hrscore' => 9.8,
-				'excellent' => true,
-				'other' => ''
-			],
-			'weight' => 87.5,
-			'handsome' => true,
-			'ugly' => false,
-			'other' => '',
-			'extra' => null
-		];
-
-		// Set recursive to false.
-		$result = Arr::removeType(static::$_assocArrayMulti, 'int', false);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveTypeCase16() : void
-	{
-		$expected = [
-			'age' => 38,
-			'work' => [
-				'salary' => 10000
-			],
-			'height' => 181
-		];
-
-		$result = Arr::removeType(static::$_assocArrayMulti, ['string', 'float', 'bool', 'null']);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	// Arr::removeBlank()
-
-	public function testMethodRemoveBlankCase1() : void
-	{
-		$result = Arr::removeBlank([]);
-
-		$this->assertEquals([], $result);
-	}
-
-	public function testMethodRemoveBlankCase2() : void
-	{
-		$expected = [
-			0 => 10,
-			1 => 20,
-			2 => 'A',
-			3 => 'b',
-			4 => ['x', 'y'],
-			6 => true,
-			7 => 100
-		];
-
-		$result = Arr::removeBlank(static::$_arrayMulti);
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodRemoveBlankCase3() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'work' => [
-				'position' => 'Web Developer',
-				'salary' => 10000,
-				'hrscore' => 9.8,
-				'excellent' => true
-			],
-			'height' => 181,
-			'weight' => 87.5,
-			'handsome' => true
-		];
-
-		$result = Arr::removeBlank(static::$_assocArrayMulti);
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodRemoveBlankCase4() : void
-	{
-		$expected = [
-			'name' => 'Nat',
-			'surname' => 'Withe',
-			'age' => 38,
-			'work' => [
-				'position' => 'Web Developer',
-				'salary' => 10000,
-				'hrscore' => 9.8,
-				'excellent' => true,
-				'other' => ''
-			],
-			'height' => 181,
-			'weight' => 87.5,
-			'handsome' => true
-		];
-
-		$result = Arr::removeBlank(static::$_assocArrayMulti, false);
-
-		$this->assertEquals($expected, $result);
-	}
-
-	// Arr::pullColumn()
-
-	public function testMethodPullColumnCase1() : void
-	{
-		$array = [];
-
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::pullColumn($array, 'missingkey');
-	}
-
-	public function testMethodPullColumnCase2() : void
-	{
-		$array = [[]];
-
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::pullColumn($array, 3.14);
-	}
-
-	public function testMethodPullColumnCase3() : void
-	{
-		$expected = [
-			['0.1'],
-			['1.1']
-		];
-
-		$result = Arr::pullColumn(static::$_numericDatasetArray, 0);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-
-		$this->assertArrayNotHasKey(0, static::$_numericDatasetArray[0]);
-		$this->assertArrayNotHasKey(0, static::$_numericDatasetArray[1]);
-	}
-
-	public function testMethodPullColumnCase4() : void
-	{
-		$expected = [
-			['0.1'],
-			['1.1']
-		];
-
-		$result = Arr::pullColumn(static::$_numericDatasetArray, '0');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-
-		$this->assertArrayNotHasKey(0, static::$_numericDatasetArray[0]);
-		$this->assertArrayNotHasKey(0, static::$_numericDatasetArray[1]);
-	}
-
-	public function testMethodPullColumnCase5() : void
-	{
-		$expected = [
-			[
-				'name' => 'Nat',
-				'surname' => 'Withe'
-			],
-			[
-				'name' => 'Rosie',
-				'surname' => 'Marshman'
-			],
-			[
-				'name' => 'Emma',
-				'surname' => 'McCormick'
-			],
-			[
-				'name' => 'Emma',
-				'surname' => 'Miller'
-			],
-			[
-				'name' => 'Angela',
-				'surname' => 'SG'
-			]
-		];
-
-		$result = Arr::pullColumn(static::$_datasetArray, 'name,surname');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-
-		$this->assertArrayNotHasKey('name', static::$_datasetArray[0]);
-		$this->assertArrayNotHasKey('surname', static::$_datasetArray[0]);
-		$this->assertArrayNotHasKey('name', static::$_datasetArray[1]);
-		$this->assertArrayNotHasKey('surname', static::$_datasetArray[1]);
-		$this->assertArrayNotHasKey('name', static::$_datasetArray[2]);
-		$this->assertArrayNotHasKey('surname', static::$_datasetArray[2]);
-		$this->assertArrayNotHasKey('name', static::$_datasetArray[3]);
-		$this->assertArrayNotHasKey('surname', static::$_datasetArray[3]);
-		$this->assertArrayNotHasKey('name', static::$_datasetArray[4]);
-		$this->assertArrayNotHasKey('surname', static::$_datasetArray[4]);
-	}
-
-	public function testMethodPullColumnCase6() : void
-	{
-		$expected = [
-			[
-				'name' => 'Nat',
-				'surname' => 'Withe'
-			],
-			[
-				'name' => 'Rosie',
-				'surname' => 'Marshman'
-			],
-			[
-				'name' => 'Emma',
-				'surname' => 'McCormick'
-			],
-			[
-				'name' => 'Emma',
-				'surname' => 'Miller'
-			],
-			[
-				'name' => 'Angela',
-				'surname' => 'SG'
-			]
-		];
-
-		$result = Arr::pullColumn(static::$_datasetArray, ['name', 'surname']);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-
-		$this->assertArrayNotHasKey('name', static::$_datasetArray[0]);
-		$this->assertArrayNotHasKey('surname', static::$_datasetArray[0]);
-		$this->assertArrayNotHasKey('name', static::$_datasetArray[1]);
-		$this->assertArrayNotHasKey('surname', static::$_datasetArray[1]);
-		$this->assertArrayNotHasKey('name', static::$_datasetArray[2]);
-		$this->assertArrayNotHasKey('surname', static::$_datasetArray[2]);
-		$this->assertArrayNotHasKey('name', static::$_datasetArray[3]);
-		$this->assertArrayNotHasKey('surname', static::$_datasetArray[3]);
-		$this->assertArrayNotHasKey('name', static::$_datasetArray[4]);
-		$this->assertArrayNotHasKey('surname', static::$_datasetArray[4]);
-	}
-
-	public function testMethodPullColumnCase7() : void
-	{
-		$expected = [
-			[
-				'name' => 'Nat',
-				'surname' => 'Withe'
-			],
-			[
-				'name' => 'Rosie',
-				'surname' => 'Marshman'
-			],
-			[
-				'name' => 'Emma',
-				'surname' => 'McCormick'
-			],
-			[
-				'name' => 'Emma',
-				'surname' => 'Miller'
-			],
-			[
-				'name' => 'Angela',
-				'surname' => 'SG'
-			]
-		];
-
-		$result = Arr::pullColumn(static::$_recordsetArray, 'name,surname');
-
-		$this->assertIsArray($result);
-		$this->assertIsObject($result[0]);
-		$this->assertIsObject($result[1]);
-		$this->assertIsObject($result[2]);
-		$this->assertIsObject($result[3]);
-		$this->assertIsObject($result[4]);
-
-		// Compare in array mode to ensure $expected and $result are
-		// same key/value pairs in the same order and of the same types.
-		$result[0] = (array)$result[0];
-		$result[1] = (array)$result[1];
-		$result[2] = (array)$result[2];
-		$result[3] = (array)$result[3];
-		$result[4] = (array)$result[4];
-
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[0]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[0]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[1]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[1]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[2]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[2]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[3]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[3]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[4]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[4]);
-	}
-
-	public function testMethodPullColumnCase8() : void
-	{
-		$expected = [
-			[
-				'name' => 'Nat',
-				'surname' => 'Withe'
-			],
-			[
-				'name' => 'Rosie',
-				'surname' => 'Marshman'
-			],
-			[
-				'name' => 'Emma',
-				'surname' => 'McCormick'
-			],
-			[
-				'name' => 'Emma',
-				'surname' => 'Miller'
-			],
-			[
-				'name' => 'Angela',
-				'surname' => 'SG'
-			]
-		];
-
-		$result = Arr::pullColumn(static::$_recordsetArray, ['name', 'surname']);
-
-		$this->assertIsArray($result);
-		$this->assertIsObject($result[0]);
-		$this->assertIsObject($result[1]);
-		$this->assertIsObject($result[2]);
-		$this->assertIsObject($result[3]);
-		$this->assertIsObject($result[4]);
-
-		// Compare in array mode to ensure $expected and $result are
-		// same key/value pairs in the same order and of the same types.
-		$result[0] = (array)$result[0];
-		$result[1] = (array)$result[1];
-		$result[2] = (array)$result[2];
-		$result[3] = (array)$result[3];
-		$result[4] = (array)$result[4];
-
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[0]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[0]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[1]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[1]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[2]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[2]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[3]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[3]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[4]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[4]);
-	}
-
-	// Arr::removeColumn()
-
-	public function testMethodRemoveColumnCase1() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::removeColumn([], 'missingkey');
-	}
-
-	public function testMethodRemoveColumnCase2() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::removeColumn([[]], 3.14);
-	}
-
-	public function testMethodRemoveColumnCase3() : void
-	{
-		$expected = [
-			[1 => '0.2'],
-			[1 => '1.2']
-		];
-
-		$result = Arr::removeColumn(static::$_numericDatasetArray, 0);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveColumnCase4() : void
-	{
-		$expected = [
-			[1 => '0.2'],
-			[1 => '1.2']
-		];
-
-		$result = Arr::removeColumn(static::$_numericDatasetArray, '0');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveColumnCase5() : void
-	{
-		$expected = [
-			['name' => 'Nat'],
-			['name' => 'Rosie'],
-			['name' => 'Emma'],
-			['name' => 'Emma'],
-			['name' => 'Angela']
-		];
-
-		$result = Arr::removeColumn(static::$_datasetArray, 'surname,work');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveColumnCase6() : void
-	{
-		$expected = [
-			['name' => 'Nat'],
-			['name' => 'Rosie'],
-			['name' => 'Emma'],
-			['name' => 'Emma'],
-			['name' => 'Angela']
-		];
-
-		$result = Arr::removeColumn(static::$_datasetArray, ['surname', 'work']);
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodRemoveColumnCase7() : void
-	{
-		$expected = [];
-
-		$data = new stdClass();
-		$data->name = 'Nat';
-		$expected[] = $data;
-
-		$data = new stdClass();
-		$data->name = 'Rosie';
-		$expected[] = $data;
-
-		$data = new stdClass();
-		$data->name = 'Emma';
-		$expected[] = $data;
-
-		$data = new stdClass();
-		$data->name = 'Emma';
-		$expected[] = $data;
-
-		$data = new stdClass();
-		$data->name = 'Angela';
-		$expected[] = $data;
-
-		$result = Arr::removeColumn(static::$_recordsetArray, 'surname,work,salary');
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMethodRemoveColumnCase8() : void
-	{
-		$expected = [];
-
-		$data = new stdClass();
-		$data->name = 'Nat';
-		$expected[] = $data;
-
-		$data = new stdClass();
-		$data->name = 'Rosie';
-		$expected[] = $data;
-
-		$data = new stdClass();
-		$data->name = 'Emma';
-		$expected[] = $data;
-
-		$data = new stdClass();
-		$data->name = 'Emma';
-		$expected[] = $data;
-
-		$data = new stdClass();
-		$data->name = 'Angela';
-		$expected[] = $data;
-
-		$result = Arr::removeColumn(static::$_recordsetArray, ['surname', 'work', 'salary']);
-
-		$this->assertEquals($expected, $result);
-	}
-
 	// Arr::slice()
 
 	public function testMethodSliceCase1() : void
@@ -7030,5 +6968,67 @@ class ArrTest extends TestCase
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
+	}
+
+	// Arr::implode()
+
+	public function testMethodImplodeCase1() : void
+	{
+		$result = Arr::implode([]);
+
+		$this->assertEquals('', $result);
+	}
+
+	public function testMethodImplodeCase2() : void
+	{
+		$expected = 'Nat_Withe_38_181_87.5_1';
+		$result = Arr::implode(static::$_assocArrayMulti, '_', false);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodImplodeCase3() : void
+	{
+		$expected = 'Nat_Withe_38_Web Developer_10000_9.8_1_181_87.5_1';
+		$result = Arr::implode(static::$_assocArrayMulti, '_');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	// Arr::formatKeySyntax()
+
+	public function testMethodFormatSyntaxCase1() : void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::formatKeySyntax(3.14);
+	}
+
+	public function testMethodFormatSyntaxCase2() : void
+	{
+		$result = Arr::formatKeySyntax('');
+
+		$this->assertEquals('', $result);
+	}
+
+	public function testMethodFormatSyntaxCase3() : void
+	{
+		$result = Arr::formatKeySyntax('key');
+
+		$this->assertEquals("['key']", $result);
+	}
+
+	public function testMethodFormatSyntaxCase4() : void
+	{
+		$result = Arr::formatKeySyntax('key.subkey');
+
+		$this->assertEquals("['key']['subkey']", $result);
+	}
+
+	public function testMethodFormatSyntaxCase5() : void
+	{
+		$result = Arr::formatKeySyntax(' key . subkey ');
+
+		$this->assertEquals("[' key '][' subkey ']", $result);
 	}
 }
