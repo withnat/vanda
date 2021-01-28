@@ -6461,6 +6461,39 @@ class ArrTest extends TestCase
 
 	public function testMethodRemoveColumnCase2() : void
 	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::removeColumn([[]], 3.14);
+	}
+
+	public function testMethodRemoveColumnCase3() : void
+	{
+		$expected = [
+			[1 => '0.2'],
+			[1 => '1.2']
+		];
+
+		$result = Arr::removeColumn(static::$_numericDatasetArray, 0);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveColumnCase4() : void
+	{
+		$expected = [
+			[1 => '0.2'],
+			[1 => '1.2']
+		];
+
+		$result = Arr::removeColumn(static::$_numericDatasetArray, '0');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveColumnCase5() : void
+	{
 		$expected = [
 			['name' => 'Nat'],
 			['name' => 'Rosie'],
@@ -6475,7 +6508,23 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveColumnCase3() : void
+	public function testMethodRemoveColumnCase6() : void
+	{
+		$expected = [
+			['name' => 'Nat'],
+			['name' => 'Rosie'],
+			['name' => 'Emma'],
+			['name' => 'Emma'],
+			['name' => 'Angela']
+		];
+
+		$result = Arr::removeColumn(static::$_datasetArray, ['surname', 'work']);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodRemoveColumnCase7() : void
 	{
 		$expected = [];
 
@@ -6500,6 +6549,35 @@ class ArrTest extends TestCase
 		$expected[] = $data;
 
 		$result = Arr::removeColumn(static::$_recordsetArray, 'surname,work,salary');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodRemoveColumnCase8() : void
+	{
+		$expected = [];
+
+		$data = new stdClass();
+		$data->name = 'Nat';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Rosie';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Emma';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Emma';
+		$expected[] = $data;
+
+		$data = new stdClass();
+		$data->name = 'Angela';
+		$expected[] = $data;
+
+		$result = Arr::removeColumn(static::$_recordsetArray, ['surname', 'work', 'salary']);
 
 		$this->assertEquals($expected, $result);
 	}
