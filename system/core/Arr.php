@@ -1631,11 +1631,9 @@ class Arr
 			throw InvalidArgumentException::typeError(2, ['string', 'array'], $dataTypes);
 
 		if (is_string($dataTypes))
-			$arrDataTypes = explode(',', $dataTypes);
-		else
-			$arrDataTypes = $dataTypes;
+			$dataTypes = explode(',', $dataTypes);
 
-		foreach ($arrDataTypes as $dataType)
+		foreach ($dataTypes as $dataType)
 		{
 			$dataType = strtolower($dataType);
 
@@ -1695,17 +1693,24 @@ class Arr
 	/**
 	 * Returns and removes a column by key from a dataset or recordset.
 	 *
-	 * @param  array  $data  A multi-dimensional array contains array (dataset) or object (recordset)
-	 *                       from which to pull a column of values.
-	 * @param  string $keys  The column of values to return. The $keys can be 'name,work.position'
+	 * @param  array            $data  A multi-dimensional array contains array (dataset) or object (recordset)
+	 *                                 from which to pull a column of values.
+	 * @param  string|int|array $keys  The column of values to return. The $keys can be 'name,work.position'
 	 * @return array
 	 */
-	public static function pullColumns(array &$data, string $keys) : array
+	public static function pullColumns(array &$data, $keys) : array
 	{
 		if (!static::isDataset($data) and !static::isRecordset($data))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
 
-		$keys = explode(',', $keys);
+		if (!is_string($keys) and !is_int($keys) and !is_array($keys))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'array'], $keys);
+
+		if (is_string($keys))
+			$keys = explode(',', $keys);
+		elseif (is_int($keys))
+			$keys = [$keys];
+
 		$result = [];
 
 		for ($i = 0, $n = count($data); $i < $n; ++$i)
