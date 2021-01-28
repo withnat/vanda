@@ -4,32 +4,9 @@
  *
  * A lightweight & flexible PHP CMS framework
  *
- * This content is released under the MIT License (MIT)
- *
- * Copyright (c) 2010 - 2020, Nat Withe. All rights reserved.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
  * @package     Vanda
  * @author      Nat Withe <nat@withnat.com>
- * @copyright   Copyright (c) 2010 - 2020, Nat Withe. All rights reserved.
- * @license     MIT
+ * @copyright   Copyright (c) 2010 - 2021, Nat Withe. All rights reserved.
  * @link        http://vanda.io
  */
 
@@ -76,9 +53,10 @@ final class Html
 		if (Str::isBlank($title))
 			$title = $routeUrl;
 
-		if (Request::isSPA())
+		if (App::isSPA())
 		{
 			$hash = Url::hashSPA((string)$url);
+
 			$attribs = static::setAttribute($attribs, 'href', $hash);
 			$attribs = static::setAttribute($attribs, 'data-url', $routeUrl);
 		}
@@ -514,9 +492,6 @@ final class Html
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::create(1, ['string','array','null'], $attribs);
 
-		if (is_null($attribs))
-			$attribs = '';
-
 		if (is_array($attribs))
 		{
 			if (!isset($attribs[$attribName]))
@@ -524,10 +499,18 @@ final class Html
 
 			$attribs = Arr::toString($attribs);
 		}
-		elseif (strpos($attribs, $attribName . '=') === false)
-			$attribs .= ' ' . $attribName . '="' . $attribValue . '" ';
 		else
-			$attribs = ' ' . $attribs; // maybe overwrite by empty attribute ie 'class=""'
+		{
+			if (is_null($attribs))
+				$attribs = ' ';
+			elseif ($attribs)
+				$attribs .= ' ';
+
+			if (strpos($attribs, $attribName . '=') === false)
+				$attribs .= $attribName . '="' . $attribValue . '"';
+			//else
+				//$attribs = ' ' . $attribs; // maybe overwrite by empty attribute e.g., 'class=""'
+		}
 
 		return $attribs;
 	}
