@@ -126,7 +126,7 @@ class Arr
 	 *     ]
 	 * ];
 	 *
-	 * $result = Arr::column($recordset, 'job.title');
+	 * $result = Arr::onlyColumn($recordset, 'job.title');
 	 *
 	 * The $result will be:
 	 *
@@ -136,7 +136,7 @@ class Arr
 	 *         [1] => Maketing Director
 	 * )
 	 *
-	 * $result = Arr::column($recordset, 'job.title', 'name');
+	 * $result = Arr::onlyColumn($recordset, 'job.title', 'name');
 	 *
 	 * The $result will be:
 	 *
@@ -152,7 +152,7 @@ class Arr
 	 * @param  string|int|null $indexKey   The column to use as the index/keys for the returned array.
 	 * @return array                       Returns an array of values representing a single column from the input array.
 	 */
-	public static function column(array $data, $columnKey, $indexKey = null) : array
+	public static function onlyColumn(array $data, $columnKey, $indexKey = null) : array
 	{
 		if (!static::isDataset($data) and !static::isRecordset($data))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
