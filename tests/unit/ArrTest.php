@@ -1859,26 +1859,33 @@ class ArrTest extends TestCase
 
 	public function testMethodFormatSyntaxCase1() : void
 	{
+		$this->expectException(InvalidArgumentException::class);
+
+		Arr::formatKeySyntax(3.14);
+	}
+
+	public function testMethodFormatSyntaxCase2() : void
+	{
 		$result = Arr::formatKeySyntax('');
 
 		$this->assertEquals('', $result);
 	}
 
-	public function testMethodFormatSyntaxCase2() : void
+	public function testMethodFormatSyntaxCase3() : void
 	{
 		$result = Arr::formatKeySyntax('key');
 
 		$this->assertEquals("['key']", $result);
 	}
 
-	public function testMethodFormatSyntaxCase3() : void
+	public function testMethodFormatSyntaxCase4() : void
 	{
 		$result = Arr::formatKeySyntax('key.subkey');
 
 		$this->assertEquals("['key']['subkey']", $result);
 	}
 
-	public function testMethodFormatSyntaxCase4() : void
+	public function testMethodFormatSyntaxCase5() : void
 	{
 		$result = Arr::formatKeySyntax(' key . subkey ');
 
