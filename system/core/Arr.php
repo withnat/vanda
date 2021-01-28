@@ -1327,10 +1327,12 @@ class Arr
 			else
 				$givenKeys = [];
 		}
+		elseif (is_int($keys))
+			$givenKeys = [$keys];
 		elseif (is_array($keys))
 			$givenKeys = $keys;
 		else
-			throw InvalidArgumentException::typeError(4, ['string', 'array', 'null'], $keys);
+			throw InvalidArgumentException::typeError(4, ['string', 'int', 'array', 'null'], $keys);
 
 		$obj = new $class;
 
@@ -1369,46 +1371,50 @@ class Arr
 	/**
 	 * Utility function to map an array to a string.
 	 *
-	 * @param  array           $array           The array to map.
-	 * @param  string          $innerGlue       The glue (optional, defaults to '=') between the key and the value.
-	 * @param  string          $outerGlue       The glue (optional, defaults to ' ') between array elements.
-	 * @param  string          $valueDelimiter  Value delimiter.
-	 * @param  bool            $recursive       True to recurve through multi-level arrays.
-	 * @param  string|int|null $keys            An optional field names. Only be used in top level elements.
-	 * @return string                           The string mapped from the given array.
+	 * @param  array                 $array           The array to map.
+	 * @param  string                $innerGlue       The glue (optional, defaults to '=') between the key and the value.
+	 * @param  string                $outerGlue       The glue (optional, defaults to ' ') between array elements.
+	 * @param  string                $valueDelimiter  Value delimiter.
+	 * @param  bool                  $recursive       True to recurve through multi-level arrays.
+	 * @param  string|int|array|null $keys            An optional field names. Only be used in top level elements.
+	 * @return string                                 The string mapped from the given array.
 	 */
 	public static function toString(array $array, string $innerGlue = '=', string $outerGlue = ' ', string $valueDelimiter = '"', bool $recursive = true, $keys = null) : string
 	{
-		if (!is_null($keys) and !is_string($keys) and !is_int($keys))
-			throw InvalidArgumentException::typeError(6, ['string', 'int', 'null'], $keys);
-
-		$output = [];
-
-		if (is_array($array))
+		if (is_null($keys))
+			$givenKeys = [];
+		elseif (is_string($keys))
 		{
-			$keys = (string)$keys;
-
 			if ($keys !== '') // can be '0'.
 				$givenKeys = explode(',', $keys);
 			else
 				$givenKeys = [];
+		}
+		elseif (is_int($keys))
+			$givenKeys = [$keys];
+		elseif (is_array($keys))
+			$givenKeys = $keys;
+		else
+			throw InvalidArgumentException::typeError(6, ['string', 'int', 'array', 'null'], $keys);
 
-			foreach ($array as $key => $value)
+		$output = [];
+
+		foreach ($array as $key => $value)
+		{
+			// If the $key is 0 (interger) and the $givenKeys contains only string
+			// e.g., in_array(0, ['a', 'b', 'c'] it always return TRUE.
+			if ($key === 0)
+				$key = (string)$key;
+
+			if (!$givenKeys or in_array($key, $givenKeys))
 			{
-				if (is_numeric($key))
-				// Use in_array() function instead of Arr::has() method
-				// because I don't need strict type comparison. For numeric
-				// array, an index key 0 (int) is same as '0' (string).
-				if (!$givenKeys or in_array($key, $givenKeys))
+				if (is_array($value))
 				{
-					if (is_array($value))
-					{
-						if ($recursive)
-							$output[] = static::toString($value, $innerGlue, $outerGlue, $valueDelimiter, $recursive);
-					}
-					else
-						$output[] = $key . $innerGlue . $valueDelimiter . $value . $valueDelimiter;
+					if ($recursive)
+						$output[] = static::toString($value, $innerGlue, $outerGlue, $valueDelimiter, $recursive);
 				}
+				else
+					$output[] = $key . $innerGlue . $valueDelimiter . $value . $valueDelimiter;
 			}
 		}
 
