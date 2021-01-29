@@ -39,7 +39,10 @@ final class Str
 	private function __construct(){}
 
 	/**
-	 * @param  string|null $encoding
+	 * Gets the character encoding. If it is omitted or null, the internal
+	 * character encoding value will be used.
+	 *
+	 * @param  string|null $encoding  The character encoding can be overwritten.
 	 * @return string
 	 */
 	private static function _getEncoding(string $encoding = null) : string
@@ -64,7 +67,8 @@ final class Str
 	 * An alias for PHP's mb_strlen() function.
 	 *
 	 * @param  string      $string    The string being measured for length.
-	 * @param  string|null $encoding  The character encoding.
+	 * @param  string|null $encoding  Optional. The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return int                    The length of the string on success, and 0 if the string is empty.
 	 */
 	public static function length(string $string, string $encoding = null) : int
@@ -83,7 +87,8 @@ final class Str
 	 * @param  string      $string         The input string.
 	 * @param  string      $substring      The substring to search for.
 	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity.
-	 * @param  string|null $encoding       The character encoding.
+	 * @param  string|null $encoding       Optional. The character encoding. If it is omitted or null,
+	 *                                     the internal character encoding value will be used.
 	 * @return int                         The number of $substring occurrences.
 	 */
 	public static function count(string $string, string $substring, bool $caseSensitive = true, string $encoding = null) : int
@@ -102,10 +107,10 @@ final class Str
 	}
 
 	/**
-	 * Counts words in a string.
+	 * Counts words in the given string.
 	 *
-	 * @param  string $string
-	 * @return int
+	 * @param  string $string  The string being counted on.
+	 * @return int             Returns the number of words in the given string.
 	 */
 	public static function countWords(string $string) : int
 	{
@@ -119,9 +124,10 @@ final class Str
 	/**
 	 * Returns the first $length (leading) characters of the given string.
 	 *
-	 * @param  string      $string
-	 * @param  int         $length
-	 * @param  string|null $encoding
+	 * @param  string      $string    The input string.
+	 * @param  int         $length    The length of character to return.
+	 * @param  string|null $encoding  Optional. The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return string
 	 */
 	public static function left(string $string, int $length = 1, string $encoding = null) : string
@@ -135,9 +141,10 @@ final class Str
 	/**
 	 * Returns the last $length (trailing) characters of the given string.
 	 *
-	 * @param  string      $string
-	 * @param  int         $length
-	 * @param  string|null $encoding
+	 * @param  string      $string    The input string.
+	 * @param  int         $length    The length of character to return. Default to 1.
+	 * @param  string|null $encoding  Optional. The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return string
 	 */
 	public static function right(string $string, int $length = 1, string $encoding = null) : string
@@ -155,9 +162,10 @@ final class Str
 	/**
 	 * Returns the character at $index, with indexes starting at 0.
 	 *
-	 * @param  string      $string
-	 * @param  int         $index
-	 * @param  string|null $encoding
+	 * @param  string      $string    The input string.
+	 * @param  int         $index     The location of a character in the given string.
+	 * @param  string|null $encoding  Optional. The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return string
 	 */
 	public static function at(string $string, int $index, string $encoding = null) : string
@@ -174,10 +182,12 @@ final class Str
 	/**
 	 * Returns the portion of string specified by the start and length parameters.
 	 *
-	 * @param  string      $string
-	 * @param  int         $start
-	 * @param  int|null    $length
-	 * @param  string|null $encoding
+	 * @param  string      $string    The input string.
+	 * @param  int         $start     Specifies where to start in the string.
+	 * @param  int|null    $length    Specifies the length of the returned string. Default is
+	 *                                to the end of the string.
+	 * @param  string|null $encoding  Optional. The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return string
 	 */
 	public static function slice(string $string, int $start, int $length = null, string $encoding = null) : string
@@ -195,7 +205,8 @@ final class Str
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $length    How many characters from original string to include into truncated string.
 	 * @param  string      $suffix    String to append to the end of the truncated string.
-	 * @param  string|null $encoding  The character encoding.
+	 * @param  string|null $encoding  The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return string                 The truncated string.
 	 * @see    https://en.wikipedia.org/wiki/Escape_character
 	 */
@@ -244,7 +255,8 @@ final class Str
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $words     How many words from original string to include into truncated string.
 	 * @param  string      $suffix    String to append to the end of truncated string.
-	 * @param  string|null $encoding  The character encoding.
+	 * @param  string|null $encoding  The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return string                 The truncated string.
 	 */
 	public static function limitWords(string $string, int $words, string $suffix = '...', string $encoding = null) : string
@@ -272,7 +284,8 @@ final class Str
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
 	 * @param  int         $offset    Offset from which to search.
-	 * @param  string|null $encoding  The character encoding.
+	 * @param  string|null $encoding  The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return int|false              The first occurrence's index if found, otherwise false.
 	 */
 	public static function position(string $string, string $search, int $offset = 0, string $encoding = null)
@@ -290,7 +303,8 @@ final class Str
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
 	 * @param  int         $offset    Offset from which to search.
-	 * @param  string|null $encoding  The character encoding.
+	 * @param  string|null $encoding  The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return int|false              The last occurrence's index if found, otherwise false.
 	 */
 	public static function lastPosition(string $string, string $search, int $offset = 0, string $encoding = null)
@@ -308,7 +322,8 @@ final class Str
 	 * @param  string      $start     The start of the substring.
 	 * @param  string      $end       The end of the substring.
 	 * @param  int         $offset    Offset from which to search.
-	 * @param  string|null $encoding  The character encoding.
+	 * @param  string|null $encoding  The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return string                 A substring between $start and $end.
 	 */
 	public static function between(string $string, string $start, string $end, int $offset = 0, string $encoding = null) : string
@@ -359,9 +374,10 @@ final class Str
 	/**
 	 * Strip whitespace (or other characters) from the beginning of a string.
 	 *
-	 * @param  string          $string         The input string.
+	 * @param  string          $string         The given string.
 	 * @param  string|int|null $characterMask  Built-in PHP function ltrim() not allow $characterMask to number.
-	 * @param  string|null     $encoding       The character encoding.
+	 * @param  string|null     $encoding       The character encoding. If it is omitted or null,
+	 *                                         the internal character encoding value will be used.
 	 * @return string                          This function returns a string depends on $characterMask data type.
 	 *                                         If $characterMask is null : returns a string with whitespace stripped from the beginning of $string.
 	 *                                         If $characterMask is string : returns a string with characters stripped from the beginning of $string.
@@ -388,9 +404,10 @@ final class Str
 	/**
 	 * Strip whitespace (or other characters) from the end of a string.
 	 *
-	 * @param  string          $string         The input string.
+	 * @param  string          $string         The given string.
 	 * @param  string|int|null $characterMask  Built-in PHP function rtrim() not allow $characterMask to number.
-	 * @param  string|null     $encoding       The encoding.
+	 * @param  string|null     $encoding       The character encoding. If it is omitted or null,
+	 *                                         the internal character encoding value will be used.
 	 * @return string                          This function returns a string depends on $characterMask data type.
 	 *                                         If $characterMask is null : returns a string with whitespace stripped from the end of $string.
 	 *                                         If $characterMask is string : returns a string with characters stripped from the end of $string.
@@ -423,7 +440,7 @@ final class Str
 	//
 
 	/**
-	 * Quote string with slashes.
+	 * Quotes string with slashes.
 	 *
 	 * @param  string $string
 	 * @return string
@@ -633,7 +650,7 @@ final class Str
 	/**
 	 * Converts double spaces in a string to a single space.
 	 *
-	 * @param  string $string  The input string.
+	 * @param  string $string  The given string.
 	 * @return string          A trimmed string and condensed whitespace.
 	 */
 	public static function reduceDoubleSpaces(string $string) : string
@@ -976,7 +993,7 @@ final class Str
 	 * (optionally) length parameters with the string given
 	 * in replacement. A multibyte version of substr_replace().
 	 *
-	 * @param  string      $string    The input string.
+	 * @param  string      $string    The given string.
 	 * @param  string      $replace   The replacement string.
 	 * @param  int         $start     If start is positive, the replacing will begin at the start'th offset into string.
 	 *                                If start is negative, the replacing will begin at the start'th character from the
@@ -987,7 +1004,8 @@ final class Str
 	 *                                default to strlen( string ); i.e. end the replacing at the end of string.
 	 *                                Of course, if length is zero then this function will have the effect of inserting
 	 *                                replacement into string at the given start offset.
-	 * @param  string|null $encoding  The character encoding.
+	 * @param  string|null $encoding  The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return string                 The result string is returned.
 	 */
 	public static function subreplace(string $string, string $replace, int $start, int $length = null, string $encoding = null) : string
@@ -1066,8 +1084,9 @@ final class Str
 	/**
 	 * Returns a reversed string. A multibyte version of strrev().
 	 *
-	 * @param  string      $string    The input string.
-	 * @param  string|null $encoding  The character encoding.
+	 * @param  string      $string    The given string.
+	 * @param  string|null $encoding  The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return string                 A reversed string.
 	 */
 	public static function reverse(string $string, string $encoding = null) : string
@@ -1414,7 +1433,7 @@ final class Str
 	/**
 	 * Converts each occurrence of some consecutive number of spaces, as defined by $tabLength, to a tab.
 	 *
-	 * @param  string $string     The input string.
+	 * @param  string $string     The given string.
 	 * @param  int    $tabLength  Number of spaces to replace with a tab.
 	 * @return string
 	 */
@@ -1429,7 +1448,7 @@ final class Str
 	/**
 	 * Converts each tab in the string to some number of spaces, as defined by $tabLength.
 	 *
-	 * @param  string $string     The input string.
+	 * @param  string $string     The given string.
 	 * @param  int    $tabLength  Number of spaces to replace each tab with.
 	 * @return string
 	 */
@@ -1740,8 +1759,9 @@ final class Str
 	/**
 	 * Returns an array consisting of the characters in the string.
 	 *
-	 * @param  string      $string    The input string.
-	 * @param  string|null $encoding  The character encoding.
+	 * @param  string      $string    The given string.
+	 * @param  string|null $encoding  The character encoding. If it is omitted or null,
+	 *                                the internal character encoding value will be used.
 	 * @return array                  An array of string chars.
 	 */
 	public static function chars(string $string, string $encoding = null) : array
