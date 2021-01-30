@@ -1166,9 +1166,17 @@ final class Str
 	/**
 	 * Returns a repeated string given a multiplier. An alias for str_repeat.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'A';
+	 * $result = Str::repeat($string);
+	 * // the result is: AAA
+	 * ```
+	 *
 	 * @param  string $string      The string to repeat.
 	 * @param  int    $multiplier  The number of times to repeat the string.
-	 * @return string
+	 * @return string              Returns the repeated string.
 	 */
 	public static function repeat(string $string, int $multiplier) : string
 	{
