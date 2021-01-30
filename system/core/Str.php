@@ -2118,6 +2118,13 @@ final class Str
 	/**
 	 * Converts each occurrence of some consecutive number of spaces, as defined by $tabLength, to a tab.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::spaceToTab('    ');
+	 * // the result is: \t
+	 * ```
+	 *
 	 * @param  string $string     The given string.
 	 * @param  int    $tabLength  Number of spaces to replace with a tab.
 	 * @return string
