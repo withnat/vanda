@@ -952,7 +952,16 @@ final class Str
 	/**
 	 * Converts double spaces in a string to a single space.
 	 *
-	 * @param  string $string  The given string.
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'A  B      C';
+	 *
+	 * $result = Str::reduceDoubleSpaces($string);
+	 * // the result is: A B C
+	 * ```
+	 *
+	 * @param  string $string  The input string.
 	 * @return string          A trimmed string and condensed whitespace.
 	 */
 	public static function reduceDoubleSpaces(string $string) : string
