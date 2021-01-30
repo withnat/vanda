@@ -102,7 +102,7 @@ final class Str
 	 * // the result is: 4
 	 * ```
 	 *
-	 * @param  string      $string         The input string.
+	 * @param  string      $string         The string being counted on.
 	 * @param  string      $substring      The substring to search for.
 	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to TRUE.
 	 * @param  string|null $encoding       Optional, the character encoding. If it is omitted or null, the internal
@@ -262,7 +262,7 @@ final class Str
 	 * // the result is: fa:Bm
 	 * ```
 	 *
-	 * @param  string      $string    The input string.
+	 * @param  string      $string    The string to slice.
 	 * @param  int         $start     Specifies where to start in the string.
 	 * @param  int|null    $length    Specifies the length of the returned string. Default is to the end of the string.
 	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
@@ -295,7 +295,7 @@ final class Str
 	 *
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $length    How many characters from original string to include into truncated string.
-	 * @param  string      $suffix    String to append to the end of the truncated string.
+	 * @param  string      $suffix    String to append to the end of the truncated string. Default is '...'
 	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string                 The truncated string.
@@ -357,7 +357,7 @@ final class Str
 	 *
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $words     How many words from original string to include into truncated string.
-	 * @param  string      $suffix    String to append to the end of truncated string.
+	 * @param  string      $suffix    String to append to the end of truncated string. Default is '...'
 	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string                 The truncated string.
@@ -398,7 +398,7 @@ final class Str
 	 *
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
-	 * @param  int         $offset    Offset from which to search.
+	 * @param  int         $offset    Offset from which to search. Default to 0.
 	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return int|false              The first occurrence's index if found, otherwise false.
@@ -429,7 +429,7 @@ final class Str
 	 *
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
-	 * @param  int         $offset    Offset from which to search.
+	 * @param  int         $offset    Offset from which to search. Default to 0.
 	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return int|false              The last occurrence's index if found, otherwise false.
@@ -445,10 +445,22 @@ final class Str
 	/**
 	 * Returns the substring between $start and $end, if found, or an empty string.
 	 *
-	 * @param  string      $string    The string being checked.
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::between($string, 'F', 'M');
+	 * // the result is: :eF
+	 *
+	 * $result = Str::between($string, ':', ':', 10);
+	 * // the result is: /fabcdefa
+	 * ```
+	 *
+	 * @param  string      $string    The input string.
 	 * @param  string      $start     The start of the substring.
 	 * @param  string      $end       The end of the substring.
-	 * @param  int         $offset    Offset from which to search.
+	 * @param  int         $offset    Offset from which to search. Default to 0.
 	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string                 A substring between $start and $end.
