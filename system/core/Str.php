@@ -1748,8 +1748,8 @@ final class Str
 	}
 
 	/**
-	 * Adds a single instance of the given substring to the beginning of
-	 * a string if it does not already start with the given substring.
+	 * Adds a single instance of the given value to the beginning of
+	 * a string if it does not already start with the value.
 	 *
 	 * For example,
 	 *
@@ -1764,10 +1764,10 @@ final class Str
 	 * ```
 	 *
 	 * @param  string      $string    The string to search in.
-	 * @param  string      $prefix    The substring to search for in the given string.
+	 * @param  string      $prefix    The value to search for at the beginning of the given string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used.
-	 * @return string                 Returns string with the given substring at the beginning of the string.
+	 * @return string                 Returns string with the given value at the beginning of the string.
 	 */
 	public static function ensureStartsWith(string $string, string $prefix, string $encoding = null) : string
 	{
@@ -1781,8 +1781,8 @@ final class Str
 	}
 
 	/**
-	 * Adds a single instance of the given substring to the end of
-	 * a string if it does not already end with the given substring.
+	 * Adds a single instance of the given value to the end of
+	 * a string if it does not already end with the value.
 	 *
 	 * For example,
 	 *
@@ -1797,10 +1797,10 @@ final class Str
 	 * ```
 	 *
 	 * @param  string      $string    The string to search in.
-	 * @param  string      $suffix    The substring to search for in the given string.
+	 * @param  string      $suffix    The value to search for at the end of the given string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used.
-	 * @return string                 Returns string with the given substring at the end of the string.
+	 * @return string                 Returns string with the given value at the end of the string.
 	 */
 	public static function ensureEndsWith(string $string, string $suffix, string $encoding = null) : string
 	{
@@ -1814,12 +1814,24 @@ final class Str
 	}
 
 	/**
-	 * Adds a single instance of the given value to a string if it does not already start and end with the value.
+	 * Adds a single instance of the given value to a string
+	 * if it does not already start and end with the value.
 	 *
-	 * @param  string      $string
-	 * @param  string      $character
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::wrap('', '|');
+	 * // the result is: ||
+	 *
+	 * $result = Str::wrap('value', '|');
+	 * // the result is: |value|
+	 * ```
+	 *
+	 * @param  string      $string     The string being wrapped.
+	 * @param  string      $character  The character to search for in the given string.
+	 * @param  string|null $encoding   Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                 character encoding value will be used.
+	 * @return string                  Returns string with the given value at the beginning and end of the string.
 	 */
 	public static function wrap(string $string, string $character, string $encoding = null) : string
 	{
