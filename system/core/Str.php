@@ -2541,38 +2541,52 @@ final class Str
 	 * ```
 	 *
 	 * @param  string      $string         The input string.
-	 * @param  string      $needle         The substring to search for in the given string.
+	 * @param  string      $substring      The substring to search for in the given string.
 	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return bool                        Returns true if the given substring is in the given string, false otherwise.
 	 */
-	public static function contains(string $string, string $needle, bool $caseSensitive = true, string $encoding = null) : bool
+	public static function contains(string $string, string $substring, bool $caseSensitive = true, string $encoding = null) : bool
 	{
 		$encoding = Str::_getEncoding($encoding);
 
 		if ($caseSensitive)
-			$result = ($needle !== '' and mb_strpos($string, $needle, 0, $encoding) !== false);
+			$result = ($substring !== '' and mb_strpos($string, $substring, 0, $encoding) !== false);
 		else
-			$result = ($needle !== '' and mb_stripos($string, $needle, 0, $encoding) !== false);
+			$result = ($substring !== '' and mb_stripos($string, $substring, 0, $encoding) !== false);
 
 		return $result;
 	}
 
 	/**
-	 * Determines if a given string contains some array values.
+	 * Determines if a given string contains some given substrings.
 	 *
-	 * @param  string      $string
-	 * @param  array       $needles
-	 * @param  bool        $caseSensitive
-	 * @param  string|null $encoding
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::containsAny(['za', 'NoneExistingChar']);
+	 * // the result is: false
+	 *
+	 * $result = Str::containsAny(['za', 'NoneExistingChar'], false);
+	 * // the result is: true
+	 * ```
+	 *
+	 * @param  string      $string         The input string.
+	 * @param  array       $substrings     The substrings to search for in the given string.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                     character encoding value will be used.
+	 * @return bool                        Returns true if some given substrings are in the given string, false
+	 *                                     otherwise.
 	 */
-	public static function containsAny(string $string, array $needles, bool $caseSensitive = true, string $encoding = null) : bool
+	public static function containsAny(string $string, array $substrings, bool $caseSensitive = true, string $encoding = null) : bool
 	{
-		foreach ($needles as $needle)
+		foreach ($substrings as $substring)
 		{
-			if (Str::contains($string, $needle, $caseSensitive, $encoding))
+			if (Str::contains($string, $substring, $caseSensitive, $encoding))
 				return true;
 		}
 
