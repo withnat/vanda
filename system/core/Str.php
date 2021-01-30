@@ -2386,8 +2386,18 @@ final class Str
 	/**
 	 * Returns true if the string contains only hexadecimal chars, false otherwise.
 	 *
-	 * @param  string $string
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::isHexadecimal('D1CE');
+	 * // the result is: true
+	 *
+	 * $result = Str::isHexadecimal('D1ZE');
+	 * // the result is: false
+	 * ```
+	 *
+	 * @param  string $string  The input string.
+	 * @return bool            Returns true if the string contains only hexadecimal chars, false otherwise.
 	 */
 	public static function isHexadecimal(string $string) : bool
 	{
