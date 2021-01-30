@@ -2690,10 +2690,22 @@ final class Str
 	/**
 	 * Returns an array consisting of the characters in the string.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::chars('ABC');
+	 * // the result is:
+	 * // [
+	 * //     0 => 'A',
+	 * //     1 => 'B',
+	 * //     2 => 'C'
+	 * // ]
+	 * ```
+	 *
 	 * @param  string      $string    The given string.
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
-	 * @return array                  An array of string chars.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
+	 * @return array                  An array of string characters.
 	 */
 	public static function chars(string $string, string $encoding = null) : array
 	{
