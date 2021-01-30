@@ -1899,7 +1899,7 @@ class StrTest extends TestCase
 
 	public function testMethodHasLowerCaseCase3() : void
 	{
-		$string = 'bbc';
+		$string = 'abc';
 
 		$result = Str::hasLowerCase($string);
 
