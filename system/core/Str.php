@@ -998,11 +998,21 @@ final class Str
 	//
 
 	/**
-	 * Converts the given string to lower-case..
+	 * Converts the given string to lower-case.
 	 *
-	 * @param  string      $string
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'I LOVE YOU';
+	 *
+	 * $result = Str::lowerCase($string);
+	 * // the result is: i love you
+	 * ```
+	 *
+	 * @param  string      $string    The string being lowercased.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
+	 * @return string                 Returns string with all alphabetic characters converted to lowercase.
 	 */
 	public static function lowerCase(string $string, string $encoding = null) : string
 	{
