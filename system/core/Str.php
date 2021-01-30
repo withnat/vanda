@@ -2885,8 +2885,15 @@ final class Str
 	/**
 	 * Decodes data encoded with MIME base64.
 	 *
-	 * @param  string $string
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::base64decode('TmF0IFdpdGhl');
+	 * // the result is: Nat Withe
+	 * ```
+	 *
+	 * @param  string $string  The input string.
+	 * @return string          Returns the decoded data or false on failure. The returned data may be binary.
 	 */
 	public static function base64decode(string $string) : string
 	{
