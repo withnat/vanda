@@ -127,6 +127,14 @@ final class Str
 	/**
 	 * Counts words in the given string.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'Nat Withe';
+	 * $result = Str::countWords($string);
+	 * // the result is: 2
+	 * ```
+	 *
 	 * @param  string $string  The string being counted on.
 	 * @return int             Returns the number of words in the given string.
 	 */
