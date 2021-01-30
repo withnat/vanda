@@ -726,11 +726,11 @@ class StrTest extends TestCase
 
 	public function testMethodRemoveInvisibleCharactersCase1() : void
 	{
-		$string = "http://www.some-site.com//index.php\0";
+		$string = "http://www.some-site.com/index.php\0";
 
 		$result = Str::removeInvisibleCharacters($string, true);
 
-		$this->assertEquals('http://www.some-site.com//index.php', $result);
+		$this->assertEquals('http://www.some-site.com/index.php', $result);
 	}
 
 	// Str::removeLeft()
