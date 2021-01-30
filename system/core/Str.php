@@ -387,7 +387,7 @@ final class Str
 	 * For example,
 	 *
 	 * ```php
-	 * $string = 'Nat is so tall, and handsome as hell';
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::position($string, 'a');
 	 * // the result is: 13
@@ -414,6 +414,18 @@ final class Str
 	/**
 	 * Finds position of last occurrence of string in a string.
 	 * Accepts an optional offset from which to begin the search.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::lastPosition($string, ':');
+	 * // the result is: 24
+	 *
+	 * $result = Str::lastPosition($string, ':', -10);
+	 * // the result is: 14
+	 * ```
 	 *
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
