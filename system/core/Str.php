@@ -2055,12 +2055,28 @@ final class Str
 	}
 
 	/**
-	 * Adds _1 to a string or increment the ending number to allow _2, _3, etc.
+	 * Adds _1 to a given string or increment the ending number to allow _2, _3, etc.
 	 *
-	 * @param  string $string     The string.
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::increment('file');
+	 * // the result is: file_1
+	 *
+	 * $result = Str::increment('file_1');
+	 * // the result is: file_2
+	 *
+	 * $result = Str::increment('file', '-', 100);
+	 * // the result is: file-100
+	 *
+	 * $result = Str::increment('file-100', '-', 100);
+	 * // the result is: file-101
+	 * ```
+	 *
+	 * @param  string $string     The input string.
 	 * @param  string $separator  What should the duplicate number be appended with.
 	 * @param  int    $first      Which number should be used for the first dupe increment.
-	 * @return string
+	 * @return string             Returns a string with number.
 	 */
 	public static function increment(string $string, string $separator = '_', int $first = 1) : string
 	{
