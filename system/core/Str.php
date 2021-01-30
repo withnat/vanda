@@ -681,8 +681,8 @@ final class Str
 	 * because htmlentities can cause display problems with
 	 * your text depending on what characters are being output.
 	 *
-	 * @param  string $string
-	 * @return string
+	 * @param  string $string  The string being converted.
+	 * @return string          The converted string.
 	 */
 	public static function htmlEncode(string $string) : string
 	{
