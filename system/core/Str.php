@@ -2095,6 +2095,13 @@ final class Str
 	 *
 	 * The decimal separator will always be `.`.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::floatToString(3,14);
+	 * // the result is: 3.14 (string)
+	 * ```
+	 *
 	 * @param  float|int $number  A floating point number or integer.
 	 * @return string             The string representation of the number.
 	 */
