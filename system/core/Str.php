@@ -104,7 +104,7 @@ final class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  string      $substring      The substring to search for.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to TRUE.
 	 * @param  string|null $encoding       Optional, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return int                         The number of $substring occurrences.
@@ -159,7 +159,7 @@ final class Str
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
-	 * @param  int         $length    The length of character to return.
+	 * @param  int         $length    The length of character to return. Default to 1.
 	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string
@@ -174,6 +174,14 @@ final class Str
 
 	/**
 	 * Returns the last $length (trailing) characters of the given string.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'Nat Withe';
+	 * $result = Str::right($string);
+	 * // the result is: e
+	 * ```
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  int         $length    The length of character to return. Default to 1.
