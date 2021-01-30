@@ -749,8 +749,8 @@ final class Str
 	/**
 	 * Removes HTML and PHP tags from a string.
 	 *
-	 * @param  string $string
-	 * @return string
+	 * @param  string $string  The input string.
+	 * @return string          Returns the stripped string.
 	 */
 	public static function removeTags(string $string) : string
 	{
