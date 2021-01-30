@@ -1763,7 +1763,7 @@ final class Str
 	 * // the result is: _ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
 	 * ```
 	 *
-	 * @param  string      $string    The string to search in.
+	 * @param  string      $string    The input tstring.
 	 * @param  string      $prefix    The value to search for at the beginning of the given string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used.
@@ -1796,7 +1796,7 @@ final class Str
 	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz_
 	 * ```
 	 *
-	 * @param  string      $string    The string to search in.
+	 * @param  string      $string    The input string.
 	 * @param  string      $suffix    The value to search for at the end of the given string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used.
@@ -1847,13 +1847,29 @@ final class Str
 	//
 
 	/**
-	 * Returns the remainder of a string after the first occurrence of a given value.
+	 * Returns the remainder of a string after the first occurrence of a given substring.
 	 *
-	 * @param  string      $string
-	 * @param  string      $search
-	 * @param  bool        $caseSensitive
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::after($string, '');
+	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 *
+	 * $result = Str::after($string, 'r');
+	 * // the result is: z
+	 *
+	 * $result = Str::after($string, 'r', false);
+	 * // the result is: Za:/fabcdefa:Bmnrz
+	 * ```
+	 *
+	 * @param  string      $string         The input string.
+	 * @param  string      $search         The substring to search for in the given string.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                     character encoding value will be used.
+	 * @return string                      Returns the remainder of a given string.
 	 */
 	public static function after(string $string, string $search, bool $caseSensitive = true, string $encoding = null) : string
 	{
