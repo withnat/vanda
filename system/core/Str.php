@@ -1890,7 +1890,7 @@ final class Str
 	}
 
 	/**
-	 * Returns the remainder of a string after the last occurrence of a given value.
+	 * Returns the remainder of a string after the last occurrence of a given substring.
 	 *
 	 * For example,
 	 *
@@ -1933,13 +1933,26 @@ final class Str
 	}
 
 	/**
-	 * Gets the portion of a string before the first occurrence of a given value.
+	 * Returns the portion of a string before the first occurrence of a given substring.
 	 *
-	 * @param  string      $string
-	 * @param  string      $search
-	 * @param  bool        $caseSensitive
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::before($string, 'e');
+	 * // the result is: ABCDEF
+	 *
+	 * $result = Str::before($string, 'e', false);
+	 * // the result is: ABCD
+	 * ```
+	 *
+	 * @param  string      $string         The input string.
+	 * @param  string      $search         The substring to search for in the given string.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                     character encoding value will be used.
+	 * @return string                      Returns the portion of the given string
 	 */
 	public static function before(string $string, string $search, bool $caseSensitive = true, string $encoding = null) : string
 	{
