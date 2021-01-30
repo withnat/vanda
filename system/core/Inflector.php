@@ -272,7 +272,10 @@ final class Inflector
 	/**
 	 * Returns camelBacked version of a string. Same as camelize but first char is lowercased.
 	 *
-	 * e.g., "Some Day" or "some_day" ot "someDay", "She's hot" to "sheSHot"
+	 * e.g.,
+	 *
+	 * "Some Day" or "some_day" to "someDay"
+	 * "She's hot" to "sheSHot"
 	 *
 	 * @param  string $string  String to be camelBacked.
 	 * @return string
@@ -288,6 +291,8 @@ final class Inflector
 
 	/**
 	 * Gets the foreign key for a given class, model or table name.
+	 *
+	 * e.g., "UserGroup" to "userGroupId"
 	 *
 	 * @param  string $string  The class, model or table name.
 	 * @return string          The foreign key.
@@ -309,6 +314,8 @@ final class Inflector
 	 * Takes a "title" string as input and creates a
 	 * human-friendly URL string with a "separator" string
 	 * as the word separator.
+	 *
+	 * e.g., "Url Friendly" to "url-friendly"
 	 *
 	 * @param  string $string     Input string.
 	 * @param  string $separator  Word separator (usually '-' or '_').
@@ -340,7 +347,15 @@ final class Inflector
 	}
 
 	/**
-	 * Add order suffix to numbers ex. 1st 2nd 3rd 4th 5th.
+	 * Add order suffix to numbers.
+	 *
+	 * e.g.,
+	 *
+	 * 1 to "1st"
+	 * 2 to "2nd"
+	 * 3 to "3rd"
+	 * 4 to "4th"
+	 * 5 to "5th"
 	 *
 	 * @param  int    $number  The number to get its ordinal value.
 	 * @return string          The ordinalized version of $number.
@@ -369,6 +384,14 @@ final class Inflector
 	}
 
 	/**
+	 * Converts a string into a Vanda Controller format.
+	 *
+	 * e.g.,
+	 *
+	 * "Some Day" to "SomeDayController"
+	 * "some_day" to "SomeDayController"
+	 * "She's hot" to "SheSHotController"
+	 *
 	 * @param  string $string
 	 * @return string
 	 */
@@ -380,6 +403,14 @@ final class Inflector
 	}
 
 	/**
+	 * Converts a string into a Vanda Action format.
+	 *
+	 * e.g.,
+	 *
+	 * "Some Day" to "SomeDayAction"
+	 * "some_day" to "SomeDayAction"
+	 * "She's hot" to "SheSHotAction"
+	 *
 	 * @param  string $string
 	 * @return string
 	 */
@@ -395,6 +426,7 @@ final class Inflector
 	 *
 	 * Special treatment is done for the last few words. For example,
 	 *
+	 * ```php
 	 * $words = ['Nat', 'Angela'];
 	 * echo Inflector::sentence($words);
 	 * // output: Nat and Angela
@@ -406,6 +438,7 @@ final class Inflector
 	 * $words = ['Nat', 'Angela', 'Vanda'];
 	 * echo Inflector::sentence($words, ' & ');
 	 * // output: Nat, Angela & Vanda
+	 * ```
 	 *
 	 * @param  array       $words              The words to be converted into an string.
 	 * @param  string|null $lastWordConnector  The string connecting the last two words.

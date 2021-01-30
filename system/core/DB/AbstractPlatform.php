@@ -1858,7 +1858,7 @@ abstract class AbstractPlatform
 		$datas = static::_prepareDataBeforeSave($data);
 		$data = $datas[0];
 
-		// Data maybe empty after calling static::_prepareDataBeforeSave()
+		// Data may be empty after calling static::_prepareDataBeforeSave()
 		if (empty($data))
 			return '';
 

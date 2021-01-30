@@ -509,7 +509,7 @@ final class Html
 			if (strpos($attribs, $attribName . '=') === false)
 				$attribs .= $attribName . '="' . $attribValue . '"';
 			//else
-				//$attribs = ' ' . $attribs; // maybe overwrite by empty attribute e.g., 'class=""'
+				//$attribs = ' ' . $attribs; // Maybe overwrite by empty attribute e.g., 'class=""'.
 		}
 
 		return $attribs;

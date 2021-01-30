@@ -22,6 +22,10 @@ use System\Exception\InvalidArgumentException;
 
 /**
  * Class Arr
+ *
+ * Additionally to the rich set of built-in PHP array functions, the Vanda array helper
+ * provides extra static methods allowing you to deal with arrays more efficiently.
+ *
  * @package System
  */
 class Arr
@@ -1389,7 +1393,7 @@ class Arr
 			{
 				if ($recursive)
 				{
-					// Data under this level maybe is an object.
+					// Data under this level may be is an object.
 					// e.g., object > array (this level) > object > ...
 					// So convert array to object to ensure it will
 					// go to next level recursively.
@@ -1525,7 +1529,7 @@ class Arr
 			{
 				if ($recursive)
 				{
-					// Data under this level maybe is an array.
+					// Data under this level may be is an array.
 					// e.g., array > object (this level) > array > ...
 					// So convert object to array to ensure it will
 					// go to next level recursively.

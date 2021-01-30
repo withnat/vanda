@@ -18,6 +18,10 @@ use System\Exception\InvalidArgumentException;
 
 /**
  * Class Csv
+ *
+ * Class to handle parsing of CSV files, where the column headers are in the
+ * first row.
+ *
  * @package System
  */
 final class Csv
