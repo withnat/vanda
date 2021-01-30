@@ -976,14 +976,17 @@ final class Str
 	 * Converts double slashes in a string to a single slash,
 	 * except those found in http://
 	 *
-	 * http://www.some-site.com//index.php
+	 * For example,
 	 *
-	 * becomes:
+	 * ```php
+	 * $string = 'http://www.some-site.com//index.php';
 	 *
-	 * http://www.some-site.com/index.php
+	 * $result = Str::reduceDoubleSlashes($string);
+	 * // the result is: http://www.some-site.com/index.php
+	 * ```
 	 *
-	 * @param  string $string
-	 * @return string
+	 * @param  string $string    The input string.
+	 * @return string            Returns a string without double slashes.
 	 */
 	public static function reduceDoubleSlashes(string $string) : string
 	{
