@@ -1595,42 +1595,51 @@ class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	// Str::isAlphanumeric()
+	// Str::isAlnum()
 
-	public function testMethodIsAlphanumericCase1() : void
+	public function testMethodIsAlnumCase1() : void
 	{
 		$string = 416;
 
-		$result = Str::isAlphanumeric($string);
+		$result = Str::isAlnum($string);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodIsAlphanumericCase2() : void
+	public function testMethodIsAlnumCase2() : void
 	{
 		$string = '416';
 
-		$result = Str::isAlphanumeric($string);
+		$result = Str::isAlnum($string);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodIsAlphanumericCase3() : void
+	public function testMethodIsAlnumCase3() : void
 	{
 		$string = 'Valkyrie416';
 
-		$result = Str::isAlphanumeric($string);
+		$result = Str::isAlnum($string);
 
 		$this->assertTrue($result);
 	}
 
-	public function testMethodIsAlphanumericCase4() : void
+	public function testMethodIsAlnumCase4() : void
 	{
 		$string = 'Valkyrie';
 
-		$result = Str::isAlphanumeric($string);
+		$result = Str::isAlnum($string);
 
 		$this->assertTrue($result);
+	}
+
+	public function testMethodIsAlnumCase5() : void
+	{
+		$string = 'Valkyrie!';
+
+		$result = Str::isAlnum($string);
+
+		$this->assertFalse($result);
 	}
 
 	// Str::isBase64Encoded()
