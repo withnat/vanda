@@ -1928,7 +1928,7 @@ class StrTest extends TestCase
 
 	public function testMethodHasUpperCaseCase3() : void
 	{
-		$string = 'bbc';
+		$string = 'abc';
 
 		$result = Str::hasUpperCase($string);
 
