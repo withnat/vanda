@@ -1035,7 +1035,7 @@ final class Str
 	 * // the result is: i LOVE YOU
 	 * ```
 	 *
-	 * @param  string      $string    The string being lowercased first characters.
+	 * @param  string      $string    The string being lowercased first alphabetic characters.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used.
 	 * @return string                 Returns string with first alphabetic character converted to lowercase.
@@ -1055,9 +1055,19 @@ final class Str
 	 * Lowercase the first character of each word in a string (unicode-safe).
 	 * Note : there is no built-in PHP function 'lcwords()'.
 	 *
-	 * @param  string      $string
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'I LOVE YOU';
+	 *
+	 * $result = Str::lowerCaseWords($string);
+	 * // the result is: i lOVE yOU
+	 * ```
+	 *
+	 * @param  string      $string    The input string.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
+	 * @return string                 Returns the modified string.
 	 */
 	public static function lowerCaseWords(string $string, string $encoding = null) : string
 	{
