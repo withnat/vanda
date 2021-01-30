@@ -2327,10 +2327,29 @@ final class Str
 	/**
 	 * Returns true if the string contains only alphabetic and numeric chars, false otherwise.
 	 *
-	 * @param  mixed $string
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::isAlnum(416);
+	 * // the result is: true
+	 *
+	 * $result = Str::isAlnum('416');
+	 * // the result is: true
+	 *
+	 * $result = Str::isAlnum('Valkyrie416');
+	 * // the result is: true
+	 *
+	 * $result = Str::isAlnum('Valkyrie');
+	 * // the result is: true
+	 *
+	 * $result = Str::isAlnum('Valkyrie!');
+	 * // the result is: false
+	 * ```
+	 *
+	 * @param  mixed $string  The input string.
+	 * @return bool           Returns true if the string contains only alphabetic and numeric chars, false otherwise.
 	 */
-	public static function isAlphanumeric($string) : bool
+	public static function isAlnum($string) : bool
 	{
 		$string = (string)$string;
 		$result = mb_ereg_match('^[[:alnum:]]*$', $string);
