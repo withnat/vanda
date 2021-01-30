@@ -701,7 +701,7 @@ final class Str
 
 	/**
 	 * Converts all applicable characters to HTML entities.
-	 * An alias of built-in PHP function htmlspecialchars().
+	 * An alias for PHP's htmlspecialchars() function.
 	 *
 	 * It’s generally recommended to use htmlspecialchars
 	 * because htmlentities can cause display problems with
@@ -733,7 +733,7 @@ final class Str
 
 	/**
 	 * Converts HTML entities to their corresponding characters.
-	 * An alias of built-in PHP function htmlspecialchars_decode().
+	 * An alias for PHP's htmlspecialchars_decode() function.
 	 *
 	 * For example,
 	 *
@@ -795,6 +795,7 @@ final class Str
 
 	/**
 	 * Removes HTML and PHP tags from a string.
+	 * An alias for PHP's strip_tags() function.
 	 *
 	 * For example,
 	 *
@@ -1164,7 +1165,8 @@ final class Str
 	//
 
 	/**
-	 * Returns a repeated string given a multiplier. An alias for str_repeat.
+	 * Returns a repeated string given a multiplier.
+	 * An alias for PHP's str_repeat() function.
 	 *
 	 * For example,
 	 *
@@ -2864,6 +2866,7 @@ final class Str
 
 	/**
 	 * Encodes data with MIME base64.
+	 * An alias for PHP's base64_encode() function.
 	 *
 	 * For example,
 	 *
@@ -2884,6 +2887,7 @@ final class Str
 
 	/**
 	 * Decodes data encoded with MIME base64.
+	 * An alias for PHP's base64_decode() function.
 	 *
 	 * For example,
 	 *
