@@ -2251,7 +2251,7 @@ final class Str
 	//
 
 	/**
-	 * Returns true if the string contains only whitespace chars, false otherwise.
+	 * Checks if the given string contain only whitespace characters.
 	 * Support checking '0' in 'if' statement.
 	 *
 	 * $input = '0';
@@ -2295,7 +2295,7 @@ final class Str
 	}
 
 	/**
-	 * Returns true if the string contains only alphabetic chars, false otherwise.
+	 * Checks if the given string contain only alphabetic characters.
 	 *
 	 * For example,
 	 *
@@ -2325,7 +2325,7 @@ final class Str
 	}
 
 	/**
-	 * Returns true if the string contains only alphabetic and numeric chars, false otherwise.
+	 * Checks if the given string contain only alphabetic and numeric characters.
 	 *
 	 * For example,
 	 *
@@ -2358,7 +2358,7 @@ final class Str
 	}
 
 	/**
-	 * Returns true if the string is base64 encoded, false otherwise.
+	 * Checks if the given string is base64 encoded.
 	 *
 	 * For example,
 	 *
@@ -2384,7 +2384,7 @@ final class Str
 	}
 
 	/**
-	 * Returns true if the string contains only hexadecimal chars, false otherwise.
+	 * Checks if the given string contain only hexadecimal characters.
 	 *
 	 * For example,
 	 *
@@ -2407,7 +2407,7 @@ final class Str
 	}
 
 	/**
-	 * Returns true if the string contains only lower case chars, false otherwise.
+	 * Checks if the given string contain only lower case characters.
 	 *
 	 * For example,
 	 *
@@ -2430,7 +2430,7 @@ final class Str
 	}
 
 	/**
-	 * Returns true if the string contains only upper case chars, false otherwise.
+	 * Checks if the given string contain only upper case characters.
 	 *
 	 * For example,
 	 *
@@ -2453,7 +2453,7 @@ final class Str
 	}
 
 	/**
-	 * Returns true if the string is serialized, false otherwise.
+	 * Checks if the given string is serialized.
 	 *
 	 * For example,
 	 *
@@ -2492,7 +2492,7 @@ final class Str
 	}
 
 	/**
-	 * Checks if the string contain multibyte characters.
+	 * Checks if the given string contain multibyte characters.
 	 *
 	 * For example,
 	 *
