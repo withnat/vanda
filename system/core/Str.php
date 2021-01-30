@@ -236,6 +236,24 @@ final class Str
 	/**
 	 * Returns the portion of string specified by the start and length parameters.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::slice($string, 0, 3);
+	 * // the result is: ABC
+	 *
+	 * $result = Str::at($string, 0, -13);
+	 * // the result is: ABCDEF:eFMNRZa:/f
+	 *
+	 * $result = Str::at($string, -8, 2);
+	 * // the result is: fa
+	 *
+	 * $result = Str::at($string, -8, -3);
+	 * // the result is: fa:Bm
+	 * ```
+	 *
 	 * @param  string      $string    The input string.
 	 * @param  int         $start     Specifies where to start in the string.
 	 * @param  int|null    $length    Specifies the length of the returned string. Default is to the end of the string.
