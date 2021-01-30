@@ -715,7 +715,7 @@ class StrTest extends TestCase
 
 	public function testMethodRemoveQuotesCase2() : void
 	{
-		$string = '"Nat"';
+		$string = "'Nat'";
 
 		$result = Str::removeQuotes($string);
 
