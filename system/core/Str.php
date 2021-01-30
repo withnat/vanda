@@ -1781,12 +1781,26 @@ final class Str
 	}
 
 	/**
-	 * Adds a single instance of the given value to a string if it does not already end with the value.
+	 * Adds a single instance of the given substring to the end of
+	 * a string if it does not already end with the given substring.
 	 *
-	 * @param  string      $string
-	 * @param  string      $suffix
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::ensureEndsWith($string, 'nrz');
+	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 *
+	 * $result = Str::ensureEndsWith($string, '_');
+	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz_
+	 * ```
+	 *
+	 * @param  string      $string    The string to search in.
+	 * @param  string      $suffix    The substring to search for in the given string.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
+	 * @return string                 Returns string with the given substring at the end of the string.
 	 */
 	public static function ensureEndsWith(string $string, string $suffix, string $encoding = null) : string
 	{
