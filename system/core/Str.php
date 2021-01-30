@@ -1716,11 +1716,25 @@ final class Str
 	/**
 	 * Determines if a given string ends with any of given substring.
 	 *
-	 * @param  string      $string
-	 * @param  array       $suffixes
-	 * @param  bool        $caseSensitive
-	 * @param  string|null $encoding
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::endsWithAny($string, ['z', 'b']);
+	 * // the result is: true
+	 *
+	 * * $result = Str::endsWithAny($string, ['Z', 'B'], false);
+	 * // the result is: true
+	 * ```
+	 *
+	 * @param  string      $string         The string to search in.
+	 * @param  array       $suffixes       The substrings to search for in the given string.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                     character encoding value will be used.
+	 * @return bool                        Returns true if the given string ends with any given substring, false
+	 *                                     otherwise.
 	 */
 	public static function endsWithAny(string $string, array $suffixes, bool $caseSensitive = true, string $encoding = null) : bool
 	{
