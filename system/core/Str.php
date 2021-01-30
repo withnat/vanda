@@ -204,6 +204,18 @@ final class Str
 	/**
 	 * Returns the character at $index, with indexes starting at 0.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::at($string, 5);
+	 * // the result is: F
+	 *
+	 * $result = Str::at($string, -5);
+	 * // the result is: B
+	 * ```
+	 *
 	 * @param  string      $string    The input string.
 	 * @param  int         $index     The location of a character in the given string.
 	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
