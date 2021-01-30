@@ -2494,8 +2494,21 @@ final class Str
 	/**
 	 * Checks if the string contain multibyte characters.
 	 *
-	 * @param  string $string
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::isMultibyte('NAT WITHE');
+	 * // the result is: false
+	 *
+	 * $result = Str::isMultibyte('ŅÀŦ ŴĨŦĤÈ');
+	 * // the result is: true
+	 *
+	 * $result = Str::isMultibyte('นัทเองไงจะใครล่ะ');
+	 * // the result is: true
+	 * ```
+	 *
+	 * @param  string $string  The input string.
+	 * @return bool            Returns true if the string contain multibyte characters, false otherwise.
 	 */
 	public static function isMultibyte(string $string) : bool
 	{
