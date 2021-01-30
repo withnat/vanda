@@ -842,17 +842,27 @@ final class Str
 	 * This prevents sandwiching null characters
 	 * between ascii characters, like Java\0script.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = "http://www.some-site.com/index.php\0";
+	 *
+	 * $result = Str::removeInvisibleCharacters($string);
+	 * // the result is: http://www.some-site.com/index.php
+	 * ```
+	 *
 	 * @see    https://www.eso.org/~ndelmott/url_encode.html
 	 * @see    http://www.asciitable.com/
-	 * @param  string  $string
-	 * @param  boolean $urlEncoded
-	 * @return string
+	 * @param  string  $string      The input string.
+	 * @param  boolean $urlEncoded  If set to true, then remove every control character except horizontal tab (dec 09),
+	 *                              newline (dec 10) and carriage return (dec 13).
+	 * @return string               Returns the string without invisible characters.
 	 */
 	public static function removeInvisibleCharacters(string $string, bool $urlEncoded = true): string
 	{
 		$patterns = [];
 
-		// remove every control character except horizontal tab (dec 09),
+		// Remove every control character except horizontal tab (dec 09),
 		// newline (dec 10) and carriage return (dec 13).
 		// see : https://www.eso.org/~ndelmott/url_encode.html
 		if ($urlEncoded)
