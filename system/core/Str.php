@@ -918,10 +918,20 @@ final class Str
 	 * Returns a new string with the suffix $substring removed, if present.
 	 * A multibyte version of built-in PHP function `rtrim()`.
 	 *
-	 * @param  string      $string
-	 * @param  string      $substring
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::removeRight($string, 'defa:Bmnrz');
+	 * // the result is: ABCDEF:eFMNRZa:/fabc
+	 * ```
+	 *
+	 * @param  string      $string     The string that will be striped from the end of a string.
+	 * @param  string      $substring  The stripped characters.
+	 * @param  string|null $encoding   Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                 character encoding value will be used.
+	 * @return string                  Returns a string with $substring stripped from the end of the given string.
 	 */
 	public static function removeRight(string $string, string $substring, string $encoding = null) : string
 	{
