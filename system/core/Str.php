@@ -1607,18 +1607,18 @@ final class Str
 	 * ```php
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
-	 * $result = Str::startsWith('A');
+	 * $result = Str::startsWith($string, 'A');
 	 * // the result is: true
 	 *
-	 * * $result = Str::startsWith('a', false);
+	 * * $result = Str::startsWith($string, 'a', false);
 	 * // the result is: true
 	 * ```
 	 *
 	 * @param  string      $string         The string to search in.
 	 * @param  string      $prefix         The substring to search for in the given string.
 	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
-	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                     encoding value will be used.
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                     character encoding value will be used.
 	 * @return bool                        Returns true if the given string begins with the substring, false otherwise.
 	 */
 	public static function startsWith(string $string, string $prefix, bool $caseSensitive = true, string $encoding = null) : bool
@@ -1641,11 +1641,24 @@ final class Str
 	/**
 	 * Determines if a given string starts with any of given substring.
 	 *
-	 * @param  string      $string
-	 * @param  array       $prefixes
-	 * @param  bool        $caseSensitive
-	 * @param  string|null $encoding
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::startsWithAny($string, ['A', 'B']);
+	 * // the result is: true
+	 *
+	 * * $result = Str::startsWithAny($string, ['a', 'b'], false);
+	 * // the result is: true
+	 * ```
+	 *
+	 * @param  string      $string         The string to search in.
+	 * @param  array       $prefixes       The substrings to search for in the given string.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                     character encoding value will be used.
+	 * @return bool                        Returns true if the given string begins with any substring, false otherwise.
 	 */
 	public static function startsWithAny(string $string, array $prefixes, bool $caseSensitive = true, string $encoding = null) : bool
 	{
