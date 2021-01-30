@@ -2360,8 +2360,18 @@ final class Str
 	/**
 	 * Returns true if the string is base64 encoded, false otherwise.
 	 *
-	 * @param  string $string
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::isBase64Encoded('TmF0IFdpdGhl');
+	 * // the result is: true
+	 *
+	 * $result = Str::isBase64Encoded('I love you');
+	 * // the result is: false
+	 * ```
+	 *
+	 * @param  string $string  The input string.
+	 * @return bool            Returns true if the string is base64 encoded, false otherwise.
 	 */
 	public static function isBase64Encoded(string $string) : bool
 	{
