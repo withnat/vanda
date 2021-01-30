@@ -150,6 +150,14 @@ final class Str
 	/**
 	 * Returns the first $length (leading) characters of the given string.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'Nat Withe';
+	 * $result = Str::left($string);
+	 * // the result is: N
+	 * ```
+	 *
 	 * @param  string      $string    The input string.
 	 * @param  int         $length    The length of character to return.
 	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
