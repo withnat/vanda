@@ -1869,7 +1869,7 @@ final class Str
 	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
-	 * @return string                      Returns the remainder of a given string.
+	 * @return string                      Returns the remainder of the given string.
 	 */
 	public static function after(string $string, string $search, bool $caseSensitive = true, string $encoding = null) : string
 	{
@@ -1892,11 +1892,27 @@ final class Str
 	/**
 	 * Returns the remainder of a string after the last occurrence of a given value.
 	 *
-	 * @param  string      $string
-	 * @param  string      $search
-	 * @param  bool        $caseSensitive
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::afterLast($string, '');
+	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 *
+	 * $result = Str::afterLast($string, 'b');
+	 * // the result is: cdefa:Bmnrz
+	 *
+	 * $result = Str::afterLast($string, 'b', false);
+	 * // the result is: mnrz
+	 * ```
+	 *
+	 * @param  string      $string         The input string.
+	 * @param  string      $search         The substring to search for in the given string.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                     character encoding value will be used.
+	 * @return string                      Returns the remainder of the given string.
 	 */
 	public static function afterLast(string $string, string $search, bool $caseSensitive = true, string $encoding = null) : string
 	{
