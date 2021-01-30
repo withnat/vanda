@@ -2259,8 +2259,30 @@ final class Str
 	 * if ($input)
 	 * ....do something...
 	 *
-	 * @param  mixed $string
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::isBlank(0);
+	 * // the result is: false
+	 *
+	 * $result = Str::isBlank('0');
+	 * // the result is: false
+	 *
+	 * $result = Str::isBlank(null);
+	 * // the result is: true
+	 *
+	 * $result = Str::isBlank(' ');
+	 * // the result is: true
+	 *
+	 * $result = Str::isBlank(false);
+	 * // the result is: true
+	 *
+	 * $result = Str::isBlank(true);
+	 * // the result is: false
+	 * ```
+	 *
+	 * @param  mixed $string  The input string.
+	 * @return bool           Returns true if the string contains only whitespace chars, false otherwise.
 	 */
 	public static function isBlank($string) : bool
 	{
