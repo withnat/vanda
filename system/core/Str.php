@@ -1378,11 +1378,21 @@ final class Str
 	/**
 	 * Replaces the first occurrence of a given value in the string (case-insensitive version).
 	 *
-	 * @param  string      $string
-	 * @param  string      $search
-	 * @param  string      $replace
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::ireplaceFirst('a', '|');
+	 * // the result is: |BCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 * ```
+	 *
+	 * @param  string      $string    The string being searched and replaced on.
+	 * @param  string      $search    The value being searched for.
+	 * @param  string      $replace   The replacement value that replaces found search value.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
+	 * @return string                 Returns a string with the replaced value.
 	 */
 	public static function ireplaceFirst(string $string, string $search, string $replace, string $encoding = null) : string
 	{
