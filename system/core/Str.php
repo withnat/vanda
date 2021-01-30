@@ -702,8 +702,8 @@ final class Str
 	 * Converts HTML entities to their corresponding characters.
 	 * An alias of built-in PHP function htmlspecialchars_decode().
 	 *
-	 * @param  string   $string
-	 * @return string
+	 * @param  string   $string  The string to decode.
+	 * @return string            Returns the decoded string.
 	 */
 	public static function htmlDecode(string $string) : string
 	{
