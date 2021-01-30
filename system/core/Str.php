@@ -2409,8 +2409,18 @@ final class Str
 	/**
 	 * Returns true if the string contains only lower case chars, false otherwise.
 	 *
-	 * @param  string $string
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::isLowerCase('Abc');
+	 * // the result is: false
+	 *
+	 * $result = Str::isLowerCase('abc');
+	 * // the result is: true
+	 * ```
+	 *
+	 * @param  string $string  The input string.
+	 * @return bool            Returns true if the string contains only lower case chars, false otherwise.
 	 */
 	public static function isLowerCase(string $string) : bool
 	{
