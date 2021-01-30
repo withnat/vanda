@@ -1321,12 +1321,30 @@ final class Str
 	/**
 	 * This method is similar to the php function `str_ireplace()` except that it will support $limit.
 	 *
-	 * @param  string       $string
-	 * @param  string|array $search
-	 * @param  string|array $replace
-	 * @param  int|null     $limit
-	 * @param  string|null  $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::ireplace('a', '|');
+	 * // the result is: |BCDEF:eFMNRZ|:/f|bcdef|:Bmnrz
+	 *
+	 * $result = Str::ireplace('a', '|', 1);
+	 * // the result is: |BCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 *
+	 * $result = Str::ireplace(['a', 'b'], ['4', '8']);
+	 * // the result is: 48CDEF:eFMNRZ4:/f48cdef4:8mnrz
+	 * ```
+	 *
+	 * @param  string       $string    The string being searched and replaced on.
+	 * @param  string|array $search    The value being searched for. An array may be used to designate multiple searches.
+	 * @param  string|array $replace   The replacement value that replaces found search values. An array may be used to
+	 *                                 designate multiple replacements.
+	 * @param  int|null     $limit     The maximum possible replacements for each pattern in each subject string.
+	 *                                 Default to NULL (no limit).
+	 * @param  string|null  $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                 character encoding value will be used.
+	 * @return string                  Returns a string with the replaced values.
 	 */
 	public static function ireplace(string $string, $search, $replace, int $limit = null, string $encoding = null) : string
 	{
