@@ -707,6 +707,15 @@ final class Str
 	 * because htmlentities can cause display problems with
 	 * your text depending on what characters are being output.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = '<strong>Nat</strong>';
+	 *
+	 * $result = Str::htmlEncode("\'");
+	 * // the result is: &lt;strong&gt;Nat&lt;/strong&gt;
+	 * ```
+	 *
 	 * @param  string $string  The string being converted.
 	 * @return string          The converted string.
 	 */
