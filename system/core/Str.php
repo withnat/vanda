@@ -772,6 +772,13 @@ final class Str
 	 * 5. "\0"   (a null byte)
 	 * 6. "\x0B" (a vertical tab)
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::htmlDecode(" a\tb\nc\rd\0e\x0Bf");
+	 * // the result is: abcdef
+	 * ```
+	 *
 	 * @param  string $string  The input string.
 	 * @return string          Returns the string without whitespace characters.
 	 */
