@@ -1414,11 +1414,21 @@ final class Str
 	/**
 	 * Replaces the last occurrence of a given value in the string (case-insensitive version).
 	 *
-	 * @param  string      $string
-	 * @param  string      $search
-	 * @param  string      $replace
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::ireplaceLast('a', '|');
+	 * // the result is: ABCDEF:eFMNRZa:/fabcdef|:Bmnrz
+	 * ```
+	 *
+	 * @param  string      $string    The string being searched and replaced on.
+	 * @param  string      $search    The value being searched for.
+	 * @param  string      $replace   The replacement value that replaces found search value.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
+	 * @return string                 Returns a string with the replaced value.
 	 */
 	public static function ireplaceLast(string $string, string $search, string $replace, string $encoding = null) : string
 	{
