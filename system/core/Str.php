@@ -512,11 +512,12 @@ final class Str
 	 * // the result is: 'axb,ay'
 	 * ```
 	 *
-	 * @param  string          $string         The string that will be trimmed..
+	 * @param  string          $string         The string that will be striped.
 	 * @param  string|int|null $characterMask  Optionally, the stripped characters can also be specified.
 	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                         character encoding value will be used.
-	 * @return string                          The trimmed string.
+	 * @return string                          This function returns a string with whitespace stripped from the beginning
+	 *                                         and end of the given string depends on $characterMask data type.
 	 */
 	public static function trim(string $string, $characterMask = null, string $encoding = null) : string
 	{
@@ -533,16 +534,35 @@ final class Str
 
 	/**
 	 * Strips whitespace (or other characters) from the beginning of a string.
+	 * Built-in PHP function ltrim() not allow $characterMask to number.
 	 *
 	 * If $characterMask is null, returns a string with whitespace stripped from the beginning of $string.
 	 * If $characterMask is string, returns a string with characters stripped from the beginning of $string.
 	 * If $characterMask is int, returns a part of string, start at a specified position by $characterMask.
 	 *
-	 * @param  string          $string         The given string.
-	 * @param  string|int|null $characterMask  Built-in PHP function ltrim() not allow $characterMask to number.
+	 * For example,
+	 *
+	 * ```php
+	 * $string = ' axb,ayb ';
+	 *
+	 * $result = Str::trimLeft($string);
+	 * // the result is: 'axb,ayb '
+	 *
+	 * $result = Str::trimLeft($string, 2);
+	 * // the result is: 'xb,ayb '
+	 *
+	 * $string = 'bbxa,ayb';
+	 *
+	 * $result = Str::trimLeft($string, 'b');
+	 * // the result is: 'xa,ayb'
+	 * ```
+	 *
+	 * @param  string          $string         The string that will be striped from the beginning of a string.
+	 * @param  string|int|null $characterMask  Optionally, the stripped characters can also be specified.
 	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                         character encoding value will be used.
-	 * @return string                          This function returns a string depends on $characterMask data type.
+	 * @return string                          This function returns a string with whitespace stripped from the beginning
+	 *                                         of the given string depends on $characterMask data type.
 	 */
 	public static function trimLeft(string $string, $characterMask = null, string $encoding = null) : string
 	{
