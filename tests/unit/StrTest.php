@@ -539,6 +539,15 @@ class StrTest extends TestCase
 
 	public function testMethodTrimLeftCase4() : void
 	{
+		$string = 'axb,ayb';
+
+		$result = Str::trimLeft($string, -2);
+
+		$this->assertEquals('yb', $result);
+	}
+
+	public function testMethodTrimLeftCase5() : void
+	{
 		$string = 'bbxa,ayb';
 
 		$result = Str::trimLeft($string, 'b');
