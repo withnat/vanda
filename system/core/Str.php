@@ -2660,10 +2660,23 @@ final class Str
 	}
 
 	/**
-	 * Returns true if the string contains a upper case char, false otherwise.
+	 * Determines if a given string contains an upper case character.
 	 *
-	 * @param  string $string
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::hasUpperCase('ABC');
+	 * // the result is: true
+	 *
+	 * $result = Str::hasUpperCase('Abc');
+	 * // the result is: true
+	 *
+	 * $result = Str::hasUpperCase('abc');
+	 * // the result is: false
+	 * ```
+	 *
+	 * @param  string $string  The input string.
+	 * @return bool            Returns true if the string contains an upper case character, false otherwise.
 	 */
 	public static function hasUpperCase(string $string) : bool
 	{
