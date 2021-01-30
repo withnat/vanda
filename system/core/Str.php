@@ -2297,8 +2297,24 @@ final class Str
 	/**
 	 * Returns true if the string contains only alphabetic chars, false otherwise.
 	 *
-	 * @param  mixed $string
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::isAlpha(416);
+	 * // the result is: false
+	 *
+	 * $result = Str::isAlpha('416');
+	 * // the result is: false
+	 *
+	 * $result = Str::isAlpha('Valkyrie416');
+	 * // the result is: false
+	 *
+	 * $result = Str::isAlpha('Valkyrie');
+	 * // the result is: true
+	 * ```
+	 *
+	 * @param  mixed $string  The input string.
+	 * @return bool           Returns true if the string contains only alphabetic chars, false otherwise.
 	 */
 	public static function isAlpha($string) : bool
 	{
