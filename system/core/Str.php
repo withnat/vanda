@@ -762,8 +762,8 @@ final class Str
 	/**
 	 * Removes single and double quotes from a string.
 	 *
-	 * @param  string $string
-	 * @return string
+	 * @param  string $string  The input string.
+	 * @return string          Returns the string without quotes.
 	 */
 	public static function removeQuotes(string $string) : string
 	{
