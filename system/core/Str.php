@@ -1619,7 +1619,8 @@ final class Str
 	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
-	 * @return bool                        Returns true if the given string begins with the substring, false otherwise.
+	 * @return bool                        Returns true if the given string begins with the given substring, false
+	 *                                     otherwise.
 	 */
 	public static function startsWith(string $string, string $prefix, bool $caseSensitive = true, string $encoding = null) : bool
 	{
@@ -1658,7 +1659,8 @@ final class Str
 	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
-	 * @return bool                        Returns true if the given string begins with any substring, false otherwise.
+	 * @return bool                        Returns true if the given string begins with any given substring, false
+	 *                                     otherwise.
 	 */
 	public static function startsWithAny(string $string, array $prefixes, bool $caseSensitive = true, string $encoding = null) : bool
 	{
@@ -1674,11 +1676,25 @@ final class Str
 	/**
 	 * Determines if a given string ends with a given substring.
 	 *
-	 * @param  string      $string
-	 * @param  string      $suffix
-	 * @param  bool        $caseSensitive
-	 * @param  string|null $encoding
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::endsWith($string, 'z');
+	 * // the result is: true
+	 *
+	 * * $result = Str::endsWith($string, 'Z', false);
+	 * // the result is: true
+	 * ```
+	 *
+	 * @param  string      $string         The string to search in.
+	 * @param  string      $suffix         The substring to search for in the given string.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                     character encoding value will be used.
+	 * @return bool                        Returns true if the given string ends with the given substring, false
+	 *                                     otherwise.
 	 */
 	public static function endsWith(string $string, string $suffix, bool $caseSensitive = true, string $encoding = null) : bool
 	{
