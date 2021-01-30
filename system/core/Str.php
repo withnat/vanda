@@ -384,6 +384,18 @@ final class Str
 	 * Finds position of first occurrence of string in a string.
 	 * Accepts an optional offset from which to begin the search.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'Nat is so tall, and handsome as hell';
+	 *
+	 * $result = Str::position($string, 'a');
+	 * // the result is: 13
+	 *
+	 * $result = Str::position($string, ':', 4);
+	 * // the result is: 6
+	 * ```
+	 *
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
 	 * @param  int         $offset    Offset from which to search.
