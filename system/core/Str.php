@@ -1479,8 +1479,8 @@ final class Str
 	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz_____
 	 * ```
 	 *
-	 * @param  string      $string    The input string.
-	 * @param  string      $replace   The replacement string.
+	 * @param  string      $string    The string being searched and replaced on.
+	 * @param  string      $replace   The replacement value that replaces found search value.
 	 * @param  int         $start     If start is positive, the replacing will begin at the start'th offset into string.
 	 *                                If start is negative, the replacing will begin at the start'th character from the
 	 *                                end of string.
@@ -1527,32 +1527,33 @@ final class Str
 	 * $string = 'My name is ? and ? years old.';
 	 * $string = Str::insert($string, '?', ['Nat', 38]);
 	 *
+	 * // the result is: My name is Nat and 38 years old.
+	 *
 	 * // If $replaces is associative array.
 	 * $string = 'My name is :name and :age years old.';
 	 * $string = Str::insert($string, ':', ['name' => 'Nat', 'age' => 38]);
 	 *
-	 * // the result is:
-	 * // My name is Nat and 38 years old.
+	 * // the result is: My name is Nat and 38 years old.
 	 * ```
 	 *
-	 * @param  string $string
-	 * @param  string $marker
-	 * @param  array  $replaces  Numeric or associative array.
-	 * @return string
+	 * @param  string $string       The string being searched and replaced on.
+	 * @param  string $placeholder  The character being searched for.
+	 * @param  array  $replaces     The replacement value that replaces found search value (numeric/associative array).
+	 * @return string               Returns a string with the replaced value.
 	 */
-	public static function insert(string $string, string $marker, array $replaces) : string
+	public static function insert(string $string, string $placeholder, array $replaces) : string
 	{
-		if ($marker === '')
+		if ($placeholder === '')
 			return $string;
 
 		if (Arr::isAssociative($replaces))
 		{
 			foreach ($replaces as $key => $value)
-				$string = str_replace($marker . $key, (string)$value, $string);
+				$string = str_replace($placeholder . $key, (string)$value, $string);
 		}
 		else
 		{
-			$blocks = explode($marker, $string);
+			$blocks = explode($placeholder, $string);
 			$string = '';
 
 			for ($i = 0, $n = count($blocks); $i < $n; ++$i)
@@ -1560,7 +1561,7 @@ final class Str
 				$string .= $blocks[$i];
 
 				if ($i < ($n - 1))
-					$string .= ($replaces[$i] ?? $marker);
+					$string .= ($replaces[$i] ?? $placeholder);
 			}
 		}
 
