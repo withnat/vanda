@@ -75,8 +75,8 @@ final class Str
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
 	 * @return int                    The length of the string on success, and 0 if the string is empty.
 	 */
 	public static function length(string $string, string $encoding = null) : int
@@ -164,8 +164,8 @@ final class Str
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  int         $length    The length of character to return. Default to 1.
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
 	 * @return string
 	 */
 	public static function left(string $string, int $length = 1, string $encoding = null) : string
@@ -193,8 +193,8 @@ final class Str
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  int         $length    The length of character to return. Default to 1.
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
 	 * @return string
 	 */
 	public static function right(string $string, int $length = 1, string $encoding = null) : string
@@ -226,8 +226,8 @@ final class Str
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  int         $index     The location of a character in the given string.
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
 	 * @return string
 	 */
 	public static function at(string $string, int $index, string $encoding = null) : string
@@ -265,8 +265,8 @@ final class Str
 	 * @param  string      $string    The string to slice.
 	 * @param  int         $start     Specifies where to start in the string.
 	 * @param  int|null    $length    Specifies the length of the returned string. Default is to the end of the string.
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
 	 * @return string
 	 */
 	public static function slice(string $string, int $start, int $length = null, string $encoding = null) : string
@@ -296,8 +296,8 @@ final class Str
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $length    How many characters from original string to include into truncated string.
 	 * @param  string      $suffix    String to append to the end of the truncated string. Default is '...'
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
 	 * @return string                 The truncated string.
 	 * @see    https://en.wikipedia.org/wiki/Escape_character
 	 */
@@ -358,8 +358,8 @@ final class Str
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $words     How many words from original string to include into truncated string.
 	 * @param  string      $suffix    String to append to the end of truncated string. Default is '...'
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
 	 * @return string                 The truncated string.
 	 */
 	public static function limitWords(string $string, int $words, string $suffix = '...', string $encoding = null) : string
@@ -399,8 +399,8 @@ final class Str
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
 	 * @param  int         $offset    Offset from which to search. Default to 0.
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
 	 * @return int|false              The first occurrence's index if found, otherwise false.
 	 */
 	public static function position(string $string, string $search, int $offset = 0, string $encoding = null)
@@ -430,8 +430,8 @@ final class Str
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
 	 * @param  int         $offset    Offset from which to search. Default to 0.
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
 	 * @return int|false              The last occurrence's index if found, otherwise false.
 	 */
 	public static function lastPosition(string $string, string $search, int $offset = 0, string $encoding = null)
@@ -461,8 +461,8 @@ final class Str
 	 * @param  string      $start     The start of the substring.
 	 * @param  string      $end       The end of the substring.
 	 * @param  int         $offset    Offset from which to search. Default to 0.
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
 	 * @return string                 A substring between $start and $end.
 	 */
 	public static function between(string $string, string $start, string $end, int $offset = 0, string $encoding = null) : string
@@ -514,10 +514,10 @@ final class Str
 	 *
 	 * @param  string          $string         The string that will be striped.
 	 * @param  string|int|null $characterMask  Optionally, the stripped characters can also be specified.
-	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                         character encoding value will be used.
-	 * @return string                          This function returns a string with whitespace stripped from the beginning
-	 *                                         and end of the given string depends on $characterMask data type.
+	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the
+	 *                                         internal character encoding value will be used.
+	 * @return string                          Returns a string with whitespace stripped from the beginning and end of
+	 *                                         the given string depends on $characterMask data type.
 	 */
 	public static function trim(string $string, $characterMask = null, string $encoding = null) : string
 	{
@@ -562,10 +562,10 @@ final class Str
 	 *
 	 * @param  string          $string         The string that will be striped from the beginning of a string.
 	 * @param  string|int|null $characterMask  Optionally, the stripped characters can also be specified.
-	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                         character encoding value will be used.
-	 * @return string                          This function returns a string with whitespace stripped from the beginning
-	 *                                         of the given string depends on $characterMask data type.
+	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the
+	 *                                         internal character encoding value will be used.
+	 * @return string                          Returns a string with whitespace stripped from the beginning of the given
+	 *                                         string depends on $characterMask data type.
 	 */
 	public static function trimLeft(string $string, $characterMask = null, string $encoding = null) : string
 	{
@@ -615,10 +615,10 @@ final class Str
 	 *
 	 * @param  string          $string         The string that will be striped from the end of a string.
 	 * @param  string|int|null $characterMask  Optionally, the stripped characters can also be specified.
-	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                         character encoding value will be used.
-	 * @return string                          This function returns a string with whitespace stripped from the end of
-	 *                                         the given string depends on $characterMask data type.
+	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the
+	 *                                         internal character encoding value will be used.
+	 * @return string                          Returns a string with whitespace stripped from the end of the given
+	 *                                         string depends on $characterMask data type.
 	 */
 	public static function trimRight(string $string, $characterMask = null, string $encoding = null) : string
 	{
