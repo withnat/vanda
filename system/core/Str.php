@@ -2221,12 +2221,25 @@ final class Str
 
 	/**
 	 * Makes a string as long as the first argument by adding
-	 * the given string at the end of the string.
+	 * the given $padString at the end of the given string.
 	 *
-	 * @param  string $string
-	 * @param  string $padString
-	 * @param  int    $length
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'string';
+	 *
+	 * $result = Str::padRight($string, '_', 5);
+	 * // the result is: string
+	 *
+	 * $result = Str::padRight($string, '_', 10);
+	 * // the result is: string____
+	 * ```
+	 *
+	 * @param  string $string     The input string.
+	 * @param  string $padString  The pad string.
+	 * @param  int    $length     If the value of length is negative, less than, or equal to the length of the input
+	 *                            string, no padding takes place, and string will be returned.
+	 * @return string             Returns the padded string.
 	 */
 	public static function padRight(string $string, string $padString, int $length) : string
 	{
