@@ -2943,8 +2943,14 @@ final class Str
 	/**
 	 * Normalise a string replacing foreign characters.
 	 *
-	 * @param  string $string  String to normalise.
-	 * @return string          Normalised string.
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::normalize('ŅÀŦ ŴĨŦĤÈ');
+	 * // the result is: NAT WITHE
+	 *
+	 * @param  string $string  The input string to normalise.
+	 * @return string          Returns normalised string.
 	 */
 	public static function normalize(string $string) : string
 	{
