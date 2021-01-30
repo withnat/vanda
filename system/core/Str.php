@@ -1084,9 +1084,19 @@ final class Str
 	/**
 	 * Converts the given string to upper-case.
 	 *
-	 * @param  string      $string
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'i love you';
+	 *
+	 * $result = Str::upperCase($string);
+	 * // the result is: I LOVE YOU
+	 * ```
+	 *
+	 * @param  string      $string    The string being uppercased.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
+	 * @return string                 Returns string with all alphabetic characters converted to uppercase.
 	 */
 	public static function upperCase(string $string, string $encoding = null) : string
 	{
