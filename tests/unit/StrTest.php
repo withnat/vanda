@@ -2019,7 +2019,11 @@ class StrTest extends TestCase
 
 	public function testMethodExplodeCase5() : void
 	{
-		$expected = ['b', 'c'];
+		$expected = [
+			1 => 'b',
+			2 => 'c'
+		];
+
 		$result = Str::explode(' a , b , c ', ',', -2);
 
 		$this->assertEquals($expected, $result);
