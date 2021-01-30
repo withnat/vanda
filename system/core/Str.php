@@ -2829,9 +2829,9 @@ final class Str
 	 *	numeric: Numeric string.
 	 *	nozero:  Numeric string with no zeros.
 	 *
-	 * @param  int    $length
+	 * @param  int    $length  The length of string to create.
 	 * @param  string $type    alnum|numeric|alpha|nozero
-	 * @return string
+	 * @return string          Returns a random string.
 	 */
 	public static function random(int $length = 8, string $type = 'alnum') : string
 	{
@@ -2865,8 +2865,15 @@ final class Str
 	/**
 	 * Encodes data with MIME base64.
 	 *
-	 * @param  string $string
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::base64encode('Nat Withe');
+	 * // the result is: TmF0IFdpdGhl
+	 * ```
+	 *
+	 * @param  string $string  The input string.
+	 * @return string          Returns the encoded data, as a string.
 	 */
 	public static function base64encode(string $string) : string
 	{
