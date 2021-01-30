@@ -710,9 +710,7 @@ final class Str
 	 * For example,
 	 *
 	 * ```php
-	 * $string = '<strong>Nat</strong>';
-	 *
-	 * $result = Str::htmlEncode("\'");
+	 * $result = Str::htmlEncode('<strong>Nat</strong>');
 	 * // the result is: &lt;strong&gt;Nat&lt;/strong&gt;
 	 * ```
 	 *
@@ -740,9 +738,7 @@ final class Str
 	 * For example,
 	 *
 	 * ```php
-	 * $string = '&lt;strong&gt;Nat&lt;/strong&gt;';
-	 *
-	 * $result = Str::htmlDecode("\'");
+	 * $result = Str::htmlDecode('&lt;strong&gt;Nat&lt;/strong&gt;');
 	 * // the result is: <strong>Nat</strong>
 	 * ```
 	 *
