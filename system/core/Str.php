@@ -2702,10 +2702,10 @@ final class Str
 	 * // ]
 	 * ```
 	 *
-	 * @param  string      $string    The given string.
+	 * @param  string      $string    The input string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used.
-	 * @return array                  An array of string characters.
+	 * @return array                  Returns an array of string characters.
 	 */
 	public static function chars(string $string, string $encoding = null) : array
 	{
@@ -2721,8 +2721,26 @@ final class Str
 	/**
 	 * Splits on newlines and carriage returns, returning an array.
 	 *
-	 * @param  string $string
-	 * @return array
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::lines("ABC\nDEF");
+	 * // the result is:
+	 * // [
+	 * //     0 => 'ABC',
+	 * //     1 => 'DEF'
+	 * // ]
+	 *
+	 * $result = Str::lines("ABC\rDEF");
+	 * // the result is:
+	 * // [
+	 * //     0 => 'ABC',
+	 * //     1 => 'DEF'
+	 * // ]
+	 * ```
+	 *
+	 * @param  string $string  The input string.
+	 * @return array           Returns an array.
 	 */
 	public static function lines(string $string) : array
 	{
