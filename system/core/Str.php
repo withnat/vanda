@@ -737,6 +737,15 @@ final class Str
 	 * Converts HTML entities to their corresponding characters.
 	 * An alias of built-in PHP function htmlspecialchars_decode().
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = '&lt;strong&gt;Nat&lt;/strong&gt;';
+	 *
+	 * $result = Str::htmlDecode("\'");
+	 * // the result is: <strong>Nat</strong>
+	 * ```
+	 *
 	 * @param  string   $string  The string to decode.
 	 * @return string            Returns the decoded string.
 	 */
