@@ -678,13 +678,13 @@ final class Str
 	 * For example,
 	 *
 	 * ```php
-	 * $result = Str::addSlashes("\'");
+	 * $result = Str::stripSlashes("\'");
 	 * // the result is: '
 	 *
-	 * $result = Str::addSlashes(\"');
+	 * $result = Str::stripSlashes(\"');
 	 * // the result is: "
 	 *
-	 * $result = Str::addSlashes('\\\\');
+	 * $result = Str::stripSlashes('\\\\');
 	 * // the result is: \\
 	 * ```
 	 *
@@ -775,7 +775,7 @@ final class Str
 	 * For example,
 	 *
 	 * ```php
-	 * $result = Str::htmlDecode(" a\tb\nc\rd\0e\x0Bf");
+	 * $result = Str::removeWhitespace(" a\tb\nc\rd\0e\x0Bf");
 	 * // the result is: abcdef
 	 * ```
 	 *
@@ -795,6 +795,13 @@ final class Str
 
 	/**
 	 * Removes HTML and PHP tags from a string.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::removeTags('<strong>Nat</strong>');
+	 * // the result is: Nat
+	 * ```
 	 *
 	 * @param  string $string  The input string.
 	 * @return string          Returns the stripped string.
