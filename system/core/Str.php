@@ -649,6 +649,19 @@ final class Str
 	/**
 	 * Quotes string with slashes.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::addSlashes("'");
+	 * // the result is: \'
+	 *
+	 * $result = Str::addSlashes('"');
+	 * // the result is: \"
+	 *
+	 * $result = Str::addSlashes('\\');
+	 * // the result is: \\\\
+	 * ```
+	 *
 	 * @param  string $string  The string to be escaped.
 	 * @return string          Returns the escaped string.
 	 */
