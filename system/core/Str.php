@@ -1170,13 +1170,14 @@ final class Str
 	 *
 	 * ```php
 	 * $string = 'A';
+	 *
 	 * $result = Str::repeat($string);
 	 * // the result is: AAA
 	 * ```
 	 *
 	 * @param  string $string      The string to repeat.
 	 * @param  int    $multiplier  The number of times to repeat the string.
-	 * @return string              Returns the repeated string.
+	 * @return string
 	 */
 	public static function repeat(string $string, int $multiplier) : string
 	{
@@ -1188,12 +1189,30 @@ final class Str
 	/**
 	 * This method is similar to the php function `str_replace()` except that it will support $limit.
 	 *
-	 * @param  string       $string
-	 * @param  string|array $search
-	 * @param  string|array $replace
-	 * @param  int|null     $limit
-	 * @param  string|null  $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::replace('A', '|');
+	 * // the result is: |BCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 *
+	 * $result = Str::replace(':', '|', 1);
+	 * // the result is: ABCDEF|eFMNRZa:/fabcdefa:Bmnrz
+	 *
+	 * $result = Str::replace([':', '/'], ['|', '-']);
+	 * // the result is: ABCDEF|eFMNRZa|-fabcdefa|Bmnrz
+	 * ```
+	 *
+	 * @param  string       $string    The string being searched and replaced on.
+	 * @param  string|array $search    The value being searched for. An array may be used to designate multiple searches.
+	 * @param  string|array $replace   The replacement value that replaces found search values. An array may be used to
+	 *                                 designate multiple replacements.
+	 * @param  int|null     $limit     The maximum possible replacements for each pattern in each subject string.
+	 *                                 Default to NULL (no limit).
+	 * @param  string|null  $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                 character encoding value will be used.
+	 * @return string                  Returns a string with the replaced values.
 	 */
 	public static function replace(string $string, $search, $replace, int $limit = null, string $encoding = null) : string
 	{
