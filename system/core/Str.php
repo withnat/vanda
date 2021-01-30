@@ -1026,9 +1026,19 @@ final class Str
 	 * Converts the first character of the string to lower case.
 	 * This method provides a unicode-safe implementation of built-in PHP function `lcfirst()`.
 	 *
-	 * @param  string      $string
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'I LOVE YOU';
+	 *
+	 * $result = Str::lowerCaseFirst($string);
+	 * // the result is: i LOVE YOU
+	 * ```
+	 *
+	 * @param  string      $string    The string being lowercased first characters.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
+	 * @return string                 Returns string with first alphabetic character converted to lowercase.
 	 */
 	public static function lowerCaseFirst(string $string, string $encoding = null) : string
 	{
