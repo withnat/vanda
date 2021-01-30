@@ -816,6 +816,16 @@ final class Str
 	/**
 	 * Removes single and double quotes from a string.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::removeQuotes('"Nat"');
+	 * // the result is: Nat
+	 *
+	 * $result = Str::removeQuotes("'Nat'");
+	 * // the result is: Nat
+	 * ```
+	 *
 	 * @param  string $string  The input string.
 	 * @return string          Returns the string without quotes.
 	 */
