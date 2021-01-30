@@ -154,8 +154,12 @@ final class Str
 	 *
 	 * ```php
 	 * $string = 'Nat Withe';
+	 *
 	 * $result = Str::left($string);
 	 * // the result is: N
+	 *
+	 * * $result = Str::left($string, 2);
+	 * // the result is: Na
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
@@ -179,8 +183,12 @@ final class Str
 	 *
 	 * ```php
 	 * $string = 'Nat Withe';
+	 *
 	 * $result = Str::right($string);
 	 * // the result is: e
+	 *
+	 * $result = Str::right($string, 2);
+	 * // the result is: he
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
@@ -272,6 +280,18 @@ final class Str
 	/**
 	 * Limits the string based on the character count. Preserves complete words
 	 * so the character count may not be exactly as specified.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'Nat is so tall, and handsome as hell';
+	 *
+	 * $result = Str::limit($string, 11);
+	 * // the result is: Nat is so tall,...
+	 *
+	 * $result = Str::limit($string, 15);
+	 * // the result is: Nat is so tall,...
+	 * ```
 	 *
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $length    How many characters from original string to include into truncated string.
