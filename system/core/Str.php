@@ -1139,9 +1139,19 @@ final class Str
 	 * Uppercase the first character of each word in a string.
 	 * This method provides a unicode-safe implementation of built-in PHP function `ucwords()`.
 	 *
-	 * @param  string      $string
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'i love you';
+	 *
+	 * $result = Str::upperCaseWords($string);
+	 * // the result is: I Love You
+	 * ```
+	 *
+	 * @param  string      $string    The input string.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
+	 * @return string                 Returns the modified string.
 	 */
 	public static function upperCaseWords(string $string, string $encoding = null) : string
 	{
