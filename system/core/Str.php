@@ -2103,7 +2103,7 @@ final class Str
 	 * ```
 	 *
 	 * @param  float|int $number  A floating point number or integer.
-	 * @return string             The string representation of the number.
+	 * @return string             Returns a string representation of the number.
 	 */
 	public static function floatToString($number) : string
 	{
@@ -2125,9 +2125,9 @@ final class Str
 	 * // the result is: \t
 	 * ```
 	 *
-	 * @param  string $string     The given string.
+	 * @param  string $string     The input string.
 	 * @param  int    $tabLength  Number of spaces to replace with a tab.
-	 * @return string
+	 * @return string             Returns a string with the replaced tabs.
 	 */
 	public static function spaceToTab(string $string, int $tabLength = 4) : string
 	{
@@ -2140,9 +2140,16 @@ final class Str
 	/**
 	 * Converts each tab in the string to some number of spaces, as defined by $tabLength.
 	 *
-	 * @param  string $string     The given string.
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::tabToSpace("\t");
+	 * // the result is: '    '
+	 * ```
+	 *
+	 * @param  string $string     The input string.
 	 * @param  int    $tabLength  Number of spaces to replace each tab with.
-	 * @return string
+	 * @return string             Returns a string with the replaced spaces.
 	 */
 	public static function tabToSpace(string $string, int $tabLength = 4) : string
 	{
