@@ -649,8 +649,8 @@ final class Str
 	/**
 	 * Quotes string with slashes.
 	 *
-	 * @param  string $string
-	 * @return string
+	 * @param  string $string  The string to be escaped.
+	 * @return string          Returns the escaped string.
 	 */
 	public static function addSlashes(string $string) : string
 	{
@@ -662,8 +662,9 @@ final class Str
 	/**
 	 * Un-quotes a quoted string.
 	 *
-	 * @param  string $string
-	 * @return string
+	 * @param  string $string  The input string.
+	 * @return string          Returns a string with backslashes stripped off.
+	 *                         Double backslash (\\) becomes a single backslash (\). \' becomes '
 	 */
 	public static function stripSlashes(string $string) : string
 	{
