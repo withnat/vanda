@@ -1550,6 +1550,13 @@ class StrTest extends TestCase
 		$this->assertTrue($result);
 	}
 
+	public function testMethodIsBlankCase6() : void
+	{
+		$result = Str::isBlank(true);
+
+		$this->assertFalse($result);
+	}
+
 	// Str::isAlpha()
 
 	public function testMethodIsAlphaCase1() : void
