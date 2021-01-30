@@ -551,6 +551,9 @@ final class Str
 	 * $result = Str::trimLeft($string, 2);
 	 * // the result is: 'xb,ayb '
 	 *
+	 * $result = Str::trimLeft($string, -2);
+	 * // the result is: 'b '
+	 *
 	 * $string = 'bbxa,ayb';
 	 *
 	 * $result = Str::trimLeft($string, 'b');
@@ -584,16 +587,38 @@ final class Str
 
 	/**
 	 * Strips whitespace (or other characters) from the end of a string.
+	 * Built-in PHP function rtrim() not allow $characterMask to number.
 	 *
 	 * If $characterMask is null, returns a string with whitespace stripped from the end of $string.
 	 * If $characterMask is string, returns a string with characters stripped from the end of $string.
 	 * If $characterMask is int, returns a part of string, end at a specified position by $characterMask.
 	 *
-	 * @param  string          $string         The given string.
-	 * @param  string|int|null $characterMask  Built-in PHP function rtrim() not allow $characterMask to number.
+	 * For example,
+	 *
+	 * ```php
+	 * $string = ' axb,ayb ';
+	 *
+	 * $result = Str::trimRight($string);
+	 * // the result is: ' axb,ayb'
+	 *
+	 * $result = Str::trimRight($string, 2);
+	 * // the result is: ' axb,ay'
+	 *
+	 * $result = Str::trimRight($string, -2);
+	 * // the result is: ' a'
+	 *
+	 * $string = 'bxa,aybb';
+	 *
+	 * $result = Str::trimRight($string, 'b');
+	 * // the result is: 'bxa,ay'
+	 * ```
+	 *
+	 * @param  string          $string         The string that will be striped from the end of a string.
+	 * @param  string|int|null $characterMask  Optionally, the stripped characters can also be specified.
 	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                         character encoding value will be used.
-	 * @return string                          This function returns a string depends on $characterMask data type.
+	 * @return string                          This function returns a string with whitespace stripped from the end of
+	 *                                         the given string depends on $characterMask data type.
 	 */
 	public static function trimRight(string $string, $characterMask = null, string $encoding = null) : string
 	{
