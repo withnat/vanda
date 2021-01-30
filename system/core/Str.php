@@ -2594,22 +2594,39 @@ final class Str
 	}
 
 	/**
-	 * Determines if a given string contains all array values.
+	 * Determines if a given string contains all given substrings.
 	 *
-	 * @param  string      $string
-	 * @param  array       $needles
-	 * @param  bool        $caseSensitive
-	 * @param  string|null $encoding
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::containsAll(['Za', 'NoneExistingChar']);
+	 * // the result is: false
+	 *
+	 * $result = Str::containsAll(['za', 'bm']);
+	 * // the result is: false
+	 *
+	 * $result = Str::containsAll(['za', 'bm'], false);
+	 * // the result is: true
+	 * ```
+	 *
+	 * @param  string      $string         The input string.
+	 * @param  array       $substrings     The substrings to search for in the given string.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                     character encoding value will be used.
+	 * @return bool                        Returns true if all given substrings are in the given string, false
+	 *                                     otherwise.
 	 */
-	public static function containsAll(string $string, array $needles, bool $caseSensitive = true, string $encoding = null) : bool
+	public static function containsAll(string $string, array $substrings, bool $caseSensitive = true, string $encoding = null) : bool
 	{
-		if (empty($needles))
+		if (empty($substrings))
 			return false;
 
-		foreach ($needles as $needle)
+		foreach ($substrings as $substring)
 		{
-			if (!Str::contains($string, $needle, $caseSensitive, $encoding))
+			if (!Str::contains($string, $substring, $caseSensitive, $encoding))
 				return false;
 		}
 
