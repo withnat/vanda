@@ -343,6 +343,18 @@ final class Str
 	/**
 	 * Limits a string to the number of words specified.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'Nat is so tall, and handsome as hell';
+	 *
+	 * $result = Str::limitWords($string, 4);
+	 * // the result is: Nat is so tall,...
+	 *
+	 * $result = Str::limitWords($string, 6);
+	 * // the result is: Nat is so tall, and handsome...
+	 * ```
+	 *
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $words     How many words from original string to include into truncated string.
 	 * @param  string      $suffix    String to append to the end of truncated string.
