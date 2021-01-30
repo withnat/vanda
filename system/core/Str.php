@@ -2455,8 +2455,21 @@ final class Str
 	/**
 	 * Returns true if the string is serialized, false otherwise.
 	 *
-	 * @param  string $string
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::isSerialized('b:0;');
+	 * // the result is: true
+	 *
+	 * $result = Str::isSerialized('a:0:{}');
+	 * // the result is: true
+	 *
+	 * $result = Str::isSerialized('string');
+	 * // the result is: false
+	 * ```
+	 *
+	 * @param  string $string  The input string.
+	 * @return bool            Returns true if the string is serialized, false otherwise.
 	 */
 	public static function isSerialized(string $string) : bool
 	{
