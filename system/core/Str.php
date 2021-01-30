@@ -103,7 +103,7 @@ final class Str
 	 * ```
 	 *
 	 * @param  string      $string         The string being counted on.
-	 * @param  string      $substring      The substring to search for.
+	 * @param  string      $substring      The substring to search for in the given string.
 	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
@@ -2251,7 +2251,7 @@ final class Str
 	//
 
 	/**
-	 * Checks if the given string contain only whitespace characters.
+	 * Checks if the given string contains only whitespace characters.
 	 * Support checking '0' in 'if' statement.
 	 *
 	 * $input = '0';
@@ -2295,7 +2295,7 @@ final class Str
 	}
 
 	/**
-	 * Checks if the given string contain only alphabetic characters.
+	 * Checks if the given string contains only alphabetic characters.
 	 *
 	 * For example,
 	 *
@@ -2325,7 +2325,7 @@ final class Str
 	}
 
 	/**
-	 * Checks if the given string contain only alphabetic and numeric characters.
+	 * Checks if the given string contains only alphabetic and numeric characters.
 	 *
 	 * For example,
 	 *
@@ -2384,7 +2384,7 @@ final class Str
 	}
 
 	/**
-	 * Checks if the given string contain only hexadecimal characters.
+	 * Checks if the given string contains only hexadecimal characters.
 	 *
 	 * For example,
 	 *
@@ -2407,7 +2407,7 @@ final class Str
 	}
 
 	/**
-	 * Checks if the given string contain only lower case characters.
+	 * Checks if the given string contains only lower case characters.
 	 *
 	 * For example,
 	 *
@@ -2430,7 +2430,7 @@ final class Str
 	}
 
 	/**
-	 * Checks if the given string contain only upper case characters.
+	 * Checks if the given string contains only upper case characters.
 	 *
 	 * For example,
 	 *
@@ -2492,7 +2492,7 @@ final class Str
 	}
 
 	/**
-	 * Checks if the given string contain multibyte characters.
+	 * Checks if the given string contains multibyte characters.
 	 *
 	 * For example,
 	 *
@@ -2528,11 +2528,24 @@ final class Str
 	/**
 	 * Determines if a given string contains a given substring.
 	 *
-	 * @param  string      $string
-	 * @param  string      $needle
-	 * @param  bool        $caseSensitive
-	 * @param  string|null $encoding
-	 * @return bool
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::contains('za');
+	 * // the result is: false
+	 *
+	 * $result = Str::contains('za', false);
+	 * // the result is: true
+	 * ```
+	 *
+	 * @param  string      $string         The input string.
+	 * @param  string      $needle         The substring to search for in the given string.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                     character encoding value will be used.
+	 * @return bool                        Returns true if the given substring is in the given string, false otherwise.
 	 */
 	public static function contains(string $string, string $needle, bool $caseSensitive = true, string $encoding = null) : bool
 	{
