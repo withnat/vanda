@@ -1583,7 +1583,7 @@ final class Str
 	 * @param  string      $string    The input string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
-	 * @return string                 A reversed string.
+	 * @return string                 Returns a reversed string.
 	 */
 	public static function reverse(string $string, string $encoding = null) : string
 	{
@@ -2016,14 +2016,26 @@ final class Str
 	//
 
 	/**
-	 * Highlights a phrase within a text string.
+	 * Highlights a phrase within a given string.
 	 *
-	 * @param  string $string    The text string.
-	 * @param  string $phrase    The phrase you'd like to highlight.
+	 * For example,
+	 *
+	 * ```php
+	 * $string = '<html>html</html>';
+	 *
+	 * $result = Str::highlight($string, 'html');
+	 * // the result is: <html><mark>html</mark></html>
+	 *
+	 * $result = Str::highlight($string, 'html', '<start>', '</end>', false);
+	 * // the result is: <<start>html</end>><start>html</end></<start>html</end>>
+	 * ```
+	 *
+	 * @param  string $string    The input string.
+	 * @param  string $phrase    The phrase you would like to highlight.
 	 * @param  string $tagOpen   The opening tag to precede the phrase with.
 	 * @param  string $tagClose  The closing tag to end the phrase with.
 	 * @param  bool   $html      If true, will ignore any HTML tags, ensuring that only the correct text is highlighted.
-	 * @return string
+	 * @return string            Returns a highlighted string.
 	 */
 	public static function highlight(string $string, string $phrase, string $tagOpen = '<mark>', string $tagClose = '</mark>', bool $html = true): string
 	{
