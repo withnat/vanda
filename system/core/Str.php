@@ -1972,13 +1972,26 @@ final class Str
 	}
 
 	/**
-	 * Gets the portion of a string before the last occurrence of a given value.
+	 * Returns the portion of a string before the last occurrence of a given substring.
 	 *
-	 * @param  string      $string
-	 * @param  string      $search
-	 * @param  bool        $caseSensitive
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::beforeLast($string, 'b');
+	 * // the result is: ABCDEF:eFMNRZa:/fa
+	 *
+	 * $result = Str::beforeLast($string, 'b', false);
+	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:
+	 * ```
+	 *
+	 * @param  string      $string         The input string.
+	 * @param  string      $search         The substring to search for in the given string.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                     character encoding value will be used.
+	 * @return string                      Returns the portion of the given string
 	 */
 	public static function beforeLast(string $string, string $search, bool $caseSensitive = true, string $encoding = null) : string
 	{
