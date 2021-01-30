@@ -675,6 +675,19 @@ final class Str
 	/**
 	 * Un-quotes a quoted string.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = Str::addSlashes("\'");
+	 * // the result is: '
+	 *
+	 * $result = Str::addSlashes(\"');
+	 * // the result is: "
+	 *
+	 * $result = Str::addSlashes('\\\\');
+	 * // the result is: \\
+	 * ```
+	 *
 	 * @param  string $string  The input string.
 	 * @return string          Returns a string with backslashes stripped off.
 	 *                         Double backslash (\\) becomes a single backslash (\). \' becomes '
