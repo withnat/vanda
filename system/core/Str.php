@@ -1452,7 +1452,34 @@ final class Str
 	 * (optionally) length parameters with the string given
 	 * in replacement. A multibyte version of substr_replace().
 	 *
-	 * @param  string      $string    The given string.
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::subreplace('_____', 5);
+	 * // the result is: ABCDE_____
+	 *
+	 * $result = Str::subreplace('_____', 5, 5);
+	 * // the result is: ABCDE_____NRZa:/fabcdefa:Bmnrz
+	 *
+	 * $result = Str::subreplace('_____', 5, -5);
+	 * // the result is: ABCDE_____Bmnrz
+	 *
+	 * $result = Str::subreplace('_____', -5);
+	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:_____
+	 *
+	 * $result = Str::subreplace('_____', -5, 5);
+	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:_____
+	 *
+	 * $result = Str::subreplace('_____', -15, -5);
+	 * // the result is: ABCDEF:eFMNRZa:_____Bmnrz
+	 *
+	 * $result = Str::subreplace('_____', 100, 5);
+	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz_____
+	 * ```
+	 *
+	 * @param  string      $string    The input string.
 	 * @param  string      $replace   The replacement string.
 	 * @param  int         $start     If start is positive, the replacing will begin at the start'th offset into string.
 	 *                                If start is negative, the replacing will begin at the start'th character from the
@@ -1463,9 +1490,9 @@ final class Str
 	 *                                default to strlen( string ); i.e. end the replacing at the end of string.
 	 *                                Of course, if length is zero then this function will have the effect of inserting
 	 *                                replacement into string at the given start offset.
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
-	 * @return string                 The result string is returned.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
+	 * @return string                 Returns a string with the replaced value.
 	 */
 	public static function subreplace(string $string, string $replace, int $start, int $length = null, string $encoding = null) : string
 	{
