@@ -732,8 +732,8 @@ final class Str
 	 * 5. "\0"   (a null byte)
 	 * 6. "\x0B" (a vertical tab)
 	 *
-	 * @param  string $string
-	 * @return string
+	 * @param  string $string  The input string.
+	 * @return string          Returns the string without whitespace characters.
 	 */
 	public static function removeWhitespace(string $string) : string
 	{
