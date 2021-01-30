@@ -1748,12 +1748,26 @@ final class Str
 	}
 
 	/**
-	 * Adds a single instance of the given value to a string if it does not already start with the value.
+	 * Adds a single instance of the given substring to the beginning of
+	 * a string if it does not already start with the given substring.
 	 *
-	 * @param  string      $string
-	 * @param  string      $prefix
-	 * @param  string|null $encoding
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::ensureStartsWith($string, 'ABC');
+	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 *
+	 * $result = Str::ensureStartsWith($string, '_');
+	 * // the result is: _ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 * ```
+	 *
+	 * @param  string      $string    The string to search in.
+	 * @param  string      $prefix    The substring to search for in the given string.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used.
+	 * @return string                 Returns string with the given substring at the beginning of the string.
 	 */
 	public static function ensureStartsWith(string $string, string $prefix, string $encoding = null) : string
 	{
