@@ -75,7 +75,7 @@ final class Str
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return int                    The length of the string on success, and 0 if the string is empty.
 	 */
@@ -105,7 +105,7 @@ final class Str
 	 * @param  string      $string         The string being counted on.
 	 * @param  string      $substring      The substring to search for.
 	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to TRUE.
-	 * @param  string|null $encoding       Optional, the character encoding. If it is omitted or null, the internal
+	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return int                         The number of $substring occurrences.
 	 */
@@ -164,7 +164,7 @@ final class Str
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  int         $length    The length of character to return. Default to 1.
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string
 	 */
@@ -193,7 +193,7 @@ final class Str
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  int         $length    The length of character to return. Default to 1.
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string
 	 */
@@ -226,7 +226,7 @@ final class Str
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  int         $index     The location of a character in the given string.
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string
 	 */
@@ -265,7 +265,7 @@ final class Str
 	 * @param  string      $string    The string to slice.
 	 * @param  int         $start     Specifies where to start in the string.
 	 * @param  int|null    $length    Specifies the length of the returned string. Default is to the end of the string.
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string
 	 */
@@ -296,7 +296,7 @@ final class Str
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $length    How many characters from original string to include into truncated string.
 	 * @param  string      $suffix    String to append to the end of the truncated string. Default is '...'
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string                 The truncated string.
 	 * @see    https://en.wikipedia.org/wiki/Escape_character
@@ -358,7 +358,7 @@ final class Str
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $words     How many words from original string to include into truncated string.
 	 * @param  string      $suffix    String to append to the end of truncated string. Default is '...'
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string                 The truncated string.
 	 */
@@ -399,7 +399,7 @@ final class Str
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
 	 * @param  int         $offset    Offset from which to search. Default to 0.
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return int|false              The first occurrence's index if found, otherwise false.
 	 */
@@ -430,7 +430,7 @@ final class Str
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
 	 * @param  int         $offset    Offset from which to search. Default to 0.
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return int|false              The last occurrence's index if found, otherwise false.
 	 */
@@ -461,7 +461,7 @@ final class Str
 	 * @param  string      $start     The start of the substring.
 	 * @param  string      $end       The end of the substring.
 	 * @param  int         $offset    Offset from which to search. Default to 0.
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string                 A substring between $start and $end.
 	 */
@@ -491,11 +491,32 @@ final class Str
 
 	/**
 	 * Strips whitespace (or other characters) from the beginning and end of a string.
+	 * Built-in PHP function trim() does not allow $characterMask to number.
 	 *
-	 * @param  string          $string
-	 * @param  string|int|null $characterMask
-	 * @param  string|null     $encoding
-	 * @return string
+	 * If $characterMask is null, returns a string with whitespace stripped from the beginning of $string.
+	 * If $characterMask is string, returns a string with characters stripped from the beginning of $string.
+	 * If $characterMask is int, returns a part of string, start at a specified position by $characterMask.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = ' axb,ayb ';
+	 *
+	 * $result = Str::trim($string);
+	 * // the result is: 'axb,ayb'
+	 *
+	 * $result = Str::trim($string, 2);
+	 * // the result is: 'xb,ay'
+	 *
+	 * $result = Str::trim($string, 'b');
+	 * // the result is: 'axb,ay'
+	 * ```
+	 *
+	 * @param  string          $string         The string that will be trimmed..
+	 * @param  string|int|null $characterMask  Optionally, the stripped characters can also be specified.
+	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                         character encoding value will be used.
+	 * @return string                          The trimmed string.
 	 */
 	public static function trim(string $string, $characterMask = null, string $encoding = null) : string
 	{
@@ -519,7 +540,7 @@ final class Str
 	 *
 	 * @param  string          $string         The given string.
 	 * @param  string|int|null $characterMask  Built-in PHP function ltrim() not allow $characterMask to number.
-	 * @param  string|null     $encoding       Optional, the character encoding. If it is omitted or null, the internal
+	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                         character encoding value will be used.
 	 * @return string                          This function returns a string depends on $characterMask data type.
 	 */
@@ -550,7 +571,7 @@ final class Str
 	 *
 	 * @param  string          $string         The given string.
 	 * @param  string|int|null $characterMask  Built-in PHP function rtrim() not allow $characterMask to number.
-	 * @param  string|null     $encoding       Optional, the character encoding. If it is omitted or null, the internal
+	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                         character encoding value will be used.
 	 * @return string                          This function returns a string depends on $characterMask data type.
 	 */
@@ -1145,7 +1166,7 @@ final class Str
 	 *                                default to strlen( string ); i.e. end the replacing at the end of string.
 	 *                                Of course, if length is zero then this function will have the effect of inserting
 	 *                                replacement into string at the given start offset.
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string                 The result string is returned.
 	 */
@@ -1226,7 +1247,7 @@ final class Str
 	 * Returns a reversed string. A multibyte version of strrev().
 	 *
 	 * @param  string      $string    The given string.
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string                 A reversed string.
 	 */
@@ -1901,7 +1922,7 @@ final class Str
 	 * Returns an array consisting of the characters in the string.
 	 *
 	 * @param  string      $string    The given string.
-	 * @param  string|null $encoding  Optional, the character encoding. If it is omitted or null, the internal character
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return array                  An array of string chars.
 	 */
