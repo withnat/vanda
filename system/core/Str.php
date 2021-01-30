@@ -1571,7 +1571,16 @@ final class Str
 	/**
 	 * Returns a reversed string. A multibyte version of strrev().
 	 *
-	 * @param  string      $string    The given string.
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
+	 *
+	 * $result = Str::reverse($string);
+	 * // the result is: zrnmB:afedcbaf/:aZRNMFe:FEDCBA
+	 * ```
+	 *
+	 * @param  string      $string    The input string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
 	 *                                encoding value will be used.
 	 * @return string                 A reversed string.
