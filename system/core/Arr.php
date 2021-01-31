@@ -194,7 +194,8 @@ class Arr
 	 *
 	 * @param  array    $array   The input array.
 	 * @param  int|null $length  The number of elements to return. If $length is 1, returns value depend on what the
-	 *                           given array contains. If $length is greater than 1, returns an array.
+	 *                           given array contains. If $length is greater than 1, returns an array contains the first
+	 *                           $length elements.
 	 * @return mixed             Returns the first $length elements of the given array if the given array is not empty,
 	 *                           null otherwise.
 	 */
@@ -242,7 +243,8 @@ class Arr
 	 *
 	 * @param  array    $array   The input array.
 	 * @param  int|null $length  The number of elements to return. If $length is 1, returns value depend on what the
-	 *                           given array contains. If $length is greater than 1, returns an array.
+	 *                           given array contains. If $length is greater than 1, returns an array contains the last
+	 *                           $length elements.
 	 * @return mixed             Returns the last $length elements of the given array if the given array is not empty,
 	 *                           null otherwise.
 	 */
@@ -268,11 +270,35 @@ class Arr
 	}
 
 	/**
-	 * Gets the first {$length} keys from the given array.
+	 * Returns the first $length keys from the given array.
 	 *
-	 * @param  array $array      The input array.
-	 * @param  int|null $length
-	 * @return mixed             Returns the first key of array if the array is not empty, null otherwise.
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => 'Web Developer'
+	 * ];
+	 *
+	 * $result = Arr::firstKey($array);
+	 * // the result is: name
+	 *
+	 * $result = Arr::firstKey($array, 2);
+	 * // the result is:
+	 * // Array
+	 * // (
+	 * //     [0] => name
+	 * //     [1] => surname
+	 * // )
+	 * ```
+	 *
+	 * @param  array    $array   The input array.
+	 * @param  int|null $length  The number of keys to return. If $length is 1, returns the first key of the
+	 *                           given array. If $length is greater than 1, returns an array contains the first $length
+	 *                           keys.
+	 * @return mixed             Returns the first $length key of the given array if the given array is not empty,
+	 *                           null otherwise.
 	 */
 	public static function firstKey(array $array, int $length = null)
 	{
