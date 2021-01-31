@@ -59,7 +59,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array  $array  Array to set a value in.
-	 * @param  string $key    The key to set. If the key contains dot, it will set nested array data.
+	 * @param  string $key    The key to set. If the key contains dot, it will set nested array.
 	 * @param  mixed  $value  Value to set.
 	 * @return array
 	 */
@@ -97,8 +97,7 @@ class Arr
 	}
 
 	/**
-	 * Returns a specific element from the given array. If the key contains dot,
-	 * it will access nested array data.
+	 * Returns a specific element from the given array. If the key contains dot, it will access nested array.
 	 *
 	 * For example,
 	 *
@@ -114,7 +113,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array      $array    The input array.
-	 * @param  string|int $key      The searched key. If the key contains dot, it will access nested array data.
+	 * @param  string|int $key      The searched key. If the key contains dot, it will access nested array.
 	 * @param  mixed      $default  Default value.
 	 * @return mixed                Depends on what the given array contains.
 	 */
@@ -454,7 +453,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array            $array  The input array.
-	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array data
+	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array
 	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,job.position', ['name, job.position'].
 	 * @return array                    Returns a subset of the items from the given array.
 	 */
@@ -534,7 +533,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array            $array  The input array.
-	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array data
+	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array
 	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,job.position', ['name, job.position'].
 	 * @return mixed                    Depends on what the given array contains.
 	 */
@@ -637,7 +636,7 @@ class Arr
 	 *
 	 * @param  array           $data       A multi-dimensional array contains array (dataset) or object (recordset).
 	 * @param  string|int      $columnKey  The column key of values to return. If the key contains dot, it will access
-	 *                                     nested array data e.g., 0, '0', 'name', 'job.position'.
+	 *                                     nested array e.g., 0, '0', 'name', 'job.position'.
 	 * @param  string|int|null $indexKey   The column key to use as the index/key for the returned array.
 	 * @return array                       Returns an array of values representing a single column from the given array.
 	 */
@@ -1296,28 +1295,28 @@ class Arr
 	}
 
 	/**
-	 * Checks if the given key or index exists in the array.
+	 * Determines if the given key or index exists in the given array.
 	 *
 	 * For example,
 	 *
 	 * ```php
 	 * $employee = [
 	 *     'name' => 'Nat',
-	 *     'age' => '38',
+	 *     'surname' => 'Withe',
 	 *     'job' => [
 	 *         'position' => 'Web Developer',
-	 *         'saraly' => 100000
+	 *         'saraly' => 10000
 	 *     ]
 	 * ];
 	 *
 	 * $result = Arr::hasKey($employee, 'job');
-	 * // The $result will be: True
+	 * // The $result will be: true
 	 *
 	 * $result = Arr::hasKey($employee, 'job.position');
-	 * // The $result will be: True
+	 * // The $result will be: true
 
 	 * $result = Arr::hasKey($employee, 'job.startdate');
-	 * // The $result will be: False
+	 * // The $result will be: false
 	 * ```
 	 *
 	 * For an indexed array, numerice key and string key are not difference.
@@ -1326,15 +1325,15 @@ class Arr
 	 * $array = ['Nat'];
 	 *
 	 * $result = Arr::hasKey($array, '0');
-	 * // The $result will be: True
+	 * // The $result will be: true
 	 *
 	 * $result = Arr::hasKey($array, 0);
-	 * // The $result will be: True
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  array      $array  An array with keys to check.
-	 * @param  string|int $key    Value to check.
-	 * @return bool
+	 * @param  string|int $key    The searched key. If the key contains dot, it will access nested array.
+	 * @return bool               Returns true if the searched key is found in the given array, false otherwise.
 	 */
 	public static function hasKey(array $array, $key) : bool
 	{
