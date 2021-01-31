@@ -983,18 +983,38 @@ class Arr
 	}
 
 	/**
+	 * Returns all of the given array except for an elment contains only whitespace characters.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat Withe',
+	 *     'address' => ''
+	 * ];
+	 *
+	 * $result = Arr::exceptBlank($array);
+	 *
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [name] => 'Nat Withe'
+	 * // )
+	 * ```
+	 *
 	 * @param  array $array      An array to remove an element by blank value.
 	 * @param  bool  $recursive  True to recurve through multi-level arrays.
-	 * @return array
+	 * @return array             Returns all of the given array except for an elment contains only whitespace
+	 *                           characters.
 	 */
-	public static function removeBlank(array $array, bool $recursive = true) : array
+	public static function exceptBlank(array $array, bool $recursive = true) : array
 	{
 		foreach ($array as $key => $value)
 		{
 			if (is_array($value))
 			{
 				if ($recursive)
-					$array[$key] = static::removeBlank($value, $recursive);
+					$array[$key] = static::exceptBlank($value, $recursive);
 			}
 			elseif (!strlen(trim((string)$value)))
 				unset($array[$key]);
