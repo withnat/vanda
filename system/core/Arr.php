@@ -142,9 +142,21 @@ class Arr
 	/**
 	 * Searches the array for a given value and returns the first corresponding key if successful.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe'
+	 * ];
+	 *
+	 * $result = Arr::getKey($array, 'Nat');
+	 * // the result is: name
+	 * ```
+	 *
 	 * @param  array $array  The array.
 	 * @param  mixed $value  The searched value.
-	 * @return mixed         Returns the key for needle if it is found in the array, NULL otherwise.
+	 * @return mixed         Returns the key for needle if it is found in the array, null otherwise.
 	 */
 	public static function getKey(array $array, $value)
 	{
@@ -161,7 +173,7 @@ class Arr
 	 *
 	 * @param  array    $array   The input array.
 	 * @param  int|null $length
-	 * @return mixed             Returns the first value of array if the array is not empty; NULL otherwise.
+	 * @return mixed             Returns the first value of array if the array is not empty, null otherwise.
 	 */
 	public static function first(array $array, int $length = null)
 	{
@@ -172,7 +184,7 @@ class Arr
 		{
 			$array = array_values($array);
 
-			// array_shift() returns NULL if the given array is empty.
+			// array_shift() returns null if the given array is empty.
 			$value = array_shift($array);
 		}
 		else
@@ -186,7 +198,7 @@ class Arr
 	 *
 	 * @param  array    $array  The input array.
 	 * @param  int|null $length
-	 * @return mixed            Returns the last value of array if the array is not empty; NULL otherwise.
+	 * @return mixed            Returns the last value of array if the array is not empty, null otherwise.
 	 */
 	public static function last(array $array, int $length = null)
 	{
@@ -198,7 +210,7 @@ class Arr
 			$value = end($array);
 
 			// The end() function returns FALSE if the array is empty.
-			// So, convert it to NULL to make output same as result of
+			// So, convert it to null to make output same as result of
 			// Arr::first() method is case of the given array is empty.
 			if ($value === false)
 				$value = null;
@@ -214,7 +226,7 @@ class Arr
 	 *
 	 * @param  array $array      The input array.
 	 * @param  int|null $length
-	 * @return mixed             Returns the first key of array if the array is not empty; NULL otherwise.
+	 * @return mixed             Returns the first key of array if the array is not empty, null otherwise.
 	 */
 	public static function firstKey(array $array, int $length = null)
 	{
@@ -270,7 +282,7 @@ class Arr
 	 *
 	 * @param  array    $array   The input array.
 	 * @param  int|null $length
-	 * @return mixed             Returns the last key of array if the array is not empty; NULL otherwise.
+	 * @return mixed             Returns the last key of array if the array is not empty, null otherwise.
 	 */
 	public static function lastKey(array $array, int $length = null)
 	{
