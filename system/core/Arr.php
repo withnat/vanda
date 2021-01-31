@@ -171,8 +171,30 @@ class Arr
 	/**
 	 * Returns the first {$length} elements from the given array.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => 'Web Developer'
+	 * ];
+	 *
+	 * $result = Arr::first($array);
+	 * // the result is: Nat
+	 *
+	 * $result = Arr::first($array, 2);
+	 * // the result is:
+	 * // Array
+	 * // (
+	 * //     [name] => Nat
+	 * //     [surname] => Withe
+	 * // )
+	 * ```
+	 *
 	 * @param  array    $array   The input array.
-	 * @param  int|null $length
+	 * @param  int|null $length  If $length is 1, returns value depend on what the array contains. If $length is greater
+	 *                           than 1, returns an array.
 	 * @return mixed             Returns the first value of array if the array is not empty, null otherwise.
 	 */
 	public static function first(array $array, int $length = null)
