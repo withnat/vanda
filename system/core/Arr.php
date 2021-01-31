@@ -920,7 +920,7 @@ class Arr
 	 * @param  bool         $recursive  True to recurve through multi-level arrays.
 	 * @return array
 	 */
-	public static function removeType(array $array, $dataTypes, bool $recursive = true) : array
+	public static function exceptType(array $array, $dataTypes, bool $recursive = true) : array
 	{
 		if (!is_string($dataTypes) and !is_array($dataTypes))
 			throw InvalidArgumentException::typeError(2, ['string', 'array'], $dataTypes);
@@ -957,7 +957,7 @@ class Arr
 				if ($dataType === strtolower(gettype($itemValue)))
 					unset($array[$itemKey]);
 				elseif ($recursive and is_array($itemValue))
-					$array[$itemKey] = static::removeType($itemValue, $dataTypes, $recursive);
+					$array[$itemKey] = static::exceptType($itemValue, $dataTypes, $recursive);
 			}
 		}
 
@@ -1132,7 +1132,7 @@ class Arr
 			if (!$caseSensitive)
 			{
 				// Remove data types that not compatible with mb_strtolower().
-				$array = static::removeType($array, 'array,object,resource');
+				$array = static::exceptType($array, 'array,object,resource');
 
 				return in_array(mb_strtolower($search), array_map('mb_strtolower', $array), true);
 			}
