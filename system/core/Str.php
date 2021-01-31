@@ -71,7 +71,7 @@ class Str
 	 * ```php
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 * $result = Str::length($string);
-	 * // the result is: 30
+	 * // The $result will be: 30
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
@@ -95,11 +95,11 @@ class Str
 	 * ```php
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 * $result = Str::count($string, 'A');
-	 * // the result is: 1
+	 * // The $result will be: 1
 	 *
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 * $result = Str::count($string, 'A', false);
-	 * // the result is: 4
+	 * // The $result will be: 4
 	 * ```
 	 *
 	 * @param  string      $string         The string being counted on.
@@ -132,7 +132,7 @@ class Str
 	 * ```php
 	 * $string = 'Nat Withe';
 	 * $result = Str::countWords($string);
-	 * // the result is: 2
+	 * // The $result will be: 2
 	 * ```
 	 *
 	 * @param  string $string  The string being counted on.
@@ -156,10 +156,10 @@ class Str
 	 * $string = 'Nat Withe';
 	 *
 	 * $result = Str::left($string);
-	 * // the result is: N
+	 * // The $result will be: N
 	 *
 	 * * $result = Str::left($string, 2);
-	 * // the result is: Na
+	 * // The $result will be: Na
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
@@ -185,10 +185,10 @@ class Str
 	 * $string = 'Nat Withe';
 	 *
 	 * $result = Str::right($string);
-	 * // the result is: e
+	 * // The $result will be: e
 	 *
 	 * $result = Str::right($string, 2);
-	 * // the result is: he
+	 * // The $result will be: he
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
@@ -218,10 +218,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::at($string, 5);
-	 * // the result is: F
+	 * // The $result will be: F
 	 *
 	 * $result = Str::at($string, -5);
-	 * // the result is: B
+	 * // The $result will be: B
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
@@ -250,16 +250,16 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::slice($string, 0, 3);
-	 * // the result is: ABC
+	 * // The $result will be: ABC
 	 *
 	 * $result = Str::at($string, 0, -13);
-	 * // the result is: ABCDEF:eFMNRZa:/f
+	 * // The $result will be: ABCDEF:eFMNRZa:/f
 	 *
 	 * $result = Str::at($string, -8, 2);
-	 * // the result is: fa
+	 * // The $result will be: fa
 	 *
 	 * $result = Str::at($string, -8, -3);
-	 * // the result is: fa:Bm
+	 * // The $result will be: fa:Bm
 	 * ```
 	 *
 	 * @param  string      $string    The string to slice.
@@ -287,10 +287,10 @@ class Str
 	 * $string = 'Nat is so tall, and handsome as hell';
 	 *
 	 * $result = Str::limit($string, 11);
-	 * // the result is: Nat is so tall,...
+	 * // The $result will be: Nat is so tall,...
 	 *
 	 * $result = Str::limit($string, 15);
-	 * // the result is: Nat is so tall,...
+	 * // The $result will be: Nat is so tall,...
 	 * ```
 	 *
 	 * @param  string      $string    The string to truncate.
@@ -349,10 +349,10 @@ class Str
 	 * $string = 'Nat is so tall, and handsome as hell';
 	 *
 	 * $result = Str::limitWords($string, 4);
-	 * // the result is: Nat is so tall,...
+	 * // The $result will be: Nat is so tall,...
 	 *
 	 * $result = Str::limitWords($string, 6);
-	 * // the result is: Nat is so tall, and handsome...
+	 * // The $result will be: Nat is so tall, and handsome...
 	 * ```
 	 *
 	 * @param  string      $string    The string to truncate.
@@ -390,10 +390,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::position($string, 'a');
-	 * // the result is: 13
+	 * // The $result will be: 13
 	 *
 	 * $result = Str::position($string, ':', 4);
-	 * // the result is: 6
+	 * // The $result will be: 6
 	 * ```
 	 *
 	 * @param  string      $string    The string being checked.
@@ -421,10 +421,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::lastPosition($string, ':');
-	 * // the result is: 24
+	 * // The $result will be: 24
 	 *
 	 * $result = Str::lastPosition($string, ':', -10);
-	 * // the result is: 14
+	 * // The $result will be: 14
 	 * ```
 	 *
 	 * @param  string      $string    The string being checked.
@@ -451,10 +451,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::between($string, 'F', 'M');
-	 * // the result is: :eF
+	 * // The $result will be: :eF
 	 *
 	 * $result = Str::between($string, ':', ':', 10);
-	 * // the result is: /fabcdefa
+	 * // The $result will be: /fabcdefa
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
@@ -503,13 +503,13 @@ class Str
 	 * $string = ' axb,ayb ';
 	 *
 	 * $result = Str::trim($string);
-	 * // the result is: 'axb,ayb'
+	 * // The $result will be: 'axb,ayb'
 	 *
 	 * $result = Str::trim($string, 2);
-	 * // the result is: 'xb,ay'
+	 * // The $result will be: 'xb,ay'
 	 *
 	 * $result = Str::trim($string, 'b');
-	 * // the result is: 'axb,ay'
+	 * // The $result will be: 'axb,ay'
 	 * ```
 	 *
 	 * @param  string          $string         The string that will be striped.
@@ -546,18 +546,18 @@ class Str
 	 * $string = ' axb,ayb ';
 	 *
 	 * $result = Str::trimLeft($string);
-	 * // the result is: 'axb,ayb '
+	 * // The $result will be: 'axb,ayb '
 	 *
 	 * $result = Str::trimLeft($string, 2);
-	 * // the result is: 'xb,ayb '
+	 * // The $result will be: 'xb,ayb '
 	 *
 	 * $result = Str::trimLeft($string, -2);
-	 * // the result is: 'b '
+	 * // The $result will be: 'b '
 	 *
 	 * $string = 'bbxa,ayb';
 	 *
 	 * $result = Str::trimLeft($string, 'b');
-	 * // the result is: 'xa,ayb'
+	 * // The $result will be: 'xa,ayb'
 	 * ```
 	 *
 	 * @param  string          $string         The string that will be striped from the beginning of a string.
@@ -599,18 +599,18 @@ class Str
 	 * $string = ' axb,ayb ';
 	 *
 	 * $result = Str::trimRight($string);
-	 * // the result is: ' axb,ayb'
+	 * // The $result will be: ' axb,ayb'
 	 *
 	 * $result = Str::trimRight($string, 2);
-	 * // the result is: ' axb,ay'
+	 * // The $result will be: ' axb,ay'
 	 *
 	 * $result = Str::trimRight($string, -2);
-	 * // the result is: ' a'
+	 * // The $result will be: ' a'
 	 *
 	 * $string = 'bxa,aybb';
 	 *
 	 * $result = Str::trimRight($string, 'b');
-	 * // the result is: 'bxa,ay'
+	 * // The $result will be: 'bxa,ay'
 	 * ```
 	 *
 	 * @param  string          $string         The string that will be striped from the end of a string.
@@ -653,13 +653,13 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::addSlashes("'");
-	 * // the result is: \'
+	 * // The $result will be: \'
 	 *
 	 * $result = Str::addSlashes('"');
-	 * // the result is: \"
+	 * // The $result will be: \"
 	 *
 	 * $result = Str::addSlashes('\\');
-	 * // the result is: \\\\
+	 * // The $result will be: \\\\
 	 * ```
 	 *
 	 * @param  string $string  The string to be escaped.
@@ -679,13 +679,13 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::stripSlashes("\'");
-	 * // the result is: '
+	 * // The $result will be: '
 	 *
 	 * $result = Str::stripSlashes(\"');
-	 * // the result is: "
+	 * // The $result will be: "
 	 *
 	 * $result = Str::stripSlashes('\\\\');
-	 * // the result is: \\
+	 * // The $result will be: \\
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -711,7 +711,7 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::htmlEncode('<strong>Nat</strong>');
-	 * // the result is: &lt;strong&gt;Nat&lt;/strong&gt;
+	 * // The $result will be: &lt;strong&gt;Nat&lt;/strong&gt;
 	 * ```
 	 *
 	 * @param  string $string  The string being converted.
@@ -739,7 +739,7 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::htmlDecode('&lt;strong&gt;Nat&lt;/strong&gt;');
-	 * // the result is: <strong>Nat</strong>
+	 * // The $result will be: <strong>Nat</strong>
 	 * ```
 	 *
 	 * @param  string   $string  The string to decode.
@@ -776,7 +776,7 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::removeWhitespace(" a\tb\nc\rd\0e\x0Bf");
-	 * // the result is: abcdef
+	 * // The $result will be: abcdef
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -801,7 +801,7 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::removeTags('<strong>Nat</strong>');
-	 * // the result is: Nat
+	 * // The $result will be: Nat
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -821,10 +821,10 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::removeQuotes('"Nat"');
-	 * // the result is: Nat
+	 * // The $result will be: Nat
 	 *
 	 * $result = Str::removeQuotes("'Nat'");
-	 * // the result is: Nat
+	 * // The $result will be: Nat
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -849,7 +849,7 @@ class Str
 	 * $string = "http://www.some-site.com/index.php\0";
 	 *
 	 * $result = Str::removeInvisibleCharacters($string);
-	 * // the result is: http://www.some-site.com/index.php
+	 * // The $result will be: http://www.some-site.com/index.php
 	 * ```
 	 *
 	 * @see    https://www.eso.org/~ndelmott/url_encode.html
@@ -892,7 +892,7 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::removeLeft($string, 'ABCDEF');
-	 * // the result is: :eFMNRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: :eFMNRZa:/fabcdefa:Bmnrz
 	 * ```
 	 *
 	 * @param  string      $string     The string that will be striped from the beginning of a string.
@@ -925,7 +925,7 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::removeRight($string, 'defa:Bmnrz');
-	 * // the result is: ABCDEF:eFMNRZa:/fabc
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabc
 	 * ```
 	 *
 	 * @param  string      $string     The string that will be striped from the end of a string.
@@ -959,7 +959,7 @@ class Str
 	 * $string = 'A  B      C';
 	 *
 	 * $result = Str::reduceDoubleSpaces($string);
-	 * // the result is: A B C
+	 * // The $result will be: A B C
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -983,7 +983,7 @@ class Str
 	 * $string = 'http://www.some-site.com//index.php';
 	 *
 	 * $result = Str::reduceDoubleSlashes($string);
-	 * // the result is: http://www.some-site.com/index.php
+	 * // The $result will be: http://www.some-site.com/index.php
 	 * ```
 	 *
 	 * @param  string $string    The input string.
@@ -1007,7 +1007,7 @@ class Str
 	 * $string = 'I LOVE YOU';
 	 *
 	 * $result = Str::lowerCase($string);
-	 * // the result is: i love you
+	 * // The $result will be: i love you
 	 * ```
 	 *
 	 * @param  string      $string    The string being lowercased.
@@ -1033,7 +1033,7 @@ class Str
 	 * $string = 'I LOVE YOU';
 	 *
 	 * $result = Str::lowerCaseFirst($string);
-	 * // the result is: i LOVE YOU
+	 * // The $result will be: i LOVE YOU
 	 * ```
 	 *
 	 * @param  string      $string    The string being lowercased first alphabetic characters.
@@ -1062,7 +1062,7 @@ class Str
 	 * $string = 'I LOVE YOU';
 	 *
 	 * $result = Str::lowerCaseWords($string);
-	 * // the result is: i lOVE yOU
+	 * // The $result will be: i lOVE yOU
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
@@ -1091,7 +1091,7 @@ class Str
 	 * $string = 'i love you';
 	 *
 	 * $result = Str::upperCase($string);
-	 * // the result is: I LOVE YOU
+	 * // The $result will be: I LOVE YOU
 	 * ```
 	 *
 	 * @param  string      $string    The string being uppercased.
@@ -1117,7 +1117,7 @@ class Str
 	 * $string = 'i love you';
 	 *
 	 * $result = Str::upperCaseFirst($string);
-	 * // the result is: I love you
+	 * // The $result will be: I love you
 	 * ```
 	 *
 	 * @param  string      $string    The string being uppercased first alphabetic characters.
@@ -1146,7 +1146,7 @@ class Str
 	 * $string = 'i love you';
 	 *
 	 * $result = Str::upperCaseWords($string);
-	 * // the result is: I Love You
+	 * // The $result will be: I Love You
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
@@ -1174,7 +1174,7 @@ class Str
 	 * $string = 'A';
 	 *
 	 * $result = Str::repeat($string);
-	 * // the result is: AAA
+	 * // The $result will be: AAA
 	 * ```
 	 *
 	 * @param  string $string      The string to repeat.
@@ -1197,13 +1197,13 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::replace('A', '|');
-	 * // the result is: |BCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: |BCDEF:eFMNRZa:/fabcdefa:Bmnrz
 	 *
 	 * $result = Str::replace(':', '|', 1);
-	 * // the result is: ABCDEF|eFMNRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: ABCDEF|eFMNRZa:/fabcdefa:Bmnrz
 	 *
 	 * $result = Str::replace([':', '/'], ['|', '-']);
-	 * // the result is: ABCDEF|eFMNRZa|-fabcdefa|Bmnrz
+	 * // The $result will be: ABCDEF|eFMNRZa|-fabcdefa|Bmnrz
 	 * ```
 	 *
 	 * @param  string       $string    The string being searched and replaced on.
@@ -1257,7 +1257,7 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::replaceFirst(':', '|');
-	 * // the result is: ABCDEF|eFMNRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: ABCDEF|eFMNRZa:/fabcdefa:Bmnrz
 	 * ```
 	 *
 	 * @param  string      $string    The string being searched and replaced on.
@@ -1293,7 +1293,7 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::replaceLast(':', '|');
-	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa|Bmnrz
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabcdefa|Bmnrz
 	 * ```
 	 *
 	 * @param  string      $string    The string being searched and replaced on.
@@ -1329,13 +1329,13 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::ireplace('a', '|');
-	 * // the result is: |BCDEF:eFMNRZ|:/f|bcdef|:Bmnrz
+	 * // The $result will be: |BCDEF:eFMNRZ|:/f|bcdef|:Bmnrz
 	 *
 	 * $result = Str::ireplace('a', '|', 1);
-	 * // the result is: |BCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: |BCDEF:eFMNRZa:/fabcdefa:Bmnrz
 	 *
 	 * $result = Str::ireplace(['a', 'b'], ['4', '8']);
-	 * // the result is: 48CDEF:eFMNRZ4:/f48cdef4:8mnrz
+	 * // The $result will be: 48CDEF:eFMNRZ4:/f48cdef4:8mnrz
 	 * ```
 	 *
 	 * @param  string       $string    The string being searched and replaced on.
@@ -1386,7 +1386,7 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::ireplaceFirst('a', '|');
-	 * // the result is: |BCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: |BCDEF:eFMNRZa:/fabcdefa:Bmnrz
 	 * ```
 	 *
 	 * @param  string      $string    The string being searched and replaced on.
@@ -1422,7 +1422,7 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::ireplaceLast('a', '|');
-	 * // the result is: ABCDEF:eFMNRZa:/fabcdef|:Bmnrz
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabcdef|:Bmnrz
 	 * ```
 	 *
 	 * @param  string      $string    The string being searched and replaced on.
@@ -1460,25 +1460,25 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::subreplace('_____', 5);
-	 * // the result is: ABCDE_____
+	 * // The $result will be: ABCDE_____
 	 *
 	 * $result = Str::subreplace('_____', 5, 5);
-	 * // the result is: ABCDE_____NRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: ABCDE_____NRZa:/fabcdefa:Bmnrz
 	 *
 	 * $result = Str::subreplace('_____', 5, -5);
-	 * // the result is: ABCDE_____Bmnrz
+	 * // The $result will be: ABCDE_____Bmnrz
 	 *
 	 * $result = Str::subreplace('_____', -5);
-	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:_____
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabcdefa:_____
 	 *
 	 * $result = Str::subreplace('_____', -5, 5);
-	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:_____
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabcdefa:_____
 	 *
 	 * $result = Str::subreplace('_____', -15, -5);
-	 * // the result is: ABCDEF:eFMNRZa:_____Bmnrz
+	 * // The $result will be: ABCDEF:eFMNRZa:_____Bmnrz
 	 *
 	 * $result = Str::subreplace('_____', 100, 5);
-	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz_____
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz_____
 	 * ```
 	 *
 	 * @param  string      $string    The string being searched and replaced on.
@@ -1529,13 +1529,13 @@ class Str
 	 * $string = 'My name is ? and ? years old.';
 	 * $result = Str::insert($string, '?', ['Nat', 38]);
 	 *
-	 * // the result is: My name is Nat and 38 years old.
+	 * // The $result will be: My name is Nat and 38 years old.
 	 *
 	 * // If $replaces is associative array.
 	 * $string = 'My name is :name and :age years old.';
 	 * $result = Str::insert($string, ':', ['name' => 'Nat', 'age' => 38]);
 	 *
-	 * // the result is: My name is Nat and 38 years old.
+	 * // The $result will be: My name is Nat and 38 years old.
 	 * ```
 	 *
 	 * @param  string $string       The string being searched and replaced on.
@@ -1579,7 +1579,7 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::reverse($string);
-	 * // the result is: zrnmB:afedcbaf/:aZRNMFe:FEDCBA
+	 * // The $result will be: zrnmB:afedcbaf/:aZRNMFe:FEDCBA
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
@@ -1610,10 +1610,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::startsWith($string, 'A');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * * $result = Str::startsWith($string, 'a', false);
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  string      $string         The string to search in.
@@ -1650,10 +1650,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::startsWithAny($string, ['A', 'B']);
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * * $result = Str::startsWithAny($string, ['a', 'b'], false);
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  string      $string         The string to search in.
@@ -1684,10 +1684,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::endsWith($string, 'z');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * * $result = Str::endsWith($string, 'Z', false);
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  string      $string         The string to search in.
@@ -1724,10 +1724,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::endsWithAny($string, ['z', 'b']);
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * * $result = Str::endsWithAny($string, ['Z', 'B'], false);
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  string      $string         The string to search in.
@@ -1759,10 +1759,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::ensureStartsWith($string, 'ABC');
-	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
 	 *
 	 * $result = Str::ensureStartsWith($string, '_');
-	 * // the result is: _ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: _ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
 	 * ```
 	 *
 	 * @param  string      $string    The input tstring.
@@ -1792,10 +1792,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::ensureEndsWith($string, 'nrz');
-	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
 	 *
 	 * $result = Str::ensureEndsWith($string, '_');
-	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz_
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz_
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
@@ -1823,10 +1823,10 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::wrap('', '|');
-	 * // the result is: ||
+	 * // The $result will be: ||
 	 *
 	 * $result = Str::wrap('value', '|');
-	 * // the result is: |value|
+	 * // The $result will be: |value|
 	 * ```
 	 *
 	 * @param  string      $string     The string being wrapped.
@@ -1857,13 +1857,13 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::after($string, '');
-	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
 	 *
 	 * $result = Str::after($string, 'r');
-	 * // the result is: z
+	 * // The $result will be: z
 	 *
 	 * $result = Str::after($string, 'r', false);
-	 * // the result is: Za:/fabcdefa:Bmnrz
+	 * // The $result will be: Za:/fabcdefa:Bmnrz
 	 * ```
 	 *
 	 * @param  string      $string         The input string.
@@ -1900,13 +1900,13 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::afterLast($string, '');
-	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabcdefa:Bmnrz
 	 *
 	 * $result = Str::afterLast($string, 'b');
-	 * // the result is: cdefa:Bmnrz
+	 * // The $result will be: cdefa:Bmnrz
 	 *
 	 * $result = Str::afterLast($string, 'b', false);
-	 * // the result is: mnrz
+	 * // The $result will be: mnrz
 	 * ```
 	 *
 	 * @param  string      $string         The input string.
@@ -1943,10 +1943,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::before($string, 'e');
-	 * // the result is: ABCDEF
+	 * // The $result will be: ABCDEF
 	 *
 	 * $result = Str::before($string, 'e', false);
-	 * // the result is: ABCD
+	 * // The $result will be: ABCD
 	 * ```
 	 *
 	 * @param  string      $string         The input string.
@@ -1982,10 +1982,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::beforeLast($string, 'b');
-	 * // the result is: ABCDEF:eFMNRZa:/fa
+	 * // The $result will be: ABCDEF:eFMNRZa:/fa
 	 *
 	 * $result = Str::beforeLast($string, 'b', false);
-	 * // the result is: ABCDEF:eFMNRZa:/fabcdefa:
+	 * // The $result will be: ABCDEF:eFMNRZa:/fabcdefa:
 	 * ```
 	 *
 	 * @param  string      $string         The input string.
@@ -2026,10 +2026,10 @@ class Str
 	 * $string = '<html>html</html>';
 	 *
 	 * $result = Str::highlight($string, 'html');
-	 * // the result is: <html><mark>html</mark></html>
+	 * // The $result will be: <html><mark>html</mark></html>
 	 *
 	 * $result = Str::highlight($string, 'html', '<start>', '</end>', false);
-	 * // the result is: <<start>html</end>><start>html</end></<start>html</end>>
+	 * // The $result will be: <<start>html</end>><start>html</end></<start>html</end>>
 	 * ```
 	 *
 	 * @param  string $string    The input string.
@@ -2063,16 +2063,16 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::increment('file');
-	 * // the result is: file_1
+	 * // The $result will be: file_1
 	 *
 	 * $result = Str::increment('file_1');
-	 * // the result is: file_2
+	 * // The $result will be: file_2
 	 *
 	 * $result = Str::increment('file', '-', 100);
-	 * // the result is: file-100
+	 * // The $result will be: file-100
 	 *
 	 * $result = Str::increment('file-100', '-', 100);
-	 * // the result is: file-101
+	 * // The $result will be: file-101
 	 * ```
 	 *
 	 * @param  string $string     The input string.
@@ -2101,7 +2101,7 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::floatToString(3,14);
-	 * // the result is: 3.14 (string)
+	 * // The $result will be: 3.14 (string)
 	 * ```
 	 *
 	 * @param  float|int $number  A floating point number or integer.
@@ -2124,7 +2124,7 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::spaceToTab('    ');
-	 * // the result is: \t
+	 * // The $result will be: \t
 	 * ```
 	 *
 	 * @param  string $string     The input string.
@@ -2146,7 +2146,7 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::tabToSpace("\t");
-	 * // the result is: '    '
+	 * // The $result will be: '    '
 	 * ```
 	 *
 	 * @param  string $string     The input string.
@@ -2173,10 +2173,10 @@ class Str
 	 * $string = 'string';
 	 *
 	 * $result = Str::pad($string, '_', 5);
-	 * // the result is: string
+	 * // The $result will be: string
 	 *
 	 * $result = Str::pad($string, '_', 10);
-	 * // the result is: __string__
+	 * // The $result will be: __string__
 	 * ```
 	 *
 	 * @param  string $string     The input string.
@@ -2202,10 +2202,10 @@ class Str
 	 * $string = 'string';
 	 *
 	 * $result = Str::padLeft($string, '_', 5);
-	 * // the result is: string
+	 * // The $result will be: string
 	 *
 	 * $result = Str::padLeft($string, '_', 10);
-	 * // the result is: ____string
+	 * // The $result will be: ____string
 	 * ```
 	 *
 	 * @param  string $string     The input string.
@@ -2231,10 +2231,10 @@ class Str
 	 * $string = 'string';
 	 *
 	 * $result = Str::padRight($string, '_', 5);
-	 * // the result is: string
+	 * // The $result will be: string
 	 *
 	 * $result = Str::padRight($string, '_', 10);
-	 * // the result is: string____
+	 * // The $result will be: string____
 	 * ```
 	 *
 	 * @param  string $string     The input string.
@@ -2265,22 +2265,22 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::isBlank(0);
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::isBlank('0');
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::isBlank(null);
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isBlank(' ');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isBlank(false);
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isBlank(true);
-	 * // the result is: false
+	 * // The $result will be: false
 	 * ```
 	 *
 	 * @param  mixed $string  The input string.
@@ -2303,16 +2303,16 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::isAlpha(416);
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::isAlpha('416');
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::isAlpha('Valkyrie416');
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::isAlpha('Valkyrie');
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  mixed $string  The input string.
@@ -2333,19 +2333,19 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::isAlnum(416);
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isAlnum('416');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isAlnum('Valkyrie416');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isAlnum('Valkyrie');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isAlnum('Valkyrie!');
-	 * // the result is: false
+	 * // The $result will be: false
 	 * ```
 	 *
 	 * @param  mixed $string  The input string.
@@ -2366,10 +2366,10 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::isBase64Encoded('TmF0IFdpdGhl');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isBase64Encoded('I love you');
-	 * // the result is: false
+	 * // The $result will be: false
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -2392,10 +2392,10 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::isHexadecimal('D1CE');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isHexadecimal('D1ZE');
-	 * // the result is: false
+	 * // The $result will be: false
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -2415,10 +2415,10 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::isLowerCase('Abc');
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::isLowerCase('abc');
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -2438,10 +2438,10 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::isUpperCase('Abc');
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::isUpperCase('ABC');
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -2461,13 +2461,13 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::isSerialized('b:0;');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isSerialized('a:0:{}');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isSerialized('string');
-	 * // the result is: false
+	 * // The $result will be: false
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -2500,13 +2500,13 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::isMultibyte('NAT WITHE');
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::isMultibyte('ŅÀŦ ŴĨŦĤÈ');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::isMultibyte('นัทเองไงจะใครล่ะ');
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -2536,10 +2536,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::contains('za');
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::contains('za', false);
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  string      $string         The input string.
@@ -2570,10 +2570,10 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::containsAny(['za', 'NoneExistingChar']);
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::containsAny(['za', 'NoneExistingChar'], false);
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  string      $string         The input string.
@@ -2604,13 +2604,13 @@ class Str
 	 * $string = 'ABCDEF:eFMNRZa:/fabcdefa:Bmnrz';
 	 *
 	 * $result = Str::containsAll(['Za', 'NoneExistingChar']);
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::containsAll(['za', 'bm']);
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::containsAll(['za', 'bm'], false);
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  string      $string         The input string.
@@ -2642,13 +2642,13 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::hasLowerCase('ABC');
-	 * // the result is: false
+	 * // The $result will be: false
 	 *
 	 * $result = Str::hasLowerCase('Abc');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::hasLowerCase('abc');
-	 * // the result is: true
+	 * // The $result will be: true
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -2668,13 +2668,13 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::hasUpperCase('ABC');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::hasUpperCase('Abc');
-	 * // the result is: true
+	 * // The $result will be: true
 	 *
 	 * $result = Str::hasUpperCase('abc');
-	 * // the result is: false
+	 * // The $result will be: false
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -2696,7 +2696,7 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::chars('ABC');
-	 * // the result is:
+	 * // The $result will be:
 	 * // [
 	 * //     0 => 'A',
 	 * //     1 => 'B',
@@ -2727,14 +2727,14 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::lines("ABC\nDEF");
-	 * // the result is:
+	 * // The $result will be:
 	 * // [
 	 * //     0 => 'ABC',
 	 * //     1 => 'DEF'
 	 * // ]
 	 *
 	 * $result = Str::lines("ABC\rDEF");
-	 * // the result is:
+	 * // The $result will be:
 	 * // [
 	 * //     0 => 'ABC',
 	 * //     1 => 'DEF'
@@ -2872,7 +2872,7 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::base64encode('Nat Withe');
-	 * // the result is: TmF0IFdpdGhl
+	 * // The $result will be: TmF0IFdpdGhl
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -2893,7 +2893,7 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::base64decode('TmF0IFdpdGhl');
-	 * // the result is: Nat Withe
+	 * // The $result will be: Nat Withe
 	 * ```
 	 *
 	 * @param  string $string  The input string.
@@ -2951,7 +2951,7 @@ class Str
 	 *
 	 * ```php
 	 * $result = Str::normalize('ŅÀŦ ŴĨŦĤÈ');
-	 * // the result is: NAT WITHE
+	 * // The $result will be: NAT WITHE
 	 *
 	 * @param  string $string  The input string to normalise.
 	 * @return string          Returns normalised string.
