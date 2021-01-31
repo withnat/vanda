@@ -270,7 +270,7 @@ class Arr
 	}
 
 	/**
-	 * Returns the first $length keys from the given array.
+	 * Returns the first $length keys of the given array.
 	 *
 	 * For example,
 	 *
@@ -350,11 +350,35 @@ class Arr
 	}
 
 	/**
-	 * Gets the last {$length} keys from the given array.
+	 * Returns the last $length keys of the given array.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => 'Web Developer'
+	 * ];
+	 *
+	 * $result = Arr::lastKey($array);
+	 * // the result is: job
+	 *
+	 * $result = Arr::lastKey($array, 2);
+	 * // the result is:
+	 * // Array
+	 * // (
+	 * //     [0] => surname
+	 * //     [1] => job
+	 * // )
+	 * ```
 	 *
 	 * @param  array    $array   The input array.
-	 * @param  int|null $length
-	 * @return mixed             Returns the last key of array if the array is not empty, null otherwise.
+	 * @param  int|null $length  The number of keys to return. If $length is 1, returns the last key of the
+	 *                           given array. If $length is greater than 1, returns an array contains the last $length
+	 *                           keys.
+	 * @return mixed             Returns the last $length key of the given array if the given array is not empty,
+	 *                           null otherwise.
 	 */
 	public static function lastKey(array $array, int $length = null)
 	{
