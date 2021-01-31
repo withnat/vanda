@@ -1204,18 +1204,23 @@ class Arr
 	}
 
 	/**
-	 * Because in_array() returns true if $search is 0.
+	 * Checks if a value exists in an array.
+	 * An alias for PHP's in_array() function because in_array() returns true if $search is 0.
 	 *
-	 * Casting any string that doesn't start with a digit to a number results in 0 in PHP.
-	 * And this is exactly what happens when comparing 0 with some string.
-	 * See the PHP docs for details about how comparisons between various types are done.
+	 * ```php
+	 * $array = [
+	 *     'foo',
+	 *     'bar',
+	 *     'baz'
+	 * ];
 	 *
-	 * Use the third argument (set it to true) of in_array to avoid loose type comparison.
+	 * $result = Arr::has($array, 'bar');
+	 * // The $result will be: true
 	 *
 	 * @param  array $array          The array to search.
 	 * @param  mixed $search         The searched value.
-	 * @param  bool  $caseSensitive
-	 * @return bool
+	 * @param  bool  $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @return bool                  Returns true if the searched value is found in the given array, false otherwise.
 	 */
 	public static function has(array $array, $search, bool $caseSensitive = true) : bool
 	{
