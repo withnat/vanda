@@ -1802,7 +1802,6 @@ class ArrTest extends TestCase
 		];
 
 		$result = Arr::pullColumn($recordset, 'name,surname');
-		print_r($recordset);
 		$array = [];
 
 		$this->expectException(InvalidArgumentException::class);
@@ -2051,23 +2050,23 @@ class ArrTest extends TestCase
 		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[4]);
 	}
 
-	// Arr::remove()
+	// Arr::except()
 
-	public function testMethodRemoveCase1() : void
+	public function testMethodExceptCase1() : void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
-		Arr::remove([], new stdClass());
+		Arr::except([], new stdClass());
 	}
 
-	public function testMethodRemoveCase2() : void
+	public function testMethodExceptCase2() : void
 	{
-		$result = Arr::remove([], 'value');
+		$result = Arr::except([], 'value');
 
 		$this->assertEquals([], $result);
 	}
 
-	public function testMethodRemoveCase3() : void
+	public function testMethodExceptCase3() : void
 	{
 		$array = [
 			'name' => 'Nat',
@@ -2078,12 +2077,12 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 		];
 
-		$result = Arr::remove($array, 'Withe');
+		$result = Arr::except($array, 'Withe');
 
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodRemoveCase4() : void
+	public function testMethodExceptCase4() : void
 	{
 		$array = [
 			'name' => 'Nat',
@@ -2095,13 +2094,13 @@ class ArrTest extends TestCase
 			'surename' => 'Withe'
 		];
 
-		$result = Arr::remove($array, 'withe');
+		$result = Arr::except($array, 'withe');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveCase5() : void
+	public function testMethodExceptCase5() : void
 	{
 		$array = [
 			'name' => 'Nat',
@@ -2112,22 +2111,22 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 		];
 
-		$result = Arr::remove($array, 'withe', false);
+		$result = Arr::except($array, 'withe', false);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodRemoveCase6() : void
+	public function testMethodExceptCase6() : void
 	{
 		$expected = static::$_arrayMulti;
 
-		$result = Arr::remove(static::$_arrayMulti, '10');
+		$result = Arr::except(static::$_arrayMulti, '10');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveCase7() : void
+	public function testMethodExceptCase7() : void
 	{
 		$expected = [
 			1 => 20,
@@ -2139,13 +2138,13 @@ class ArrTest extends TestCase
 			7 => 100
 		];
 
-		$result = Arr::remove(static::$_arrayMulti, 10);
+		$result = Arr::except(static::$_arrayMulti, 10);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveCase8() : void
+	public function testMethodExceptCase8() : void
 	{
 		$expected = [
 			2 => 'A', // upper case
@@ -2156,13 +2155,13 @@ class ArrTest extends TestCase
 			7 => 100
 		];
 
-		$result = Arr::remove(static::$_arrayMulti, [10, 20]);
+		$result = Arr::except(static::$_arrayMulti, [10, 20]);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveCase9() : void
+	public function testMethodExceptCase9() : void
 	{
 		$expected = [
 			10,
@@ -2175,13 +2174,13 @@ class ArrTest extends TestCase
 			100
 		];
 
-		$result = Arr::remove(static::$_arrayMulti, ['x', 'y']);
+		$result = Arr::except(static::$_arrayMulti, ['x', 'y']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveCase10() : void
+	public function testMethodExceptCase10() : void
 	{
 		$expected = [
 			10,
@@ -2194,13 +2193,13 @@ class ArrTest extends TestCase
 			100
 		];
 
-		$result = Arr::remove(static::$_arrayMulti, ['X', 'y']);
+		$result = Arr::except(static::$_arrayMulti, ['X', 'y']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveCase11() : void
+	public function testMethodExceptCase11() : void
 	{
 		$expected = [
 			10,
@@ -2213,13 +2212,13 @@ class ArrTest extends TestCase
 			100
 		];
 
-		$result = Arr::remove(static::$_arrayMulti, ['X', 'y'], false);
+		$result = Arr::except(static::$_arrayMulti, ['X', 'y'], false);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveCase12() : void
+	public function testMethodExceptCase12() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -2239,13 +2238,13 @@ class ArrTest extends TestCase
 			'extra' => null
 		];
 
-		$result = Arr::remove(static::$_assocArrayMulti, 'Web Developer');
+		$result = Arr::except(static::$_assocArrayMulti, 'Web Developer');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveCase13() : void
+	public function testMethodExceptCase13() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -2261,7 +2260,7 @@ class ArrTest extends TestCase
 			'other' => ''
 		];
 
-		$result = Arr::remove(static::$_assocArrayMulti, ['Web Developer', 87.5, true, null], false);
+		$result = Arr::except(static::$_assocArrayMulti, ['Web Developer', 87.5, true, null], false);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -2824,21 +2823,21 @@ class ArrTest extends TestCase
 
 	// Arr::removeColumn()
 
-	public function testMethodRemoveColumnCase1() : void
+	public function testMethodExceptColumnCase1() : void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::removeColumn([], 'missingkey');
 	}
 
-	public function testMethodRemoveColumnCase2() : void
+	public function testMethodExceptColumnCase2() : void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::removeColumn([[]], 3.14);
 	}
 
-	public function testMethodRemoveColumnCase3() : void
+	public function testMethodExceptColumnCase3() : void
 	{
 		$expected = [
 			[1 => '0.2'],
@@ -2851,7 +2850,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveColumnCase4() : void
+	public function testMethodExceptColumnCase4() : void
 	{
 		$expected = [
 			[1 => '0.2'],
@@ -2864,7 +2863,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveColumnCase5() : void
+	public function testMethodExceptColumnCase5() : void
 	{
 		$expected = [
 			['name' => 'Nat'],
@@ -2880,7 +2879,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveColumnCase6() : void
+	public function testMethodExceptColumnCase6() : void
 	{
 		$expected = [
 			['name' => 'Nat'],
@@ -2896,7 +2895,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodRemoveColumnCase7() : void
+	public function testMethodExceptColumnCase7() : void
 	{
 		$expected = [];
 
@@ -2925,7 +2924,7 @@ class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodRemoveColumnCase8() : void
+	public function testMethodExceptColumnCase8() : void
 	{
 		$expected = [];
 

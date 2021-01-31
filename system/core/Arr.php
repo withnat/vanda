@@ -790,15 +790,15 @@ class Arr
 	}
 
 	/**
-	 * Get all of the given array except for a specified value.
+	 * Returns all of the given array except for a specified value.
 	 *
 	 * @param  array $array          An array to remove an element by value.
 	 * @param  mixed $value          The value to remove.
-	 * @param  bool  $caseSensitive  Case-sensitive or not.
+	 * @param  bool  $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
 	 * @param  bool  $recursive      True to recurve through multi-level arrays.
-	 * @return array
+	 * @return array                 Returns all of the given array except for a specified value.
 	 */
-	public static function remove(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
+	public static function except(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
 	{
 		if (is_object($value) or is_resource($value))
 			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'bool', 'array', 'null'], $value);
@@ -815,7 +815,7 @@ class Arr
 				if (is_array($itemValue))
 				{
 					if ($recursive)
-						$array[$itemKey] = static::remove($itemValue, $value, $caseSensitive, $recursive);
+						$array[$itemKey] = static::except($itemValue, $value, $caseSensitive, $recursive);
 				}
 				else
 				{
