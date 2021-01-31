@@ -177,7 +177,7 @@ class Arr
 	 * $array = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
-	 *     'work' => 'Web Developer'
+	 *     'job' => 'Web Developer'
 	 * ];
 	 *
 	 * $result = Arr::first($array);
@@ -226,7 +226,7 @@ class Arr
 	 * $array = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
-	 *     'work' => 'Web Developer'
+	 *     'job' => 'Web Developer'
 	 * ];
 	 *
 	 * $result = Arr::last($array);
@@ -237,7 +237,7 @@ class Arr
 	 * // Array
 	 * // (
 	 * //     [surname] => Withe
-	 * //     [work] => Web Developer
+	 * //     [job] => Web Developer
 	 * // )
 	 * ```
 	 *
@@ -278,7 +278,7 @@ class Arr
 	 * $array = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
-	 *     'work' => 'Web Developer'
+	 *     'job' => 'Web Developer'
 	 * ];
 	 *
 	 * $result = Arr::firstKey($array);
@@ -358,18 +358,18 @@ class Arr
 	 * $array = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
-	 *     'work' => 'Web Developer'
+	 *     'job' => 'Web Developer'
 	 * ];
 	 *
 	 * $result = Arr::lastKey($array);
-	 * // the result is: work
+	 * // the result is: job
 	 *
 	 * $result = Arr::lastKey($array, 2);
 	 * // the result is:
 	 * // Array
 	 * // (
 	 * //     [0] => surname
-	 * //     [1] => work
+	 * //     [1] => job
 	 * // )
 	 * ```
 	 *
@@ -423,10 +423,10 @@ class Arr
 	}
 
 	/**
-	 * Returns only the specified key/value pairs from the given array.
+	 * Returns only the specified key/value pairs from the given array. The given array can be one or multi-dimensional
+	 * array.
 	 *
-	 * The given array can be one or multi-dimensional array.
-	 * The $keys can be 0, '0', '0,1', [0, 1], 'name,work.position', ['name, work.position'].
+	 * The $keys can be 0, '0', '0,1', [0, 1], 'name,job.position', ['name, job.position'].
 	 *
 	 * Note, for numeric array, an index key 0 (int) is same as '0' (string).
 	 *
@@ -436,18 +436,18 @@ class Arr
 	 * $array = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
-	 *     'work' => [
+	 *     'job' => [
 	 *         'position' => 'Web Developer',
 	 *         'salary' => 10000
 	 *     ]
 	 * ];
 	 *
-	 * $result = Arr::only($array, 'name,work.salary');
+	 * $result = Arr::only($array, 'name,job.salary');
 	 * // the result is:
 	 * // Array
 	 * // (
 	 * //     [name] => Nat
-	 * //     [work] => Array
+	 * //     [job] => Array
 	 * //         (
 	 * //             [salary] => 10000
 	 * //         )
@@ -456,7 +456,7 @@ class Arr
 	 *
 	 * @param  array            $array  The input array.
 	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array data
-	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,work.position'.
+	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,job.position'.
 	 * @return array                    Returns a subset of the items from the given array.
 	 */
 	public static function only(array $array, $keys) : array
@@ -496,7 +496,7 @@ class Arr
 	 * Data can be one or multi-dimensional array, but not a recordset.
 	 *
 	 * The given array can be one or multi-dimensional array.
-	 * The $keys can be 0, '0', '0,1', [0, 1], 'name,work.position', ['name, work.position'].
+	 * The $keys can be 0, '0', '0,1', [0, 1], 'name,job.position', ['name, job.position'].
 	 *
 	 * Note, For numeric array, an index key 0 (int) is same as '0' (string).
 	 *
@@ -506,18 +506,18 @@ class Arr
 	 * $array = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
-	 *     'work' => [
+	 *     'job' => [
 	 *         'position' => 'Web Developer',
 	 *         'salary' => 10000
 	 *     ]
 	 * ];
 	 *
-	 * $result = Arr::pull($array, 'name,work.salary');
+	 * $result = Arr::pull($array, 'name,job.salary');
 	 * // the result is:
 	 * // Array
 	 * // (
 	 * //     [name] => Nat
-	 * //     [work] => Array
+	 * //     [job] => Array
 	 * //         (
 	 * //             [salary] => 10000
 	 * //         )
@@ -527,7 +527,7 @@ class Arr
 	 * // Array
 	 * // (
 	 * //     [surname] => Withe
-	 * //     [work] => Array
+	 * //     [job] => Array
 	 * //         (
 	 * //             [position] => Web Developer
 	 * //         )
@@ -536,7 +536,7 @@ class Arr
 	 *
 	 * @param  array            $array  The input array.
 	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array data
-	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,work.position'.
+	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,job.position'.
 	 * @return mixed                    Depends on what the given array contains.
 	 */
 	public static function pull(array &$array, $keys)
@@ -591,7 +591,9 @@ class Arr
 	}
 
 	/**
-	 * Return the values from a single column in the input array contains array (dataset) or object (recordset).
+	 * Return the values from a single column in the given array contains array (dataset) or object (recordset).
+	 *
+	 * The $columnKey can be 0, '0', 'name', 'job.position'.
 	 *
 	 * For example,
 	 *
@@ -601,7 +603,7 @@ class Arr
 	 *         'name' => 'Nat',
 	 *         'surname' => 'With',
 	 *         'job' => [
-	 *             'title' => 'Web Developer',
+	 *             'position' => 'Web Developer',
 	 *             'salary' => 10000
 	 *         ]
 	 *     ],
@@ -609,13 +611,13 @@ class Arr
 	 *         'name' => 'Angela',
 	 *         'surname' => 'SG',
 	 *         'job' => [
-	 *             'title' => 'Maketing Director',
+	 *             'position' => 'Maketing Director',
 	 *             'salary' => 10000
 	 *         ]
 	 *     ]
 	 * ];
 	 *
-	 * $result = Arr::onlyColumn($recordset, 'job.title');
+	 * $result = Arr::onlyColumn($recordset, 'job.position');
 	 *
 	 * // The $result will be:
 	 * // Array
@@ -625,7 +627,7 @@ class Arr
 	 * // )
 	 * //
 	 *
-	 * $result = Arr::onlyColumn($recordset, 'job.title', 'name');
+	 * $result = Arr::onlyColumn($recordset, 'job.position', 'name');
 	 *
 	 * // The $result will be:
 	 * // Array
@@ -636,8 +638,9 @@ class Arr
 	 *
 	 * @param  array           $data       A multi-dimensional array contains array (dataset) or object (recordset)
 	 *                                     from which to pull a column of values.
-	 * @param  string|int      $columnKey  The column of values to return.
-	 * @param  string|int|null $indexKey   The column to use as the index/keys for the returned array.
+	 * @param  string|int      $columnKey  The column key of values to return. If the key contains dot, it will access
+	 *                                     nested array data e.g., 0, '0', 'name', 'job.position'.
+	 * @param  string|int|null $indexKey   The column key to use as the index/key for the returned array.
 	 * @return array                       Returns an array of values representing a single column from the given array.
 	 */
 	public static function onlyColumn(array $data, $columnKey, $indexKey = null) : array
@@ -688,7 +691,7 @@ class Arr
 	 *
 	 * @param  array            $data  A multi-dimensional array contains array (dataset) or object (recordset)
 	 *                                 from which to pull a column of values.
-	 * @param  string|int|array $keys  The column of values to return. The $keys can be 'name,work.position'
+	 * @param  string|int|array $keys  The column of values to return. The $keys can be 'name,job.position'
 	 * @return array
 	 */
 	public static function pullColumn(array &$data, $keys) : array
@@ -1095,19 +1098,19 @@ class Arr
 	 * $employee = [
 	 *     'name' => 'Nat',
 	 *     'age' => '38',
-	 *     'position' => [
-	 *         'title' => 'Web Developer',
+	 *     'job' => [
+	 *         'position' => 'Web Developer',
 	 *         'saraly' => 100000
 	 *     ]
 	 * ];
 	 *
-	 * $result = Arr::hasKey($employee, 'position');
+	 * $result = Arr::hasKey($employee, 'job');
 	 * // the result is: True
 	 *
-	 * $result = Arr::hasKey($employee, 'position.title');
+	 * $result = Arr::hasKey($employee, 'job.position');
 	 * // the result is: True
 
-	 * $result = Arr::hasKey($employee, 'position.startdate');
+	 * $result = Arr::hasKey($employee, 'job.startdate');
 	 * // the result is: False
 	 * ```
 	 *
@@ -2004,7 +2007,7 @@ class Arr
 	 * 0 to [0]
 	 * '0' to ['0']
 	 * 'name' to ['name']
-	 * 'work.position' to ['work']['position']
+	 * 'job.position' to ['job']['position']
 	 *
 	 * @param  string|int $key
 	 * @return string
