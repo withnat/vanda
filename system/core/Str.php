@@ -2562,7 +2562,7 @@ class Str
 	}
 
 	/**
-	 * Determines if a given string contains some given substrings.
+	 * Determines if a given string contains any given substring.
 	 *
 	 * For example,
 	 *
@@ -2581,7 +2581,7 @@ class Str
 	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
-	 * @return bool                        Returns true if some given substrings are in the given string, false
+	 * @return bool                        Returns true if any given substring is in the given string, false
 	 *                                     otherwise.
 	 */
 	public static function containsAny(string $string, array $substrings, bool $caseSensitive = true, string $encoding = null) : bool
