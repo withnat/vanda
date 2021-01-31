@@ -1647,30 +1647,30 @@ class ArrTest extends TestCase
 		$this->assertArrayNotHasKey('position', static::$_assocArrayMulti['job']);
 	}
 
-	// Arr::onlyColumn()
+	// Arr::column()
 
-	public function testMethodOnlyColumnCase1() : void
+	public function testMethodColumnCase1() : void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
-		Arr::onlyColumn([], 'columnKey');
+		Arr::column([], 'columnKey');
 	}
 
-	public function testMethodOnlyColumnCase2() : void
+	public function testMethodColumnCase2() : void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
-		Arr::onlyColumn(static::$_datasetArray, 3.14);
+		Arr::column(static::$_datasetArray, 3.14);
 	}
 
-	public function testMethodOnlyColumnCase3() : void
+	public function testMethodColumnCase3() : void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
-		Arr::onlyColumn(static::$_datasetArray, 'columnKey', 3.14);
+		Arr::column(static::$_datasetArray, 'columnKey', 3.14);
 	}
 
-	public function testMethodOnlyColumnCase4() : void
+	public function testMethodColumnCase4() : void
 	{
 		$expected = [
 			'Web Developer',
@@ -1680,13 +1680,13 @@ class ArrTest extends TestCase
 			'Marketing Director'
 		];
 
-		$result = Arr::onlyColumn(static::$_datasetArray, 'job.position');
+		$result = Arr::column(static::$_datasetArray, 'job.position');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodOnlyColumnCase5() : void
+	public function testMethodColumnCase5() : void
 	{
 		$expected = [
 			'Nat' => 'Web Developer',
@@ -1695,65 +1695,65 @@ class ArrTest extends TestCase
 			'Angela' => 'Marketing Director'
 		];
 
-		$result = Arr::onlyColumn(static::$_datasetArray, 'job.position', 'name');
+		$result = Arr::column(static::$_datasetArray, 'job.position', 'name');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodOnlyColumnCase6() : void
+	public function testMethodColumnCase6() : void
 	{
 		$expected = [
 			'0.1',
 			'1.1'
 		];
 
-		$result = Arr::onlyColumn(static::$_numericDatasetArray, 0);
+		$result = Arr::column(static::$_numericDatasetArray, 0);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodOnlyColumnCase7() : void
+	public function testMethodColumnCase7() : void
 	{
 		$expected = [
 			'0.1',
 			'1.1'
 		];
 
-		$result = Arr::onlyColumn(static::$_numericDatasetArray, '0');
+		$result = Arr::column(static::$_numericDatasetArray, '0');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodOnlyColumnCase8() : void
+	public function testMethodColumnCase8() : void
 	{
 		$expected = [
 			'0.2' => '0.1',
 			'1.2' => '1.1'
 		];
 
-		$result = Arr::onlyColumn(static::$_numericDatasetArray, 0, 1);
+		$result = Arr::column(static::$_numericDatasetArray, 0, 1);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodOnlyColumnCase9() : void
+	public function testMethodColumnCase9() : void
 	{
 		$expected = [
 			'0.2' => '0.1',
 			'1.2' => '1.1'
 		];
 
-		$result = Arr::onlyColumn(static::$_numericDatasetArray, '0', '1');
+		$result = Arr::column(static::$_numericDatasetArray, '0', '1');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodOnlyColumnCase10() : void
+	public function testMethodColumnCase10() : void
 	{
 		$expected = [
 			'Web Developer',
@@ -1763,13 +1763,13 @@ class ArrTest extends TestCase
 			'Marketing Director'
 		];
 
-		$result = Arr::onlyColumn(static::$_recordsetArray, 'job');
+		$result = Arr::column(static::$_recordsetArray, 'job');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodOnlyColumnCase11() : void
+	public function testMethodColumnCase11() : void
 	{
 		$expected = [
 			'Nat' => 'Web Developer',
@@ -1778,7 +1778,7 @@ class ArrTest extends TestCase
 			'Angela' => 'Marketing Director'
 		];
 
-		$result = Arr::onlyColumn(static::$_recordsetArray, 'job', 'name');
+		$result = Arr::column(static::$_recordsetArray, 'job', 'name');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -1788,6 +1788,21 @@ class ArrTest extends TestCase
 
 	public function testMethodPullColumnCase1() : void
 	{
+		$recordset = [
+			[
+				'name' => 'Nat',
+				'surname' => 'With',
+				'job' => 'Web Developer'
+			],
+			[
+				'name' => 'Angela',
+				'surname' => 'SG',
+				'job' => 'Maketing Director'
+			]
+		];
+
+		$result = Arr::pullColumn($recordset, 'name,surname');
+		print_r($recordset);
 		$array = [];
 
 		$this->expectException(InvalidArgumentException::class);
