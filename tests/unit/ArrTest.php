@@ -87,7 +87,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -108,7 +108,7 @@ class ArrTest extends TestCase
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
-				'work' => [
+				'job' => [
 					'position' => 'Web Developer',
 					'salary' => 10000
 				]
@@ -116,7 +116,7 @@ class ArrTest extends TestCase
 			[
 				'name' => 'Rosie',
 				'surname' => 'Marshman',
-				'work' => [
+				'job' => [
 					'position' => 'Staff',
 					'salary' => 8000
 				]
@@ -124,7 +124,7 @@ class ArrTest extends TestCase
 			[
 				'name' => 'Emma',
 				'surname' => 'McCormick',
-				'work' => [
+				'job' => [
 					'position' => 'Staff',
 					'salary' => 8000
 				]
@@ -132,7 +132,7 @@ class ArrTest extends TestCase
 			[
 				'name' => 'Emma',
 				'surname' => 'Miller',
-				'work' => [
+				'job' => [
 					'position' => 'Project Coordinator',
 					'salary' => 10000
 				]
@@ -140,7 +140,7 @@ class ArrTest extends TestCase
 			[
 				'name' => 'Angela',
 				'surname' => 'SG',
-				'work' => [
+				'job' => [
 					'position' => 'Marketing Director',
 					'salary' => 10000
 				]
@@ -167,7 +167,7 @@ class ArrTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Nat';
 		$data->surname = 'Withe';
-		$data->work = 'Web Developer';
+		$data->job = 'Web Developer';
 		$data->salary = 10000;
 
 		static::$_recordsetArray[] = $data;
@@ -175,7 +175,7 @@ class ArrTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Rosie';
 		$data->surname = 'Marshman';
-		$data->work = 'Staff';
+		$data->job = 'Staff';
 		$data->salary = 8000;
 
 		static::$_recordsetArray[] = $data;
@@ -183,7 +183,7 @@ class ArrTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Emma';
 		$data->surname = 'McCormick';
-		$data->work = 'Staff';
+		$data->job = 'Staff';
 		$data->salary = 8000;
 
 		static::$_recordsetArray[] = $data;
@@ -191,7 +191,7 @@ class ArrTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Emma';
 		$data->surname = 'Miller';
-		$data->work = 'Project Coordinator';
+		$data->job = 'Project Coordinator';
 		$data->salary = 10000;
 
 		static::$_recordsetArray[] = $data;
@@ -199,7 +199,7 @@ class ArrTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Angela';
 		$data->surname = 'SG';
-		$data->work = 'Marketing Director';
+		$data->job = 'Marketing Director';
 		$data->salary = 10000;
 
 		static::$_recordsetArray[] = $data;
@@ -209,7 +209,7 @@ class ArrTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Nat';
 		$data->surname = 'Withe';
-		$data->work = 'Web Developer';
+		$data->job = 'Web Developer';
 		$data->salary = 10000;
 
 		$address = new stdClass();
@@ -534,14 +534,14 @@ class ArrTest extends TestCase
 
 	public function testMethodGetCase19() : void
 	{
-		$result = Arr::get(static::$_assocArrayMulti, 'work.missingkey', 'I love you.');
+		$result = Arr::get(static::$_assocArrayMulti, 'job.missingkey', 'I love you.');
 
 		$this->assertEquals('I love you.', $result);
 	}
 
 	public function testMethodGetCase20() : void
 	{
-		$result = Arr::get(static::$_assocArrayMulti, 'work.salary');
+		$result = Arr::get(static::$_assocArrayMulti, 'job.salary');
 
 		$this->assertEquals(10000, $result);
 	}
@@ -609,7 +609,7 @@ class ArrTest extends TestCase
 
 		$result = Arr::getKey(static::$_assocArrayMulti, $search);
 
-		$this->assertEquals('work', $result);
+		$this->assertEquals('job', $result);
 	}
 
 	// Arr::first()
@@ -727,7 +727,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -747,7 +747,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000
 			]
@@ -764,7 +764,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => 'Web Developer',
+			'job' => 'Web Developer',
 			'salary' => 10000
 		];
 
@@ -889,7 +889,7 @@ class ArrTest extends TestCase
 	public function testMethodLastCase11() : void
 	{
 		$expected = [
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -915,7 +915,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Angela',
 			'surname' => 'SG',
-			'work' => [
+			'job' => [
 				'position' => 'Marketing Director',
 				'salary' => 10000
 			]
@@ -932,7 +932,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Angela',
 			'surname' => 'SG',
-			'work' => 'Marketing Director',
+			'job' => 'Marketing Director',
 			'salary' => 10000
 		];
 
@@ -1360,12 +1360,12 @@ class ArrTest extends TestCase
 	{
 		$expected = [
 			'name' => 'Nat',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer'
 			]
 		];
 
-		$result = Arr::only(static::$_assocArrayMulti, 'name,work.position');
+		$result = Arr::only(static::$_assocArrayMulti, 'name,job.position');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -1375,12 +1375,12 @@ class ArrTest extends TestCase
 	{
 		$expected = [
 			'name' => 'Nat',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer'
 			]
 		];
 
-		$result = Arr::only(static::$_assocArrayMulti, ['name', 'work.position']);
+		$result = Arr::only(static::$_assocArrayMulti, ['name', 'job.position']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -1561,7 +1561,7 @@ class ArrTest extends TestCase
 
 		$expected = [
 			'name' => 'Nat',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -1570,13 +1570,13 @@ class ArrTest extends TestCase
 			]
 		];
 
-		$result = Arr::pull(static::$_assocArrayMulti, 'name,work');
+		$result = Arr::pull(static::$_assocArrayMulti, 'name,job');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 		$this->assertCount(8, static::$_assocArrayMulti);
 		$this->assertArrayNotHasKey('name', static::$_assocArrayMulti);
-		$this->assertArrayNotHasKey('work', static::$_assocArrayMulti);
+		$this->assertArrayNotHasKey('job', static::$_assocArrayMulti);
 	}
 
 	public function testMethodPullCase13() : void
@@ -1585,7 +1585,7 @@ class ArrTest extends TestCase
 
 		$expected = [
 			'name' => 'Nat',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -1594,57 +1594,57 @@ class ArrTest extends TestCase
 			]
 		];
 
-		$result = Arr::pull(static::$_assocArrayMulti, ['name', 'work']);
+		$result = Arr::pull(static::$_assocArrayMulti, ['name', 'job']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 		$this->assertCount(8, static::$_assocArrayMulti);
 		$this->assertArrayNotHasKey('name', static::$_assocArrayMulti);
-		$this->assertArrayNotHasKey('work', static::$_assocArrayMulti);
+		$this->assertArrayNotHasKey('job', static::$_assocArrayMulti);
 	}
 
 	public function testMethodPullCase14() : void
 	{
 		$this->assertCount(10, static::$_assocArrayMulti);
-		$this->assertCount(5, static::$_assocArrayMulti['work']);
+		$this->assertCount(5, static::$_assocArrayMulti['job']);
 
 		$expected = [
 			'name' => 'Nat',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer'
 			]
 		];
 
-		$result = Arr::pull(static::$_assocArrayMulti, 'name,work.position');
+		$result = Arr::pull(static::$_assocArrayMulti, 'name,job.position');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 		$this->assertCount(9, static::$_assocArrayMulti);
-		$this->assertCount(4, static::$_assocArrayMulti['work']);
+		$this->assertCount(4, static::$_assocArrayMulti['job']);
 		$this->assertArrayNotHasKey('name', static::$_assocArrayMulti);
-		$this->assertArrayNotHasKey('position', static::$_assocArrayMulti['work']);
+		$this->assertArrayNotHasKey('position', static::$_assocArrayMulti['job']);
 	}
 
 	public function testMethodPullCase15() : void
 	{
 		$this->assertCount(10, static::$_assocArrayMulti);
-		$this->assertCount(5, static::$_assocArrayMulti['work']);
+		$this->assertCount(5, static::$_assocArrayMulti['job']);
 
 		$expected = [
 			'name' => 'Nat',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer'
 			]
 		];
 
-		$result = Arr::pull(static::$_assocArrayMulti, ['name','work.position']);
+		$result = Arr::pull(static::$_assocArrayMulti, ['name','job.position']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
 		$this->assertCount(9, static::$_assocArrayMulti);
-		$this->assertCount(4, static::$_assocArrayMulti['work']);
+		$this->assertCount(4, static::$_assocArrayMulti['job']);
 		$this->assertArrayNotHasKey('name', static::$_assocArrayMulti);
-		$this->assertArrayNotHasKey('position', static::$_assocArrayMulti['work']);
+		$this->assertArrayNotHasKey('position', static::$_assocArrayMulti['job']);
 	}
 
 	// Arr::onlyColumn()
@@ -1680,7 +1680,7 @@ class ArrTest extends TestCase
 			'Marketing Director'
 		];
 
-		$result = Arr::onlyColumn(static::$_datasetArray, 'work.position');
+		$result = Arr::onlyColumn(static::$_datasetArray, 'job.position');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -1695,7 +1695,7 @@ class ArrTest extends TestCase
 			'Angela' => 'Marketing Director'
 		];
 
-		$result = Arr::onlyColumn(static::$_datasetArray, 'work.position', 'name');
+		$result = Arr::onlyColumn(static::$_datasetArray, 'job.position', 'name');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -1763,7 +1763,7 @@ class ArrTest extends TestCase
 			'Marketing Director'
 		];
 
-		$result = Arr::onlyColumn(static::$_recordsetArray, 'work');
+		$result = Arr::onlyColumn(static::$_recordsetArray, 'job');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -1778,7 +1778,7 @@ class ArrTest extends TestCase
 			'Angela' => 'Marketing Director'
 		];
 
-		$result = Arr::onlyColumn(static::$_recordsetArray, 'work', 'name');
+		$result = Arr::onlyColumn(static::$_recordsetArray, 'job', 'name');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -2210,7 +2210,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'salary' => 10000,
 				'hrscore' => 9.8,
 				'excellent' => true,
@@ -2236,7 +2236,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'salary' => 10000,
 				'hrscore' => 9.8,
 				'other' => ''
@@ -2368,7 +2368,7 @@ class ArrTest extends TestCase
 			'extra' => null
 		];
 
-		$result = Arr::removeKey(static::$_assocArrayMulti, 'work');
+		$result = Arr::removeKey(static::$_assocArrayMulti, 'job');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -2381,7 +2381,7 @@ class ArrTest extends TestCase
 			'surname' => 'Withe'
 		];
 
-		$result = Arr::removeKey(static::$_assocArrayMulti, 'age,work,height,weight,handsome,ugly,other,extra');
+		$result = Arr::removeKey(static::$_assocArrayMulti, 'age,job,height,weight,handsome,ugly,other,extra');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -2394,7 +2394,7 @@ class ArrTest extends TestCase
 			'surname' => 'Withe'
 		];
 
-		$result = Arr::removeKey(static::$_assocArrayMulti, ['age', 'work', 'height', 'weight', 'handsome', 'ugly', 'other', 'extra']);
+		$result = Arr::removeKey(static::$_assocArrayMulti, ['age', 'job', 'height', 'weight', 'handsome', 'ugly', 'other', 'extra']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -2406,7 +2406,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -2446,7 +2446,7 @@ class ArrTest extends TestCase
 	{
 		$expected = [
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'salary' => 10000,
 				'hrscore' => 9.8,
 				'excellent' => true
@@ -2469,7 +2469,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'hrscore' => 9.8,
 				'excellent' => true,
@@ -2493,7 +2493,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'hrscore' => 9.8,
 				'excellent' => true,
@@ -2518,7 +2518,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'excellent' => true,
@@ -2543,7 +2543,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'excellent' => true,
@@ -2588,7 +2588,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -2612,7 +2612,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -2681,7 +2681,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'other' => ''
 			],
@@ -2699,7 +2699,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -2724,7 +2724,7 @@ class ArrTest extends TestCase
 	{
 		$expected = [
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'salary' => 10000
 			],
 			'height' => 181
@@ -2768,7 +2768,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -2790,7 +2790,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -2859,7 +2859,7 @@ class ArrTest extends TestCase
 			['name' => 'Angela']
 		];
 
-		$result = Arr::removeColumn(static::$_datasetArray, 'surname,work');
+		$result = Arr::removeColumn(static::$_datasetArray, 'surname,job');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -2875,7 +2875,7 @@ class ArrTest extends TestCase
 			['name' => 'Angela']
 		];
 
-		$result = Arr::removeColumn(static::$_datasetArray, ['surname', 'work']);
+		$result = Arr::removeColumn(static::$_datasetArray, ['surname', 'job']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -2905,7 +2905,7 @@ class ArrTest extends TestCase
 		$data->name = 'Angela';
 		$expected[] = $data;
 
-		$result = Arr::removeColumn(static::$_recordsetArray, 'surname,work,salary');
+		$result = Arr::removeColumn(static::$_recordsetArray, 'surname,job,salary');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -2934,7 +2934,7 @@ class ArrTest extends TestCase
 		$data->name = 'Angela';
 		$expected[] = $data;
 
-		$result = Arr::removeColumn(static::$_recordsetArray, ['surname', 'work', 'salary']);
+		$result = Arr::removeColumn(static::$_recordsetArray, ['surname', 'job', 'salary']);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -2994,7 +2994,7 @@ class ArrTest extends TestCase
 			]
 		];
 
-		$result = Arr::map(static::$_recordsetArray, 'name', 'surname', 'work');
+		$result = Arr::map(static::$_recordsetArray, 'name', 'surname', 'job');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -3605,14 +3605,14 @@ class ArrTest extends TestCase
 
 	public function testMethodHasKeyCase15() : void
 	{
-		$result = Arr::hasKey(static::$_assocArrayMulti, 'work.missingkey');
+		$result = Arr::hasKey(static::$_assocArrayMulti, 'job.missingkey');
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodHasKeyCase16() : void
 	{
-		$result = Arr::hasKey(static::$_assocArrayMulti, 'work.position');
+		$result = Arr::hasKey(static::$_assocArrayMulti, 'job.position');
 
 		$this->assertTrue($result);
 	}
@@ -3775,7 +3775,7 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAnyKeyCase23() : void
 	{
-		$result = Arr::hasAnyKey(static::$_assocArrayMulti, 'missingkey,work.position');
+		$result = Arr::hasAnyKey(static::$_assocArrayMulti, 'missingkey,job.position');
 
 		$this->assertTrue($result);
 	}
@@ -3789,7 +3789,7 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAnyKeyCase25() : void
 	{
-		$result = Arr::hasAnyKey(static::$_assocArrayMulti, ['missingkey', 'work.position']);
+		$result = Arr::hasAnyKey(static::$_assocArrayMulti, ['missingkey', 'job.position']);
 
 		$this->assertTrue($result);
 	}
@@ -3931,14 +3931,14 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAllKeysCase20() : void
 	{
-		$result = Arr::hasAllKeys(static::$_assocArrayMulti, 'surname,work.position');
+		$result = Arr::hasAllKeys(static::$_assocArrayMulti, 'surname,job.position');
 
 		$this->assertTrue($result);
 	}
 
 	public function testMethodHasAllKeysCase21() : void
 	{
-		$result = Arr::hasAllKeys(static::$_assocArrayMulti, ['surname', 'work.position']);
+		$result = Arr::hasAllKeys(static::$_assocArrayMulti, ['surname', 'job.position']);
 
 		$this->assertTrue($result);
 	}
@@ -4517,24 +4517,24 @@ class ArrTest extends TestCase
 		$expected = [
 			'0.name' => 'Nat',
 			'0.surname' => 'Withe',
-			'0.work.position' => 'Web Developer',
-			'0.work.salary' => 10000,
+			'0.job.position' => 'Web Developer',
+			'0.job.salary' => 10000,
 			'1.name' => 'Rosie',
 			'1.surname' => 'Marshman',
-			'1.work.position' => 'Staff',
-			'1.work.salary' => 8000,
+			'1.job.position' => 'Staff',
+			'1.job.salary' => 8000,
 			'2.name' => 'Emma',
 			'2.surname' => 'McCormick',
-			'2.work.position' => 'Staff',
-			'2.work.salary' => 8000,
+			'2.job.position' => 'Staff',
+			'2.job.salary' => 8000,
 			'3.name' => 'Emma',
 			'3.surname' => 'Miller',
-			'3.work.position' => 'Project Coordinator',
-			'3.work.salary' => 10000,
+			'3.job.position' => 'Project Coordinator',
+			'3.job.salary' => 10000,
 			'4.name' => 'Angela',
 			'4.surname' => 'SG',
-			'4.work.position' => 'Marketing Director',
-			'4.work.salary' => 10000
+			'4.job.position' => 'Marketing Director',
+			'4.job.salary' => 10000
 		];
 
 		$result = Arr::dot(static::$_datasetArray);
@@ -4548,24 +4548,24 @@ class ArrTest extends TestCase
 		$expected = [
 			'_0.name' => 'Nat',
 			'_0.surname' => 'Withe',
-			'_0.work.position' => 'Web Developer',
-			'_0.work.salary' => 10000,
+			'_0.job.position' => 'Web Developer',
+			'_0.job.salary' => 10000,
 			'_1.name' => 'Rosie',
 			'_1.surname' => 'Marshman',
-			'_1.work.position' => 'Staff',
-			'_1.work.salary' => 8000,
+			'_1.job.position' => 'Staff',
+			'_1.job.salary' => 8000,
 			'_2.name' => 'Emma',
 			'_2.surname' => 'McCormick',
-			'_2.work.position' => 'Staff',
-			'_2.work.salary' => 8000,
+			'_2.job.position' => 'Staff',
+			'_2.job.salary' => 8000,
 			'_3.name' => 'Emma',
 			'_3.surname' => 'Miller',
-			'_3.work.position' => 'Project Coordinator',
-			'_3.work.salary' => 10000,
+			'_3.job.position' => 'Project Coordinator',
+			'_3.job.salary' => 10000,
 			'_4.name' => 'Angela',
 			'_4.surname' => 'SG',
-			'_4.work.position' => 'Marketing Director',
-			'_4.work.salary' => 10000
+			'_4.job.position' => 'Marketing Director',
+			'_4.job.salary' => 10000
 		];
 
 		$result = Arr::dot(static::$_datasetArray, '_');
@@ -4580,11 +4580,11 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work.position' => 'Web Developer',
-			'work.salary' => 10000,
-			'work.hrscore' => 9.8,
-			'work.excellent' => true,
-			'work.other' => '',
+			'job.position' => 'Web Developer',
+			'job.salary' => 10000,
+			'job.hrscore' => 9.8,
+			'job.excellent' => true,
+			'job.other' => '',
 			'height' => 181,
 			'weight' => 87.5,
 			'handsome' => true,
@@ -4605,11 +4605,11 @@ class ArrTest extends TestCase
 			'_name' => 'Nat',
 			'_surname' => 'Withe',
 			'_age' => 38,
-			'_work.position' => 'Web Developer',
-			'_work.salary' => 10000,
-			'_work.hrscore' => 9.8,
-			'_work.excellent' => true,
-			'_work.other' => '',
+			'_job.position' => 'Web Developer',
+			'_job.salary' => 10000,
+			'_job.hrscore' => 9.8,
+			'_job.excellent' => true,
+			'_job.other' => '',
 			'_height' => 181,
 			'_weight' => 87.5,
 			'_handsome' => true,
@@ -4692,7 +4692,7 @@ class ArrTest extends TestCase
 	public function testMethodIsDatasetCase10() : void
 	{
 		// Test different number of columns for each row.
-		unset(static::$_datasetArray[1]['work']);
+		unset(static::$_datasetArray[1]['job']);
 
 		$result = Arr::isDataset(static::$_datasetArray);
 
@@ -4702,7 +4702,7 @@ class ArrTest extends TestCase
 	public function testMethodIsDatasetCase11() : void
 	{
 		// Test different column name for each row.
-		unset(static::$_datasetArray[1]['work']);
+		unset(static::$_datasetArray[1]['job']);
 		static::$_datasetArray[1]['xxx'] = 'xxx';
 
 		$result = Arr::isDataset(static::$_datasetArray);
@@ -5016,7 +5016,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => 'Web Developer',
+			'job' => 'Web Developer',
 			'salary' => 10000,
 			'address' => [
 				'province' => 'Chonburi',
@@ -5042,7 +5042,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => 'Web Developer',
+			'job' => 'Web Developer',
 			'salary' => 10000,
 			'address' => [],
 			'arrayUnderObject' => []
@@ -5368,7 +5368,7 @@ class ArrTest extends TestCase
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
-			'work' => [],
+			'job' => [],
 			'height' => 181,
 			'weight' => 87.5,
 			'handsome' => true,
@@ -5388,10 +5388,10 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => []
+			'job' => []
 		];
 
-		$result = Arr::toArray(static::$_assocArrayMulti, false, 'name,surname,work');
+		$result = Arr::toArray(static::$_assocArrayMulti, false, 'name,surname,job');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -5402,10 +5402,10 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => []
+			'job' => []
 		];
 
-		$result = Arr::toArray(static::$_assocArrayMulti, false, ['name', 'surname', 'work']);
+		$result = Arr::toArray(static::$_assocArrayMulti, false, ['name', 'surname', 'job']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -5416,7 +5416,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -5425,7 +5425,7 @@ class ArrTest extends TestCase
 			]
 		];
 
-		$result = Arr::toArray(static::$_assocArrayMulti, true, 'name,surname,work');
+		$result = Arr::toArray(static::$_assocArrayMulti, true, 'name,surname,job');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -5436,7 +5436,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => [
+			'job' => [
 				'position' => 'Web Developer',
 				'salary' => 10000,
 				'hrscore' => 9.8,
@@ -5445,7 +5445,7 @@ class ArrTest extends TestCase
 			]
 		];
 
-		$result = Arr::toArray(static::$_assocArrayMulti, true, ['name', 'surname', 'work']);
+		$result = Arr::toArray(static::$_assocArrayMulti, true, ['name', 'surname', 'job']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -5463,7 +5463,7 @@ class ArrTest extends TestCase
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
-				'work' => [
+				'job' => [
 					'position' => 'Web Developer',
 					'salary' => 10000
 				]
@@ -5480,7 +5480,7 @@ class ArrTest extends TestCase
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
-				'work' => [
+				'job' => [
 					'position' => 'Web Developer',
 					'salary' => 10000
 				]
@@ -5503,7 +5503,7 @@ class ArrTest extends TestCase
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
-				'work' => 'Web Developer',
+				'job' => 'Web Developer',
 				'salary' => 10000
 			]
 		];
@@ -5518,7 +5518,7 @@ class ArrTest extends TestCase
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
-				'work' => 'Web Developer',
+				'job' => 'Web Developer',
 				'salary' => 10000
 			]
 		];
@@ -5539,7 +5539,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => 'Web Developer',
+			'job' => 'Web Developer',
 			'salary' => 10000,
 			'address' => [
 				'province' => 'Chonburi',
@@ -5565,7 +5565,7 @@ class ArrTest extends TestCase
 		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
-			'work' => 'Web Developer',
+			'job' => 'Web Developer',
 			'salary' => 10000,
 			'address' => [],
 			'arrayUnderObject' => []
@@ -5878,12 +5878,12 @@ class ArrTest extends TestCase
 		$result = Arr::toObject(static::$_assocArrayMulti);
 
 		$this->assertIsObject($result);
-		$this->assertIsObject($result->work);
+		$this->assertIsObject($result->job);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
-		$result['work'] = (array)$result['work'];
+		$result['job'] = (array)$result['job'];
 
 		$compare = ($result === $expected);
 
@@ -5893,17 +5893,17 @@ class ArrTest extends TestCase
 	public function testMethodToObjectCase14() : void
 	{
 		$expected = static::$_assocArrayMulti;
-		$expected['work'] = [];
+		$expected['job'] = [];
 
 		$result = Arr::toObject(static::$_assocArrayMulti, 'stdClass', false);
 
 		$this->assertIsObject($result);
-		$this->assertIsObject($result->work);
+		$this->assertIsObject($result->job);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
-		$result['work'] = (array)$result['work'];
+		$result['job'] = (array)$result['job'];
 
 		$compare = ($result === $expected);
 
@@ -5922,15 +5922,15 @@ class ArrTest extends TestCase
 		unset($expected['other']);
 		unset($expected['extra']);
 
-		$result = Arr::toObject(static::$_assocArrayMulti, 'stdClass', true, 'name,work');
+		$result = Arr::toObject(static::$_assocArrayMulti, 'stdClass', true, 'name,job');
 
 		$this->assertIsObject($result);
-		$this->assertIsObject($result->work);
+		$this->assertIsObject($result->job);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
-		$result['work'] = (array)$result['work'];
+		$result['job'] = (array)$result['job'];
 
 		$compare = ($result === $expected);
 
@@ -5949,15 +5949,15 @@ class ArrTest extends TestCase
 		unset($expected['other']);
 		unset($expected['extra']);
 
-		$result = Arr::toObject(static::$_assocArrayMulti, 'stdClass', true, ['name', 'work']);
+		$result = Arr::toObject(static::$_assocArrayMulti, 'stdClass', true, ['name', 'job']);
 
 		$this->assertIsObject($result);
-		$this->assertIsObject($result->work);
+		$this->assertIsObject($result->job);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
-		$result['work'] = (array)$result['work'];
+		$result['job'] = (array)$result['job'];
 
 		$compare = ($result === $expected);
 
@@ -5976,11 +5976,11 @@ class ArrTest extends TestCase
 		$this->assertIsObject($result->{'2'});
 		$this->assertIsObject($result->{'3'});
 		$this->assertIsObject($result->{'4'});
-		$this->assertIsObject($result->{'0'}->work);
-		$this->assertIsObject($result->{'1'}->work);
-		$this->assertIsObject($result->{'2'}->work);
-		$this->assertIsObject($result->{'3'}->work);
-		$this->assertIsObject($result->{'4'}->work);
+		$this->assertIsObject($result->{'0'}->job);
+		$this->assertIsObject($result->{'1'}->job);
+		$this->assertIsObject($result->{'2'}->job);
+		$this->assertIsObject($result->{'3'}->job);
+		$this->assertIsObject($result->{'4'}->job);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
@@ -5990,11 +5990,11 @@ class ArrTest extends TestCase
 		$result[2] = (array)$result[2];
 		$result[3] = (array)$result[3];
 		$result[4] = (array)$result[4];
-		$result[0]['work'] = (array)$result[0]['work'];
-		$result[1]['work'] = (array)$result[1]['work'];
-		$result[2]['work'] = (array)$result[2]['work'];
-		$result[3]['work'] = (array)$result[3]['work'];
-		$result[4]['work'] = (array)$result[4]['work'];
+		$result[0]['job'] = (array)$result[0]['job'];
+		$result[1]['job'] = (array)$result[1]['job'];
+		$result[2]['job'] = (array)$result[2]['job'];
+		$result[3]['job'] = (array)$result[3]['job'];
+		$result[4]['job'] = (array)$result[4]['job'];
 
 		$compare = ($result === $expected);
 
@@ -6046,13 +6046,13 @@ class ArrTest extends TestCase
 
 		$this->assertIsObject($result);
 		$this->assertIsObject($result->{'0'});
-		$this->assertIsObject($result->{'0'}->work);
+		$this->assertIsObject($result->{'0'}->job);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
 		$result[0] = (array)$result[0];
-		$result[0]['work'] = (array)$result[0]['work'];
+		$result[0]['job'] = (array)$result[0]['job'];
 
 		$compare = ($result === $expected);
 
@@ -6071,13 +6071,13 @@ class ArrTest extends TestCase
 
 		$this->assertIsObject($result);
 		$this->assertIsObject($result->{'0'});
-		$this->assertIsObject($result->{'0'}->work);
+		$this->assertIsObject($result->{'0'}->job);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
 		$result[0] = (array)$result[0];
-		$result[0]['work'] = (array)$result[0]['work'];
+		$result[0]['job'] = (array)$result[0]['job'];
 
 		$compare = ($result === $expected);
 
@@ -6095,17 +6095,17 @@ class ArrTest extends TestCase
 
 		$this->assertIsObject($result);
 		$this->assertIsObject($result->{'0'});
-		$this->assertIsObject($result->{'0'}->work);
+		$this->assertIsObject($result->{'0'}->job);
 		$this->assertIsObject($result->{'1'});
-		$this->assertIsObject($result->{'1'}->work);
+		$this->assertIsObject($result->{'1'}->job);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
 		$result[0] = (array)$result[0];
-		$result[0]['work'] = (array)$result[0]['work'];
+		$result[0]['job'] = (array)$result[0]['job'];
 		$result[1] = (array)$result[1];
-		$result[1]['work'] = (array)$result[1]['work'];
+		$result[1]['job'] = (array)$result[1]['job'];
 
 		$compare = ($result === $expected);
 
@@ -6136,13 +6136,13 @@ class ArrTest extends TestCase
 
 		$this->assertIsObject($result);
 		$this->assertIsObject($result->{'0'});
-		$this->assertIsObject($result->{'0'}->work);
+		$this->assertIsObject($result->{'0'}->job);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
 		$result[0] = (array)$result[0];
-		$result[0]['work'] = (array)$result[0]['work'];
+		$result[0]['job'] = (array)$result[0]['job'];
 
 		$compare = ($result === $expected);
 
@@ -6161,13 +6161,13 @@ class ArrTest extends TestCase
 
 		$this->assertIsObject($result);
 		$this->assertIsObject($result->{'0'});
-		$this->assertIsObject($result->{'0'}->work);
+		$this->assertIsObject($result->{'0'}->job);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
 		$result[0] = (array)$result[0];
-		$result[0]['work'] = (array)$result[0]['work'];
+		$result[0]['job'] = (array)$result[0]['job'];
 
 		$compare = ($result === $expected);
 
@@ -6188,7 +6188,7 @@ class ArrTest extends TestCase
 		$result = Arr::toObject(static::$_assocArrayMulti);
 
 		$this->assertIsObject($result);
-		$this->assertIsObject($result->work);
+		$this->assertIsObject($result->job);
 		$this->assertIsObject($result->objectUnderArray);
 	}
 
@@ -6257,7 +6257,7 @@ class ArrTest extends TestCase
 	{
 		$expected = 'name="Nat" position="Web Developer" salary="10000" hrscore="9.8" excellent="1" other=""';
 
-		$result = Arr::toString(static::$_assocArrayMulti, '=', ' ', '"', true, 'name,work');
+		$result = Arr::toString(static::$_assocArrayMulti, '=', ' ', '"', true, 'name,job');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -6266,7 +6266,7 @@ class ArrTest extends TestCase
 	{
 		$expected = 'name="Nat" position="Web Developer" salary="10000" hrscore="9.8" excellent="1" other=""';
 
-		$result = Arr::toString(static::$_assocArrayMulti, '=', ' ', '"', true, ['name', 'work']);
+		$result = Arr::toString(static::$_assocArrayMulti, '=', ' ', '"', true, ['name', 'job']);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -6275,7 +6275,7 @@ class ArrTest extends TestCase
 	{
 		$expected = 'name="Nat"';
 
-		$result = Arr::toString(static::$_assocArrayMulti, '=', ' ', '"', false, 'name,work');
+		$result = Arr::toString(static::$_assocArrayMulti, '=', ' ', '"', false, 'name,job');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -6284,7 +6284,7 @@ class ArrTest extends TestCase
 	{
 		$expected = 'name="Nat"';
 
-		$result = Arr::toString(static::$_assocArrayMulti, '=', ' ', '"', false, ['name', 'work']);
+		$result = Arr::toString(static::$_assocArrayMulti, '=', ' ', '"', false, ['name', 'job']);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -6423,31 +6423,31 @@ class ArrTest extends TestCase
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
-				'work' => 'Web Developer',
+				'job' => 'Web Developer',
 				'salary' => 10000
 			],
 			[
 				'name' => 'Rosie',
 				'surname' => 'Marshman',
-				'work' => 'Staff',
+				'job' => 'Staff',
 				'salary' => 8000
 			],
 			[
 				'name' => 'Emma',
 				'surname' => 'McCormick',
-				'work' => 'Staff',
+				'job' => 'Staff',
 				'salary' => 8000
 			],
 			[
 				'name' => 'Emma',
 				'surname' => 'Miller',
-				'work' => 'Project Coordinator',
+				'job' => 'Project Coordinator',
 				'salary' => 10000
 			],
 			[
 				'name' => 'Angela',
 				'surname' => 'SG',
-				'work' => 'Marketing Director',
+				'job' => 'Marketing Director',
 				'salary' => 10000
 			]
 		];
@@ -6542,12 +6542,12 @@ class ArrTest extends TestCase
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
-				'work' => 'Web Developer'
+				'job' => 'Web Developer'
 			],
 			[
 				'name' => 'Angela',
 				'surname' => 'SG',
-				'work' => 'Marketing Director'
+				'job' => 'Marketing Director'
 			]
 		];
 
