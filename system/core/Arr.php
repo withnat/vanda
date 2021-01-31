@@ -792,6 +792,24 @@ class Arr
 	/**
 	 * Returns all of the given array except for a specified value.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surename' => 'Withe'
+	 * ];
+	 *
+	 * $result = Arr::except($array, 'Withe');
+	 *
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [name] => 'Nat'
+	 * // )
+	 * //
+	 * ```
+	 *
 	 * @param  array $array          An array to remove an element by value.
 	 * @param  mixed $value          The value to remove.
 	 * @param  bool  $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
