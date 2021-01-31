@@ -807,7 +807,6 @@ class Arr
 	 * // (
 	 * //     [name] => 'Nat'
 	 * // )
-	 * //
 	 * ```
 	 *
 	 * @param  array $array          An array to remove an element by value.
@@ -872,7 +871,6 @@ class Arr
 	 * // (
 	 * //     [name] => 'Nat'
 	 * // )
-	 * //
 	 * ```
 	 *
 	 * @param  array            $array      An array to remove an element by key.
@@ -915,10 +913,30 @@ class Arr
 	}
 
 	/**
+	 * Returns all of the given array except for a specified data type.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat Withe',
+	 *     'height' => 181,
+	 *     'weight' => 87.5
+	 * ];
+	 *
+	 * $result = Arr::exceptType($array, 'int,float');
+	 *
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [name] => 'Nat Withe'
+	 * // )
+	 * ```
+	 *
 	 * @param  array        $array      An array to remove an element by data type.
 	 * @param  string|array $dataTypes  The data type to remove.
 	 * @param  bool         $recursive  True to recurve through multi-level arrays.
-	 * @return array
+	 * @return array                    Returns all of the given array except for the specified data type.
 	 */
 	public static function exceptType(array $array, $dataTypes, bool $recursive = true) : array
 	{
