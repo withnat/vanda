@@ -810,7 +810,7 @@ class Arr
 	 * @param  array $array          An array to remove an element by value.
 	 * @param  mixed $value          The value to remove.
 	 * @param  bool  $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
-	 * @param  bool  $recursive      True to recurve through multi-level arrays.
+	 * @param  bool  $recursive      True to recurve through multi-level arrays. Default to true.
 	 * @return array                 Returns all of the given array except for the specified value.
 	 */
 	public static function except(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
@@ -873,7 +873,7 @@ class Arr
 	 *
 	 * @param  array            $array      An array to remove an element by key.
 	 * @param  string|int|array $keys       The key name or index to remove.
-	 * @param  bool             $recursive  True to recurve through multi-level arrays.
+	 * @param  bool             $recursive  True to recurve through multi-level arrays. Default to true.
 	 * @return array                        Returns all of the given array except for the specified key.
 	 */
 	public static function exceptKey(array $array, $keys, bool $recursive = true) : array
@@ -933,7 +933,7 @@ class Arr
 	 *
 	 * @param  array        $array      An array to remove an element by data type.
 	 * @param  string|array $dataTypes  The data type to remove.
-	 * @param  bool         $recursive  True to recurve through multi-level arrays.
+	 * @param  bool         $recursive  True to recurve through multi-level arrays. Default to true.
 	 * @return array                    Returns all of the given array except for the specified data type.
 	 */
 	public static function exceptType(array $array, $dataTypes, bool $recursive = true) : array
@@ -1001,7 +1001,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array $array      An array to remove an element by blank value.
-	 * @param  bool  $recursive  True to recurve through multi-level arrays.
+	 * @param  bool  $recursive  True to recurve through multi-level arrays. Default to true.
 	 * @return array             Returns all of the given array except for an elment contains only whitespace
 	 *                           characters.
 	 */
@@ -1104,28 +1104,33 @@ class Arr
 	 * $array = [
 	 *     ['id' => '101', 'name' => 'Nat', 'class' => 'A'],
 	 *     ['id' => '102', 'name' => 'Ann', 'class' => 'A'],
-	 *     ['id' => '103', 'name' => 'May', 'class' => 'B'],
+	 *     ['id' => '103', 'name' => 'May', 'class' => 'B']
 	 * ];
 	 *
 	 * $result = Arr::map($array, 'id', 'name');
 	 * // The $result will be:
-	 * // [
-	 * //     '101' => 'Nat',
-	 * //     '102' => 'Ann',
-	 * //     '103' => 'May',
-	 * // ]
+	 * // Array
+	 * // (
+	 * //     [101] => Nat
+	 * //     [102] => Ann
+	 * //     [103] => May
+	 * // )
 	 *
 	 * $result = Arr::map($array, 'id', 'name', 'class');
 	 * // The $result will be:
-	 * // [
-	 * //     'A' => [
-	 * //         '101' => 'Nat',
-	 * //         '102' => 'Ann',
-	 * //     ],
-	 * //     'B' => [
-	 * //         '103' => 'May',
-	 * //     ],
-	 * // ]
+	 * // Array
+	 * // (
+	 * //     [A] => Array
+	 * //         (
+	 * //             [101] => Nat
+	 * //             [102] => Ann
+	 * //         )
+	 * //
+	 * //     [B] => Array
+	 * //         (
+	 * //             [103] => May
+	 * //         )
+	 * // )
 	 * ```
 	 *
 	 * @param  array       $data
