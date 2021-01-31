@@ -114,10 +114,10 @@ class Arr
 	 * // the result is: baz
 	 * ```
 	 *
-	 * @param  array      $array    The array.
+	 * @param  array      $array    The input array.
 	 * @param  string|int $key      The searched key. If the key contains dot, it will access nested array data.
 	 * @param  mixed      $default  Default value.
-	 * @return mixed                Depends on what the array contains.
+	 * @return mixed                Depends on what the given array contains.
 	 */
 	public static function get(array $array, $key, $default = null)
 	{
@@ -154,9 +154,9 @@ class Arr
 	 * // the result is: name
 	 * ```
 	 *
-	 * @param  array $array  The array.
+	 * @param  array $array  The input array.
 	 * @param  mixed $value  The searched value.
-	 * @return mixed         Returns the key for needle if it is found in the array, null otherwise.
+	 * @return mixed         Returns the key for needle if it is found in the given array, null otherwise.
 	 */
 	public static function getKey(array $array, $value)
 	{
@@ -169,7 +169,7 @@ class Arr
 	}
 
 	/**
-	 * Returns the first {$length} elements from the given array.
+	 * Returns the first $length elements of the given array.
 	 *
 	 * For example,
 	 *
@@ -193,9 +193,10 @@ class Arr
 	 * ```
 	 *
 	 * @param  array    $array   The input array.
-	 * @param  int|null $length  If $length is 1, returns value depend on what the array contains. If $length is greater
-	 *                           than 1, returns an array.
-	 * @return mixed             Returns the first value of array if the array is not empty, null otherwise.
+	 * @param  int|null $length  The number of elements to return. If $length is 1, returns value depend on what the
+	 *                           given array contains. If $length is greater than 1, returns an array.
+	 * @return mixed             Returns the first $length elements of the given array if the given array is not empty,
+	 *                           null otherwise.
 	 */
 	public static function first(array $array, int $length = null)
 	{
