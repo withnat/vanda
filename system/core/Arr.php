@@ -36,10 +36,29 @@ class Arr
 	private function __construct(){}
 
 	/**
-	 * Sets a value to the element at the specified position in the given array.
+	 * Sets a value to the element at the specified position in the given array
+	 * using path strings with dots.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = ['foo' => 'bar'];
+	 *
+	 * $result = Arr::set($array, 'key.subkey', 'value');
+	 * // the result is:
+	 * // Array
+	 * // (
+	 * //     [foo] => bar
+	 * //     [key] => Array
+	 * //         (
+	 * //             [subkey] => value
+	 * //         )
+	 * //
+	 * // )
+	 * ```
 	 *
 	 * @param  array  $array  Array to set a value in.
-	 * @param  string $key    Name of the key to set.
+	 * @param  string $key    Name of the key to set. If the name contains dot, it will set nested array data.
 	 * @param  mixed  $value  Value to set.
 	 * @return array
 	 */
