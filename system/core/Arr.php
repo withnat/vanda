@@ -169,7 +169,7 @@ class Arr
 	}
 
 	/**
-	 * Returns the first $length elements of the given array.
+	 * Returns the first $length elements from the given array.
 	 *
 	 * For example,
 	 *
@@ -177,7 +177,7 @@ class Arr
 	 * $array = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
-	 *     'job' => 'Web Developer'
+	 *     'work' => 'Web Developer'
 	 * ];
 	 *
 	 * $result = Arr::first($array);
@@ -196,7 +196,7 @@ class Arr
 	 * @param  int|null $length  The number of elements to return. If $length is 1, returns value depend on what the
 	 *                           given array contains. If $length is greater than 1, returns an array contains the first
 	 *                           $length elements.
-	 * @return mixed             Returns the first $length elements of the given array if the given array is not empty,
+	 * @return mixed             Returns the first $length elements from the given array if the given array is not empty,
 	 *                           null otherwise.
 	 */
 	public static function first(array $array, int $length = null)
@@ -218,7 +218,7 @@ class Arr
 	}
 
 	/**
-	 * Returns the last $length elements of the given array.
+	 * Returns the last $length elements from the given array.
 	 *
 	 * For example,
 	 *
@@ -226,7 +226,7 @@ class Arr
 	 * $array = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
-	 *     'job' => 'Web Developer'
+	 *     'work' => 'Web Developer'
 	 * ];
 	 *
 	 * $result = Arr::last($array);
@@ -237,7 +237,7 @@ class Arr
 	 * // Array
 	 * // (
 	 * //     [surname] => Withe
-	 * //     [job] => Web Developer
+	 * //     [work] => Web Developer
 	 * // )
 	 * ```
 	 *
@@ -245,7 +245,7 @@ class Arr
 	 * @param  int|null $length  The number of elements to return. If $length is 1, returns value depend on what the
 	 *                           given array contains. If $length is greater than 1, returns an array contains the last
 	 *                           $length elements.
-	 * @return mixed             Returns the last $length elements of the given array if the given array is not empty,
+	 * @return mixed             Returns the last $length elements from the given array if the given array is not empty,
 	 *                           null otherwise.
 	 */
 	public static function last(array $array, int $length = null)
@@ -259,7 +259,7 @@ class Arr
 
 			// The end() function returns FALSE if the array is empty.
 			// So, convert it to null to make output same as result of
-			// Arr::first() method is case of the given array is empty.
+			// Arr::first() method in case of the given array is empty.
 			if ($value === false)
 				$value = null;
 		}
@@ -270,7 +270,7 @@ class Arr
 	}
 
 	/**
-	 * Returns the first $length keys of the given array.
+	 * Returns the first $length keys from the given array.
 	 *
 	 * For example,
 	 *
@@ -278,7 +278,7 @@ class Arr
 	 * $array = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
-	 *     'job' => 'Web Developer'
+	 *     'work' => 'Web Developer'
 	 * ];
 	 *
 	 * $result = Arr::firstKey($array);
@@ -294,10 +294,10 @@ class Arr
 	 * ```
 	 *
 	 * @param  array    $array   The input array.
-	 * @param  int|null $length  The number of keys to return. If $length is 1, returns the first key of the
+	 * @param  int|null $length  The number of keys to return. If $length is 1, returns the first key from the
 	 *                           given array. If $length is greater than 1, returns an array contains the first $length
 	 *                           keys.
-	 * @return mixed             Returns the first $length key of the given array if the given array is not empty,
+	 * @return mixed             Returns the first $length key from the given array if the given array is not empty,
 	 *                           null otherwise.
 	 */
 	public static function firstKey(array $array, int $length = null)
@@ -350,7 +350,7 @@ class Arr
 	}
 
 	/**
-	 * Returns the last $length keys of the given array.
+	 * Returns the last $length keys from the given array.
 	 *
 	 * For example,
 	 *
@@ -358,26 +358,26 @@ class Arr
 	 * $array = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
-	 *     'job' => 'Web Developer'
+	 *     'work' => 'Web Developer'
 	 * ];
 	 *
 	 * $result = Arr::lastKey($array);
-	 * // the result is: job
+	 * // the result is: work
 	 *
 	 * $result = Arr::lastKey($array, 2);
 	 * // the result is:
 	 * // Array
 	 * // (
 	 * //     [0] => surname
-	 * //     [1] => job
+	 * //     [1] => work
 	 * // )
 	 * ```
 	 *
 	 * @param  array    $array   The input array.
-	 * @param  int|null $length  The number of keys to return. If $length is 1, returns the last key of the
+	 * @param  int|null $length  The number of keys to return. If $length is 1, returns the last key from the
 	 *                           given array. If $length is greater than 1, returns an array contains the last $length
 	 *                           keys.
-	 * @return mixed             Returns the last $length key of the given array if the given array is not empty,
+	 * @return mixed             Returns the last $length key from the given array if the given array is not empty,
 	 *                           null otherwise.
 	 */
 	public static function lastKey(array $array, int $length = null)
@@ -428,11 +428,39 @@ class Arr
 	 * The given array can be one or multi-dimensional array.
 	 * The $keys can be 0, '0', '0,1', [0, 1], 'name,work.position', ['name, work.position'].
 	 *
-	 * Note, For numeric array, an index key 0 (int) is same as '0' (string).
+	 * Note, for numeric array, an index key 0 (int) is same as '0' (string).
 	 *
-	 * @param  array            $array  The given array.
-	 * @param  string|int|array $keys   e.g., 0, '0', '0,1', [0, 1], 'name,work.position'.
-	 * @return array
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'work' => [
+	 *         'position' => 'Web Developer',
+	 *         'salary' => 10000
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::only($array, 'name,work.salary');
+	 * // the result is: name
+	 *
+	 * $result = Arr::only($array, 2);
+	 * // the result is:
+	 * // Array
+	 * // (
+	 * //     [name] => Nat
+	 * //     [work] => Array
+	 * //         (
+	 * //             [salary] => 10000
+	 * //         )
+	 * // )
+	 * ```
+	 *
+	 * @param  array            $array  The input array.
+	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array data
+	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,work.position'.
+	 * @return array                    Returns a subset of the items from the given array.
 	 */
 	public static function only(array $array, $keys) : array
 	{
