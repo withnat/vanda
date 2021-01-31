@@ -1167,12 +1167,31 @@ class Arr
 	}
 
 	/**
-	 * Insert an item onto the beginning of an array.
+	 * Insert an item onto the beginning of the given array.
 	 *
-	 * @param  array       $array
-	 * @param  mixed       $value
-	 * @param  string|null $key
-	 * @return array
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe'
+	 * ];
+	 *
+	 * $result = Arr::insert($array, 'title', 'Mr.');
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [Mr.] => title
+	 * //     [name] => Nat
+	 * //     [surname] => Withe
+	 * // )
+	 * ```
+	 *
+	 * @param  array       $array  The input array.
+	 * @param  mixed       $value  The value to insert onto the beginning of the given array.
+	 * @param  string|null $key    The key to set. Default to null. If leave it as default, a numeric key will be
+	 *                             generated automatically.
+	 * @return array               Returns the given array with the specified value.
 	 */
 	public static function insert(array $array, $value, string $key = null) : array
 	{
