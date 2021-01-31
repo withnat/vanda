@@ -593,8 +593,9 @@ class Arr
 	/**
 	 * Return the values from a single column in the input array contains array (dataset) or object (recordset).
 	 *
-	 * Example
+	 * For example,
 	 *
+	 * ```php
 	 * $recordset = [
 	 *     [
 	 *         'name' => 'Nat',
@@ -616,29 +617,28 @@ class Arr
 	 *
 	 * $result = Arr::onlyColumn($recordset, 'job.title');
 	 *
-	 * The $result will be:
-	 *
-	 * Array
-	 *     (
-	 *         [0] => Web Developer
-	 *         [1] => Maketing Director
-	 * )
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => Web Developer
+	 * //     [1] => Maketing Director
+	 * // )
+	 * //
 	 *
 	 * $result = Arr::onlyColumn($recordset, 'job.title', 'name');
 	 *
-	 * The $result will be:
-	 *
-	 * Array
-	 *     (
-	 *         [Nat] => Web Developer
-	 *         [Angela] => Maketing Director
-	 * )
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [Nat] => Web Developer
+	 * //     [Angela] => Maketing Director
+	 * // )
 	 *
 	 * @param  array           $data       A multi-dimensional array contains array (dataset) or object (recordset)
 	 *                                     from which to pull a column of values.
 	 * @param  string|int      $columnKey  The column of values to return.
 	 * @param  string|int|null $indexKey   The column to use as the index/keys for the returned array.
-	 * @return array                       Returns an array of values representing a single column from the input array.
+	 * @return array                       Returns an array of values representing a single column from the given array.
 	 */
 	public static function onlyColumn(array $data, $columnKey, $indexKey = null) : array
 	{
