@@ -2821,20 +2821,20 @@ class ArrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// Arr::removeColumn()
+	// Arr::exceptColumn()
 
 	public function testMethodExceptColumnCase1() : void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
-		Arr::removeColumn([], 'missingkey');
+		Arr::exceptColumn([], 'missingkey');
 	}
 
 	public function testMethodExceptColumnCase2() : void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
-		Arr::removeColumn([[]], 3.14);
+		Arr::exceptColumn([[]], 3.14);
 	}
 
 	public function testMethodExceptColumnCase3() : void
@@ -2844,7 +2844,7 @@ class ArrTest extends TestCase
 			[1 => '1.2']
 		];
 
-		$result = Arr::removeColumn(static::$_numericDatasetArray, 0);
+		$result = Arr::exceptColumn(static::$_numericDatasetArray, 0);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -2857,7 +2857,7 @@ class ArrTest extends TestCase
 			[1 => '1.2']
 		];
 
-		$result = Arr::removeColumn(static::$_numericDatasetArray, '0');
+		$result = Arr::exceptColumn(static::$_numericDatasetArray, '0');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -2873,7 +2873,7 @@ class ArrTest extends TestCase
 			['name' => 'Angela']
 		];
 
-		$result = Arr::removeColumn(static::$_datasetArray, 'surname,job');
+		$result = Arr::exceptColumn(static::$_datasetArray, 'surname,job');
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -2889,7 +2889,7 @@ class ArrTest extends TestCase
 			['name' => 'Angela']
 		];
 
-		$result = Arr::removeColumn(static::$_datasetArray, ['surname', 'job']);
+		$result = Arr::exceptColumn(static::$_datasetArray, ['surname', 'job']);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -2919,7 +2919,7 @@ class ArrTest extends TestCase
 		$data->name = 'Angela';
 		$expected[] = $data;
 
-		$result = Arr::removeColumn(static::$_recordsetArray, 'surname,job,salary');
+		$result = Arr::exceptColumn(static::$_recordsetArray, 'surname,job,salary');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -2948,7 +2948,7 @@ class ArrTest extends TestCase
 		$data->name = 'Angela';
 		$expected[] = $data;
 
-		$result = Arr::removeColumn(static::$_recordsetArray, ['surname', 'job', 'salary']);
+		$result = Arr::exceptColumn(static::$_recordsetArray, ['surname', 'job', 'salary']);
 
 		$this->assertEquals($expected, $result);
 	}

@@ -1030,7 +1030,7 @@ class Arr
 	 * @param  string|int|array $keys   The key name to remove.
 	 * @return array
 	 */
-	public static function removeColumn(array $array, $keys) : array
+	public static function exceptColumn(array $array, $keys) : array
 	{
 		if (!static::isDataset($array) and !static::isRecordset($array))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $array);
