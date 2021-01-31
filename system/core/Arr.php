@@ -814,7 +814,7 @@ class Arr
 	 * @param  mixed $value          The value to remove.
 	 * @param  bool  $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
 	 * @param  bool  $recursive      True to recurve through multi-level arrays.
-	 * @return array                 Returns all of the given array except for a specified value.
+	 * @return array                 Returns all of the given array except for the specified value.
 	 */
 	public static function except(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
 	{
@@ -855,14 +855,32 @@ class Arr
 	}
 
 	/**
-	 * Get all of the given array except for a specified key/index.
+	 * Returns all of the given array except for a specified key/index.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surename' => 'Withe'
+	 * ];
+	 *
+	 * $result = Arr::exceptKey($array, 'surename');
+	 *
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [name] => 'Nat'
+	 * // )
+	 * //
+	 * ```
 	 *
 	 * @param  array            $array      An array to remove an element by key.
 	 * @param  string|int|array $keys       The key name or index to remove.
 	 * @param  bool             $recursive  True to recurve through multi-level arrays.
-	 * @return array
+	 * @return array                        Returns all of the given array except for the specified key.
 	 */
-	public static function removeKey(array $array, $keys, bool $recursive = true) : array
+	public static function exceptKey(array $array, $keys, bool $recursive = true) : array
 	{
 		if (is_string($keys))
 		{
@@ -883,13 +901,13 @@ class Arr
 			foreach ($array as $itemKey => $itemValue)
 			{
 				// Foreach function may fetch $itemKey to integer (0 is not equal '0')
-				// e.g., Arr::removeKey(['a'], ['0']); The first index 'a' would be 0
+				// e.g., Arr::exceptKey(['a'], ['0']); The first index 'a' would be 0
 				// and this method will remove array index 'a'. But, in fact, it should not!
 				// So use (string) function to convert and compare it as string.
 				if ((string)$itemKey === (string)$key)
 					unset($array[$itemKey]);
 				elseif ($recursive and is_array($itemValue))
-					$array[$itemKey] = static::removeKey($itemValue, $keys, $recursive);
+					$array[$itemKey] = static::exceptKey($itemValue, $keys, $recursive);
 			}
 		}
 
