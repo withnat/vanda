@@ -1300,7 +1300,7 @@ class Arr
 	 * For example,
 	 *
 	 * ```php
-	 * $employee = [
+	 * $array = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
 	 *     'job' => [
@@ -1309,13 +1309,13 @@ class Arr
 	 *     ]
 	 * ];
 	 *
-	 * $result = Arr::hasKey($employee, 'job');
+	 * $result = Arr::hasKey($array, 'job');
 	 * // The $result will be: true
 	 *
-	 * $result = Arr::hasKey($employee, 'job.position');
+	 * $result = Arr::hasKey($array, 'job.position');
 	 * // The $result will be: true
-
-	 * $result = Arr::hasKey($employee, 'job.startdate');
+	 *
+	 * $result = Arr::hasKey($array, 'job.startdate');
 	 * // The $result will be: false
 	 * ```
 	 *
@@ -1331,7 +1331,7 @@ class Arr
 	 * // The $result will be: true
 	 * ```
 	 *
-	 * @param  array      $array  An array with keys to check.
+	 * @param  array      $array  The array to search.
 	 * @param  string|int $key    The searched key. If the key contains dot, it will access nested array.
 	 * @return bool               Returns true if the searched key is found in the given array, false otherwise.
 	 */
@@ -1381,9 +1381,27 @@ class Arr
 	}
 
 	/**
-	 * @param  array            $array
-	 * @param  string|int|array $keys
-	 * @return bool
+	 * Determines if any given key or index exists in the given array.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => [
+	 *         'position' => 'Web Developer',
+	 *         'saraly' => 10000
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::hasAnyKey($array, 'job,job.startdate');
+	 * // The $result will be: true
+	 * ```
+	 *
+	 * @param  array            $array  The array to search.
+	 * @param  string|int|array $keys   The searched keys. If the key contains dot, it will access nested array.
+	 * @return bool                     Returns true if any searched key is found in the given array, false otherwise.
 	 */
 	public static function hasAnyKey(array $array, $keys) : bool
 	{
