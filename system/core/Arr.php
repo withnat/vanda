@@ -443,9 +443,6 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::only($array, 'name,work.salary');
-	 * // the result is: name
-	 *
-	 * $result = Arr::only($array, 2);
 	 * // the result is:
 	 * // Array
 	 * // (
@@ -495,7 +492,7 @@ class Arr
 	}
 
 	/**
-	 * Returns and removes an element by key from an array.
+	 * Returns and removes an element by key from the given array.
 	 * Data can be one or multi-dimensional array, but not a recordset.
 	 *
 	 * The given array can be one or multi-dimensional array.
@@ -503,9 +500,44 @@ class Arr
 	 *
 	 * Note, For numeric array, an index key 0 (int) is same as '0' (string).
 	 *
-	 * @param  array            $array  The given array.
-	 * @param  string|int|array $keys   e.g., 0, '0', '0,1', [0, 1], 'name,work.position'.
-	 * @return mixed
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'work' => [
+	 *         'position' => 'Web Developer',
+	 *         'salary' => 10000
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::pull($array, 'name,work.salary');
+	 * // the result is:
+	 * // Array
+	 * // (
+	 * //     [name] => Nat
+	 * //     [work] => Array
+	 * //         (
+	 * //             [salary] => 10000
+	 * //         )
+	 * // )
+	 * //
+	 * // and the $array is:
+	 * // Array
+	 * // (
+	 * //     [surname] => Withe
+	 * //     [work] => Array
+	 * //         (
+	 * //             [position] => Web Developer
+	 * //         )
+	 * // )
+	 * ```
+	 *
+	 * @param  array            $array  The input array.
+	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array data
+	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,work.position'.
+	 * @return mixed                    Depends on what the given array contains.
 	 */
 	public static function pull(array &$array, $keys)
 	{
