@@ -47,7 +47,7 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::set($array, 'key.subkey', 'value');
-	 * // the result is:
+	 * // The $result will be:
 	 * // Array
 	 * // (
 	 * //     [foo] => bar
@@ -111,7 +111,7 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::get($array, 'foo.bar');
-	 * // the result is: baz
+	 * // The $result will be: baz
 	 * ```
 	 *
 	 * @param  array      $array    The input array.
@@ -151,7 +151,7 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::getKey($array, 'Nat');
-	 * // the result is: name
+	 * // The $result will be: name
 	 * ```
 	 *
 	 * @param  array $array  The input array.
@@ -181,10 +181,10 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::first($array);
-	 * // the result is: Nat
+	 * // The $result will be: Nat
 	 *
 	 * $result = Arr::first($array, 2);
-	 * // the result is:
+	 * // The $result will be:
 	 * // Array
 	 * // (
 	 * //     [name] => Nat
@@ -230,10 +230,10 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::last($array);
-	 * // the result is: Web Developer
+	 * // The $result will be: Web Developer
 	 *
 	 * $result = Arr::last($array, 2);
-	 * // the result is:
+	 * // The $result will be:
 	 * // Array
 	 * // (
 	 * //     [surname] => Withe
@@ -282,10 +282,10 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::firstKey($array);
-	 * // the result is: name
+	 * // The $result will be: name
 	 *
 	 * $result = Arr::firstKey($array, 2);
-	 * // the result is:
+	 * // The $result will be:
 	 * // Array
 	 * // (
 	 * //     [0] => name
@@ -362,10 +362,10 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::lastKey($array);
-	 * // the result is: job
+	 * // The $result will be: job
 	 *
 	 * $result = Arr::lastKey($array, 2);
-	 * // the result is:
+	 * // The $result will be:
 	 * // Array
 	 * // (
 	 * //     [0] => surname
@@ -443,7 +443,7 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::only($array, 'name,job.salary');
-	 * // the result is:
+	 * // The $result will be:
 	 * // Array
 	 * // (
 	 * //     [name] => Nat
@@ -456,7 +456,7 @@ class Arr
 	 *
 	 * @param  array            $array  The input array.
 	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array data
-	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,job.position'.
+	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,job.position', ['name, job.position'].
 	 * @return array                    Returns a subset of the items from the given array.
 	 */
 	public static function only(array $array, $keys) : array
@@ -513,7 +513,7 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::pull($array, 'name,job.salary');
-	 * // the result is:
+	 * // The $result will be:
 	 * // Array
 	 * // (
 	 * //     [name] => Nat
@@ -523,7 +523,7 @@ class Arr
 	 * //         )
 	 * // )
 	 * //
-	 * // and the $array is:
+	 * // And the $array will be:
 	 * // Array
 	 * // (
 	 * //     [surname] => Withe
@@ -536,7 +536,7 @@ class Arr
 	 *
 	 * @param  array            $array  The input array.
 	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array data
-	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,job.position'.
+	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,job.position', ['name, job.position'].
 	 * @return mixed                    Depends on what the given array contains.
 	 */
 	public static function pull(array &$array, $keys)
@@ -617,7 +617,7 @@ class Arr
 	 *     ]
 	 * ];
 	 *
-	 * $result = Arr::onlyColumn($recordset, 'job.position');
+	 * $result = Arr::column($recordset, 'job.position');
 	 *
 	 * // The $result will be:
 	 * // Array
@@ -627,7 +627,7 @@ class Arr
 	 * // )
 	 * //
 	 *
-	 * $result = Arr::onlyColumn($recordset, 'job.position', 'name');
+	 * $result = Arr::column($recordset, 'job.position', 'name');
 	 *
 	 * // The $result will be:
 	 * // Array
@@ -635,15 +635,15 @@ class Arr
 	 * //     [Nat] => Web Developer
 	 * //     [Angela] => Maketing Director
 	 * // )
+	 * ```
 	 *
-	 * @param  array           $data       A multi-dimensional array contains array (dataset) or object (recordset)
-	 *                                     from which to pull a column of values.
+	 * @param  array           $data       A multi-dimensional array contains array (dataset) or object (recordset).
 	 * @param  string|int      $columnKey  The column key of values to return. If the key contains dot, it will access
 	 *                                     nested array data e.g., 0, '0', 'name', 'job.position'.
 	 * @param  string|int|null $indexKey   The column key to use as the index/key for the returned array.
 	 * @return array                       Returns an array of values representing a single column from the given array.
 	 */
-	public static function onlyColumn(array $data, $columnKey, $indexKey = null) : array
+	public static function column(array $data, $columnKey, $indexKey = null) : array
 	{
 		if (!static::isDataset($data) and !static::isRecordset($data))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
@@ -687,12 +687,64 @@ class Arr
 	}
 
 	/**
-	 * Returns and removes a column by key from a dataset or recordset.
+	 * Returns and removes a column by key from the given array contains array (dataset) or object (recordset).
 	 *
-	 * @param  array            $data  A multi-dimensional array contains array (dataset) or object (recordset)
-	 *                                 from which to pull a column of values.
-	 * @param  string|int|array $keys  The column of values to return. The $keys can be 'name,job.position'
-	 * @return array
+	 * The $columnKey can be 0, '0', 'name', 'name,surname', ['name', 'surname']. This method does not support
+	 * path strings with dots.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $dataset = [
+	 *     [
+	 *         'name' => 'Nat',
+	 *         'surname' => 'With',
+	 *         'job' => 'Web Developer'
+	 *     ],
+	 *     [
+	 *         'name' => 'Angela',
+	 *         'surname' => 'SG',
+	 *         'job' => 'Maketing Director'
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::pullColumn($dataset, 'name,surname');
+	 *
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => Array
+	 * //         (
+	 * //             [name] => Nat
+	 * //             [surname] => With
+	 * //         )
+	 * //
+	 * //     [1] => Array
+	 * //         (
+	 * //             [name] => Angela
+	 * //             [surname] => SG
+	 * //         )
+	 * // )
+	 * //
+	 * // And the $dataset will be:
+	 * // Array
+	 * // (
+	 * //     [0] => Array
+	 * //         (
+	 * //             [job] => Web Developer
+	 * //         )
+	 * //
+	 * //     [1] => Array
+	 * //         (
+	 * //             [job] => Maketing Director
+	 * //         )
+	 * // )
+	 * ```
+	 *
+	 * @param  array            $data  A multi-dimensional array contains array (dataset) or object (recordset).
+	 * @param  string|int|array $keys  The column of values to return e.g., 0, '0', 'name', 'name,surname',
+	 *                                 ['name', 'surname'].
+	 * @return array                   Returns an array of values representing a column from the given array.
 	 */
 	public static function pullColumn(array &$data, $keys) : array
 	{
@@ -950,7 +1002,7 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::map($array, 'id', 'name');
-	 * // the result is:
+	 * // The $result will be:
 	 * // [
 	 * //     '101' => 'Nat',
 	 * //     '102' => 'Ann',
@@ -958,7 +1010,7 @@ class Arr
 	 * // ]
 	 *
 	 * $result = Arr::map($array, 'id', 'name', 'class');
-	 * // the result is:
+	 * // The $result will be:
 	 * // [
 	 * //     'A' => [
 	 * //         '101' => 'Nat',
@@ -1105,13 +1157,13 @@ class Arr
 	 * ];
 	 *
 	 * $result = Arr::hasKey($employee, 'job');
-	 * // the result is: True
+	 * // The $result will be: True
 	 *
 	 * $result = Arr::hasKey($employee, 'job.position');
-	 * // the result is: True
+	 * // The $result will be: True
 
 	 * $result = Arr::hasKey($employee, 'job.startdate');
-	 * // the result is: False
+	 * // The $result will be: False
 	 * ```
 	 *
 	 * For an indexed array, numerice key and string key are not difference.
@@ -1120,10 +1172,10 @@ class Arr
 	 * $array = ['Nat'];
 	 *
 	 * $result = Arr::hasKey($array, '0');
-	 * // the result is: True
+	 * // The $result will be: True
 	 *
 	 * $result = Arr::hasKey($array, 0);
-	 * // the result is: True
+	 * // The $result will be: True
 	 * ```
 	 *
 	 * @param  array      $array  An array with keys to check.
