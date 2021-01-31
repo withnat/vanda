@@ -55,7 +55,6 @@ class Arr
 	 * //         (
 	 * //             [subkey] => value
 	 * //         )
-	 * //
 	 * // )
 	 * ```
 	 *
@@ -625,7 +624,6 @@ class Arr
 	 * //     [0] => Web Developer
 	 * //     [1] => Maketing Director
 	 * // )
-	 * //
 	 *
 	 * $result = Arr::column($recordset, 'job.position', 'name');
 	 *
@@ -1024,11 +1022,45 @@ class Arr
 	}
 
 	/**
-	 * Remove a column from an array of arrays (dataset) or objects (recordset).
+	 * Returns all columns of the given dataset or recordset except for a specified column name.
 	 *
-	 * @param  array            $array  An array to remove an element by key (dataset or recordset).
-	 * @param  string|int|array $keys   The key name to remove.
-	 * @return array
+	 * For example,
+	 *
+	 * ```php
+	 * $recordset = [
+	 *     [
+	 *         'name' => 'Nat',
+	 *         'surname' => 'With',
+	 *         'job' => 'Web Developer'
+	 *     ],
+	 *     [
+	 *         'name' => 'Angela',
+	 *         'surname' => 'SG',
+	 *         'job' => 'Marketing Director'
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::exceptColumn($recordset, 'surname,job');
+	 *
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => Array
+	 * //         (
+	 * //             [name] => Nat
+	 * //         )
+	 * //
+	 * //     [1] => Array
+	 * //         (
+	 * //             [name] => Angela
+	 * //         )
+	 * // )
+	 * ```
+	 *
+	 * @param  array            $array  A multi-dimensional array contains array (dataset) or object (recordset).
+	 * @param  string|int|array $keys   The column key to remove.
+	 * @return array                    Returns all columns of the given dataset or recordset except for the specified
+	 *                                  column name.
 	 */
 	public static function exceptColumn(array $array, $keys) : array
 	{
