@@ -1204,7 +1204,7 @@ class Arr
 	}
 
 	/**
-	 * Checks if a value exists in an array.
+	 * Determines if a given value exists in a given array.
 	 * An alias for PHP's in_array() function because in_array() returns true if $search is 0.
 	 *
 	 * ```php
@@ -1254,6 +1254,25 @@ class Arr
 		}
 	}
 
+	/**
+	 * Determines if any given value exists in a given array.
+	 *
+	 * ```php
+	 * $array = [
+	 *     'foo',
+	 *     'bar',
+	 *     'baz'
+	 * ];
+	 *
+	 * $result = Arr::hasAny($array, ['bar', 'qux']);
+	 * // The $result will be: true
+	 *
+	 * @param  array $array          The array to search.
+	 * @param  array $searches       The searched values.
+	 * @param  bool  $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @return bool                  Returns true if any given searched value is found in the given array, false
+	 *                               otherwise.
+	 */
 	public static function hasAny(array $array, array $searches, bool $caseSensitive = true) : bool
 	{
 		foreach ($searches as $search)
