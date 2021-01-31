@@ -42,7 +42,9 @@ class Arr
 	 * For example,
 	 *
 	 * ```php
-	 * $array = ['foo' => 'bar'];
+	 * $array = [
+	 *     'foo' => 'bar'
+	 * ];
 	 *
 	 * $result = Arr::set($array, 'key.subkey', 'value');
 	 * // the result is:
@@ -99,8 +101,18 @@ class Arr
 	 * Returns a specific element from the given array. If the key contains dot,
 	 * it will access nested array data.
 	 *
-	 * Lets you determine whether an array index is set and whether it has a value.
-	 * If the element is empty it returns NULL (or whatever you specify as the default value).
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'foo' => [
+	 *         'bar' => 'baz'
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::get($array, 'foo.bar');
+	 * // the result is: baz
+	 * ```
 	 *
 	 * @param  array      $array    The array.
 	 * @param  string|int $key      The searched key. If the key contains dot, it will access nested array data.
