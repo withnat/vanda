@@ -2750,16 +2750,16 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	// Arr::removeBlank()
+	// Arr::exceptBlank()
 
-	public function testMethodRemoveBlankCase1() : void
+	public function testMethodExceptBlankCase1() : void
 	{
-		$result = Arr::removeBlank([]);
+		$result = Arr::exceptBlank([]);
 
 		$this->assertEquals([], $result);
 	}
 
-	public function testMethodRemoveBlankCase2() : void
+	public function testMethodExceptBlankCase2() : void
 	{
 		$expected = [
 			0 => 10,
@@ -2771,12 +2771,12 @@ class ArrTest extends TestCase
 			7 => 100
 		];
 
-		$result = Arr::removeBlank(static::$_arrayMulti);
+		$result = Arr::exceptBlank(static::$_arrayMulti);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodRemoveBlankCase3() : void
+	public function testMethodExceptBlankCase3() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -2793,12 +2793,12 @@ class ArrTest extends TestCase
 			'handsome' => true
 		];
 
-		$result = Arr::removeBlank(static::$_assocArrayMulti);
+		$result = Arr::exceptBlank(static::$_assocArrayMulti);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testMethodRemoveBlankCase4() : void
+	public function testMethodExceptBlankCase4() : void
 	{
 		$expected = [
 			'name' => 'Nat',
@@ -2816,7 +2816,7 @@ class ArrTest extends TestCase
 			'handsome' => true
 		];
 
-		$result = Arr::removeBlank(static::$_assocArrayMulti, false);
+		$result = Arr::exceptBlank(static::$_assocArrayMulti, false);
 
 		$this->assertEquals($expected, $result);
 	}
