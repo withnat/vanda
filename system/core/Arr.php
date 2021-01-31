@@ -58,7 +58,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array  $array  Array to set a value in.
-	 * @param  string $key    Name of the key to set. If the name contains dot, it will set nested array data.
+	 * @param  string $key    The key to set. If the key contains dot, it will set nested array data.
 	 * @param  mixed  $value  Value to set.
 	 * @return array
 	 */
@@ -96,13 +96,14 @@ class Arr
 	}
 
 	/**
-	 * Return a specific element from the given array.
+	 * Returns a specific element from the given array. If the key contains dot,
+	 * it will access nested array data.
 	 *
 	 * Lets you determine whether an array index is set and whether it has a value.
 	 * If the element is empty it returns NULL (or whatever you specify as the default value).
 	 *
 	 * @param  array      $array    The array.
-	 * @param  string|int $key      The searched key.
+	 * @param  string|int $key      The searched key. If the key contains dot, it will access nested array data.
 	 * @param  mixed      $default  Default value.
 	 * @return mixed                Depends on what the array contains.
 	 */
