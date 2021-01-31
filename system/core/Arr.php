@@ -217,11 +217,34 @@ class Arr
 	}
 
 	/**
-	 * Return the last {$length} elements from the given array.
+	 * Returns the last $length elements of the given array.
 	 *
-	 * @param  array    $array  The input array.
-	 * @param  int|null $length
-	 * @return mixed            Returns the last value of array if the array is not empty, null otherwise.
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => 'Web Developer'
+	 * ];
+	 *
+	 * $result = Arr::last($array);
+	 * // the result is: Web Developer
+	 *
+	 * $result = Arr::last($array, 2);
+	 * // the result is:
+	 * // Array
+	 * // (
+	 * //     [surname] => Withe
+	 * //     [job] => Web Developer
+	 * // )
+	 * ```
+	 *
+	 * @param  array    $array   The input array.
+	 * @param  int|null $length  The number of elements to return. If $length is 1, returns value depend on what the
+	 *                           given array contains. If $length is greater than 1, returns an array.
+	 * @return mixed             Returns the last $length elements of the given array if the given array is not empty,
+	 *                           null otherwise.
 	 */
 	public static function last(array $array, int $length = null)
 	{
