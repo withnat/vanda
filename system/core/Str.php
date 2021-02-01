@@ -104,7 +104,7 @@ class Str
 	 *
 	 * @param  string      $string         The string being counted on.
 	 * @param  string      $substring      The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return int                         The number of $substring occurrences.
@@ -163,7 +163,7 @@ class Str
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
-	 * @param  int         $length    The length of character to return. Default to 1.
+	 * @param  int         $length    The length of character to return. Defaults to 1.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used.
 	 * @return string
@@ -192,7 +192,7 @@ class Str
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
-	 * @param  int         $length    The length of character to return. Default to 1.
+	 * @param  int         $length    The length of character to return. Defaults to 1.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used.
 	 * @return string
@@ -398,15 +398,16 @@ class Str
 	 *
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
-	 * @param  int         $offset    Offset from which to search. Default to 0.
+	 * @param  int         $start     Specifies where to begin the search. If start is a negative number, it counts from
+	 *                                the end of the string. Defaults to 0.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used.
 	 * @return int|false              The first occurrence's index if found, otherwise false.
 	 */
-	public static function position(string $string, string $search, int $offset = 0, string $encoding = null)
+	public static function position(string $string, string $search, int $start = 0, string $encoding = null)
 	{
 		$encoding = static::_getEncoding($encoding);
-		$pos = mb_strpos($string, $search, $offset, $encoding);
+		$pos = mb_strpos($string, $search, $start, $encoding);
 
 		return $pos;
 	}
@@ -429,15 +430,16 @@ class Str
 	 *
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
-	 * @param  int         $offset    Offset from which to search. Default to 0.
+	 * @param  int         $start    Specifies where to begin the search. If start is a negative number, it counts from
+	 *                                the end of the string. Defaults to 0.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used.
 	 * @return int|false              The last occurrence's index if found, otherwise false.
 	 */
-	public static function lastPosition(string $string, string $search, int $offset = 0, string $encoding = null)
+	public static function lastPosition(string $string, string $search, int $start = 0, string $encoding = null)
 	{
 		$encoding = static::_getEncoding($encoding);
-		$pos = mb_strrpos($string, $search, $offset, $encoding);
+		$pos = mb_strrpos($string, $search, $start, $encoding);
 
 		return $pos;
 	}
@@ -460,7 +462,7 @@ class Str
 	 * @param  string      $string    The input string.
 	 * @param  string      $start     The start of the substring.
 	 * @param  string      $end       The end of the substring.
-	 * @param  int         $offset    Offset from which to search. Default to 0.
+	 * @param  int         $offset    Offset from which to search. Defaults to 0.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used.
 	 * @return string                 A substring between $start and $end.
@@ -1211,7 +1213,7 @@ class Str
 	 * @param  string|array $replace   The replacement value that replaces found search values. An array may be used to
 	 *                                 designate multiple replacements.
 	 * @param  int|null     $limit     The maximum possible replacements for each pattern in each subject string.
-	 *                                 Default to NULL (no limit).
+	 *                                 Defaults to null (no limit).
 	 * @param  string|null  $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                 character encoding value will be used.
 	 * @return string                  Returns a string with the replaced values.
@@ -1249,7 +1251,7 @@ class Str
 	}
 
 	/**
-	 * Replaces the first occurrence of a given value in the string.
+	 * Replaces the first occurrence of the given value in the string.
 	 *
 	 * For example,
 	 *
@@ -1285,7 +1287,7 @@ class Str
 	}
 
 	/**
-	 * Replaces the last occurrence of a given value in the string.
+	 * Replaces the last occurrence of the given value in the string.
 	 *
 	 * For example,
 	 *
@@ -1343,7 +1345,7 @@ class Str
 	 * @param  string|array $replace   The replacement value that replaces found search values. An array may be used to
 	 *                                 designate multiple replacements.
 	 * @param  int|null     $limit     The maximum possible replacements for each pattern in each subject string.
-	 *                                 Default to NULL (no limit).
+	 *                                 Defaults to null (no limit).
 	 * @param  string|null  $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                 character encoding value will be used.
 	 * @return string                  Returns a string with the replaced values.
@@ -1378,7 +1380,7 @@ class Str
 	}
 
 	/**
-	 * Replaces the first occurrence of a given value in the string (case-insensitive version).
+	 * Replaces the first occurrence of the given value in the string (case-insensitive version).
 	 *
 	 * For example,
 	 *
@@ -1414,7 +1416,7 @@ class Str
 	}
 
 	/**
-	 * Replaces the last occurrence of a given value in the string (case-insensitive version).
+	 * Replaces the last occurrence of the given value in the string (case-insensitive version).
 	 *
 	 * For example,
 	 *
@@ -1489,7 +1491,7 @@ class Str
 	 * @param  int|null    $length    If given and is positive, it represents the length of the portion of string which
 	 *                                is to be replaced. If it is negative, it represents the number of characters from
 	 *                                the end of string at which to stop replacing. If it is not given, then it will
-	 *                                default to strlen( string ); i.e. end the replacing at the end of string.
+	 *                                defaults to strlen( string ); i.e. end the replacing at the end of string.
 	 *                                Of course, if length is zero then this function will have the effect of inserting
 	 *                                replacement into string at the given start offset.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
@@ -1520,7 +1522,7 @@ class Str
 	}
 
 	/**
-	 * Replaces a given value in the string sequentially with an array.
+	 * Replaces the given value in the string sequentially with an array.
 	 *
 	 * For example,
 	 *
@@ -1602,7 +1604,7 @@ class Str
 	//
 
 	/**
-	 * Determines if a given string starts with a given substring.
+	 * Determines if the given string starts with the given substring.
 	 *
 	 * For example,
 	 *
@@ -1618,7 +1620,7 @@ class Str
 	 *
 	 * @param  string      $string         The string to search in.
 	 * @param  string      $prefix         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return bool                        Returns true if the given string begins with the given substring, false
@@ -1642,7 +1644,7 @@ class Str
 	}
 
 	/**
-	 * Determines if a given string starts with any of given substring.
+	 * Determines if the given string starts with any of given substring.
 	 *
 	 * For example,
 	 *
@@ -1658,7 +1660,7 @@ class Str
 	 *
 	 * @param  string      $string         The string to search in.
 	 * @param  array       $prefixes       The substrings to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return bool                        Returns true if the given string begins with any given substring, false
@@ -1676,7 +1678,7 @@ class Str
 	}
 
 	/**
-	 * Determines if a given string ends with a given substring.
+	 * Determines if the given string ends with the given substring.
 	 *
 	 * For example,
 	 *
@@ -1692,7 +1694,7 @@ class Str
 	 *
 	 * @param  string      $string         The string to search in.
 	 * @param  string      $suffix         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return bool                        Returns true if the given string ends with the given substring, false
@@ -1716,7 +1718,7 @@ class Str
 	}
 
 	/**
-	 * Determines if a given string ends with any of given substring.
+	 * Determines if the given string ends with any of given substring.
 	 *
 	 * For example,
 	 *
@@ -1732,7 +1734,7 @@ class Str
 	 *
 	 * @param  string      $string         The string to search in.
 	 * @param  array       $suffixes       The substrings to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return bool                        Returns true if the given string ends with any given substring, false
@@ -1849,7 +1851,7 @@ class Str
 	//
 
 	/**
-	 * Returns the remainder of a string after the first occurrence of a given substring.
+	 * Returns the remainder of a string after the first occurrence of the given substring.
 	 *
 	 * For example,
 	 *
@@ -1868,7 +1870,7 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  string      $search         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return string                      Returns the remainder of the given string.
@@ -1892,7 +1894,7 @@ class Str
 	}
 
 	/**
-	 * Returns the remainder of a string after the last occurrence of a given substring.
+	 * Returns the remainder of a string after the last occurrence of the given substring.
 	 *
 	 * For example,
 	 *
@@ -1911,7 +1913,7 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  string      $search         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return string                      Returns the remainder of the given string.
@@ -1935,7 +1937,7 @@ class Str
 	}
 
 	/**
-	 * Returns the portion of a string before the first occurrence of a given substring.
+	 * Returns the portion of a string before the first occurrence of the given substring.
 	 *
 	 * For example,
 	 *
@@ -1951,7 +1953,7 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  string      $search         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return string                      Returns the portion of the given string
@@ -1974,7 +1976,7 @@ class Str
 	}
 
 	/**
-	 * Returns the portion of a string before the last occurrence of a given substring.
+	 * Returns the portion of a string before the last occurrence of the given substring.
 	 *
 	 * For example,
 	 *
@@ -1990,7 +1992,7 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  string      $search         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return string                      Returns the portion of the given string
@@ -2018,7 +2020,7 @@ class Str
 	//
 
 	/**
-	 * Highlights a phrase within a given string.
+	 * Highlights a phrase within the given string.
 	 *
 	 * For example,
 	 *
@@ -2057,7 +2059,7 @@ class Str
 	}
 
 	/**
-	 * Adds _1 to a given string or increment the ending number to allow _2, _3, etc.
+	 * Adds _1 to the given string or increment the ending number to allow _2, _3, etc.
 	 *
 	 * For example,
 	 *
@@ -2528,7 +2530,7 @@ class Str
 	//
 
 	/**
-	 * Determines if a given string contains a given substring.
+	 * Determines if the given string contains the given substring.
 	 *
 	 * For example,
 	 *
@@ -2544,7 +2546,7 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  string      $substring      The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return bool                        Returns true if the given substring is in the given string, false otherwise.
@@ -2562,7 +2564,7 @@ class Str
 	}
 
 	/**
-	 * Determines if a given string contains any given substring.
+	 * Determines if the given string contains any given substring.
 	 *
 	 * For example,
 	 *
@@ -2578,7 +2580,7 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  array       $substrings     The substrings to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return bool                        Returns true if any given substring is in the given string, false
@@ -2596,7 +2598,7 @@ class Str
 	}
 
 	/**
-	 * Determines if a given string contains all given substrings.
+	 * Determines if the given string contains all given substrings.
 	 *
 	 * For example,
 	 *
@@ -2615,7 +2617,7 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  array       $substrings     The substrings to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Default to true.
+	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                     character encoding value will be used.
 	 * @return bool                        Returns true if all given substrings are in the given string, false
@@ -2636,7 +2638,7 @@ class Str
 	}
 
 	/**
-	 * Determines if a given string contains a lower case character.
+	 * Determines if the given string contains a lower case character.
 	 *
 	 * For example,
 	 *
@@ -2662,7 +2664,7 @@ class Str
 	}
 
 	/**
-	 * Determines if a given string contains an upper case character.
+	 * Determines if the given string contains an upper case character.
 	 *
 	 * For example,
 	 *
@@ -2952,6 +2954,7 @@ class Str
 	 * ```php
 	 * $result = Str::normalize('ŅÀŦ ŴĨŦĤÈ');
 	 * // The $result will be: NAT WITHE
+	 * ```
 	 *
 	 * @param  string $string  The input string to normalise.
 	 * @return string          Returns normalised string.
