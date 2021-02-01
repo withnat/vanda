@@ -1797,10 +1797,33 @@ class Arr
 	}
 
 	/**
-	 * Convert a multi-dimensional array into a single-dimensional array.
+	 * Converts a multi-dimensional array into a single-dimensional array.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => [
+	 *         'position' => 'Web Developer',
+	 *         'saraly' => 10000
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::flatten($array);
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => Nat
+	 * //     [1] => Withe
+	 * //     [2] => Web Developer
+	 * //     [3] => 10000
+	 * // )
+	 * ```
 	 *
 	 * @param  array $array  A multi-dimensional array.
-	 * @return array         Returns an array of values representing a single column from the input array.
+	 * @return array         Returns the converted array.
 	 */
 	public static function flatten(array $array) : array
 	{
