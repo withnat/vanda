@@ -1466,7 +1466,7 @@ class Arr
 	}
 
 	/**
-	 * Random Element Value - Takes an array as input and returns a random element value.
+	 * Returns a random element value.
 	 *
 	 * @param  array $array  The array to random.
 	 * @return mixed         Depends on what the array contains.
