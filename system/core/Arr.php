@@ -1296,9 +1296,6 @@ class Arr
 	 * For example,
 	 *
 	 * ```php
-	 * For example,
-	 *
-	 * ```php
 	 * $array = [
 	 *     'foo',
 	 *     'bar',
@@ -1314,7 +1311,7 @@ class Arr
 	 *
 	 * @param array $array         The array to search.
 	 * @param array $searches      The searched values.
-	 * @param bool $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param bool  $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
 	 * @return bool                Returns true if all searched values are found in the given array, false otherwise.
 	 */
 	public static function hasAll(array $array, array $searches, bool $caseSensitive = true) : bool
@@ -1648,21 +1645,15 @@ class Arr
 	 * $dataset = [
 	 *     [
 	 *         'name' => 'Nat',
-	 *         'surname' => 'Withe',
-	 *         'position' => 'Web Developer',
-	 *         'salary' => 10000
+	 *         'surname' => 'Withe'
 	 *     ],
 	 *     [
 	 *         'name' => 'Emma',
-	 *         'surname' => 'McCormick',
-	 *         'position' => 'Staff',
-	 *         'salary' => 8000
+	 *         'surname' => 'McCormick'
 	 *     ],
 	 *     [
 	 *         'name' => 'Angela',
-	 *         'surname' => 'SG',
-	 *         'position' => 'Marketing Director',
-	 *         'salary' => 10000
+	 *         'surname' => 'SG'
 	 *     ]
 	 * ];
 	 *
@@ -1674,24 +1665,18 @@ class Arr
 	 * //         (
 	 * //             [name] => Nat
 	 * //             [surname] => Withe
-	 * //             [position] => Web Developer
-	 * //             [salary] => 10000
 	 * //         )
 	 * //
 	 * //     [1] => Array
 	 * //         (
 	 * //             [name] => Emma
 	 * //             [surname] => McCormick
-	 * //             [position] => Staff
-	 * //             [salary] => 8000
 	 * //         )
 	 * //
 	 * //     [2] => Array
 	 * //         (
 	 * //             [name] => Angela
 	 * //             [surname] => SG
-	 * //             [position] => Marketing Director
-	 * //             [salary] => 10000
 	 * //         )
 	 * //
 	 * // )
@@ -1742,24 +1727,18 @@ class Arr
 	 * $data = new stdClass();
 	 * $data->name = 'Nat';
 	 * $data->surname = 'Withe';
-	 * $data->job = 'Web Developer';
-	 * $data->salary = 10000;
 	 *
 	 * $recordset[] = $data;
 	 *
 	 * $data = new stdClass();
 	 * $data->name = 'Emma';
 	 * $data->surname = 'McCormick';
-	 * $data->job = 'Staff';
-	 * $data->salary = 8000;
 	 *
 	 * $recordset[] = $data;
 	 *
 	 * $data = new stdClass();
 	 * $data->name = 'Angela';
 	 * $data->surname = 'SG';
-	 * $data->job = 'Marketing Director';
-	 * $data->salary = 10000;
 	 *
 	 * $recordset[] = $data;
 	 *
@@ -1771,24 +1750,18 @@ class Arr
 	 * //         (
 	 * //             [name] => Nat
 	 * //             [surname] => Withe
-	 * //             [job] => Web Developer
-	 * //             [salary] => 10000
 	 * //         )
 	 * //
 	 * //     [1] => stdClass Object
 	 * //         (
 	 * //             [name] => Emma
 	 * //             [surname] => McCormick
-	 * //             [job] => Staff
-	 * //             [salary] => 8000
 	 * //         )
 	 * //
 	 * //     [2] => stdClass Object
 	 * //         (
 	 * //             [name] => Angela
 	 * //             [surname] => SG
-	 * //             [job] => Marketing Director
-	 * //             [salary] => 10000
 	 * //         )
 	 * //
 	 * // )
