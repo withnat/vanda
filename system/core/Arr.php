@@ -1561,12 +1561,33 @@ class Arr
 	}
 
 	/**
-	 * Sort an array by keys.
+	 * Sorts a given array by keys.
 	 *
-	 * @param  array  $array
-	 * @param  string $direction  'asc' or 'desc'
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'n' => 'N',
+	 *     'a' => 'A',
+	 *     'x' => 'X',
+	 *     'o' => 'O'
+	 * ];
+	 *
+	 * $result = Arr::sortKey($array, 'desc');
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [x] => X
+	 * //     [o] => O
+	 * //     [n] => N
+	 * //     [a] => A
+	 * // )
+	 * ```
+	 *
+	 * @param  array  $array      The input array.
+	 * @param  string $direction  Direction to sort in, 'asc' (ascending) or 'desc' (descending). Default to 'asc'.
 	 * @param  bool   $recursive  True to recurve through multi-level arrays.
-	 * @return array
+	 * @return array              Return the sorted array by keys.
 	 */
 	public static function sortKey(array $array, string $direction = 'asc', bool $recursive = true) : array
 	{
