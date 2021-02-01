@@ -1508,12 +1508,31 @@ class Arr
 	}
 
 	/**
-	 * Sort an array by values.
+	 * Sorts a given array by values.
 	 *
-	 * @param  array  $array
-	 * @param  string $direction  'asc' or 'desc'
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'bar',
+	 *     'baz',
+	 *     'foo'
+	 * ];
+	 *
+	 * $result = Arr::sort($array, 'desc');
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => foo
+	 * //     [1] => baz
+	 * //     [2] => bar
+	 * // )
+	 * ```
+	 *
+	 * @param  array  $array      The input array.
+	 * @param  string $direction  Direction to sort in, 'asc' (ascending) or 'desc' (descending). Default to 'asc'.
 	 * @param  bool   $recursive  True to recurve through multi-level arrays.
-	 * @return array
+	 * @return array              Return the sorted array by values.
 	 */
 	public static function sort(array $array, string $direction = 'asc', bool $recursive = true) : array
 	{
