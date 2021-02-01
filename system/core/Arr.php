@@ -2450,8 +2450,27 @@ class Arr
 	}
 
 	/**
-	 * @param  mixed $data
-	 * @return array
+	 * Converts the given data to a multi-dimensional array.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $data = 'foo';
+	 *
+	 * $result = Arr::toMultidimensional($data);
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => Array
+	 * //         (
+	 * //             [0] => foo
+	 * //         )
+	 * //
+	 * // )
+	 * ```
+	 *
+	 * @param  mixed $data  The input data.
+	 * @return array        Returns the multi-dimensional array converted from the given data.
 	 */
 	public static function toMultidimensional($data) : array
 	{
@@ -2464,8 +2483,32 @@ class Arr
 	}
 
 	/**
-	 * @param  mixed $data
-	 * @return array        Return an array with a numeric index. Values are stored and accessed in linear fashion.
+	 * Converts the given data to an array with a numeric index. Values are stored and accessed in linear fashion.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => 'Web Developer'
+	 * ];
+	 *
+	 * $result = Arr::toSequential($array);
+	 * // The $result will be: Nat
+	 *
+	 * $result = Arr::first($array, 2);
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => Nat
+	 * //     [1] => Withe
+	 * //     [2] => Web Developer
+	 * // )
+	 * ```
+	 *
+	 * @param  mixed $data  The input data.
+	 * @return array        Return the sequential array converted from the given data.
 	 */
 	public static function toSequential($data) : array
 	{
