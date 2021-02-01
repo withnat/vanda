@@ -1606,12 +1606,67 @@ class Arr
 	}
 
 	/**
-	 * Utility function to sort an array of arrays (dataset) on a given field.
+	 * Sorts an array of arrays (dataset) on a given column name.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     [
+	 *         'name' => 'Nat',
+	 *         'surname' => 'Withe',
+	 *         'position' => 'Web Developer',
+	 *         'salary' => 10000
+	 *     ],
+	 *     [
+	 *         'name' => 'Emma',
+	 *         'surname' => 'McCormick',
+	 *         'position' => 'Staff',
+	 *         'salary' => 8000
+	 *     ],
+	 *     [
+	 *         'name' => 'Angela',
+	 *         'surname' => 'SG',
+	 *         'position' => 'Marketing Director',
+	 *         'salary' => 10000
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::sortDataset($array, 'name', 'desc');
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => Array
+	 * //         (
+	 * //             [name] => Nat
+	 * //             [surname] => Withe
+	 * //             [position] => Web Developer
+	 * //             [salary] => 10000
+	 * //         )
+	 * //
+	 * //     [1] => Array
+	 * //         (
+	 * //             [name] => Emma
+	 * //             [surname] => McCormick
+	 * //             [position] => Staff
+	 * //             [salary] => 8000
+	 * //         )
+	 * //
+	 * //     [2] => Array
+	 * //         (
+	 * //             [name] => Angela
+	 * //             [surname] => SG
+	 * //             [position] => Marketing Director
+	 * //             [salary] => 10000
+	 * //         )
+	 * //
+	 * // )
+	 * ```
 	 *
 	 * @param  array  $dataset    An array of arrays (dataset).
-	 * @param  string $key        The key to sort on.
-	 * @param  string $direction  Direction to sort in [asc = Ascending] [desc = Descending].
-	 * @return array              The sorted array of arrays (dataset).
+	 * @param  string $key        The column name to sort on.
+	 * @param  string $direction  Direction to sort in, 'asc' (ascending) or 'desc' (descending). Default to 'asc'.
+	 * @return array              Returns the sorted array of arrays (dataset).
 	 */
 	public static function sortDataset(array $dataset, string $key, string $direction = 'asc') : array
 	{
