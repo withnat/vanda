@@ -1319,7 +1319,7 @@ class Arr
 	 * // The $result will be: false
 	 * ```
 	 *
-	 * For an indexed array, numerice key and string key are not difference.
+	 * For an indexed array, numerice key and string key are not different.
 	 *
 	 * ```php
 	 * $array = ['Nat'];
@@ -1422,9 +1422,30 @@ class Arr
 	}
 
 	/**
-	 * @param  array            $array
-	 * @param  string|int|array $keys
-	 * @return bool
+	 * Determines if all given keys or indexs exists in the given array.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => [
+	 *         'position' => 'Web Developer',
+	 *         'saraly' => 10000
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::hasAllKeys($array, 'job,job.startdate');
+	 * // The $result will be: false
+	 *
+	 * $result = Arr::hasAllKeys($array, 'job,job.saraly');
+	 * // The $result will be: true
+	 * ```
+	 *
+	 * @param  array            $array  The array to search.
+	 * @param  string|int|array $keys   The searched keys. If the key contains dot, it will access nested array.
+	 * @return bool                     Returns true if all searched keys are found in the given array, false otherwise.
 	 */
 	public static function hasAllKeys(array $array, $keys) : bool
 	{
