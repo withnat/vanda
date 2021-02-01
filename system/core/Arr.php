@@ -2277,8 +2277,8 @@ class Arr
 	 * ```
 	 *
 	 * @param  array                 $array           The array to map.
-	 * @param  string                $innerGlue       The glue (optional, defaults to '=') between the key and the value.
-	 * @param  string                $outerGlue       The glue (optional, defaults to ' ') between array elements.
+	 * @param  string                $innerGlue       Optional, the glue between the key and the value. Default to '='.
+	 * @param  string                $outerGlue       Optional, the glue between array elements. Defaults to ' '.
 	 * @param  string                $valueDelimiter  Value delimiter.
 	 * @param  bool                  $recursive       True to recurve through multi-level arrays. Default to true.
 	 * @param  string|int|array|null $keys            An optional field names. Only be used in top level elements.
@@ -2327,10 +2327,23 @@ class Arr
 	}
 
 	/**
-	 * Convert the array into a query string.
+	 * Converts the given array into a query string.
 	 *
-	 * @param  array  $array
-	 * @return string
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => 'Web Developer'
+	 * ];
+	 *
+	 * $result = Arr::toQueryString($array);
+	 * // The $result will be: name=Nat&surname=Withe&job=Web%20Developer
+	 * ```
+	 *
+	 * @param  array  $array  The input array.
+	 * @return string         The converted string.
 	 */
 	public static function toQueryString(array $array) : string
 	{
