@@ -1494,9 +1494,10 @@ class Arr
 	}
 
 	/**
-	 * This function shuffles (randomizes the order of the elements in) an array.
+	 * Randomizes an order of the elements in a given array.
+	 * An alias for PHP's shuffle() function.
 	 *
-	 * @param  array $array
+	 * @param  array $array  The input array.
 	 * @return array
 	 */
 	public static function shuffle(array $array) : array
