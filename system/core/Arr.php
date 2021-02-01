@@ -1884,10 +1884,10 @@ class Arr
 	}
 
 	/**
-	 * Method to determine if the input data is a dataset or not.
+	 * Determines if the input data is a dataset (array of arrays) or not.
 	 *
 	 * @param  mixed $data  The data to check.
-	 * @return bool         True if the data is a recordset.
+	 * @return bool         Returns true if the data is a dataset.
 	 */
 	public static function isDataset($data) : bool
 	{
