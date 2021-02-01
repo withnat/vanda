@@ -2356,18 +2356,18 @@ class Arr
 	}
 
 	/**
-	 * Converts the given array to a dataset (array of arrays).
+	 * Converts the given data to a dataset (array of arrays).
 	 *
 	 * For example,
 	 *
 	 * ```php
-	 * $array = [
+	 * $data = [
 	 *     'name' => 'Nat',
 	 *     'surname' => 'Withe',
 	 *     'job' => 'Web Developer'
 	 * ];
 	 *
-	 * $result = Arr::toDataset($array);
+	 * $result = Arr::toDataset($data);
 	 * // The $result will be:
 	 * // Array
 	 * // (
@@ -2403,8 +2403,33 @@ class Arr
 	}
 
 	/**
-	 * @param  mixed $data
-	 * @return array
+	 * Converts the given data to a dataset (array of arrays).
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $data = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => 'Web Developer'
+	 * ];
+	 *
+	 * $result = Arr::toRecordset($data);
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => stdClass Object
+	 * //         (
+	 * //             [name] => Nat
+	 * //             [surname] => Withe
+	 * //             [job] => Web Developer
+	 * //         )
+	 * //
+	 * // )
+	 * ```
+	 *
+	 * @param  mixed $data  The input data.
+	 * @return array        Returns the recordset (array of objects) converted from the given data.
 	 */
 	public static function toRecordset($data) : array
 	{
