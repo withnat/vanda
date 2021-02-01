@@ -2022,14 +2022,12 @@ class Arr
 	 * $data->job = 'Web Developer';
 	 * $data->salary = 10000;
 	 *
-	 * $result = Arr::fromObject($data);
+	 * $result = Arr::fromObject($data, true, 'name,surname');
 	 * // The $result will be:
 	 * // Array
 	 * // (
 	 * //     [name] => Nat
 	 * //     [surname] => Withe
-	 * //     [job] => Web Developer
-	 * //     [salary] => 10000
 	 * // )
 	 * ```
 	 *
