@@ -1927,7 +1927,7 @@ class Arr
 	}
 
 	/**
-	 * Determines if the input data is a dataset (array of objects) or not.
+	 * Determines if the input data is a recordset (array of objects) or not.
 	 *
 	 * @param  mixed $data  The input  data to check.
 	 * @return bool         Returns true if the given data is a recordset, false otherwise.
@@ -2201,7 +2201,7 @@ class Arr
 	 * @param  string            $class      Name of the class to create. Default to stdClass.
 	 * @param  bool              $recursive  True to recurve through multi-level arrays. Default to true.
 	 * @param  string|array|null $keys       An optional field names. Only be used in top level elements.
-	 * @return object                        The object mapped from the given array.
+	 * @return object                        Returns the object mapped from the given array.
 	 */
 	public static function toObject(array $array, string $class = 'stdClass', bool $recursive = true, $keys = null) : object
 	{
@@ -2282,7 +2282,7 @@ class Arr
 	 * @param  string                $valueDelimiter  Value delimiter.
 	 * @param  bool                  $recursive       True to recurve through multi-level arrays. Default to true.
 	 * @param  string|int|array|null $keys            An optional field names. Only be used in top level elements.
-	 * @return string                                 The string mapped from the given array.
+	 * @return string                                 Returns the string mapped from the given array.
 	 */
 	public static function toString(array $array, string $innerGlue = '=', string $outerGlue = ' ', string $valueDelimiter = '"', bool $recursive = true, $keys = null) : string
 	{
@@ -2327,7 +2327,7 @@ class Arr
 	}
 
 	/**
-	 * Converts the given array into a query string.
+	 * Converts the given array to a query string.
 	 *
 	 * For example,
 	 *
@@ -2343,7 +2343,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array  $array  The input array.
-	 * @return string         The converted string.
+	 * @return string         Returns the converted string.
 	 */
 	public static function toQueryString(array $array) : string
 	{
@@ -2356,8 +2356,33 @@ class Arr
 	}
 
 	/**
-	 * @param  mixed $data
-	 * @return array
+	 * Converts the given array to a dataset (array of arrays).
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => 'Web Developer'
+	 * ];
+	 *
+	 * $result = Arr::toDataset($array);
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => Array
+	 * //         (
+	 * //             [name] => Nat
+	 * //             [surname] => Withe
+	 * //             [job] => Web Developer
+	 * //         )
+	 * //
+	 * // )
+	 * ```
+	 *
+	 * @param  mixed $data  The input data.
+	 * @return array        Returns the dataset (array of arrays) converted from the given data.
 	 */
 	public static function toDataset($data) : array
 	{
