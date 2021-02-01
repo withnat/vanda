@@ -2261,7 +2261,20 @@ class Arr
 	}
 
 	/**
-	 * Utility function to map an array to a string.
+	 * Maps the given array to a string.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => 'Web Developer'
+	 * ];
+	 *
+	 * $result = Arr::toString($array);
+	 * // The $result will be: name="Nat" surname="Withe" job="Web Developer"
+	 * ```
 	 *
 	 * @param  array                 $array           The array to map.
 	 * @param  string                $innerGlue       The glue (optional, defaults to '=') between the key and the value.
