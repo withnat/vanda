@@ -1535,7 +1535,7 @@ class Arr
 	 *
 	 * @param  array  $array      The input array.
 	 * @param  string $direction  Direction to sort in, 'asc' (ascending) or 'desc' (descending). Default to 'asc'.
-	 * @param  bool   $recursive  True to recurve through multi-level arrays.
+	 * @param  bool   $recursive  True to recurve through multi-level arrays. Default to true.
 	 * @return array              Return the sorted array by values.
 	 */
 	public static function sort(array $array, string $direction = 'asc', bool $recursive = true) : array
@@ -1590,7 +1590,7 @@ class Arr
 	 *
 	 * @param  array  $array      The input array.
 	 * @param  string $direction  Direction to sort in, 'asc' (ascending) or 'desc' (descending). Default to 'asc'.
-	 * @param  bool   $recursive  True to recurve through multi-level arrays.
+	 * @param  bool   $recursive  True to recurve through multi-level arrays. Default to true.
 	 * @return array              Return the sorted array by keys.
 	 */
 	public static function sortKey(array $array, string $direction = 'asc', bool $recursive = true) : array
@@ -2032,7 +2032,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  object             $data       The source object.
-	 * @param  bool               $recursive  True to recurve through multi-level objects.
+	 * @param  bool               $recursive  True to recurve through multi-level objects. Default to true.
 	 * @param  string|array|null  $keys       An optional field names. Only be used in top level elements.
 	 * @return array                          Returns the array mapped from the given object.
 	 */
@@ -2123,7 +2123,7 @@ class Arr
 	 * Converts the given data to an array.
 	 *
 	 * @param  mixed                 $data       The source data.
-	 * @param  bool                  $recursive  True to recurve through multi-level arrays or objects.
+	 * @param  bool                  $recursive  True to recurve through multi-level arrays or objects. Default to true.
 	 * @param  string|int|array|null $keys       An optional field names. Only be used in top level elements.
 	 * @return array                             Returns the array mapped from the given data.
 	 */
@@ -2177,11 +2177,29 @@ class Arr
 	}
 
 	/**
-	 * Utility function to map an array to a stdClass object.
+	 * Maps the given array to an object.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => 'Web Developer'
+	 * ];
+	 *
+	 * $result = Arr::toObject($array, 'stdClass', true, 'name,surname');
+	 * // The $result will be:
+	 * // stdClass Object
+	 * // (
+	 * //     [name] => Nat
+	 * //     [surname] => Withe
+	 * // )
+	 * ```
 	 *
 	 * @param  array             $array      The array to map.
-	 * @param  string            $class      Name of the class to create.
-	 * @param  bool              $recursive  True to recurve through multi-level arrays.
+	 * @param  string            $class      Name of the class to create. Default to stdClass.
+	 * @param  bool              $recursive  True to recurve through multi-level arrays. Default to true.
 	 * @param  string|array|null $keys       An optional field names. Only be used in top level elements.
 	 * @return object                        The object mapped from the given array.
 	 */
@@ -2249,7 +2267,7 @@ class Arr
 	 * @param  string                $innerGlue       The glue (optional, defaults to '=') between the key and the value.
 	 * @param  string                $outerGlue       The glue (optional, defaults to ' ') between array elements.
 	 * @param  string                $valueDelimiter  Value delimiter.
-	 * @param  bool                  $recursive       True to recurve through multi-level arrays.
+	 * @param  bool                  $recursive       True to recurve through multi-level arrays. Default to true.
 	 * @param  string|int|array|null $keys            An optional field names. Only be used in top level elements.
 	 * @return string                                 The string mapped from the given array.
 	 */
@@ -2428,7 +2446,7 @@ class Arr
 	 * Removes duplicate values from an array.
 	 *
 	 * @param  array $array
-	 * @param  bool  $recursive  True to recurve through multi-level arrays.
+	 * @param  bool  $recursive  True to recurve through multi-level arrays. Default to true.
 	 * @param  bool  $reindex    In case of $array is not an associative.
 	 * @return array
 	 */
