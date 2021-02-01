@@ -1206,6 +1206,8 @@ class Arr
 	 * Determines if a given value exists in a given array.
 	 * An alias for PHP's in_array() function because in_array() returns true if $search is 0.
 	 *
+	 * For exameple,
+	 *
 	 * ```php
 	 * $array = [
 	 *     'foo',
@@ -1255,6 +1257,8 @@ class Arr
 
 	/**
 	 * Determines if any given value exists in a given array.
+	 *
+	 * For example,
 	 *
 	 * ```php
 	 * $array = [
@@ -2007,12 +2011,32 @@ class Arr
 	}
 
 	/**
-	 * Utility function to map an object to an array.
+	 * Maps an object to an array.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $data = new stdClass();
+	 * $data->name = 'Nat';
+	 * $data->surname = 'Withe';
+	 * $data->job = 'Web Developer';
+	 * $data->salary = 10000;
+	 *
+	 * $result = Arr::fromObject($data);
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [name] => Nat
+	 * //     [surname] => Withe
+	 * //     [job] => Web Developer
+	 * //     [salary] => 10000
+	 * // )
+	 * ```
 	 *
 	 * @param  object             $data       The source object.
 	 * @param  bool               $recursive  True to recurve through multi-level objects.
 	 * @param  string|array|null  $keys       An optional field names. Only be used in top level elements.
-	 * @return array                          The array mapped from the given object.
+	 * @return array                          Returns the array mapped from the given object.
 	 */
 	public static function fromObject(object $data, bool $recursive = true, $keys = null) : array
 	{
