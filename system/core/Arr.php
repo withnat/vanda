@@ -1841,9 +1841,32 @@ class Arr
 	 * The Arr::dot method flattens a multi-dimensional array into
 	 * a single level array that uses "dot" notation to indicate depth.
 	 *
-	 * @param  array  $array
-	 * @param  string $prepend
-	 * @return array
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'name' => 'Nat',
+	 *     'surname' => 'Withe',
+	 *     'job' => [
+	 *         'position' => 'Web Developer',
+	 *         'salary' => 10000
+	 *     ]
+	 * ];
+	 *
+	 * $result = Arr::dot($array);
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [name] => Nat
+	 * //     [surname] => Withe
+	 * //     [job.position] => Web Developer
+	 * //     [job.salary] => 10000
+	 * // )
+	 * ```
+	 *
+	 * @param  array  $array    A multi-dimensional array.
+	 * @param  string $prepend  The character to prepend in front of the key name.
+	 * @return array            Returns the converted array.
 	 */
 	public static function dot(array $array, string $prepend = '') : array
 	{
