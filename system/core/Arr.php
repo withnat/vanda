@@ -1979,10 +1979,10 @@ class Arr
 	}
 
 	/**
-	 * Method to determine if the input data is a multi-dimensional array or not.
+	 * Determines if the input data is a multi-dimensional array or not.
 	 *
-	 * @param  mixed $data  The data to check.
-	 * @return bool         True if the data is multi-dimensional array.
+	 * @param  mixed $data  The input data to check.
+	 * @return bool         Returns true if the given data is a multi-dimensional array, false otherwise.
 	 */
 	public static function isMultidimensional($data) : bool
 	{
