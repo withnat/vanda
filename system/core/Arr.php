@@ -2120,12 +2120,12 @@ class Arr
 	}
 
 	/**
-	 * Utility function to convert the given data to an array.
+	 * Converts the given data to an array.
 	 *
 	 * @param  mixed                 $data       The source data.
 	 * @param  bool                  $recursive  True to recurve through multi-level arrays or objects.
 	 * @param  string|int|array|null $keys       An optional field names. Only be used in top level elements.
-	 * @return array                             The array mapped from the given object.
+	 * @return array                             Returns the array mapped from the given data.
 	 */
 	public static function toArray($data, bool $recursive = true, $keys = null) : array
 	{
