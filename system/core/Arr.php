@@ -1611,7 +1611,7 @@ class Arr
 	 * For example,
 	 *
 	 * ```php
-	 * $array = [
+	 * $dataset = [
 	 *     [
 	 *         'name' => 'Nat',
 	 *         'surname' => 'Withe',
@@ -1632,7 +1632,7 @@ class Arr
 	 *     ]
 	 * ];
 	 *
-	 * $result = Arr::sortDataset($array, 'name', 'desc');
+	 * $result = Arr::sortDataset($dataset, 'name', 'desc');
 	 * // The $result will be:
 	 * // Array
 	 * // (
@@ -1700,9 +1700,71 @@ class Arr
 	/**
 	 * Utility function to sort an array of objects (recordset) on a given field.
 	 *
+	 * Sorts an array of arrays (dataset) on a given column name.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $recordset = [];
+	 *
+	 * $data = new stdClass();
+	 * $data->name = 'Nat';
+	 * $data->surname = 'Withe';
+	 * $data->job = 'Web Developer';
+	 * $data->salary = 10000;
+	 *
+	 * $recordset[] = $data;
+	 *
+	 * $data = new stdClass();
+	 * $data->name = 'Emma';
+	 * $data->surname = 'McCormick';
+	 * $data->job = 'Staff';
+	 * $data->salary = 8000;
+	 *
+	 * $recordset[] = $data;
+	 *
+	 * $data = new stdClass();
+	 * $data->name = 'Angela';
+	 * $data->surname = 'SG';
+	 * $data->job = 'Marketing Director';
+	 * $data->salary = 10000;
+	 *
+	 * $recordset[] = $data;
+	 *
+	 * $result = Arr::sortRecordset($recordset, 'name', 'desc');
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => stdClass Object
+	 * //         (
+	 * //             [name] => Nat
+	 * //             [surname] => Withe
+	 * //             [job] => Web Developer
+	 * //             [salary] => 10000
+	 * //         )
+	 * //
+	 * //     [1] => stdClass Object
+	 * //         (
+	 * //             [name] => Emma
+	 * //             [surname] => McCormick
+	 * //             [job] => Staff
+	 * //             [salary] => 8000
+	 * //         )
+	 * //
+	 * //     [2] => stdClass Object
+	 * //         (
+	 * //             [name] => Angela
+	 * //             [surname] => SG
+	 * //             [job] => Marketing Director
+	 * //             [salary] => 10000
+	 * //         )
+	 * //
+	 * // )
+	 * ```
+	 *
 	 * @param  array  $recordset  An array of objects (recordset).
-	 * @param  string $key        The key to sort on.
-	 * @param  string $direction  Direction to sort in [asc = Ascending] [desc = Descending].
+	 * @param  string $key        The column name to sort on.
+	 * @param  string $direction  Direction to sort in, 'asc' (ascending) or 'desc' (descending). Default to 'asc'.
 	 * @return array              The sorted array of objects (recordset).
 	 */
 	public static function sortRecordset(array $recordset, string $key, string $direction = 'asc') : array
