@@ -1480,7 +1480,7 @@ class Arr
 	}
 
 	/**
-	 * Random Element Key - Takes an array as input and returns a random element key.
+	 * Returns a random element key.
 	 *
 	 * @param  array      $array  The array to random key.
 	 * @return int|string         Depends on type of index.
