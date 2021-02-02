@@ -31,10 +31,10 @@ final class Inflector
 	private function __construct(){}
 
 	/**
-	 * Checks if the given word has a plural version.
+	 * Determines if the given word has a plural version.
 	 *
-	 * @param  string $word  Word to check.
-	 * @return bool
+	 * @param  string $word  The input Word to check.
+	 * @return bool          Returns true if the given word has a plural version.
 	 */
 	public static function isCountableWord(string $word) : bool
 	{
@@ -51,8 +51,8 @@ final class Inflector
 	/**
 	 * Takes a singular word and makes it plural.
 	 *
-	 * @param  string $string  Input string to pluralize.
-	 * @return string          Plural noun.
+	 * @param  string $string  The input string to pluralize.
+	 * @return string          Return a plural noun.
 	 * @see https://www.phpliveregex.com/
 	 */
 	public static function pluralize(string $string) : string
@@ -119,8 +119,8 @@ final class Inflector
 	/**
 	 * Takes a plural word and makes it singular.
 	 *
-	 * @param  string $string  Input string to singularize.
-	 * @return string          Singular noun.
+	 * @param  string $string  The input string to singularize.
+	 * @return string          Returns a singular noun.
 	 * @see https://www.phpliveregex.com/
 	 */
 	public static function singularize(string $string) : string
@@ -181,14 +181,14 @@ final class Inflector
 	}
 
 	/**
-	 * Returns given word as CamelCased.
+	 * Converts the given word to CamelCased.
 	 *
 	 * Converts a word like "some_day" or "some day" to "SomeDay". It
 	 * will remove non alphanumeric characters from the word, so
-	 * "She's hot" will be converted to "SheSHot"
+	 * "She's hot" will be converted to "SheSHot".
 	 *
-	 * @param  string $string  Input string to convert to camel case.
-	 * @return string          UpperCamelCasedWord
+	 * @param  string $string  The input string to convert to camel case.
+	 * @return string          Returns the UpperCamelCased word.
 	 */
 	public static function camelize(string $string) : string
 	{
@@ -202,10 +202,10 @@ final class Inflector
 	}
 
 	/**
-	 * Convert any "CamelCased" or "vanda framework" into an "vanda_framework".
+	 * Converts any "CamelCased" or "vanda framework" to an "vanda_framework".
 	 *
-	 * @param  string $string  Word to underscore.
-	 * @return string          Underscored word.
+	 * @param  string $string  The input word to underscore.
+	 * @return string          Returns the underscored word.
 	 */
 	public static function underscore(string $string) : string
 	{
@@ -216,15 +216,15 @@ final class Inflector
 	}
 
 	/**
-	 * Convert any "CamelCased" word into an array of strings.
+	 * Converts any "CamelCased" word to an array of strings.
 	 *
 	 * Returns an array of strings each of which is a substring of string formed
 	 * by splitting it at the camelcased letters.
 	 *
 	 * e.g., "FooBar" to ["foo", "bar"]
 	 *
-	 * @param  string $string  Word to explode.
-	 * @return array           Array of strings.
+	 * @param  string $string  The input word to explode.
+	 * @return array           Returns an array of strings.
 	 */
 	public static function explode(string $string) : array
 	{
@@ -234,12 +234,12 @@ final class Inflector
 	}
 
 	/**
-	 * Convert an array of strings into a "CamelCased" word.
+	 * Converts the given array of strings to a "CamelCased" word.
 	 *
 	 * e.g., ["foo", "bar"] to "FooBar"
 	 *
-	 * @param  array  $string  Array to implode.
-	 * @return string          UpperCamelCasedWord.
+	 * @param  array  $string  The input qrray to implode.
+	 * @return string          Returns UpperCamelCased word.
 	 */
 	public static function implode(array $string) : string
 	{
@@ -249,17 +249,14 @@ final class Inflector
 	}
 
 	/**
-	 * Returns a human-readable string from $word.
-	 *
-	 * Returns a human-readable string from $word, by replacing
-	 * the separator with a space, and by upper-casing the initial
-	 * character by default.
+	 * Returns a human-readable string from the given string by replacing the
+	 * separator with a space, and by upper-casing the initial character by default.
 	 *
 	 * e.g., "I had my car fixed_yesTerday" to "I Had My Car Fixed Yesterday".
 	 *
-	 * @param  string $string     Input string.
-	 * @param  string $separator  Input separator.
-	 * @return string             Human-readable word.
+	 * @param  string $string     The input string.
+	 * @param  string $separator  Optionally, the input separator. Defaults to '_''.
+	 * @return string             Returns human-readable word.
 	 */
 	public static function humanize(string $string, string $separator = '_') : string
 	{
@@ -277,8 +274,8 @@ final class Inflector
 	 * "Some Day" or "some_day" to "someDay"
 	 * "She's hot" to "sheSHot"
 	 *
-	 * @param  string $string  String to be camelBacked.
-	 * @return string
+	 * @param  string $string  The input string being camelBacked.
+	 * @return string          Returns camelBacked word.
 	 */
 	public static function variablize(string $string) : string
 	{
@@ -290,12 +287,12 @@ final class Inflector
 	}
 
 	/**
-	 * Gets the foreign key for a given class, model or table name.
+	 * Converts the given string (class, model or table name) to a foreign key format.
 	 *
 	 * e.g., "UserGroup" to "userGroupId"
 	 *
-	 * @param  string $string  The class, model or table name.
-	 * @return string          The foreign key.
+	 * @param  string $string  The input string (class, model or table name).
+	 * @return string          Returns a foreign key.
 	 */
 	public static function foreignKey(string $string) : string
 	{
@@ -311,16 +308,15 @@ final class Inflector
 	/**
 	 * Create URL Title.
 	 *
-	 * Takes a "title" string as input and creates a
-	 * human-friendly URL string with a "separator" string
-	 * as the word separator.
+	 * Takes a "title" string as input and creates a human-friendly URL string
+	 * with a "separator" string as the word separator.
 	 *
 	 * e.g., "Url Friendly" to "url-friendly"
 	 *
-	 * @param  string $string     Input string.
-	 * @param  string $separator  Word separator (usually '-' or '_').
-	 * @param  bool   $lowercase  Whether to transform the output string to lowercase.
-	 * @return string
+	 * @param  string $string     The input string.
+	 * @param  string $separator  Optionally, word separator (usually '-' or '_'). Defaults to '-'.
+	 * @param  bool   $lowercase  Optionally, Whether to transform the output string to lowercase. Defaults to true.
+	 * @return string             Returns a human-friendly URL string.
 	 */
 	public static function slugify(string $string, string $separator = '-', bool $lowercase = true) : string
 	{
@@ -357,8 +353,8 @@ final class Inflector
 	 * 4 to "4th"
 	 * 5 to "5th"
 	 *
-	 * @param  int    $number  The number to get its ordinal value.
-	 * @return string          The ordinalized version of $number.
+	 * @param  int    $number  The input number to get its ordinal value.
+	 * @return string          Returns the ordinalized version of $number.
 	 */
 	public static function ordinalize(int $number) : string
 	{
@@ -384,7 +380,7 @@ final class Inflector
 	}
 
 	/**
-	 * Converts a string into a Vanda Controller format.
+	 * Converts the given string into a Vanda Controller format.
 	 *
 	 * e.g.,
 	 *
@@ -392,8 +388,8 @@ final class Inflector
 	 * "some_day" to "SomeDayController"
 	 * "She's hot" to "SheSHotController"
 	 *
-	 * @param  string $string
-	 * @return string
+	 * @param  string $string  The input string.
+	 * @return string          Returns the converted string.
 	 */
 	public static function controllerize(string $string) : string
 	{
@@ -403,7 +399,7 @@ final class Inflector
 	}
 
 	/**
-	 * Converts a string into a Vanda Action format.
+	 * Converts the given string into a Vanda Action format.
 	 *
 	 * e.g.,
 	 *
@@ -411,8 +407,8 @@ final class Inflector
 	 * "some_day" to "SomeDayAction"
 	 * "She's hot" to "SheSHotAction"
 	 *
-	 * @param  string $string
-	 * @return string
+	 * @param  string $string  The input string.
+	 * @return string          Returns the converted string.
 	 */
 	public static function actionize(string $string) : string
 	{
@@ -422,9 +418,10 @@ final class Inflector
 	}
 
 	/**
-	 * Converts a list of words into a sentence.
+	 * Converts a list of words into a sentence. Special treatment is done for
+	 * the last few words.
 	 *
-	 * Special treatment is done for the last few words. For example,
+	 * For example,
 	 *
 	 * ```php
 	 * $words = ['Nat', 'Angela'];
@@ -440,10 +437,11 @@ final class Inflector
 	 * // output: Nat, Angela & Vanda
 	 * ```
 	 *
-	 * @param  array       $words              The words to be converted into an string.
-	 * @param  string|null $lastWordConnector  The string connecting the last two words.
-	 * @param  string      $connector          The string connecting words other than those connected by $lastWordConnector.
-	 * @return string                          The generated sentence.
+	 * @param  array       $words              The input words to be converted into an string.
+	 * @param  string|null $lastWordConnector  Optionally, the string connecting the last two words. Defaults to null.
+	 * @param  string      $connector          Optionally, the string connecting words other than those connected by
+	 *                                         $lastWordConnector. Default to ', '.
+	 * @return string                          Returns the generated sentence.
 	 */
 	public static function sentence(array $words, string $lastWordConnector = null, string $connector = ', ') : string
 	{

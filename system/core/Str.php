@@ -42,8 +42,8 @@ class Str
 	 * Gets the character encoding. If it is omitted or null, the internal
 	 * character encoding value will be used.
 	 *
-	 * @param  string|null $encoding  The character encoding can be overwritten.
-	 * @return string
+	 * @param  string|null $encoding  Optionally, the character encoding can be overwritten. Defaults to null.
+	 * @return string                 Returns the character encoding.
 	 */
 	private static function _getEncoding(string $encoding = null) : string
 	{
@@ -64,6 +64,7 @@ class Str
 
 	/**
 	 * Returns the length of the given string.
+	 *
 	 * An alias for PHP's mb_strlen() function.
 	 *
 	 * For example,
@@ -76,8 +77,8 @@ class Str
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
-	 * @return int                    The length of the string on success, and 0 if the string is empty.
+	 *                                character encoding value will be used. Defaults to null.
+	 * @return int                    Returns the length of the string on success, and 0 if the string is empty.
 	 */
 	public static function length(string $string, string $encoding = null) : int
 	{
@@ -104,10 +105,10 @@ class Str
 	 *
 	 * @param  string      $string         The string being counted on.
 	 * @param  string      $substring      The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
-	 * @return int                         The number of $substring occurrences.
+	 *                                     character encoding value will be used. Defaults to null.
+	 * @return int                         Returns the number of $substring occurrences.
 	 */
 	public static function count(string $string, string $substring, bool $caseSensitive = true, string $encoding = null) : int
 	{
@@ -163,9 +164,9 @@ class Str
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
-	 * @param  int         $length    The length of character to return. Defaults to 1.
+	 * @param  int         $length    Optionally, the length of character to return. Defaults to 1.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string
 	 */
 	public static function left(string $string, int $length = 1, string $encoding = null) : string
@@ -192,9 +193,9 @@ class Str
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
-	 * @param  int         $length    The length of character to return. Defaults to 1.
+	 * @param  int         $length    Optionally, the length of character to return. Defaults to 1.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string
 	 */
 	public static function right(string $string, int $length = 1, string $encoding = null) : string
@@ -227,7 +228,7 @@ class Str
 	 * @param  string      $string    The input string.
 	 * @param  int         $index     The location of a character in the given string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string
 	 */
 	public static function at(string $string, int $index, string $encoding = null) : string
@@ -264,9 +265,10 @@ class Str
 	 *
 	 * @param  string      $string    The string to slice.
 	 * @param  int         $start     Specifies where to start in the string.
-	 * @param  int|null    $length    Specifies the length of the returned string. Default is to the end of the string.
+	 * @param  int|null    $length    Optionally, specifies the length of the returned string. Default is to the end of
+	 *                                the string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string
 	 */
 	public static function slice(string $string, int $start, int $length = null, string $encoding = null) : string
@@ -295,10 +297,10 @@ class Str
 	 *
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $length    How many characters from original string to include into truncated string.
-	 * @param  string      $suffix    String to append to the end of the truncated string. Default is '...'
+	 * @param  string      $suffix    Optionally, string to append to the end of the truncated string. Default is '...'.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
-	 * @return string                 The truncated string.
+	 *                                character encoding value will be used. Defaults to null.
+	 * @return string                 Returns the truncated string.
 	 * @see    https://en.wikipedia.org/wiki/Escape_character
 	 */
 	public static function limit(string $string, int $length, string $suffix = '...', string $encoding = null) : string
@@ -357,10 +359,10 @@ class Str
 	 *
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $words     How many words from original string to include into truncated string.
-	 * @param  string      $suffix    String to append to the end of truncated string. Default is '...'
+	 * @param  string      $suffix    Optionally, string to append to the end of truncated string. Default is '...'.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
-	 * @return string                 The truncated string.
+	 *                                character encoding value will be used. Defaults to null.
+	 * @return string                 Returns the truncated string.
 	 */
 	public static function limitWords(string $string, int $words, string $suffix = '...', string $encoding = null) : string
 	{
@@ -398,11 +400,11 @@ class Str
 	 *
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
-	 * @param  int         $start     Specifies where to begin the search. If start is a negative number, it counts from
-	 *                                the end of the string. Defaults to 0.
+	 * @param  int         $start     Optionally, specifies where to begin the search. If start is a negative number,
+	 *                                it counts from the end of the string. Defaults to 0.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
-	 * @return int|false              The first occurrence's index if found, otherwise false.
+	 *                                character encoding value will be used. Defaults to null.
+	 * @return int|false              Returns the first occurrence's index if found, otherwise false.
 	 */
 	public static function position(string $string, string $search, int $start = 0, string $encoding = null)
 	{
@@ -430,11 +432,11 @@ class Str
 	 *
 	 * @param  string      $string    The string being checked.
 	 * @param  string      $search    Substring to look for.
-	 * @param  int         $start    Specifies where to begin the search. If start is a negative number, it counts from
-	 *                                the end of the string. Defaults to 0.
+	 * @param  int         $start     Optionally, specifies where to begin the search. If start is a negative number,
+	 *                                it counts from the end of the string. Defaults to 0.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
-	 * @return int|false              The last occurrence's index if found, otherwise false.
+	 *                                character encoding value will be used. Defaults to null.
+	 * @return int|false              Returns the last occurrence's index if found, otherwise false.
 	 */
 	public static function lastPosition(string $string, string $search, int $start = 0, string $encoding = null)
 	{
@@ -462,10 +464,10 @@ class Str
 	 * @param  string      $string    The input string.
 	 * @param  string      $start     The start of the substring.
 	 * @param  string      $end       The end of the substring.
-	 * @param  int         $offset    Offset from which to search. Defaults to 0.
+	 * @param  int         $offset    Optionally, offset from which to search. Defaults to 0.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
-	 * @return string                 A substring between $start and $end.
+	 *                                character encoding value will be used. Defaults to null.
+	 * @return string                 Returns a substring between $start and $end.
 	 */
 	public static function between(string $string, string $start, string $end, int $offset = 0, string $encoding = null) : string
 	{
@@ -493,7 +495,8 @@ class Str
 
 	/**
 	 * Strips whitespace (or other characters) from the beginning and end of a string.
-	 * Built-in PHP function trim() does not allow $characterMask to number.
+	 *
+	 * (Built-in PHP function trim() does not allow $characterMask to number.)
 	 *
 	 * If $characterMask is null, returns a string with whitespace stripped from the beginning of $string.
 	 * If $characterMask is string, returns a string with characters stripped from the beginning of $string.
@@ -517,7 +520,7 @@ class Str
 	 * @param  string          $string         The string that will be striped.
 	 * @param  string|int|null $characterMask  Optionally, the stripped characters can also be specified.
 	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the
-	 *                                         internal character encoding value will be used.
+	 *                                         internal character encoding value will be used. Defaults to null.
 	 * @return string                          Returns a string with whitespace stripped from the beginning and end of
 	 *                                         the given string depends on $characterMask data type.
 	 */
@@ -565,7 +568,7 @@ class Str
 	 * @param  string          $string         The string that will be striped from the beginning of a string.
 	 * @param  string|int|null $characterMask  Optionally, the stripped characters can also be specified.
 	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the
-	 *                                         internal character encoding value will be used.
+	 *                                         internal character encoding value will be used. Defaults to null.
 	 * @return string                          Returns a string with whitespace stripped from the beginning of the given
 	 *                                         string depends on $characterMask data type.
 	 */
@@ -618,7 +621,7 @@ class Str
 	 * @param  string          $string         The string that will be striped from the end of a string.
 	 * @param  string|int|null $characterMask  Optionally, the stripped characters can also be specified.
 	 * @param  string|null     $encoding       Optionally, the character encoding. If it is omitted or null, the
-	 *                                         internal character encoding value will be used.
+	 *                                         internal character encoding value will be used. Defaults to null.
 	 * @return string                          Returns a string with whitespace stripped from the end of the given
 	 *                                         string depends on $characterMask data type.
 	 */
@@ -692,7 +695,6 @@ class Str
 	 *
 	 * @param  string $string  The input string.
 	 * @return string          Returns a string with backslashes stripped off.
-	 *                         Double backslash (\\) becomes a single backslash (\). \' becomes '
 	 */
 	public static function stripSlashes(string $string) : string
 	{
@@ -703,6 +705,7 @@ class Str
 
 	/**
 	 * Converts all applicable characters to HTML entities.
+	 *
 	 * An alias for PHP's htmlspecialchars() function.
 	 *
 	 * It’s generally recommended to use htmlspecialchars
@@ -717,7 +720,7 @@ class Str
 	 * ```
 	 *
 	 * @param  string $string  The string being converted.
-	 * @return string          The converted string.
+	 * @return string          Returns the converted string.
 	 */
 	public static function htmlEncode(string $string) : string
 	{
@@ -735,6 +738,7 @@ class Str
 
 	/**
 	 * Converts HTML entities to their corresponding characters.
+	 *
 	 * An alias for PHP's htmlspecialchars_decode() function.
 	 *
 	 * For example,
@@ -797,6 +801,7 @@ class Str
 
 	/**
 	 * Removes HTML and PHP tags from a string.
+	 *
 	 * An alias for PHP's strip_tags() function.
 	 *
 	 * For example,
@@ -857,8 +862,8 @@ class Str
 	 * @see    https://www.eso.org/~ndelmott/url_encode.html
 	 * @see    http://www.asciitable.com/
 	 * @param  string  $string      The input string.
-	 * @param  boolean $urlEncoded  If set to true, then remove every control character except horizontal tab (dec 09),
-	 *                              newline (dec 10) and carriage return (dec 13).
+	 * @param  boolean $urlEncoded  Optionally, if set to true, then remove every control character except horizontal
+	 *                              tab (dec 09), newline (dec 10) and carriage return (dec 13). Defaults to true.
 	 * @return string               Returns the string without invisible characters.
 	 */
 	public static function removeInvisibleCharacters(string $string, bool $urlEncoded = true): string
@@ -900,7 +905,7 @@ class Str
 	 * @param  string      $string     The string that will be striped from the beginning of a string.
 	 * @param  string      $substring  The stripped characters.
 	 * @param  string|null $encoding   Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                 character encoding value will be used.
+	 *                                 character encoding value will be used. Defaults to null.
 	 * @return string                  Returns a string with $substring stripped from the beginning of the given string.
 	 */
 	public static function removeLeft(string $string, string $substring, string $encoding = null) : string
@@ -933,7 +938,7 @@ class Str
 	 * @param  string      $string     The string that will be striped from the end of a string.
 	 * @param  string      $substring  The stripped characters.
 	 * @param  string|null $encoding   Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                 character encoding value will be used.
+	 *                                 character encoding value will be used. Defaults to null.
 	 * @return string                  Returns a string with $substring stripped from the end of the given string.
 	 */
 	public static function removeRight(string $string, string $substring, string $encoding = null) : string
@@ -965,7 +970,7 @@ class Str
 	 * ```
 	 *
 	 * @param  string $string  The input string.
-	 * @return string          A trimmed string and condensed whitespace.
+	 * @return string          Returns the trimmed string and condensed whitespace.
 	 */
 	public static function reduceDoubleSpaces(string $string) : string
 	{
@@ -1014,7 +1019,7 @@ class Str
 	 *
 	 * @param  string      $string    The string being lowercased.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns string with all alphabetic characters converted to lowercase.
 	 */
 	public static function lowerCase(string $string, string $encoding = null) : string
@@ -1040,7 +1045,7 @@ class Str
 	 *
 	 * @param  string      $string    The string being lowercased first alphabetic characters.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns string with first alphabetic character converted to lowercase.
 	 */
 	public static function lowerCaseFirst(string $string, string $encoding = null) : string
@@ -1069,7 +1074,7 @@ class Str
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns the modified string.
 	 */
 	public static function lowerCaseWords(string $string, string $encoding = null) : string
@@ -1098,7 +1103,7 @@ class Str
 	 *
 	 * @param  string      $string    The string being uppercased.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns string with all alphabetic characters converted to uppercase.
 	 */
 	public static function upperCase(string $string, string $encoding = null) : string
@@ -1124,7 +1129,7 @@ class Str
 	 *
 	 * @param  string      $string    The string being uppercased first alphabetic characters.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns string with first alphabetic character converted to uppercase.
 	 */
 	public static function upperCaseFirst(string $string, string $encoding = null) : string
@@ -1153,7 +1158,7 @@ class Str
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns the modified string.
 	 */
 	public static function upperCaseWords(string $string, string $encoding = null) : string
@@ -1168,6 +1173,7 @@ class Str
 
 	/**
 	 * Returns a repeated string given a multiplier.
+	 *
 	 * An alias for PHP's str_repeat() function.
 	 *
 	 * For example,
@@ -1181,7 +1187,7 @@ class Str
 	 *
 	 * @param  string $string      The string to repeat.
 	 * @param  int    $multiplier  The number of times to repeat the string.
-	 * @return string
+	 * @return string              Returns a repeated string.
 	 */
 	public static function repeat(string $string, int $multiplier) : string
 	{
@@ -1209,13 +1215,14 @@ class Str
 	 * ```
 	 *
 	 * @param  string       $string    The string being searched and replaced on.
-	 * @param  string|array $search    The value being searched for. An array may be used to designate multiple searches.
+	 * @param  string|array $search    The value being searched for. An array may be used to designate multiple
+	 *                                 searches.
 	 * @param  string|array $replace   The replacement value that replaces found search values. An array may be used to
 	 *                                 designate multiple replacements.
-	 * @param  int|null     $limit     The maximum possible replacements for each pattern in each subject string.
-	 *                                 Defaults to null (no limit).
+	 * @param  int|null     $limit     Optionally, the maximum possible replacements for each pattern in each subject
+	 *                                 string. Defaults to null (no limit).
 	 * @param  string|null  $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                 character encoding value will be used.
+	 *                                 character encoding value will be used. Defaults to null.
 	 * @return string                  Returns a string with the replaced values.
 	 */
 	public static function replace(string $string, $search, $replace, int $limit = null, string $encoding = null) : string
@@ -1266,7 +1273,7 @@ class Str
 	 * @param  string      $search    The value being searched for.
 	 * @param  string      $replace   The replacement value that replaces found search value.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns a string with the replaced value.
 	 */
 	public static function replaceFirst(string $string, string $search, string $replace, string $encoding = null) : string
@@ -1302,7 +1309,7 @@ class Str
 	 * @param  string      $search    The value being searched for.
 	 * @param  string      $replace   The replacement value that replaces found search value.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns a string with the replaced value.
 	 */
 	public static function replaceLast(string $string, string $search, string $replace, string $encoding = null) : string
@@ -1341,13 +1348,14 @@ class Str
 	 * ```
 	 *
 	 * @param  string       $string    The string being searched and replaced on.
-	 * @param  string|array $search    The value being searched for. An array may be used to designate multiple searches.
+	 * @param  string|array $search    The value being searched for. An array may be used to designate multiple
+	 *                                 searches.
 	 * @param  string|array $replace   The replacement value that replaces found search values. An array may be used to
 	 *                                 designate multiple replacements.
 	 * @param  int|null     $limit     The maximum possible replacements for each pattern in each subject string.
 	 *                                 Defaults to null (no limit).
 	 * @param  string|null  $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                 character encoding value will be used.
+	 *                                 character encoding value will be used. Defaults to null.
 	 * @return string                  Returns a string with the replaced values.
 	 */
 	public static function ireplace(string $string, $search, $replace, int $limit = null, string $encoding = null) : string
@@ -1395,7 +1403,7 @@ class Str
 	 * @param  string      $search    The value being searched for.
 	 * @param  string      $replace   The replacement value that replaces found search value.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns a string with the replaced value.
 	 */
 	public static function ireplaceFirst(string $string, string $search, string $replace, string $encoding = null) : string
@@ -1431,7 +1439,7 @@ class Str
 	 * @param  string      $search    The value being searched for.
 	 * @param  string      $replace   The replacement value that replaces found search value.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns a string with the replaced value.
 	 */
 	public static function ireplaceLast(string $string, string $search, string $replace, string $encoding = null) : string
@@ -1488,14 +1496,14 @@ class Str
 	 * @param  int         $start     If start is positive, the replacing will begin at the start'th offset into string.
 	 *                                If start is negative, the replacing will begin at the start'th character from the
 	 *                                end of string.
-	 * @param  int|null    $length    If given and is positive, it represents the length of the portion of string which
-	 *                                is to be replaced. If it is negative, it represents the number of characters from
-	 *                                the end of string at which to stop replacing. If it is not given, then it will
-	 *                                defaults to strlen( string ); i.e. end the replacing at the end of string.
-	 *                                Of course, if length is zero then this function will have the effect of inserting
-	 *                                replacement into string at the given start offset.
+	 * @param  int|null    $length    Optionally, if given and is positive, it represents the length of the portion of
+	 *                                string which is to be replaced. If it is negative, it represents the number of
+	 *                                characters from the end of string at which to stop replacing. If it is not given,
+	 *                                then it will defaults to strlen( string ); i.e. end the replacing at the end of
+	 *                                string. Of course, if length is zero then this function will have the effect of
+	 *                                inserting replacement into string at the given start offset.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns a string with the replaced value.
 	 */
 	public static function subreplace(string $string, string $replace, int $start, int $length = null, string $encoding = null) : string
@@ -1585,8 +1593,8 @@ class Str
 	 * ```
 	 *
 	 * @param  string      $string    The input string.
-	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal character
-	 *                                encoding value will be used.
+	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns a reversed string.
 	 */
 	public static function reverse(string $string, string $encoding = null) : string
@@ -1620,9 +1628,9 @@ class Str
 	 *
 	 * @param  string      $string         The string to search in.
 	 * @param  string      $prefix         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
+	 *                                     character encoding value will be used. Defaults to null.
 	 * @return bool                        Returns true if the given string begins with the given substring, false
 	 *                                     otherwise.
 	 */
@@ -1660,9 +1668,9 @@ class Str
 	 *
 	 * @param  string      $string         The string to search in.
 	 * @param  array       $prefixes       The substrings to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
+	 *                                     character encoding value will be used. Defaults to null.
 	 * @return bool                        Returns true if the given string begins with any given substring, false
 	 *                                     otherwise.
 	 */
@@ -1694,9 +1702,9 @@ class Str
 	 *
 	 * @param  string      $string         The string to search in.
 	 * @param  string      $suffix         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
+	 *                                     character encoding value will be used. Defaults to null.
 	 * @return bool                        Returns true if the given string ends with the given substring, false
 	 *                                     otherwise.
 	 */
@@ -1734,9 +1742,9 @@ class Str
 	 *
 	 * @param  string      $string         The string to search in.
 	 * @param  array       $suffixes       The substrings to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
+	 *                                     character encoding value will be used. Defaults to null.
 	 * @return bool                        Returns true if the given string ends with any given substring, false
 	 *                                     otherwise.
 	 */
@@ -1770,7 +1778,7 @@ class Str
 	 * @param  string      $string    The input tstring.
 	 * @param  string      $prefix    The value to search for at the beginning of the given string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns string with the given value at the beginning of the string.
 	 */
 	public static function ensureStartsWith(string $string, string $prefix, string $encoding = null) : string
@@ -1803,7 +1811,7 @@ class Str
 	 * @param  string      $string    The input string.
 	 * @param  string      $suffix    The value to search for at the end of the given string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns string with the given value at the end of the string.
 	 */
 	public static function ensureEndsWith(string $string, string $suffix, string $encoding = null) : string
@@ -1834,7 +1842,7 @@ class Str
 	 * @param  string      $string     The string being wrapped.
 	 * @param  string      $character  The character to search for in the given string.
 	 * @param  string|null $encoding   Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                 character encoding value will be used.
+	 *                                 character encoding value will be used. Defaults to null.
 	 * @return string                  Returns string with the given value at the beginning and end of the string.
 	 */
 	public static function wrap(string $string, string $character, string $encoding = null) : string
@@ -1870,9 +1878,9 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  string      $search         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
+	 *                                     character encoding value will be used. Defaults to null.
 	 * @return string                      Returns the remainder of the given string.
 	 */
 	public static function after(string $string, string $search, bool $caseSensitive = true, string $encoding = null) : string
@@ -1913,9 +1921,9 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  string      $search         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
+	 *                                     character encoding value will be used. Defaults to null.
 	 * @return string                      Returns the remainder of the given string.
 	 */
 	public static function afterLast(string $string, string $search, bool $caseSensitive = true, string $encoding = null) : string
@@ -1953,10 +1961,10 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  string      $search         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
-	 * @return string                      Returns the portion of the given string
+	 *                                     character encoding value will be used. Defaults to null.
+	 * @return string                      Returns the portion of the given string.
 	 */
 	public static function before(string $string, string $search, bool $caseSensitive = true, string $encoding = null) : string
 	{
@@ -1992,10 +2000,10 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  string      $search         The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
-	 * @return string                      Returns the portion of the given string
+	 *                                     character encoding value will be used. Defaults to null.
+	 * @return string                      Returns the portion of the given string.
 	 */
 	public static function beforeLast(string $string, string $search, bool $caseSensitive = true, string $encoding = null) : string
 	{
@@ -2036,9 +2044,10 @@ class Str
 	 *
 	 * @param  string $string    The input string.
 	 * @param  string $phrase    The phrase you would like to highlight.
-	 * @param  string $tagOpen   The opening tag to precede the phrase with.
-	 * @param  string $tagClose  The closing tag to end the phrase with.
-	 * @param  bool   $html      If true, will ignore any HTML tags, ensuring that only the correct text is highlighted.
+	 * @param  string $tagOpen   Optionally, the opening tag to precede the phrase with. Defaults to <mark>.
+	 * @param  string $tagClose  Optionally, the closing tag to end the phrase with. Defaults to </mark>.
+	 * @param  bool   $html      Optionally, if true, will ignore any HTML tags, ensuring that only the correct text is
+	 *                           highlighted. Defaults to true.
 	 * @return string            Returns a highlighted string.
 	 */
 	public static function highlight(string $string, string $phrase, string $tagOpen = '<mark>', string $tagClose = '</mark>', bool $html = true): string
@@ -2078,8 +2087,8 @@ class Str
 	 * ```
 	 *
 	 * @param  string $string     The input string.
-	 * @param  string $separator  What should the duplicate number be appended with.
-	 * @param  int    $first      Which number should be used for the first dupe increment.
+	 * @param  string $separator  Optionally, what should the duplicate number be appended with. Defaults to '_'.
+	 * @param  int    $first      Optionally, which number should be used for the first dupe increment. Defaults to 1.
 	 * @return string             Returns a string with number.
 	 */
 	public static function increment(string $string, string $separator = '_', int $first = 1) : string
@@ -2130,7 +2139,7 @@ class Str
 	 * ```
 	 *
 	 * @param  string $string     The input string.
-	 * @param  int    $tabLength  Number of spaces to replace with a tab.
+	 * @param  int    $tabLength  Optionally, number of spaces to replace with a tab. Defaults to 4.
 	 * @return string             Returns a string with the replaced tabs.
 	 */
 	public static function spaceToTab(string $string, int $tabLength = 4) : string
@@ -2152,7 +2161,7 @@ class Str
 	 * ```
 	 *
 	 * @param  string $string     The input string.
-	 * @param  int    $tabLength  Number of spaces to replace each tab with.
+	 * @param  int    $tabLength  Optionally, number of spaces to replace each tab with. Defaults to 4.
 	 * @return string             Returns a string with the replaced spaces.
 	 */
 	public static function tabToSpace(string $string, int $tabLength = 4) : string
@@ -2546,9 +2555,9 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  string      $substring      The substring to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
+	 *                                     character encoding value will be used. Defaults to null.
 	 * @return bool                        Returns true if the given substring is in the given string, false otherwise.
 	 */
 	public static function contains(string $string, string $substring, bool $caseSensitive = true, string $encoding = null) : bool
@@ -2580,9 +2589,9 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  array       $substrings     The substrings to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
+	 *                                     character encoding value will be used. Defaults to null.
 	 * @return bool                        Returns true if any given substring is in the given string, false
 	 *                                     otherwise.
 	 */
@@ -2617,9 +2626,9 @@ class Str
 	 *
 	 * @param  string      $string         The input string.
 	 * @param  array       $substrings     The substrings to search for in the given string.
-	 * @param  bool        $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool        $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @param  string|null $encoding       Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                     character encoding value will be used.
+	 *                                     character encoding value will be used. Defaults to null.
 	 * @return bool                        Returns true if all given substrings are in the given string, false
 	 *                                     otherwise.
 	 */
@@ -2708,7 +2717,7 @@ class Str
 	 *
 	 * @param  string      $string    The input string.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
-	 *                                character encoding value will be used.
+	 *                                character encoding value will be used. Defaults to null.
 	 * @return array                  Returns an array of string characters.
 	 */
 	public static function chars(string $string, string $encoding = null) : array
@@ -2834,7 +2843,7 @@ class Str
 	 *	nozero:  Numeric string with no zeros.
 	 *
 	 * @param  int    $length  The length of string to create.
-	 * @param  string $type    alnum|numeric|alpha|nozero
+	 * @param  string $type    Optionally, type of character to ramdom, alnum|numeric|alpha|nozero. Defaults to alnum.
 	 * @return string          Returns a random string.
 	 */
 	public static function random(int $length = 8, string $type = 'alnum') : string
@@ -2868,6 +2877,7 @@ class Str
 
 	/**
 	 * Encodes data with MIME base64.
+	 *
 	 * An alias for PHP's base64_encode() function.
 	 *
 	 * For example,
@@ -2889,6 +2899,7 @@ class Str
 
 	/**
 	 * Decodes data encoded with MIME base64.
+	 *
 	 * An alias for PHP's base64_decode() function.
 	 *
 	 * For example,

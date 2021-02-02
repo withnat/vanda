@@ -114,7 +114,7 @@ class Arr
 	 *
 	 * @param  array      $array    The input array.
 	 * @param  string|int $key      The searched key. If the key contains dot, it will access nested array.
-	 * @param  mixed      $default  Default value.
+	 * @param  mixed      $default  Optionally, the default value. Defaults to null.
 	 * @return mixed                Depends on what the given array contains.
 	 */
 	public static function get(array $array, $key, $default = null)
@@ -191,11 +191,11 @@ class Arr
 	 * ```
 	 *
 	 * @param  array    $array   The input array.
-	 * @param  int|null $length  Optional, the number of elements to return. If $length is 1, returns value depend on
+	 * @param  int|null $length  Optionally, the number of elements to return. If $length is 1, returns value depend on
 	 *                           what the given array contains. If $length is greater than 1, returns an array contains
 	 *                           the first $length elements. Defaults to null.
-	 * @return mixed             Returns the first $length elements from the given array if the given array is not empty,
-	 *                           null otherwise.
+	 * @return mixed             Returns the first $length elements from the given array if the given array is not
+	 *                           empty, null otherwise.
 	 */
 	public static function first(array $array, int $length = null)
 	{
@@ -240,7 +240,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array    $array   The input array.
-	 * @param  int|null $length  Optional, the number of elements to return. If $length is 1, returns value depend on
+	 * @param  int|null $length  Optionally, the number of elements to return. If $length is 1, returns value depend on
 	 *                           what the given array contains. If $length is greater than 1, returns an array contains
 	 *                           the last $length elements. Defaults to null.
 	 * @return mixed             Returns the last $length elements from the given array if the given array is not empty,
@@ -292,9 +292,9 @@ class Arr
 	 * ```
 	 *
 	 * @param  array    $array   The input array.
-	 * @param  int|null $length  Optional, the number of keys to return. If $length is 1, returns the first key from the
-	 *                           given array. If $length is greater than 1, returns an array contains the first $length
-	 *                           keys. Defaults to null.
+	 * @param  int|null $length  Optionally, the number of keys to return. If $length is 1, returns the first key from
+	 *                           the given array. If $length is greater than 1, returns an array contains the first
+	 *                           $length keys. Defaults to null.
 	 * @return mixed             Returns the first $length key from the given array if the given array is not empty,
 	 *                           null otherwise.
 	 */
@@ -372,11 +372,11 @@ class Arr
 	 * ```
 	 *
 	 * @param  array    $array   The input array.
-	 * @param  int|null $length  Optional, the number of keys to return. If $length is 1, returns the last key from the
-	 *                           given array. If $length is greater than 1, returns an array contains the last $length
-	 *                           keys. Defaults to null.
-	 * @return mixed             Returns the last $length key from the given array if the given array is not empty,
-	 *                           null otherwise.
+	 * @param  int|null $length  Optionally, the number of keys to return. If $length is 1, returns the last key from
+	 *                           the given array. If $length is greater than 1, returns an array contains the last
+	 *                           $length keys. Defaults to null.
+	 * @return mixed             Returns the last $length key from the given array if the given array is not empty, null
+	 *                           otherwise.
 	 */
 	public static function lastKey(array $array, int $length = null)
 	{
@@ -421,8 +421,8 @@ class Arr
 	}
 
 	/**
-	 * Returns only the specified key/value pairs from the given array. The given array can be one or multi-dimensional
-	 * array.
+	 * Returns only the specified key/value pairs from the given array.
+	 * The given array can be one or multi-dimensional array.
 	 *
 	 * The $keys can be 0, '0', '0,1', [0, 1], 'name,job.position', ['name, job.position'].
 	 *
@@ -453,7 +453,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array            $array  The input array.
-	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array
+	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array.
 	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,job.position', ['name, job.position'].
 	 * @return array                    Returns a subset of the items from the given array.
 	 */
@@ -533,7 +533,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array            $array  The input array.
-	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array
+	 * @param  string|int|array $keys   The searched key. If the key contains dot, it will access nested array.
 	 *                                  e.g., 0, '0', '0,1', [0, 1], 'name,job.position', ['name, job.position'].
 	 * @return mixed                    Depends on what the given array contains.
 	 */
@@ -589,7 +589,8 @@ class Arr
 	}
 
 	/**
-	 * Return the values from a single column in the given dataset (array of arrays) or recordset (array of objects).
+	 * Return the values from a single column in the given
+	 * dataset (array of arrays) or recordset (array of objects).
 	 *
 	 * The $columnKey can be 0, '0', 'name', 'job.position'.
 	 *
@@ -634,10 +635,10 @@ class Arr
 	 * // )
 	 * ```
 	 *
-	 * @param  array           $data       The input dataset (array of arrays) or recordset (array of objects)
+	 * @param  array           $data       The input dataset (array of arrays) or recordset (array of objects).
 	 * @param  string|int      $columnKey  The column key of values to return. If the key contains dot, it will access
 	 *                                     nested array e.g., 0, '0', 'name', 'job.position'.
-	 * @param  string|int|null $indexKey   Optional, The column key to use as the index/key for the returned array.
+	 * @param  string|int|null $indexKey   Optionally, The column key to use as the index/key for the returned array.
 	 *                                     Defaults to null.
 	 * @return array                       Returns an array of values representing a single column from the given array.
 	 */
@@ -685,10 +686,11 @@ class Arr
 	}
 
 	/**
-	 * Returns and removes a column by key from the given dataset (array of arrays) or recordset (array of objects).
+	 * Returns and removes a column by key from the given
+	 * dataset (array of arrays) or recordset (array of objects).
 	 *
-	 * The $columnKey can be 0, '0', 'name', 'name,surname', ['name', 'surname']. This method does not support
-	 * path strings with dots.
+	 * The $columnKey can be 0, '0', 'name', 'name,surname', ['name', 'surname'].
+	 * This method does not support path strings with dots.
 	 *
 	 * For example,
 	 *
@@ -740,8 +742,8 @@ class Arr
 	 * ```
 	 *
 	 * @param  array            $data  The input dataset (array of arrays) or recordset (array of objects).
-	 * @param  string|int|array $keys  The column of values to return e.g., 0, '0', 'name', 'name,surname',
-	 *                                 ['name', 'surname'].
+	 * @param  string|int|array $keys  The column of values to return.
+	 *                                 e.g., 0, '0', 'name', 'name,surname', ['name', 'surname'].
 	 * @return array                   Returns an array of values representing a column from the given array.
 	 */
 	public static function pullColumn(array &$data, $keys) : array
@@ -809,8 +811,8 @@ class Arr
 	 *
 	 * @param  array $array          An array to remove an element by value.
 	 * @param  mixed $value          The value to remove.
-	 * @param  bool  $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
-	 * @param  bool  $recursive      True to recurve through multi-level arrays. Defaults to true.
+	 * @param  bool  $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool  $recursive      Optionally, true to recurve through multi-level arrays. Defaults to true.
 	 * @return array                 Returns all of the given array except for the specified value.
 	 */
 	public static function except(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
@@ -873,7 +875,7 @@ class Arr
 	 *
 	 * @param  array            $array      An array to remove an element by key.
 	 * @param  string|int|array $keys       The key name or index to remove.
-	 * @param  bool             $recursive  True to recurve through multi-level arrays. Defaults to true.
+	 * @param  bool             $recursive  Optionally, true to recurve through multi-level arrays. Defaults to true.
 	 * @return array                        Returns all of the given array except for the specified key.
 	 */
 	public static function exceptKey(array $array, $keys, bool $recursive = true) : array
@@ -933,7 +935,7 @@ class Arr
 	 *
 	 * @param  array        $array      An array to remove an element by data type.
 	 * @param  string|array $dataTypes  The data type to remove.
-	 * @param  bool         $recursive  True to recurve through multi-level arrays. Defaults to true.
+	 * @param  bool         $recursive  Optionally, true to recurve through multi-level arrays. Defaults to true.
 	 * @return array                    Returns all of the given array except for the specified data type.
 	 */
 	public static function exceptType(array $array, $dataTypes, bool $recursive = true) : array
@@ -1001,7 +1003,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array $array      An array to remove an element by blank value.
-	 * @param  bool  $recursive  True to recurve through multi-level arrays. Defaults to true.
+	 * @param  bool  $recursive  Optionally, true to recurve through multi-level arrays. Defaults to true.
 	 * @return array             Returns all of the given array except for an elment contains only whitespace
 	 *                           characters.
 	 */
@@ -1094,10 +1096,12 @@ class Arr
 	}
 
 	/**
-	 * Builds a map (key-value pairs) from a multi-dimensional array (dataset) or an array of objects (recordset).
+	 * Builds a map (key-value pairs) from a multi-dimensional array (dataset)
+	 * or an array of objects (recordset).
 	 *
-	 * The `$from` and `$to` parameters specify the key names or property names to set up the map.
-	 * Optionally, one can further group the map according to a grouping field $group.
+	 * The `$from` and `$to` parameters specify the key names or property names
+	 * to set up the map. Optionally, one can further group the map according to
+	 * a grouping field $group.
 	 *
 	 * For example,
 	 *
@@ -1190,8 +1194,8 @@ class Arr
 	 *
 	 * @param  array       $array  The input array.
 	 * @param  mixed       $value  The value to insert onto the beginning of the given array.
-	 * @param  string|null $key    Optional, The key to set. Defaults to null. If leave it as default, a numeric key will
-	 *                             be generated automatically. Defaults to null.
+	 * @param  string|null $key    Optionally, The key to set. Defaults to null. If leave it as default, a numeric key
+	 *                             will be generated automatically. Defaults to null.
 	 * @return array               Returns the given array with the specified value.
 	 */
 	public static function insert(array $array, $value, string $key = null) : array
@@ -1206,7 +1210,9 @@ class Arr
 
 	/**
 	 * Determines if the given value exists in the given array.
-	 * An alias for PHP's in_array() function because in_array() returns true if $search is 0.
+	 *
+	 * An alias for PHP's in_array() function because in_array() returns true
+	 * if $search is 0.
 	 *
 	 * For exameple,
 	 *
@@ -1223,7 +1229,7 @@ class Arr
 	 *
 	 * @param  array $array          The array to search.
 	 * @param  mixed $search         The searched value.
-	 * @param  bool  $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool  $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @return bool                  Returns true if the searched value is found in the given array, false otherwise.
 	 */
 	public static function has(array $array, $search, bool $caseSensitive = true) : bool
@@ -1276,7 +1282,7 @@ class Arr
 	 *
 	 * @param  array $array          The array to search.
 	 * @param  array $searches       The searched values.
-	 * @param  bool  $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool  $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
 	 * @return bool                  Returns true if any searched value is found in the given array, false otherwise.
 	 */
 	public static function hasAny(array $array, array $searches, bool $caseSensitive = true) : bool
@@ -1309,10 +1315,10 @@ class Arr
 	 * // The $result will be: true
 	 * ```
 	 *
-	 * @param array $array         The array to search.
-	 * @param array $searches      The searched values.
-	 * @param bool  $caseSensitive  Whether or not to enforce case-sensitivity. Defaults to true.
-	 * @return bool                Returns true if all searched values are found in the given array, false otherwise.
+	 * @param array $array          The array to search.
+	 * @param array $searches       The searched values.
+	 * @param bool  $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
+	 * @return bool                 Returns true if all searched values are found in the given array, false otherwise.
 	 */
 	public static function hasAll(array $array, array $searches, bool $caseSensitive = true) : bool
 	{
@@ -1526,6 +1532,7 @@ class Arr
 
 	/**
 	 * Randomizes an order of the elements in the given array.
+	 *
 	 * An alias for PHP's shuffle() function.
 	 *
 	 * @param  array $array  The input array.
@@ -1561,8 +1568,9 @@ class Arr
 	 * ```
 	 *
 	 * @param  array  $array      The input array.
-	 * @param  string $direction  Direction to sort in, 'asc' (ascending) or 'desc' (descending). Defaults to 'asc'.
-	 * @param  bool   $recursive  True to recurve through multi-level arrays. Defaults to true.
+	 * @param  string $direction  Optionally, direction to sort in, 'asc' (ascending) or 'desc' (descending). Defaults
+	 *                            to 'asc'.
+	 * @param  bool   $recursive  Optionally, wrue to recurve through multi-level arrays. Defaults to true.
 	 * @return array              Return the sorted array by values.
 	 */
 	public static function sort(array $array, string $direction = 'asc', bool $recursive = true) : array
@@ -1616,8 +1624,9 @@ class Arr
 	 * ```
 	 *
 	 * @param  array  $array      The input array.
-	 * @param  string $direction  Direction to sort in, 'asc' (ascending) or 'desc' (descending). Defaults to 'asc'.
-	 * @param  bool   $recursive  True to recurve through multi-level arrays. Defaults to true.
+	 * @param  string $direction  Optionally, direction to sort in, 'asc' (ascending) or 'desc' (descending). Defaults
+	 *                            to 'asc'.
+	 * @param  bool   $recursive  Optionally, wrue to recurve through multi-level arrays. Defaults to true.
 	 * @return array              Return the sorted array by keys.
 	 */
 	public static function sortKey(array $array, string $direction = 'asc', bool $recursive = true) : array
@@ -1684,7 +1693,8 @@ class Arr
 	 *
 	 * @param  array  $dataset    An array of arrays (dataset).
 	 * @param  string $key        The column name to sort on.
-	 * @param  string $direction  Direction to sort in, 'asc' (ascending) or 'desc' (descending). Defaults to 'asc'.
+	 * @param  string $direction  Optionally, direction to sort in, 'asc' (ascending) or 'desc' (descending). Defaults
+	 *                            to 'asc'.
 	 * @return array              Returns the sorted array of arrays (dataset).
 	 */
 	public static function sortDataset(array $dataset, string $key, string $direction = 'asc') : array
@@ -1769,8 +1779,9 @@ class Arr
 	 *
 	 * @param  array  $recordset  An array of objects (recordset).
 	 * @param  string $key        The column name to sort on.
-	 * @param  string $direction  Direction to sort in, 'asc' (ascending) or 'desc' (descending). Defaults to 'asc'.
-	 * @return array              The sorted array of objects (recordset).
+	 * @param  string $direction  Optionally, direction to sort in, 'asc' (ascending) or 'desc' (descending). Defaults
+	 *                            to 'asc'.
+	 * @return array              Returns the sorted array of objects (recordset).
 	 */
 	public static function sortRecordset(array $recordset, string $key, string $direction = 'asc') : array
 	{
@@ -1870,7 +1881,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  array  $array    A multi-dimensional array.
-	 * @param  string $prepend  The character to prepend in front of the key name. Defaults to ''.
+	 * @param  string $prepend  Optionally, the character to prepend in front of the key name. Defaults to ''.
 	 * @return array            Returns the converted array.
 	 */
 	public static function dot(array $array, string $prepend = '') : array
@@ -2033,9 +2044,8 @@ class Arr
 	 * ```
 	 *
 	 * @param  object             $data       The source object.
-	 * @param  bool               $recursive  True to recurve through multi-level objects. Defaults to true.
-	 * @param  string|array|null  $keys       An optional field names. Only be used in top level elements. Defaults to
-	 *                                        null.
+	 * @param  bool               $recursive  Optionally, true to recurve through multi-level objects. Defaults to true.
+	 * @param  string|array|null  $keys       Optionally, only be used in top level elements. Defaults to null.
 	 * @return array                          Returns the array mapped from the given object.
 	 */
 	public static function fromObject(object $data, bool $recursive = true, $keys = null) : array
@@ -2112,7 +2122,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  string $string  The input string.
-	 * @return array           The array parsed from the given string.
+	 * @return array           The the array parsed from the given string.
 	 */
 	public static function fromString(string $string) : array
 	{
@@ -2125,9 +2135,9 @@ class Arr
 	 * Converts the given data to an array.
 	 *
 	 * @param  mixed                 $data       The source data.
-	 * @param  bool                  $recursive  True to recurve through multi-level arrays or objects. Defaults to true.
-	 * @param  string|int|array|null $keys       An optional field names. Only be used in top level elements. Defaults
-	 *                                           to null.
+	 * @param  bool                  $recursive  Optionally, true to recurve through multi-level arrays or objects.
+	 *                                           Defaults to true.
+	 * @param  string|int|array|null $keys       Optionally, only be used in top level elements. Defaults to null.
 	 * @return array                             Returns the array mapped from the given data.
 	 */
 	public static function toArray($data, bool $recursive = true, $keys = null) : array
@@ -2201,10 +2211,9 @@ class Arr
 	 * ```
 	 *
 	 * @param  array             $array      The array to map.
-	 * @param  string            $class      Name of the class to create. Defaults to stdClass.
-	 * @param  bool              $recursive  True to recurve through multi-level arrays. Defaults to true.
-	 * @param  string|array|null $keys       An optional field names. Only be used in top level elements. Defaults to
-	 *                                       null.
+	 * @param  string            $class      Optionally, name of the class to create. Defaults to stdClass.
+	 * @param  bool              $recursive  Optionally, true to recurve through multi-level arrays. Defaults to true.
+	 * @param  string|array|null $keys       Optionally, only be used in top level elements. Defaults to null.
 	 * @return object                        Returns the object mapped from the given array.
 	 */
 	public static function toObject(array $array, string $class = 'stdClass', bool $recursive = true, $keys = null) : object
@@ -2281,12 +2290,13 @@ class Arr
 	 * ```
 	 *
 	 * @param  array                 $array           The array to map.
-	 * @param  string                $innerGlue       Optional, the separator between the key and the value. Defaults to '='.
-	 * @param  string                $outerGlue       Optional, the separator between array elements. Defaults to ' '.
-	 * @param  string                $valueDelimiter  Optional, the value delimiter. Defaults to ".
-	 * @param  bool                  $recursive       True to recurve through multi-level arrays. Defaults to true.
-	 * @param  string|int|array|null $keys            An optional field names. Only be used in top level elements.
-	 *                                                Defaults to null.
+	 * @param  string                $innerGlue       Optionally, the separator between the key and the value. Defaults
+	 *                                                to '='.
+	 * @param  string                $outerGlue       Optionally, the separator between array elements. Defaults to ' '.
+	 * @param  string                $valueDelimiter  Optionally, the value delimiter. Defaults to ".
+	 * @param  bool                  $recursive       Optionally, true to recurve through multi-level arrays. Defaults
+	 *                                                to true.
+	 * @param  string|int|array|null $keys            Optionally, only be used in top level elements. Defaults to null.
 	 * @return string                                 Returns the string mapped from the given array.
 	 */
 	public static function toString(array $array, string $innerGlue = '=', string $outerGlue = ' ', string $valueDelimiter = '"', bool $recursive = true, $keys = null) : string
@@ -2567,16 +2577,18 @@ class Arr
 
 	/**
 	 * Extract a slice of the givenarray.
-	 * An alias for PHP's array_slice() function with preserve_keys parameter defaults to true.
+	 *
+	 * An alias for PHP's array_slice() function with preserve_keys parameter
+	 * defaults to true.
 	 *
 	 * @param  array    $array   The input array.
 	 * @param  int      $start   Specifies where the function will start the slice. 0 = the first element. If this value
 	 *                           is set to a negative number, the function will start slicing that far from the last
 	 *                           element. -2 means start at the second last element of the array.
-	 * @param  int|null $length  Optional, specifies the length of the returned array. If this value is set to a
+	 * @param  int|null $length  Optionally, specifies the length of the returned array. If this value is set to a
 	 *                           negative number, the function will stop slicing that far from the last element. If this
 	 *                           value is not set, the function will return all elements, starting from the position set
-	 *                           by the start-parameter.
+	 *                           by the start-parameter. Defaults to null.
 	 * @return array             Returns the slice. If the offset is larger than the size of the given array, an empty
 	 *                           array is returned.
 	 */
@@ -2589,8 +2601,8 @@ class Arr
 	 * Removes duplicate values from the given array.
 	 *
 	 * @param  array $array      The input array.
-	 * @param  bool  $recursive  True to recurve through multi-level arrays. Defaults to true.
-	 * @param  bool  $reindex    In case of $array is not an associative. Defaults to true.
+	 * @param  bool  $recursive  Optionally, true to recurve through multi-level arrays. Defaults to true.
+	 * @param  bool  $reindex    Optionally, in case of $array is not an associative. Defaults to true.
 	 * @return array             Returns the filtered array.
 	 */
 	public static function unique(array $array, bool $recursive = true, bool $reindex = true) : array
@@ -2622,8 +2634,8 @@ class Arr
 	 * Joins the given array elements with a string.
 	 *
 	 * @param  array  $array      The input array.
-	 * @param  string $glue       Optional, the separator between array elements. Defaults to ''.
-	 * @param  bool   $recursive  True to recurve through multi-level arrays. Defaults to true.
+	 * @param  string $glue       Optionally, the separator between array elements. Defaults to ''.
+	 * @param  bool   $recursive  Optionally, true to recurve through multi-level arrays. Defaults to true.
 	 * @return string             Returns a string containing a string representation of all the array elements in the
 	 *                            same order, with the separator string between each element.
 	 */
