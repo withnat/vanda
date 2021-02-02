@@ -31,7 +31,7 @@ class App
 	/**
 	 * Whether the system is running in single-page application mode.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if the system is running in single-page application mode, false otherwise.
 	 */
 	public static function isSpa() : bool
 	{
