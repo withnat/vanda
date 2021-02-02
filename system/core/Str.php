@@ -2264,7 +2264,7 @@ class Str
 	//
 
 	/**
-	 * Checks if the given string contains only whitespace characters.
+	 * Determines if the given string contains only whitespace characters.
 	 * Support checking '0' in 'if' statement.
 	 *
 	 * $input = '0';
@@ -2308,7 +2308,7 @@ class Str
 	}
 
 	/**
-	 * Checks if the given string contains only alphabetic characters.
+	 * Determines if the given string contains only alphabetic characters.
 	 *
 	 * For example,
 	 *
@@ -2338,7 +2338,7 @@ class Str
 	}
 
 	/**
-	 * Checks if the given string contains only alphabetic and numeric characters.
+	 * Determines if the given string contains only alphabetic and numeric characters.
 	 *
 	 * For example,
 	 *
@@ -2371,7 +2371,7 @@ class Str
 	}
 
 	/**
-	 * Checks if the given string is base64 encoded.
+	 * Determines if the given string is base64 encoded.
 	 *
 	 * For example,
 	 *
@@ -2397,7 +2397,7 @@ class Str
 	}
 
 	/**
-	 * Checks if the given string contains only hexadecimal characters.
+	 * Determines if the given string contains only hexadecimal characters.
 	 *
 	 * For example,
 	 *
@@ -2420,7 +2420,7 @@ class Str
 	}
 
 	/**
-	 * Checks if the given string contains only lower case characters.
+	 * Determines if the given string contains only lower case characters.
 	 *
 	 * For example,
 	 *
@@ -2443,7 +2443,7 @@ class Str
 	}
 
 	/**
-	 * Checks if the given string contains only upper case characters.
+	 * Determines if the given string contains only upper case characters.
 	 *
 	 * For example,
 	 *
@@ -2466,7 +2466,7 @@ class Str
 	}
 
 	/**
-	 * Checks if the given string is serialized.
+	 * Determines if the given string is serialized.
 	 *
 	 * For example,
 	 *
@@ -2505,7 +2505,7 @@ class Str
 	}
 
 	/**
-	 * Checks if the given string contains multibyte characters.
+	 * Determines if the given string contains multibyte characters.
 	 *
 	 * For example,
 	 *
