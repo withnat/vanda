@@ -2607,7 +2607,7 @@ class Arr
 	 */
 	public static function unique(array $array, bool $recursive = true, bool $reindex = true) : array
 	{
-		// Checks if the given array is an associative
+		// Determines if the given array is an associative
 		// before removing duplicate values. If checking
 		// after removing duplicate values, it will always
 		// return true. See more at Arr::isAssociative().
