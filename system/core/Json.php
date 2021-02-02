@@ -19,7 +19,9 @@ use System\Exception\InvalidArgumentException;
 
 /**
  * Class Json
+ *
  * Wrapper for the default JSON methods that handles all errors uniformly.
+ *
  * @package System
  */
 final class Json
@@ -30,10 +32,10 @@ final class Json
 	private function __construct(){}
 
 	/**
-	 * Returns true if the string is JSON, false otherwise.
+	 * Determines if the given string is JSON.
 	 *
-	 * @param  string $string
-	 * @return bool
+	 * @param  string $string  The input string.
+	 * @return bool            Returns true if the string is JSON, false otherwise.
 	 */
 	public static function isValid(string $string) : bool
 	{
@@ -49,10 +51,10 @@ final class Json
 	}
 
 	/**
-	 * Encodes an object or assoc array to JSON.
+	 * Encodes the given data to JSON.
 	 *
-	 * @param  mixed  $data  Data to encode.
-	 * @return string
+	 * @param  mixed  $data  The input data to encode.
+	 * @return string        Returns the JSON string.
 	 * @throws ErrorException
 	 */
 	public static function encode($data) : string
@@ -62,7 +64,7 @@ final class Json
 
 		// A resource cannot be encoded.
 		if (is_array($data))
-			$data = Arr::removeType($data, 'resource');
+			$data = Arr::exceptType($data, 'resource');
 
 		$result = json_encode($data);
 		$error = Json::_getError();
@@ -78,11 +80,13 @@ final class Json
 	}
 
 	/**
-	 * Decodes a JSON string to a stdClass or array.
+	 * Decodes the given JSON string.
 	 *
-	 * @param  string         $json   The json string being decoded.
-	 * @param  bool           $assoc  When TRUE, returned objects will be converted into associative arrays.
-	 * @return array|object           Decoded data representation. Object if $assoc = false or null, array otherwise.
+	 * @param  string         $json   The input JSON string being decoded.
+	 * @param  bool           $assoc  Optionally, when true, returned objects will be converted into associative arrays.
+	 *                                Defaults to false.
+	 * @return array|object           Returns decoded data representation. Object if $assoc = false or null, array
+	 *                                otherwise.
 	 * @throws ErrorException
 	 */
 	public static function decode(string $json, bool $assoc = false)
@@ -98,8 +102,24 @@ final class Json
 	}
 
 	/**
-	 * @param  array  $data  A multi-dimensional array contains array (dataset) or object (recordset).
-	 * @return string
+	 * Converts the given dataset (array of arrays) or recordset (array of objects)
+	 * to JSON string including with number of records.
+	 *
+	 * For example,
+	 *
+	 * ```json
+	 * {
+	 *   "recordsTotal": 2,
+	 *   "recordsFiltered": 2,
+	 *   "data": [
+	 *     {"name":"Nat","surname":"Withe","work":"Web Developer","salary":10000},
+	 *     {"name":"Angela","surname":"SG","work":"Marketing Director","salary":10000}
+	 *   ]
+	 * }
+	 * ```
+	 *
+	 * @param  array  $data  The input dataset (array of arrays) or recordset (array of objects).
+	 * @return string        Returns the JSON string.
 	 */
 	public static function dataTable(array $data) : string
 	{
@@ -113,15 +133,6 @@ final class Json
 		// preven json_encode converts empty value to array.
 		$json = str_replace('{}', '""', $json);
 
-		// Below $dataTable is something like this:
-		// {
-		//   "recordsTotal": 2,
-		//   "recordsFiltered": 2,
-		//   "data": [
-		//     {"name":"Nat","surname":"Withe","work":"Web Developer","salary":10000},
-		//     {"name":"Angela","surname":"SG","work":"Marketing Director","salary":10000}
-		//   ]
-		// }
 		$dataTable = '{' . "\n";
 		$dataTable .= "\t" . '"recordsTotal": ' . $recordsTotal . ',' . "\n";
 		$dataTable .= "\t" . '"recordsFiltered": ' . $recordsFiltered . ',' . "\n";
