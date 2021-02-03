@@ -32,20 +32,17 @@ final class Xml
 	private function __construct(){}
 
 	/**
-	 * @param  array  $dataset
-	 * @param  string $root
-	 * @param  string $element
-	 * @param  string $newline
-	 * @param  string $tab
-	 * @return string
+	 * Converts the given dataset (array of arrays) to XML document.
+	 *
+	 * @param  array  $dataset  The input dataset (array of arrays).
+	 * @param  string $root     Optionally, the name of the root element. Defaults to 'root'.
+	 * @param  string $element  Optionally, the name of the elements that represent the array elements. Defaults to
+	 *                          'element'.
+	 * @param  string $newline  Optionally, the newline character. Default to "\n".
+	 * @param  string $tab      Optionally, the tab character. Default to "\t".
+	 * @return string           Returns the well-formed XML document.
 	 */
-	public static function fromDataset(
-		array  $dataset,
-		string $root = 'root',
-		string $element = 'element',
-		string $newline = "\n",
-		$tab = "\t"
-	) : string
+	public static function fromDataset(array  $dataset, string $root = 'root', string $element = 'element', string $newline = "\n", $tab = "\t") : string
 	{
 		if (!Arr::isDataset($dataset))
 			throw InvalidArgumentException::typeError(1, ['dataset'], $dataset);
@@ -56,20 +53,17 @@ final class Xml
 	}
 
 	/**
-	 * @param  array  $recordset
-	 * @param  string $root
-	 * @param  string $element
-	 * @param  string $newline
-	 * @param  string $tab
-	 * @return string
+	 * Converts the given recordset (array of objects) to XML document.
+	 *
+	 * @param  array  $recordset  The input recordset (array of objects).
+	 * @param  string $root       Optionally, the name of the root element. Defaults to 'root'.
+	 * @param  string $element    Optionally, the name of the elements that represent the array elements. Defaults to
+	 *                            'element'.
+	 * @param  string $newline    Optionally, the newline character. Default to "\n".
+	 * @param  string $tab        Optionally, the tab character. Default to "\t".
+	 * @return string             Returns the well-formed XML document.
 	 */
-	public static function fromRecordset(
-		array  $recordset,
-		string $root = 'root',
-		string $element = 'element',
-		string $newline = "\n",
-		$tab = "\t"
-	) : string
+	public static function fromRecordset(array  $recordset, string $root = 'root', string $element = 'element', string $newline = "\n", $tab = "\t") : string
 	{
 		if (!Arr::isRecordset($recordset))
 			throw InvalidArgumentException::typeError(1, ['recordset'], $recordset);
@@ -80,28 +74,32 @@ final class Xml
 	}
 
 	/**
-	 * @param  string $xml
-	 * @return array
+	 * Converts the given XML string to an array.
+	 *
+	 * @param  string $xml  The well-formed XML string.
+	 * @return array|false  Returns an array of class SimpleXMLElement with elements containing the data held within the
+	 *                      XML document, or false on failure.
 	 */
-	public static function toArray(
-		string $xml
-	) : array
+	public static function toArray(string $xml) : array
 	{
 		$object = Xml::toObject($xml);
+
+		if ($object === false)
+			return false;
+
 		$array = Arr::fromObject($object);
 
 		return $array;
 	}
 
 	/**
-	 * @param  string       $xml  A well-formed XML string.
-	 * @return object|false       Returns an object of class SimpleXMLElement
-	 *                            with properties containing the data held within
-	 *                            the xml document, or FALSE on failure.
+	 * Converts the given XML document to an object.
+	 *
+	 * @param  string       $xml  The well-formed XML string.
+	 * @return object|false       Returns an object of class SimpleXMLElement with properties containing the data held
+	 *                            within the XML document, or false on failure.
 	 */
-	public static function toObject(
-		string $xml
-	)
+	public static function toObject(string $xml)
 	{
 		$xml = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
 		$json = json_encode($xml);
@@ -115,14 +113,13 @@ final class Xml
 	}
 
 	/**
+	 * Converts reserved XML characters to entities.
+	 *
 	 * @param  mixed  $string
 	 * @param  bool   $protectAll
 	 * @return string
 	 */
-	public static function safe(
-		$string,
-		bool   $protectAll = false
-	) : string
+	public static function safe($string, bool $protectAll = false) : string
 	{
 		if (is_string($string))
 		{
@@ -151,20 +148,16 @@ final class Xml
 	}
 
 	/**
-	 * @param  array  $datasetOrRecordset
-	 * @param  string $root
-	 * @param  string $element
-	 * @param  string $newline
-	 * @param  string $tab
-	 * @return string
+	 * Converts the given dataset (array of arrays) or recordset (array of objects) to XML document.
+	 *
+	 * @param  array  $datasetOrRecordset  The input dataset (array of arrays) or recordset (array of objects).
+	 * @param  string $root                The name of the root element.
+	 * @param  string $element             The name of the elements that represent the array elements.
+	 * @param  string $newline             The newline character.
+	 * @param  string $tab                 The tab character.
+	 * @return string                      Returns the well-formed XML document.
 	 */
-	private static function _fromDatasetOrRecordset(
-		array  $datasetOrRecordset,
-		string $root = 'root',
-		string $element = 'element',
-		string $newline = "\n",
-		string $tab = "\t"
-	) : string
+	private static function _fromDatasetOrRecordset(array  $datasetOrRecordset, string $root, string $element, string $newline, string $tab) : string
 	{
 		$xml = '<' . $root . '>' . $newline;
 
