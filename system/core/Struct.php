@@ -16,27 +16,26 @@ namespace System;
 
 /**
  * Class Struct
+ *
+ * Using Example.
+ *
+ * // Define a 'coordinates' struct with 3 properties.
+ * $coords = Struct::factory('degree', 'minute', 'pole');
+
+ * // Create 2 latitude/longitude numbers.
+ * $lat = $coords->create(35, 40, 'N');
+ * $lng = $coords->create(139, 45, 'E');
+
+ * // Use the different values by name.
+ * echo $lat->degree . '° ' . $lat->minute . "' " . $lat->pole;
+ * echo $lng->degree . '° ' . $lng->minute . "' " . $lng->pole;
+ *
  * @package System
  */
 class Struct
 {
 	/**
-	 * Using Example.
-	 *
-	 * // Define a 'coordinates' struct with 3 properties.
-	 * $coords = Struct::factory('degree', 'minute', 'pole');
-
-	 * // Create 2 latitude/longitude numbers.
-	 * $lat = $coords->create(35, 40, 'N');
-	 * $lng = $coords->create(139, 45, 'E');
-
-	 * // Use the different values by name.
-	 * echo $lat->degree . '° ' . $lat->minute . "' " . $lat->pole;
-	 * echo $lng->degree . '° ' . $lng->minute . "' " . $lng->pole;
-	 */
-
-	/**
-	 * Define a new struct object, a blueprint object with only empty properties.
+	 * Defines a new struct object, a blueprint object with only empty properties.
 	 *
 	 * @return Struct
 	 */
@@ -51,7 +50,7 @@ class Struct
 	}
  
 	/**
-	 * Create a new variable of the struct type $this.
+	 * Creates a new variable of the struct type $this.
 	 *
 	 * @return Struct
 	 */
