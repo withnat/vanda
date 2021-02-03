@@ -20,15 +20,21 @@ use System\Exception\InvalidArgumentException;
  * Class Number
  * @package System
  */
-final class Number
+class Number
 {
 	/**
-	 * @param  int         $size
-	 * @param  int         $precision
-	 * @param  string|null $unit
-	 * @return string
+	 * Formats the bytes to the desired form. Possible unit options are Byte (B),
+	 * Kilobyte (KB), Megabyte (MB), Gigabyte (GB), Terabyte (TB).
+	 *
+	 * For example, formatting 12345 byes results in "12.1 K" and 1234567 results in "1.18 MB".
+	 *
+	 * @param  int         $size     The input byte sizes.
+	 * @param  int         $decimal  Optionally, sets the number of decimal digits. If 0, the decimal separator is
+	 *                               omitted from the return value. Defaults to 1.
+	 * @param  string|null $unit     Optionally, specifies the unit. Defaults to null (auto).
+	 * @return string                Returns a formatted string representing the given bytes in more human-readable form.
 	 */
-	public static function byteFormat(int $size, int $precision = 1, string $unit = null) : string
+	public static function byteFormat(int $size, int $decimal = 1, string $unit = null) : string
 	{
 		// Trim first
 		if ($unit)
@@ -36,10 +42,10 @@ final class Number
 
 		// After trim
 		if (!$unit)
-			$unit = Number::getUnitByFileSize($size);
+			$unit = static::getUnitByFileSize($size);
 
-		$size = Number::getFileSizeByUnit($size, $unit);
-		$size = number_format($size, $precision);
+		$size = static::getFileSizeByUnit($size, $unit);
+		$size = number_format($size, $decimal);
 
 		// Remove trailing zero after decimal point
 		// and keep thousand separator (comma).
@@ -56,8 +62,10 @@ final class Number
 	}
 
 	/**
-	 * @param  int    $size
-	 * @return string
+	 * Returns a unit of file size by the given bytes.
+	 *
+	 * @param  int    $size  The input byte sizes.
+	 * @return string        Returns file size unit.
 	 */
 	public static function getUnitByFileSize(int $size) : string
 	{
@@ -76,9 +84,11 @@ final class Number
 	}
 
 	/**
-	 * @param  int    $size
-	 * @param  string $unit
-	 * @return float
+	 * Returns a human readable file size.
+	 *
+	 * @param  int    $size  The input byte sizes.
+	 * @param  string $unit  Specifies the unit.
+	 * @return float         Returns the formatted byte sizes based on the given unit.
 	 */
 	public static function getFileSizeByUnit(int $size, string $unit) : float
 	{
@@ -104,12 +114,12 @@ final class Number
 	}
 
 	/**
-	 * Enture the number of $value is in the specific range.
+	 * Enture the number of the given value is in the specific range.
 	 *
-	 * @param  int|float $value
-	 * @param  int|float $min
-	 * @param  int|float $max
-	 * @return int|float
+	 * @param  int|float $value  The input value.
+	 * @param  int|float $min    Specifies the sequence's minimum value.
+	 * @param  int|float $max    Specifies the sequence's maximum value.
+	 * @return int|float         Returns the value between the minimum value and the maximum Value.
 	 */
 	public static function inrange($value, $min, $max)
 	{
