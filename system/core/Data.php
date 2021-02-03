@@ -23,9 +23,12 @@ use System\Exception\InvalidArgumentException;
 
 /**
  * Class Data
+ *
+ * Utility class for handling array and object.
+ *
  * @package System
  */
-final class Data
+class Data
 {
 	/**
 	 * Data constructor.
@@ -33,10 +36,10 @@ final class Data
 	private function __construct(){}
 
 	/**
-	 * Return a specific element from the given array or object.
-	 * A $keys variable supports both array and object.
-	 * If the array element / object property is empty it returns
-	 * NULL (or whatever you specify as the default value).
+	 * Returns a specific element from the given array or object. The given
+	 * key supports both array and object. Returns null if the array element/
+	 * object property is empty (or whatever you specify as the
+	 * default value).
 	 *
 	 * For example,
 	 *
@@ -48,17 +51,17 @@ final class Data
 	 *     'job' => new stdClass()
 	 * ];
 	 *
-	 * $data['job']->title = 'Web Developer';
+	 * $data['job']->position = 'Web Developer';
 	 * $data['job']->salary = '10000';
 	 *
-	 * $result = Data::get($data, 'job.title');
-	 * // the result is: Web Developer
+	 * $result = Data::get($data, 'job.position');
+	 * // The $result will be: Web Developer
 	 * ```
 	 *
-	 * @param  array|object $data     The data, array or object.
+	 * @param  array|object $data     The input data, array or object.
 	 * @param  int|string   $keys     The searched key.
-	 * @param  mixed        $default  Default value.
-	 * @return mixed                  Depends on what the array contains.
+	 * @param  mixed        $default  Optionally, default value. Defaults to null.
+	 * @return mixed                  Depends on what the array or object contains.
 	 */
 	public static function get($data, $keys, $default = null)
 	{
@@ -96,9 +99,44 @@ final class Data
 	}
 
 	/**
-	 * @param  array|object $data
-	 * @param  string       $key
-	 * @param  mixed        $value
+	 * Sets the given value to the given array or object using path strings with dots.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $array = [
+	 *     'foo' => 'bar'
+	 * ];
+	 *
+	 * $result = Data::set($array, 'key.subkey', 'value');
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [foo] => bar
+	 * //     [key] => Array
+	 * //         (
+	 * //             [subkey] => value
+	 * //         )
+	 * // )
+	 *
+	 * $object = new stdClass();
+	 * $object->foo = 'bar';
+	 *
+	 * $result = Data::set($data, 'key.subkey', 'value');
+	 * // The $result will be:
+	 * // stdClass Object
+	 * // (
+	 * //     [foo] => bar
+	 * //     [key] => stdClass Object
+	 * //         (
+	 * //             [subkey] => value
+	 * //         )
+	 * // )
+	 * ```
+	 * 
+	 * @param  array|object $data   The data to set a value in.
+	 * @param  string       $key    The key to set. If the key contains dot, it will set nested array/object.
+	 * @param  mixed        $value  Value to set.
 	 * @return array|object
 	 */
 	public static function set($data, string $key, $value)
@@ -116,7 +154,7 @@ final class Data
 				$dataPointer .= "->{'$key'}";
 				$var4If = '';
 
-				// use @ to prevent error in case of key does not exists.
+				// Use @ to prevent error in case of key does not exists.
 				$syntax = '$var4If = @' . $dataPointer . ';';
 				eval($syntax);
 
@@ -213,12 +251,12 @@ final class Data
 	/**
 	 * Converts a value to array type.
 	 *
-	 * If the value is a string and it is in the form (a,b,c) then an array
-	 * consisting of each of the elements will be returned. If the value is a string
+	 * If the given value is a string and it is in the form (a,b,c) then an array
+	 * consisting of each of the elements will be returned. If the given value is a string
 	 * and it is not in this form then an array consisting of just the string will be returned,
-	 * if the string is empty an empty array will be returned.
+	 * if the given string is empty then an empty array will be returned.
 	 *
-	 * If the value is not a string then it will return an array containing that value or
+	 * If the given value is not a string then it will return an array containing that value or
 	 * the same value in case it is already an array.
 	 *
 	 * @param  mixed $value  The value to be converted.
@@ -275,16 +313,17 @@ final class Data
 	}
 
 	/**
-	 * @param  string $allowedDataTypes
-	 * @param  int    $argument
-	 * @param  mixed  $data
+	 * Throws an InvalidArgumentException if the given data is not the allowed data type.
+	 *
+	 * @param  string $allowedDataTypes  The allowed data types. Multiple values can be separated by comma.
+	 * @param  int    $argument          The position of argument.
+	 * @param  mixed  $data              The data to check.
 	 * @return void
 	 */
-	public static function is(string $allowedDataTypes, int $argument, $data = null) : void
+	public static function is(string $allowedDataTypes, int $argument, $data) : void
 	{
 		$allowedDataTypes = strtolower($allowedDataTypes);
 		$allowedDataTypes = explode(',', $allowedDataTypes);
-		$allowedDataTypes = array_map('trim', $allowedDataTypes);
 
 		$valid = false;
 
@@ -337,11 +376,11 @@ final class Data
 	}
 
 	/**
-	 * Verify that the content of a variable is an array or an object
+	 * Verifies that the content of a variable is an array or an object
 	 * implementing Countable.
 	 *
-	 * @param  mixed $data  The data to check.
-	 * @return bool         Returns TRUE if data is countable, FALSE otherwise.
+	 * @param  mixed $data  The input data to check.
+	 * @return bool         Returns true if data is countable, false otherwise.
 	 */
 	public static function isCountable($data) : bool
 	{
@@ -360,14 +399,20 @@ final class Data
 	}
 
 	/**
-	 * @param  array $allowedDataTypes
-	 * @param  int   $argument
-	 * @param  mixed $data
+	 * Throws an InvalidArgumentException if the given data is not the allowed data type.
+	 *
+	 * @param  string|array $allowedDataTypes  The allowed data types. Multiple values can be separated by comma.
+	 * @param  int         $argument           The position of argument.
+	 * @param  mixed       $data               The data to check.
 	 * @return void
 	 */
-	public static function expects(array $allowedDataTypes, int $argument, $data = null) : void
+	public static function expects($allowedDataTypes, int $argument, $data) : void
 	{
-		$dataType = strtolower(gettype($data));
+		if (!is_array($allowedDataTypes))
+			$allowedDataTypes = explode(',', $allowedDataTypes);
+
+		$allowedDataTypes = array_map('strtolower', $allowedDataTypes);
+		$dataType = gettype($data);
 
 		// gettype($data) will returns
 		// 'interger', not 'int'
@@ -397,17 +442,20 @@ final class Data
 	}
 
 	/**
-	 * @param  string $fromType
-	 * @param  string $toType
-	 * @param  mixed  $data
+	 * Converts the given data variable to new data type ($toType)
+	 * if the original data type is as specified in $fromType.
+	 *
+	 * @param  string $fromType  The original data type.
+	 * @param  string $toType    The new data type.
+	 * @param  mixed  $var       The variable.
 	 * @return void
 	 */
-	public static function convert(string $fromType, string $toType, &$data) : void
+	public static function convert(string $fromType, string $toType, &$var) : void
 	{
-		$dataType = strtolower(gettype($data));
+		$dataType = strtolower(gettype($var));
 		$fromType = strtolower($fromType);
 
-		// gettype($data) will returns
+		// gettype($var) will returns
 		// 'interger', not 'int'
 		// 'double', not 'float'
 		// 'boolean', not 'bool'
@@ -432,34 +480,34 @@ final class Data
 			switch ($toType)
 			{
 				case 'string':
-					$data = Data::ensureString($data);
+					$var = static::ensureString($var);
 					break;
 
 				case 'int':
 				case 'integer':
-					$data = Data::ensureInt($data);
+					$var = static::ensureInt($var);
 					break;
 
 				case 'float':
 				case 'double':
-					$data = Data::ensureFloat($data);
+					$var = static::ensureFloat($var);
 					break;
 
 				case 'bool':
 				case 'boolean':
-					$data = Data::ensureBool($data);
+					$var = static::ensureBool($var);
 					break;
 
 				case 'array':
-					$data = Data::ensureArray($data);
+					$var = static::ensureArray($var);
 					break;
 
 				case 'object':
-					$data = Data::ensureObject($data);
+					$var = static::ensureObject($var);
 					break;
 
 				case 'null':
-					$data = null;
+					$var = null;
 					break;
 			}
 		}
