@@ -36,7 +36,7 @@ class Arr
 	private function __construct(){}
 
 	/**
-	 * Sets a value to the element at the specified position in the given array
+	 * Sets the given value to the element at the specified position in the given array
 	 * using path strings with dots.
 	 *
 	 * For example,
