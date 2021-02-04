@@ -38,8 +38,8 @@ final class Xml
 	 * @param  string $root     Optionally, the name of the root element. Defaults to 'root'.
 	 * @param  string $element  Optionally, the name of the elements that represent the array elements. Defaults to
 	 *                          'element'.
-	 * @param  string $newline  Optionally, newline character. Default to "\n".
-	 * @param  string $tab      Optionally, tab character. Default to "\t".
+	 * @param  string $newline  Optionally, newline character. Default to \n
+	 * @param  string $tab      Optionally, tab character. Default to \t
 	 * @return string           Returns the well-formed XML document.
 	 */
 	public static function fromDataset(array  $dataset, string $root = 'root', string $element = 'element', string $newline = "\n", $tab = "\t") : string
@@ -59,8 +59,8 @@ final class Xml
 	 * @param  string $root       Optionally, the name of the root element. Defaults to 'root'.
 	 * @param  string $element    Optionally, the name of the elements that represent the array elements. Defaults to
 	 *                            'element'.
-	 * @param  string $newline    Optionally, newline character. Default to "\n".
-	 * @param  string $tab        Optionally, tab character. Default to "\t".
+	 * @param  string $newline    Optionally, newline character. Default to \n
+	 * @param  string $tab        Optionally, tab character. Default to \t
 	 * @return string             Returns the well-formed XML document.
 	 */
 	public static function fromRecordset(array  $recordset, string $root = 'root', string $element = 'element', string $newline = "\n", $tab = "\t") : string
