@@ -31,9 +31,11 @@ final class Config
 	private function __construct(){}
 
 	/**
-	 * @param  string      $key
-	 * @param  string|null $default
-	 * @return mixed
+	 * Returns a value from the config array.
+	 *
+	 * @param  string      $key      The key name to get.
+	 * @param  string|null $default  Optionally, the default value if the config value is empty.
+	 * @return mixed                 Returns the config value.
 	 */
 	public static function get(string $key, string $default = null)
 	{
@@ -58,8 +60,8 @@ final class Config
 	/**
 	 * Sets a value in the config array.
 	 *
-	 * @param  string $key
-	 * @param  mixed  $value
+	 * @param  string $key    The key to set.
+	 * @param  mixed  $value  The value to set.
 	 * @return void
 	 */
 	public static function set(string $key, $value) : void
@@ -70,7 +72,7 @@ final class Config
 	/**
 	 * Removes value in the config array.
 	 *
-	 * @param  string $key
+	 * @param  string $key  The key name to remove.
 	 * @return void
 	 */
 	public static function remove(string $key) : void
@@ -82,10 +84,15 @@ final class Config
 	 * Returns a value from the config array using the
 	 * method call as the file reference.
 	 *
-	 * @example Config::app('url');
-	 * @param   string $method
-	 * @param   array  $args
-	 * @return  mixed
+	 * For example,
+	 *
+	 * ```php
+	 * echo Config::app('ur');
+	 * ```
+	 *
+	 * @param   string $method  Original method name.
+	 * @param   array  $args    Arguments passed to the method.
+	 * @return  mixed           Returns result of the get method.
 	 */
 	public static function __callStatic(string $method, array $args)
 	{
