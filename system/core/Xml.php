@@ -38,8 +38,8 @@ final class Xml
 	 * @param  string $root     Optionally, the name of the root element. Defaults to 'root'.
 	 * @param  string $element  Optionally, the name of the elements that represent the array elements. Defaults to
 	 *                          'element'.
-	 * @param  string $newline  Optionally, the newline character. Default to "\n".
-	 * @param  string $tab      Optionally, the tab character. Default to "\t".
+	 * @param  string $newline  Optionally, newline character. Default to "\n".
+	 * @param  string $tab      Optionally, tab character. Default to "\t".
 	 * @return string           Returns the well-formed XML document.
 	 */
 	public static function fromDataset(array  $dataset, string $root = 'root', string $element = 'element', string $newline = "\n", $tab = "\t") : string
@@ -59,8 +59,8 @@ final class Xml
 	 * @param  string $root       Optionally, the name of the root element. Defaults to 'root'.
 	 * @param  string $element    Optionally, the name of the elements that represent the array elements. Defaults to
 	 *                            'element'.
-	 * @param  string $newline    Optionally, the newline character. Default to "\n".
-	 * @param  string $tab        Optionally, the tab character. Default to "\t".
+	 * @param  string $newline    Optionally, newline character. Default to "\n".
+	 * @param  string $tab        Optionally, tab character. Default to "\t".
 	 * @return string             Returns the well-formed XML document.
 	 */
 	public static function fromRecordset(array  $recordset, string $root = 'root', string $element = 'element', string $newline = "\n", $tab = "\t") : string
@@ -115,9 +115,9 @@ final class Xml
 	/**
 	 * Converts reserved XML characters to entities.
 	 *
-	 * @param  mixed  $string
-	 * @param  bool   $protectAll
-	 * @return string
+	 * @param  mixed  $string      The input string.
+	 * @param  bool   $protectAll  Optional. Defaults to false.
+	 * @return string              Returns the encoded string.
 	 */
 	public static function safe($string, bool $protectAll = false) : string
 	{
@@ -129,7 +129,7 @@ final class Xml
 			// ampersands won't get messed up
 			$string = preg_replace('/&#(\d+);/', $temp . '\\1;', $string);
 
-			if ($protectAll === true)
+			if ($protectAll)
 				$string = preg_replace('/&(\w+);/', $temp . '\\1;', $string);
 
 			$search = ['&', '<', '>', '"', "'", '-'];
@@ -140,8 +140,8 @@ final class Xml
 			// Decode the temp markers back to entities
 			$string = preg_replace('/' . $temp . '(\d+);/', '&#\\1;', $string);
 
-			if ($protectAll === true)
-				return preg_replace('/' . $temp . '(\w+);/', '&\\1;', $string);
+			if ($protectAll)
+				$string = preg_replace('/' . $temp . '(\w+);/', '&\\1;', $string);
 		}
 
 		return (string)$string;
@@ -153,8 +153,8 @@ final class Xml
 	 * @param  array  $datasetOrRecordset  The input dataset (array of arrays) or recordset (array of objects).
 	 * @param  string $root                The name of the root element.
 	 * @param  string $element             The name of the elements that represent the array elements.
-	 * @param  string $newline             The newline character.
-	 * @param  string $tab                 The tab character.
+	 * @param  string $newline             Newline character.
+	 * @param  string $tab                 Tab character.
 	 * @return string                      Returns the well-formed XML document.
 	 */
 	private static function _fromDatasetOrRecordset(array  $datasetOrRecordset, string $root, string $element, string $newline, string $tab) : string
