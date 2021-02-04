@@ -2839,11 +2839,11 @@ class Str
 	 * Type:
 	 *	alpha:   A string with lower and uppercase letters only.
 	 *	alnum:   Alpha-numeric string with lower and uppercase characters.
-	 *	numeric: Numeric string.
+	 *	num: Numeric string.
 	 *	nozero:  Numeric string with no zeros.
 	 *
 	 * @param  int    $length  The length of string to create.
-	 * @param  string $type    Optionally, type of character to ramdom, alnum|numeric|alpha|nozero. Defaults to alnum.
+	 * @param  string $type    Optionally, type of character to ramdom, alnum|alpha|num|nozero. Defaults to alnum.
 	 * @return string          Returns a random string.
 	 */
 	public static function random(int $length = 8, string $type = 'alnum') : string
@@ -2854,7 +2854,7 @@ class Str
 				$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 				break;
 
-			case 'numeric':
+			case 'num':
 				$characters = '0123456789';
 				break;
 
