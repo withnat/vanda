@@ -221,7 +221,7 @@ final class Inflector
 	 * Returns an array of strings each of which is a substring of string formed
 	 * by splitting it at the camelcased letters.
 	 *
-	 * e.g., "FooBar" to ["foo", "bar"]
+	 * e.g., "FooBar" becomes ["foo", "bar"]
 	 *
 	 * @param  string $string  The input word to explode.
 	 * @return array           Returns an array of strings.
@@ -236,7 +236,7 @@ final class Inflector
 	/**
 	 * Converts the given array of strings to a "CamelCased" word.
 	 *
-	 * e.g., ["foo", "bar"] to "FooBar"
+	 * e.g., ["foo", "bar"] becomes "FooBar"
 	 *
 	 * @param  array  $string  The input qrray to implode.
 	 * @return string          Returns UpperCamelCased word.
@@ -252,7 +252,7 @@ final class Inflector
 	 * Returns a human-readable string from the given string by replacing the
 	 * separator with a space, and by upper-casing the initial character by default.
 	 *
-	 * e.g., "I had my car fixed_yesTerday" to "I Had My Car Fixed Yesterday".
+	 * e.g., "I had my car fixed_yesTerday" becomes "I Had My Car Fixed Yesterday".
 	 *
 	 * @param  string $string     The input string.
 	 * @param  string $separator  Optionally, the input separator. Defaults to '_''.
@@ -271,8 +271,8 @@ final class Inflector
 	 *
 	 * e.g.,
 	 *
-	 * "Some Day" or "some_day" to "someDay"
-	 * "She's hot" to "sheSHot"
+	 * "Some Day" or "some_day" becomes "someDay"
+	 * "She's hot" becomes "sheSHot"
 	 *
 	 * @param  string $string  The input string being camelBacked.
 	 * @return string          Returns camelBacked word.
@@ -289,7 +289,7 @@ final class Inflector
 	/**
 	 * Converts the given string (class, model or table name) to a foreign key format.
 	 *
-	 * e.g., "UserGroup" to "userGroupId"
+	 * e.g., "UserGroup" becomes "userGroupId"
 	 *
 	 * @param  string $string  The input string (class, model or table name).
 	 * @return string          Returns a foreign key.
@@ -311,7 +311,7 @@ final class Inflector
 	 * Takes a "title" string as input and creates a human-friendly URL string
 	 * with a "separator" string as the word separator.
 	 *
-	 * e.g., "Url Friendly" to "url-friendly"
+	 * e.g., "Url Friendly" becomes "url-friendly"
 	 *
 	 * @param  string $string     The input string.
 	 * @param  string $separator  Optionally, word separator (usually '-' or '_'). Defaults to '-'.
@@ -343,15 +343,15 @@ final class Inflector
 	}
 
 	/**
-	 * Add order suffix to numbers.
+	 * Add order suffix becomes numbers.
 	 *
 	 * e.g.,
 	 *
-	 * 1 to "1st"
-	 * 2 to "2nd"
-	 * 3 to "3rd"
-	 * 4 to "4th"
-	 * 5 to "5th"
+	 * 1 becomes "1st"
+	 * 2 becomes "2nd"
+	 * 3 becomes "3rd"
+	 * 4 becomes "4th"
+	 * 5 becomes "5th"
 	 *
 	 * @param  int    $number  The input number to get its ordinal value.
 	 * @return string          Returns the ordinalized version of $number.
@@ -384,9 +384,9 @@ final class Inflector
 	 *
 	 * e.g.,
 	 *
-	 * "Some Day" to "SomeDayController"
-	 * "some_day" to "SomeDayController"
-	 * "She's hot" to "SheSHotController"
+	 * "Some Day" becomes "SomeDayController"
+	 * "some_day" becomes "SomeDayController"
+	 * "She's hot" becomes "SheSHotController"
 	 *
 	 * @param  string $string  The input string.
 	 * @return string          Returns the converted string.
@@ -403,9 +403,9 @@ final class Inflector
 	 *
 	 * e.g.,
 	 *
-	 * "Some Day" to "SomeDayAction"
-	 * "some_day" to "SomeDayAction"
-	 * "She's hot" to "SheSHotAction"
+	 * "Some Day" becomes "SomeDayAction"
+	 * "some_day" becomes "SomeDayAction"
+	 * "She's hot" becomes "SheSHotAction"
 	 *
 	 * @param  string $string  The input string.
 	 * @return string          Returns the converted string.
