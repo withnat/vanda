@@ -145,7 +145,7 @@ final class Json
 	/**
 	 * Returns the last error occurred.
 	 *
-	 * @return string
+	 * @return string  Returns the error message.
 	 * @codeCoverageIgnore
 	 */
 	private static function _getError() : string
