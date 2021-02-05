@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use InvalidArgumentException;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Xml;
@@ -35,13 +36,13 @@ class XmlTest extends TestCase
 			[
 				'name' => 'Nat',
 				'surname' => 'Withe',
-				'work' => 'Web Developer',
+				'job' => 'Web Developer',
 				'salary' => 10000
 			],
 			[
 				'name' => 'Angela',
 				'surname' => 'SG',
-				'work' => 'Marketing Director',
+				'job' => 'Marketing Director',
 				'salary' => 10000
 			]
 		];
@@ -53,7 +54,7 @@ class XmlTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Nat';
 		$data->surname = 'Withe';
-		$data->work = 'Web Developer';
+		$data->job = 'Web Developer';
 		$data->salary = 10000;
 
 		static::$_recordset[] = $data;
@@ -61,7 +62,7 @@ class XmlTest extends TestCase
 		$data = new stdClass();
 		$data->name = 'Angela';
 		$data->surname = 'SG';
-		$data->work = 'Marketing Director';
+		$data->job = 'Marketing Director';
 		$data->salary = 10000;
 
 		static::$_recordset[] = $data;
@@ -72,13 +73,13 @@ class XmlTest extends TestCase
 		static::$xml .= "\t<element>\n";
 		static::$xml .= "\t\t<name>Nat</name>\n";
 		static::$xml .= "\t\t<surname>Withe</surname>\n";
-		static::$xml .= "\t\t<work>Web Developer</work>\n";
+		static::$xml .= "\t\t<job>Web Developer</job>\n";
 		static::$xml .= "\t\t<salary>10000</salary>\n";
 		static::$xml .= "\t</element>\n";
 		static::$xml .= "\t<element>\n";
 		static::$xml .= "\t\t<name>Angela</name>\n";
 		static::$xml .= "\t\t<surname>SG</surname>\n";
-		static::$xml .= "\t\t<work>Marketing Director</work>\n";
+		static::$xml .= "\t\t<job>Marketing Director</job>\n";
 		static::$xml .= "\t\t<salary>10000</salary>\n";
 		static::$xml .= "\t</element>\n";
 		static::$xml .= "</root>\n";
@@ -89,12 +90,17 @@ class XmlTest extends TestCase
 		static::$_dataset = null;
 		static::$_recordset = null;
 		static::$xml = null;
+
+		Mockery::close();
 	}
 
 	// Xml::fromDataset()
 
 	public function testMethodFromDatasetCase1() : void
 	{
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('isDataset')->andReturnFalse();
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Xml::fromDataset(['string']);
@@ -102,6 +108,9 @@ class XmlTest extends TestCase
 
 	public function testMethodFromDatasetCase2() : void
 	{
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('isDataset')->andReturnTrue();
+
 		$result = Xml::fromDataset(static::$_dataset);
 
 		$this->assertEquals(static::$xml, $result);
@@ -111,6 +120,9 @@ class XmlTest extends TestCase
 
 	public function testMethodFromRecordsetCase1() : void
 	{
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('isRecordset')->andReturnFalse();
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Xml::fromRecordset(['string']);
@@ -118,6 +130,9 @@ class XmlTest extends TestCase
 
 	public function testMethodFromRecordsetCase2() : void
 	{
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('isRecordset')->andReturnTrue();
+
 		$result = Xml::fromRecordset(static::$_recordset);
 
 		$this->assertEquals(static::$xml, $result);
@@ -134,27 +149,12 @@ class XmlTest extends TestCase
 
 	public function testMethodToArrayCase2() : void
 	{
-		$expected = [
-			'element' => [
-				[
-					'name' => 'Nat',
-					'surname' => 'Withe',
-					'work' => 'Web Developer',
-					'salary' => '10000' // Xml::toArray() converts number to string.
-				],
-				[
-					'name' => 'Angela',
-					'surname' => 'SG',
-					'work' => 'Marketing Director',
-					'salary' => '10000' // Xml::toArray() converts number to string.
-				]
-			]
-		];
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('fromObject')->andReturn([]);
 
 		$result = Xml::toArray(static::$xml);
-		$compare = ($result === $expected);
 
-		$this->assertTrue($compare);
+		$this->assertEquals([], $result);
 	}
 
 	// Xml::toObject()
@@ -173,13 +173,13 @@ class XmlTest extends TestCase
 				[
 					'name' => 'Nat',
 					'surname' => 'Withe',
-					'work' => 'Web Developer',
+					'job' => 'Web Developer',
 					'salary' => '10000' // string.
 				],
 				[
 					'name' => 'Angela',
 					'surname' => 'SG',
-					'work' => 'Marketing Director',
+					'job' => 'Marketing Director',
 					'salary' => '10000' // string.
 				]
 			]
@@ -208,27 +208,12 @@ class XmlTest extends TestCase
 
 	public function testMethodToDatasetCase2() : void
 	{
-		$expected = [
-			'element' => [
-				[
-					'name' => 'Nat',
-					'surname' => 'Withe',
-					'work' => 'Web Developer',
-					'salary' => '10000' // Xml::toArray() converts number to string.
-				],
-				[
-					'name' => 'Angela',
-					'surname' => 'SG',
-					'work' => 'Marketing Director',
-					'salary' => '10000' // Xml::toArray() converts number to string.
-				]
-			]
-		];
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('fromObject')->andReturn([]);
 
-		$result = Xml::toDataset(static::$xml);
-		$compare = ($result === $expected);
+		$result = Xml::toArray(static::$xml);
 
-		$this->assertTrue($compare);
+		$this->assertEquals([], $result);
 	}
 
 	// Xml::toRecordset()
@@ -247,13 +232,13 @@ class XmlTest extends TestCase
 				[
 					'name' => 'Nat',
 					'surname' => 'Withe',
-					'work' => 'Web Developer',
+					'job' => 'Web Developer',
 					'salary' => '10000' // string.
 				],
 				[
 					'name' => 'Angela',
 					'surname' => 'SG',
-					'work' => 'Marketing Director',
+					'job' => 'Marketing Director',
 					'salary' => '10000' // string.
 				]
 			]
