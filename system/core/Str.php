@@ -2799,10 +2799,7 @@ class Str
 			if (is_int($limit) and $limit != 0)
 			{
 				if ($limit < 0)
-				{
-					$limit = abs($limit);
-					$output = Arr::last($array, $limit);
-				}
+					$output = Arr::last($array, abs($limit));
 				else // > 0
 					$output = Arr::first($array, $limit);
 			}
