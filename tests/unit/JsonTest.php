@@ -16,6 +16,7 @@ namespace Tests\Unit;
 
 use ErrorException;
 use InvalidArgumentException;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Json;
@@ -117,6 +118,8 @@ class JsonTest extends TestCase
 		static::$_dataset = null;
 		static::$_recordset = null;
 		static::$_jsonString = null;
+
+		Mockery::close();
 	}
 
 	// Json::isValid()
@@ -209,6 +212,16 @@ class JsonTest extends TestCase
 	 */
 	public function testMethodEncodeCase7() : void
 	{
+		$result = Json::encode(3.14);
+
+		$this->assertEquals('3.14', $result);
+	}
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function testMethodEncodeCase8() : void
+	{
 		$result = Json::encode(true);
 
 		$this->assertEquals('true', $result);
@@ -217,7 +230,7 @@ class JsonTest extends TestCase
 	/**
 	 * @throws ErrorException
 	 */
-	public function testMethodEncodeCase8() : void
+	public function testMethodEncodeCase9() : void
 	{
 		$result = Json::encode(null);
 
@@ -278,22 +291,46 @@ class JsonTest extends TestCase
 
 	// Json::dataTable()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodDataTableCase1() : void
 	{
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('isDataset')->andReturnFalse();
+		$mockedArr->shouldReceive('isRecordset')->andReturnFalse();
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Json::dataTable(['InvalidDataSource']);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodDataTableCase2() : void
 	{
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('isDataset')->andReturnTrue();
+		$mockedArr->shouldReceive('isRecordset')->andReturnFalse();
+
 		$result = Json::dataTable(static::$_dataset);
 
 		$this->assertEquals(static::$_dataTableString, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodDataTableCase3() : void
 	{
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('isDataset')->andReturnFalse();
+		$mockedArr->shouldReceive('isRecordset')->andReturnTrue();
+
 		$result = Json::dataTable(static::$_recordset);
 
 		$this->assertEquals(static::$_dataTableString, $result);
