@@ -113,6 +113,17 @@ class Xml
 	}
 
 	/**
+	 * Converts the given XML string to dataset (array of arrays).
+	 *
+	 * @param  string $xml  The well-formed XML string.
+	 * @return array|false  Returns dataset (array of arrays), or false on failure.
+	 */
+	public static function toDataset(string $xml)
+	{
+		return static::toArray($xml);
+	}
+
+	/**
 	 * Converts reserved XML characters to entities.
 	 *
 	 * @param  mixed  $string      The input string.
