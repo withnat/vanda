@@ -120,7 +120,22 @@ class Xml
 	 */
 	public static function toDataset(string $xml)
 	{
-		return static::toArray($xml);
+		$dataset = static::toArray($xml);
+
+		return $dataset;
+	}
+
+	/**
+	 * Converts the given XML string to recordset (array of objects).
+	 *
+	 * @param  string $xml   The well-formed XML string.
+	 * @return object|array  Returns recordset (array of objects), or false on failure.
+	 */
+	public static function toRecordset(string $xml)
+	{
+		$recordset = static::toObject($xml);
+
+		return $recordset;
 	}
 
 	/**
