@@ -23,7 +23,7 @@ namespace System;
  *
  * @package System
  */
-final class Inflector
+class Inflector
 {
 	/**
 	 * Inflector constructor.
@@ -57,7 +57,7 @@ final class Inflector
 	 */
 	public static function pluralize(string $string) : string
 	{
-		if (!Inflector::isCountableWord($string))
+		if (!static::isCountableWord($string))
 			return $string;
 
 		$rules = [
@@ -125,7 +125,7 @@ final class Inflector
 	 */
 	public static function singularize(string $string) : string
 	{
-		if (!Inflector::isCountableWord($string))
+		if (!static::isCountableWord($string))
 			return $string;
 
 		$rules = [
@@ -228,7 +228,7 @@ final class Inflector
 	 */
 	public static function explode(string $string) : array
 	{
-		$string = explode('_', Inflector::underscore($string));
+		$string = explode('_', static::underscore($string));
 
 		return $string;
 	}
@@ -243,7 +243,7 @@ final class Inflector
 	 */
 	public static function implode(array $string) : string
 	{
-		$string = Inflector::camelize(implode('_', $string));
+		$string = static::camelize(implode('_', $string));
 
 		return $string;
 	}
@@ -279,7 +279,7 @@ final class Inflector
 	 */
 	public static function variablize(string $string) : string
 	{
-		$string   = Inflector::camelize(Inflector::underscore($string));
+		$string   = static::camelize(static::underscore($string));
 		$firstChar   = mb_strtolower(mb_substr($string, 0, 1));
 		$string = preg_replace('/\\w/', $firstChar, $string, 1);
 
@@ -298,7 +298,7 @@ final class Inflector
 	{
 		if ($string)
 		{
-			$string = Inflector::variablize($string);
+			$string = static::variablize($string);
 			$string = Str::ensureEndsWith($string, 'Id');
 		}
 
@@ -393,7 +393,7 @@ final class Inflector
 	 */
 	public static function controllerize(string $string) : string
 	{
-		$controller = Inflector::camelize($string) . 'Controller';
+		$controller = static::camelize($string) . 'Controller';
 
 		return $controller;
 	}
@@ -412,7 +412,7 @@ final class Inflector
 	 */
 	public static function actionize(string $string) : string
 	{
-		$action = Inflector::camelize($string) . 'Action';
+		$action = static::camelize($string) . 'Action';
 
 		return $action;
 	}
@@ -425,16 +425,16 @@ final class Inflector
 	 *
 	 * ```php
 	 * $words = ['Nat', 'Angela'];
-	 * echo Inflector::sentence($words);
-	 * // output: Nat and Angela
+	 * $result = Inflector::sentence($words);
+	 * // The $result will be: Nat and Angela
 	 *
 	 * $words = ['Nat', 'Angela', 'Vanda'];
-	 * echo Inflector::sentence($words);
-	 * // output: Nat, Angela and Angela
+	 * $result = Inflector::sentence($words);
+	 * // The $result will be: Nat, Angela and Angela
 	 *
 	 * $words = ['Nat', 'Angela', 'Vanda'];
-	 * echo Inflector::sentence($words, ' & ');
-	 * // output: Nat, Angela & Vanda
+	 * $result = Inflector::sentence($words, ' & ');
+	 * // The $result will be: Nat, Angela & Vanda
 	 * ```
 	 *
 	 * @param  array       $words              The input words to be converted into an string.
