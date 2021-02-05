@@ -27,7 +27,7 @@ class CsvTest extends TestCase
 {
 	protected static $_dataset;
 	protected static $_recordset;
-	protected static $_csvString;
+	protected static $_csv;
 
 	protected function setUp() : void
 	{
@@ -68,16 +68,16 @@ class CsvTest extends TestCase
 
 		//
 
-		static::$_csvString = '"name","surname","work","salary"' . "\n";
-		static::$_csvString .= '"Nat","Withe","Web Developer","10000"' . "\n";
-		static::$_csvString .= '"Angela","SG","Marketing Director","10000"' . "\n";
+		static::$_csv = '"name","surname","work","salary"' . "\n";
+		static::$_csv .= '"Nat","Withe","Web Developer","10000"' . "\n";
+		static::$_csv .= '"Angela","SG","Marketing Director","10000"' . "\n";
 	}
 
 	protected function tearDown() : void
 	{
 		static::$_dataset = null;
 		static::$_recordset = null;
-		static::$_csvString = null;
+		static::$_csv = null;
 	}
 
 	// Csv::fromDataset()
@@ -93,7 +93,7 @@ class CsvTest extends TestCase
 	{
 		$result = Csv::fromDataset(static::$_dataset);
 
-		$this->assertEquals(static::$_csvString, $result);
+		$this->assertEquals(static::$_csv, $result);
 	}
 
 	// Csv::fromRecordset()
@@ -109,7 +109,7 @@ class CsvTest extends TestCase
 	{
 		$result = Csv::fromRecordset(static::$_recordset);
 
-		$this->assertEquals(static::$_csvString, $result);
+		$this->assertEquals(static::$_csv, $result);
 	}
 
 	// Csv::toArray()
@@ -127,17 +127,17 @@ class CsvTest extends TestCase
 				'Nat',
 				'Withe',
 				'Web Developer',
-				'10000' // Csv::toArray() will converts number to string.
+				'10000' // Csv::toArray() converts number to string.
 			],
 			[
 				'Angela',
 				'SG',
 				'Marketing Director',
-				'10000' // Csv::toArray() will converts number to string.
+				'10000' // Csv::toArray() converts number to string.
 			]
 		];
 
-		$result = Csv::toArray(static::$_csvString);
+		$result = Csv::toArray(static::$_csv);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -145,14 +145,14 @@ class CsvTest extends TestCase
 
 	// Csv::toDataset()
 
-	public function testMethodToAssociativeCase1() : void
+	public function testMethodToDatasetCase1() : void
 	{
-		// Csv::toArray() will converts number to string.
+		// Csv::toArray() converts number to string.
 		$expected = static::$_dataset;
 		$expected[0]['salary'] = '10000';
 		$expected[1]['salary'] = '10000';
 
-		$result = Csv::toDataset(static::$_csvString);
+		$result = Csv::toDataset(static::$_csv);
 
 		$compare = ($result === $expected);
 
@@ -169,11 +169,11 @@ class CsvTest extends TestCase
 		$expected[0] = (array)$expected[0];
 		$expected[1] = (array)$expected[1];
 
-		// Csv::toArray() will converts number to string.
+		// Csv::toArray() converts number to string.
 		$expected[0]['salary'] = '10000';
 		$expected[1]['salary'] = '10000';
 
-		$result = Csv::toRecordset(static::$_csvString);
+		$result = Csv::toRecordset(static::$_csv);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
