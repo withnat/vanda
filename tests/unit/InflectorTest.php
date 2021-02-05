@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use System\Inflector;
 
@@ -163,6 +164,11 @@ class InflectorTest extends TestCase
 		];
 	}
 
+	protected function tearDown() : void
+	{
+		Mockery::close();
+	}
+
 	// Inflector::isCountableWord()
 
 	/**
@@ -172,6 +178,9 @@ class InflectorTest extends TestCase
 	 */
 	public function testMethodIsCountableWord(string $string, bool $expected) : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('inflector')->with('unCountableWords')->andReturn(['audio']);
+
 		$result = Inflector::isCountableWord($string);
 
 		$this->assertSame($expected, $result);
@@ -186,6 +195,9 @@ class InflectorTest extends TestCase
 	 */
 	public function testMethodPluralize(string $noun, string $expected) : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('inflector')->with('unCountableWords')->andReturn(['audio']);
+
 		$result = Inflector::pluralize($noun);
 
 		$this->assertEquals($expected, $result);
@@ -200,6 +212,9 @@ class InflectorTest extends TestCase
 	 */
 	public function testMethodSingularize(string $noun, string $expected) : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('inflector')->with('unCountableWords')->andReturn(['audio']);
+
 		$result = Inflector::singularize($noun);
 
 		$this->assertEquals($expected, $result);
@@ -283,6 +298,16 @@ class InflectorTest extends TestCase
 	 */
 	public function testMethodForeignKey(string $string, string $expected) : void
 	{
+		$mockedStr = Mockery::mock('alias:\System\Str');
+		$mockedStr->shouldReceive('ensureEndsWith')
+			->andReturnUsing(function ($arg1, $arg2)
+			{
+				if ($arg1)
+					return $arg1 . $arg2;
+				else
+					return '';
+			});
+
 		$result = Inflector::foreignKey($string);
 
 		$this->assertEquals($expected, $result);
