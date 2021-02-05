@@ -24,7 +24,7 @@ use System\Exception\InvalidArgumentException;
  *
  * @package System
  */
-final class Xml
+class Xml
 {
 	/**
 	 * Xml constructor.
@@ -47,7 +47,7 @@ final class Xml
 		if (!Arr::isDataset($dataset))
 			throw InvalidArgumentException::typeError(1, ['dataset'], $dataset);
 
-		$xml = Xml::_fromDatasetOrRecordset($dataset, $root, $element, $newline, $tab);
+		$xml = static::_fromDatasetOrRecordset($dataset, $root, $element, $newline, $tab);
 
 		return $xml;
 	}
@@ -68,7 +68,7 @@ final class Xml
 		if (!Arr::isRecordset($recordset))
 			throw InvalidArgumentException::typeError(1, ['recordset'], $recordset);
 
-		$xml = Xml::_fromDatasetOrRecordset($recordset, $root, $element, $newline, $tab);
+		$xml = static::_fromDatasetOrRecordset($recordset, $root, $element, $newline, $tab);
 
 		return $xml;
 	}
@@ -82,7 +82,7 @@ final class Xml
 	 */
 	public static function toArray(string $xml) : array
 	{
-		$object = Xml::toObject($xml);
+		$object = static::toObject($xml);
 
 		if ($object === false)
 			return false;
@@ -104,7 +104,7 @@ final class Xml
 		$xml = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
 		$json = json_encode($xml);
 
-		// preven json_encode converts empty value to array.
+		// prevent json_encode converts empty value to array.
 		$json = str_replace('{}', '""', $json);
 
 		$object = json_decode($json);
@@ -168,7 +168,7 @@ final class Xml
 			foreach ($row as $key => $value)
 			{
 				if (is_string($value))
-					$value = Xml::safe($value);
+					$value = static::safe($value);
 
 				$xml .= $tab . $tab . '<' . $key . '>' . $value . '</' . $key . '>' . $newline;
 			}
