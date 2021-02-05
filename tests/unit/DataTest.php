@@ -216,20 +216,6 @@ class DataTest extends TestCase
 	public function testMethodSetCase2() : void
 	{
 		$expected = [
-			[[['C']]],
-			'B',
-			['X', 'Y']
-		];
-
-		$result = Data::set(static::$_dataArray, '0.0.0.0', 'C');
-		$compare = ($result === $expected);
-
-		$this->assertTrue($compare);
-	}
-
-	public function testMethodSetCase3() : void
-	{
-		$expected = [
 			'name' => 'Nat',
 			'surname' => 'Withe',
 			'age' => 38,
