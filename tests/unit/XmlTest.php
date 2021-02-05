@@ -231,6 +231,46 @@ class XmlTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
+	// Xml::toRecordset()
+
+	public function testMethodToRecordsetCase1() : void
+	{
+		$result = Xml::toRecordset('');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodToRecordsetCase2() : void
+	{
+		$expected = [
+			'element' => [
+				[
+					'name' => 'Nat',
+					'surname' => 'Withe',
+					'work' => 'Web Developer',
+					'salary' => '10000' // string.
+				],
+				[
+					'name' => 'Angela',
+					'surname' => 'SG',
+					'work' => 'Marketing Director',
+					'salary' => '10000' // string.
+				]
+			]
+		];
+
+		$result = Xml::toRecordset(static::$xml);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result = (array)$result;
+		$result['element'][0] = (array)$result['element'][0];
+		$result['element'][1] = (array)$result['element'][1];
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
 	// Xml::safe()
 
 	public function testMethodSafeCase1() : void
