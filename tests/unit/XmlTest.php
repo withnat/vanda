@@ -125,7 +125,14 @@ class XmlTest extends TestCase
 
 	// Xml::toArray()
 
-	public function testMethodToArrayCase1() : void
+	public function testMethodToObjectCase1() : void
+	{
+		$result = Xml::toArray('');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodToArrayCase2() : void
 	{
 		$expected = [
 			'element' => [
