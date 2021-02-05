@@ -69,7 +69,7 @@ class Data
 			throw InvalidArgumentException::typeError(1, ['array', 'object'], $data);
 
 		if (is_string($keys))
-			$keys = Str::explode($keys, '.');
+			$keys = explode('.', $keys);
 		elseif (is_int($keys))
 			$keys = [$keys];
 		else
@@ -175,7 +175,9 @@ class Data
 			eval($dataAssigner);
 		}
 		else
+			// @codeCoverageIgnoreStart
 			$data = Arr::set($data, $key, $value);
+			// @codeCoverageIgnoreEnd
 
 		return $data;
 	}
