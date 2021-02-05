@@ -80,7 +80,7 @@ class Xml
 	 * @return array|false  Returns an array of class SimpleXMLElement with elements containing the data held within the
 	 *                      XML document, or false on failure.
 	 */
-	public static function toArray(string $xml) : array
+	public static function toArray(string $xml)
 	{
 		$object = static::toObject($xml);
 
