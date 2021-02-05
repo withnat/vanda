@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use InvalidArgumentException;
-use Mockery;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Arr;
@@ -288,8 +287,6 @@ class ArrTest extends TestCase
 		static::$_expectedSortDatasetByNameDesc = null;
 		static::$_expectedSortRecordsetByNameAsc = null;
 		static::$_expectedSortRecordsetByNameDesc = null;
-
-        Mockery::close();
 	}
 
 	// Arr::set()
