@@ -313,69 +313,6 @@ class Data
 	}
 
 	/**
-	 * Throws an InvalidArgumentException if the given data is not the allowed data type.
-	 *
-	 * @param  string $allowedDataTypes  The allowed data types. Multiple values can be separated by comma.
-	 * @param  int    $argument          The position of argument.
-	 * @param  mixed  $data              The data to check.
-	 * @return void
-	 */
-	public static function is(string $allowedDataTypes, int $argument, $data) : void
-	{
-		$allowedDataTypes = strtolower($allowedDataTypes);
-		$allowedDataTypes = explode(',', $allowedDataTypes);
-
-		$valid = false;
-
-		foreach ($allowedDataTypes as $dataType)
-		{
-			if ($dataType === 'string' and is_string($data))
-			{
-				$valid = true;
-				break;
-			}
-			elseif (($dataType === 'int' or $dataType === 'integer') and is_int($data))
-			{
-				$valid = true;
-				break;
-			}
-			elseif ($dataType === 'float' and is_float($data))
-			{
-				$valid = true;
-				break;
-			}
-			elseif (($dataType === 'bool' or $dataType === 'boolean') and is_bool($data))
-			{
-				$valid = true;
-				break;
-			}
-			elseif ($dataType === 'array' and is_array($data))
-			{
-				$valid = true;
-				break;
-			}
-			elseif ($dataType === 'object' and is_object($data))
-			{
-				$valid = true;
-				break;
-			}
-			elseif ($dataType === 'null' and is_null($data))
-			{
-				$valid = true;
-				break;
-			}
-			elseif ($dataType === 'resource' and is_resource($data))
-			{
-				$valid = true;
-				break;
-			}
-		}
-
-		if (!$valid)
-			throw InvalidArgumentException::typeError($argument, $allowedDataTypes, $data);
-	}
-
-	/**
 	 * Verifies that the content of a variable is an array or an object
 	 * implementing Countable.
 	 *
@@ -412,7 +349,7 @@ class Data
 			$allowedDataTypes = explode(',', $allowedDataTypes);
 
 		$allowedDataTypes = array_map('strtolower', $allowedDataTypes);
-		$dataType = gettype($data);
+		$dataType = strtolower(gettype($data)); // NULL becames null.
 
 		// gettype($data) will returns
 		// 'interger', not 'int'
