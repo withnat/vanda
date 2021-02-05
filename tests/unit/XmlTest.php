@@ -96,6 +96,10 @@ class XmlTest extends TestCase
 
 	// Xml::fromDataset()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodFromDatasetCase1() : void
 	{
 		$mockedArr = Mockery::mock('alias:\System\Arr');
@@ -106,6 +110,10 @@ class XmlTest extends TestCase
 		Xml::fromDataset(['string']);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodFromDatasetCase2() : void
 	{
 		$mockedArr = Mockery::mock('alias:\System\Arr');
@@ -118,6 +126,10 @@ class XmlTest extends TestCase
 
 	// Xml::fromRecordset()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodFromRecordsetCase1() : void
 	{
 		$mockedArr = Mockery::mock('alias:\System\Arr');
@@ -128,6 +140,10 @@ class XmlTest extends TestCase
 		Xml::fromRecordset(['string']);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodFromRecordsetCase2() : void
 	{
 		$mockedArr = Mockery::mock('alias:\System\Arr');
@@ -147,6 +163,10 @@ class XmlTest extends TestCase
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodToArrayCase2() : void
 	{
 		$mockedArr = Mockery::mock('alias:\System\Arr');
@@ -206,6 +226,10 @@ class XmlTest extends TestCase
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodToDatasetCase2() : void
 	{
 		$mockedArr = Mockery::mock('alias:\System\Arr');
