@@ -27,7 +27,7 @@ class XmlTest extends TestCase
 {
 	protected static $_dataset;
 	protected static $_recordset;
-	protected static $_xmlString;
+	protected static $xml;
 
 	protected function setUp() : void
 	{
@@ -68,27 +68,27 @@ class XmlTest extends TestCase
 
 		//
 
-		static::$_xmlString = "<root>\n";
-		static::$_xmlString .= "\t<element>\n";
-		static::$_xmlString .= "\t\t<name>Nat</name>\n";
-		static::$_xmlString .= "\t\t<surname>Withe</surname>\n";
-		static::$_xmlString .= "\t\t<work>Web Developer</work>\n";
-		static::$_xmlString .= "\t\t<salary>10000</salary>\n";
-		static::$_xmlString .= "\t</element>\n";
-		static::$_xmlString .= "\t<element>\n";
-		static::$_xmlString .= "\t\t<name>Angela</name>\n";
-		static::$_xmlString .= "\t\t<surname>SG</surname>\n";
-		static::$_xmlString .= "\t\t<work>Marketing Director</work>\n";
-		static::$_xmlString .= "\t\t<salary>10000</salary>\n";
-		static::$_xmlString .= "\t</element>\n";
-		static::$_xmlString .= "</root>\n";
+		static::$xml = "<root>\n";
+		static::$xml .= "\t<element>\n";
+		static::$xml .= "\t\t<name>Nat</name>\n";
+		static::$xml .= "\t\t<surname>Withe</surname>\n";
+		static::$xml .= "\t\t<work>Web Developer</work>\n";
+		static::$xml .= "\t\t<salary>10000</salary>\n";
+		static::$xml .= "\t</element>\n";
+		static::$xml .= "\t<element>\n";
+		static::$xml .= "\t\t<name>Angela</name>\n";
+		static::$xml .= "\t\t<surname>SG</surname>\n";
+		static::$xml .= "\t\t<work>Marketing Director</work>\n";
+		static::$xml .= "\t\t<salary>10000</salary>\n";
+		static::$xml .= "\t</element>\n";
+		static::$xml .= "</root>\n";
 	}
 
 	protected function tearDown() : void
 	{
 		static::$_dataset = null;
 		static::$_recordset = null;
-		static::$_xmlString = null;
+		static::$xml = null;
 	}
 
 	// Xml::fromDataset()
@@ -104,7 +104,7 @@ class XmlTest extends TestCase
 	{
 		$result = Xml::fromDataset(static::$_dataset);
 
-		$this->assertEquals(static::$_xmlString, $result);
+		$this->assertEquals(static::$xml, $result);
 	}
 
 	// Xml::fromRecordset()
@@ -120,7 +120,7 @@ class XmlTest extends TestCase
 	{
 		$result = Xml::fromRecordset(static::$_recordset);
 
-		$this->assertEquals(static::$_xmlString, $result);
+		$this->assertEquals(static::$xml, $result);
 	}
 
 	// Xml::toArray()
@@ -133,18 +133,18 @@ class XmlTest extends TestCase
 					'name' => 'Nat',
 					'surname' => 'Withe',
 					'work' => 'Web Developer',
-					'salary' => '10000' // Xml::toArray() will converts number to string.
+					'salary' => '10000' // Xml::toArray() converts number to string.
 				],
 				[
 					'name' => 'Angela',
 					'surname' => 'SG',
 					'work' => 'Marketing Director',
-					'salary' => '10000' // Xml::toArray() will converts number to string.
+					'salary' => '10000' // Xml::toArray() converts number to string.
 				]
 			]
 		];
 
-		$result = Xml::toArray(static::$_xmlString);
+		$result = Xml::toArray(static::$xml);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -178,7 +178,7 @@ class XmlTest extends TestCase
 			]
 		];
 
-		$result = Xml::toObject(static::$_xmlString);
+		$result = Xml::toObject(static::$xml);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
