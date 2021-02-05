@@ -125,7 +125,7 @@ class XmlTest extends TestCase
 
 	// Xml::toArray()
 
-	public function testMethodToObjectCase1() : void
+	public function testMethodToArrayCase1() : void
 	{
 		$result = Xml::toArray('');
 
@@ -192,6 +192,40 @@ class XmlTest extends TestCase
 		$result = (array)$result;
 		$result['element'][0] = (array)$result['element'][0];
 		$result['element'][1] = (array)$result['element'][1];
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	// Xml::toDataset()
+
+	public function testMethodToDatasetCase1() : void
+	{
+		$result = Xml::toDataset('');
+
+		$this->assertFalse($result);
+	}
+
+	public function testMethodToDatasetCase2() : void
+	{
+		$expected = [
+			'element' => [
+				[
+					'name' => 'Nat',
+					'surname' => 'Withe',
+					'work' => 'Web Developer',
+					'salary' => '10000' // Xml::toArray() converts number to string.
+				],
+				[
+					'name' => 'Angela',
+					'surname' => 'SG',
+					'work' => 'Marketing Director',
+					'salary' => '10000' // Xml::toArray() converts number to string.
+				]
+			]
+		];
+
+		$result = Xml::toDataset(static::$xml);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
