@@ -24,7 +24,7 @@ use System\Exception\InvalidArgumentException;
  *
  * @package System
  */
-final class Json
+class Json
 {
 	/**
 	 * Json constructor.
@@ -62,12 +62,8 @@ final class Json
 		if (is_resource($data))
 			throw InvalidArgumentException::valueError(1, '$data cannot be a resource', $data);
 
-		// A resource cannot be encoded.
-		if (is_array($data))
-			$data = Arr::exceptType($data, 'resource');
-
 		$result = json_encode($data);
-		$error = Json::_getError();
+		$error = static::_getError();
 
 		if ($error)
 		{
@@ -93,7 +89,7 @@ final class Json
 	{
 		$json = stripslashes($json);
 		$result = json_decode($json, $assoc);
-		$error = Json::_getError();
+		$error = static::_getError();
 
 		if ($error)
 			throw new ErrorException('Json Error: ' . $error);
