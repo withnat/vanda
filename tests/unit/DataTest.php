@@ -478,83 +478,6 @@ class DataTest extends TestCase
 		$this->assertEquals('value', $result->scalar);
 	}
 
-	// Data::is()
-
-	// PHPUnit 7.5 doesn’t have a doNotExpectException assertion,
-	// nor does it allow a test without an assertion.
-
-	// We can easily overcome these limitations by adding an assertion
-	// to the end of the test ($this->assertTrue(true)) or by increasing
-	// the assertion count ($this->addToAssertionCount(1)). If the
-	// MyClass::doSomething method implementation is incorrect,
-	// an exception will be thrown, otherwise, the assertion will be
-	// accounted for and PHPUnit will not “complain” about the test.
-
-	public function testMethodIsCase1() : void
-	{
-		Data::is('string', 1, 'value');
-
-		$this->assertTrue(true);
-	}
-
-	public function testMethodIsCase2() : void
-	{
-		Data::is('int', 1, 13);
-
-		$this->assertTrue(true);
-	}
-
-	public function testMethodIsCase3() : void
-	{
-		Data::is('float', 1, 3.14);
-
-		$this->assertTrue(true);
-	}
-
-	public function testMethodIsCase4() : void
-	{
-		Data::is('bool', 1, true);
-
-		$this->assertTrue(true);
-	}
-
-	public function testMethodIsCase5() : void
-	{
-		Data::is('array', 1, []);
-
-		$this->assertTrue(true);
-	}
-
-	public function testMethodIsCase6() : void
-	{
-		Data::is('object', 1, new stdClass());
-
-		$this->assertTrue(true);
-	}
-
-	public function testMethodIsCase7() : void
-	{
-		$data = null;
-
-		Data::is('null', 1, $data);
-
-		$this->assertTrue(true);
-	}
-
-	public function testMethodIsCase8() : void
-	{
-		Data::is('resource', 1, tmpfile());
-
-		$this->assertTrue(true);
-	}
-
-	public function testMethodIsCase9() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Data::is('string', 1, 13);
-	}
-
 	// Data::isCountable()
 
 	public function testMethodIsCountableCase1() : void
@@ -592,21 +515,119 @@ class DataTest extends TestCase
 
 	public function testMethodExpectsCase2() : void
 	{
-		Data::expects(['int'], 1, 13);
+		Data::expects('string', 1, 'value');
 
 		$this->assertTrue(true);
 	}
 
 	public function testMethodExpectsCase3() : void
 	{
-		Data::expects(['float'], 1, 3.14);
+		Data::expects('int', 1, 13);
 
 		$this->assertTrue(true);
 	}
 
 	public function testMethodExpectsCase4() : void
 	{
-		Data::expects(['bool'], 1, true);
+		Data::expects('integer', 1, 13);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase5() : void
+	{
+		Data::expects('float', 1, 3.14);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase6() : void
+	{
+		Data::expects('double', 1, 3.14);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase7() : void
+	{
+		Data::expects('bool', 1, true);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase8() : void
+	{
+		Data::expects('boolean', 1, true);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase9() : void
+	{
+		Data::expects('array', 1, []);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase10() : void
+	{
+		Data::expects('object', 1, new stdClass());
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase11() : void
+	{
+		Data::expects('null', 1, null);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase12() : void
+	{
+		Data::expects('resource', 1, tmpfile());
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase13() : void
+	{
+		Data::expects(['string', 'int'], 1, 13);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase14() : void
+	{
+		Data::expects(['int', 'float'], 1, 3.14);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase15() : void
+	{
+		Data::expects(['array','bool'], 1, true);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase16() : void
+	{
+		Data::expects('string,int', 1, 13);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase17() : void
+	{
+		Data::expects('int,float', 1, 3.14);
+
+		$this->assertTrue(true);
+	}
+
+	public function testMethodExpectsCase18() : void
+	{
+		Data::expects('array,bool', 1, true);
 
 		$this->assertTrue(true);
 	}
