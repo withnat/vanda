@@ -36,15 +36,29 @@ class StrTest extends TestCase
 
 	// Str::length()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLengthCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturnNull();
+
 		$result = Str::length('');
 
 		$this->assertEquals(0, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLengthCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::length(static::$_string);
 
 		$this->assertEquals(30, $result);
@@ -71,7 +85,7 @@ class StrTest extends TestCase
 	public function testMethodLengthCase4() : void
 	{
 		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::length(static::$_string);
 
@@ -80,15 +94,29 @@ class StrTest extends TestCase
 
 	// Str::count()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodCountCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::count(static::$_string, 'A');
 
 		$this->assertEquals(1, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodCountCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::count(static::$_string, 'A', false);
 
 		$this->assertEquals(4, $result);
@@ -105,43 +133,85 @@ class StrTest extends TestCase
 
 	// Str::left()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLeftCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::left('', 0);
 
 		$this->assertEquals('', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLeftCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::left(static::$_string, 0);
 
 		$this->assertEquals('', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLeftCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::left(static::$_string, 5);
 
 		$this->assertEquals('ABCDE', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLeftCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::left(static::$_string, -13);
 
 		$this->assertEquals('ABCDEF:eFMNRZa:/f', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLeftCase5() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::left(static::$_string, 100);
 
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLeftCase6() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::left(static::$_string, -100);
 
 		$this->assertEquals('', $result);
@@ -163,29 +233,57 @@ class StrTest extends TestCase
 		$this->assertEquals('', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodRightCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::right(static::$_string, 6);
 
 		$this->assertEquals(':Bmnrz', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodRightCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::right(static::$_string, -13);
 
 		$this->assertEquals('a:/fabcdefa:Bmnrz', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodRightCase5() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::right(static::$_string, 100);
 
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodRightCase6() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::right(static::$_string, -100);
 
 		$this->assertEquals('', $result);
@@ -193,36 +291,71 @@ class StrTest extends TestCase
 
 	// Str::at()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodAtCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::at('', 5);
 
 		$this->assertEquals('', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodAtCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::at(static::$_string, 5);
 
 		$this->assertEquals('F', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodAtCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::at(static::$_string, -6);
 
 		$this->assertEquals(':', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodAtCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::at(static::$_string, 100);
 
 		$this->assertEquals('', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodAtCase5() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::at(static::$_string, -100);
 
 		$this->assertEquals('', $result);
@@ -239,57 +372,113 @@ class StrTest extends TestCase
 	// -		+
 	// -		-
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSliceCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::slice('', 0, 3);
 
 		$this->assertEquals('', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSliceCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::slice(static::$_string, 0, 0);
 
 		$this->assertEquals('', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSliceCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::slice(static::$_string, 0, 3);
 
 		$this->assertEquals('ABC', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSliceCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::slice(static::$_string, 0, -13);
 
 		$this->assertEquals('ABCDEF:eFMNRZa:/f', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSliceCase5() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::slice(static::$_string, 12, 4);
 
 		$this->assertEquals('Za:/', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSliceCase6() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::slice(static::$_string, 5, -10);
 
 		$this->assertEquals('F:eFMNRZa:/fabc', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSliceCase7() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::slice(static::$_string, -8, 2);
 
 		$this->assertEquals('fa', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSliceCase8() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::slice(static::$_string, -8, -3);
 
 		$this->assertEquals('fa:Bm', $result);
@@ -312,22 +501,43 @@ class StrTest extends TestCase
 		$this->assertEquals('...', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLimitCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::limit(static::$_text, 11);
 
 		$this->assertEquals('Nat is so tall,...', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLimitCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::limit(static::$_text, 15);
 
 		$this->assertEquals('Nat is so tall,...', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLimitCase5() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::limit(static::$_text, 100);
 
 		$this->assertEquals(static::$_text, $result);
@@ -349,22 +559,43 @@ class StrTest extends TestCase
 		$this->assertEquals('...', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLimitwordsCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::limitWords(static::$_text, 4);
 
 		$this->assertEquals('Nat is so tall,...', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLimitwordsCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::limitWords(static::$_text, 6);
 
 		$this->assertEquals('Nat is so tall, and handsome...', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLimitwordsCase5() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::limitWords(static::$_text, 100);
 
 		$this->assertEquals(static::$_text, $result);
@@ -372,36 +603,71 @@ class StrTest extends TestCase
 
 	// Str::position()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodPositionCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::position('', 'a');
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodPositionCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::position(static::$_string, 'x');
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodPositionCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::position(static::$_string, 'a');
 
 		$this->assertEquals(13, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodPositionCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::position(static::$_string, ':', 4);
 
 		$this->assertEquals(6, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodPositionCase5() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::position(static::$_string, ':', -15);
 
 		$this->assertEquals(24, $result);
@@ -409,29 +675,57 @@ class StrTest extends TestCase
 
 	// Str::lastPosition()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLastpositionCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::lastPosition('', 'a');
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLastpositionCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::lastPosition(static::$_string, 'x');
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLastpositionCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::lastPosition(static::$_string, ':');
 
 		$this->assertEquals(24, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLastpositionCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::lastPosition(static::$_string, ':', -10);
 
 		$this->assertEquals(14, $result);
@@ -439,8 +733,15 @@ class StrTest extends TestCase
 
 	// Str::between()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodBetweenCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::between(static::$_string, 'F', 'M');
 
 		$this->assertEquals(':eF', $result);
@@ -453,22 +754,43 @@ class StrTest extends TestCase
 		Str::between(static::$_string, ':', ':', -10);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodBetweenCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::between(static::$_string, ':', ':', 10);
 
 		$this->assertEquals('/fabcdefa', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodBetweenCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::between(static::$_string, 'NoneExistingChar', 'b');
 
 		$this->assertEquals('', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodBetweenCase5() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::between(static::$_string, 'a', 'NoneExistingChar');
 
 		$this->assertEquals('', $result);
@@ -492,8 +814,15 @@ class StrTest extends TestCase
 		$this->assertEquals('axb,ayb', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodTrimCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = ' axb,ayb ';
 
 		$result = Str::trim($string, 2);
@@ -528,8 +857,15 @@ class StrTest extends TestCase
 		$this->assertEquals('axb,ayb ', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodTrimLeftCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = ' axb,ayb ';
 
 		$result = Str::trimLeft($string, 2);
@@ -537,8 +873,15 @@ class StrTest extends TestCase
 		$this->assertEquals('xb,ayb ', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodTrimLeftCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = 'axb,ayb';
 
 		$result = Str::trimLeft($string, -2);
@@ -573,8 +916,15 @@ class StrTest extends TestCase
 		$this->assertEquals(' axb,ayb', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodTrimRightCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = ' axb,ayb ';
 
 		$result = Str::trimRight($string, 2);
@@ -582,8 +932,15 @@ class StrTest extends TestCase
 		$this->assertEquals(' axb,ay', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodTrimRightCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = 'axb,ayb';
 
 		$result = Str::trimRight($string, -2);
@@ -735,15 +1092,29 @@ class StrTest extends TestCase
 
 	// Str::removeLeft()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodRemoveLeftCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::removeLeft(static::$_string, 'NoneExistingChar');
 
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodRemoveLeftCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::removeLeft(static::$_string, 'ABCDEF');
 
 		$this->assertEquals(':eFMNRZa:/fabcdefa:Bmnrz', $result);
@@ -751,15 +1122,29 @@ class StrTest extends TestCase
 
 	// Str::removeRight()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodRemoveRightCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::removeRight(static::$_string, 'NoneExistingChar');
 
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodRemoveRightCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::removeRight(static::$_string, 'defa:Bmnrz');
 
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabc', $result);
@@ -789,8 +1174,15 @@ class StrTest extends TestCase
 
 	// Str::lowerCase()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLowerCaseCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = 'I LOVE YOU';
 
 		$result = Str::lowerCase($string);
@@ -800,8 +1192,15 @@ class StrTest extends TestCase
 
 	// Str::lowerCaseFirst()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLowerCaseFirstCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = 'I LOVE YOU';
 
 		$result = Str::lowerCaseFirst($string);
@@ -811,20 +1210,33 @@ class StrTest extends TestCase
 
 	// Str::lowerCaseWords()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodLowerCaseWordsCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = 'I LOVE YOU';
 
 		$result = Str::lowerCaseWords($string);
-
 
 		$this->assertEquals('i lOVE yOU', $result);
 	}
 
 	// Str::upperCase()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodUpperCaseCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = 'i love you';
 
 		$result = Str::upperCase($string);
@@ -834,8 +1246,15 @@ class StrTest extends TestCase
 
 	// Str::upperCaseFirst()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodUpperCaseFirstCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = 'i love you';
 
 		$result = Str::upperCaseFirst($string);
@@ -845,8 +1264,15 @@ class StrTest extends TestCase
 
 	// Str::upperCaseWords()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodUpperCaseWordsCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = 'i love you';
 
 		$result = Str::upperCaseWords($string);
@@ -895,8 +1321,15 @@ class StrTest extends TestCase
 		$this->assertEquals('|BCDEF:eFMNRZa:/fabcdefa:Bmnrz', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodReplaceCase5() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::replace(static::$_string, ':', '|', 1);
 
 		$this->assertEquals('ABCDEF|eFMNRZa:/fabcdefa:Bmnrz', $result);
@@ -909,8 +1342,15 @@ class StrTest extends TestCase
 		$this->assertEquals('ABCDEF|eFMNRZa|-fabcdefa|Bmnrz', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodReplaceCase7() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::replace(static::$_string, 'x', 'y', 1);
 
 		$this->assertEquals(static::$_string, $result);
@@ -925,8 +1365,15 @@ class StrTest extends TestCase
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodReplaceFirstCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::replaceFirst(static::$_string, ':', '|');
 
 		$this->assertEquals('ABCDEF|eFMNRZa:/fabcdefa:Bmnrz', $result);
@@ -941,8 +1388,15 @@ class StrTest extends TestCase
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodReplaceLastCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::replaceLast(static::$_string, ':', '|');
 
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdefa|Bmnrz', $result);
@@ -971,8 +1425,15 @@ class StrTest extends TestCase
 		$this->assertEquals('|BCDEF:eFMNRZ|:/f|bcdef|:Bmnrz', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIReplaceCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::ireplace(static::$_string, 'a', '|', 1);
 
 		$this->assertEquals('|BCDEF:eFMNRZa:/fabcdefa:Bmnrz', $result);
@@ -985,8 +1446,15 @@ class StrTest extends TestCase
 		$this->assertEquals('48CDEF:eFMNRZ4:/f48cdef4:8mnrz', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIReplaceCase6() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::ireplace(static::$_string, 'x', 'y', 1);
 
 		$this->assertEquals(static::$_string, $result);
@@ -1001,8 +1469,15 @@ class StrTest extends TestCase
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIReplaceFirstCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::ireplaceFirst(static::$_string, 'a', '|');
 
 		$this->assertEquals('|BCDEF:eFMNRZa:/fabcdefa:Bmnrz', $result);
@@ -1017,8 +1492,15 @@ class StrTest extends TestCase
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIReplaceLastCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::ireplaceLast(static::$_string, 'a', '|');
 
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdef|:Bmnrz', $result);
@@ -1026,50 +1508,99 @@ class StrTest extends TestCase
 
 	// Str::subreplace()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSupreplaceCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::subreplace(static::$_string, '_____', 5);
 
 		$this->assertEquals('ABCDE_____', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSupreplaceCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::subreplace(static::$_string, '_____', 5, 5);
 
 		$this->assertEquals('ABCDE_____NRZa:/fabcdefa:Bmnrz', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSupreplaceCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::subreplace(static::$_string, '_____', 5, -5);
 
 		$this->assertEquals('ABCDE_____Bmnrz', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSupreplaceCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::subreplace(static::$_string, '_____', -5);
 
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdefa:_____', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSupreplaceCase5() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::subreplace(static::$_string, '_____', -5, 5);
 
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdefa:_____', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSupreplaceCase6() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::subreplace(static::$_string, '_____', -15, -5);
 
 		$this->assertEquals('ABCDEF:eFMNRZa:_____Bmnrz', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSupreplaceCase7() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::subreplace(static::$_string, '_____', 100, 5);
 
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdefa:Bmnrz_____', $result);
@@ -1086,18 +1617,32 @@ class StrTest extends TestCase
 		$this->assertEquals($string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodInsertCase2() : void
 	{
 		$string = 'My name is ? and ? years old.';
+
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('isAssociative')->andReturnFalse();
 
 		$result = Str::insert($string, '?', ['Nat', 38]);
 
 		$this->assertEquals('My name is Nat and 38 years old.', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodInsertCase3() : void
 	{
 		$string = 'My name is :name and :age years old.';
+
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('isAssociative')->andReturnTrue();
 
 		$result = Str::insert($string, ':', ['name' => 'Nat', 'age' => 38]);
 
@@ -1106,8 +1651,15 @@ class StrTest extends TestCase
 
 	// Str::reverse()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodReverseCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::reverse(static::$_string);
 
 		$this->assertEquals('zrnmB:afedcbaf/:aZRNMFe:FEDCBA', $result);
@@ -1115,22 +1667,43 @@ class StrTest extends TestCase
 
 	// Str::startsWith()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodStartsWithCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::startsWith(static::$_string, 'A');
 
 		$this->assertTrue($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodStartsWithCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::startsWith(static::$_string, 'a');
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodStartsWithCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::startsWith(static::$_string, 'a', false);
 
 		$this->assertTrue($result);
@@ -1138,22 +1711,43 @@ class StrTest extends TestCase
 
 	// Str::startsWithAny()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodStartsWithAnyCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::startsWithAny(static::$_string, ['A', 'B']);
 
 		$this->assertTrue($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodStartsWithAnyCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::startsWithAny(static::$_string, ['a', 'b']);
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodStartsWithAnyCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::startsWithAny(static::$_string, ['a', 'b'], false);
 
 		$this->assertTrue($result);
@@ -1161,22 +1755,43 @@ class StrTest extends TestCase
 
 	// Str::endsWith()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodEndsWithCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::endsWith(static::$_string, 'z');
 
 		$this->assertTrue($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodEndsWithCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::endsWith(static::$_string, 'Z');
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodEndsWithCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::endsWith(static::$_string, 'Z', false);
 
 		$this->assertTrue($result);
@@ -1184,22 +1799,43 @@ class StrTest extends TestCase
 
 	// Str::endsWithAny()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodEndsWithAnyCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::endsWithAny(static::$_string, ['z', 'b']);
 
 		$this->assertTrue($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodEndsWithAnyCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::endsWithAny(static::$_string, ['Z', 'B']);
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodEndsWithAnyCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::endsWithAny(static::$_string, ['Z', 'B'], false);
 
 		$this->assertTrue($result);
@@ -1207,15 +1843,29 @@ class StrTest extends TestCase
 
 	// Str::ensureStartsWith()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodEnsureStartsWithCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::ensureStartsWith(static::$_string, 'ABC');
 
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodEnsureStartsWithCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::ensureStartsWith(static::$_string, '_');
 
 		$this->assertEquals('_' . static::$_string, $result);
@@ -1223,15 +1873,29 @@ class StrTest extends TestCase
 
 	// Str::ensureEndsWith()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodEnsureEndsWithCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::ensureEndsWith(static::$_string, 'nrz');
 
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodEnsureEndsWithCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::ensureEndsWith(static::$_string, '_');
 
 		$this->assertEquals(static::$_string . '_', $result);
@@ -1246,8 +1910,15 @@ class StrTest extends TestCase
 		$this->assertEquals('||', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodWrapCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::wrap('value', '|');
 
 		$this->assertEquals('|value|', $result);
@@ -1269,8 +1940,15 @@ class StrTest extends TestCase
 		$this->assertEquals('z', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodAfterCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::after(static::$_string, 'r', false);
 
 		$this->assertEquals('Za:/fabcdefa:Bmnrz', $result);
@@ -1292,8 +1970,15 @@ class StrTest extends TestCase
 		$this->assertEquals('cdefa:Bmnrz', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodAfterLastCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::afterLast(static::$_string, 'b', false);
 
 		$this->assertEquals('mnrz', $result);
@@ -1323,8 +2008,15 @@ class StrTest extends TestCase
 		$this->assertEquals('ABCDEF:', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodBeforeCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::before(static::$_string, 'e', false);
 
 		$this->assertEquals('ABCD', $result);
@@ -1339,22 +2031,43 @@ class StrTest extends TestCase
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodBeforeLastCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::beforeLast(static::$_string, 'NoneExistingChar');
 
 		$this->assertEquals(static::$_string, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodBeforeLastCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::beforeLast(static::$_string, 'b');
 
 		$this->assertEquals('ABCDEF:eFMNRZa:/fa', $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodBeforeLastCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::beforeLast(static::$_string, 'b', false);
 
 		$this->assertEquals('ABCDEF:eFMNRZa:/fabcdefa:', $result);
@@ -1782,29 +2495,57 @@ class StrTest extends TestCase
 
 	// Str::contains()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodContainsCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::contains(static::$_string, '');
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodContainsCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::contains(static::$_string, 'NoneExistingChar');
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodContainsCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::contains(static::$_string, 'za');
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodContainsCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::contains(static::$_string, 'za', false);
 
 		$this->assertTrue($result);
@@ -1819,22 +2560,43 @@ class StrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodContainsAnyCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::containsAny(static::$_string, ['']);
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodContainsAnyCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::containsAny(static::$_string, ['za', 'NoneExistingChar']);
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodContainsAnyCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::containsAny(static::$_string, ['za', 'NoneExistingChar'], false);
 
 		$this->assertTrue($result);
@@ -1849,29 +2611,57 @@ class StrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodContainsAllCase2() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::containsAll(static::$_string, ['']);
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodContainsAllCase3() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::containsAll(static::$_string, ['Za', 'NoneExistingChar']);
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodContainsAllCase4() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::containsAll(static::$_string, ['za', 'bm']);
 
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodContainsAllCase5() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::containsAll(static::$_string, ['za', 'bm'], false);
 
 		$this->assertTrue($result);
@@ -1937,8 +2727,15 @@ class StrTest extends TestCase
 
 	// Str::chars()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodCharsCase1() : void
 	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$string = 'ABC';
 
 		$expected = [
@@ -2009,20 +2806,35 @@ class StrTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodExplodeCase4() : void
 	{
 		$expected = ['a', 'b'];
+
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('first')->andReturn($expected);
+
 		$result = Str::explode(' a , b , c ', ',', 2);
 
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodExplodeCase5() : void
 	{
 		$expected = [
 			1 => 'b',
 			2 => 'c'
 		];
+
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('last')->andReturn($expected);
 
 		$result = Str::explode(' a , b , c ', ',', -2);
 
@@ -2052,7 +2864,6 @@ class StrTest extends TestCase
 		];
 
 		$result = Str::shuffle($string);
-		echo $result;
 		$result = in_array($result, $possibleResults);
 
 		$this->assertTrue($result);
@@ -2083,7 +2894,7 @@ class StrTest extends TestCase
 
 	public function testMethodRandomCase4() : void
 	{
-		$result = Str::random(10, 'numeric');
+		$result = Str::random(10, 'num');
 
 		$this->assertRegExp('/^[0-9]{10}$/', $result);
 	}
