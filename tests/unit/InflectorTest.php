@@ -175,6 +175,8 @@ class InflectorTest extends TestCase
 	 * @param string $string
 	 * @param bool   $expected
 	 * @dataProvider isCountableProvider
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testMethodIsCountableWord(string $string, bool $expected) : void
 	{
@@ -192,6 +194,8 @@ class InflectorTest extends TestCase
 	 * @param string $noun
 	 * @param string $expected
 	 * @dataProvider pluralizeProvider
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testMethodPluralize(string $noun, string $expected) : void
 	{
@@ -209,6 +213,8 @@ class InflectorTest extends TestCase
 	 * @param string $noun
 	 * @param string $expected
 	 * @dataProvider singularizeProvider
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testMethodSingularize(string $noun, string $expected) : void
 	{
@@ -295,6 +301,8 @@ class InflectorTest extends TestCase
 	 * @param string $string
 	 * @param string $expected
 	 * @dataProvider foreignKeyProvider
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testMethodForeignKey(string $string, string $expected) : void
 	{
