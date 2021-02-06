@@ -18,7 +18,7 @@ namespace System;
  * Class Hash
  * @package System
  */
-final class Hash
+class Hash
 {
 	/**
 	 * Hash constructor.
