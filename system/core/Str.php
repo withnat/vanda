@@ -1718,6 +1718,18 @@ class Str
 	 */
 	public static function endsWith(string $string, string $suffix, bool $caseSensitive = true, string $encoding = null) : bool
 	{
+		if ($caseSensitive and function_exists('str_ends_with'))
+		{
+			// PHP 8.0+
+			// @codeCoverageIgnoreStart
+			return str_ends_with($string, $suffix);
+			// @codeCoverageIgnoreEnd
+		}
+
+		// All strings start and end with the empty string.
+		if ($suffix === '')
+			return true;
+
 		$encoding = static::_getEncoding($encoding);
 		$length = mb_strlen($suffix, $encoding);
 		$search = mb_substr($string, (0 - $length), null, $encoding);
@@ -2571,7 +2583,12 @@ class Str
 	public static function contains(string $string, string $substring, bool $caseSensitive = true, string $encoding = null) : bool
 	{
 		if ($caseSensitive and function_exists('str_contains'))
+		{
+			// PHP 8.0+
+			// @codeCoverageIgnoreStart
 			return str_contains($string, $substring);
+			// @codeCoverageIgnoreEnd
+		}
 
 		if ($substring === '')
 			return true;
