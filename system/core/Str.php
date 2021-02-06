@@ -2779,12 +2779,15 @@ class Str
 	 *
 	 * An optional integer $limit will truncate the results.
 	 *
-	 * @param  string|null $string
-	 * @param  string      $delimeter
-	 * @param  int|null    $limit
-	 * @return array
+	 * @param  string|null $string     The input string.
+	 * @param  string      $separator  Optionally, the boundary string. Defaults to ' '
+	 * @param  int|null    $limit      Optional. If the $limit is positive, returns the first $limit array elements. If
+	 *                                 the $limit is negative, returns the last abs($limit) array elements. If the
+	 *                                 $limit is null, returns all array elements.
+	 * @return array                   Returns an array of strings created by splitting the string parameter on
+	 *                                 boundaries formed by the separator.
 	 */
-	public static function explode(string $string = null, string $delimeter = ' ', int $limit = null) : array
+	public static function explode(string $string = null, string $separator = ' ', int $limit = null) : array
 	{
 		if ($limit === 0)
 			return [];
@@ -2793,7 +2796,7 @@ class Str
 
 		if (mb_strlen($string)) // $string can be '0'.
 		{
-			$array = explode($delimeter, $string);
+			$array = explode($separator, $string);
 			$array = array_map('trim', $array);
 
 			if (is_int($limit) and $limit != 0)
