@@ -2506,7 +2506,7 @@ class StrTest extends TestCase
 
 		$result = Str::contains(static::$_string, '');
 
-		$this->assertFalse($result);
+		$this->assertTrue($result);
 	}
 
 	/**
@@ -2571,7 +2571,7 @@ class StrTest extends TestCase
 
 		$result = Str::containsAny(static::$_string, ['']);
 
-		$this->assertFalse($result);
+		$this->assertTrue($result);
 	}
 
 	/**
@@ -2622,7 +2622,7 @@ class StrTest extends TestCase
 
 		$result = Str::containsAll(static::$_string, ['']);
 
-		$this->assertFalse($result);
+		$this->assertTrue($result);
 	}
 
 	/**
