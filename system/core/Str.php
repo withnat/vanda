@@ -2818,8 +2818,8 @@ class Str
 	/**
 	 * A multibyte str_shuffle() function. It returns a string with its characters in random order.
 	 *
-	 * @param  string $string
-	 * @return string
+	 * @param  string $string  The input string.
+	 * @return string          Returns a string with its characters in random order.
 	 */
 	public static function shuffle(string $string) : string
 	{
