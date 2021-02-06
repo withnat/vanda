@@ -644,14 +644,8 @@ class Arr
 	 */
 	public static function column(array $data, $columnKey, $indexKey = null) : array
 	{
-		if (!static::isDataset($data) and !static::isRecordset($data))
-			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
-
-		if (!is_string($columnKey) and !is_int($columnKey))
-			throw InvalidArgumentException::typeError(2, ['string', 'int'], $columnKey);
-
-		if (!is_null($indexKey) and !is_string($indexKey) and !is_int($indexKey))
-			throw InvalidArgumentException::typeError(3, ['string', 'int', 'null'], $indexKey);
+		if (strpos((string)$columnKey, '.') === false and strpos((string)$indexKey, '.') === false)
+			return array_column($data, $columnKey, $indexKey);
 
 		$columnKey = static::formatKeySyntax($columnKey);
 
