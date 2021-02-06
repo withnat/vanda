@@ -6568,6 +6568,64 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
+	public function testMethodToRecordsetCase7() : void
+	{
+		$expected = static::$_datasetArray;
+
+		$result = Arr::toRecordset(static::$_datasetArray);
+		$this->assertIsArray($result);
+		$this->assertIsObject($result[0]);
+		$this->assertIsObject($result[1]);
+		$this->assertIsObject($result[2]);
+		$this->assertIsObject($result[3]);
+		$this->assertIsObject($result[4]);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$result = (array)$result;
+		$result[0] = (array)$result[0];
+		$result[1] = (array)$result[1];
+		$result[2] = (array)$result[2];
+		$result[3] = (array)$result[3];
+		$result[4] = (array)$result[4];
+
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	public function testMethodToRecordsetCase8() : void
+	{
+		$expected = static::$_recordsetArray;
+
+		$result = Arr::toRecordset(static::$_recordsetArray);
+		$this->assertIsArray($result);
+		$this->assertIsObject($result[0]);
+		$this->assertIsObject($result[1]);
+		$this->assertIsObject($result[2]);
+		$this->assertIsObject($result[3]);
+		$this->assertIsObject($result[4]);
+
+		// Compare in array mode to ensure $expected and $result are
+		// same key/value pairs in the same order and of the same types.
+		$expected = (array)$expected;
+		$expected[0] = (array)$expected[0];
+		$expected[1] = (array)$expected[1];
+		$expected[2] = (array)$expected[2];
+		$expected[3] = (array)$expected[3];
+		$expected[4] = (array)$expected[4];
+		$result = (array)$result;
+		$result[0] = (array)$result[0];
+		$result[1] = (array)$result[1];
+		$result[2] = (array)$result[2];
+		$result[3] = (array)$result[3];
+		$result[4] = (array)$result[4];
+
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
 	// Arr::toMultidimensional()
 
 	public function testMethodToMultidimensionalCase1() : void
