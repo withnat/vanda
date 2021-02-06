@@ -1636,6 +1636,14 @@ class Str
 	 */
 	public static function startsWith(string $string, string $prefix, bool $caseSensitive = true, string $encoding = null) : bool
 	{
+		if ($caseSensitive and function_exists('str_starts_with'))
+		{
+			// PHP 8.0+
+			// @codeCoverageIgnoreStart
+			return str_starts_with($string, $prefix);
+			// @codeCoverageIgnoreEnd
+		}
+
 		$encoding = static::_getEncoding($encoding);
 		$length = mb_strlen($prefix, $encoding);
 		$search = mb_substr($string, 0, $length, $encoding);
