@@ -6447,6 +6447,16 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
+	public function testMethodToDatasetCase7() : void
+	{
+		$expected = static::$_datasetArray;
+
+		$result = Arr::toDataset(static::$_datasetArray);
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
 	// Arr::toRecordset()
 
 	public function testMethodToRecordsetCase1() : void
