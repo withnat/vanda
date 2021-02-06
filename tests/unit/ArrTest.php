@@ -1647,27 +1647,6 @@ class ArrTest extends TestCase
 
 	public function testMethodColumnCase1() : void
 	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::column([], 'columnKey');
-	}
-
-	public function testMethodColumnCase2() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::column(static::$_datasetArray, 3.14);
-	}
-
-	public function testMethodColumnCase3() : void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Arr::column(static::$_datasetArray, 'columnKey', 3.14);
-	}
-
-	public function testMethodColumnCase4() : void
-	{
 		$expected = [
 			'Web Developer',
 			'Staff',
@@ -1682,7 +1661,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase5() : void
+	public function testMethodColumnCase2() : void
 	{
 		$expected = [
 			'Nat' => 'Web Developer',
@@ -1697,7 +1676,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase6() : void
+	public function testMethodColumnCase3() : void
 	{
 		$expected = [
 			'0.1',
@@ -1710,7 +1689,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase7() : void
+	public function testMethodColumnCase4() : void
 	{
 		$expected = [
 			'0.1',
@@ -1723,7 +1702,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase8() : void
+	public function testMethodColumnCase5() : void
 	{
 		$expected = [
 			'0.2' => '0.1',
@@ -1736,7 +1715,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase9() : void
+	public function testMethodColumnCase6() : void
 	{
 		$expected = [
 			'0.2' => '0.1',
@@ -1749,7 +1728,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase10() : void
+	public function testMethodColumnCase7() : void
 	{
 		$expected = [
 			'Web Developer',
@@ -1765,7 +1744,7 @@ class ArrTest extends TestCase
 		$this->assertTrue($compare);
 	}
 
-	public function testMethodColumnCase11() : void
+	public function testMethodColumnCase8() : void
 	{
 		$expected = [
 			'Nat' => 'Web Developer',
