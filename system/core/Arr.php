@@ -800,7 +800,7 @@ class Arr
 	 *     'surename' => 'Withe'
 	 * ];
 	 *
-	 * $result = Arr::except($array, 'Withe');
+	 * $result = Arr::remove($array, 'Withe');
 	 *
 	 * // The $result will be:
 	 * // Array
@@ -815,7 +815,7 @@ class Arr
 	 * @param  bool  $recursive      Optionally, true to recurve through multi-level arrays. Defaults to true.
 	 * @return array                 Returns all of the given array except for the specified value.
 	 */
-	public static function except(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
+	public static function remove(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
 	{
 		if (is_object($value) or is_resource($value))
 			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'bool', 'array', 'null'], $value);
@@ -832,7 +832,7 @@ class Arr
 				if (is_array($itemValue))
 				{
 					if ($recursive)
-						$array[$itemKey] = static::except($itemValue, $value, $caseSensitive, $recursive);
+						$array[$itemKey] = static::remove($itemValue, $value, $caseSensitive, $recursive);
 				}
 				else
 				{
@@ -864,7 +864,7 @@ class Arr
 	 *     'surename' => 'Withe'
 	 * ];
 	 *
-	 * $result = Arr::exceptKey($array, 'surename');
+	 * $result = Arr::removeKey($array, 'surename');
 	 *
 	 * // The $result will be:
 	 * // Array
@@ -878,7 +878,7 @@ class Arr
 	 * @param  bool             $recursive  Optionally, true to recurve through multi-level arrays. Defaults to true.
 	 * @return array                        Returns all of the given array except for the specified key.
 	 */
-	public static function exceptKey(array $array, $keys, bool $recursive = true) : array
+	public static function removeKey(array $array, $keys, bool $recursive = true) : array
 	{
 		if (is_string($keys))
 		{
@@ -899,13 +899,13 @@ class Arr
 			foreach ($array as $itemKey => $itemValue)
 			{
 				// Foreach function may fetch $itemKey to integer (0 is not equal '0')
-				// e.g., Arr::exceptKey(['a'], ['0']); The first index 'a' would be 0
+				// e.g., Arr::removeKey(['a'], ['0']); The first index 'a' would be 0
 				// and this method will remove array index 'a'. But, in fact, it should not!
 				// So use (string) function to convert and compare it as string.
 				if ((string)$itemKey === (string)$key)
 					unset($array[$itemKey]);
 				elseif ($recursive and is_array($itemValue))
-					$array[$itemKey] = static::exceptKey($itemValue, $keys, $recursive);
+					$array[$itemKey] = static::removeKey($itemValue, $keys, $recursive);
 			}
 		}
 
@@ -924,7 +924,7 @@ class Arr
 	 *     'weight' => 87.5
 	 * ];
 	 *
-	 * $result = Arr::exceptType($array, 'int,float');
+	 * $result = Arr::removeType($array, 'int,float');
 	 *
 	 * // The $result will be:
 	 * // Array
@@ -938,7 +938,7 @@ class Arr
 	 * @param  bool         $recursive  Optionally, true to recurve through multi-level arrays. Defaults to true.
 	 * @return array                    Returns all of the given array except for the specified data type.
 	 */
-	public static function exceptType(array $array, $dataTypes, bool $recursive = true) : array
+	public static function removeType(array $array, $dataTypes, bool $recursive = true) : array
 	{
 		if (!is_string($dataTypes) and !is_array($dataTypes))
 			throw InvalidArgumentException::typeError(2, ['string', 'array'], $dataTypes);
@@ -975,7 +975,7 @@ class Arr
 				if ($dataType === strtolower(gettype($itemValue)))
 					unset($array[$itemKey]);
 				elseif ($recursive and is_array($itemValue))
-					$array[$itemKey] = static::exceptType($itemValue, $dataTypes, $recursive);
+					$array[$itemKey] = static::removeType($itemValue, $dataTypes, $recursive);
 			}
 		}
 
@@ -993,7 +993,7 @@ class Arr
 	 *     'address' => ''
 	 * ];
 	 *
-	 * $result = Arr::exceptBlank($array);
+	 * $result = Arr::removeBlank($array);
 	 *
 	 * // The $result will be:
 	 * // Array
@@ -1007,14 +1007,14 @@ class Arr
 	 * @return array             Returns all of the given array except for an elment contains only whitespace
 	 *                           characters.
 	 */
-	public static function exceptBlank(array $array, bool $recursive = true) : array
+	public static function removeBlank(array $array, bool $recursive = true) : array
 	{
 		foreach ($array as $key => $value)
 		{
 			if (is_array($value))
 			{
 				if ($recursive)
-					$array[$key] = static::exceptBlank($value, $recursive);
+					$array[$key] = static::removeBlank($value, $recursive);
 			}
 			elseif (!strlen(trim((string)$value)))
 				unset($array[$key]);
@@ -1043,7 +1043,7 @@ class Arr
 	 *     ]
 	 * ];
 	 *
-	 * $result = Arr::exceptColumn($recordset, 'surname,job');
+	 * $result = Arr::removeColumn($recordset, 'surname,job');
 	 *
 	 * // The $result will be:
 	 * // Array
@@ -1065,7 +1065,7 @@ class Arr
 	 * @return array                    Returns all columns of the given dataset or recordset except for the specified
 	 *                                  column name.
 	 */
-	public static function exceptColumn(array $array, $keys) : array
+	public static function removeColumn(array $array, $keys) : array
 	{
 		if (!static::isDataset($array) and !static::isRecordset($array))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $array);
@@ -1241,7 +1241,7 @@ class Arr
 			if (!$caseSensitive)
 			{
 				// Remove data types that not compatible with mb_strtolower().
-				$array = static::exceptType($array, 'array,object,resource');
+				$array = static::removeType($array, 'array,object,resource');
 
 				return in_array(mb_strtolower($search), array_map('mb_strtolower', $array), true);
 			}
