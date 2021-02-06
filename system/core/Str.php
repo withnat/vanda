@@ -2562,12 +2562,18 @@ class Str
 	 */
 	public static function contains(string $string, string $substring, bool $caseSensitive = true, string $encoding = null) : bool
 	{
+		if ($caseSensitive and function_exists('str_contains'))
+			return str_contains($string, $substring);
+
+		if ($substring === '')
+			return true;
+
 		$encoding = static::_getEncoding($encoding);
 
 		if ($caseSensitive)
-			$result = ($substring !== '' and mb_strpos($string, $substring, 0, $encoding) !== false);
+			$result = (mb_strpos($string, $substring, 0, $encoding) !== false);
 		else
-			$result = ($substring !== '' and mb_stripos($string, $substring, 0, $encoding) !== false);
+			$result = (mb_stripos($string, $substring, 0, $encoding) !== false);
 
 		return $result;
 	}
