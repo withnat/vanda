@@ -1676,7 +1676,7 @@ class StrTest extends TestCase
 		$mockedConfig = Mockery::mock('alias:\System\Config');
 		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
-		$result = Str::startsWith(static::$_string, 'A');
+		$result = Str::startsWith(static::$_string, '');
 
 		$this->assertTrue($result);
 	}
@@ -1690,6 +1690,20 @@ class StrTest extends TestCase
 		$mockedConfig = Mockery::mock('alias:\System\Config');
 		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
+		$result = Str::startsWith(static::$_string, 'A');
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodStartsWithCase3() : void
+	{
+		$mockedConfig = Mockery::mock('alias:\System\Config');
+		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+
 		$result = Str::startsWith(static::$_string, 'a');
 
 		$this->assertFalse($result);
@@ -1699,7 +1713,7 @@ class StrTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodStartsWithCase3() : void
+	public function testMethodStartsWithCase4() : void
 	{
 		$mockedConfig = Mockery::mock('alias:\System\Config');
 		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
