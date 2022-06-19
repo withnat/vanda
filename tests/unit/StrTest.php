@@ -2492,6 +2492,58 @@ class StrTest extends TestCase
 		$this->assertFalse($result);
 	}
 
+	// Str::serializeCorrector()
+
+	public function testMethodSerializeCorrectorCase1() : void
+	{
+		$string = 's:10:"string";';
+		$expected = 's:6:"string";';
+
+		$result = Str::serializeCorrector($string);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodSerializeCorrectorCase2() : void
+	{
+		$string = 'a:1:{i:0;s:10:"string";}';
+		$expected = 'a:1:{i:0;s:6:"string";}';
+
+		$result = Str::serializeCorrector($string);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodSerializeCorrectorCase3() : void
+	{
+		$string = 'O:8:"stdClass":1:{s:10:"string";s:10:"string";}';
+		$expected = 'O:8:"stdClass":1:{s:6:"string";s:6:"string";}';
+
+		$result = Str::serializeCorrector($string);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodSerializeCorrectorCase4() : void
+	{
+		$string = 'a:1:{i:0;O:8:"stdClass":1:{s:10:"string";s:10:"string";}}';
+		$expected = 'a:1:{i:0;O:8:"stdClass":1:{s:6:"string";s:6:"string";}}';
+
+		$result = Str::serializeCorrector($string);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodSerializeCorrectorCase5() : void
+	{
+		$string = 'string';
+		$expected = 'string';
+
+		$result = Str::serializeCorrector($string);
+
+		$this->assertEquals($expected, $result);
+	}
+
 	// Str::isMultibyte()
 
 	public function testMethodIsMultibyteCase1() : void
