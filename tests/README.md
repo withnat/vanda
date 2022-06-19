@@ -28,7 +28,7 @@ converts them from camel case (or snake_case) PHP names to sentences: testBalanc
 Output test coverage reports
 
 ```bash
-./vendor/bin/phpunit --coverage-html reports/
+./vendor/bin/phpunit --coverage-html tests/coverage/
 ```
 
 This will create a folder named reports in your project root.
