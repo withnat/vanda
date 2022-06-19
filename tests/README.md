@@ -25,12 +25,29 @@ converts them from camel case (or snake_case) PHP names to sentences: testBalanc
 ./vendor/bin/phpunit --testdox
 ```
 
-Output test coverage reports
+Output test coverage reports.
 
 ```bash
 ./vendor/bin/phpunit --coverage-html tests/coverage/
 ```
 
 This will create a folder named reports in your project root.
+
+Run specific test class.
+
+```bash
+./vendor/bin/phpunit --filter ClassTest
+./vendor/bin/phpunit --filter ClassTest path/to/the/file.php
+./vendor/bin/phpunit --filter 'Class1Test|Class2Test'
+```
+
+Run specific test method.
+
+```bash
+./vendor/bin/phpunit --filter testMethod
+./vendor/bin/phpunit --filter testMethod path/to/the/file.php
+./vendor/bin/phpunit --filter ClassTest::testMethod
+./vendor/bin/phpunit --filter ClassTest::testMethod path/to/the/file.php
+```
 
 See: https://phpunit.readthedocs.io/
