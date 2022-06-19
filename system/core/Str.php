@@ -2525,6 +2525,30 @@ class Str
 	}
 
 	/**
+	 * Fix incorrect serialized string due to incorrect PHP serialization
+	 * by recalculating string length in the given serialized string.
+	 *
+	 * @param  string $string  The input serialized string.
+	 * @return string          Returns corrected serialized string.
+	 */
+	public static function serializeCorrector(string $string) : string
+	{
+		// At first, check if "fixing" is really needed at all. After that, security checkup.
+		if (@unserialize($string) === false and preg_match('/^[aOs]:/', $string))
+		{
+			$string = preg_replace_callback('/s:(\d+):\"(.*?)\";/s',
+				function($matches)
+				{
+					return 's:' . strlen($matches[2]) . ':"' . $matches[2] . '";';
+				},
+				$string
+			);
+		}
+
+		return $string;
+	}
+
+	/**
 	 * Determines if the given string contains multibyte characters.
 	 *
 	 * For example,
