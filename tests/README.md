@@ -31,14 +31,16 @@ Output test coverage reports.
 ./vendor/bin/phpunit --coverage-html tests/coverage/
 ```
 
-This will create a folder named reports in your project root.
+This will create a folder named tests/coverage/ in your project root.
 
 Run specific test class.
 
 ```bash
 ./vendor/bin/phpunit --filter ClassTest
 ./vendor/bin/phpunit --filter ClassTest path/to/the/file.php
+./vendor/bin/phpunit --filter ClassTest --coverage-html tests/coverage/
 ./vendor/bin/phpunit --filter 'Class1Test|Class2Test'
+./vendor/bin/phpunit --filter 'Class1Test|Class2Test' --coverage-html tests/coverage/
 ```
 
 Run specific test method.
@@ -46,8 +48,10 @@ Run specific test method.
 ```bash
 ./vendor/bin/phpunit --filter testMethod
 ./vendor/bin/phpunit --filter testMethod path/to/the/file.php
+./vendor/bin/phpunit --filter testMethod --coverage-html tests/coverage/
 ./vendor/bin/phpunit --filter ClassTest::testMethod
 ./vendor/bin/phpunit --filter ClassTest::testMethod path/to/the/file.php
+./vendor/bin/phpunit --filter ClassTest::testMethod --coverage-html tests/coverage/
 ```
 
 See: https://phpunit.readthedocs.io/
