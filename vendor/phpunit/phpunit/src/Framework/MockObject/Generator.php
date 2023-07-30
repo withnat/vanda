@@ -234,7 +234,7 @@ EOT;
             } catch (ReflectionException $e) {
                 throw new RuntimeException(
                     $e->getMessage(),
-                    (int) $e->getCode(),
+                    $e->getCode(),
                     $e
                 );
             }
@@ -284,7 +284,9 @@ EOT;
      * the $mockedMethods parameter.
      *
      * @psalm-template RealInstanceType of object
+     *
      * @psalm-param class-string<RealInstanceType> $originalClassName
+     *
      * @psalm-return MockObject&RealInstanceType
      *
      * @throws RuntimeException
@@ -299,7 +301,7 @@ EOT;
             } catch (ReflectionException $e) {
                 throw new RuntimeException(
                     $e->getMessage(),
-                    (int) $e->getCode(),
+                    $e->getCode(),
                     $e
                 );
             }
@@ -479,7 +481,7 @@ EOT;
         } catch (SoapFault $e) {
             throw new RuntimeException(
                 $e->getMessage(),
-                (int) $e->getCode(),
+                $e->getCode(),
                 $e
             );
         }
@@ -566,7 +568,7 @@ EOT;
         } catch (ReflectionException $e) {
             throw new RuntimeException(
                 $e->getMessage(),
-                (int) $e->getCode(),
+                $e->getCode(),
                 $e
             );
         }
@@ -596,7 +598,7 @@ EOT;
         } catch (ReflectionException $e) {
             throw new RuntimeException(
                 $e->getMessage(),
-                (int) $e->getCode(),
+                $e->getCode(),
                 $e
             );
         }
@@ -626,7 +628,7 @@ EOT;
         } catch (ReflectionException $e) {
             throw new RuntimeException(
                 $e->getMessage(),
-                (int) $e->getCode(),
+                $e->getCode(),
                 $e
             );
         }
@@ -654,7 +656,7 @@ EOT;
         } catch (ReflectionException $e) {
             throw new RuntimeException(
                 $e->getMessage(),
-                (int) $e->getCode(),
+                $e->getCode(),
                 $e
             );
         }
@@ -687,7 +689,7 @@ EOT;
                 } catch (ReflectionException $e) {
                     throw new RuntimeException(
                         $e->getMessage(),
-                        (int) $e->getCode(),
+                        $e->getCode(),
                         $e
                     );
                 }
@@ -714,7 +716,7 @@ EOT;
                     } catch (ReflectionException $e) {
                         throw new RuntimeException(
                             $e->getMessage(),
-                            (int) $e->getCode(),
+                            $e->getCode(),
                             $e
                         );
                     }
@@ -771,7 +773,7 @@ EOT;
                 } catch (ReflectionException $e) {
                     throw new RuntimeException(
                         $e->getMessage(),
-                        (int) $e->getCode(),
+                        $e->getCode(),
                         $e
                     );
                 }
@@ -793,7 +795,7 @@ EOT;
                     } catch (ReflectionException $e) {
                         throw new RuntimeException(
                             $e->getMessage(),
-                            (int) $e->getCode(),
+                            $e->getCode(),
                             $e
                         );
                     }
@@ -843,7 +845,7 @@ EOT;
             } catch (ReflectionException $e) {
                 throw new RuntimeException(
                     $e->getMessage(),
-                    (int) $e->getCode(),
+                    $e->getCode(),
                     $e
                 );
             }
@@ -870,7 +872,7 @@ EOT;
                 } catch (ReflectionException $e) {
                     throw new RuntimeException(
                         $e->getMessage(),
-                        (int) $e->getCode(),
+                        $e->getCode(),
                         $e
                     );
                 }
@@ -886,7 +888,7 @@ EOT;
                         } catch (ReflectionException $e) {
                             throw new RuntimeException(
                                 $e->getMessage(),
-                                (int) $e->getCode(),
+                                $e->getCode(),
                                 $e
                             );
                         }
@@ -927,7 +929,7 @@ EOT;
                 } catch (ReflectionException $e) {
                     throw new RuntimeException(
                         $e->getMessage(),
-                        (int) $e->getCode(),
+                        $e->getCode(),
                         $e
                     );
                 }
@@ -966,7 +968,7 @@ EOT;
                     } catch (ReflectionException $e) {
                         throw new RuntimeException(
                             $e->getMessage(),
-                            (int) $e->getCode(),
+                            $e->getCode(),
                             $e
                         );
                     }
