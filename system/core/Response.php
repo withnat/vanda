@@ -167,7 +167,7 @@ class Response
 	}
 
 	/**
-	 * Gets the response response phrase associated with the status code.
+	 * Gets the response phrase associated with the status code.
 	 *
 	 * @return string  The HTTP status reason phrase.
 	 */
@@ -239,7 +239,7 @@ class Response
 	}
 
 	/**
-	 * Set a header and it's value to the queue. If the replace flag is set
+	 * Set a header and it's value to the queue. If the replacement flag is set
 	 * then all headers with the given name will be replaced by the new one.
 	 *
 	 * Duplicate HTTP response headers are acceptable.

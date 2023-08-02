@@ -3,7 +3,7 @@
         'name' => 'vanda/cms',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '219b7d802482a2ff4fd526031f318038babfb0b9',
+        'reference' => 'fba36f41a621f7fe7eb28b855f2b62d99c78dc1b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -289,7 +289,7 @@
         'vanda/cms' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '219b7d802482a2ff4fd526031f318038babfb0b9',
+            'reference' => 'fba36f41a621f7fe7eb28b855f2b62d99c78dc1b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
