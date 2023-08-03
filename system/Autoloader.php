@@ -55,6 +55,8 @@ class Autoloader
 				$file = Model::getModelLocation($class);
 		}
 
+		// Use is_string() for PHP 8.1 because Helper::getHelperLocation() and
+		// Model::getModelLocation() may return null, which is not allowed in is_file().
 		if (is_string($file) and is_file($file))
 			include_once $file;
 		else
