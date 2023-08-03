@@ -54,4 +54,26 @@ Run specific test method.
 ./vendor/bin/phpunit --filter ClassTest::testMethod --coverage-html tests/coverage/
 ```
 
+Running PHPUnit for different PHP versions.
+
+Use separate PHPUnit configuration files (phpunit8.xml, phpunit9.xml and phpunit10.xml) 
+to run PHPUnit tests depending on the PHP version:
+
+PHPUnit 8 for PHP 7.2+
+PHPUnit 9 for PHP 7.3+
+PHPUnit 10 for PHP 8.1+
+
+```bash
+./vendor/bin/phpunit --configuration phpunit8.xml
+./vendor/bin/phpunit --configuration phpunit9.xml
+./vendor/bin/phpunit --configuration phpunit10.xml
+```
+
+Generate a configuration file from scratch using the configuration generator. It will 
+prompt you with a couple of questions and then generate the appropriate configuration for you.
+
+```bash
+./vendor/bin/phpunit --generate-configuration
+```
+
 See: https://phpunit.readthedocs.io/
