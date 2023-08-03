@@ -55,7 +55,7 @@ class Autoloader
 				$file = Model::getModelLocation($class);
 		}
 
-		if (is_file($file))
+		if (is_string($file) and is_file($file))
 			include_once $file;
 		else
 			static::$_loader->loadClass($class);
