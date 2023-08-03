@@ -25,7 +25,7 @@ use System\Inflector;
  */
 class InflectorTest extends TestCase
 {
-	public function isCountableProvider() : array
+	public static function isCountableProvider() : array
 	{
 		return [
 			['audio', false],
@@ -34,7 +34,7 @@ class InflectorTest extends TestCase
 		];
 	}
 
-	public function pluralizeProvider() : array
+	public static function pluralizeProvider() : array
 	{
 		return [
 			['audio', 'audio'],
@@ -59,7 +59,7 @@ class InflectorTest extends TestCase
 		];
 	}
 
-	public function singularizeProvider() : array
+	public static function singularizeProvider() : array
 	{
 		return [
 			['matrices', 'matrix'],
@@ -86,7 +86,7 @@ class InflectorTest extends TestCase
 		];
 	}
 
-	public function camelizeProvider() : array
+	public static function camelizeProvider() : array
 	{
 		return [
 			['Some Day', 'SomeDay'],
@@ -95,7 +95,7 @@ class InflectorTest extends TestCase
 		];
 	}
 
-	public function underscoreProvider() : array
+	public static function underscoreProvider() : array
 	{
 		return [
 			['FooBar', 'foo_bar'],
@@ -103,7 +103,7 @@ class InflectorTest extends TestCase
 		];
 	}
 
-	public function variablizeProvider() : array
+	public static function variablizeProvider() : array
 	{
 		return [
 			['Some Day', 'someDay'],
@@ -112,7 +112,7 @@ class InflectorTest extends TestCase
 		];
 	}
 
-	public function foreignKeyProvider() : array
+	public static function foreignKeyProvider() : array
 	{
 		return [
 			['', ''],
@@ -120,7 +120,7 @@ class InflectorTest extends TestCase
 		];
 	}
 
-	public function controllerizeProvider() : array
+	public static function controllerizeProvider() : array
 	{
 		return [
 			['Some Day', 'SomeDayController'],
@@ -129,7 +129,7 @@ class InflectorTest extends TestCase
 		];
 	}
 
-	public function actionizeProvider() : array
+	public static function actionizeProvider() : array
 	{
 		return [
 			['Some Day', 'SomeDayAction'],
@@ -138,7 +138,7 @@ class InflectorTest extends TestCase
 		];
 	}
 
-	public function sentenceProvider() : array
+	public static function sentenceProvider() : array
 	{
 		return [
 			[[], ''],
@@ -147,7 +147,7 @@ class InflectorTest extends TestCase
 		];
 	}
 
-	public function ordinalizeProvider() : array
+	public static function ordinalizeProvider() : array
 	{
 		return [
 			[1, 'st'],
