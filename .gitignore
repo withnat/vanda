@@ -1,4 +1,8 @@
 /tests/coverage/
 /vendor/
+/.phpunit.result.cache
 .phpunit.result.cache
-.phpunit.cache # For PHPUnit 10
+
+# For PHPUnit 10
+/.phpunit.cache
+.phpunit.cache
