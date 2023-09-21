@@ -416,7 +416,7 @@ class Response
 			$data = [
 				'title' => '',
 				'content' => '',
-				'redirect' => Url::hashSPA($url)
+				'redirect' => Url::create($url)
 			];
 
 			echo json_encode($data);
@@ -465,8 +465,10 @@ class Response
 	public static function sendHeaders() : Response
 	{
 		// Don't send headers for CLI.
+		// @codeCoverageIgnoreStart
 		if (Request::isCli())
 			return Response::_getInstance();
+		// @codeCoverageIgnoreEnd
 
 		// Always make sure we send the content type.
 
@@ -508,13 +510,19 @@ class Response
 		return Response::_getInstance();
 	}
 
-	public static function spa($data)
+	/**
+	 * Sends the output to the browser in SPA mode.
+	 *
+	 * @param array $data  The content to set as the response body.
+	 * @return void
+	 */
+	public static function spa(array $data) : void
 	{
 		$data = [
 			'title' => @$data['title'],
 			'content' => @$data['content'],
 			'flash' => @$data['flash'],
-			'redirect' => Uri::hashSPA(@$data['url'])
+			'redirect' => Url::hashSpa(@$data['url'])
 		];
 
 		$data = json_encode($data);
