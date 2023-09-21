@@ -634,11 +634,34 @@ class ResponseTest extends TestCase
 
 	// Response::send() & Response::sendHeaders() & Response::sendBody()
 
+	public function testMethodSendCase1() : void
+	{
+		$mockedRequest = Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['isCli' => true]);
+
+		$result = Response::send();
+
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
 	/**
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodSendCase1() : void
+	public function testMethodSendCase2() : void
+	{
+		$mockedRequest = Mockery::mock('alias:\System\Request');
+		$mockedRequest->shouldReceive(['isCli' => false]);
+		$result = Response::send();
+
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSendCase3() : void
 	{
 		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['isCli' => false]);
@@ -662,7 +685,7 @@ class ResponseTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodSendCase2() : void
+	public function testMethodSendCase4() : void
 	{
 		$mockedRequest = Mockery::mock('alias:\System\Request');
 		$mockedRequest->shouldReceive(['isCli' => false]);
