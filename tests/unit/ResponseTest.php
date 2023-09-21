@@ -679,4 +679,28 @@ class ResponseTest extends TestCase
 		$this->assertContains('content-type: text/html; charset=UTF-8', $headers);
 		$this->expectOutputString('Nat is handsome.');
 	}
+
+	// Response::spa()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSpaCase1() : void
+	{
+		$expected = '{"title":"Title","content":"Content","flash":null,"redirect":"#http:\/\/localhost"}';
+
+		$mockedUrl = Mockery::mock('alias:\System\Url');
+		$mockedUrl->shouldReceive(['hashSpa' => '#http://localhost']);
+
+		$data = [
+			'title' => 'Title',
+			'content' => 'Content',
+			'url' => 'http://localhost'
+		];
+
+		Response::spa($data);
+
+		$this->expectOutputString($expected);
+	}
 }
