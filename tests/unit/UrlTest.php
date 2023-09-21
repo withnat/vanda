@@ -686,6 +686,22 @@ class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	public function testMethodHashSPACase4()
+	{
+		$expected = '#http://localhost';
+		$result = Url::hashSpa('http://localhost');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testMethodHashSPACase5()
+	{
+		$expected = '#http://localhost/index.php';
+		$result = Url::hashSpa('http://localhost/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
 	// Url::toContext()
 
 	/**
