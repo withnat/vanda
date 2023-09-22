@@ -76,7 +76,7 @@ class Html
 	public static function linkUnlessCurrent(string $url = null, string $title = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::create(3, ['string','array','null'], $attribs);
+			throw InvalidArgumentException::typeError(3, ['string','array','null'], $attribs);
 
 		$currentUrl = Request::url();
 		$url = Url::create($url);
@@ -85,12 +85,7 @@ class Html
 			$title = $url;
 
 		if ($url != $currentUrl)
-		{
-			if (is_array($attribs))
-				$attribs = Arr::toString($attribs);
-
-			return '<a href="' . $url . '" ' . $attribs . '>' . $title . '</a>';
-		}
+			return static::link($url, $title, $attribs);
 		else
 			return $title;
 	}
