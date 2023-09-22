@@ -138,4 +138,67 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// Html::linkUnlessCurrent()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkUnlessCurrentCase1() : void
+	{
+		$mockedInflector = Mockery::mock('alias:\System\Inflector');
+		$mockedInflector->shouldReceive(['sentence' => 'string, array or null']);
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Html::linkUnlessCurrent('user', 'User', new stdClass());
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkUnlessCurrentCase2() : void
+	{
+		$expected = 'http://localhost';
+
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive(['url' => 'http://localhost']);
+
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive(['create' => 'http://localhost']);
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive(['isBlank' => true]);
+
+		$result = Html::linkUnlessCurrent();
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkUnlessCurrentCase3() : void
+	{
+		$expected = '<a href="http://localhost/contact">Contact</a>';
+
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive(['url' => 'http://localhost']);
+
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive(['create' => 'http://localhost/contact']);
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive(['isBlank' => false]);
+
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive(['isSpa' => false]);
+
+		$result = Html::linkUnlessCurrent('contact', 'Contact');
+
+		$this->assertEquals($expected, $result);
+	}
 }
