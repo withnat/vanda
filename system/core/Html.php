@@ -20,7 +20,7 @@ use System\Exception\InvalidArgumentException;
  * Class Html
  * @package System
  */
-final class Html
+class Html
 {
 	public static $addedCss = [];
 	public static $addedJs = [];
@@ -53,10 +53,9 @@ final class Html
 		if (Str::isBlank($title))
 			$title = $routeUrl;
 
-		if (App::isSPA())
+		if (App::isSpa())
 		{
-			$hash = Url::hashSPA((string)$url);
-
+			$hash = Url::hashSpa((string)$url);
 			$attribs = static::setAttribute($attribs, 'href', $hash);
 			$attribs = static::setAttribute($attribs, 'data-url', $routeUrl);
 		}
