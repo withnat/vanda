@@ -21,10 +21,10 @@ use stdClass;
 use System\Html;
 
 /**
- * Class XmlTest
+ * Class HtmlTest
  * @package Tests\Unit
  */
-final class HtmlTest extends TestCase
+class HtmlTest extends TestCase
 {
 	protected function tearDown() : void
 	{
@@ -39,6 +39,9 @@ final class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkCase1() : void
 	{
+		$mockedInflector = Mockery::mock('alias:\System\Inflector');
+		$mockedInflector->shouldReceive(['sentence' => 'string, array or null']);
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Html::link('user', 'User', new stdClass());
@@ -55,8 +58,11 @@ final class HtmlTest extends TestCase
 		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive(['create' => 'http://localhost']);
 
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive(['isSPA' => false]);
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive(['isBlank' => true]);
+
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive(['isSpa' => false]);
 
 		$result = Html::link();
 
@@ -69,15 +75,18 @@ final class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkCase3() : void
 	{
-		$expected = '<a style="font-weight:bold;" href="http://localhost">User Management System</a>';
+		$expected = '<a style="font-weight:bold;" href="http://localhost/user">Users</a>';
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive(['create' => 'http://localhost']);
+		$stubUrl->shouldReceive(['create' => 'http://localhost/user']);
 
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive(['isSPA' => false]);
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive(['isBlank' => false]);
 
-		$result = Html::link('user', 'User Management System', 'style="font-weight:bold;"');
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive(['isSpa' => false]);
+
+		$result = Html::link('user', 'Users', 'style="font-weight:bold;"');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -88,15 +97,21 @@ final class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkCase4() : void
 	{
-		$expected = '<a style="font-weight:bold;" href="http://localhost">User Management System</a>';
+		$expected = '<a style="font-weight:bold;" href="http://localhost/user">Users</a>';
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive(['create' => 'http://localhost']);
+		$stubUrl->shouldReceive(['create' => 'http://localhost/user']);
 
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive(['isSPA' => false]);
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive(['toString' => 'style="font-weight:bold;"']);
 
-		$result = Html::link('user', 'User Management System', ['style' => 'font-weight:bold;']);
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive(['isBlank' => false]);
+
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive(['isSpa' => false]);
+
+		$result = Html::link('user', 'Users', ['style' => 'font-weight:bold;']);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -107,16 +122,19 @@ final class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkCase5() : void
 	{
-		$expected = '<a href="#user" data-url="http://localhost">http://localhost</a>';
+		$expected = '<a href="#user" data-url="http://localhost/user">http://localhost/user</a>';
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive(['create' => 'http://localhost']);
-		$stubUrl->shouldReceive(['hashSPA' => '#user']);
+		$stubUrl->shouldReceive(['create' => 'http://localhost/user']);
+		$stubUrl->shouldReceive(['hashSpa' => '#user']);
 
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive(['isSPA' => true]);
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive(['isBlank' => true]);
 
-		$result = Html::link();
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive(['isSpa' => true]);
+
+		$result = Html::link('user');
 
 		$this->assertEquals($expected, $result);
 	}
