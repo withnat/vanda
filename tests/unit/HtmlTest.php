@@ -39,8 +39,8 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkCase1() : void
 	{
-		$mockedInflector = Mockery::mock('alias:\System\Inflector');
-		$mockedInflector->shouldReceive(['sentence' => 'string, array or null']);
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive(['sentence' => 'string, array or null']);
 
 		$this->expectException(InvalidArgumentException::class);
 
@@ -147,8 +147,8 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkUnlessCurrentCase1() : void
 	{
-		$mockedInflector = Mockery::mock('alias:\System\Inflector');
-		$mockedInflector->shouldReceive(['sentence' => 'string, array or null']);
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive(['sentence' => 'string, array or null']);
 
 		$this->expectException(InvalidArgumentException::class);
 
