@@ -201,4 +201,87 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// Html::mailto()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodMailtoCase1() : void
+	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive(['sentence' => 'string, array or null']);
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Html::mailto('user', 'User', new stdClass());
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodMailtoCase2() : void
+	{
+		$expected = '<a href="mailto:nat@withnat.com">nat@withnat.com</a>';
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive(['isBlank' => true]);
+
+		$result = Html::mailto('nat@withnat.com');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodMailtoCase3() : void
+	{
+		$expected = '<a href="mailto:nat@withnat.com">Contact</a>';
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive(['isBlank' => false]);
+
+		$result = Html::mailto('nat@withnat.com', 'Contact');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodMailtoCase4() : void
+	{
+		$expected = '<a style="font-weight:bold;" href="mailto:nat@withnat.com">Contact</a>';
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive(['isBlank' => false]);
+
+		$result = Html::mailto('nat@withnat.com', 'Contact', 'style="font-weight:bold;"');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodMailtoCase5() : void
+	{
+		$expected = '<a style="font-weight:bold;" href="mailto:nat@withnat.com">Contact</a>';
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive(['toString' => 'style="font-weight:bold;"']);
+		
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive(['isBlank' => false]);
+
+		$result = Html::mailto('nat@withnat.com', 'Contact', ['style' => 'font-weight:bold;']);
+
+		$this->assertEquals($expected, $result);
+	}
 }
