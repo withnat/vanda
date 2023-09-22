@@ -99,15 +99,20 @@ class Html
 	public static function mailto(string $email, string $title = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::create(3, ['string','array','null'], $attribs);
+			throw InvalidArgumentException::typeError(3, ['string','array','null'], $attribs);
 
-		if (is_array($attribs))
+		if (is_null($attribs))
+			$attribs = '';
+		elseif (is_array($attribs))
 			$attribs = Arr::toString($attribs);
 
 		if (Str::isBlank($title))
 			$title = $email;
 
-		return '<a href="mailto:' . $email . '" ' . $attribs . '>' . $title . '</a>';
+		$attribs = static::setAttribute($attribs, 'href', 'mailto:' . $email);
+		$html = '<a ' . $attribs . '>' . $title . '</a>';
+
+		return $html;
 	}
 
 	/**
