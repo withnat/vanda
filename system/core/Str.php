@@ -526,7 +526,7 @@ class Str
 	 */
 	public static function trim(string $string, $characterMask = null, string $encoding = null) : string
 	{
-		if (is_string($characterMask) or is_null($characterMask) or is_int($characterMask))
+		if (is_string($characterMask) or is_int($characterMask) or is_null($characterMask))
 		{
 			$string = static::trimLeft($string, $characterMask, $encoding);
 			$string = static::trimRight($string, $characterMask, $encoding);

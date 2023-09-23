@@ -42,8 +42,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLengthCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturnNull();
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturnNull();
 
 		$result = Str::length('');
 
@@ -56,8 +56,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLengthCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::length(static::$_string);
 
@@ -70,8 +70,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLengthCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::length(static::$_string);
 
@@ -84,8 +84,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLengthCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::length(static::$_string);
 
@@ -100,8 +100,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodCountCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::count(static::$_string, 'A');
 
@@ -114,8 +114,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodCountCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::count(static::$_string, 'A', false);
 
@@ -139,8 +139,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLeftCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::left('', 0);
 
@@ -153,8 +153,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLeftCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::left(static::$_string, 0);
 
@@ -167,8 +167,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLeftCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::left(static::$_string, 5);
 
@@ -181,8 +181,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLeftCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::left(static::$_string, -13);
 
@@ -195,8 +195,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLeftCase5() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::left(static::$_string, 100);
 
@@ -209,8 +209,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLeftCase6() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::left(static::$_string, -100);
 
@@ -239,8 +239,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodRightCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::right(static::$_string, 6);
 
@@ -253,8 +253,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodRightCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::right(static::$_string, -13);
 
@@ -267,8 +267,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodRightCase5() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::right(static::$_string, 100);
 
@@ -281,8 +281,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodRightCase6() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::right(static::$_string, -100);
 
@@ -297,8 +297,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodAtCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::at('', 5);
 
@@ -311,8 +311,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodAtCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::at(static::$_string, 5);
 
@@ -325,8 +325,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodAtCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::at(static::$_string, -6);
 
@@ -339,8 +339,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodAtCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::at(static::$_string, 100);
 
@@ -353,8 +353,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodAtCase5() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::at(static::$_string, -100);
 
@@ -378,8 +378,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSliceCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::slice('', 0, 3);
 
@@ -392,8 +392,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSliceCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::slice(static::$_string, 0, 0);
 
@@ -406,8 +406,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSliceCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::slice(static::$_string, 0, 3);
 
@@ -420,8 +420,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSliceCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::slice(static::$_string, 0, -13);
 
@@ -434,8 +434,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSliceCase5() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::slice(static::$_string, 12, 4);
 
@@ -448,8 +448,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSliceCase6() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::slice(static::$_string, 5, -10);
 
@@ -462,8 +462,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSliceCase7() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::slice(static::$_string, -8, 2);
 
@@ -476,8 +476,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSliceCase8() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::slice(static::$_string, -8, -3);
 
@@ -507,8 +507,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLimitCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::limit(static::$_text, 11);
 
@@ -521,8 +521,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLimitCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::limit(static::$_text, 15);
 
@@ -535,8 +535,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLimitCase5() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::limit(static::$_text, 100);
 
@@ -565,8 +565,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLimitwordsCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::limitWords(static::$_text, 4);
 
@@ -579,8 +579,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLimitwordsCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::limitWords(static::$_text, 6);
 
@@ -593,8 +593,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLimitwordsCase5() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::limitWords(static::$_text, 100);
 
@@ -609,8 +609,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodPositionCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::position('', 'a');
 
@@ -623,8 +623,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodPositionCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::position(static::$_string, 'x');
 
@@ -637,8 +637,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodPositionCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::position(static::$_string, 'a');
 
@@ -651,8 +651,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodPositionCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::position(static::$_string, ':', 4);
 
@@ -665,8 +665,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodPositionCase5() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::position(static::$_string, ':', -15);
 
@@ -681,8 +681,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLastpositionCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::lastPosition('', 'a');
 
@@ -695,8 +695,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLastpositionCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::lastPosition(static::$_string, 'x');
 
@@ -709,8 +709,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLastpositionCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::lastPosition(static::$_string, ':');
 
@@ -723,8 +723,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLastpositionCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::lastPosition(static::$_string, ':', -10);
 
@@ -739,8 +739,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodBetweenCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::between(static::$_string, 'F', 'M');
 
@@ -760,8 +760,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodBetweenCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::between(static::$_string, ':', ':', 10);
 
@@ -774,8 +774,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodBetweenCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::between(static::$_string, 'NoneExistingChar', 'b');
 
@@ -788,8 +788,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodBetweenCase5() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::between(static::$_string, 'a', 'NoneExistingChar');
 
@@ -800,6 +800,9 @@ class StrTest extends TestCase
 
 	public function testMethodTrimCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int, or null');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Str::trim('', 3.14);
@@ -820,8 +823,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodTrimCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = ' axb,ayb ';
 
@@ -843,6 +846,9 @@ class StrTest extends TestCase
 
 	public function testMethodTrimLeftCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int, or null');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Str::trimLeft('', 3.14);
@@ -863,8 +869,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodTrimLeftCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = ' axb,ayb ';
 
@@ -879,8 +885,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodTrimLeftCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = 'axb,ayb';
 
@@ -902,6 +908,9 @@ class StrTest extends TestCase
 
 	public function testMethodTrimRightCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int, or null');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Str::trimRight('', 3.14);
@@ -922,8 +931,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodTrimRightCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = ' axb,ayb ';
 
@@ -938,8 +947,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodTrimRightCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = 'axb,ayb';
 
@@ -1098,8 +1107,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodRemoveLeftCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::removeLeft(static::$_string, 'NoneExistingChar');
 
@@ -1112,8 +1121,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodRemoveLeftCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::removeLeft(static::$_string, 'ABCDEF');
 
@@ -1128,8 +1137,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodRemoveRightCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::removeRight(static::$_string, 'NoneExistingChar');
 
@@ -1142,8 +1151,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodRemoveRightCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::removeRight(static::$_string, 'defa:Bmnrz');
 
@@ -1180,8 +1189,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLowerCaseCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = 'I LOVE YOU';
 
@@ -1198,8 +1207,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLowerCaseFirstCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = 'I LOVE YOU';
 
@@ -1216,8 +1225,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodLowerCaseWordsCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = 'I LOVE YOU';
 
@@ -1234,8 +1243,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodUpperCaseCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = 'i love you';
 
@@ -1252,8 +1261,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodUpperCaseFirstCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = 'i love you';
 
@@ -1270,8 +1279,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodUpperCaseWordsCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = 'i love you';
 
@@ -1295,6 +1304,9 @@ class StrTest extends TestCase
 
 	public function testMethodReplaceCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string or array');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Str::replace('string', 'search', 3.14);
@@ -1302,6 +1314,9 @@ class StrTest extends TestCase
 
 	public function testMethodReplaceCase2() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string or array');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Str::replace('string', 3.14, 'replace');
@@ -1327,8 +1342,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodReplaceCase5() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::replace(static::$_string, ':', '|', 1);
 
@@ -1348,8 +1363,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodReplaceCase7() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::replace(static::$_string, 'x', 'y', 1);
 
@@ -1371,8 +1386,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodReplaceFirstCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::replaceFirst(static::$_string, ':', '|');
 
@@ -1394,8 +1409,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodReplaceLastCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::replaceLast(static::$_string, ':', '|');
 
@@ -1406,6 +1421,9 @@ class StrTest extends TestCase
 
 	public function testMethodIReplaceCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string or array');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Str::ireplace('string', 'search', 3.14);
@@ -1413,6 +1431,9 @@ class StrTest extends TestCase
 
 	public function testMethodIReplaceCase2() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string or array');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Str::ireplace('string', 3.14, 'replace');
@@ -1431,8 +1452,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodIReplaceCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::ireplace(static::$_string, 'a', '|', 1);
 
@@ -1452,8 +1473,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodIReplaceCase6() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::ireplace(static::$_string, 'x', 'y', 1);
 
@@ -1475,8 +1496,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodIReplaceFirstCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::ireplaceFirst(static::$_string, 'a', '|');
 
@@ -1498,8 +1519,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodIReplaceLastCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::ireplaceLast(static::$_string, 'a', '|');
 
@@ -1514,8 +1535,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSupreplaceCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::subreplace(static::$_string, '_____', 5);
 
@@ -1528,8 +1549,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSupreplaceCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::subreplace(static::$_string, '_____', 5, 5);
 
@@ -1542,8 +1563,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSupreplaceCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::subreplace(static::$_string, '_____', 5, -5);
 
@@ -1556,8 +1577,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSupreplaceCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::subreplace(static::$_string, '_____', -5);
 
@@ -1570,8 +1591,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSupreplaceCase5() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::subreplace(static::$_string, '_____', -5, 5);
 
@@ -1584,8 +1605,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSupreplaceCase6() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::subreplace(static::$_string, '_____', -15, -5);
 
@@ -1598,8 +1619,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodSupreplaceCase7() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::subreplace(static::$_string, '_____', 100, 5);
 
@@ -1625,8 +1646,8 @@ class StrTest extends TestCase
 	{
 		$string = 'My name is ? and ? years old.';
 
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isAssociative')->andReturnFalse();
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isAssociative')->andReturnFalse();
 
 		$result = Str::insert($string, '?', ['Nat', 38]);
 
@@ -1641,8 +1662,8 @@ class StrTest extends TestCase
 	{
 		$string = 'My name is :name and :age years old.';
 
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isAssociative')->andReturnTrue();
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isAssociative')->andReturnTrue();
 
 		$result = Str::insert($string, ':', ['name' => 'Nat', 'age' => 38]);
 
@@ -1657,8 +1678,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodReverseCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::reverse(static::$_string);
 
@@ -1673,8 +1694,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodStartsWithCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::startsWith(static::$_string, '');
 
@@ -1687,8 +1708,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodStartsWithCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::startsWith(static::$_string, 'A');
 
@@ -1701,8 +1722,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodStartsWithCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::startsWith(static::$_string, 'a');
 
@@ -1715,8 +1736,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodStartsWithCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::startsWith(static::$_string, 'a', false);
 
@@ -1731,8 +1752,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodStartsWithAnyCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::startsWithAny(static::$_string, ['A', 'B']);
 
@@ -1745,8 +1766,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodStartsWithAnyCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::startsWithAny(static::$_string, ['a', 'b']);
 
@@ -1759,8 +1780,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodStartsWithAnyCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::startsWithAny(static::$_string, ['a', 'b'], false);
 
@@ -1775,8 +1796,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodEndsWithCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::endsWith(static::$_string, '');
 
@@ -1789,8 +1810,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodEndsWithCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::endsWith(static::$_string, 'z');
 
@@ -1803,8 +1824,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodEndsWithCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::endsWith(static::$_string, 'Z');
 
@@ -1817,8 +1838,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodEndsWithCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::endsWith(static::$_string, 'Z', false);
 
@@ -1833,8 +1854,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodEndsWithAnyCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::endsWithAny(static::$_string, ['z', 'b']);
 
@@ -1847,8 +1868,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodEndsWithAnyCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::endsWithAny(static::$_string, ['Z', 'B']);
 
@@ -1861,8 +1882,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodEndsWithAnyCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::endsWithAny(static::$_string, ['Z', 'B'], false);
 
@@ -1877,8 +1898,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodEnsureStartsWithCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::ensureStartsWith(static::$_string, 'ABC');
 
@@ -1891,8 +1912,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodEnsureStartsWithCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::ensureStartsWith(static::$_string, '_');
 
@@ -1907,8 +1928,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodEnsureEndsWithCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::ensureEndsWith(static::$_string, 'nrz');
 
@@ -1921,8 +1942,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodEnsureEndsWithCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::ensureEndsWith(static::$_string, '_');
 
@@ -1944,8 +1965,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodWrapCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::wrap('value', '|');
 
@@ -1974,8 +1995,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodAfterCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::after(static::$_string, 'r', false);
 
@@ -2004,8 +2025,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodAfterLastCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::afterLast(static::$_string, 'b', false);
 
@@ -2042,8 +2063,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodBeforeCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::before(static::$_string, 'e', false);
 
@@ -2065,8 +2086,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodBeforeLastCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::beforeLast(static::$_string, 'NoneExistingChar');
 
@@ -2079,8 +2100,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodBeforeLastCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::beforeLast(static::$_string, 'b');
 
@@ -2093,8 +2114,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodBeforeLastCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::beforeLast(static::$_string, 'b', false);
 
@@ -2163,6 +2184,9 @@ class StrTest extends TestCase
 
 	public function testMethodFloatToStringCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('float or int');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Str::floatToString('3.14');
@@ -2581,8 +2605,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodContainsCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::contains(static::$_string, '');
 
@@ -2595,8 +2619,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodContainsCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::contains(static::$_string, 'NoneExistingChar');
 
@@ -2609,8 +2633,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodContainsCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::contains(static::$_string, 'za');
 
@@ -2623,8 +2647,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodContainsCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::contains(static::$_string, 'za', false);
 
@@ -2646,8 +2670,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodContainsAnyCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::containsAny(static::$_string, ['']);
 
@@ -2660,8 +2684,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodContainsAnyCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::containsAny(static::$_string, ['za', 'NoneExistingChar']);
 
@@ -2674,8 +2698,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodContainsAnyCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::containsAny(static::$_string, ['za', 'NoneExistingChar'], false);
 
@@ -2697,8 +2721,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodContainsAllCase2() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::containsAll(static::$_string, ['']);
 
@@ -2711,8 +2735,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodContainsAllCase3() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::containsAll(static::$_string, ['Za', 'NoneExistingChar']);
 
@@ -2725,8 +2749,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodContainsAllCase4() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::containsAll(static::$_string, ['za', 'bm']);
 
@@ -2739,8 +2763,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodContainsAllCase5() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$result = Str::containsAll(static::$_string, ['za', 'bm'], false);
 
@@ -2813,8 +2837,8 @@ class StrTest extends TestCase
 	 */
 	public function testMethodCharsCase1() : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset')->andReturn('UTF-8');
 
 		$string = 'ABC';
 
@@ -2894,8 +2918,8 @@ class StrTest extends TestCase
 	{
 		$expected = ['a', 'b'];
 
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('first')->andReturn($expected);
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('first')->andReturn($expected);
 
 		$result = Str::explode(' a , b , c ', ',', 2);
 
@@ -2913,8 +2937,8 @@ class StrTest extends TestCase
 			2 => 'c'
 		];
 
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('last')->andReturn($expected);
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('last')->andReturn($expected);
 
 		$result = Str::explode(' a , b , c ', ',', -2);
 
