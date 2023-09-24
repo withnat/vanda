@@ -425,7 +425,7 @@ class Response
 		{
 			$url = Url::create($url);
 
-			if (static::isHeadersSent())
+			if (static::_isHeadersSent())
 			{
 				$url = str_replace("'", '&apos;', $url);
 
@@ -488,7 +488,7 @@ class Response
 		}
 
 		if (!$hasContentType)
-			static::setHeader('content-type', 'text/html; charset=' . Config::app('charset', 'UTF-8'));
+			static::setHeader('content-type', 'text/html; charset=' . Config::app('charset', mb_internal_encoding()));
 
 		// Output headers.
 
@@ -540,14 +540,14 @@ class Response
 	 * Checks if or where headers have been sent.
 	 * An alias for PHP's headers_sent() function.
 	 *
-	 * I am wrapping this to isolate the built-in PHP
-	 * function from my code base for testing reasons.
+	 * I wrap this to isolate the built-in PHP function
+	 * from my codebase for testing purposes.
 	 *
 	 * @return bool  True if the headers have already been sent.
 	 * @see headers_sent()
 	 * @codeCoverageIgnore
 	 */
-	protected static function isHeadersSent() : bool
+	protected static function _isHeadersSent() : bool
 	{
 		return headers_sent();
 	}
