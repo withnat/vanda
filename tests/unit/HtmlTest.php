@@ -40,7 +40,7 @@ class HtmlTest extends TestCase
 	public function testMethodLinkCase1() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
-		$stubInflector->shouldReceive(['sentence' => 'string, array or null']);
+		$stubInflector->shouldReceive('sentence')->andReturn('string, array or null');
 
 		$this->expectException(InvalidArgumentException::class);
 
@@ -56,13 +56,13 @@ class HtmlTest extends TestCase
 		$expected = '<a href="http://localhost">http://localhost</a>';
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive(['create' => 'http://localhost']);
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive(['isBlank' => true]);
+		$stubStr->shouldReceive('isBlank')->andReturnTrue();
 
 		$stubApp = Mockery::mock('alias:\System\App');
-		$stubApp->shouldReceive(['isSpa' => false]);
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
 
 		$result = Html::link();
 
@@ -78,13 +78,13 @@ class HtmlTest extends TestCase
 		$expected = '<a style="font-weight:bold;" href="http://localhost/user">Users</a>';
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive(['create' => 'http://localhost/user']);
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive(['isBlank' => false]);
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
 
 		$stubApp = Mockery::mock('alias:\System\App');
-		$stubApp->shouldReceive(['isSpa' => false]);
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
 
 		$result = Html::link('user', 'Users', 'style="font-weight:bold;"');
 
@@ -100,16 +100,16 @@ class HtmlTest extends TestCase
 		$expected = '<a style="font-weight:bold;" href="http://localhost/user">Users</a>';
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive(['create' => 'http://localhost/user']);
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
 
 		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive(['toString' => 'style="font-weight:bold;"']);
+		$stubArr->shouldReceive('toString')->andReturn('style="font-weight:bold;"');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive(['isBlank' => false]);
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
 
 		$stubApp = Mockery::mock('alias:\System\App');
-		$stubApp->shouldReceive(['isSpa' => false]);
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
 
 		$result = Html::link('user', 'Users', ['style' => 'font-weight:bold;']);
 
@@ -125,14 +125,15 @@ class HtmlTest extends TestCase
 		$expected = '<a href="#user" data-url="http://localhost/user">http://localhost/user</a>';
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive(['create' => 'http://localhost/user']);
-		$stubUrl->shouldReceive(['hashSpa' => '#user']);
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
+		$stubUrl->shouldReceive('hashSpa')->andReturn('#user');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive(['isBlank' => true]);
+		$stubStr->shouldReceive('isBlank')->andReturnTrue();
 
 		$stubApp = Mockery::mock('alias:\System\App');
-		$stubApp->shouldReceive(['isSpa' => true]);
+		$stubApp->shouldReceive('isSpa')->andReturnTrue();
+		$stubApp->shouldReceive('isSpa')->andReturnTrue();
 
 		$result = Html::link('user');
 
@@ -148,7 +149,7 @@ class HtmlTest extends TestCase
 	public function testMethodLinkUnlessCurrentCase1() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
-		$stubInflector->shouldReceive(['sentence' => 'string, array or null']);
+		$stubInflector->shouldReceive('sentence')->andReturn('string, array or null');
 
 		$this->expectException(InvalidArgumentException::class);
 
@@ -164,13 +165,13 @@ class HtmlTest extends TestCase
 		$expected = 'http://localhost';
 
 		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive(['url' => 'http://localhost']);
+		$stubRequest->shouldReceive('url')->andReturn('http://localhost');
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive(['create' => 'http://localhost']);
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive(['isBlank' => true]);
+		$stubStr->shouldReceive('isBlank')->andReturnTrue();
 
 		$result = Html::linkUnlessCurrent();
 
@@ -186,16 +187,16 @@ class HtmlTest extends TestCase
 		$expected = '<a href="http://localhost/contact">Contact</a>';
 
 		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive(['url' => 'http://localhost']);
+		$stubRequest->shouldReceive('url')->andReturn('http://localhost');
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive(['create' => 'http://localhost/contact']);
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost/contact');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive(['isBlank' => false]);
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
 
 		$stubApp = Mockery::mock('alias:\System\App');
-		$stubApp->shouldReceive(['isSpa' => false]);
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
 
 		$result = Html::linkUnlessCurrent('contact', 'Contact');
 
@@ -211,7 +212,7 @@ class HtmlTest extends TestCase
 	public function testMethodMailtoCase1() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
-		$stubInflector->shouldReceive(['sentence' => 'string, array or null']);
+		$stubInflector->shouldReceive('sentence')->andReturn('string, array or null');
 
 		$this->expectException(InvalidArgumentException::class);
 
@@ -227,7 +228,7 @@ class HtmlTest extends TestCase
 		$expected = '<a href="mailto:nat@withnat.com">nat@withnat.com</a>';
 
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive(['isBlank' => true]);
+		$stubStr->shouldReceive('isBlank')->andReturnTrue();
 
 		$result = Html::mailto('nat@withnat.com');
 
@@ -243,7 +244,7 @@ class HtmlTest extends TestCase
 		$expected = '<a href="mailto:nat@withnat.com">Contact</a>';
 
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive(['isBlank' => false]);
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
 
 		$result = Html::mailto('nat@withnat.com', 'Contact');
 
@@ -259,7 +260,7 @@ class HtmlTest extends TestCase
 		$expected = '<a style="font-weight:bold;" href="mailto:nat@withnat.com">Contact</a>';
 
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive(['isBlank' => false]);
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
 
 		$result = Html::mailto('nat@withnat.com', 'Contact', 'style="font-weight:bold;"');
 
@@ -275,12 +276,94 @@ class HtmlTest extends TestCase
 		$expected = '<a style="font-weight:bold;" href="mailto:nat@withnat.com">Contact</a>';
 
 		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive(['toString' => 'style="font-weight:bold;"']);
-		
+		$stubArr->shouldReceive('toString')->andReturn('style="font-weight:bold;"');
+
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive(['isBlank' => false]);
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
 
 		$result = Html::mailto('nat@withnat.com', 'Contact', ['style' => 'font-weight:bold;']);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	// Html::image()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase1() : void
+	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, array or null');
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Html::image('image.jpg', 'alt', new stdClass());
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase2() : void
+	{
+		$expected = '<img src="http://localhost/image.jpg" alt="" title="">';
+
+		$result = Html::image('http://localhost/image.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase3() : void
+	{
+		$expected = '<img src="http://localhost/image.jpg" style="font-weight:bold;" alt="Image" title="Image">';
+
+		$result = Html::image('http://localhost/image.jpg', 'Image', 'style="font-weight:bold;"');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase4() : void
+	{
+		$expected = '<img src="http://localhost/image.jpg" style="font-weight:bold;" alt="Image" title="Image">';
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('toString')->andReturn('style="font-weight:bold;"');
+
+		$result = Html::image('http://localhost/image.jpg', 'Image', ['style' => 'font-weight:bold;']);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase5() : void
+	{
+		$expected = '<img src="http://localhost/image.jpg" alt="" title="" width="100" height="100">';
+
+		$stubFile = Mockery::mock('alias:\System\File');
+		$stubFile->shouldReceive('exists')->andReturnTrue();
+
+		$stubImage = Mockery::mock('alias:\System\Image');
+		$stubImage->shouldReceive('load')->andReturnTrue();
+		$stubImage->shouldReceive('width')->andReturn(100);
+		$stubImage->shouldReceive('height')->andReturn(100);
+
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
+
+		$result = Html::image('image.jpg');
 
 		$this->assertEquals($expected, $result);
 	}
