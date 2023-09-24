@@ -41,7 +41,7 @@ class Html
 	public static function link(string $url = null, string $title = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::typeError(3, ['string','array','null'], $attribs);
+			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
 
 		$routeUrl = Url::create($url);
 
@@ -76,7 +76,7 @@ class Html
 	public static function linkUnlessCurrent(string $url = null, string $title = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::typeError(3, ['string','array','null'], $attribs);
+			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
 
 		$currentUrl = Request::url();
 		$url = Url::create($url);
@@ -99,7 +99,7 @@ class Html
 	public static function mailto(string $email, string $title = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::typeError(3, ['string','array','null'], $attribs);
+			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
 
 		if (is_null($attribs))
 			$attribs = '';
@@ -124,13 +124,18 @@ class Html
 	public static function image(string $url, string $alt = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::create(3, ['string','array','null'], $attribs);
+			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
 
-		if (is_array($attribs))
+		if (is_null($alt))
+			$alt = '';
+
+		if (is_null($attribs))
+			$attribs = '';
+		elseif (is_array($attribs))
 			$attribs = Arr::toString($attribs);
 
-		if ($alt)
-			$attribs .= ' alt="' . $alt . '" title="' . $alt . '"';
+		$attribs = static::setAttribute($attribs, 'alt', $alt);
+		$attribs = static::setAttribute($attribs, 'title', $alt);
 
 		$url = trim($url);
 
@@ -138,7 +143,7 @@ class Html
 		{
 			if (substr($url, 0, 1) != '/')
 			{
-				if (is_file($url))
+				if (File::exists($url))
 					$path = $url;
 				else
 				{
@@ -147,18 +152,18 @@ class Html
 				}
 			}
 			else
-				$path = ltrim($url);
+				$path = $url;
 
-			if (is_file($path))
+			if (Image::load($path))
 			{
-				Image::load($path);
-				$attribs .= ' width="' . Image::width() . '" height="' . Image::height() . '"';
+				$attribs = static::setAttribute($attribs, 'width', Image::width());
+				$attribs = static::setAttribute($attribs, 'height', Image::height());
 			}
 
 			$url = Request::basePath() . '/' . $path;
 		}
 
-		$html = '<img src="' . $url . '" ' . $attribs . ' />';
+		$html = '<img src="' . $url . '" ' . $attribs . '>';
 
 		return $html;
 	}
@@ -486,7 +491,7 @@ class Html
 	 * @param  string            $attribValue
 	 * @return string
 	 */
-	public static function setAttribute($attribs, string $attribName, string $attribValue) : string
+	public static function setAttribute($attribs, string $attribName, $attribValue) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::create(1, ['string','array','null'], $attribs);
