@@ -308,6 +308,7 @@ class Arr
 			// PHP 7.3+
 			if (function_exists('array_key_first'))
 			{
+				// Ignore for PHPUnit 9+ on PHP 7.3+
 				// @codeCoverageIgnoreStart
 				$key = array_key_first($array);
 				// @codeCoverageIgnoreEnd
@@ -315,12 +316,17 @@ class Arr
 			// PHP 7.2
 			else
 			{
+				// Ignore for PHPUnit 8 on PHP 7.2
+				// @codeCoverageIgnoreStart
+
 				// Move the internal pointer to the first of the array.
 				reset($array);
 
 				// The key() function returns the index
 				// element of the current array position.
 				$key = key($array);
+
+				// @codeCoverageIgnoreEnd
 			}
 
 			if ($length === 1)
@@ -388,6 +394,7 @@ class Arr
 			// PHP 7.3+
 			if (function_exists('array_key_last'))
 			{
+				// Ignore for PHPUnit 9+ on PHP 7.3+
 				// @codeCoverageIgnoreStart
 				$key = array_key_last($array);
 				// @codeCoverageIgnoreEnd
@@ -395,12 +402,17 @@ class Arr
 			// PHP 7.2
 			else
 			{
+				// Ignore for PHPUnit 8 on PHP 7.2
+				// @codeCoverageIgnoreStart
+
 				// Move the internal pointer to the end of the array.
 				end($array);
 
 				// The key() function returns the index
 				// element of the current array position.
 				$key = key($array);
+
+				// @codeCoverageIgnoreEnd
 			}
 
 			if ($length === 1)

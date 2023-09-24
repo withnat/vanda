@@ -1720,11 +1720,14 @@ class Str
 	{
 		if ($caseSensitive and function_exists('str_ends_with'))
 		{
-			// PHP 8.0+
+			// Ignore for PHPUnit 9+ on PHP 8+
 			// @codeCoverageIgnoreStart
 			return str_ends_with($string, $suffix);
 			// @codeCoverageIgnoreEnd
 		}
+
+		// Ignore for PHPUnit 9+ on PHP <= 7.4
+		// @codeCoverageIgnoreStart
 
 		// All strings start and end with the empty string.
 		if ($suffix === '')
@@ -1741,6 +1744,8 @@ class Str
 		}
 
 		$result = ($search === $suffix);
+
+		// @codeCoverageIgnoreEnd
 
 		return $result;
 	}
@@ -2608,12 +2613,15 @@ class Str
 	{
 		if ($caseSensitive and function_exists('str_contains'))
 		{
-			// PHP 8.0+
+			// Ignore for PHPUnit 9+ on PHP 8+
 			// @codeCoverageIgnoreStart
 			return str_contains($string, $substring);
 			// @codeCoverageIgnoreEnd
 		}
 
+		// Ignore for PHPUnit 9+ on PHP <= 7.4
+
+		// @codeCoverageIgnoreStart
 		if ($substring === '')
 			return true;
 
@@ -2623,6 +2631,8 @@ class Str
 			$result = (mb_strpos($string, $substring, 0, $encoding) !== false);
 		else
 			$result = (mb_stripos($string, $substring, 0, $encoding) !== false);
+
+		// @codeCoverageIgnoreEnd
 
 		return $result;
 	}

@@ -323,18 +323,24 @@ class Data
 	 */
 	public static function isCountable($data) : bool
 	{
-		// PHP 7 >= 7.3.0
+		// PHP 7.3+
 		if (function_exists('is_countable'))
 		{
+			// Ignore for PHPUnit 9+ on PHP 7.3+
 			// @codeCoverageIgnoreStart
 			return is_countable($data);
 			// @codeCoverageIgnoreEnd
 		}
 		else
+		{
+			// Ignore for PHPUnit 8 on PHP 7.2
+			// @codeCoverageIgnoreStart
 			return is_array($data) or
 				$data instanceof Countable or
 				$data instanceof ResourceBundle or
 				$data instanceof SimpleXmlElement;
+			// @codeCoverageIgnoreEnd
+		}
 	}
 
 	/**

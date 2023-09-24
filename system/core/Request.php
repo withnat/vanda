@@ -259,6 +259,7 @@ class Request
 	 * http://localhost/index.php/page    returns an empty string
 	 * http://localhost/web/index.php     returns '/web'
 	 * http://localhost/we%20b/index.php  returns '/we%20b'
+	 * Calling from CLI                   returns '.'
 	 *
 	 * @return string
 	 */
@@ -742,6 +743,7 @@ class Request
 
 	/**
 	 * Fetches and returns a given variable depending on the request method.
+	 * I set this method to a protected access level for testing purposes.
 	 *
 	 * @param  string                             $method   Where the variable should come from (GET or POST).
 	 * @param  string|null                        $name     The variable name.
