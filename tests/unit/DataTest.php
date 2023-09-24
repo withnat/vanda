@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use InvalidArgumentException;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Data;
@@ -60,12 +61,21 @@ class DataTest extends TestCase
 		static::$_dataArray = null;
 		static::$_dataArrayAssoc = null;
 		static::$_dataObject = null;
+
+		Mockery::close();
 	}
 
 	// Data::get()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodGetCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('array or object');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Data::get('', 'key');

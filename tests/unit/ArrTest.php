@@ -15,7 +15,9 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use InvalidArgumentException;
+use Mockery;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Runner\Version;
 use stdClass;
 use System\Arr;
 
@@ -287,6 +289,8 @@ class ArrTest extends TestCase
 		static::$_expectedSortDatasetByNameDesc = null;
 		static::$_expectedSortRecordsetByNameAsc = null;
 		static::$_expectedSortRecordsetByNameDesc = null;
+
+		Mockery::close();
 	}
 
 	// Arr::set()
@@ -390,8 +394,15 @@ class ArrTest extends TestCase
 
 	// Arr::get()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodGetCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string or int');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::get([], 3.14);
@@ -1955,16 +1966,32 @@ class ArrTest extends TestCase
 
 		$this->assertTrue($compare);
 
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[0]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[0]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[1]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[1]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[2]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[2]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[3]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[3]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[4]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[4]);
+		if (version_compare(Version::id(), '9', '<'))
+		{
+			$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[0]);
+			$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[0]);
+			$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[1]);
+			$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[1]);
+			$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[2]);
+			$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[2]);
+			$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[3]);
+			$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[3]);
+			$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[4]);
+			$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[4]);
+		}
+		else
+		{
+			$this->assertObjectNotHasProperty('name', static::$_recordsetArray[0]);
+			$this->assertObjectNotHasProperty('surname', static::$_recordsetArray[0]);
+			$this->assertObjectNotHasProperty('name', static::$_recordsetArray[1]);
+			$this->assertObjectNotHasProperty('surname', static::$_recordsetArray[1]);
+			$this->assertObjectNotHasProperty('name', static::$_recordsetArray[2]);
+			$this->assertObjectNotHasProperty('surname', static::$_recordsetArray[2]);
+			$this->assertObjectNotHasProperty('name', static::$_recordsetArray[3]);
+			$this->assertObjectNotHasProperty('surname', static::$_recordsetArray[3]);
+			$this->assertObjectNotHasProperty('name', static::$_recordsetArray[4]);
+			$this->assertObjectNotHasProperty('surname', static::$_recordsetArray[4]);
+		}
 	}
 
 	public function testMethodPullColumnCase8() : void
@@ -2013,16 +2040,32 @@ class ArrTest extends TestCase
 
 		$this->assertTrue($compare);
 
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[0]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[0]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[1]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[1]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[2]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[2]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[3]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[3]);
-		$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[4]);
-		$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[4]);
+		if (version_compare(Version::id(), '9', '<'))
+		{
+			$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[0]);
+			$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[0]);
+			$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[1]);
+			$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[1]);
+			$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[2]);
+			$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[2]);
+			$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[3]);
+			$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[3]);
+			$this->assertObjectNotHasAttribute('name', static::$_recordsetArray[4]);
+			$this->assertObjectNotHasAttribute('surname', static::$_recordsetArray[4]);
+		}
+		else
+		{
+			$this->assertObjectNotHasProperty('name', static::$_recordsetArray[0]);
+			$this->assertObjectNotHasProperty('surname', static::$_recordsetArray[0]);
+			$this->assertObjectNotHasProperty('name', static::$_recordsetArray[1]);
+			$this->assertObjectNotHasProperty('surname', static::$_recordsetArray[1]);
+			$this->assertObjectNotHasProperty('name', static::$_recordsetArray[2]);
+			$this->assertObjectNotHasProperty('surname', static::$_recordsetArray[2]);
+			$this->assertObjectNotHasProperty('name', static::$_recordsetArray[3]);
+			$this->assertObjectNotHasProperty('surname', static::$_recordsetArray[3]);
+			$this->assertObjectNotHasProperty('name', static::$_recordsetArray[4]);
+			$this->assertObjectNotHasProperty('surname', static::$_recordsetArray[4]);
+		}
 	}
 
 	// Arr::remove()

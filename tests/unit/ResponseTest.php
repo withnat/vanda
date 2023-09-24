@@ -530,14 +530,14 @@ class ResponseTest extends TestCase
 
 		$expected = '{"title":"","content":"","redirect":"http:\/\/localhost"}';
 
-		$mockedApp = Mockery::mock('alias:\System\App');
-		$mockedApp->shouldReceive(['isSpa' => true]);
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnTrue();
 
-		$mockedRequest = Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['isAjax' => true]);
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isAjax')->andReturnTrue();
 
-		$mockedUrl = Mockery::mock('alias:\System\Url');
-		$mockedUrl->shouldReceive(['create' => 'http://localhost']);
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
 		Response::redirect();
 
@@ -555,17 +555,17 @@ class ResponseTest extends TestCase
 	{
 		$expected = "<script>document.location.href=\"http://localhost\";</script>\n";
 
-		$mockedApp = Mockery::mock('alias:\System\App');
-		$mockedApp->shouldReceive(['isSpa' => false]);
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
 
-		$mockedUrl = Mockery::mock('alias:\System\Url');
-		$mockedUrl->shouldReceive(['create' => 'http://localhost']);
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
-		$mockedResponse = Mockery::mock('System\Response');
-		$mockedResponse->shouldAllowMockingProtectedMethods()->makePartial();
-		$mockedResponse->shouldReceive('isHeadersSent')->andReturn(true);
+		$stubResponse = Mockery::mock('System\Response');
+		$stubResponse->shouldAllowMockingProtectedMethods()->makePartial();
+		$stubResponse->shouldReceive('_isHeadersSent')->andReturnTrue();
 
-		$mockedResponse->redirect();
+		$stubResponse->redirect();
 
 		$this->expectOutputString($expected);
 	}
@@ -579,25 +579,25 @@ class ResponseTest extends TestCase
 		$expectedStatusContent = '0; url=http://localhost/user';
 		$expectedStatusCode = 302;
 
-		$mockedApp = Mockery::mock('alias:\System\App');
-		$mockedApp->shouldReceive(['isSpa' => false]);
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
 
-		$mockedUrl = Mockery::mock('alias:\System\Url');
-		$mockedUrl->shouldReceive(['create' => 'http://localhost/user']);
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
 
-		$mockedRequest = Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive('server')->andReturn('Microsoft-IIS/10.0');
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('server')->andReturn('Microsoft-IIS/10.0');
 
-		$mockedResponse = Mockery::mock('System\Response');
-		$mockedResponse->shouldAllowMockingProtectedMethods()->makePartial();
-		$mockedResponse->shouldReceive('isHeadersSent')->andReturn(false);
+		$stubResponse = Mockery::mock('System\Response');
+		$stubResponse->shouldAllowMockingProtectedMethods()->makePartial();
+		$stubResponse->shouldReceive('_isHeadersSent')->andReturnFalse();
 
-		$mockedResponse->redirect('user', 302);
+		$stubResponse->redirect('user', 302);
 
-		$result = $mockedResponse->getHeader('Refresh');
+		$result = $stubResponse->getHeader('Refresh');
 		$this->assertEquals($expectedStatusContent, $result);
 
-		$result = $mockedResponse->getStatusCode();
+		$result = $stubResponse->getStatusCode();
 		$this->assertEquals($expectedStatusCode, $result);
 	}
 
@@ -610,34 +610,38 @@ class ResponseTest extends TestCase
 		$expectedStatusContent = 'http://localhost/user';
 		$expectedStatusCode = 302;
 
-		$mockedApp = Mockery::mock('alias:\System\App');
-		$mockedApp->shouldReceive(['isSpa' => false]);
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
 
-		$mockedUrl = Mockery::mock('alias:\System\Url');
-		$mockedUrl->shouldReceive(['create' => 'http://localhost/user']);
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
 
-		$mockedRequest = Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive('server')->andReturn('Apache/2.4.41 (Ubuntu)');
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('server')->andReturn('Apache/2.4.41 (Ubuntu)');
 
-		$mockedResponse = Mockery::mock('System\Response');
-		$mockedResponse->shouldAllowMockingProtectedMethods()->makePartial();
-		$mockedResponse->shouldReceive('isHeadersSent')->andReturn(false);
+		$stubResponse = Mockery::mock('System\Response');
+		$stubResponse->shouldAllowMockingProtectedMethods()->makePartial();
+		$stubResponse->shouldReceive('_isHeadersSent')->andReturnFalse();
 
-		$mockedResponse->redirect('user', 302);
+		$stubResponse->redirect('user', 302);
 
-		$result = $mockedResponse->getHeader('Location');
+		$result = $stubResponse->getHeader('Location');
 		$this->assertEquals($expectedStatusContent, $result);
 
-		$result = $mockedResponse->getStatusCode();
+		$result = $stubResponse->getStatusCode();
 		$this->assertEquals($expectedStatusCode, $result);
 	}
 
 	// Response::send() & Response::sendHeaders() & Response::sendBody()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSendCase1() : void
 	{
-		$mockedRequest = Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['isCli' => true]);
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isCli')->andReturnTrue();
 
 		$result = Response::send();
 
@@ -650,8 +654,12 @@ class ResponseTest extends TestCase
 	 */
 	public function testMethodSendCase2() : void
 	{
-		$mockedRequest = Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['isCli' => false]);
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isCli')->andReturnFalse();
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset', mb_internal_encoding())->andReturn('UTF-8');
+
 		$result = Response::send();
 
 		$this->assertInstanceOf('System\Response', $result);
@@ -663,11 +671,11 @@ class ResponseTest extends TestCase
 	 */
 	public function testMethodSendCase3() : void
 	{
-		$mockedRequest = Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['isCli' => false]);
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isCli')->andReturnFalse();
 
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive(['app' => 'UTF-8']);
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('charset', mb_internal_encoding())->andReturn('UTF-8');
 
 		Response::setHeader('Pragma', 'cache');
 		Response::setBody('Nat is handsome.');
@@ -687,8 +695,8 @@ class ResponseTest extends TestCase
 	 */
 	public function testMethodSendCase4() : void
 	{
-		$mockedRequest = Mockery::mock('alias:\System\Request');
-		$mockedRequest->shouldReceive(['isCli' => false]);
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isCli')->andReturnFalse();
 
 		Response::setHeader('Pragma', 'cache');
 		Response::setHeader('content-type', 'text/html; charset=UTF-8');
@@ -713,8 +721,8 @@ class ResponseTest extends TestCase
 	{
 		$expected = '{"title":"Title","content":"Content","flash":null,"redirect":"#http:\/\/localhost"}';
 
-		$mockedUrl = Mockery::mock('alias:\System\Url');
-		$mockedUrl->shouldReceive(['hashSpa' => '#http://localhost']);
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('hashSpa')->andReturn('#http://localhost');
 
 		$data = [
 			'title' => 'Title',

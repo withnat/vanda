@@ -17,6 +17,7 @@ namespace Tests\Unit;
 use InvalidArgumentException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Runner\Version;
 use System\Str;
 
 /**
@@ -798,6 +799,10 @@ class StrTest extends TestCase
 
 	// Str::trim()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodTrimCase1() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
@@ -844,6 +849,10 @@ class StrTest extends TestCase
 
 	// Str::trimLeft()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodTrimLeftCase1() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
@@ -906,6 +915,10 @@ class StrTest extends TestCase
 
 	// Str::trimRight()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodTrimRightCase1() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
@@ -1302,6 +1315,10 @@ class StrTest extends TestCase
 
 	// Str::replace()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodReplaceCase1() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
@@ -1312,6 +1329,10 @@ class StrTest extends TestCase
 		Str::replace('string', 'search', 3.14);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodReplaceCase2() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
@@ -1419,6 +1440,10 @@ class StrTest extends TestCase
 
 	// Str::ireplace()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIReplaceCase1() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
@@ -1429,6 +1454,10 @@ class StrTest extends TestCase
 		Str::ireplace('string', 'search', 3.14);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodIReplaceCase2() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
@@ -2182,6 +2211,10 @@ class StrTest extends TestCase
 
 	// Str::floatToString()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodFloatToStringCase1() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
@@ -2979,35 +3012,50 @@ class StrTest extends TestCase
 	{
 		$result = Str::random();
 
-		$this->assertRegExp('/^[a-hj-km-np-zA-NP-Z2-9]{8}$/', $result);
+		if (version_compare(Version::id(), '9', '<'))
+			$this->assertRegExp('/^[a-hj-km-np-zA-NP-Z2-9]{8}$/', $result);
+		else
+			$this->assertMatchesRegularExpression('/^[a-hj-km-np-zA-NP-Z2-9]{8}$/', $result);
 	}
 
 	public function testMethodRandomCase2() : void
 	{
 		$result = Str::random(10, 'alnum');
 
-		$this->assertRegExp('/^[a-hj-km-np-zA-NP-Z2-9]{10}$/', $result);
+		if (version_compare(Version::id(), '9', '<'))
+			$this->assertRegExp('/^[a-hj-km-np-zA-NP-Z2-9]{10}$/', $result);
+		else
+			$this->assertMatchesRegularExpression('/^[a-hj-km-np-zA-NP-Z2-9]{10}$/', $result);
 	}
 
 	public function testMethodRandomCase3() : void
 	{
 		$result = Str::random(10, 'alpha');
 
-		$this->assertRegExp('/^[a-zA-Z]{10}$/', $result);
+		if (version_compare(Version::id(), '9', '<'))
+			$this->assertRegExp('/^[a-zA-Z]{10}$/', $result);
+		else
+			$this->assertMatchesRegularExpression('/^[a-zA-Z]{10}$/', $result);
 	}
 
 	public function testMethodRandomCase4() : void
 	{
 		$result = Str::random(10, 'num');
 
-		$this->assertRegExp('/^[0-9]{10}$/', $result);
+		if (version_compare(Version::id(), '9', '<'))
+			$this->assertRegExp('/^[0-9]{10}$/', $result);
+		else
+			$this->assertMatchesRegularExpression('/^[0-9]{10}$/', $result);
 	}
 
 	public function testMethodRandomCase5() : void
 	{
 		$result = Str::random(10, 'nozero');
-
-		$this->assertRegExp('/^[1-9]{10}$/', $result);
+		
+		if (version_compare(Version::id(), '9', '<'))
+			$this->assertRegExp('/^[1-9]{10}$/', $result);
+		else
+			$this->assertMatchesRegularExpression('/^[1-9]{10}$/', $result);
 	}
 
 	// Str::base64encode()

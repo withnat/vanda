@@ -102,8 +102,11 @@ class XmlTest extends TestCase
 	 */
 	public function testMethodFromDatasetCase1() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isDataset')->andReturnFalse();
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isDataset')->andReturnFalse();
+
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('dataset');
 
 		$this->expectException(InvalidArgumentException::class);
 
@@ -116,8 +119,8 @@ class XmlTest extends TestCase
 	 */
 	public function testMethodFromDatasetCase2() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isDataset')->andReturnTrue();
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isDataset')->andReturnTrue();
 
 		$result = Xml::fromDataset(static::$_dataset);
 
@@ -132,8 +135,11 @@ class XmlTest extends TestCase
 	 */
 	public function testMethodFromRecordsetCase1() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isRecordset')->andReturnFalse();
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('recordset');
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isRecordset')->andReturnFalse();
 
 		$this->expectException(InvalidArgumentException::class);
 
@@ -146,8 +152,8 @@ class XmlTest extends TestCase
 	 */
 	public function testMethodFromRecordsetCase2() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isRecordset')->andReturnTrue();
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isRecordset')->andReturnTrue();
 
 		$result = Xml::fromRecordset(static::$_recordset);
 
@@ -169,8 +175,8 @@ class XmlTest extends TestCase
 	 */
 	public function testMethodToArrayCase2() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('fromObject')->andReturn([]);
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('fromObject')->andReturn([]);
 
 		$result = Xml::toArray(static::$xml);
 
@@ -232,8 +238,8 @@ class XmlTest extends TestCase
 	 */
 	public function testMethodToDatasetCase2() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('fromObject')->andReturn([]);
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('fromObject')->andReturn([]);
 
 		$result = Xml::toArray(static::$xml);
 
@@ -285,7 +291,6 @@ class XmlTest extends TestCase
 	public function testMethodSafeCase1() : void
 	{
 		$expected = 'string&amp;&lt;&gt;&quot;&apos;&#45;';
-
 		$result = Xml::safe('string&<>"\'-', true);
 
 		$this->assertEquals($expected, $result);

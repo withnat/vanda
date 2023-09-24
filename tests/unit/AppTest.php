@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use Mockery;
 use PHPUnit\Framework\TestCase;
 use System\App;
 
@@ -24,17 +23,8 @@ use System\App;
  */
 class AppTest extends TestCase
 {
-    protected function tearDown() : void
-    {
-        Mockery::close();
-    }
-
 	// App::isSpa()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodIsSpaCase1() : void
 	{
 		$result = App::isSpa();

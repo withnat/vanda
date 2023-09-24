@@ -180,8 +180,8 @@ class InflectorTest extends TestCase
 	 */
 	public function testMethodIsCountableWord(string $string, bool $expected) : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('inflector')->with('unCountableWords')->andReturn(['audio']);
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('inflector')->with('unCountableWords')->andReturn(['audio']);
 
 		$result = Inflector::isCountableWord($string);
 
@@ -199,8 +199,8 @@ class InflectorTest extends TestCase
 	 */
 	public function testMethodPluralize(string $noun, string $expected) : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('inflector')->with('unCountableWords')->andReturn(['audio']);
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('inflector')->with('unCountableWords')->andReturn(['audio']);
 
 		$result = Inflector::pluralize($noun);
 
@@ -210,16 +210,30 @@ class InflectorTest extends TestCase
 	// Inflector::singularize()
 
 	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSingularizeCase1() : void
+	{
+		$stubInflector = Mockery::mock('\System\Inflector')->makePartial();
+		$stubInflector->shouldReceive('isCountableWord')->andReturnFalse();
+
+		$result = $stubInflector->singularize('unCountableWords');
+
+		$this->assertEquals('unCountableWords', $result);
+	}
+
+	/**
 	 * @param string $noun
 	 * @param string $expected
 	 * @dataProvider singularizeProvider
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodSingularize(string $noun, string $expected) : void
+	public function testMethodSingularizeCase2(string $noun, string $expected) : void
 	{
-		$mockedConfig = Mockery::mock('alias:\System\Config');
-		$mockedConfig->shouldReceive('inflector')->with('unCountableWords')->andReturn(['audio']);
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('inflector')->with('unCountableWords')->andReturn(['audio']);
 
 		$result = Inflector::singularize($noun);
 
@@ -306,14 +320,14 @@ class InflectorTest extends TestCase
 	 */
 	public function testMethodForeignKey(string $string, string $expected) : void
 	{
-		$mockedStr = Mockery::mock('alias:\System\Str');
-		$mockedStr->shouldReceive('ensureEndsWith')
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive('ensureEndsWith')
 			->andReturnUsing(function ($arg1, $arg2)
 			{
 				if ($arg1)
 					return $arg1 . $arg2;
-				else
-					return '';
+
+				return '';
 			});
 
 		$result = Inflector::foreignKey($string);
@@ -382,12 +396,19 @@ class InflectorTest extends TestCase
 
 	//Inflector::sentence()
 
+	public function testMethodSentenceCase1() : void
+	{
+		$result = Inflector::sentence(['oneword']);
+
+		$this->assertEquals('oneword', $result);
+	}
+
 	/**
 	 * @param array  $words
 	 * @param string $expected
 	 * @dataProvider sentenceProvider
 	 */
-	public function testMethodSentence(array $words, string $expected) : void
+	public function testMethodSentenceCase2(array $words, string $expected) : void
 	{
 		$result = Inflector::sentence($words);
 

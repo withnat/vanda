@@ -91,8 +91,11 @@ class CsvTest extends TestCase
 	 */
 	public function testMethodFromDatasetCase1() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isDataset')->andReturnFalse();
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isDataset')->andReturnFalse();
+
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('dataset');
 
 		$this->expectException(InvalidArgumentException::class);
 
@@ -105,8 +108,8 @@ class CsvTest extends TestCase
 	 */
 	public function testMethodFromDatasetCase2() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isDataset')->andReturnTrue();
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isDataset')->andReturnTrue();
 
 		$result = Csv::fromDataset(static::$_dataset);
 
@@ -121,8 +124,11 @@ class CsvTest extends TestCase
 	 */
 	public function testMethodFromRecordsetCase1() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isRecordset')->andReturnFalse();
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('recordset');
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isRecordset')->andReturnFalse();
 
 		$this->expectException(InvalidArgumentException::class);
 
@@ -135,8 +141,8 @@ class CsvTest extends TestCase
 	 */
 	public function testMethodFromRecordsetCase2() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isRecordset')->andReturnTrue();
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isRecordset')->andReturnTrue();
 
 		$result = Csv::fromRecordset(static::$_recordset);
 
@@ -198,8 +204,8 @@ class CsvTest extends TestCase
 	 */
 	public function testMethodToRecordsetCase1() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('toObject')->andReturn(new stdClass());
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('toObject')->andReturn(new stdClass());
 
 		$result = Csv::toRecordset(static::$_csv);
 

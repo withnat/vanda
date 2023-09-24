@@ -297,9 +297,12 @@ class JsonTest extends TestCase
 	 */
 	public function testMethodDataTableCase1() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isDataset')->andReturnFalse();
-		$mockedArr->shouldReceive('isRecordset')->andReturnFalse();
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('dataset or recordset');
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isDataset')->andReturnFalse();
+		$stubArr->shouldReceive('isRecordset')->andReturnFalse();
 
 		$this->expectException(InvalidArgumentException::class);
 
@@ -312,9 +315,9 @@ class JsonTest extends TestCase
 	 */
 	public function testMethodDataTableCase2() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isDataset')->andReturnTrue();
-		$mockedArr->shouldReceive('isRecordset')->andReturnFalse();
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isDataset')->andReturnTrue();
+		$stubArr->shouldReceive('isRecordset')->andReturnFalse();
 
 		$result = Json::dataTable(static::$_dataset);
 
@@ -327,9 +330,9 @@ class JsonTest extends TestCase
 	 */
 	public function testMethodDataTableCase3() : void
 	{
-		$mockedArr = Mockery::mock('alias:\System\Arr');
-		$mockedArr->shouldReceive('isDataset')->andReturnFalse();
-		$mockedArr->shouldReceive('isRecordset')->andReturnTrue();
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isDataset')->andReturnFalse();
+		$stubArr->shouldReceive('isRecordset')->andReturnTrue();
 
 		$result = Json::dataTable(static::$_recordset);
 

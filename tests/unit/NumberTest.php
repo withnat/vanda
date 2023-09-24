@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use InvalidArgumentException;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use System\Number;
 
@@ -24,6 +25,11 @@ use System\Number;
  */
 class NumberTest extends TestCase
 {
+	protected function tearDown() : void
+	{
+		Mockery::close();
+	}
+
 	// Number::byteFormat()
 
 	public function testMethodByteFormatCase1() : void
@@ -109,22 +115,43 @@ class NumberTest extends TestCase
 
 	// Number::inrange()
 
+		/**
+		 * @runInSeparateProcess
+		 * @preserveGlobalState disabled
+		 */
 	public function testMethodInRangeCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('int or float');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Number::inrange('value', 1, 100);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodInRangeCase2() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('int or float');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Number::inrange(50, 'value', 100);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodInRangeCase3() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('int or float');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Number::inrange(50, 1, 'value');
