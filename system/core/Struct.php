@@ -17,6 +17,9 @@ namespace System;
 /**
  * Class Struct
  *
+ * The Struct class manages structured data and provides methods to handle
+ * and manipulate data structures.
+ *
  * Using Example.
  *
  * // Define a 'coordinates' struct with 3 properties.
