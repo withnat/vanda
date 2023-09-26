@@ -553,4 +553,29 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	/**
+	 * Development mode, has given query, no version.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCssCase7() : void
+	{
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?dummyKey=dummyVal&v=1695701570">';
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'dummyKey=dummyVal']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
+
+		$stubTime = $this->getFunctionMock('System', 'time');
+		$stubTime->expects($this->once())->willReturn(1695701570);
+
+		$result = $html->css('style.css');
+
+		$this->assertEquals($expected, $result);
+	}
 }
