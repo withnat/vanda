@@ -527,11 +527,11 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodMethodCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnTrue();
-		$stubRequest->shouldReceive('header')->andReturn('PUT');
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnTrue();
+		$request->shouldReceive('header')->andReturn('PUT');
 
-		$result = $stubRequest->method();
+		$result = $request->method();
 
 		$this->assertEquals('PUT', $result);
 	}
@@ -542,10 +542,10 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodMethodCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnFalse();
 
-		$result = $stubRequest->method();
+		$result = $request->method();
 
 		$this->assertEquals('', $result);
 	}
@@ -558,10 +558,10 @@ class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'get';
 
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnFalse();
 
-		$result = $stubRequest->method();
+		$result = $request->method();
 
 		$this->assertEquals('GET', $result);
 
@@ -724,6 +724,10 @@ class RequestTest extends TestCase
 		unset($_SERVER['SERVER_PORT']);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodHostCase3() : void
 	{
 		$result = Request::host();
@@ -922,39 +926,39 @@ class RequestTest extends TestCase
 
 	public function testMethodHeaderCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('allHeaders')->andReturn([
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
 		]);
 
-		$result = $stubRequest->header('host');
+		$result = $request->header('host');
 
 		$this->assertEquals('localhost', $result);
 	}
 
 	public function testMethodHeaderCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('allHeaders')->andReturn([
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
 		]);
 
-		$result = $stubRequest->header('NotExistKey');
+		$result = $request->header('NotExistKey');
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodHeaderCase3() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('allHeaders')->andReturn([
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
 		]);
 
-		$result = $stubRequest->header('NotExistKey', 'default');
+		$result = $request->header('NotExistKey', 'default');
 
 		$this->assertEquals('default', $result);
 	}
@@ -963,23 +967,23 @@ class RequestTest extends TestCase
 
 	public function testMethodHasHeaderCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('allHeaders')->andReturn([
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
 		]);
 
-		$result = $stubRequest->hasHeader('host');
+		$result = $request->hasHeader('host');
 
 		$this->assertTrue($result);
 	}
 
 	public function testMethodHasHeaderCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('allHeaders')->andReturn([]);
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('allHeaders')->andReturn([]);
 
-		$result = $stubRequest->hasHeader('host');
+		$result = $request->hasHeader('host');
 
 		$this->assertFalse($result);
 	}
@@ -988,26 +992,26 @@ class RequestTest extends TestCase
 
 	public function testMethodHasAnyHeaderCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('allHeaders')->andReturn([
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
 		]);
 
-		$result = $stubRequest->hasAnyHeader(['host', 'NotExistKey']);
+		$result = $request->hasAnyHeader(['host', 'NotExistKey']);
 
 		$this->assertTrue($result);
 	}
 
 	public function testMethodHasAnyHeaderCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('allHeaders')->andReturn([
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
 		]);
 
-		$result = $stubRequest->hasAnyHeader(['NotExistKey']);
+		$result = $request->hasAnyHeader(['NotExistKey']);
 
 		$this->assertFalse($result);
 	}
@@ -1016,26 +1020,26 @@ class RequestTest extends TestCase
 
 	public function testMethodHasAllHeadersCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('allHeaders')->andReturn([
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
 		]);
 
-		$result = $stubRequest->hasAllHeaders(['host', 'NotExistKey']);
+		$result = $request->hasAllHeaders(['host', 'NotExistKey']);
 
 		$this->assertFalse($result);
 	}
 
 	public function testMethodHasAllHeadersCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('allHeaders')->andReturn([
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('allHeaders')->andReturn([
 			'Host' => 'localhost',
 			'Connection' => 'keep-alive'
 		]);
 
-		$result = $stubRequest->hasAllHeaders(['host', 'connection']);
+		$result = $request->hasAllHeaders(['host', 'connection']);
 
 		$this->assertTrue($result);
 	}
@@ -1114,10 +1118,10 @@ class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnFalse();
 
-		$result = $stubRequest->isGet();
+		$result = $request->isGet();
 
 		$this->assertTrue($result);
 
@@ -1132,10 +1136,10 @@ class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnFalse();
 
-		$result = $stubRequest->isGet();
+		$result = $request->isGet();
 
 		$this->assertFalse($result);
 
@@ -1150,11 +1154,11 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodIsOptionsCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnTrue();
-		$stubRequest->shouldReceive('header')->andReturn('OPTIONS');
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnTrue();
+		$request->shouldReceive('header')->andReturn('OPTIONS');
 
-		$result = $stubRequest->isOptions();
+		$result = $request->isOptions();
 
 		$this->assertTrue($result);
 	}
@@ -1165,10 +1169,10 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodIsOptionsCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnFalse();
 
-		$result = $stubRequest->isOptions();
+		$result = $request->isOptions();
 
 		$this->assertFalse($result);
 	}
@@ -1181,11 +1185,11 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodIsHeadCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnTrue();
-		$stubRequest->shouldReceive('header')->andReturn('HEAD');
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnTrue();
+		$request->shouldReceive('header')->andReturn('HEAD');
 
-		$result = $stubRequest->isHead();
+		$result = $request->isHead();
 
 		$this->assertTrue($result);
 	}
@@ -1196,10 +1200,10 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodIsHeadCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnFalse();
 
-		$result = $stubRequest->isHead();
+		$result = $request->isHead();
 
 		$this->assertFalse($result);
 	}
@@ -1214,10 +1218,10 @@ class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnFalse();
 
-		$result = $stubRequest->isPost();
+		$result = $request->isPost();
 
 		$this->assertTrue($result);
 
@@ -1232,10 +1236,10 @@ class RequestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnFalse();
 
-		$result = $stubRequest->isPost();
+		$result = $request->isPost();
 
 		$this->assertFalse($result);
 
@@ -1250,11 +1254,11 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodIsDeleteCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnTrue();
-		$stubRequest->shouldReceive('header')->andReturn('DELETE');
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnTrue();
+		$request->shouldReceive('header')->andReturn('DELETE');
 
-		$result = $stubRequest->isDelete();
+		$result = $request->isDelete();
 
 		$this->assertTrue($result);
 	}
@@ -1265,10 +1269,10 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodIsDeleteCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnFalse();
 
-		$result = $stubRequest->isDelete();
+		$result = $request->isDelete();
 
 		$this->assertFalse($result);
 	}
@@ -1281,11 +1285,11 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodIsPutCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnTrue();
-		$stubRequest->shouldReceive('header')->andReturn('PUT');
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnTrue();
+		$request->shouldReceive('header')->andReturn('PUT');
 
-		$result = $stubRequest->isPut();
+		$result = $request->isPut();
 
 		$this->assertTrue($result);
 	}
@@ -1296,10 +1300,10 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodIsPutCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnFalse();
 
-		$result = $stubRequest->isPut();
+		$result = $request->isPut();
 
 		$this->assertFalse($result);
 	}
@@ -1312,11 +1316,11 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodIsPatchCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnTrue();
-		$stubRequest->shouldReceive('header')->andReturn('PATCH');
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnTrue();
+		$request->shouldReceive('header')->andReturn('PATCH');
 
-		$result = $stubRequest->isPatch();
+		$result = $request->isPatch();
 
 		$this->assertTrue($result);
 	}
@@ -1327,10 +1331,10 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodIsPatchCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('hasHeader')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('hasHeader')->andReturnFalse();
 
-		$result = $stubRequest->isPatch();
+		$result = $request->isPatch();
 
 		$this->assertFalse($result);
 	}
@@ -1382,11 +1386,11 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodIsPjaxCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isAjax')->andReturnTrue();
-		$stubRequest->shouldReceive('hasHeader')->andReturnTrue();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isAjax')->andReturnTrue();
+		$request->shouldReceive('hasHeader')->andReturnTrue();
 
-		$result = $stubRequest->isPjax();
+		$result = $request->isPjax();
 
 		$this->assertTrue($result);
 	}
@@ -1408,8 +1412,8 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsGetCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isGet')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isGet')->andReturnFalse();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
@@ -1418,7 +1422,7 @@ class RequestTest extends TestCase
 		$stubUrl->shouldReceive('default')->andReturn('http://localhost');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
-		$stubRequest->ensureIsGet();
+		$request->ensureIsGet();
 
 		// If this test fails, it will stop before returning true below.
 		$this->assertTrue(true);
@@ -1430,13 +1434,13 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsGetCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isGet')->andReturnTrue();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isGet')->andReturnTrue();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
-		$stubRequest->ensureIsGet();
+		$request->ensureIsGet();
 
 		$this->assertTrue(true);
 	}
@@ -1449,8 +1453,8 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsOptionsCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isOptions')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isOptions')->andReturnFalse();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
@@ -1459,7 +1463,7 @@ class RequestTest extends TestCase
 		$stubUrl->shouldReceive('default')->andReturn('http://localhost');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
-		$stubRequest->ensureIsOptions();
+		$request->ensureIsOptions();
 
 		$this->assertTrue(true);
 	}
@@ -1470,13 +1474,13 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsOptionsCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isOptions')->andReturnTrue();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isOptions')->andReturnTrue();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
-		$stubRequest->ensureIsOptions();
+		$request->ensureIsOptions();
 
 		$this->assertTrue(true);
 	}
@@ -1489,8 +1493,8 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsHeadCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isHead')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isHead')->andReturnFalse();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
@@ -1499,7 +1503,7 @@ class RequestTest extends TestCase
 		$stubUrl->shouldReceive('default')->andReturn('http://localhost');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
-		$stubRequest->ensureIsHead();
+		$request->ensureIsHead();
 
 		$this->assertTrue(true);
 	}
@@ -1510,13 +1514,13 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsHeadCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isHead')->andReturnTrue();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isHead')->andReturnTrue();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
-		$stubRequest->ensureIsHead();
+		$request->ensureIsHead();
 
 		$this->assertTrue(true);
 	}
@@ -1529,8 +1533,8 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPostCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isPost')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isPost')->andReturnFalse();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
@@ -1539,7 +1543,7 @@ class RequestTest extends TestCase
 		$stubUrl->shouldReceive('default')->andReturn('http://localhost');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
-		$stubRequest->ensureIsPost();
+		$request->ensureIsPost();
 
 		$this->assertTrue(true);
 	}
@@ -1550,13 +1554,13 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPostCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isPost')->andReturnTrue();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isPost')->andReturnTrue();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
-		$stubRequest->ensureIsPost();
+		$request->ensureIsPost();
 
 		$this->assertTrue(true);
 	}
@@ -1569,8 +1573,8 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsDeleteCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isDelete')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isDelete')->andReturnFalse();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
@@ -1579,7 +1583,7 @@ class RequestTest extends TestCase
 		$stubUrl->shouldReceive('default')->andReturn('http://localhost');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
-		$stubRequest->ensureIsDelete();
+		$request->ensureIsDelete();
 
 		$this->assertTrue(true);
 	}
@@ -1590,13 +1594,13 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsDeleteCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isDelete')->andReturnTrue();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isDelete')->andReturnTrue();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
-		$stubRequest->ensureIsDelete();
+		$request->ensureIsDelete();
 
 		$this->assertTrue(true);
 	}
@@ -1609,8 +1613,8 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPutCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isPut')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isPut')->andReturnFalse();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
@@ -1619,7 +1623,7 @@ class RequestTest extends TestCase
 		$stubUrl->shouldReceive('default')->andReturn('http://localhost');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
-		$stubRequest->ensureIsPut();
+		$request->ensureIsPut();
 
 		$this->assertTrue(true);
 	}
@@ -1630,13 +1634,13 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPutCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isPut')->andReturnTrue();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isPut')->andReturnTrue();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
-		$stubRequest->ensureIsPut();
+		$request->ensureIsPut();
 
 		$this->assertTrue(true);
 	}
@@ -1649,8 +1653,8 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPatchCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isPatch')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isPatch')->andReturnFalse();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
@@ -1659,7 +1663,7 @@ class RequestTest extends TestCase
 		$stubUrl->shouldReceive('default')->andReturn('http://localhost');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
-		$stubRequest->ensureIsPatch();
+		$request->ensureIsPatch();
 
 		$this->assertTrue(true);
 	}
@@ -1670,13 +1674,13 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPatchCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isPatch')->andReturnTrue();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isPatch')->andReturnTrue();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
-		$stubRequest->ensureIsPatch();
+		$request->ensureIsPatch();
 
 		$this->assertTrue(true);
 	}
@@ -1689,8 +1693,8 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsAjaxCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isAjax')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isAjax')->andReturnFalse();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
@@ -1699,7 +1703,7 @@ class RequestTest extends TestCase
 		$stubUrl->shouldReceive('default')->andReturn('http://localhost');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
-		$stubRequest->ensureIsAjax();
+		$request->ensureIsAjax();
 
 		$this->assertTrue(true);
 	}
@@ -1710,13 +1714,13 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsAjaxCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isAjax')->andReturnTrue();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isAjax')->andReturnTrue();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
-		$stubRequest->ensureIsAjax();
+		$request->ensureIsAjax();
 
 		$this->assertTrue(true);
 	}
@@ -1729,8 +1733,8 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPjaxCase1() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isPjax')->andReturnFalse();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isPjax')->andReturnFalse();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->once();
@@ -1739,7 +1743,7 @@ class RequestTest extends TestCase
 		$stubUrl->shouldReceive('default')->andReturn('http://localhost');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
-		$stubRequest->ensureIsPjax();
+		$request->ensureIsPjax();
 
 		$this->assertTrue(true);
 	}
@@ -1750,13 +1754,13 @@ class RequestTest extends TestCase
 	 */
 	public function testMethodEnsureIsPjaxCase2() : void
 	{
-		$stubRequest = Mockery::mock('\System\Request')->makePartial();
-		$stubRequest->shouldReceive('isPjax')->andReturnTrue();
+		$request = Mockery::mock('\System\Request')->makePartial();
+		$request->shouldReceive('isPjax')->andReturnTrue();
 
 		$mockedResponse = Mockery::mock('alias:\System\Response');
 		$mockedResponse->shouldReceive('redirect')->never();
 
-		$stubRequest->ensureIsPjax();
+		$request->ensureIsPjax();
 
 		$this->assertTrue(true);
 	}
