@@ -561,11 +561,11 @@ class ResponseTest extends TestCase
 		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
-		$stubResponse = Mockery::mock('System\Response');
-		$stubResponse->shouldAllowMockingProtectedMethods()->makePartial();
-		$stubResponse->shouldReceive('_isHeadersSent')->andReturnTrue();
+		$response = Mockery::mock('System\Response');
+		$response->shouldAllowMockingProtectedMethods()->makePartial();
+		$response->shouldReceive('_isHeadersSent')->andReturnTrue();
 
-		$stubResponse->redirect();
+		$response->redirect();
 
 		$this->expectOutputString($expected);
 	}
@@ -588,16 +588,16 @@ class ResponseTest extends TestCase
 		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive('server')->andReturn('Microsoft-IIS/10.0');
 
-		$stubResponse = Mockery::mock('System\Response');
-		$stubResponse->shouldAllowMockingProtectedMethods()->makePartial();
-		$stubResponse->shouldReceive('_isHeadersSent')->andReturnFalse();
+		$response = Mockery::mock('System\Response');
+		$response->shouldAllowMockingProtectedMethods()->makePartial();
+		$response->shouldReceive('_isHeadersSent')->andReturnFalse();
 
-		$stubResponse->redirect('user', 302);
+		$response->redirect('user', 302);
 
-		$result = $stubResponse->getHeader('Refresh');
+		$result = $response->getHeader('Refresh');
 		$this->assertEquals($expectedStatusContent, $result);
 
-		$result = $stubResponse->getStatusCode();
+		$result = $response->getStatusCode();
 		$this->assertEquals($expectedStatusCode, $result);
 	}
 
@@ -619,16 +619,16 @@ class ResponseTest extends TestCase
 		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive('server')->andReturn('Apache/2.4.41 (Ubuntu)');
 
-		$stubResponse = Mockery::mock('System\Response');
-		$stubResponse->shouldAllowMockingProtectedMethods()->makePartial();
-		$stubResponse->shouldReceive('_isHeadersSent')->andReturnFalse();
+		$response = Mockery::mock('System\Response');
+		$response->shouldAllowMockingProtectedMethods()->makePartial();
+		$response->shouldReceive('_isHeadersSent')->andReturnFalse();
 
-		$stubResponse->redirect('user', 302);
+		$response->redirect('user', 302);
 
-		$result = $stubResponse->getHeader('Location');
+		$result = $response->getHeader('Location');
 		$this->assertEquals($expectedStatusContent, $result);
 
-		$result = $stubResponse->getStatusCode();
+		$result = $response->getStatusCode();
 		$this->assertEquals($expectedStatusCode, $result);
 	}
 
