@@ -18,6 +18,10 @@ use System\Exception\InvalidArgumentException;
 
 /**
  * Class Html
+ *
+ * The HTML class acts as a utility, providing essential functions for
+ * seamless manipulation and generation of HTML elements.
+ *
  * @package System
  */
 class Html
@@ -33,12 +37,14 @@ class Html
 	private function __construct(){}
 
 	/**
-	 * @param  string|null       $url
-	 * @param  string|null       $title
-	 * @param  string|array|null $attribs
-	 * @return string
+	 * Generates a '<a>' elment.
+	 *
+	 * @param  string|null       $url      The relative URL to use for the href attribute. Defaults to null.
+	 * @param  string|null       $text     The text to be wrapped by '<a>' element. Defaults to null.
+	 * @param  string|array|null $attribs  Attributes to be added to the '<a>' element. Defaults to null.
+	 * @return string                      Returns the generated '<a>' element.
 	 */
-	public static function link(string $url = null, string $title = null, $attribs = null) : string
+	public static function link(string $url = null, string $text = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
@@ -50,8 +56,8 @@ class Html
 		elseif (is_array($attribs))
 			$attribs = Arr::toString($attribs);
 
-		if (Str::isBlank($title))
-			$title = $routeUrl;
+		if (Str::isBlank($text))
+			$text = $routeUrl;
 
 		if (App::isSpa())
 		{
@@ -62,18 +68,20 @@ class Html
 		else
 			$attribs = static::setAttribute($attribs, 'href', $routeUrl);
 
-		$html = '<a ' . $attribs . '>' . $title . '</a>';
+		$html = '<a ' . $attribs . '>' . $text . '</a>';
 
 		return $html;
 	}
 
 	/**
-	 * @param  string|null       $url
-	 * @param  string|null       $title
-	 * @param  string|array|null $attribs
-	 * @return string
+	 * Generates a '<a>' elment if the current URL is not the same as the given URL.
+	 *
+	 * @param  string|null       $url      The relative URL to use for the href attribute. Defaults to null.
+	 * @param  string|null       $text     The text to be wrapped by '<a>' element. Defaults to null.
+	 * @param  string|array|null $attribs  Attributes to be added to the '<a>' element. Defaults to null.
+	 * @return string                      Returns the generated '<a>' element.
 	 */
-	public static function linkUnlessCurrent(string $url = null, string $title = null, $attribs = null) : string
+	public static function linkUnlessCurrent(string $url = null, string $text = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
@@ -81,22 +89,24 @@ class Html
 		$currentUrl = Request::url();
 		$url = Url::create($url);
 
-		if (Str::isBlank($title))
-			$title = $url;
+		if (Str::isBlank($text))
+			$text = $url;
 
 		if ($url !== $currentUrl)
-			return static::link($url, $title, $attribs);
+			return static::link($url, $text, $attribs);
 		else
-			return $title;
+			return $text;
 	}
 
 	/**
-	 * @param  string            $email
-	 * @param  string|null       $title
-	 * @param  string|array|null $attribs
-	 * @return string
+	 * Generates a mailto link.
+	 *
+	 * @param  string            $email    The email address to be used.
+	 * @param  string|null       $text     The text to be wrapped by '<a>' element. Defaults to null.
+	 * @param  string|array|null $attribs  Attributes to be added to the '<a>' element. Defaults to null.
+	 * @return string                      Returns the generated mailto link.
 	 */
-	public static function mailto(string $email, string $title = null, $attribs = null) : string
+	public static function mailto(string $email, string $text = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
@@ -106,20 +116,22 @@ class Html
 		elseif (is_array($attribs))
 			$attribs = Arr::toString($attribs);
 
-		if (Str::isBlank($title))
-			$title = $email;
+		if (Str::isBlank($text))
+			$text = $email;
 
 		$attribs = static::setAttribute($attribs, 'href', 'mailto:' . $email);
-		$html = '<a ' . $attribs . '>' . $title . '</a>';
+		$html = '<a ' . $attribs . '>' . $text . '</a>';
 
 		return $html;
 	}
 
 	/**
-	 * @param  string            $url
-	 * @param  string|null       $alt
-	 * @param  string|array|null $attribs
-	 * @return string
+	 * Generates a '<image>' element.
+	 *
+	 * @param  string            $url      The image URL to use for the src attribute.
+	 * @param  string|null       $alt      The alt attribute. Defaults to null.
+	 * @param  string|array|null $attribs  Attributes to be added to the '<image>' element. Defaults to null.
+	 * @return string                      Returns the generated '<image>' element.
 	 */
 	public static function image(string $url, string $alt = null, $attribs = null) : string
 	{
@@ -169,9 +181,11 @@ class Html
 	}
 
 	/**
-	 * @param  string            $url
-	 * @param  string|array|null $attribs
-	 * @return string
+	 * Generates a CSS <link> element.
+	 *
+	 * @param  string            $url      The CSS URL to use for the href attribute.
+	 * @param  string|array|null $attribs  Attributes to be added to the '<link>' element. Defaults to null.
+	 * @return string                      Returns the generated CSS link.
 	 */
 	public static function css(string $url, $attribs = null) : string
 	{
@@ -195,21 +209,24 @@ class Html
 		{
 			if ($query)
 			{
-				if (strpos($query, 'v=') === false)
+				if (stripos($query, 'v=') === false)
 					$query .= '&v=' . time();
-
-				$query = '?' . $query;
 			}
 			else
-				$query = '?v=' . time();
+				$query = 'v=' . time();
 		}
 
-		return '<link rel="stylesheet" type="text/css" href="' . $url . $query . '" ' . $attribs . '>';
+		if ($query) $url .= '?' . $query;
+		if ($attribs) $attribs = ' ' . $attribs;
+
+		return '<link rel="stylesheet" type="text/css" href="' . $url . '"' . $attribs . '>';
 	}
 
 	/**
-	 * @param  string            $url
-	 * @param  string|array|null $attribs
+	 * Registers the CSS file to be included and printed in the template at a later point.
+	 *
+	 * @param  string            $url      The CSS URL to use for the href attribute.
+	 * @param  string|array|null $attribs  Attributes to be added to the '<link>' element. Defaults to null.
 	 * @return void
 	 */
 	public static function addCss(string $url, $attribs = null) : void
@@ -240,8 +257,11 @@ class Html
 	}
 
 	/**
-	 * @param  string $url
-	 * @return string
+	 * Generates a '<script>' element.
+	 *
+	 * @param  string $url                The JS URL to use for the src attribute.
+	 * @param string|array|null $attribs  Attributes to be added to the '<script>' element. Defaults to null.
+	 * @return string                     Returns the generated '<script>' element.
 	 */
 	public static function js(string $url, $attribs = null) : string
 	{
@@ -276,7 +296,10 @@ class Html
 	}
 
 	/**
-	 * @param  string $url
+	 * Registers the JS file to be included and printed in the template at a later point.
+	 *
+	 * @param  string           $url      The JS URL to use for the src attribute.
+	 * @param string|array|null $attribs  Attributes to be added to the '<script>' element. Defaults to null.
 	 * @return void
 	 */
 	public static function addJs(string $url, $attribs = null) : void
@@ -307,8 +330,10 @@ class Html
 	}
 
 	/**
-	 * @param  string $url
-	 * @return array
+	 * Extracts the URL and query string from the given CSS URL.
+	 *
+	 * @param  string $url  The CSS URL to be extracted.
+	 * @return array        Returns the CSS URL and query string.
 	 */
 	protected static function _getCssUrl(string $url) : array
 	{
@@ -344,8 +369,10 @@ class Html
 	}
 
 	/**
-	 * @param  string $url
-	 * @return array
+	 * Extracts the URL and query string from the given JS URL.
+	 *
+	 * @param  string $url  The JS URL to be extracted.
+	 * @return array        Returns the JS URL and query string.
 	 */
 	private static function _getJsUrl(string $url) : array
 	{
@@ -380,7 +407,9 @@ class Html
 	}
 
 	/**
-	 * @param  string $url
+	 * Display warning message if the file is included multiple times.
+	 *
+	 * @param  string $url  The URL of the file.
 	 * @return void
 	 * @codeCoverageIgnore
 	 */
@@ -396,8 +425,10 @@ class Html
 	}
 
 	/**
-	 * @param  string $url
-	 * @return string
+	 * Extracts file name from the given URL and generates a '<a>' element linking to the file.
+	 *
+	 * @param  string $url  The URL of the file.
+	 * @return string       Returns the generated '<a>' element.
 	 */
 	public static function linkFile(string $url, $attribs = null) : string
 	{
@@ -418,8 +449,10 @@ class Html
 	}
 
 	/**
-	 * @param  int    $multiplier
-	 * @return string
+	 * Generates a '<br>' element.
+	 *
+	 * @param  int    $multiplier  The number of times the '<br>' element should be repeated.
+	 * @return string              Returns the generated '<br>' element.
 	 */
 	public static function br(int $multiplier) : string
 	{
@@ -427,18 +460,22 @@ class Html
 	}
 
 	/**
-	 * @param  int    $multiplier
-	 * @return string
+	 * Generates a '&nbsp;' element.
+	 *
+	 * @param  int    $multiplier  The number of times the '&nbsp;' element should be repeated.
+	 * @return string              Returns the generated '&nbsp;' element.
 	 */
-	public static function nbs(int $multiplier) : string
+	public static function nbsp(int $multiplier) : string
 	{
 		return str_repeat('&nbsp;', $multiplier);
 	}
 
 	/**
-	 * @param  array|object      $items
-	 * @param  string|array|null $attribs
-	 * @return string
+	 * Generates a '<ul>' element.
+	 *
+	 * @param  array|object      $items    The items to be wrapped by '<li>' element.
+	 * @param  string|array|null $attribs  The attributes to be added to the '<ul>' element. Defaults to null.
+	 * @return string                      Returns the generated '<ul>' element.
 	 */
 	public static function ul($items, $attribs = null) : string
 	{
@@ -462,9 +499,11 @@ class Html
 	}
 
 	/**
-	 * @param  array|object      $items
-	 * @param  string|array|null $attribs
-	 * @return string
+	 * Generates a '<ol>' element.
+	 *
+	 * @param  array|object      $items    The items to be wrapped by '<li>' element.
+	 * @param  string|array|null $attribs  The attributes to be added to the '<ol>' element. Defaults to null.
+	 * @return string                      Returns the generated '<ol>' element.
 	 */
 	public static function ol($items, $attribs = null) : string
 	{
@@ -488,9 +527,11 @@ class Html
 	}
 
 	/**
-	 * @param  array             $items
-	 * @param  string|array|null $attribs
-	 * @return string
+	 * Generates a '<table>' element.
+	 *
+	 * @param  array             $items    The items to be wrapped by '<td>' element.
+	 * @param  string|array|null $attribs  The attributes to be added to the '<table>' element. Defaults to null.
+	 * @return string                      Returns the generated '<table>' element.
 	 */
 	public static function table(array $items, $attribs = null) : string
 	{
@@ -525,9 +566,11 @@ class Html
 	}
 
 	/**
-	 * @param  string      $attribName
-	 * @param  string|null $html
-	 * @return string
+	 * Extracts the value of the given attribute from the given HTML.
+	 *
+	 * @param  string      $attribName  The name of the attribute.
+	 * @param  string|null $html        The HTML to be extracted.
+	 * @return string                   Returns the value of the given attribute.
 	 */
 	public static function getAttribute(string $attribName, string $html = null) : string
 	{
@@ -538,20 +581,22 @@ class Html
 	}
 
 	/**
-	 * @param  string|array|null $attribs      NULL value from Form.php
-	 * @param  string            $attribName
-	 * @param  string            $attribValue
-	 * @return string
+	 * Generates an attribute string from the given data.
+	 *
+	 * @param  string|array|null $attribs  The existing attributes. NULL value is from Form.php.
+	 * @param  string            $name     The name of the attribute to be added.
+	 * @param  string            $value    The value of the attribute to be added.
+	 * @return string                      Returns the generated attribute string.
 	 */
-	public static function setAttribute($attribs, string $attribName, $attribValue) : string
+	public static function setAttribute($attribs, string $name, $value) : string
 	{
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(1, ['string', 'array', 'null'], $attribs);
 
 		if (is_array($attribs))
 		{
-			if (!isset($attribs[$attribName]))
-				$attribs[$attribName] = $attribValue;
+			if (!isset($attribs[$name]))
+				$attribs[$name] = $value;
 
 			$attribs = Arr::toString($attribs);
 		}
@@ -562,8 +607,8 @@ class Html
 			elseif ($attribs)
 				$attribs .= ' ';
 
-			if (strpos($attribs, $attribName . '=') === false)
-				$attribs .= $attribName . '="' . $attribValue . '"';
+			if (strpos($attribs, $name . '=') === false)
+				$attribs .= $name . '="' . $value . '"';
 			//else
 				//$attribs = ' ' . $attribs; // Maybe overwrite by empty attribute e.g., 'class=""'.
 		}
@@ -572,6 +617,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetFileUpload() : void
@@ -585,6 +632,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetAutocomplete() : void
@@ -594,6 +643,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetCheckbox() : void
@@ -603,6 +654,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetClockpicker() : void
@@ -612,6 +665,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetColorpicker() : void
@@ -621,6 +676,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetDatepicker() : void
@@ -632,6 +689,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetDaterangpicker() : void
@@ -642,6 +701,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetDatatype() : void
@@ -651,6 +712,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetEditor() : void
@@ -660,6 +723,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetRangeSpin() : void
@@ -669,6 +734,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetMarkdown() : void
@@ -679,6 +746,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetSwitcher() : void
@@ -688,6 +757,8 @@ class Html
 	}
 
 	/**
+	 * Add asset files to be included in the template.
+	 *
 	 * @return void
 	 */
 	public static function addAssetTagsinput() : void
