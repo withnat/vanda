@@ -42,10 +42,12 @@ class Url
 	private function __construct(){}
 
 	/**
-	 * @param  bool|null $secure
-	 * @return string
+	 * Gets base URL.
+	 *
+	 * @param  bool|null $secure  If true, force the scheme to be HTTPS.
+	 * @return string             Returns the base URL.
 	 */
-	public static function base(bool $secure = null) : string
+	public static function base(bool $secure = null) : string // TODO why default = false?
 	{
 		if (!static::$_baseUrl)
 			static::$_baseUrl = Request::host() . Request::basePath();
@@ -61,7 +63,9 @@ class Url
 	}
 
 	/**
-	 * @return string
+	 * Gets default URL based on the current side (frontend or backend).
+	 *
+	 * @return string  Returns the default URL.
 	 * @codeCoverageIgnore
 	 */
 	public static function default() : string
@@ -87,7 +91,9 @@ class Url
 	}
 
 	/**
-	 * @return string
+	 * Gets current URI with query string (if any).
+	 *
+	 * @return string  Returns the current URL.
 	 * @codeCoverageIgnore
 	 */
 	public static function uri() : string
@@ -96,7 +102,9 @@ class Url
 	}
 
 	/**
-	 * @return string
+	 * Gets current URL with query string (if any).
+	 *
+	 * @return string  Returns the current URL with query string.
 	 * @codeCoverageIgnore
 	 */
 	public static function current() : string
@@ -107,14 +115,16 @@ class Url
 	}
 
 	/**
+	 * Creates full URL from the given path.
+	 *
 	 * Example url.
 	 * http://user:pass@hostname:9090/path?arg=value#anchor
 	 *
-	 * @param  string|null $path
-	 * @param  bool|null   $secure
-	 * @return string
+	 * @param  string|null $path    The path to be appended to the URL.
+	 * @param  bool|null   $secure  If true, force the scheme to be HTTPS.
+	 * @return string               Returns the full URL.
 	 */
-	public static function create(string $path = null, bool $secure = null) : string
+	public static function create(string $path = null, bool $secure = null) : string //TODO $secure = false?
 	{
 		if (is_null($path))
 			$path = static::$_path;
@@ -196,8 +206,10 @@ class Url
 	}
 
 	/**
-	 * @param  string $action
-	 * @return string
+	 * Creates full URL from the given action.
+	 *
+	 * @param  string $action  The action to be appended to the URL.
+	 * @return string          Returns the full URL.
 	 */
 	public static function createFromAction(string $action) : string
 	{
@@ -236,10 +248,10 @@ class Url
 	}
 
 	/**
-	 * Determine if the given path is a valid URL.
+	 * Determines if the given path is a valid URL.
 	 *
-	 * @param  string $path
-	 * @return bool
+	 * @param  string $path  The path to be validated.
+	 * @return bool          Returns true if the given path is a valid URL.
 	 */
 	public static function isValid(string $path) : bool
 	{
@@ -252,8 +264,8 @@ class Url
 	/**
 	 * Generate a uri fragment with a hash mark (#)for singgle-page application mode.
 	 *
-	 * @param  string $uri
-	 * @return string
+	 * @param  string $uri  The uri to be hashed.
+	 * @return string       Returns the uri fragment.
 	 */
 	public static function hashSpa(string $uri) : string
 	{
@@ -269,10 +281,12 @@ class Url
 	}
 
 	/**
-	 * @param  string|null $url
-	 * @return string
+	 * Converts the given URL into a context string used for variable suffix names, such as cookie names.
+	 *
+	 * @param  string|null $url  The URL to be converted.
+	 * @return string            Returns the context string.
 	 */
-	public static function toContext($url = null) : string
+	public static function toContext(string $url = null) : string
 	{
 		if (!$url)
 		{
@@ -344,8 +358,8 @@ class Url
 	 * Parse a URL and return its components.
 	 * This is just an alias for PHP's native parse_url().
 	 *
-	 * @param  string $url
-	 * @return array
+	 * @param  string $url  The URL to be parsed.
+	 * @return array        Returns an associative array containing any of the various components of the URL.
 	 */
 	public static function parse(string $url) : array
 	{
@@ -355,8 +369,8 @@ class Url
 	/**
 	 * Parse a URL and return scheme value.
 	 *
-	 * @param  string|null $url
-	 * @return string|null
+	 * @param  string|null $url  The URL to be parsed.
+	 * @return string|null       Returns scheme value.
 	 */
 	public static function getScheme(string $url = null) : ?string
 	{
@@ -374,7 +388,7 @@ class Url
 	/**
 	 * Set scheme value.
 	 *
-	 * @param  string $scheme
+	 * @param  string $scheme  The scheme to be set.
 	 * @return void
 	 */
 	public static function setScheme(string $scheme) : void
@@ -385,8 +399,8 @@ class Url
 	/**
 	 * Parse a URL and return user value.
 	 *
-	 * @param  string|null $url
-	 * @return string|null
+	 * @param  string|null $url  The URL to be parsed.
+	 * @return string|null       Returns user value.
 	 */
 	public static function getUser(string $url = null) : ?string
 	{
@@ -404,7 +418,7 @@ class Url
 	/**
 	 * Set user value.
 	 *
-	 * @param  string $user
+	 * @param  string $user  The user to be set.
 	 * @return void
 	 */
 	public static function setUser(string $user) : void
@@ -415,8 +429,8 @@ class Url
 	/**
 	 * Parse a URL and return password value.
 	 *
-	 * @param  string|null $url
-	 * @return string|null
+	 * @param  string|null $url  The URL to be parsed.
+	 * @return string|null       Returns password value.
 	 */
 	public static function getPass(string $url = null) : ?string
 	{
@@ -434,7 +448,7 @@ class Url
 	/**
 	 * Set password value.
 	 *
-	 * @param  string $pass
+	 * @param  string $pass  The password to be set.
 	 * @return void
 	 */
 	public static function setPass(string $pass) : void
@@ -445,8 +459,8 @@ class Url
 	/**
 	 * Parse a URL and return host value.
 	 *
-	 * @param  string|null $url
-	 * @return string|null
+	 * @param  string|null $url  The URL to be parsed.
+	 * @return string|null       Returns host value.
 	 */
 	public static function getHost(string $url = null) : ?string
 	{
@@ -464,7 +478,7 @@ class Url
 	/**
 	 * Set host value.
 	 *
-	 * @param  string $host
+	 * @param  string $host  The host to be set.
 	 * @return void
 	 */
 	public static function setHost(string $host) : void
@@ -475,8 +489,8 @@ class Url
 	/**
 	 * Parse a URL and return port value.
 	 *
-	 * @param  string|null $url
-	 * @return int|null
+	 * @param  string|null $url  The URL to be parsed.
+	 * @return int|null          Returns port value.
 	 */
 	public static function getPort(string $url = null) : ?int
 	{
@@ -494,7 +508,7 @@ class Url
 	/**
 	 * Set port value.
 	 *
-	 * @param  int  $port
+	 * @param  int  $port  The port to be set.
 	 * @return void
 	 */
 	public static function setPort(int $port) : void
@@ -505,8 +519,8 @@ class Url
 	/**
 	 * Parse a URL and return path value.
 	 *
-	 * @param  string|null $url
-	 * @return string|null
+	 * @param  string|null $url  The URL to be parsed.
+	 * @return string|null       Returns path value.
 	 */
 	public static function getPath(string $url = null) : ?string
 	{
@@ -526,7 +540,7 @@ class Url
 	/**
 	 * Set path value.
 	 *
-	 * @param  string $path
+	 * @param  string $path  The path to be set.
 	 * @return void
 	 */
 	public static function setPath(string $path) : void
@@ -538,8 +552,8 @@ class Url
 	/**
 	 * Parse a URL and return query string.
 	 *
-	 * @param  string|null $url
-	 * @return string|null
+	 * @param  string|null $url  The URL to be parsed.
+	 * @return string|null       Returns query string.
 	 */
 	public static function getQuery(string $url = null) : ?string
 	{
@@ -557,7 +571,7 @@ class Url
 	/**
 	 * Set query value.
 	 *
-	 * @param  string $query
+	 * @param  string $query  The query to be set.
 	 * @return void
 	 */
 	public static function setQuery(string $query) : void
@@ -569,8 +583,8 @@ class Url
 	/**
 	 * Parse a URL and return fragment value.
 	 *
-	 * @param  string|null $url
-	 * @return string|null
+	 * @param  string|null $url  The URL to be parsed.
+	 * @return string|null       Returns fragment value.
 	 */
 	public static function getFragment(string $url = null) : ?string
 	{
@@ -588,7 +602,7 @@ class Url
 	/**
 	 * Set fragment value.
 	 *
-	 * @param  string $fragment
+	 * @param  string $fragment  The fragment to be set.
 	 * @return void
 	 */
 	public static function setFragment(string $fragment) : void
@@ -598,6 +612,8 @@ class Url
 	}
 
 	/**
+	 * Reset all URL components.
+	 *
 	 * @codeCoverageIgnore
 	 */
 	protected static function _reset() : void
