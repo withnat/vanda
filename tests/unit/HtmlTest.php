@@ -483,7 +483,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Given attributes is a string.
+	 * The given attributes is a string.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -505,7 +505,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Given attributes is an array.
+	 * The given attributes is an array.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -530,7 +530,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Development mode, no given query.
+	 * Development mode, no The given query.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -555,7 +555,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Development mode, has given query, no version.
+	 * Development mode, has The given query, no version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -580,7 +580,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Development mode, has given query, has version.
+	 * Development mode, has The given query, has version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -602,7 +602,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Production mode, no given query.
+	 * Production mode, no The given query.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -624,7 +624,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Production mode, has given query, no version.
+	 * Production mode, has The given query, no version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -646,7 +646,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Production mode, has given query, has version.
+	 * Production mode, has The given query, has version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
