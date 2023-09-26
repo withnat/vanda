@@ -462,7 +462,7 @@ class HtmlTest extends TestCase
 
 	/**
 	 * No attributes.
-	 * 
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -478,6 +478,28 @@ class HtmlTest extends TestCase
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
 		$result = $html->css('style.css');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * Given attributes is a string.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCssCase4() : void
+	{
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css" media="print">';
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
+
+		$result = $html->css('style.css', 'media="print"');
 
 		$this->assertEquals($expected, $result);
 	}
