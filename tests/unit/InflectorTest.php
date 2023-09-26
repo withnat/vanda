@@ -215,10 +215,10 @@ class InflectorTest extends TestCase
 	 */
 	public function testMethodSingularizeCase1() : void
 	{
-		$stubInflector = Mockery::mock('\System\Inflector')->makePartial();
-		$stubInflector->shouldReceive('isCountableWord')->andReturnFalse();
+		$inflector = Mockery::mock('\System\Inflector')->makePartial();
+		$inflector->shouldReceive('isCountableWord')->andReturnFalse();
 
-		$result = $stubInflector->singularize('unCountableWords');
+		$result = $inflector->singularize('unCountableWords');
 
 		$this->assertEquals('unCountableWords', $result);
 	}
