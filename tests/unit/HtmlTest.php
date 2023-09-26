@@ -455,4 +455,26 @@ class HtmlTest extends TestCase
 
 		$this->assertTrue(true);
 	}
+
+	/**
+	 * No attributes.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCssCase3() : void
+	{
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css">';
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
+
+		$result = $html->css('style.css');
+
+		$this->assertEquals($expected, $result);
+	}
 }
