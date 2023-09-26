@@ -163,14 +163,14 @@ class UrlTest extends TestCase
 	{
 		putenv('APP_SIDE=frontend');
 
-		$stubUrl = Mockery::mock('\System\Url')->makePartial();
-		$stubUrl->shouldReceive('base')->andReturn('http://localhost/vanda');
+		$url = Mockery::mock('\System\Url')->makePartial();
+		$url->shouldReceive('base')->andReturn('http://localhost/vanda');
 
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
 
 		$expected = 'http://localhost/vanda';
-		$result = $stubUrl->create();
+		$result = $url->create();
 
 		$this->assertEquals($expected, $result);
 
@@ -185,8 +185,8 @@ class UrlTest extends TestCase
 	{
 		putenv('APP_SIDE=backend');
 
-		$stubUrl = Mockery::mock('\System\Url')->makePartial();
-		$stubUrl->shouldReceive('base')->andReturn('http://localhost/vanda');
+		$url = Mockery::mock('\System\Url')->makePartial();
+		$url->shouldReceive('base')->andReturn('http://localhost/vanda');
 
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')
@@ -204,7 +204,7 @@ class UrlTest extends TestCase
 			});
 
 		$expected = 'http://localhost/vanda/admin';
-		$result = $stubUrl->create();
+		$result = $url->create();
 
 		$this->assertEquals($expected, $result);
 
@@ -253,8 +253,8 @@ class UrlTest extends TestCase
 	{
 		putenv('APP_SIDE=backend');
 
-		$stubUrl = Mockery::mock('\System\Url')->makePartial();
-		$stubUrl->shouldReceive('base')->andReturn('http://localhost');
+		$url = Mockery::mock('\System\Url')->makePartial();
+		$url->shouldReceive('base')->andReturn('http://localhost');
 
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')
@@ -271,7 +271,7 @@ class UrlTest extends TestCase
 				}
 			});
 
-		$result = $stubUrl->create($uri, $secure);
+		$result = $url->create($uri, $secure);
 
 		$this->assertEquals($expected, $result);
 
@@ -290,8 +290,8 @@ class UrlTest extends TestCase
 	{
 		putenv('APP_SIDE=backend');
 
-		$stubUrl = Mockery::mock('\System\Url')->makePartial();
-		$stubUrl->shouldReceive('base')->andReturn('http://localhost');
+		$url = Mockery::mock('\System\Url')->makePartial();
+		$url->shouldReceive('base')->andReturn('http://localhost');
 
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')
@@ -308,7 +308,7 @@ class UrlTest extends TestCase
 				}
 			});
 
-		$result = $stubUrl->create($uri, $secure);
+		$result = $url->create($uri, $secure);
 
 		$this->assertEquals($expected, $result);
 
@@ -329,13 +329,13 @@ class UrlTest extends TestCase
 		putenv('APP_SIDE=frontend');
 		putenv('APP_LANG=' . $lang);
 
-		$stubUrl = Mockery::mock('\System\Url')->makePartial();
-		$stubUrl->shouldReceive('base')->andReturn('http://localhost');
+		$url = Mockery::mock('\System\Url')->makePartial();
+		$url->shouldReceive('base')->andReturn('http://localhost');
 
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
 
-		$result = $stubUrl->create($uri, $secure);
+		$result = $url->create($uri, $secure);
 
 		$this->assertEquals($expected, $result);
 
@@ -357,13 +357,13 @@ class UrlTest extends TestCase
 		putenv('APP_SIDE=frontend');
 		putenv('APP_LANG=' . $lang);
 
-		$stubUrl = Mockery::mock('\System\Url')->makePartial();
-		$stubUrl->shouldReceive('base')->andReturn('http://localhost');
+		$url = Mockery::mock('\System\Url')->makePartial();
+		$url->shouldReceive('base')->andReturn('http://localhost');
 
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnFalse();
 
-		$result = $stubUrl->create($uri, $secure);
+		$result = $url->create($uri, $secure);
 
 		$this->assertEquals($expected, $result);
 
