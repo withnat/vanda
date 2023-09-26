@@ -18,6 +18,12 @@ use System\Exception\InvalidArgumentException;
 
 /**
  * Class Number
+ *
+ * The Number Class handles various operations and manipulations related to
+ * numeric values. It includes functionalities to format byte sizes, determine
+ * appropriate size units for file sizes, convert file sizes between different
+ * units, and check if a number falls within a specified range.
+ *
  * @package System
  */
 class Number
