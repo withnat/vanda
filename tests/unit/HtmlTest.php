@@ -421,6 +421,8 @@ class HtmlTest extends TestCase
 	// Html::css()
 
 	/**
+	 * Check attributes datatype.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -435,6 +437,8 @@ class HtmlTest extends TestCase
 	}
 
 	/**
+	 * Ensure Html::_showIncludeFileWarning() method is called.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -458,7 +462,7 @@ class HtmlTest extends TestCase
 
 	/**
 	 * No attributes.
-	 *
+	 * 
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
