@@ -24,8 +24,8 @@ class Html
 {
 	public static $addedCss = [];
 	public static $addedJs = [];
-	private static $_printedOutCss = [];
-	private static $_printedOutJs = [];
+	protected static $_printedOutCss = [];
+	protected static $_printedOutJs = [];
 
 	/**
 	 * Html constructor.
@@ -180,7 +180,7 @@ class Html
 
 		list($url, $query) = static::_getCssUrl($url);
 
-		if (Config::get('env') === 'development' and in_array($url, static::$_printedOutCss))
+		if (Config::app('env') === 'development' and in_array($url, static::$_printedOutCss))
 		{
 			static::_showIncludeFileWarning($url);
 			return '';
@@ -191,18 +191,20 @@ class Html
 		if (is_array($attribs))
 			$attribs = Arr::toString($attribs);
 
-		if (Config::get('env') === 'development')
+		if (Config::app('env') === 'development')
 		{
 			if ($query)
 			{
 				if (strpos($query, 'v=') === false)
 					$query .= '&v=' . time();
+
+				$query = '?' . $query;
 			}
 			else
-				$query = 'v=' . time();
+				$query = '?v=' . time();
 		}
 
-		return '<link rel="stylesheet" type="text/css" href="' . $url . '?' . $query . '" ' . $attribs . '>' . "\n";
+		return '<link rel="stylesheet" type="text/css" href="' . $url . $query . '" ' . $attribs . '>';
 	}
 
 	/**
@@ -308,7 +310,7 @@ class Html
 	 * @param  string $url
 	 * @return array
 	 */
-	private static function _getCssUrl(string $url) : array
+	protected static function _getCssUrl(string $url) : array
 	{
 		$url = trim($url);
 		$query = '';
@@ -380,8 +382,9 @@ class Html
 	/**
 	 * @param  string $url
 	 * @return void
+	 * @codeCoverageIgnore
 	 */
-	private static function _showIncludeFileWarning(string $url) : void
+	protected static function _showIncludeFileWarning(string $url) : void
 	{
 		$backtrace = debug_backtrace();
 
