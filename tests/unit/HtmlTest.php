@@ -26,6 +26,8 @@ use System\Html;
  */
 class HtmlTest extends TestCase
 {
+	use \phpmock\phpunit\PHPMock;
+
 	protected function tearDown() : void
 	{
 		Mockery::close();
@@ -352,8 +354,8 @@ class HtmlTest extends TestCase
 	{
 		$expected = '<img src="http://localhost/image.jpg" alt="" title="" width="100" height="100">';
 
-		$stubFile = Mockery::mock('alias:\System\File');
-		$stubFile->shouldReceive('exists')->andReturnTrue();
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->once())->willReturn(true);
 
 		$stubImage = Mockery::mock('alias:\System\Image');
 		$stubImage->shouldReceive('load')->andReturnTrue();
@@ -364,6 +366,86 @@ class HtmlTest extends TestCase
 		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
 
 		$result = Html::image('image.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase6() : void
+	{
+		$expected = '<img src="http://localhost/assets/images/image.jpg" alt="" title="" width="100" height="100">';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->once())->willReturn(false);
+
+		$stubFile = Mockery::mock('alias:\System\File');
+		$stubFile->shouldReceive('getAssetPath')->andReturn('assets/images/image.jpg');
+
+		$stubImage = Mockery::mock('alias:\System\Image');
+		$stubImage->shouldReceive('load')->andReturnTrue();
+		$stubImage->shouldReceive('width')->andReturn(100);
+		$stubImage->shouldReceive('height')->andReturn(100);
+
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
+
+		$result = Html::image('image.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase7() : void
+	{
+		$expected = '<img src="http://localhost/image.jpg" alt="" title="" width="100" height="100">';
+
+		$stubImage = Mockery::mock('alias:\System\Image');
+		$stubImage->shouldReceive('load')->andReturnTrue();
+		$stubImage->shouldReceive('width')->andReturn(100);
+		$stubImage->shouldReceive('height')->andReturn(100);
+
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
+
+		$result = Html::image('/image.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	// Html::css()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCssCase1() : void
+	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, array or null');
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Html::css('style.css', new stdClass());
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCssCase2() : void
+	{
+		$expected = '<img src="http://localhost/image.jpg" alt="" title="">';
+
+		$stubImage = Mockery::mock('alias:\System\Image');
+		$stubImage->shouldReceive('load')->andReturnTrue();
+
+		$result = Html::css('http://localhost/image.jpg');
 
 		$this->assertEquals($expected, $result);
 	}
