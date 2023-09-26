@@ -421,7 +421,7 @@ class HtmlTest extends TestCase
 	// Html::css()
 
 	/**
-	 * Check attributes datatype.
+	 * Check attribute datatype.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -461,7 +461,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * No given attributes.
+	 * No given attribute.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -483,7 +483,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * The given attributes is a string.
+	 * The given attribute is a string.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -505,7 +505,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * The given attributes is an array.
+	 * The given attribute is an array.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
