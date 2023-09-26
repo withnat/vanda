@@ -21,6 +21,8 @@ namespace System;
 class Hash
 {
 	/**
+	 * The Hash class provides methods for creating and verifying hashes.
+	 *
 	 * Hash constructor.
 	 */
 	private function __construct(){}
