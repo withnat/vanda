@@ -440,13 +440,19 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase2() : void
 	{
-		$expected = '<img src="http://localhost/image.jpg" alt="" title="">';
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_showIncludeFileWarning')->once();
+		$html->shouldReceive('_getCssUrl')->andReturn(['dummy', 'dummy']);
 
-		$stubImage = Mockery::mock('alias:\System\Image');
-		$stubImage->shouldReceive('load')->andReturnTrue();
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
 
-		$result = Html::css('http://localhost/image.jpg');
+		$stubArray = $this->getFunctionMock('System', 'in_array');
+		$stubArray->expects($this->once())->willReturn(true);
 
-		$this->assertEquals($expected, $result);
+		$html->css('style.css');
+
+		$this->assertTrue(true);
 	}
 }
