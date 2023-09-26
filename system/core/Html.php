@@ -84,7 +84,7 @@ class Html
 		if (Str::isBlank($title))
 			$title = $url;
 
-		if ($url != $currentUrl)
+		if ($url !== $currentUrl)
 			return static::link($url, $title, $attribs);
 		else
 			return $title;
@@ -123,7 +123,7 @@ class Html
 	 */
 	public static function image(string $url, string $alt = null, $attribs = null) : string
 	{
-		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
 
 		if (is_null($alt))
@@ -141,9 +141,9 @@ class Html
 
 		if (stripos($url, 'http://') === false and stripos($url, 'https://') === false)
 		{
-			if (substr($url, 0, 1) != '/')
+			if (substr($url, 0, 1) !== '/')
 			{
-				if (File::exists($url))
+				if (is_file($url))
 					$path = $url;
 				else
 				{
@@ -152,7 +152,7 @@ class Html
 				}
 			}
 			else
-				$path = $url;
+				$path = ltrim($url, '/');
 
 			if (Image::load($path))
 			{
@@ -175,12 +175,12 @@ class Html
 	 */
 	public static function css(string $url, $attribs = null) : string
 	{
-		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::create(2, ['string','array','null'], $attribs);
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
 		list($url, $query) = static::_getCssUrl($url);
 
-		if (in_array($url, static::$_printedOutCss) and DEV_MODE)
+		if (Config::get('env') === 'development' and in_array($url, static::$_printedOutCss))
 		{
 			static::_showIncludeFileWarning($url);
 			return '';
@@ -191,10 +191,18 @@ class Html
 		if (is_array($attribs))
 			$attribs = Arr::toString($attribs);
 
-		if (DEV_MODE)
-			$query = '?v=' . Str::random(32);
+		if (Config::get('env') === 'development')
+		{
+			if ($query)
+			{
+				if (strpos($query, 'v=') === false)
+					$query .= '&v=' . time();
+			}
+			else
+				$query = 'v=' . time();
+		}
 
-		return '<link rel="stylesheet" type="text/css" href="' . $url . $query . '" ' . $attribs . ' />' . "\n";
+		return '<link rel="stylesheet" type="text/css" href="' . $url . '?' . $query . '" ' . $attribs . '>' . "\n";
 	}
 
 	/**
@@ -204,8 +212,8 @@ class Html
 	 */
 	public static function addCss(string $url, $attribs = null) : void
 	{
-		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::create(2, ['string','array','null'], $attribs);
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
 		list($url, $query) = static::_getCssUrl($url);
 
@@ -214,8 +222,16 @@ class Html
 			if (is_array($attribs))
 				$attribs = Arr::toString($attribs);
 
-			if (DEV_MODE)
-				$query = '?v=' . Str::random(32);
+			if (Config::get('env') === 'development')
+			{
+				if ($query)
+				{
+					if (strpos($query, 'v=') === false)
+						$query .= '&v=' . time();
+				}
+				else
+					$query = 'v=' . time();
+			}
 
 			static::$addedCss[] = ['url' => $url, 'query' => $query, 'attribs' => $attribs];
 		}
@@ -225,11 +241,14 @@ class Html
 	 * @param  string $url
 	 * @return string
 	 */
-	public static function js(string $url) : string
+	public static function js(string $url, $attribs = null) : string
 	{
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
+
 		list($url, $query) = static::_getJsUrl($url);
 
-		if (in_array($url, static::$_printedOutJs) and DEV_MODE)
+		if (Config::get('env') === 'development' and in_array($url, static::$_printedOutJs))
 		{
 			static::_showIncludeFileWarning($url);
 			return '';
@@ -237,26 +256,51 @@ class Html
 
 		static::$_printedOutJs[] = $url;
 
-		if (DEV_MODE)
-			$query = '?v=' . Str::random(32);
+		if (is_array($attribs))
+			$attribs = Arr::toString($attribs);
 
-		return '<script type="text/javascript" src="' . $url . $query . '"></script>' . "\n";
+		if (Config::get('env') === 'development')
+		{
+			if ($query)
+			{
+				if (strpos($query, 'v=') === false)
+					$query .= '&v=' . time();
+			}
+			else
+				$query = 'v=' . time();
+		}
+
+		return '<script src="' . $url . '?' . $query . '" ' . $attribs . '></script>' . "\n";
 	}
 
 	/**
 	 * @param  string $url
 	 * @return void
 	 */
-	public static function addJs(string $url) : void
+	public static function addJs(string $url, $attribs = null) : void
 	{
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
+
 		list($url, $query) = static::_getJsUrl($url);
 
 		if (!in_array($url, array_column(static::$addedJs, 'url')))
 		{
-			if (DEV_MODE)
-				$query = '?v=' . Str::random(32);
+			if (is_array($attribs))
+				$attribs = Arr::toString($attribs);
 
-			static::$addedJs[] = ['url' => $url, 'query' => $query];
+			if (Config::get('env') === 'development')
+			{
+				if ($query)
+				{
+					if (strpos($query, 'v=') === false)
+						$query .= '&v=' . time();
+				}
+				else
+					$query = 'v=' . time();
+			}
+
+			static::$addedJs[] = ['url' => $url, 'query' => $query, 'attribs' => $attribs];
 		}
 	}
 
@@ -271,13 +315,11 @@ class Html
 
 		if (stripos($url, 'http://') === false and stripos($url, 'https://') === false)
 		{
-			$base = Request::basePath();
-
 			$arr = explode('?', $url);
 			$url = $arr[0];
 			$query = $arr[1] ?? '';
 
-			if (substr($url, 0, 1) != '/')
+			if (substr($url, 0, 1) !== '/')
 			{
 				if (is_file($url))
 					$path = $url;
@@ -287,10 +329,10 @@ class Html
 					$path = File::getAssetPath($url, 'css', $backtrace[1]['file']);
 				}
 
-				$url = $base . DS . $path;
+				$url = Request::basePath() . DS . $path;
 			}
 			else
-				$url = $base . $url;
+				$url = Request::basePath() . $url;
 		}
 
 		if (DS === '\\')
@@ -309,9 +351,7 @@ class Html
 
 		if (stripos($url, 'http://') === false and stripos($url, 'https://') === false)
 		{
-			$base = Request::basePath();
-
-			if (substr($url, 0, 1) != '/')
+			if (substr($url, 0, 1) !== '/')
 			{
 				$arr = explode('?', $url);
 				$url = $arr[0];
@@ -325,10 +365,10 @@ class Html
 					$path = File::getAssetPath($url, 'js', $backtrace[1]['file']);
 				}
 
-				$url = $base . DS . $path;
+				$url = Request::basePath() . DS . $path;
 			}
 			else
-				$url = $base . $url;
+				$url = Request::basePath() . $url;
 		}
 
 		if (DS === '\\')
@@ -344,9 +384,10 @@ class Html
 	private static function _showIncludeFileWarning(string $url) : void
 	{
 		$backtrace = debug_backtrace();
+
 		$msg = 'The \'' . $url . '\' file being included multiple times.<br />'
-			. '&nbsp;&nbsp;file : '.$backtrace[0]['file'].'<br />'
-			. '&nbsp;&nbsp;line : '.number_format($backtrace[0]['line']);
+			. '&nbsp;&nbsp;file : ' . $backtrace[0]['file'] . '<br />'
+			. '&nbsp;&nbsp;line : ' . number_format($backtrace[0]['line']);
 
 		Flash::warning($msg);
 	}
@@ -355,16 +396,20 @@ class Html
 	 * @param  string $url
 	 * @return string
 	 */
-	public static function linkFile(string $url) : string
+	public static function linkFile(string $url, $attribs = null) : string
 	{
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
+
 		if (stripos($url, 'http://') === false and stripos($url, 'https://') === false)
 			$href = Request::baseUrl() . '/' . $url;
 		else
 			$href = $url;
 
 		$filename = File::getName($url);
+		$attribs = static::setAttribute($attribs, 'target', '_blank');
 
-		$html = '<a href="' . $href . '" target="_blank">' . $filename . '</a>';
+		$html = '<a href="' . $href . '" ' . $attribs . '>' . $filename . '</a>';
 
 		return $html;
 	}
@@ -375,7 +420,7 @@ class Html
 	 */
 	public static function br(int $multiplier) : string
 	{
-		return str_repeat('<br />', $multiplier);
+		return str_repeat('<br>', $multiplier);
 	}
 
 	/**
@@ -395,10 +440,10 @@ class Html
 	public static function ul($items, $attribs = null) : string
 	{
 		if (!is_array($items) and !is_object($items))
-			throw InvalidArgumentException::create(1, ['array','object'], $items);
+			throw InvalidArgumentException::typeError(1, ['array', 'object'], $items);
 
-		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::create(2, ['string','array','null'], $attribs);
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
 		if (is_array($attribs))
 			$attribs = Arr::toString($attribs);
@@ -421,10 +466,10 @@ class Html
 	public static function ol($items, $attribs = null) : string
 	{
 		if (!is_array($items) and !is_object($items))
-			throw InvalidArgumentException::create(1, ['array','object'], $items);
+			throw InvalidArgumentException::typeError(1, ['array','object'], $items);
 
-		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::create(2, ['string','array','null'], $attribs);
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
 		if (is_array($attribs))
 			$attribs = Arr::toString($attribs);
@@ -447,7 +492,7 @@ class Html
 	public static function table(array $items, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::create(2, ['string','array','null'], $attribs);
+			throw InvalidArgumentException::typeError(2, ['string', 'array','null'], $attribs);
 
 		if (is_array($attribs))
 			$attribs = Arr::toString($attribs);
@@ -472,6 +517,10 @@ class Html
 		return $html;
 	}
 
+	public static function refresh($url, $delay)
+	{
+	}
+
 	/**
 	 * @param  string      $attribName
 	 * @param  string|null $html
@@ -493,8 +542,8 @@ class Html
 	 */
 	public static function setAttribute($attribs, string $attribName, $attribValue) : string
 	{
-		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
-			throw InvalidArgumentException::create(1, ['string','array','null'], $attribs);
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(1, ['string', 'array', 'null'], $attribs);
 
 		if (is_array($attribs))
 		{
@@ -517,19 +566,6 @@ class Html
 		}
 
 		return $attribs;
-	}
-
-	/**
-	 * @param  string $html
-	 * @return string
-	 */
-	public static function reduceMultipleAttributeSpaces(string $html) : string
-	{
-		$html = preg_replace('!"\s+!', '" ', $html);
-		$html = preg_replace('!"\s+>!', '">', $html);
-		$html = trim($html);
-
-		return $html;
 	}
 
 	/**
