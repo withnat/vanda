@@ -574,7 +574,7 @@ class HtmlTest extends TestCase
 		$stubTime = $this->getFunctionMock('System', 'time');
 		$stubTime->expects($this->once())->willReturn(1695701570);
 
-		$result = $html->css('style.css');
+		$result = $html->css('style.css?dummyKey=dummyVal');
 
 		$this->assertEquals($expected, $result);
 	}
