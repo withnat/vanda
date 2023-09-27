@@ -544,6 +544,23 @@ class HtmlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * 7. A given attribute 'title' is present in the array.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase7() : void
+	{
+		$expected = '<img src="http://localhost/image.jpg" title="Image" alt="">';
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('toString')->andReturn('title="Image"');
+
+		$result = Html::image('http://localhost/image.jpg', null, ['title' => 'Image']);
+
+		$this->assertEquals($expected, $result);
+	}
 
 	// Html::css()
 
