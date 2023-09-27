@@ -440,8 +440,8 @@ class HtmlTest extends TestCase
 	 * 3. Has a given alt.
 	 * 4. A given attribute is a string.
 	 * 5. A given attribute is an array.
-	 * 6. A given attribute is 'alt'.
-	 * 7. A given attribute is 'title'.
+	 * 6. A given attribute 'alt' is present in the string.
+	 * 7. A given attribute 'title' is present in the array.
 	 * 8. A given URL does not start with 'http' or even a slash, the image has been found.
 	 * 9. A given URL does not start with 'http' or even a slash, the image was not found.
 	 * 10. A given URL does not start with 'http' but with a slash.
@@ -528,6 +528,22 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	/**
+	 * 6. A given attribute 'alt' is present in the string.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase6() : void
+	{
+		$expected = '<img src="http://localhost/image.jpg" alt="Image" title="">';
+
+		$result = Html::image('http://localhost/image.jpg', null, 'alt="Image"');
+
+		$this->assertEquals($expected, $result);
+	}
+
 
 	// Html::css()
 
