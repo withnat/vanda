@@ -35,7 +35,27 @@ class HtmlTest extends TestCase
 
 	// Html::link()
 
+	/*
+	 * 1. Check attribute datatype.
+	 * 2. No SPA mode, no given URL.
+	 * 3. No SPA mode, has a given URL.
+	 * 4. No SPA mode, no given title.
+	 * 5. No SPA mode, has a given title.
+	 * 6. No SPA mode, no given attribute.
+	 * 7. No SPA mode, a given attribute is a string.
+	 * 8. No SPA mode, a given attribute is an array.
+	 * 9. SPA mode, no given URL.
+	 * 10. SPA mode, has a given URL.
+	 * 11. SPA mode, no given title.
+	 * 12. SPA mode, has a given title.
+	 * 13. SPA mode, no given attribute.
+	 * 14. SPA mode, a given attribute is a string.
+	 * 15. SPA mode, a given attribute is an array.
+	 */
+
 	/**
+	 * 1. Check attribute datatype.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -50,6 +70,8 @@ class HtmlTest extends TestCase
 	}
 
 	/**
+	 * 2. No SPA mode, no given URL.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -57,14 +79,14 @@ class HtmlTest extends TestCase
 	{
 		$expected = '<a href="http://localhost">http://localhost</a>';
 
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
+
 		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
 		$stubStr->shouldReceive('isBlank')->andReturnTrue();
-
-		$stubApp = Mockery::mock('alias:\System\App');
-		$stubApp->shouldReceive('isSpa')->andReturnFalse();
 
 		$result = Html::link();
 
@@ -420,18 +442,18 @@ class HtmlTest extends TestCase
 
 	// Html::css()
 
-	/**
+	/*
 	 * 1. Check attribute datatype.
 	 * 2. Ensure Html::_showIncludeFileWarning() method is called.
 	 * 3. No given attribute.
-	 * 4. The given attribute is a string.
-	 * 5. The given attribute is an array.
-	 * 6. Development mode, no The given query.
-	 * 7. Development mode, has The given query, no version.
-	 * 8. Development mode, has The given query, has version.
-	 * 9. Production mode, no The given query.
-	 * 10. Production mode, has The given query, no version.
-	 * 11. Production mode, has The given query, has version.
+	 * 4. A given attribute is a string.
+	 * 5. A given attribute is an array.
+	 * 6. Development mode, no given query.
+	 * 7. Development mode, has a given query, no version.
+	 * 8. Development mode, has a given query, has version.
+	 * 9. Production mode, no given query.
+	 * 10. Production mode, has a given query, no version.
+	 * 11. Production mode, has a given query, has version.
 	 */
 
 	/**
@@ -497,7 +519,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * 4. The given attribute is a string.
+	 * 4. A given attribute is a string.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -519,7 +541,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * 5. The given attribute is an array.
+	 * 5. A given attribute is an array.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -544,7 +566,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * 6. Development mode, no The given query.
+	 * 6. Development mode, no given query.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -569,7 +591,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * 7. Development mode, has The given query, no version.
+	 * 7. Development mode, has a given query, no version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -594,7 +616,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * 8. Development mode, has The given query, has version.
+	 * 8. Development mode, has a given query, has version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -616,7 +638,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * 9. Production mode, no The given query.
+	 * 9. Production mode, no given query.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -638,7 +660,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * 10. Production mode, has The given query, no version.
+	 * 10. Production mode, has a given query, no version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -660,7 +682,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * 11. Production mode, has The given query, has version.
+	 * 11. Production mode, has a given query, has version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
