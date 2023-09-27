@@ -126,10 +126,12 @@ class Url
 	 * http://user:pass@hostname:9090/path?arg=value#anchor
 	 *
 	 * @param  string|null $path    The path to be appended to the URL.
-	 * @param  bool|null   $secure  If true, force the scheme to be HTTPS.
+	 * @param  bool|null   $secure  If true, force the scheme to be HTTPS. Defaults to null.
+	 *                              If the value is null, retrieve the $secure value from
+	 *                              the security configuration file.
 	 * @return string               Returns the full URL.
 	 */
-	public static function create(string $path = null, bool $secure = null) : string //TODO $secure = false?
+	public static function create(string $path = null, bool $secure = null) : string
 	{
 		if (is_null($path))
 			$path = static::$_path;
@@ -200,9 +202,12 @@ class Url
 			$url .= static::$_fragment;
 		}
 
-		if ($secure === true and substr($url, 0, 7) === 'http://')
+		if (is_null($secure))
+			$secure = (bool)\Config::security('ssl');
+
+		if ($secure and substr($url, 0, 7) === 'http://')
 			$url = substr_replace($url, 'https://', 0, 7);
-		elseif ($secure === false and substr($url, 0, 8) === 'https://')
+		elseif (!$secure and substr($url, 0, 8) === 'https://')
 			$url = substr_replace($url, 'http://', 0, 8);
 
 		static::_reset();
