@@ -338,7 +338,16 @@ class HtmlTest extends TestCase
 
 	// Html::mailto()
 
+	/*
+	 * 1. Check attribute datatype.
+	 * 2. No given text and attribute.
+	 * 3. A given attribute is a string.
+	 * 4. A given attribute is an array.
+	 */
+
 	/**
+	 * 1. Check attribute datatype.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
