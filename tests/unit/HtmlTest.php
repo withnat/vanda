@@ -37,20 +37,14 @@ class HtmlTest extends TestCase
 
 	/*
 	 * 1. Check attribute datatype.
-	 * 2. No SPA mode, no given URL.
-	 * 3. No SPA mode, has a given URL.
-	 * 4. No SPA mode, no given text.
-	 * 5. No SPA mode, has a given text.
-	 * 6. No SPA mode, no given attribute.
-	 * 7. No SPA mode, a given attribute is a string.
-	 * 8. No SPA mode, a given attribute is an array.
-	 * 9. SPA mode, no given URL.
-	 * 10. SPA mode, has a given URL.
-	 * 11. SPA mode, no given text.
-	 * 12. SPA mode, has a given text.
-	 * 13. SPA mode, no given attribute.
-	 * 14. SPA mode, a given attribute is a string.
-	 * 15. SPA mode, a given attribute is an array.
+	 * 2. No SPA mode. No given URL, text and attribute.
+	 * 3. No SPA mode. Has a given URL and text.
+	 * 4. No SPA mode. A given attribute is a string.
+	 * 5. No SPA mode. A given attribute is an array.
+	 * 6. SPA mode. No given URL, text and attribute.
+	 * 7. SPA mode. Has a given URL and text.
+	 * 8. SPA mode. A given attribute is a string.
+	 * 9. SPA mode. A given attribute is an array.
 	 */
 
 	/**
@@ -70,7 +64,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * 2. No SPA mode, no given URL.
+	 * 2. No SPA mode. No given URL, text and attribute.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -94,60 +88,12 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * 3. No SPA mode, has a given URL.
+	 * 3. No SPA mode. Has a given URL and text.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
 	public function testMethodLinkCase3() : void
-	{
-		$expected = '<a href="http://localhost/user">http://localhost/user</a>';
-
-		$stubApp = Mockery::mock('alias:\System\App');
-		$stubApp->shouldReceive('isSpa')->andReturnFalse();
-
-		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
-
-		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive('isBlank')->andReturnTrue();
-
-		$result = Html::link('user');
-
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * 4. No SPA mode, no given text.
-	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodLinkCase4() : void
-	{
-		$expected = '<a href="http://localhost/user">http://localhost/user</a>';
-
-		$stubApp = Mockery::mock('alias:\System\App');
-		$stubApp->shouldReceive('isSpa')->andReturnFalse();
-
-		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
-
-		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive('isBlank')->andReturnTrue();
-
-		$result = Html::link('user');
-
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * 5. No SPA mode, has a given text.
-	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodLinkCase5() : void
 	{
 		$expected = '<a href="http://localhost/user">User</a>';
 
@@ -161,6 +107,160 @@ class HtmlTest extends TestCase
 		$stubStr->shouldReceive('isBlank')->andReturnFalse();
 
 		$result = Html::link('user', 'User');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 4. No SPA mode. A given attribute is a string.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkCase4() : void
+	{
+		$expected = '<a class="primary" href="http://localhost/user">User</a>';
+
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
+
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
+
+		$result = Html::link('user', 'User', 'class="primary"');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 5. No SPA mode. A given attribute is an array.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkCase5() : void
+	{
+		$expected = '<a class="primary" href="http://localhost/user">User</a>';
+
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
+
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('toString')->andReturn('class="primary"');
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
+
+		$result = Html::link('user', 'User', ['class' => 'primary']);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 6. SPA mode. No given URL, text and attribute.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkCase6() : void
+	{
+		$expected = '<a href="#" data-url="http://localhost">http://localhost</a>';
+
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnTrue();
+
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
+		$stubUrl->shouldReceive('hashSpa')->andReturn('#');
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive('isBlank')->andReturnTrue();
+
+		$result = Html::link();
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 7. SPA mode. Has a given URL and text.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkCase7() : void
+	{
+		$expected = '<a href="#user" data-url="http://localhost">User</a>';
+
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnTrue();
+
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
+		$stubUrl->shouldReceive('hashSpa')->andReturn('#user');
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
+
+		$result = Html::link('user', 'User');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 8. SPA mode. A given attribute is a string.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkCase8() : void
+	{
+		$expected = '<a class="primary" href="#user" data-url="http://localhost">User</a>';
+
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnTrue();
+
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
+		$stubUrl->shouldReceive('hashSpa')->andReturn('#user');
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
+
+		$result = Html::link('user', 'User', 'class="primary"');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 9. SPA mode. A given attribute is an array.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkCase9() : void
+	{
+		$expected = '<a class="primary" href="#user" data-url="http://localhost">User</a>';
+
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnTrue();
+
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
+		$stubUrl->shouldReceive('hashSpa')->andReturn('#user');
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('toString')->andReturn('class="primary"');
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
+
+		$result = Html::link('user', 'User', ['class' => 'primary']);
 
 		$this->assertEquals($expected, $result);
 	}
