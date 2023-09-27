@@ -438,16 +438,16 @@ class HtmlTest extends TestCase
 	 * 1. Check attribute datatype.
 	 * 2. No given alt and attribute.
 	 * 3. Has a given alt.
-	 * 5. A given attribute is a string.
-	 * 6. A given attribute is an array.
-	 * 7. A given attribute is 'alt'.
-	 * 8. A given attribute is 'title'.
-	 * 9. A given URL does not start with 'http' or even a slash, the image has been found.
-	 * 10. A given URL does not start with 'http' or even a slash, the image was not found.
-	 * 11. A given URL does not start with 'http' but with a slash.
-	 * 12. A given URL does not start with 'http', the image can be loaded.
-	 * 13. A given URL does not start with 'http', the image cannot be loaded.
-	 * 14. A given URL starts with 'http'.
+	 * 4. A given attribute is a string.
+	 * 5. A given attribute is an array.
+	 * 6. A given attribute is 'alt'.
+	 * 7. A given attribute is 'title'.
+	 * 8. A given URL does not start with 'http' or even a slash, the image has been found.
+	 * 9. A given URL does not start with 'http' or even a slash, the image was not found.
+	 * 10. A given URL does not start with 'http' but with a slash.
+	 * 11. A given URL does not start with 'http', the image can be loaded.
+	 * 12. A given URL does not start with 'http', the image cannot be loaded.
+	 * 13. A given URL starts with 'http'.
 	 */
 
 	/**
@@ -492,6 +492,21 @@ class HtmlTest extends TestCase
 		$expected = '<img src="http://localhost/image.jpg" alt="Image" title="Image">';
 
 		$result = Html::image('http://localhost/image.jpg', 'Image');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 4. A given attribute is a string.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase4() : void
+	{
+		$expected = '<img src="http://localhost/image.jpg" class="rounded" alt="" title="">';
+
+		$result = Html::image('http://localhost/image.jpg', null, 'class="rounded"');
 
 		$this->assertEquals($expected, $result);
 	}
