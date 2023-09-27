@@ -434,7 +434,25 @@ class HtmlTest extends TestCase
 
 	// Html::image()
 
+	/*
+	 * 1. Check attribute datatype.
+	 * 2. No given alt and attribute.
+	 * 3. Has a given alt.
+	 * 5. A given attribute is a string.
+	 * 6. A given attribute is an array.
+	 * 7. A given attribute is 'alt'.
+	 * 8. A given attribute is 'title'.
+	 * 9. A given URL does not start with 'http' or even a slash, the image has been found.
+	 * 10. A given URL does not start with 'http' or even a slash, the image was not found.
+	 * 11. A given URL does not start with 'http' but with a slash.
+	 * 12. A given URL does not start with 'http', the image can be loaded.
+	 * 13. A given URL does not start with 'http', the image cannot be loaded.
+	 * 14. A given URL starts with 'http'.
+	 */
+
 	/**
+	 * 1. Check attribute datatype.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -449,6 +467,8 @@ class HtmlTest extends TestCase
 	}
 
 	/**
+	 * 2. No given alt and attribute.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -462,102 +482,16 @@ class HtmlTest extends TestCase
 	}
 
 	/**
+	 * 3. Has a given alt.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
 	public function testMethodImageCase3() : void
 	{
-		$expected = '<img src="http://localhost/image.jpg" style="font-weight:bold;" alt="Image" title="Image">';
+		$expected = '<img src="http://localhost/image.jpg" alt="Image" title="Image">';
 
-		$result = Html::image('http://localhost/image.jpg', 'Image', 'style="font-weight:bold;"');
-
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodImageCase4() : void
-	{
-		$expected = '<img src="http://localhost/image.jpg" style="font-weight:bold;" alt="Image" title="Image">';
-
-		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive('toString')->andReturn('style="font-weight:bold;"');
-
-		$result = Html::image('http://localhost/image.jpg', 'Image', ['style' => 'font-weight:bold;']);
-
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodImageCase5() : void
-	{
-		$expected = '<img src="http://localhost/image.jpg" alt="" title="" width="100" height="100">';
-
-		$stubFile = $this->getFunctionMock('System', 'is_file');
-		$stubFile->expects($this->once())->willReturn(true);
-
-		$stubImage = Mockery::mock('alias:\System\Image');
-		$stubImage->shouldReceive('load')->andReturnTrue();
-		$stubImage->shouldReceive('width')->andReturn(100);
-		$stubImage->shouldReceive('height')->andReturn(100);
-
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
-
-		$result = Html::image('image.jpg');
-
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodImageCase6() : void
-	{
-		$expected = '<img src="http://localhost/assets/images/image.jpg" alt="" title="" width="100" height="100">';
-
-		$stubFile = $this->getFunctionMock('System', 'is_file');
-		$stubFile->expects($this->once())->willReturn(false);
-
-		$stubFile = Mockery::mock('alias:\System\File');
-		$stubFile->shouldReceive('getAssetPath')->andReturn('assets/images/image.jpg');
-
-		$stubImage = Mockery::mock('alias:\System\Image');
-		$stubImage->shouldReceive('load')->andReturnTrue();
-		$stubImage->shouldReceive('width')->andReturn(100);
-		$stubImage->shouldReceive('height')->andReturn(100);
-
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
-
-		$result = Html::image('image.jpg');
-
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodImageCase7() : void
-	{
-		$expected = '<img src="http://localhost/image.jpg" alt="" title="" width="100" height="100">';
-
-		$stubImage = Mockery::mock('alias:\System\Image');
-		$stubImage->shouldReceive('load')->andReturnTrue();
-		$stubImage->shouldReceive('width')->andReturn(100);
-		$stubImage->shouldReceive('height')->andReturn(100);
-
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
-
-		$result = Html::image('/image.jpg');
+		$result = Html::image('http://localhost/image.jpg', 'Image');
 
 		$this->assertEquals($expected, $result);
 	}
