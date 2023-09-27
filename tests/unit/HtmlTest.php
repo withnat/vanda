@@ -380,17 +380,19 @@ class HtmlTest extends TestCase
 	}
 
 	/**
+	 * 3. A given attribute is a string.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
 	public function testMethodMailtoCase3() : void
 	{
-		$expected = '<a href="mailto:nat@withnat.com">Contact</a>';
+		$expected = '<a class="primary" href="mailto:nat@withnat.com">Contact</a>';
 
 		$stubStr = Mockery::mock('alias:\System\Str');
 		$stubStr->shouldReceive('isBlank')->andReturnFalse();
 
-		$result = Html::mailto('nat@withnat.com', 'Contact');
+		$result = Html::mailto('nat@withnat.com', 'Contact', 'class="primary"');
 
 		$this->assertEquals($expected, $result);
 	}
