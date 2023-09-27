@@ -267,7 +267,17 @@ class HtmlTest extends TestCase
 
 	// Html::linkUnlessCurrent()
 
+	/*
+	 * 1. Check attribute datatype.
+	 * 2. Link to current page, no given text.
+	 * 3. Link to current page, has a given text.
+	 * 4. Link to another page, no given text.
+	 * 5. Link to another page, has a given text.
+	 */
+
 	/**
+	 * 1. Check attribute datatype.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
