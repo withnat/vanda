@@ -96,14 +96,32 @@ class Url
 	}
 
 	/**
-	 * Gets current URI with query string (if any).
+	 * Gets URI from the given URL. If the URL is null, it will return the current URI.
 	 *
-	 * @return string  Returns the current URL.
+	 * @param string|null $url  The URL to be parsed.
+	 * @return string           Returns the current URL.
 	 * @codeCoverageIgnore
 	 */
-	public static function uri() : string
+	public static function uri(string $url = null) : string
 	{
-		return Request::uri();
+		if (is_null($url))
+			$uri = Request::uri();
+		else
+			$uri = str_replace(static::base(), '/', $url);
+
+		return $uri;
+	}
+
+	/**
+	 * An alias for getQueryString() method.
+	 *
+	 * @param string|null $url  The URL to be parsed.
+	 * @return string           Returns query string, null if not available.
+	 * @codeCoverageIgnore
+	 */
+	public static function queryString(string $url = null) : ?string
+	{
+		return static::getQueryString($url);
 	}
 
 	/**
@@ -377,7 +395,7 @@ class Url
 	}
 
 	/**
-	 * Parse a URL and return scheme value.
+	 * Parse a URL and return scheme value, null if not available.
 	 *
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns scheme value.
@@ -407,7 +425,7 @@ class Url
 	}
 
 	/**
-	 * Parse a URL and return user value.
+	 * Parse a URL and return user value, null if not available.
 	 *
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns user value.
@@ -437,7 +455,7 @@ class Url
 	}
 
 	/**
-	 * Parse a URL and return password value.
+	 * Parse a URL and return password value, null if not available.
 	 *
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns password value.
@@ -467,7 +485,7 @@ class Url
 	}
 
 	/**
-	 * Parse a URL and return host value.
+	 * Parse a URL and return host value, null if not available.
 	 *
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns host value.
@@ -527,7 +545,7 @@ class Url
 	}
 
 	/**
-	 * Parse a URL and return path value.
+	 * Parse a URL and return path value, null if not available.
 	 *
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns path value.
@@ -560,12 +578,12 @@ class Url
 	}
 
 	/**
-	 * Parse a URL and return query string.
+	 * Parse a URL and return query string, null if not available.
 	 *
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns query string.
 	 */
-	public static function getQuery(string $url = null) : ?string
+	public static function getQueryString(string $url = null) : ?string
 	{
 		if ($url)
 		{
@@ -579,19 +597,19 @@ class Url
 	}
 
 	/**
-	 * Set query value.
+	 * Set query string value.
 	 *
-	 * @param  string $query  The query to be set.
+	 * @param  string $queryString  The query string to be set.
 	 * @return void
 	 */
-	public static function setQuery(string $query) : void
+	public static function setQueryString(string $queryString) : void
 	{
-		$query = ltrim($query, '?');
+		$query = ltrim($queryString, '?');
 		static::$_query = $query;
 	}
 
 	/**
-	 * Parse a URL and return fragment value.
+	 * Parse a URL and return fragment value, null if not available.
 	 *
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns fragment value.
