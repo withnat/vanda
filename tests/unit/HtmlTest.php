@@ -94,6 +94,8 @@ class HtmlTest extends TestCase
 	}
 
 	/**
+	 * 3. No SPA mode, has a given URL.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -101,14 +103,14 @@ class HtmlTest extends TestCase
 	{
 		$expected = '<a style="font-weight:bold;" href="http://localhost/user">Users</a>';
 
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
+
 		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
 		$stubStr->shouldReceive('isBlank')->andReturnFalse();
-
-		$stubApp = Mockery::mock('alias:\System\App');
-		$stubApp->shouldReceive('isSpa')->andReturnFalse();
 
 		$result = Html::link('user', 'Users', 'style="font-weight:bold;"');
 
