@@ -86,7 +86,7 @@ class Html
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
 
-		$currentUrl = Request::url();
+		$currentUrl = Url::current();
 		$url = Url::create($url);
 
 		if (Str::isBlank($text))
