@@ -421,7 +421,21 @@ class HtmlTest extends TestCase
 	// Html::css()
 
 	/**
-	 * Check attribute datatype.
+	 * 1. Check attribute datatype.
+	 * 2. Ensure Html::_showIncludeFileWarning() method is called.
+	 * 3. No given attribute.
+	 * 4. The given attribute is a string.
+	 * 5. The given attribute is an array.
+	 * 6. Development mode, no The given query.
+	 * 7. Development mode, has The given query, no version.
+	 * 8. Development mode, has The given query, has version.
+	 * 9. Production mode, no The given query.
+	 * 10. Production mode, has The given query, no version.
+	 * 11. Production mode, has The given query, has version.
+	 */
+
+	/**
+	 * 1. Check attribute datatype.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -437,7 +451,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Ensure Html::_showIncludeFileWarning() method is called.
+	 * 2. Ensure Html::_showIncludeFileWarning() method is called.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -461,7 +475,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * No given attribute.
+	 * 3. No given attribute.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -483,7 +497,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * The given attribute is a string.
+	 * 4. The given attribute is a string.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -505,7 +519,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * The given attribute is an array.
+	 * 5. The given attribute is an array.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -530,7 +544,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Development mode, no The given query.
+	 * 6. Development mode, no The given query.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -555,7 +569,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Development mode, has The given query, no version.
+	 * 7. Development mode, has The given query, no version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -580,7 +594,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Development mode, has The given query, has version.
+	 * 8. Development mode, has The given query, has version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -602,7 +616,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Production mode, no The given query.
+	 * 9. Production mode, no The given query.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -624,7 +638,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Production mode, has The given query, no version.
+	 * 10. Production mode, has The given query, no version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -646,7 +660,7 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * Production mode, has The given query, has version.
+	 * 11. Production mode, has The given query, has version.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
