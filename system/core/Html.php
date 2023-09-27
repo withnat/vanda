@@ -138,8 +138,7 @@ class Html
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
 
-		if (is_null($alt))
-			$alt = '';
+		$alt = (string)$alt;
 
 		if (is_null($attribs))
 			$attribs = '';
