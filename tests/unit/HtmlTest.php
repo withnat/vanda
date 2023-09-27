@@ -39,15 +39,15 @@ class HtmlTest extends TestCase
 	 * 1. Check attribute datatype.
 	 * 2. No SPA mode, no given URL.
 	 * 3. No SPA mode, has a given URL.
-	 * 4. No SPA mode, no given title.
-	 * 5. No SPA mode, has a given title.
+	 * 4. No SPA mode, no given text.
+	 * 5. No SPA mode, has a given text.
 	 * 6. No SPA mode, no given attribute.
 	 * 7. No SPA mode, a given attribute is a string.
 	 * 8. No SPA mode, a given attribute is an array.
 	 * 9. SPA mode, no given URL.
 	 * 10. SPA mode, has a given URL.
-	 * 11. SPA mode, no given title.
-	 * 12. SPA mode, has a given title.
+	 * 11. SPA mode, no given text.
+	 * 12. SPA mode, has a given text.
 	 * 13. SPA mode, no given attribute.
 	 * 14. SPA mode, a given attribute is a string.
 	 * 15. SPA mode, a given attribute is an array.
@@ -101,7 +101,7 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodLinkCase3() : void
 	{
-		$expected = '<a style="font-weight:bold;" href="http://localhost/user">Users</a>';
+		$expected = '<a href="http://localhost/user">http://localhost/user</a>';
 
 		$stubApp = Mockery::mock('alias:\System\App');
 		$stubApp->shouldReceive('isSpa')->andReturnFalse();
@@ -110,58 +110,57 @@ class HtmlTest extends TestCase
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive('isBlank')->andReturnFalse();
+		$stubStr->shouldReceive('isBlank')->andReturnTrue();
 
-		$result = Html::link('user', 'Users', 'style="font-weight:bold;"');
+		$result = Html::link('user');
 
 		$this->assertEquals($expected, $result);
 	}
 
 	/**
+	 * 4. No SPA mode, no given text.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
 	public function testMethodLinkCase4() : void
 	{
-		$expected = '<a style="font-weight:bold;" href="http://localhost/user">Users</a>';
-
-		$stubUrl = Mockery::mock('alias:\System\Url');
-		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
-
-		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive('toString')->andReturn('style="font-weight:bold;"');
-
-		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive('isBlank')->andReturnFalse();
+		$expected = '<a href="http://localhost/user">http://localhost/user</a>';
 
 		$stubApp = Mockery::mock('alias:\System\App');
 		$stubApp->shouldReceive('isSpa')->andReturnFalse();
 
-		$result = Html::link('user', 'Users', ['style' => 'font-weight:bold;']);
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
+
+		$stubStr = Mockery::mock('alias:\System\Str');
+		$stubStr->shouldReceive('isBlank')->andReturnTrue();
+
+		$result = Html::link('user');
 
 		$this->assertEquals($expected, $result);
 	}
 
 	/**
+	 * 5. No SPA mode, has a given text.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
 	public function testMethodLinkCase5() : void
 	{
-		$expected = '<a href="#user" data-url="http://localhost/user">http://localhost/user</a>';
+		$expected = '<a href="http://localhost/user">User</a>';
+
+		$stubApp = Mockery::mock('alias:\System\App');
+		$stubApp->shouldReceive('isSpa')->andReturnFalse();
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
-		$stubUrl->shouldReceive('hashSpa')->andReturn('#user');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive('isBlank')->andReturnTrue();
+		$stubStr->shouldReceive('isBlank')->andReturnFalse();
 
-		$stubApp = Mockery::mock('alias:\System\App');
-		$stubApp->shouldReceive('isSpa')->andReturnTrue();
-		$stubApp->shouldReceive('isSpa')->andReturnTrue();
-
-		$result = Html::link('user');
+		$result = Html::link('user', 'User');
 
 		$this->assertEquals($expected, $result);
 	}
