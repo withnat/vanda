@@ -269,10 +269,8 @@ class HtmlTest extends TestCase
 
 	/*
 	 * 1. Check attribute datatype.
-	 * 2. Link to current page, no given text.
-	 * 3. Link to current page, has a given text.
-	 * 4. Link to another page, no given text.
-	 * 5. Link to another page, has a given text.
+	 * 2. Link to current page.
+	 * 3. Link to another page.
 	 */
 
 	/**
@@ -292,6 +290,8 @@ class HtmlTest extends TestCase
 	}
 
 	/**
+	 * 2. Link to current page.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -299,10 +299,8 @@ class HtmlTest extends TestCase
 	{
 		$expected = 'http://localhost';
 
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive('url')->andReturn('http://localhost');
-
 		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('current')->andReturn('http://localhost');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
@@ -314,6 +312,8 @@ class HtmlTest extends TestCase
 	}
 
 	/**
+	 * 3. Link to another page.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -321,19 +321,17 @@ class HtmlTest extends TestCase
 	{
 		$expected = '<a href="http://localhost/contact">Contact</a>';
 
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive('url')->andReturn('http://localhost');
-
 		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('current')->andReturn('http://localhost');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost/contact');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
 		$stubStr->shouldReceive('isBlank')->andReturnFalse();
 
-		$stubApp = Mockery::mock('alias:\System\App');
-		$stubApp->shouldReceive('isSpa')->andReturnFalse();
+		$html = Mockery::mock('System\Html')->makePartial();
+		$html->shouldReceive('link')->andReturn($expected);
 
-		$result = Html::linkUnlessCurrent('contact', 'Contact');
+		$result = $html->linkUnlessCurrent('contact', 'Contact');
 
 		$this->assertEquals($expected, $result);
 	}
