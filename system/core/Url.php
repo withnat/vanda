@@ -44,19 +44,24 @@ class Url
 	/**
 	 * Gets base URL.
 	 *
-	 * @param  bool|null $secure  If true, force the scheme to be HTTPS.
+	 * @param  bool|null $secure  If true, force the scheme to be HTTPS. Defaults to null.
+	 *                            If the value is null, retrieve the $secure value from
+	 *                            the security configuration file.
 	 * @return string             Returns the base URL.
 	 */
-	public static function base(bool $secure = null) : string // TODO why default = false?
+	public static function base(bool $secure = null) : string
 	{
 		if (!static::$_baseUrl)
 			static::$_baseUrl = Request::host() . Request::basePath();
 
 		$baseUrl = static::$_baseUrl;
 
-		if ($secure === true and substr($baseUrl, 0, 7) === 'http://')
+		if (is_null($secure))
+			$secure = (bool)\Config::security('ssl');
+
+		if ($secure and substr($baseUrl, 0, 7) === 'http://')
 			$baseUrl = substr_replace($baseUrl, 'https://', 0, 7);
-		elseif ($secure === false and substr($baseUrl, 0, 8) === 'https://')
+		elseif (!$secure and substr($baseUrl, 0, 8) === 'https://')
 			$baseUrl = substr_replace($baseUrl, 'http://', 0, 8);
 
 		return $baseUrl;
