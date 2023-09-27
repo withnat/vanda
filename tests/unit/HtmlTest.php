@@ -362,6 +362,8 @@ class HtmlTest extends TestCase
 	}
 
 	/**
+	 * 2. No given text and attribute.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
