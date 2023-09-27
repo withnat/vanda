@@ -588,7 +588,7 @@ class Html
 	 * @param  string            $value    The value of the attribute to be added.
 	 * @return string                      Returns the generated attribute string.
 	 */
-	public static function setAttribute($attribs, string $name, $value) : string
+	public static function setAttribute($attribs, string $name, string $value) : string
 	{
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(1, ['string', 'array', 'null'], $attribs);
@@ -605,7 +605,7 @@ class Html
 			if (is_null($attribs))
 				$attribs = ' ';
 			elseif ($attribs)
-				$attribs .= ' ';
+				$attribs = rtrim($attribs) . ' ';
 
 			if (strpos($attribs, $name . '=') === false)
 				$attribs .= $name . '="' . $value . '"';
