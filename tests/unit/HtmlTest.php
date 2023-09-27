@@ -511,6 +511,24 @@ class HtmlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * 5. A given attribute is an array.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase5() : void
+	{
+		$expected = '<img src="http://localhost/image.jpg" class="rounded" alt="" title="">';
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('toString')->andReturn('class="rounded"');
+
+		$result = Html::image('http://localhost/image.jpg', null, ['class' => 'rounded']);
+
+		$this->assertEquals($expected, $result);
+	}
+
 	// Html::css()
 
 	/*
