@@ -55,9 +55,7 @@ class Url
 			static::$_baseUrl = Request::host() . Request::basePath();
 
 		$baseUrl = static::$_baseUrl;
-
-		if (is_null($secure))
-			$secure = (bool)\Config::security('ssl');
+		$secure = (bool)Config::security('ssl', $secure);
 
 		if ($secure and substr($baseUrl, 0, 7) === 'http://')
 			$baseUrl = substr_replace($baseUrl, 'https://', 0, 7);
@@ -132,7 +130,7 @@ class Url
 	 */
 	public static function current() : string
 	{
-		$url = static::base() . static::uri();
+		$url = static::base() . explode('?', static::uri())[0];
 
 		return $url;
 	}
@@ -220,8 +218,7 @@ class Url
 			$url .= static::$_fragment;
 		}
 
-		if (is_null($secure))
-			$secure = (bool)\Config::security('ssl');
+		$secure = (bool)Config::security('ssl', $secure);
 
 		if ($secure and substr($url, 0, 7) === 'http://')
 			$url = substr_replace($url, 'https://', 0, 7);
