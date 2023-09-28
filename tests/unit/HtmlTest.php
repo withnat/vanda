@@ -445,9 +445,7 @@ class HtmlTest extends TestCase
 	 * 8. A given URL does not start with 'http' or even a slash, the image has been found.
 	 * 9. A given URL does not start with 'http' or even a slash, the image was not found.
 	 * 10. A given URL does not start with 'http' but with a slash.
-	 * 11. A given URL does not start with 'http', the image can be loaded.
-	 * 12. A given URL does not start with 'http', the image cannot be loaded.
-	 * 13. A given URL starts with 'http'.
+	 * 11. A given URL starts with 'http'.
 	 */
 
 	/**
@@ -636,6 +634,20 @@ class HtmlTest extends TestCase
 		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
 
 		$result = Html::image('/image.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 11. A given URL starts with 'http'.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase11() : void
+	{
+		$expected = '<img src="http://example.com/image.jpg" alt="" title="">';
+		$result = Html::image('http://example.com/image.jpg');
 
 		$this->assertEquals($expected, $result);
 	}
