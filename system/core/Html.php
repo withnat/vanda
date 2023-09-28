@@ -225,40 +225,6 @@ class Html
 	}
 
 	/**
-	 * Registers the CSS file to be included and printed in the template at a later point.
-	 *
-	 * @param  string            $url      The CSS URL to use for the href attribute.
-	 * @param  string|array|null $attribs  Attributes to be added to the '<link>' element. Defaults to null.
-	 * @return void
-	 */
-	public static function addCss(string $url, $attribs = null) : void
-	{
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
-			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
-
-		list($url, $query) = static::_getCssUrl($url);
-
-		if (!in_array($url, array_column(static::$addedCss, 'url')))
-		{
-			if (is_array($attribs))
-				$attribs = Arr::toString($attribs);
-
-			if (Config::get('env') === 'development')
-			{
-				if ($query)
-				{
-					if (strpos($query, 'v=') === false)
-						$query .= '&v=' . time();
-				}
-				else
-					$query = 'v=' . time();
-			}
-
-			static::$addedCss[] = ['url' => $url, 'query' => $query, 'attribs' => $attribs];
-		}
-	}
-
-	/**
 	 * Generates a '<script>' element.
 	 *
 	 * @param  string $url                The JS URL to use for the src attribute.
@@ -295,6 +261,40 @@ class Html
 		}
 
 		return '<script src="' . $url . '?' . $query . '" ' . $attribs . '></script>' . "\n";
+	}
+
+	/**
+	 * Registers the CSS file to be included and printed in the template at a later point.
+	 *
+	 * @param  string            $url      The CSS URL to use for the href attribute.
+	 * @param  string|array|null $attribs  Attributes to be added to the '<link>' element. Defaults to null.
+	 * @return void
+	 */
+	public static function addCss(string $url, $attribs = null) : void
+	{
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
+
+		list($url, $query) = static::_getCssUrl($url);
+
+		if (!in_array($url, array_column(static::$addedCss, 'url')))
+		{
+			if (is_array($attribs))
+				$attribs = Arr::toString($attribs);
+
+			if (Config::get('env') === 'development')
+			{
+				if ($query)
+				{
+					if (strpos($query, 'v=') === false)
+						$query .= '&v=' . time();
+				}
+				else
+					$query = 'v=' . time();
+			}
+
+			static::$addedCss[] = ['url' => $url, 'query' => $query, 'attribs' => $attribs];
+		}
 	}
 
 	/**
