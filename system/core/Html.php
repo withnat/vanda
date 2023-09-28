@@ -625,48 +625,55 @@ class Html
 	 * Add asset files to be included in the template.
 	 *
 	 * @return void
+	 * @codeCoverageIgnore
 	 */
-	public static function addAssetFileUpload() : void
+	public static function addAssetUpload() : void
 	{
-		static::addCss('templates/backend/vanda/bootstrap-fileinput-master/css/fileinput.min.css');
-		static::addJs('templates/backend/vanda/bootstrap-fileinput-master/js/plugins/canvas-to-blob.min.js');
-		static::addJs('templates/backend/vanda/bootstrap-fileinput-master/js/plugins/sortable.min.js');
-		static::addJs('templates/backend/vanda/bootstrap-fileinput-master/js/plugins/purify.min.js');
-		static::addJs('templates/backend/vanda/bootstrap-fileinput-master/js/fileinput.min.js');
-		static::addJs('templates/backend/vanda/bootstrap-fileinput-master/themes/fa/theme.js');
+		static::_addAssetFilesByType('upload');
 	}
 
 	/**
 	 * Add asset files to be included in the template.
 	 *
 	 * @return void
+	 * @codeCoverageIgnore
 	 */
 	public static function addAssetAutocomplete() : void
 	{
-		static::addCss('plugins/chosen/bootstrap-chosen.css');
-		static::addJs('plugins/chosen/chosen.jquery.js');
+		static::_addAssetFilesByType('autocomplete');
 	}
 
 	/**
 	 * Add asset files to be included in the template.
 	 *
 	 * @return void
+	 * @codeCoverageIgnore
 	 */
 	public static function addAssetCheckbox() : void
 	{
-		static::addCss('plugins/iCheck/custom.css');
-		static::addJs('plugins/iCheck/icheck.min.js');
+		static::_addAssetFilesByType('checkbox');
 	}
 
 	/**
 	 * Add asset files to be included in the template.
 	 *
 	 * @return void
+	 * @codeCoverageIgnore
+	 */
+	public static function addAssetRadio() : void
+	{
+		static::_addAssetFilesByType('radio');
+	}
+
+	/**
+	 * Add asset files to be included in the template.
+	 *
+	 * @return void
+	 *
 	 */
 	public static function addAssetClockpicker() : void
 	{
-		static::addCss('plugins/clockpicker/clockpicker.css');
-		static::addJs('plugins/clockpicker/clockpicker.js');
+		static::_addAssetFilesByType('clockpicker');
 	}
 
 	/**
@@ -676,8 +683,7 @@ class Html
 	 */
 	public static function addAssetColorpicker() : void
 	{
-		static::addCss('plugins/colorpicker/bootstrap-colorpicker.min.css');
-		static::addJs('plugins/colorpicker/bootstrap-colorpicker.min.js');
+		static::_addAssetFilesByType('colorpicker');
 	}
 
 	/**
@@ -687,10 +693,7 @@ class Html
 	 */
 	public static function addAssetDatepicker() : void
 	{
-		static::addCss('plugins/datapicker/datepicker3.css');
-		// Date range use moment.js same as full calendar plugin.
-		static::addJs('plugins/fullcalendar/moment.min.js');
-		static::addJs('plugins/datepicker/bootstrap-datepicker.js');
+		static::_addAssetFilesByType('datepicker');
 	}
 
 	/**
@@ -700,9 +703,7 @@ class Html
 	 */
 	public static function addAssetDaterangpicker() : void
 	{
-		static::addAssetDatepicker();
-		static::addCss('plugins/daterangepicker/daterangepicker-bs3.css');
-		static::addJs('plugins/daterangepicker/daterangepicker.js');
+		static::_addAssetFilesByType('daterangepicker');
 	}
 
 	/**
@@ -712,8 +713,7 @@ class Html
 	 */
 	public static function addAssetDatatype() : void
 	{
-		static::addCss('plugins/jasny/jasny-bootstrap.min.css');
-		static::addJs('plugins/jasny/jasny-bootstrap.min.js');
+		static::_addAssetFilesByType('datatypechecker');
 	}
 
 	/**
@@ -723,8 +723,7 @@ class Html
 	 */
 	public static function addAssetEditor() : void
 	{
-		static::addCss('plugins/summernote/summernote-bs4.css');
-		static::addJs('plugins/summernote/summernote-bs4.js');
+		static::_addAssetFilesByType('editor');
 	}
 
 	/**
@@ -734,8 +733,7 @@ class Html
 	 */
 	public static function addAssetRangeSpin() : void
 	{
-		static::addCss('plugins/touchspin/jquery.bootstrap-touchspin.min.css');
-		static::addJs('plugins/touchspin/jquery.bootstrap-touchspin.min.js');
+		static::_addAssetFilesByType('rangespin');
 	}
 
 	/**
@@ -745,9 +743,7 @@ class Html
 	 */
 	public static function addAssetMarkdown() : void
 	{
-		static::addCss('plugins/bootstrap-markdown/bootstrap-markdown.min.css');
-		static::addJs('plugins/bootstrap-markdown/bootstrap-markdown.js');
-		static::addJs('plugins/bootstrap-markdown/markdown.js');
+		static::_addAssetFilesByType('markdown');
 	}
 
 	/**
@@ -757,8 +753,7 @@ class Html
 	 */
 	public static function addAssetSwitcher() : void
 	{
-		static::addCss('plugins/switchery/switchery.min.css');
-		static::addJs('plugins/switchery/switchery.min.js');
+		static::_addAssetFilesByType('switcher');
 	}
 
 	/**
@@ -768,7 +763,25 @@ class Html
 	 */
 	public static function addAssetTagsinput() : void
 	{
-		static::addCss('plugins/bootstrap-tagsinput/bootstrap-tagsinput.css');
-		static::addJs('plugins/bootstrap-tagsinput/bootstrap-tagsinput.js');
+		static::_addAssetFilesByType('tagsinput');
+	}
+
+	/**
+	 * Add asset files to be included in the template.
+	 *
+	 * @param string $type  The type of the asset files.
+	 * @return void
+	 */
+	protected static function _addAssetFilesByType(string $type) : void
+	{
+		$assets = Config::core('assets.' . $type);
+
+		foreach ($assets as $asset)
+		{
+			if (stripos($asset, '.css'))
+				static::addCss($asset);
+			elseif (stripos($asset, '.js'))
+				static::addJs($asset);
+		}
 	}
 }
