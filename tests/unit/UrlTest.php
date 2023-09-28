@@ -131,6 +131,25 @@ class UrlTest extends TestCase
 	public function testMethodBaseCase2()
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('host')->andReturn('http://localhost');
+		$stubRequest->shouldReceive('basePath')->andReturn('');
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', null)->andReturnTrue();
+
+		$expected = 'https://localhost';
+		$result = Url::base();
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodBaseCase3()
+	{
+		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive('host')->andReturn('https://localhost');
 		$stubRequest->shouldReceive('basePath')->andReturn('');
 
@@ -138,6 +157,25 @@ class UrlTest extends TestCase
 		$stubConfig->shouldReceive('security')->with('ssl', true)->andReturnTrue();
 
 		$expected = 'https://localhost';
+		$result = Url::base(true);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodBaseCase4()
+	{
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('host')->andReturn('https://localhost');
+		$stubRequest->shouldReceive('basePath')->andReturn('');
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', true)->andReturnFalse();
+
+		$expected = 'http://localhost';
 		$result = Url::base(true);
 
 		$this->assertEquals($expected, $result);
