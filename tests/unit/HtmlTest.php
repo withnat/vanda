@@ -1039,4 +1039,29 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	/**
+	 * 6. Development mode, no given query.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodJsCase6() : void
+	{
+		$expected = '<script src="http://localhost/assets/js/script.js?v=1695701570"></script>' . "\n";
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_getJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
+
+		$stubTime = $this->getFunctionMock('System', 'time');
+		$stubTime->expects($this->once())->willReturn(1695701570);
+
+		$result = $html->js('script.js');
+
+		$this->assertEquals($expected, $result);
+	}
 }
