@@ -695,7 +695,7 @@ class HtmlTest extends TestCase
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
 		$html->shouldReceive('_showIncludeFileWarning')->once();
-		$html->shouldReceive('_getCssUrl')->andReturn(['dummy', 'dummy']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['dummy', 'dummy']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -720,7 +720,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -742,7 +742,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -764,7 +764,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -789,7 +789,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -814,7 +814,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'dummyKey=dummyVal']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'dummyKey=dummyVal']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -839,7 +839,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'v=1695701570']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'v=1695701570']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -861,7 +861,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -883,7 +883,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'dummyKey=dummyVal']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'dummyKey=dummyVal']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -905,7 +905,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'v=1695701570']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'v=1695701570']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -958,7 +958,7 @@ class HtmlTest extends TestCase
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
 		$html->shouldReceive('_showIncludeFileWarning')->once();
-		$html->shouldReceive('_getJsUrl')->andReturn(['dummy', 'dummy']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['dummy', 'dummy']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -983,7 +983,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -1005,7 +1005,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -1027,7 +1027,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -1052,7 +1052,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -1077,7 +1077,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getJsUrl')->andReturn(['http://localhost/assets/js/script.js', 'dummyKey=dummyVal']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', 'dummyKey=dummyVal']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -1102,7 +1102,7 @@ class HtmlTest extends TestCase
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_getJsUrl')->andReturn(['http://localhost/assets/js/script.js', 'v=1695701570']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', 'v=1695701570']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');

@@ -194,7 +194,7 @@ class Html
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
-		list($url, $query) = static::_getCssUrl($url);
+		list($url, $query) = static::_extractCssUrl($url);
 
 		if (Config::app('env') === 'development' and in_array($url, static::$_printedOutCss))
 		{
@@ -221,7 +221,7 @@ class Html
 		if ($query) $url .= '?' . $query;
 		if ($attribs) $attribs = ' ' . $attribs;
 
-		return '<link rel="stylesheet" type="text/css" href="' . $url . '"' . $attribs . '>';
+		return '<link rel="stylesheet" type="text/css" href="' . $url . '"' . $attribs . '>' . "\n";
 	}
 
 	/**
@@ -236,9 +236,9 @@ class Html
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
-		list($url, $query) = static::_getJsUrl($url);
+		list($url, $query) = static::_extractJsUrl($url);
 
-		if (Config::get('env') === 'development' and in_array($url, static::$_printedOutJs))
+		if (Config::app('env') === 'development' and in_array($url, static::$_printedOutJs))
 		{
 			static::_showIncludeFileWarning($url);
 			return '';
@@ -249,7 +249,7 @@ class Html
 		if (is_array($attribs))
 			$attribs = Arr::toString($attribs);
 
-		if (Config::get('env') === 'development')
+		if (Config::app('env') === 'development')
 		{
 			if ($query)
 			{
@@ -260,7 +260,10 @@ class Html
 				$query = 'v=' . time();
 		}
 
-		return '<script src="' . $url . '?' . $query . '" ' . $attribs . '></script>' . "\n";
+		if ($query) $url .= '?' . $query;
+		if ($attribs) $attribs = ' ' . $attribs;
+
+		return '<script src="' . $url . '"' . $attribs . '></script>' . "\n";
 	}
 
 	/**
@@ -275,7 +278,7 @@ class Html
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
-		list($url, $query) = static::_getCssUrl($url);
+		list($url, $query) = static::_extractCssUrl($url);
 
 		if (!in_array($url, array_column(static::$addedCss, 'url')))
 		{
@@ -309,7 +312,7 @@ class Html
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
-		list($url, $query) = static::_getJsUrl($url);
+		list($url, $query) = static::_extractJsUrl($url);
 
 		if (!in_array($url, array_column(static::$addedJs, 'url')))
 		{
@@ -337,7 +340,7 @@ class Html
 	 * @param  string $url  The CSS URL to be extracted.
 	 * @return array        Returns the CSS URL and query string.
 	 */
-	protected static function _getCssUrl(string $url) : array
+	protected static function _extractCssUrl(string $url) : array
 	{
 		$url = trim($url);
 		$query = '';
@@ -376,7 +379,7 @@ class Html
 	 * @param  string $url  The JS URL to be extracted.
 	 * @return array        Returns the JS URL and query string.
 	 */
-	private static function _getJsUrl(string $url) : array
+	protected static function _extractJsUrl(string $url) : array
 	{
 		$query = '';
 
