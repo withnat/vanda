@@ -970,4 +970,26 @@ class HtmlTest extends TestCase
 
 		$this->assertTrue(true);
 	}
+
+	/**
+	 * 3. No given attribute.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodJsCase3() : void
+	{
+		$expected = '<script src="http://localhost/assets/js/script.js"></script>' . "\n";
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_getJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
+
+		$result = $html->js('script.js');
+
+		$this->assertEquals($expected, $result);
+	}
 }
