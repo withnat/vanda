@@ -1089,4 +1089,26 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	/**
+	 * 8. Development mode, has a given query, has version.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCssJs8() : void
+	{
+		$expected = '<script src="http://localhost/assets/js/script.js?v=1695701570"></script>' . "\n";
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_getJsUrl')->andReturn(['http://localhost/assets/js/script.js', 'v=1695701570']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
+
+		$result = $html->js('script.js?v=1695701570');
+
+		$this->assertEquals($expected, $result);
+	}
 }
