@@ -1133,4 +1133,26 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	/**
+	 * 10. Production mode, has a given query, no version.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodJsCase10() : void
+	{
+		$expected = '<script src="http://localhost/assets/js/script.js?dummyKey=dummyVal"></script>' . "\n";
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', 'dummyKey=dummyVal']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
+
+		$result = $html->js('script.js?dummyKey=dummyVal');
+
+		$this->assertEquals($expected, $result);
+	}
 }
