@@ -588,6 +588,35 @@ class HtmlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * 9. A given URL does not start with 'http' or even a slash, the image was not found.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodImageCase9() : void
+	{
+		$expected = '<img src="http://localhost/assets/images/image.jpg" alt="" title="" width="100" height="100">';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->once())->willReturn(false);
+
+		$stubFile = Mockery::mock('alias:\System\File');
+		$stubFile->shouldReceive('getAssetPath')->andReturn('assets/images/image.jpg');
+
+		$stubImage = Mockery::mock('alias:\System\Image');
+		$stubImage->shouldReceive('load')->andReturnTrue();
+		$stubImage->shouldReceive('width')->andReturn(100);
+		$stubImage->shouldReceive('height')->andReturn(100);
+
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
+
+		$result = Html::image('image.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
+
 	// Html::css()
 
 	/*
