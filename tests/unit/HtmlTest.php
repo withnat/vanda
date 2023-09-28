@@ -716,7 +716,7 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase3() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css">';
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css">' . "\n";
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
@@ -738,7 +738,7 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase4() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css" media="print">';
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css" media="print">' . "\n";
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
@@ -760,7 +760,7 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase5() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css" media="print">';
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css" media="print">' . "\n";
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
@@ -785,7 +785,7 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase6() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?v=1695701570">';
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?v=1695701570">' . "\n";
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
@@ -810,7 +810,7 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase7() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?dummyKey=dummyVal&v=1695701570">';
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?dummyKey=dummyVal&v=1695701570">' . "\n";
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
@@ -835,7 +835,7 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase8() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?v=1695701570">';
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?v=1695701570">' . "\n";
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
@@ -857,7 +857,7 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase9() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css">';
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css">' . "\n";
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
@@ -879,7 +879,7 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase10() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?dummyKey=dummyVal">';
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?dummyKey=dummyVal">' . "\n";
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
@@ -901,7 +901,7 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase11() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?v=1695701570">';
+		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?v=1695701570">' . "\n";
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
@@ -913,5 +913,37 @@ class HtmlTest extends TestCase
 		$result = $html->css('style.css?v=1695701570');
 
 		$this->assertEquals($expected, $result);
+	}
+
+	// Html::js()
+
+	/*
+	 * 1. Check attribute datatype.
+	 * 2. Ensure Html::_showIncludeFileWarning() method is called.
+	 * 3. No given attribute.
+	 * 4. A given attribute is a string.
+	 * 5. A given attribute is an array.
+	 * 6. Development mode, no given query.
+	 * 7. Development mode, has a given query, no version.
+	 * 8. Development mode, has a given query, has version.
+	 * 9. Production mode, no given query.
+	 * 10. Production mode, has a given query, no version.
+	 * 11. Production mode, has a given query, has version.
+	 */
+
+	/**
+	 * 1. Check attribute datatype.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodJsCase1() : void
+	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, array or null');
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Html::js('script.js', new stdClass());
 	}
 }
