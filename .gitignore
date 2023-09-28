@@ -2,7 +2,7 @@
 /vendor/
 /.phpunit.result.cache
 .phpunit.result.cache
-.phpunit.xml
+phpunit.xml
 
 # For PHPUnit 10
 /.phpunit.cache
