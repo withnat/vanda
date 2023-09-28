@@ -115,6 +115,9 @@ class UrlTest extends TestCase
 		$stubRequest->shouldReceive('host')->andReturn('http://localhost');
 		$stubRequest->shouldReceive('basePath')->andReturn('');
 
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', null)->andReturnFalse();
+
 		$expected = 'http://localhost';
 		$result = Url::base();
 
@@ -131,23 +134,10 @@ class UrlTest extends TestCase
 		$stubRequest->shouldReceive('host')->andReturn('https://localhost');
 		$stubRequest->shouldReceive('basePath')->andReturn('');
 
-		$expected = 'http://localhost';
-		$result = Url::base(false);
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', true)->andReturnTrue();
 
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodBaseCase3()
-	{
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive('host')->andReturn('http://localhost');
-		$stubRequest->shouldReceive('basePath')->andReturn('/vanda');
-
-		$expected = 'https://localhost/vanda';
+		$expected = 'https://localhost';
 		$result = Url::base(true);
 
 		$this->assertEquals($expected, $result);
@@ -168,6 +158,9 @@ class UrlTest extends TestCase
 
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', null)->andReturnFalse();
 
 		$expected = 'http://localhost/vanda';
 		$result = $url->create();
@@ -203,6 +196,9 @@ class UrlTest extends TestCase
 				}
 			});
 
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', null)->andReturnFalse();
+
 		$expected = 'http://localhost/vanda/admin';
 		$result = $url->create();
 
@@ -214,7 +210,10 @@ class UrlTest extends TestCase
 	public function testCreateFromUrl()
 	{
 		$url = 'https://google.com';
-		$expected = 'https://google.com';
+		$expected = 'http://google.com';
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', null)->andReturnFalse();
 
 		$result = Url::create($url);
 
@@ -226,6 +225,9 @@ class UrlTest extends TestCase
 		$url = 'http://google.com';
 		$expected = 'https://google.com';
 
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', true)->andReturnTrue();
+
 		$result = Url::create($url, true);
 
 		$this->assertEquals($expected, $result);
@@ -235,6 +237,9 @@ class UrlTest extends TestCase
 	{
 		$url = 'https://google.com';
 		$expected = 'http://google.com';
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', false)->andReturnFalse();
 
 		$result = Url::create($url, false);
 
@@ -270,6 +275,9 @@ class UrlTest extends TestCase
 						return '';
 				}
 			});
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', $secure)->andReturn($secure);
 
 		$result = $url->create($uri, $secure);
 
@@ -308,6 +316,9 @@ class UrlTest extends TestCase
 				}
 			});
 
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', $secure)->andReturn($secure);
+
 		$result = $url->create($uri, $secure);
 
 		$this->assertEquals($expected, $result);
@@ -334,6 +345,9 @@ class UrlTest extends TestCase
 
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', $secure)->andReturn($secure);
 
 		$result = $url->create($uri, $secure);
 
@@ -363,6 +377,9 @@ class UrlTest extends TestCase
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnFalse();
 
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', $secure)->andReturn($secure);
+
 		$result = $url->create($uri, $secure);
 
 		$this->assertEquals($expected, $result);
@@ -385,11 +402,14 @@ class UrlTest extends TestCase
 		Url::setPass('pass');
 		Url::setHost('hostname');
 		Url::setPort(9090);
-		Url::setQuery('arg=value');
+		Url::setQueryString('arg=value');
 		Url::setFragment('anchor');
 
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', false)->andReturnFalse();
 
 		$expected = 'http://user:pass@hostname:9090/en/contact?arg=value#anchor';
 		$result = Url::create('contact', false);
@@ -415,11 +435,14 @@ class UrlTest extends TestCase
 		Url::setHost('hostname');
 		Url::setPort(9090);
 		Url::setPath('contact');
-		Url::setQuery('arg=value');
+		Url::setQueryString('arg=value');
 		Url::setFragment('anchor');
 
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', false)->andReturnFalse();
 
 		$expected = 'http://user:pass@hostname:9090/en/contact?arg=value#anchor';
 		$result = Url::create(null, false);
@@ -446,6 +469,9 @@ class UrlTest extends TestCase
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
 
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', false)->andReturnFalse();
+
 		$expected = 'http://user@hostname/en';
 		$result = Url::create(null, false);
 
@@ -470,6 +496,9 @@ class UrlTest extends TestCase
 
 		$stubSetting = Mockery::mock('alias:\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', false)->andReturnFalse();
 
 		$expected = 'http://:pass@hostname/en';
 		$result = Url::create(null, false);
@@ -509,6 +538,9 @@ class UrlTest extends TestCase
 				}
 			});
 
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', null)->andReturnTrue();
+
 		$expected = 'https://localhost/admin/user/add';
 		$result = Url::createFromAction('user.add');
 
@@ -544,9 +576,12 @@ class UrlTest extends TestCase
 				}
 			});
 
-		$expected = 'https://localhost/admin/user/group/add';
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', null)->andReturnTrue();
 
+		$expected = 'https://localhost/admin/user/group/add';
 		$result = Url::createFromAction('user.group.add');
+
 		$this->assertEquals($expected, $result);
 
 		putenv('APP_SIDE');
@@ -580,6 +615,9 @@ class UrlTest extends TestCase
 						return '';
 				}
 			});
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', null)->andReturnTrue();
 
 		$expected = 'https://localhost/admin/user/add';
 		$result = Url::createFromAction('add');
@@ -619,6 +657,9 @@ class UrlTest extends TestCase
 						return '';
 				}
 			});
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('security')->with('ssl', null)->andReturnTrue();
 
 		$expected = 'https://localhost/admin/user/group/add';
 		$result = Url::createFromAction('add');
@@ -1042,18 +1083,18 @@ class UrlTest extends TestCase
 		$this->assertEquals($value, $result);
 	}
 
-	// Url::getQuery()
+	// Url::getQueryString()
 
 	public function testMethodGetQueryCase1()
 	{
-		$result = Url::getQuery();
+		$result = Url::getQueryString();
 
 		$this->assertNull($result);
 	}
 
 	public function testMethodGetQueryCase2()
 	{
-		$result = Url::getQuery('');
+		$result = Url::getQueryString('');
 
 		$this->assertNull($result);
 	}
@@ -1061,20 +1102,20 @@ class UrlTest extends TestCase
 	public function testMethodGetQueryCase3()
 	{
 		$expected = 'arg=value';
-		$result = Url::getQuery(static::$_url);
+		$result = Url::getQueryString(static::$_url);
 
 		$this->assertEquals($expected, $result);
 	}
 
-	// Url::setQuery()
+	// Url::setQueryString()
 
 	public function testMethodSetQueryCase1()
 	{
 		$value = 'value';
 
-		Url::setQuery($value);
+		Url::setQueryString($value);
 
-		$result = Url::getQuery();
+		$result = Url::getQueryString();
 
 		$this->assertEquals($value, $result);
 	}
