@@ -175,6 +175,8 @@ class Html
 			$url = Request::basePath() . '/' . $path;
 		}
 
+		$attribs = rtrim($attribs);
+
 		$html = '<img src="' . $url . '" ' . $attribs . '>';
 
 		return $html;
@@ -585,13 +587,16 @@ class Html
 	 *
 	 * @param  string|array|null $attribs  The existing attributes. NULL value is from Form.php.
 	 * @param  string            $name     The name of the attribute to be added.
-	 * @param  string            $value    The value of the attribute to be added.
+	 * @param  string|int        $value    The value of the attribute to be added.
 	 * @return string                      Returns the generated attribute string.
 	 */
-	public static function setAttribute($attribs, string $name, string $value) : string
+	public static function setAttribute($attribs, string $name, $value) : string
 	{
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(1, ['string', 'array', 'null'], $attribs);
+
+		if (!is_string($value) and !is_int($value))
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $attribs);
 
 		if (is_array($attribs))
 		{
