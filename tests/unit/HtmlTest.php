@@ -946,4 +946,28 @@ class HtmlTest extends TestCase
 
 		Html::js('script.js', new stdClass());
 	}
+
+	/**
+	 * 2. Ensure Html::_showIncludeFileWarning() method is called.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCssJs2() : void
+	{
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_showIncludeFileWarning')->once();
+		$html->shouldReceive('_getJsUrl')->andReturn(['dummy', 'dummy']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
+
+		$stubArray = $this->getFunctionMock('System', 'in_array');
+		$stubArray->expects($this->once())->willReturn(true);
+
+		$html->js('script.js');
+
+		$this->assertTrue(true);
+	}
 }
