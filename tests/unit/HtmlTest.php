@@ -1014,4 +1014,29 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	/**
+	 * 5. A given attribute is an array.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodJsCase5() : void
+	{
+		$expected = '<script src="http://localhost/assets/js/script.js" media="print"></script>' . "\n";
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_getJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('toString')->andReturn('media="print"');
+
+		$result = $html->js('script.js', ['media' => "print"]);
+
+		$this->assertEquals($expected, $result);
+	}
 }
