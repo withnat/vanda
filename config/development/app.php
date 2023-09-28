@@ -36,5 +36,7 @@
 return [
 	'charset' => 'UTF-8',
 	'defaultFrontendModule' => 'home',
-	'defaultBackendModule' => 'dashboard'
+	'defaultBackendModule' => 'dashboard',
+	'env' => 'development',
+	'debug' => true
 ];

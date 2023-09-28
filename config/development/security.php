@@ -34,6 +34,7 @@
  */
 
 return [
+	'ssl' => true,
 	'bannedPasswords' => [
 		'!@#$%^&*',
 		'000000',
