@@ -4,10 +4,10 @@
  *
  * A lightweight & flexible PHP CMS framework
  *
- * @package     Vanda
- * @author      Nat Withe <nat@withnat.com>
+ * @package	    Vanda
+ * @author	    Nat Withe <nat@withnat.com>
  * @copyright   Copyright (c) 2010 - 2021, Nat Withe. All rights reserved.
- * @link        http://vanda.io
+ * @link		http://vanda.io
  */
 
 declare(strict_types=1);
@@ -21,80 +21,100 @@ namespace System;
  * application, so they can know what happens as a result of their actions.
  *
  * @package System
- * @codeCoverageIgnore
  */
 class Flash
 {
 	private function __construct(){}
- 
- 	public static function info(string $message) : ?string
+
+	/**
+	 * Sets a flash message of type info.
+	 *
+	 * @param string $message  The message to display.
+	 * @return string|void     Returns the HTML code for the message if the request is AJAX,
+	 *						   otherwise it sets the message in the session.
+	 */
+ 	public static function info(string $message)
  	{
 		if (Request::isAjax())
 		{
-			$html = '<div class="' . Config::core('closeFlashInfoMessageWrapperClass') . '">
-						<button aria-hidden="true" data-dismiss="alert" type="button" class="' . Config::core('closeFlashInfoMessageButtonClass') . '">
-							×
-						</button>'
-						. $message
-					. '</div>';
+			$html = '<div class="' . Config::core('closeFlashInfoMessageWrapperClass') . '">'
+				. '<button aria-hidden="true" data-dismiss="alert" type="button" class="' . Config::core('closeFlashInfoMessageButtonClass') . '">×</button>'
+				. $message . '</div>';
 
 			return $html;
 		}
 		else
 			Session::set('__vandaFlashInfo[]', $message);
  	}
- 
-  	public static function success(string $message) : ?string
- 	{
-	    if (Request::isAjax())
-	    {
-		    $html = '<div class="' . Config::core('closeFlashSuccessMessageWrapperClass') . '">
-						<button aria-hidden="true" data-dismiss="alert" type="button" class="' . Config::core('closeFlashSuccessMessageButtonClass') . '">
-							×
-						</button>'
-						. $message 
-					. '</div>';
 
-		    return $html;
-	    }
-	    else
-		    Session::set('__vandaFlashSuccess[]', $message);
- 	}
- 
-  	public static function warning(string $message) : ?string
+	/**
+	 * Sets a flash message of type success.
+	 *
+	 * @param string $message  The message to display.
+	 * @return string|void     Returns the HTML code for the message if the request is AJAX,
+	 *						   otherwise it sets the message in the session.
+	 */
+  	public static function success(string $message)
  	{
 		if (Request::isAjax())
 		{
-			$html = '<div class="' . Config::core('closeFlashWarningMessageWrapperClass') . '">
-						<button aria-hidden="true" data-dismiss="alert" type="button" class="' . Config::core('closeFlashWarningMessageButtonClass') . '">
-							×
-						</button>'
-						. $message
-					. '</div>';
+			$html = '<div class="' . Config::core('closeFlashSuccessMessageWrapperClass') . '">';
+			$html .= '<button aria-hidden="true" data-dismiss="alert" type="button" class="' . Config::core('closeFlashSuccessMessageButtonClass') . '">×</button>';
+			$html .= $message . '</div>';
+
+			return $html;
+		}
+		else
+			Session::set('__vandaFlashSuccess[]', $message);
+ 	}
+
+	/**
+	 * Sets a flash message of type warning.
+	 *
+	 * @param string $message  The message to display.
+	 * @return string|void     Returns the HTML code for the message if the request is AJAX,
+	 *						   otherwise it sets the message in the session.
+	 */
+  	public static function warning(string $message)
+ 	{
+		if (Request::isAjax())
+		{
+			$html = '<div class="' . Config::core('closeFlashWarningMessageWrapperClass') . '">';
+			$html .= '<button aria-hidden="true" data-dismiss="alert" type="button" class="' . Config::core('closeFlashWarningMessageButtonClass') . '">×</button>';
+			$html .= $message . '</div>';
 
 			return $html;
 		}
 		else
 			Session::set('__vandaFlashWarning[]', $message);
  	}
- 
-   	public static function danger(string $message) : ?string
- 	{
-	    if (Request::isAjax())
-	    {
-		    $html = '<div class="' . Config::core('closeFlashDangerMessageWrapperClass') . '">
-						<button aria-hidden="true" data-dismiss="alert" type="button" class="' . Config::core('closeFlashDangerMessageButtonClass') . '">
-							×
-						</button>'
-		    			. $message
-					. '</div>';
 
-		    return $html;
-	    }
-	    else
-		    Session::set('__vandaFlashDanger[]', $message);
+	/**
+	 * Sets a flash message of type danger.
+	 *
+	 * @param string $message  The message to display.
+	 * @return string|void     Returns the HTML code for the message if the request is AJAX,
+	 *						   otherwise it sets the message in the session.
+	 */
+   	public static function danger(string $message)
+ 	{
+		if (Request::isAjax())
+		{
+			$html = '<div class="' . Config::core('closeFlashDangerMessageWrapperClass') . '">';
+			$html .= '<button aria-hidden="true" data-dismiss="alert" type="button" class="' . Config::core('closeFlashDangerMessageButtonClass') . '">×</button>';
+			$html .= $message . '</div>';
+
+			return $html;
+		}
+		else
+			Session::set('__vandaFlashDanger[]', $message);
  	}
 
+	/**
+	 * Clears all flash messages.
+	 *
+	 * @return void
+	 */
 	public static function clear() : void
 	{
 		Session::clear('__vandaFlashInfo');
