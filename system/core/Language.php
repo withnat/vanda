@@ -15,14 +15,16 @@ declare(strict_types=1);
 namespace System;
 
 /**
+ * The Language class is used to get language strings.
+ *
  * Class Language
  * @package System
  */
-final class Language
+class Language
 {
+	protected static $_code;
 	protected static $_direction;
 	protected static $_strings;
-	protected static $_code;
 
 	/**
 	 * Language constructor.
@@ -30,128 +32,149 @@ final class Language
 	private function __construct(){}
 
 	/**
-	 * @param  int|null $langId
-	 * @return void
+	 * Gets a language string based on the given string and language ID.
+	 *
+	 * @param  string   $string  The string to get.
+	 * @param  int|null $langId  The language ID to get. Defaults to null.
+	 *                           If null, the default language string will be returned.
+	 * @return string            Returns the language string.
 	 */
-	private static function _getCode(int $langId = null) : void
+	public static function _(string $string, int $langId = null) : string
 	{
-		DB::select('code')->from('Language');
+		if (!isset(static::$_strings[$langId]))
+			static::_loadLanguage($langId);
 
-		if ($langId)
-			$code = DB::where($langId)->loadSingle();
-		else
-			$code = DB::where('default', 1)->loadSingle();
+		// @codeCoverageIgnoreStart
+		if (isset(static::$_strings[$langId][$string]))
+			$string = static::$_strings[$langId][$string];
+		// @codeCoverageIgnoreEnd
 
-		Language::$_code = $code;
+		return $string;
 	}
 
 	/**
-	 * @param  int|null $langId
-	 * @return void
+	 * Gets a language code based on the given language ID.
+	 *
+	 * @param  int|null $langId  The language ID to get. Defaults to null.
+	 *                           If null, the default language code will be returned.
+	 * @return string            Returns the language code.
+	 * @codeCoverageIgnore
 	 */
-	private static function _getDirection(int $langId = null) : void
+	public static function code(int $langId = null) : string
 	{
-		DB::select('direction')->from('Language');
+		if (!static::$_code)
+			static::_loadLanguage($langId);
 
-		if ($langId)
-			$direction = DB::where($langId)->loadSingle();
-		else
-			$direction = DB::where('default', 1)->loadSingle();
-
-		$direction = strtolower($direction);
-
-		if ($direction != 'rtl')
-			$direction = 'ltr';
-
-		Language::$_direction = $direction;
+		return static::$_code;
 	}
 
 	/**
-	 * @param  int|null $langId
+	 * Gets a language direction based on the given language ID.
+	 *
+	 * @param  int|null $langId  The language ID to get. Defaults to null.
+	 *                           If null, the default language direction will be returned.
+	 * @return string            Returns the language direction.
+	 * @codeCoverageIgnore
+	 */
+	public static function direction(int $langId = null) : string
+	{
+		if (!static::$_direction)
+			static::_loadLanguage($langId);
+
+		return static::$_direction;
+	}
+
+	/**
+	 * Loads language strings from the language file based on the given
+	 * language ID. First, load from the global language file, then load
+	 * from the module language file, and finally, override the global
+	 * language strings with those from the module.
+	 *
+	 * @param  int|null $langId  The language ID to load. Defaults to null.
+	 *                           If null, the default language will be loaded.
 	 * @return void
 	 */
-	private static function _getLanguage(int $langId = null) : void
+	protected static function _loadLanguage(int $langId = null) : void
 	{
-		Language::_getCode($langId);
-		Language::_getDirection($langId);
+		// Load language code.
 
-		$code = Language::$_code;
+		if (!static::$_code)
+		{
+			DB::select('code')->from('Language');
 
-		$langPaths = [
+			// @codeCoverageIgnoreStart
+			if ($langId)
+				$code = DB::where($langId)->loadSingle();
+			else
+				$code = DB::where('default', 1)->loadSingle();
+			// @codeCoverageIgnoreEnd
+
+			static::$_code = $code;
+		}
+
+		// Load langauge direction.
+
+		if (!static::$_direction)
+		{
+			DB::select('direction')->from('Language');
+
+			// @codeCoverageIgnoreStart
+			if ($langId)
+				$direction = DB::where($langId)->loadSingle();
+			else
+				$direction = DB::where('default', 1)->loadSingle();
+			// @codeCoverageIgnoreEnd
+
+			$direction = strtolower($direction);
+
+			if ($direction !== 'rtl')
+				$direction = 'ltr';
+
+			static::$_direction = $direction;
+		}
+
+		// Load global langauge strings.
+
+		$code = static::$_code;
+		$paths = [
 			PATH_APP . DS . 'languages' . DS . SIDE . DS . $code . DS . $code . '.ini',
 			PATH_SYSTEM . DS . 'languages' . DS . SIDE . DS . $code . DS . $code . '.ini'
-			];
+		];
 
 		$globalStrings = [];
 
-		foreach ($langPaths as $path)
+		foreach ($paths as $path)
 		{
+			// @codeCoverageIgnoreStart
 			if (is_file($path))
 			{
 				$globalStrings = parse_ini_file($path);
 				break;
 			}
+			// @codeCoverageIgnoreEnd
 		}
 
-		$langPaths = [
+		// Load module langauge strings.
+
+		$paths = [
 			PATH_APP . DS . 'languages' . DS . SIDE . DS . $code . DS . $code . '.module.' . MODULE . '.ini',
 			PATH_SYSTEM . DS . 'languages' . DS . SIDE . DS . $code . DS . $code . '.module.' . MODULE . '.ini'
 		];
 
 		$moduleStrings = [];
 
-		foreach ($langPaths as $path)
+		foreach ($paths as $path)
 		{
+			// @codeCoverageIgnoreStart
 			if (is_file($path))
 			{
 				$moduleStrings = parse_ini_file($path);
 				break;
 			}
+			// @codeCoverageIgnoreEnd
 		}
 
-		Language::$_strings[$langId] = array_merge($globalStrings, $moduleStrings);
-	}
-
-	/**
-	 * @param  string   $string
-	 * @param  int|null $langId
-	 * @return string
-	 */
-	public static function _(string $string, int $langId = null) : string
-	{
-		if (!$string)
-			return '';
-
-		if (!isset(Language::$_strings[$langId]))
-			Language::_getLanguage($langId);
-
-		if (isset(Language::$_strings[$langId][$string]))
-			$string = Language::$_strings[$langId][$string];
-
-		return $string;
-	}
-
-	/**
-	 * @param  int|null $langId
-	 * @return string
-	 */
-	public static function code(int $langId = null) : string
-	{
-		if (!Language::$_code)
-			Language::_getCode($langId);
-
-		return Language::$_code;
-	}
-
-	/**
-	 * @param  int|null $langId
-	 * @return string
-	 */
-	public static function direction(int $langId = null) : string
-	{
-		if (!Language::$_direction)
-			Language::_getDirection($langId);
-
-		return Language::$_direction;
+		// Override global language strings with module language strings.
+		static::$_strings[$langId] = array_merge($globalStrings, $moduleStrings);
 	}
 }
