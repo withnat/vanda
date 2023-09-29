@@ -30,11 +30,7 @@ class FlashTest extends TestCase
 	}
 
 	// Flash::info()
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
+	
 	public function testMethodInfoCase1() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
@@ -54,10 +50,6 @@ class FlashTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodInfoCase2() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
@@ -74,10 +66,6 @@ class FlashTest extends TestCase
 
 	// Flash::success()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodSuccessCase1() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
@@ -97,10 +85,6 @@ class FlashTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodSuccessCase2() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
@@ -117,10 +101,6 @@ class FlashTest extends TestCase
 
 	// Flash::warning()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodWarningCase1() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
@@ -140,10 +120,6 @@ class FlashTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodWarningCase2() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
