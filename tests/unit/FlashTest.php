@@ -70,4 +70,46 @@ class FlashTest extends TestCase
 		// If this test fails, it will stop before returning true below.
 		$this->assertTrue(true);
 	}
+
+	// Flash::success()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSuccessCase1() : void
+	{
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isAjax')->andReturnTrue();
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('core')->with('closeFlashSuccessMessageWrapperClass')->andReturn('dummy-wrapper-class');
+		$stubConfig->shouldReceive('core')->with('closeFlashSuccessMessageButtonClass')->andReturn('dummy-button-class');
+
+		$expected = '<div class="dummy-wrapper-class">'
+			. '<button aria-hidden="true" data-dismiss="alert" type="button" class="dummy-button-class">×</button>'
+			. 'test'
+			. '</div>';
+		$result = Flash::success('test');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSuccessCase2() : void
+	{
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isAjax')->andReturnFalse();
+
+		$mockedSession = Mockery::mock('alias:\System\Session');
+		$mockedSession->shouldReceive('set')->once();
+
+		Flash::success('test');
+
+		// If this test fails, it will stop before returning true below.
+		$this->assertTrue(true);
+	}
 }
