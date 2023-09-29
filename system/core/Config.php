@@ -16,6 +16,9 @@ namespace System;
 
 /**
  * Class Config
+ *
+ * This class is used to get and set configuration values.
+ *
  * @package System
  */
 class Config
@@ -58,7 +61,8 @@ class Config
 	}
 
 	/**
-	 * Sets a value in the config array.
+	 * Updates a value in the config array for runtime modification,
+	 * without affecting the underlying configuration file.
 	 *
 	 * @param  string $key    The key to set.
 	 * @param  mixed  $value  The value to set.
@@ -87,7 +91,8 @@ class Config
 	 * For example,
 	 *
 	 * ```php
-	 * echo Config::app('ur');
+	 * echo Config::app('env');
+	 * echo Config::security('ssl');
 	 * ```
 	 *
 	 * @param   string $method  Original method name.
