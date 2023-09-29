@@ -245,6 +245,10 @@ class UrlTest extends TestCase
 		putenv('APP_SIDE');
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testCreateFromUrl()
 	{
 		$url = 'https://google.com';
@@ -258,6 +262,10 @@ class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testCreateFromUrlAndForceToSecure()
 	{
 		$url = 'http://google.com';
@@ -271,6 +279,10 @@ class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testCreateFromUrlAndForceToNotSecure()
 	{
 		$url = 'https://google.com';
