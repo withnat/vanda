@@ -39,7 +39,8 @@ class LanguageTest extends TestCase
 		define('MODULE', 'user');
 
 		$stubDB = Mockery::mock('alias:\System\DB');
-		
+
+		$stubDB->shouldAllowMockingProtectedMethods()->makePartial();
 		$stubDB->shouldReceive('select')->with('code')->andReturn($stubDB);
 		$stubDB->shouldReceive('from')->with('Language')->andReturn($stubDB);
 		$stubDB->shouldReceive('where')->with('default', 1)->andReturn($stubDB);
