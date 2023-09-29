@@ -200,4 +200,21 @@ class FlashTest extends TestCase
 		// If this test fails, it will stop before returning true below.
 		$this->assertTrue(true);
 	}
+
+	// Flash::clear()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodClearCase1() : void
+	{
+		$mockedSession = Mockery::mock('alias:\System\Session');
+		$mockedSession->shouldReceive('clear')->atLeast()->once();
+
+		Flash::clear();
+
+		// If this test fails, it will stop before returning true below.
+		$this->assertTrue(true);
+	}
 }
