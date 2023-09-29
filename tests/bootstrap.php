@@ -18,7 +18,7 @@ use System\Autoloader;
 
 // Set constants used in Vanda.
 define('VD', 1);
-define('ENV', 'development'); // 'development', 'test', 'staging' or 'production'
+define('ENV', 'development'); // 'development', 'testing', 'staging' or 'production'
 define('DS', DIRECTORY_SEPARATOR);
 define('PATH_BASE', __DIR__ . DS . '..');
 define('PATH_APP', PATH_BASE . DS . 'app');
