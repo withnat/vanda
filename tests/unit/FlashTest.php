@@ -30,7 +30,11 @@ class FlashTest extends TestCase
 	}
 
 	// Flash::info()
-	
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodInfoCase1() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
@@ -50,6 +54,10 @@ class FlashTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodInfoCase2() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
@@ -66,6 +74,10 @@ class FlashTest extends TestCase
 
 	// Flash::success()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSuccessCase1() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
@@ -85,6 +97,10 @@ class FlashTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodSuccessCase2() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
@@ -101,6 +117,10 @@ class FlashTest extends TestCase
 
 	// Flash::warning()
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodWarningCase1() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
@@ -120,6 +140,10 @@ class FlashTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testMethodWarningCase2() : void
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
@@ -129,6 +153,49 @@ class FlashTest extends TestCase
 		$mockedSession->shouldReceive('set')->once();
 
 		Flash::warning('test');
+
+		// If this test fails, it will stop before returning true below.
+		$this->assertTrue(true);
+	}
+
+	// Flash::danger()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodDangerCase1() : void
+	{
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isAjax')->andReturnTrue();
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('core')->with('closeFlashDangerMessageWrapperClass')->andReturn('dummy-wrapper-class');
+		$stubConfig->shouldReceive('core')->with('closeFlashDangerMessageButtonClass')->andReturn('dummy-button-class');
+
+		$expected = '<div class="dummy-wrapper-class">'
+			. '<button aria-hidden="true" data-dismiss="alert" type="button" class="dummy-button-class">×</button>'
+			. 'test'
+			. '</div>';
+
+		$result = Flash::danger('test');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodDangerCase2() : void
+	{
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isAjax')->andReturnFalse();
+
+		$mockedSession = Mockery::mock('alias:\System\Session');
+		$mockedSession->shouldReceive('set')->once();
+
+		Flash::danger('test');
 
 		// If this test fails, it will stop before returning true below.
 		$this->assertTrue(true);
