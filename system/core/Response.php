@@ -146,7 +146,7 @@ class Response
 	 * Returns a reference to the global Response object,
 	 * only creating it if it doesn't already exist.
 	 *
-	 * @return Response
+	 * @return Response  Returns the instance of this class to allow chaining.
 	 */
 	private static function _getInstance() : Response
 	{
@@ -157,9 +157,9 @@ class Response
 	}
 
 	/**
-	 * Get the current response status code.
+	 * Gets the current response status code.
 	 *
-	 * @return int  The current status code.
+	 * @return int  Returns the current status code.
 	 */
 	public static function getStatusCode() : int
 	{
@@ -169,7 +169,7 @@ class Response
 	/**
 	 * Gets the response phrase associated with the status code.
 	 *
-	 * @return string  The HTTP status reason phrase.
+	 * @return string  Returns the HTTP status reason phrase.
 	 */
 	public static function getStatusReason() : string
 	{
@@ -183,7 +183,7 @@ class Response
 	 * Sets the response status code.
 	 *
 	 * @param  int $statusCode  The status code.
-	 * @return Response         Instance of $this to allow chaining.
+	 * @return Response         Returns the instance of this class to allow chaining.
 	 */
 	public static function setStatusCode(int $statusCode) : Response
 	{
@@ -197,14 +197,14 @@ class Response
 	}
 
 	/**
-	 * Get a single header information to be sent
+	 * Gets a single header information to be sent
 	 * when the response is sent to the client.
 	 *
 	 * If multiple headers with the same name exist,
 	 * then will return an array of header objects.
 	 *
 	 * @param  string $name       The name of the header to get.
-	 * @return string|array|null  The value of the header.
+	 * @return string|array|null  Returns the value of the header.
 	 */
 	public static function getHeader(string $name)
 	{
@@ -228,10 +228,10 @@ class Response
 	}
 
 	/**
-	 * Get the array of header informations to be sent
+	 * Gets the array of header information to be sent
 	 * when the response is sent to the client.
 	 *
-	 * @return array
+	 * @return array  Returns an array of header objects.
 	 */
 	public static function getHeaderList() : array
 	{
@@ -239,7 +239,7 @@ class Response
 	}
 
 	/**
-	 * Set a header and it's value to the queue. If the replacement flag is set
+	 * Sets a header and it's value to the queue. If the replacement flag is set
 	 * then all headers with the given name will be replaced by the new one.
 	 *
 	 * Duplicate HTTP response headers are acceptable.
@@ -247,7 +247,7 @@ class Response
 	 *
 	 * @param  string   $name   The name of the header to set.
 	 * @param  string   $value  The value of the header to set.
-	 * @return Response         Instance of $this to allow chaining.
+	 * @return Response         Returns the instance of this class to allow chaining.
 	 */
 	public static function setHeader(string $name, string $value) : Response
 	{
@@ -257,11 +257,11 @@ class Response
 	}
 
 	/**
-	 * Prepend a header and it's value to the queue.
+	 * Prepends a header, and it's value to the queue.
 	 *
 	 * @param  string   $name   The name of the header to set.
 	 * @param  string   $value  The value of the header to set.
-	 * @return Response         Instance of $this to allow chaining.
+	 * @return Response         Returns the instance of this class to allow chaining.
 	 */
 	public static function prependHeader(string $name, string $value) : Response
 	{
@@ -271,12 +271,12 @@ class Response
 	}
 
 	/**
-	 * Append a header and it's value to the queue.
+	 * Appends a header, and it's value to the queue.
 	 * An alias for the Response::setHeader() method.
 	 *
 	 * @param  string   $name   The name of the header to set.
 	 * @param  string   $value  The value of the header to set.
-	 * @return Response         Instance of $this to allow chaining.
+	 * @return Response         Returns the instance of this class to allow chaining.
 	 */
 	public static function appendHeader(string $name, string $value) : Response
 	{
@@ -287,7 +287,7 @@ class Response
 	 * Removes a header from the list of headers.
 	 *
 	 * @param  string   $name  The header name.
-	 * @return Response        Instance of $this to allow chaining.
+	 * @return Response        Returns the instance of this class to allow chaining.
 	 */
 	public static function removeHeader(string $name) : Response
 	{
@@ -303,7 +303,7 @@ class Response
 	/**
 	 * Method to clear any set response headers.
 	 *
-	 * @return Response  Instance of $this to allow chaining.
+	 * @return Response  Returns the instance of this class to allow chaining.
 	 */
 	public static function clearHeaders() : Response
 	{
@@ -313,9 +313,9 @@ class Response
 	}
 
 	/**
-	 * Return the body content.
+	 * Returns the body content.
 	 *
-	 * @return string  The body content.
+	 * @return string  Returns the body content.
 	 */
 	public static function getBody() : string
 	{
@@ -323,10 +323,10 @@ class Response
 	}
 
 	/**
-	 * Set body content. If body content already defined, this will replace it.
+	 * Sets body content. If body content already defined, this will replace it.
 	 *
 	 * @param  string   $content  The content to set as the response body.
-	 * @return Response           Instance of $this to allow chaining.
+	 * @return Response           Returns the instance of this class to allow chaining.
 	 */
 	public static function setBody(string $content) : Response
 	{
@@ -336,10 +336,10 @@ class Response
 	}
 
 	/**
-	 * Prepend content to the body content.
+	 * Prepends content to the body content.
 	 *
 	 * @param  string   $content  The content to prepend to the response body.
-	 * @return Response           Instance of $this to allow chaining.
+	 * @return Response           Returns the instance of this class to allow chaining.
 	 */
 	public static function prependBody(string $content) : Response
 	{
@@ -352,7 +352,7 @@ class Response
 	 * Append content to the body content.
 	 *
 	 * @param  string   $content  The content to append to the response body.
-	 * @return Response           Instance of $this to allow chaining.
+	 * @return Response           Returns the instance of this class to allow chaining.
 	 */
 	public static function appendBody(string $content) : Response
 	{
@@ -364,7 +364,7 @@ class Response
 	/**
 	 * Method to clear the body content.
 	 *
-	 * @return Response  Instance of $this to allow chaining.
+	 * @return Response  Returns the instance of this class to allow chaining.
 	 */
 	public static function clearBody() : Response
 	{
@@ -447,7 +447,7 @@ class Response
 	/**
 	 * Sends the output to the browser.
 	 *
-	 * @return Response
+	 * @return Response  Returns the instance of this class to allow chaining.
 	 */
 	public static function send() : Response
 	{
@@ -458,9 +458,9 @@ class Response
 	}
 
 	/**
-	 * Send all headers of this HTTP request to the browser.
+	 * Sends all headers of this HTTP request to the browser.
 	 *
-	 * @return Response
+	 * @return Response  Returns the instance of this class to allow chaining.
 	 */
 	public static function sendHeaders() : Response
 	{
@@ -501,7 +501,7 @@ class Response
 	/**
 	 * Sends the Body of the message to the browser.
 	 *
-	 * @return Response
+	 * @return Response  Returns the instance of this class to allow chaining.
 	 */
 	public static function sendBody() : Response
 	{
@@ -543,7 +543,7 @@ class Response
 	 * I wrap this to isolate the built-in PHP function
 	 * from my codebase for testing purposes.
 	 *
-	 * @return bool  True if the headers have already been sent.
+	 * @return bool  Returns true if the headers have already been sent.
 	 * @see headers_sent()
 	 * @codeCoverageIgnore
 	 */
