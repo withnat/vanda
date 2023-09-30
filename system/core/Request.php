@@ -45,7 +45,7 @@ class Request
 	private function __construct(){}
 
 	/**
-	 * Set a request variable.
+	 * Sets a request variable.
 	 *
 	 * @param  string           $name    The variable name.
 	 * @param  string|int|float $value   The variable value.
@@ -71,11 +71,11 @@ class Request
 	}
 
 	/**
-	 * Get a request variable on the GET request method.
+	 * Gets a request variable on the GET request method.
 	 *
 	 * @param  string|null                        $name     The variable name.
 	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
-	 * @return mixed
+	 * @return mixed                                        Returns the variable value.
 	 */
 	public static function get(string $name = null, $default = null)
 	{
@@ -86,11 +86,11 @@ class Request
 	}
 
 	/**
-	 * Get a request variable on the POST request method.
+	 * Gets a request variable on the POST request method.
 	 *
 	 * @param  string|null                        $name     The variable name.
 	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
-	 * @return mixed
+	 * @return mixed                                        Returns the variable value.
 	 */
 	public static function post(string $name = null, $default = null)
 	{
@@ -101,11 +101,11 @@ class Request
 	}
 
 	/**
-	 * Get data from a radio/single checkbox form submission and convert to integer.
+	 * Gets data from a radio/single checkbox form submission and convert to integer.
 	 *
 	 * @param  string $name    The variable name.
 	 * @param  string $method  Where the variable should come from (GET or POST).
-	 * @return int
+	 * @return int             Returns 1 if the variable is set and 0 if not.
 	 */
 	public static function switcher(string $name, string $method = 'POST') : int
 	{
@@ -121,10 +121,10 @@ class Request
 	}
 
 	/**
-	 * Get the method of the current request (e.g. GET, POST, HEAD, PUT, PATCH, DELETE).
+	 * Gets the method of the current request (e.g. GET, POST, HEAD, PUT, PATCH, DELETE).
 	 * Default to '' if not available. (e.g. PHP is running from cli).
 	 *
-	 * @return string
+	 * @return string  Returns the request method.
 	 */
 	public static function method() : string
 	{
@@ -152,9 +152,9 @@ class Request
 	}
 
 	/**
-	 * Get the current visitor's IP address.
+	 * Gets the current visitor's IP address.
 	 *
-	 * @return string
+	 * @return string  Returns the IP address.
 	 */
 	public static function ip() : string
 	{
@@ -228,9 +228,9 @@ class Request
 	}
 
 	/**
-	 * Get the host name.
+	 * Gets the host name.
 	 *
-	 * @return string
+	 * @return string  Returns the host name.
 	 */
 	public static function host() : string
 	{
@@ -261,7 +261,7 @@ class Request
 	 * http://localhost/we%20b/index.php  returns '/we%20b'
 	 * Calling from CLI                   returns '.'
 	 *
-	 * @return string
+	 * @return string  Returns the root path.
 	 */
 	public static function basePath() : string
 	{
@@ -272,9 +272,9 @@ class Request
 	}
 
 	/**
-	 * Detect the requested URI from server environment variables.
+	 * Detects the requested URI from server environment variables.
 	 *
-	 * @return string
+	 * @return string  Returns the requested URI.
 	 */
 	public static function uri() : string
 	{
@@ -310,9 +310,9 @@ class Request
 	}
 
 	/**
-	 * Get the query string, null if not available.
+	 * Gets the query string, null if not available.
 	 *
-	 * @return string|null
+	 * @return string|null  Returns the query string.
 	 * @codeCoverageIgnore
 	 */
 	public static function queryString() : ?string
@@ -321,10 +321,10 @@ class Request
 	}
 
 	/**
-	 * Get a server variable from the request, null if not available.
+	 * Gets a server variable from the request, null if not available.
 	 *
-	 * @param  string $key
-	 * @return mixed
+	 * @param  string $key  The variable name.
+	 * @return mixed        Returns the variable value.
 	 */
 	public static function server(string $key)
 	{
@@ -332,9 +332,9 @@ class Request
 	}
 
 	/**
-	 * Get the URL referrer, null if not available.
+	 * Gets the URL referrer, null if not available.
 	 *
-	 * @return string|null
+	 * @return string|null  Returns the URL referrer.
 	 * @codeCoverageIgnore
 	 */
 	public static function referer() : ?string
@@ -343,9 +343,9 @@ class Request
 	}
 
 	/**
-	 * Get the server protocol, null if not available.
+	 * Gets the server protocol, null if not available.
 	 *
-	 * @return string|null
+	 * @return string|null  Returns the server protocol.
 	 * @codeCoverageIgnore
 	 */
 	public static function protocol() : ?string
@@ -354,9 +354,9 @@ class Request
 	}
 
 	/**
-	 * Get the scheme, null if not available.
+	 * Gets the scheme, null if not available.
 	 *
-	 * @return string|null
+	 * @return string|null  Returns the scheme.
 	 * @codeCoverageIgnore
 	 */
 	public static function scheme() : ?string
@@ -365,7 +365,7 @@ class Request
 	}
 
 	/**
-	 * Fetch and return all HTTP request headers.
+	 * Fetchs and returns all HTTP request headers.
 	 *
 	 * An alias for PHP's getallheaders() function.
 	 *
@@ -375,7 +375,7 @@ class Request
 	 * The built-in CLI web server does not support getallheaders().
 	 * So don't test this method by adding 'codeCoverageIgnore' annotation.
 	 *
-	 * @return array
+	 * @return array  Returns all HTTP request headers.
 	 * @codeCoverageIgnore
 	 */
 	public static function allHeaders() : array
@@ -386,11 +386,11 @@ class Request
 	}
 
 	/**
-	 * Get a header from the request, null if not available.
+	 * Gets a header from the request, null if not available.
 	 *
 	 * @param  string      $name     The variable name.
 	 * @param  string|null $default  Default value if the variable does not exist.
-	 * @return string|null
+	 * @return string|null           Returns the variable value.
 	 */
 	public static function header(string $name, string $default = null) : ?string
 	{
@@ -404,10 +404,10 @@ class Request
 	}
 
 	/**
-	 * Determine if the request has a given header.
+	 * Determines if the request has a given header.
 	 *
 	 * @param  string $name  The variable name.
-	 * @return bool
+	 * @return bool          Returns true if the variable exists, false otherwise.
 	 */
 	public static function hasHeader(string $name) : bool
 	{
@@ -418,10 +418,10 @@ class Request
 	}
 
 	/**
-	 * Determine if the request has any given header.
+	 * Determines if the request has any given header.
 	 *
 	 * @param  array $names  The variable name.
-	 * @return bool
+	 * @return bool          Returns true if any of the variables exists, false otherwise.
 	 */
 	public static function hasAnyHeader(array $names) : bool
 	{
@@ -435,10 +435,10 @@ class Request
 	}
 
 	/**
-	 * Determine if the request has all given headers.
+	 * Determines if the request has all given headers.
 	 *
 	 * @param  array $names  The variable name.
-	 * @return bool
+	 * @return bool          Returns true if all of the variables exists, false otherwise.
 	 */
 	public static function hasAllHeaders(array $names) : bool
 	{
@@ -452,9 +452,9 @@ class Request
 	}
 
 	/**
-	 * Determine if we are using a secure (SSL) connection.
+	 * Determines if we are using a secure (SSL) connection.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if the connection is secure, false otherwise.
 	 */
 	public static function isSecure() : bool
 	{
@@ -475,7 +475,7 @@ class Request
 	/**
 	 * Returns whether this is a GET request.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if this is a GET request, false otherwise.
 	 */
 	public static function isGet() : bool
 	{
@@ -485,7 +485,7 @@ class Request
 	/**
 	 * Returns whether this is a OPTIONS request.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if this is a OPTIONS request, false otherwise.
 	 */
 	public static function isOptions() : bool
 	{
@@ -495,7 +495,7 @@ class Request
 	/**
 	 * Returns whether this is a HEAD request.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if this is a HEAD request, false otherwise.
 	 */
 	public static function isHead() : bool
 	{
@@ -505,7 +505,7 @@ class Request
 	/**
 	 * Returns whether this is a POST request.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if this is a POST request, false otherwise.
 	 */
 	public static function isPost() : bool
 	{
@@ -515,7 +515,7 @@ class Request
 	/**
 	 * Returns whether this is a DELETE request.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if this is a DELETE request, false otherwise.
 	 */
 	public static function isDelete() : bool
 	{
@@ -525,7 +525,7 @@ class Request
 	/**
 	 * Returns whether this is a PUT request.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if this is a PUT request, false otherwise.
 	 */
 	public static function isPut() : bool
 	{
@@ -535,7 +535,7 @@ class Request
 	/**
 	 * Returns whether this is a PATCH request.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if this is a PATCH request, false otherwise.
 	 */
 	public static function isPatch() : bool
 	{
@@ -545,7 +545,7 @@ class Request
 	/**
 	 * Returns whether this is an AJAX (XMLHttpRequest) request.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if this is an AJAX request, false otherwise.
 	 */
 	public static function isAjax() : bool
 	{
@@ -563,7 +563,7 @@ class Request
 	/**
 	 * Returns whether this is an PJAX request.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if this is an PJAX request, false otherwise.
 	 */
 	public static function isPjax() : bool
 	{
@@ -581,7 +581,7 @@ class Request
 	/**
 	 * Checks if the current request was sent via the command line.
 	 *
-	 * @return bool
+	 * @return bool  Returns true if this is a CLI request, false otherwise.
 	 */
 	public static function isCli() : bool
 	{
@@ -589,9 +589,9 @@ class Request
 	}
 
 	/**
-	 * Redirect to another location if this is not a GET request.
+	 * Redirects to another location if this is not a GET request.
 	 *
-	 * @param  string|null $redirect
+	 * @param  string|null $redirect  The URL to redirect to if this is not a GET request.
 	 * @return void
 	 */
 	public static function ensureIsGet(string $redirect = null) : void
@@ -606,9 +606,9 @@ class Request
 	}
 
 	/**
-	 * Redirect to another location if this is not a OPTIONS request.
+	 * Redirects to another location if this is not a OPTIONS request.
 	 *
-	 * @param  string|null $redirect
+	 * @param  string|null $redirect  The URL to redirect to if this is not a OPTIONS request.
 	 * @return void
 	 */
 	public static function ensureIsOptions(string $redirect = null) : void
@@ -623,9 +623,9 @@ class Request
 	}
 
 	/**
-	 * Redirect to another location if this is not a HEAD request.
+	 * Redirects to another location if this is not a HEAD request.
 	 *
-	 * @param  string|null $redirect
+	 * @param  string|null $redirect  The URL to redirect to if this is not a HEAD request.
 	 * @return void
 	 */
 	public static function ensureIsHead(string $redirect = null) : void
@@ -640,9 +640,9 @@ class Request
 	}
 
 	/**
-	 * Redirect to another location if this is not a POST request.
+	 * Redirects to another location if this is not a POST request.
 	 *
-	 * @param  string|null $redirect
+	 * @param  string|null $redirect  The URL to redirect to if this is not a POST request.
 	 * @return void
 	 */
 	public static function ensureIsPost(string $redirect = null) : void
@@ -657,9 +657,9 @@ class Request
 	}
 
 	/**
-	 * Redirect to another location if this is not a DELETE request.
+	 * Redirects to another location if this is not a DELETE request.
 	 *
-	 * @param  string|null $redirect
+	 * @param  string|null $redirect  The URL to redirect to if this is not a DELETE request.
 	 * @return void
 	 */
 	public static function ensureIsDelete(string $redirect = null) : void
@@ -674,9 +674,9 @@ class Request
 	}
 
 	/**
-	 * Redirect to another location if this is not a PUT request.
+	 * Redirects to another location if this is not a PUT request.
 	 *
-	 * @param  string|null $redirect
+	 * @param  string|null $redirect  The URL to redirect to if this is not a PUT request.
 	 * @return void
 	 */
 	public static function ensureIsPut(string $redirect = null) : void
@@ -691,9 +691,9 @@ class Request
 	}
 
 	/**
-	 * Redirect to another location if this is not a PATCH request.
+	 * Redirects to another location if this is not a PATCH request.
 	 *
-	 * @param  string|null $redirect
+	 * @param  string|null $redirect  The URL to redirect to if this is not a PATCH request.
 	 * @return void
 	 */
 	public static function ensureIsPatch(string $redirect = null) : void
@@ -708,9 +708,9 @@ class Request
 	}
 
 	/**
-	 * Redirect to another location if this is not an AJAX (XMLHttpRequest) request.
+	 * Redirects to another location if this is not an AJAX (XMLHttpRequest) request.
 	 *
-	 * @param  string|null $redirect
+	 * @param  string|null $redirect  The URL to redirect to if this is not an AJAX request.
 	 * @return void
 	 */
 	public static function ensureIsAjax(string $redirect = null) : void
@@ -725,9 +725,9 @@ class Request
 	}
 
 	/**
-	 * Redirect to another location if this is not an PJAX request.
+	 * Redirects to another location if this is not an PJAX request.
 	 *
-	 * @param  string|null $redirect
+	 * @param  string|null $redirect  The URL to redirect to if this is not an PJAX request.
 	 * @return void
 	 */
 	public static function ensureIsPjax(string $redirect = null) : void
@@ -748,7 +748,7 @@ class Request
 	 * @param  string                             $method   Where the variable should come from (GET or POST).
 	 * @param  string|null                        $name     The variable name.
 	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
-	 * @return mixed
+	 * @return mixed                                        Returns the variable value.
 	 */
 	private static function _requestByMethod(string $method, string $name = null, $default = null)
 	{
