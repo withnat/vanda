@@ -36,6 +36,12 @@
 return [
 	'checked' => '<i class="fa fa-check text-navy"></i>',
 	'unchcked' => '<i class="fa fa-check text-muted"></i>',
+	'closeFlashSuccessMessageWrapperClass' => 'alert alert-success alert-dismissable',
+	'closeFlashSuccessMessageButtonClass' => 'close',
+	'closeFlashDangerMessageWrapperClass' => 'alert alert-danger alert-dismissable',
+	'closeFlashDangerMessageButtonClass' => 'close',
+	'closeFlashWarningMessageWrapperClass' => 'alert alert-warning alert-dismissable',
+	'closeFlashWarningMessageButtonClass' => 'close',
 	'assets' => [
 		'upload' => [
 			'templates/backend/vanda/bootstrap-fileinput-master/css/fileinput.min.css',
@@ -58,7 +64,7 @@ return [
 			'plugins/iCheck/icheck.min.js'
 		],
 		'clockpicker' => [
-			'plugins/clockpicker/clockpicker.css'
+			'plugins/clockpicker/clockpicker.css',
 			'plugins/clockpicker/clockpicker.js'
 		],
 		'colorpicker' => [
@@ -94,7 +100,7 @@ return [
 
 		'markdown' => [
 			'plugins/bootstrap-markdown/bootstrap-markdown.min.css',
-			'plugins/bootstrap-markdown/bootstrap-markdown.js'
+			'plugins/bootstrap-markdown/bootstrap-markdown.js',
 			'plugins/bootstrap-markdown/markdown.js'
 		],
 		'switcher' => [

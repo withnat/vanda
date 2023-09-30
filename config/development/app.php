@@ -38,5 +38,6 @@ return [
 	'defaultFrontendModule' => 'home',
 	'defaultBackendModule' => 'dashboard',
 	'env' => 'development',
-	'debug' => true
+	'debug' => true,
+	'timezone' => ''
 ];
