@@ -24,6 +24,9 @@ namespace System;
  */
 class Flash
 {
+	/**
+	 * Config constructor.
+	 */
 	private function __construct(){}
 
 	/**
