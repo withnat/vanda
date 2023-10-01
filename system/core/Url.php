@@ -177,7 +177,7 @@ class Url
 			if (static::$_port)
 				$url .= ':' . static::$_port;
 			
-			if ($path and substr($path, 0, 1) != '/')
+			if ($path and substr($path, 0, 1) !== '/')
 				$path = '/' . $path;
 
 			if ((int)Setting::get('sef'))
@@ -204,7 +204,7 @@ class Url
 
 		if (static::$_query)
 		{
-			if (substr(static::$_query, 0, 1) != '?')
+			if (substr(static::$_query, 0, 1) !== '?')
 				$url .= '?';
 
 			$url .= static::$_query;
@@ -212,7 +212,7 @@ class Url
 
 		if (static::$_fragment)
 		{
-			if (substr(static::$_fragment, 0, 1) != '#')
+			if (substr(static::$_fragment, 0, 1) !== '#')
 				$url .= '#';
 
 			$url .= static::$_fragment;
