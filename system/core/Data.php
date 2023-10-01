@@ -77,20 +77,15 @@ class Data
 
 		foreach ($keys as $key)
 		{
-			if (is_object($data))
-			{
-				if (isset($data->{$key}))
-					$data = $data->{$key};
-				else
-					$data = $default;
-			}
-			elseif (is_array($data))
+			if (is_array($data))
 			{
 				if (array_key_exists($key, $data))
 					$data = $data[$key];
 				else
 					$data = $default;
 			}
+			elseif (is_object($data))
+				$data = $data->{$key} ?? $default;
 			else
 				$data = $default;
 		}
@@ -154,7 +149,7 @@ class Data
 				$dataPointer .= "->{'$key'}";
 				$var4If = '';
 
-				// Use @ to prevent error in case of key does not exists.
+				// Use @ to prevent error in case of key does not exist.
 				$syntax = '$var4If = @' . $dataPointer . ';';
 				eval($syntax);
 
@@ -253,8 +248,8 @@ class Data
 	/**
 	 * Converts a value to array type.
 	 *
-	 * If the given value is a string and it is in the form (a,b,c) then an array
-	 * consisting of each of the elements will be returned. If the given value is a string
+	 * If the given value is a string, and it is in the form (a,b,c) then an array
+	 * consisting of each of the elements will be returned. If the given value is a string,
 	 * and it is not in this form then an array consisting of just the string will be returned,
 	 * if the given string is empty then an empty array will be returned.
 	 *
