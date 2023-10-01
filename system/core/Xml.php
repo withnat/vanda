@@ -42,7 +42,7 @@ class Xml
 	 * @param  string $tab      Optionally, tab character. Default to \t
 	 * @return string           Returns the well-formed XML document.
 	 */
-	public static function fromDataset(array  $dataset, string $root = 'root', string $element = 'element', string $newline = "\n", $tab = "\t") : string
+	public static function fromDataset(array  $dataset, string $root = 'root', string $element = 'element', string $newline = "\n", string $tab = "\t") : string
 	{
 		if (!Arr::isDataset($dataset))
 			throw InvalidArgumentException::typeError(1, ['dataset'], $dataset);
@@ -63,7 +63,7 @@ class Xml
 	 * @param  string $tab        Optionally, tab character. Default to \t
 	 * @return string             Returns the well-formed XML document.
 	 */
-	public static function fromRecordset(array  $recordset, string $root = 'root', string $element = 'element', string $newline = "\n", $tab = "\t") : string
+	public static function fromRecordset(array  $recordset, string $root = 'root', string $element = 'element', string $newline = "\n", string $tab = "\t") : string
 	{
 		if (!Arr::isRecordset($recordset))
 			throw InvalidArgumentException::typeError(1, ['recordset'], $recordset);
@@ -127,13 +127,19 @@ class Xml
 
 	/**
 	 * Converts the given XML string to recordset (array of objects).
+	 * This method is an alias of Xml::toObject().
 	 *
-	 * @param  string $xml   The well-formed XML string.
-	 * @return object|array  Returns recordset (array of objects), or false on failure.
+	 * @param  string $xml  The well-formed XML string.
+	 * @return array|false  Returns recordset (array of objects), or false on failure.
 	 */
 	public static function toRecordset(string $xml)
 	{
-		$recordset = static::toObject($xml);
+		$object = static::toObject($xml);
+
+		if ($object === false)
+			return false;
+
+		$recordset = (array)$object;
 
 		return $recordset;
 	}
