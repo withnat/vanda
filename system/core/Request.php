@@ -20,7 +20,7 @@ use System\Exception\InvalidArgumentException;
  * Class Request
  *
  * The Request class represents an HTTP request. It encapsulates the $_SERVER
- * variable and resolves its inconsistency among different Web servers. Also
+ * variable and resolves its inconsistency among different Web servers. Also,
  * it provides an interface to retrieve request parameters from $_POST, $_GET
  * and REST parameters sent via other HTTP methods like PUT or DELETE.
  *
@@ -77,7 +77,7 @@ class Request
 	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
 	 * @return mixed                                        Returns the variable value.
 	 */
-	public static function get(string $name = null, $default = null)
+	public static function get(?string $name = null, $default = null)
 	{
 		if (is_resource($default))
 			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'array', 'object', 'null'], $default);
@@ -92,7 +92,7 @@ class Request
 	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
 	 * @return mixed                                        Returns the variable value.
 	 */
-	public static function post(string $name = null, $default = null)
+	public static function post(?string $name = null, $default = null)
 	{
 		if (is_resource($default))
 			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'array', 'object', 'null'], $default);
@@ -392,7 +392,7 @@ class Request
 	 * @param  string|null $default  Default value if the variable does not exist.
 	 * @return string|null           Returns the variable value.
 	 */
-	public static function header(string $name, string $default = null) : ?string
+	public static function header(?string $name, ?string $default = null) : ?string
 	{
 		foreach (static::allHeaders() as $key => $value)
 		{
@@ -438,7 +438,7 @@ class Request
 	 * Determines if the request has all given headers.
 	 *
 	 * @param  array $names  The variable name.
-	 * @return bool          Returns true if all of the variables exists, false otherwise.
+	 * @return bool          Returns true if all the variables exists, false otherwise.
 	 */
 	public static function hasAllHeaders(array $names) : bool
 	{
@@ -594,7 +594,7 @@ class Request
 	 * @param  string|null $redirect  The URL to redirect to if this is not a GET request.
 	 * @return void
 	 */
-	public static function ensureIsGet(string $redirect = null) : void
+	public static function ensureIsGet(?string $redirect = null) : void
 	{
 		if (!static::isGet())
 		{
@@ -611,7 +611,7 @@ class Request
 	 * @param  string|null $redirect  The URL to redirect to if this is not a OPTIONS request.
 	 * @return void
 	 */
-	public static function ensureIsOptions(string $redirect = null) : void
+	public static function ensureIsOptions(?string $redirect = null) : void
 	{
 		if (!static::isOptions())
 		{
@@ -628,7 +628,7 @@ class Request
 	 * @param  string|null $redirect  The URL to redirect to if this is not a HEAD request.
 	 * @return void
 	 */
-	public static function ensureIsHead(string $redirect = null) : void
+	public static function ensureIsHead(?string $redirect = null) : void
 	{
 		if (!static::isHead())
 		{
@@ -645,7 +645,7 @@ class Request
 	 * @param  string|null $redirect  The URL to redirect to if this is not a POST request.
 	 * @return void
 	 */
-	public static function ensureIsPost(string $redirect = null) : void
+	public static function ensureIsPost(?string $redirect = null) : void
 	{
 		if (!static::isPost())
 		{
@@ -662,7 +662,7 @@ class Request
 	 * @param  string|null $redirect  The URL to redirect to if this is not a DELETE request.
 	 * @return void
 	 */
-	public static function ensureIsDelete(string $redirect = null) : void
+	public static function ensureIsDelete(?string $redirect = null) : void
 	{
 		if (!static::isDelete())
 		{
@@ -679,7 +679,7 @@ class Request
 	 * @param  string|null $redirect  The URL to redirect to if this is not a PUT request.
 	 * @return void
 	 */
-	public static function ensureIsPut(string $redirect = null) : void
+	public static function ensureIsPut(?string $redirect = null) : void
 	{
 		if (!static::isPut())
 		{
@@ -696,7 +696,7 @@ class Request
 	 * @param  string|null $redirect  The URL to redirect to if this is not a PATCH request.
 	 * @return void
 	 */
-	public static function ensureIsPatch(string $redirect = null) : void
+	public static function ensureIsPatch(?string $redirect = null) : void
 	{
 		if (!static::isPatch())
 		{
@@ -713,7 +713,7 @@ class Request
 	 * @param  string|null $redirect  The URL to redirect to if this is not an AJAX request.
 	 * @return void
 	 */
-	public static function ensureIsAjax(string $redirect = null) : void
+	public static function ensureIsAjax(?string $redirect = null) : void
 	{
 		if (!static::isAjax())
 		{
@@ -730,7 +730,7 @@ class Request
 	 * @param  string|null $redirect  The URL to redirect to if this is not an PJAX request.
 	 * @return void
 	 */
-	public static function ensureIsPjax(string $redirect = null) : void
+	public static function ensureIsPjax(?string $redirect = null) : void
 	{
 		if (!static::isPjax())
 		{
@@ -750,7 +750,7 @@ class Request
 	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
 	 * @return mixed                                        Returns the variable value.
 	 */
-	private static function _requestByMethod(string $method, string $name = null, $default = null)
+	private static function _requestByMethod(string $method, ?string $name = null, $default = null)
 	{
 		if (is_null(static::${'_' . $method . 'Values'}))
 		{
