@@ -77,7 +77,7 @@ class Csv
 	 * @param  string $delimiter  Optionally, delimiter. Defaults to , (comma).
 	 * @param  string $newline    Optionally, new line character. Defaults to \n
 	 * @param  string $enclosure  Optionally, enclosure. Defaults to " (double quote).
-	 * @return array
+	 * @return array              Returns an array.
 	 */
 	public static function toArray(string $csv, string $delimiter = ',', string $newline = "\n", string $enclosure = '"') : array
 	{
