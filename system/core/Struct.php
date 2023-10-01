@@ -40,7 +40,7 @@ class Struct
 	/**
 	 * Defines a new struct object, a blueprint object with only empty properties.
 	 *
-	 * @return Struct
+	 * @return Struct  Returns a new struct object.
 	 */
 	public static function factory() : Struct
 	{
@@ -55,7 +55,7 @@ class Struct
 	/**
 	 * Creates a new variable of the struct type $this.
 	 *
-	 * @return Struct
+	 * @return Struct  Returns a new struct object.
 	 */
 	public function create() : Struct
 	{
