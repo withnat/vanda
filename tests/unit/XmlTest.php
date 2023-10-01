@@ -213,6 +213,10 @@ class XmlTest extends TestCase
 
 		$result = Xml::toObject(static::$xml);
 
+		$this->assertIsObject($result);
+		$this->assertIsArray($result->element);
+		$this->assertIsObject($result->element[0]);
+
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
 		$result = (array)$result;
@@ -275,6 +279,10 @@ class XmlTest extends TestCase
 		];
 
 		$result = Xml::toRecordset(static::$xml);
+
+		$this->assertIsArray($result);
+		$this->assertIsArray($result['element']);
+		$this->assertIsObject($result['element'][0]);
 
 		// Compare in array mode to ensure $expected and $result are
 		// same key/value pairs in the same order and of the same types.
