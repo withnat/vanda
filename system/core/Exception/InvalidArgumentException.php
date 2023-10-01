@@ -44,7 +44,7 @@ class InvalidArgumentException extends \InvalidArgumentException
 	 * @param  string|null $customMsg
 	 * @return InvalidArgumentException
 	 */
-	public static function typeError(int $argument, array $allowedDataTypes = null, $value = null, string $customMsg = null) : InvalidArgumentException
+	public static function typeError(int $argument, ?array $allowedDataTypes = null, $value = null, ?string $customMsg = null) : InvalidArgumentException
 	{
 		$trace = debug_backtrace(0);
 
