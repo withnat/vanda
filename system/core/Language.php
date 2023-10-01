@@ -39,7 +39,7 @@ class Language
 	 *                           If null, the default language string will be returned.
 	 * @return string            Returns the language string.
 	 */
-	public static function _(string $string, int $langId = null) : string
+	public static function _(string $string, ?int $langId = null) : string
 	{
 		if (!isset(static::$_strings[$langId]))
 			static::_loadLanguage($langId);
@@ -60,7 +60,7 @@ class Language
 	 * @return string            Returns the language code.
 	 * @codeCoverageIgnore
 	 */
-	public static function code(int $langId = null) : string
+	public static function code(?int $langId = null) : string
 	{
 		if (!static::$_code)
 			static::_loadLanguage($langId);
