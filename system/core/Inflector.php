@@ -184,7 +184,7 @@ class Inflector
 	 * Converts the given word to CamelCased.
 	 *
 	 * Converts a word like "some_day" or "some day" to "SomeDay". It
-	 * will remove non alphanumeric characters from the word, so
+	 * will remove non-alphanumeric characters from the word, so
 	 * "She's hot" will be converted to "SheSHot".
 	 *
 	 * @param  string $string  The input string to convert to camel case.
@@ -202,7 +202,7 @@ class Inflector
 	}
 
 	/**
-	 * Converts any "CamelCased" or "vanda framework" to an "vanda_framework".
+	 * Converts any "CamelCased" or "vanda framework" to a "vanda_framework".
 	 *
 	 * @param  string $string  The input word to underscore.
 	 * @return string          Returns the underscored word.
@@ -437,13 +437,13 @@ class Inflector
 	 * // The $result will be: Nat, Angela & Vanda
 	 * ```
 	 *
-	 * @param  array       $words              The input words to be converted into an string.
+	 * @param  array       $words              The input words to be converted into a string.
 	 * @param  string|null $lastWordConnector  Optionally, the string connecting the last two words. Defaults to null.
 	 * @param  string      $connector          Optionally, the string connecting words other than those connected by
 	 *                                         $lastWordConnector. Default to ', '.
 	 * @return string                          Returns the generated sentence.
 	 */
-	public static function sentence(array $words, string $lastWordConnector = null, string $connector = ', ') : string
+	public static function sentence(array $words, ?string $lastWordConnector = null, string $connector = ', ') : string
 	{
 		if (!$lastWordConnector)
 			$lastWordConnector = ' and ';
