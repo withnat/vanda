@@ -23,7 +23,7 @@ use System\Exception\InvalidArgumentException;
 /**
  * Class Arr
  *
- * Additionally to the rich set of built-in PHP array functions, the Vanda array helper
+ * In addition to the rich set of built-in PHP array functions, the Vanda array helper
  * provides extra static methods allowing you to deal with arrays more efficiently.
  *
  * @package System
@@ -73,13 +73,15 @@ class Arr
 			$arrayPointer .= static::formatKeySyntax($key);
 			$var4If = '';
 
-			// use @ to prevent error in case of key does not exists.
+			// Use @ to prevent error in case of key does not exist.
 			$syntax = '$var4If = @' . $arrayPointer . ';';
+
 			eval($syntax);
 
 			if (!is_array($var4If))
 			{
 				$arrayAssigner = $arrayPointer . ' = [];';
+
 				eval($arrayAssigner);
 			}
 		}
@@ -91,6 +93,7 @@ class Arr
 		}
 
 		$arrayAssigner = $arrayPointer . ' = \'' . $value . '\';';
+
 		eval($arrayAssigner);
 
 		return $array;
@@ -152,9 +155,9 @@ class Arr
 	 * // The $result will be: name
 	 * ```
 	 *
-	 * @param  array $array  The input array.
-	 * @param  mixed $value  The searched value.
-	 * @return mixed         Returns the key for needle if it is found in the given array, null otherwise.
+	 * @param  array $array           The input array.
+	 * @param  mixed $value           The searched value.
+	 * @return string|int|null  Returns the key for needle if it is found in the given array, null otherwise.
 	 */
 	public static function getKey(array $array, $value)
 	{
@@ -197,7 +200,7 @@ class Arr
 	 * @return mixed             Returns the first $length elements from the given array if the given array is not
 	 *                           empty, null otherwise.
 	 */
-	public static function first(array $array, int $length = null)
+	public static function first(array $array, ?int $length = null)
 	{
 		if ($length < 0)
 			throw InvalidArgumentException::valueError(2, '$length must be greater than zero', $length);
@@ -246,7 +249,7 @@ class Arr
 	 * @return mixed             Returns the last $length elements from the given array if the given array is not empty,
 	 *                           null otherwise.
 	 */
-	public static function last(array $array, int $length = null)
+	public static function last(array $array, ?int $length = null)
 	{
 		if ($length < 0)
 			throw InvalidArgumentException::valueError(2, '$length must be greater than zero', $length);
@@ -291,14 +294,14 @@ class Arr
 	 * // )
 	 * ```
 	 *
-	 * @param  array    $array   The input array.
-	 * @param  int|null $length  Optionally, the number of keys to return. If $length is 1, returns the first key from
-	 *                           the given array. If $length is greater than 1, returns an array contains the first
-	 *                           $length keys. Defaults to null.
-	 * @return mixed             Returns the first $length key from the given array if the given array is not empty,
-	 *                           null otherwise.
+	 * @param  array    $array        The input array.
+	 * @param  int|null $length       Optionally, the number of keys to return. If $length is 1, returns the first key from
+	 *                                the given array. If $length is greater than 1, returns an array contains the first
+	 *                                $length keys. Defaults to null.
+	 * @return string|int|array|null  Returns the first $length key from the given array if the given array is not empty,
+	 *                                null otherwise.
 	 */
-	public static function firstKey(array $array, int $length = null)
+	public static function firstKey(array $array, ?int $length = null)
 	{
 		if (is_int($length) and $length < 1)
 			throw InvalidArgumentException::valueError(2, '$length must be greater than zero', $length);
@@ -377,14 +380,14 @@ class Arr
 	 * // )
 	 * ```
 	 *
-	 * @param  array    $array   The input array.
-	 * @param  int|null $length  Optionally, the number of keys to return. If $length is 1, returns the last key from
-	 *                           the given array. If $length is greater than 1, returns an array contains the last
-	 *                           $length keys. Defaults to null.
-	 * @return mixed             Returns the last $length key from the given array if the given array is not empty, null
-	 *                           otherwise.
+	 * @param  array    $array        The input array.
+	 * @param  int|null $length       Optionally, the number of keys to return. If $length is 1, returns the last key from
+	 *                                the given array. If $length is greater than 1, returns an array contains the last
+	 *                                $length keys. Defaults to null.
+	 * @return string|int|array|null  Returns the last $length key from the given array if the given array is not empty, null
+	 *                                otherwise.
 	 */
-	public static function lastKey(array $array, int $length = null)
+	public static function lastKey(array $array, ?int $length = null)
 	{
 		if (is_int($length) and $length < 1)
 			throw InvalidArgumentException::valueError(2, '$length must be greater than zero', $length);
@@ -488,6 +491,7 @@ class Arr
 				{
 					$key = static::formatKeySyntax($key);
 					$syntax = '$result' . $key . ' = $array' . $key . ';';
+
 					eval($syntax);
 				}
 			}
@@ -570,17 +574,14 @@ class Arr
 				$key = static::formatKeySyntax($key);
 
 				if (is_array($result))
-				{
 					$syntax = '$result' . $key . ' = $array' . $key . ';';
-					eval($syntax);
-				}
 				else
-				{
 					$syntax = '$result = $array' . $key . ';';
-					eval($syntax);
-				}
+
+				eval($syntax);
 
 				$syntax = 'unset($array' . $key . ');';
+
 				eval($syntax);
 			}
 		}
@@ -669,23 +670,16 @@ class Arr
 		foreach ($data as $row)
 		{
 			$row = static::toArray($row);
-
 			$syntax = '$value = $row' . $columnKey . ';';
+
 			eval($syntax);
 
 			if ($indexKey)
-			{
-				$syntax = '$key = $row' . $indexKey . ';';
-				eval($syntax);
-
-				$syntax = '$result[$key] = $value;';
-				eval($syntax);
-			}
+				$syntax = '$key = $row' . $indexKey . '; $result[$key] = $value;';
 			else
-			{
 				$syntax = '$result[] = $value;';
-				eval($syntax);
-			}
+
+			eval($syntax);
 		}
 
 		return $result;
@@ -796,7 +790,7 @@ class Arr
 	}
 
 	/**
-	 * Returns all of the given array except for a specified value.
+	 * Returns all the given array except for a specified value.
 	 *
 	 * For example,
 	 *
@@ -817,9 +811,9 @@ class Arr
 	 *
 	 * @param  array $array          An array to remove an element by value.
 	 * @param  mixed $value          The value to remove.
-	 * @param  bool  $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool  $caseSensitive  Optionally, whether to enforce case-sensitivity or not. Defaults to true.
 	 * @param  bool  $recursive      Optionally, true to recurve through multi-level arrays. Defaults to true.
-	 * @return array                 Returns all of the given array except for the specified value.
+	 * @return array                 Returns all the given array except for the specified value.
 	 */
 	public static function remove(array $array, $value, bool $caseSensitive = true, bool $recursive = true) : array
 	{
@@ -860,7 +854,7 @@ class Arr
 	}
 
 	/**
-	 * Returns all of the given array except for a specified key/index.
+	 * Returns all the given array except for a specified key/index.
 	 *
 	 * For example,
 	 *
@@ -882,7 +876,7 @@ class Arr
 	 * @param  array            $array      An array to remove an element by key.
 	 * @param  string|int|array $keys       The key name or index to remove.
 	 * @param  bool             $recursive  Optionally, true to recurve through multi-level arrays. Defaults to true.
-	 * @return array                        Returns all of the given array except for the specified key.
+	 * @return array                        Returns all the given array except for the specified key.
 	 */
 	public static function removeKey(array $array, $keys, bool $recursive = true) : array
 	{
@@ -919,7 +913,7 @@ class Arr
 	}
 
 	/**
-	 * Returns all of the given array except for a specified data type.
+	 * Returns all the given array except for a specified data type.
 	 *
 	 * For example,
 	 *
@@ -942,7 +936,7 @@ class Arr
 	 * @param  array        $array      An array to remove an element by data type.
 	 * @param  string|array $dataTypes  The data type to remove.
 	 * @param  bool         $recursive  Optionally, true to recurve through multi-level arrays. Defaults to true.
-	 * @return array                    Returns all of the given array except for the specified data type.
+	 * @return array                    Returns all the given array except for the specified data type.
 	 */
 	public static function removeType(array $array, $dataTypes, bool $recursive = true) : array
 	{
@@ -989,7 +983,7 @@ class Arr
 	}
 
 	/**
-	 * Returns all of the given array except for an elment contains only whitespace characters.
+	 * Returns all the given array except for an elment contains only whitespace characters.
 	 *
 	 * For example,
 	 *
@@ -1010,7 +1004,7 @@ class Arr
 	 *
 	 * @param  array $array      An array to remove an element by blank value.
 	 * @param  bool  $recursive  Optionally, true to recurve through multi-level arrays. Defaults to true.
-	 * @return array             Returns all of the given array except for an elment contains only whitespace
+	 * @return array             Returns all the given array except for an elment contains only whitespace
 	 *                           characters.
 	 */
 	public static function removeBlank(array $array, bool $recursive = true) : array
@@ -1091,7 +1085,7 @@ class Arr
 				foreach ($keys as $key)
 					unset($array[$i]->{$key});
 			}
-			else
+			else  // array
 			{
 				foreach ($keys as $key)
 					unset($array[$i][$key]);
@@ -1150,7 +1144,7 @@ class Arr
 	 * @param  string|null $group
 	 * @return array
 	 */
-	public static function map(array $data, string $from, string $to, string $group = null) : array
+	public static function map(array $data, string $from, string $to, ?string $group = null) : array
 	{
 		if (!static::isDataset($data) and !static::isRecordset($data))
 			throw InvalidArgumentException::typeError(1, ['dataset', 'recordset'], $data);
@@ -1204,7 +1198,7 @@ class Arr
 	 *                             will be generated automatically. Defaults to null.
 	 * @return array               Returns the given array with the specified value.
 	 */
-	public static function insert(array $array, $value, string $key = null) : array
+	public static function insert(array $array, $value, ?string $key = null) : array
 	{
 		if (is_null($key))
 			array_unshift($array, $value);
@@ -1235,7 +1229,7 @@ class Arr
 	 *
 	 * @param  array $array          The array to search.
 	 * @param  mixed $search         The searched value.
-	 * @param  bool  $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool  $caseSensitive  Optionally, whether to enforce case-sensitivity or not. Defaults to true.
 	 * @return bool                  Returns true if the searched value is found in the given array, false otherwise.
 	 */
 	public static function has(array $array, $search, bool $caseSensitive = true) : bool
@@ -1288,7 +1282,7 @@ class Arr
 	 *
 	 * @param  array $array          The array to search.
 	 * @param  array $searches       The searched values.
-	 * @param  bool  $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param  bool  $caseSensitive  Optionally, whether to enforce case-sensitivity or not. Defaults to true.
 	 * @return bool                  Returns true if any searched value is found in the given array, false otherwise.
 	 */
 	public static function hasAny(array $array, array $searches, bool $caseSensitive = true) : bool
@@ -1323,7 +1317,7 @@ class Arr
 	 *
 	 * @param array $array          The array to search.
 	 * @param array $searches       The searched values.
-	 * @param bool  $caseSensitive  Optionally, whether or not to enforce case-sensitivity. Defaults to true.
+	 * @param bool  $caseSensitive  Optionally, whether to enforce case-sensitivity or not. Defaults to true.
 	 * @return bool                 Returns true if all searched values are found in the given array, false otherwise.
 	 */
 	public static function hasAll(array $array, array $searches, bool $caseSensitive = true) : bool
@@ -1398,17 +1392,16 @@ class Arr
 
 			$searchedKey = substr($key, 0, $pos);
 			$searchedKey = static::formatKeySyntax($searchedKey);
-
 			$exist = false;
-
 			$syntax = '$exist = isset($array' . $searchedKey . ');';
+
 			eval($syntax);
 
 			if ($exist)
 			{
 				$value = '';
-
 				$syntax = '$value = $array' . $searchedKey . ';';
+
 				eval($syntax);
 
 				if (is_array($value))
@@ -2128,7 +2121,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  string $string  The input string.
-	 * @return array           The the array parsed from the given string.
+	 * @return array           The array parsed from the given string.
 	 */
 	public static function fromString(string $string) : array
 	{
@@ -2299,7 +2292,7 @@ class Arr
 	 * @param  string                $innerGlue       Optionally, the separator between the key and the value. Defaults
 	 *                                                to '='.
 	 * @param  string                $outerGlue       Optionally, the separator between array elements. Defaults to ' '.
-	 * @param  string                $valueDelimiter  Optionally, the value delimiter. Defaults to ".
+	 * @param  string                $valueDelimiter  Optionally, the value delimiter. Defaults to '"'.
 	 * @param  bool                  $recursive       Optionally, true to recurve through multi-level arrays. Defaults
 	 *                                                to true.
 	 * @param  string|int|array|null $keys            Optionally, only be used in top level elements. Defaults to null.
@@ -2598,7 +2591,7 @@ class Arr
 	 * @return array             Returns the slice. If the offset is larger than the size of the given array, an empty
 	 *                           array is returned.
 	 */
-	public static function slice(array $array, int $start, int $length = null) : array
+	public static function slice(array $array, int $start, ?int $length = null) : array
 	{
 		return array_slice($array, $start, $length, true); // 'preserve_keys' parameter defaults to true.
 	}
