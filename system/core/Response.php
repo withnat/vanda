@@ -239,7 +239,7 @@ class Response
 	}
 
 	/**
-	 * Sets a header and it's value to the queue. If the replacement flag is set
+	 * Sets a header, and it's value to the queue. If the replacement flag is set
 	 * then all headers with the given name will be replaced by the new one.
 	 *
 	 * Duplicate HTTP response headers are acceptable.
@@ -395,7 +395,7 @@ class Response
 	 * @param  int         $statusCode  The type of redirection, defaults to 303.
 	 * @return void
 	 */
-	public static function redirect(string $url = null, int $statusCode = 303) : void
+	public static function redirect(?string $url = null, int $statusCode = 303) : void
 	{
 		if (!array_key_exists($statusCode, static::$_statuses))
 			throw InvalidArgumentException::valueError(2, '$statusCode is not a valid HTTP return status code', $statusCode);
