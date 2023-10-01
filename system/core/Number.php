@@ -22,7 +22,7 @@ use System\Exception\InvalidArgumentException;
  * The Number Class handles various operations and manipulations related to
  * numeric values. It includes functionalities to format byte sizes, determine
  * appropriate size units for file sizes, convert file sizes between different
- * units, and check if a number falls within a specified range.
+ * units, and check if a number of falls within a specified range.
  *
  * @package System
  */
@@ -40,7 +40,7 @@ class Number
 	 * @param  string|null $unit     Optionally, specifies the unit. Defaults to null (auto).
 	 * @return string                Returns a formatted string representing the given bytes in more human-readable form.
 	 */
-	public static function byteFormat(int $size, int $decimal = 1, string $unit = null) : string
+	public static function byteFormat(int $size, int $decimal = 1, ?string $unit = null) : string
 	{
 		// Trim first
 		if ($unit)
@@ -54,7 +54,7 @@ class Number
 		$size = number_format($size, $decimal);
 
 		// Remove trailing zero after decimal point
-		// and keep thousand separator (comma).
+		// and keep a thousand separator (comma).
 
 		// e.g., 140,176.0 becomes 140,176.
 		$size = rtrim($size, '0');
