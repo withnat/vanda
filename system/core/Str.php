@@ -2864,14 +2864,14 @@ class Str
 			$array = explode($separator, $string);
 			$array = array_map('trim', $array);
 
-			if (is_int($limit) and $limit != 0)
+			if (is_int($limit))
 			{
 				if ($limit < 0)
 					$output = Arr::last($array, abs($limit));
-				else // > 0
+				elseif ($limit > 0)
 					$output = Arr::first($array, $limit);
 			}
-			else // null or 0
+			else // null
 				$output = $array;
 		}
 		else
