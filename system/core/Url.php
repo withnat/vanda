@@ -49,7 +49,7 @@ class Url
 	 *                            the security configuration file.
 	 * @return string             Returns the base URL.
 	 */
-	public static function base(bool $secure = null) : string
+	public static function base(?bool $secure = null) : string
 	{
 		if (!static::$_baseUrl)
 			static::$_baseUrl = Request::host() . Request::basePath();
@@ -100,7 +100,7 @@ class Url
 	 * @return string           Returns the current URL.
 	 * @codeCoverageIgnore
 	 */
-	public static function uri(string $url = null) : string
+	public static function uri(?string $url = null) : string
 	{
 		if (is_null($url))
 			$uri = Request::uri();
@@ -117,7 +117,7 @@ class Url
 	 * @return string           Returns query string, null if not available.
 	 * @codeCoverageIgnore
 	 */
-	public static function queryString(string $url = null) : ?string
+	public static function queryString(?string $url = null) : ?string
 	{
 		return static::getQueryString($url);
 	}
@@ -147,7 +147,7 @@ class Url
 	 *                              the security configuration file.
 	 * @return string               Returns the full URL.
 	 */
-	public static function create(string $path = null, bool $secure = null) : string
+	public static function create(?string $path = null, ?bool $secure = null) : string
 	{
 		if (is_null($path))
 			$path = static::$_path;
@@ -180,7 +180,7 @@ class Url
 			if ($path and substr($path, 0, 1) != '/')
 				$path = '/' . $path;
 
-			if ((int)\Setting::get('sef'))
+			if ((int)Setting::get('sef'))
 				$prefix = '';
 			else
 				$prefix = '/index.php';
@@ -195,7 +195,7 @@ class Url
 			}
 			else
 			{
-				$backendpath = \Setting::get('backendpath', '/admin');
+				$backendpath = Setting::get('backendpath', '/admin');
 				$url .= $prefix . $backendpath . $path;
 			}
 		}
@@ -287,7 +287,7 @@ class Url
 	}
 
 	/**
-	 * Generate a uri fragment with a hash mark (#)for singgle-page application mode.
+	 * Generate an uri fragment with a hash mark (#)for singgle-page application mode.
 	 *
 	 * @param  string $uri  The uri to be hashed.
 	 * @return string       Returns the uri fragment.
@@ -311,7 +311,7 @@ class Url
 	 * @param  string|null $url  The URL to be converted.
 	 * @return string            Returns the context string.
 	 */
-	public static function toContext(string $url = null) : string
+	public static function toContext(?string $url = null) : string
 	{
 		if (!$url)
 		{
@@ -397,7 +397,7 @@ class Url
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns scheme value.
 	 */
-	public static function getScheme(string $url = null) : ?string
+	public static function getScheme(?string $url = null) : ?string
 	{
 		if ($url)
 		{
@@ -427,7 +427,7 @@ class Url
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns user value.
 	 */
-	public static function getUser(string $url = null) : ?string
+	public static function getUser(?string $url = null) : ?string
 	{
 		if ($url)
 		{
@@ -457,7 +457,7 @@ class Url
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns password value.
 	 */
-	public static function getPass(string $url = null) : ?string
+	public static function getPass(?string $url = null) : ?string
 	{
 		if ($url)
 		{
@@ -487,7 +487,7 @@ class Url
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns host value.
 	 */
-	public static function getHost(string $url = null) : ?string
+	public static function getHost(?string $url = null) : ?string
 	{
 		if ($url)
 		{
@@ -517,7 +517,7 @@ class Url
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return int|null          Returns port value.
 	 */
-	public static function getPort(string $url = null) : ?int
+	public static function getPort(?string $url = null) : ?int
 	{
 		if ($url)
 		{
@@ -547,7 +547,7 @@ class Url
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns path value.
 	 */
-	public static function getPath(string $url = null) : ?string
+	public static function getPath(?string $url = null) : ?string
 	{
 		if ($url)
 		{
@@ -580,7 +580,7 @@ class Url
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns query string.
 	 */
-	public static function getQueryString(string $url = null) : ?string
+	public static function getQueryString(?string $url = null) : ?string
 	{
 		if ($url)
 		{
@@ -611,7 +611,7 @@ class Url
 	 * @param  string|null $url  The URL to be parsed.
 	 * @return string|null       Returns fragment value.
 	 */
-	public static function getFragment(string $url = null) : ?string
+	public static function getFragment(?string $url = null) : ?string
 	{
 		if ($url)
 		{
