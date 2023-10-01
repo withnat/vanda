@@ -41,7 +41,7 @@ class Config
 	 * @param  string|null $default  Optionally, the default value if the config value is empty.
 	 * @return mixed                 Returns the config value.
 	 */
-	public static function get(string $key, string $default = null)
+	public static function get(string $key, ?string $default = null)
 	{
 		$keys = explode('.', $key);
 		$file = current($keys);
