@@ -44,7 +44,7 @@ class Html
 	 * @param  string|array|null $attribs  Attributes to be added to the '<a>' element. Defaults to null.
 	 * @return string                      Returns the generated '<a>' element.
 	 */
-	public static function link(string $url = null, string $text = null, $attribs = null) : string
+	public static function link(?string $url = null, ?string $text = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
@@ -81,7 +81,7 @@ class Html
 	 * @param  string|array|null $attribs  Attributes to be added to the '<a>' element. Defaults to null.
 	 * @return string                      Returns the generated '<a>' element.
 	 */
-	public static function linkUnlessCurrent(string $url = null, string $text = null, $attribs = null) : string
+	public static function linkUnlessCurrent(?string $url = null, ?string $text = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
@@ -106,7 +106,7 @@ class Html
 	 * @param  string|array|null $attribs  Attributes to be added to the '<a>' element. Defaults to null.
 	 * @return string                      Returns the generated mailto link.
 	 */
-	public static function mailto(string $email, string $text = null, $attribs = null) : string
+	public static function mailto(string $email, ?string $text = null, $attribs = null) : string
 	{
 		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
@@ -133,7 +133,7 @@ class Html
 	 * @param  string|array|null $attribs  Attributes to be added to the '<image>' element. Defaults to null.
 	 * @return string                      Returns the generated '<image>' element.
 	 */
-	public static function image(string $url, string $alt = null, $attribs = null) : string
+	public static function image(string $url, ?string $alt = null, $attribs = null) : string
 	{
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
@@ -577,7 +577,7 @@ class Html
 	 * @param  string|null $html        The HTML to be extracted.
 	 * @return string                   Returns the value of the given attribute.
 	 */
-	public static function getAttribute(string $attribName, string $html = null) : string
+	public static function getAttribute(string $attribName, ?string $html = null) : string
 	{
 		$string = preg_replace('/.*\s' . $attribName . '\s*=\s*"/', '', (string)$html);
 		$value = preg_replace('/".*/', '', $string);
