@@ -27,6 +27,17 @@ use System\Exception\InvalidArgumentException;
 class Cookie
 {
 	/**
+	 * Prefix for cookie names.
+	 *
+	 * This property allows for specifying a prefix to be added to the names
+	 * of cookies generated within the application. Adding a prefix helps in
+	 * organizing and distinguishing cookies associated with this application
+	 * from others. It's useful when multiple applications may be using cookies
+	 * on the same domain.
+	 */
+	protected static $_prefix = '__vandaCookie_';
+
+	/**
 	 * Config constructor.
 	 */
 	private function __construct(){}
@@ -41,47 +52,35 @@ class Cookie
 	 * @param int                                $expire  The number of seconds until expiration.
 	 * @return void
 	 */
-	public static function set(string $name, $value = null, int $expire = 0) : void
+	public static function set(string $name, $value, int $expire = 0) : void
 	{
 		if (is_resource($value))
 			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'array', 'object', 'null'], $value);
 
+		$name = static::$_prefix . $name;
+
 		if (is_array($value))
-			$value = ['datatype' => 'array', 'value' => $value];
+			$value = ['__vandaCookieDatatype' => 'array', '__vandaCookieValue' => $value];
 		elseif (is_object($value))
-			$value = ['datatype' => 'object', 'value' => $value];
+			$value = ['__vandaCookieDatatype' => 'object', '__vandaCookieValue' => $value];
 		elseif (is_bool($value))
-			$value = ['datatype' => 'bool', 'value' => $value];
+			$value = ['__vandaCookieDatatype' => 'bool', '__vandaCookieValue' => $value];
 
 		if (is_array($value))
 			$value = json_encode($value);
 
-		// PHP 7.2 : setcookie() function does not have SameSite attribute.
-		if (version_compare(PHP_VERSION, '7.3', '<'))
-		{
-			$expire += time();
-			$expireDate = gmdate('D, d M Y H:i:s', $expire) . ' GMT';
-			$setCookieString = $name . '=' . $value . '; expires= ' . $expireDate . '; path=/; HttpOnly; SameSite=Strict';
+		// PHP 7.2: The setcookie() function does not have the SameSite attribute.
+		// Therefore, we need to use the header() function to ensure the SameSite
+		// attribute is set on all PHP versions.
 
-			if (Request::isSecure())
-				$setCookieString .= '; Secure';
+		$expire += time();
+		$expireDate = gmdate('D, d M Y H:i:s', $expire) . ' GMT';
+		$setCookieString = $name . '=' . $value . '; expires= ' . $expireDate . '; path=/; HttpOnly; SameSite=Strict';
 
-			header('Set-Cookie: ' . $setCookieString);
-		}
-		else // PHP 7.3+
-		{
-			$setCookieOptions = [
-				'expires' => time() + $expire,
-				'path' => '/',
-				'httponly' => true,
-				'samesite' => 'Strict',
-			];
+		if (Request::isSecure())
+			$setCookieString .= '; Secure';
 
-			if (Request::isSecure())
-				$setCookieOptions['secure'] = true;
-
-			setcookie($name, $value, $setCookieOptions);
-		}
+		header('Set-Cookie: ' . $setCookieString);
 	}
 
 	/**
@@ -94,6 +93,7 @@ class Cookie
 	 */
 	public static function get(string $name, $default = null)
 	{
+		$name = static::$_prefix . $name;
 		$value = '';
 
 		if (isset($_COOKIE[$name]))
@@ -106,19 +106,21 @@ class Cookie
 		{
 			$value = Json::decode($value, true);
 
-			if (isset($value['datatype']))
+			if (isset($value['__vandaCookieDatatype']))
 			{
-				switch ($value['datatype'])
+				switch ($value['__vandaCookieDatatype'])
 				{
 					case 'array':
-						$value = $value['value'];
+						$value = $value['__vandaCookieValue'];
 						break;
 					case 'object':
-						$value = (object)$value['value'];
+						$value = Arr::toObject($value['__vandaCookieValue']);
 						break;
 					case 'bool':
-						$value = (bool)$value['value'];
-						break;
+						if ($value['__vandaCookieValue'] === 'true')
+							$value = true;
+						else
+							$value = false;
 				}
 			}
 		}
@@ -131,10 +133,11 @@ class Cookie
 	 *
 	 * @param string $name  The name of the cookie to check.
 	 * @return bool
+	 * @codeCoverageIgnore
 	 */
 	public static function has(string $name) : bool
 	{
-		return isset($_COOKIE[$name]);
+		return isset($_COOKIE[static::$_prefix . $name]);
 	}
 
 	/**
@@ -142,10 +145,11 @@ class Cookie
 	 *
 	 * @param string $name  The name of the cookie to delete.
 	 * @return void
+	 * @codeCoverageIgnore
 	 */
 	public static function delete(string $name) : void
 	{
-		setcookie($name, '', time()-3600, '/');
+		setcookie(static::$_prefix . $name, '', time()-3600, '/');
 	}
 
 	/**
@@ -156,6 +160,9 @@ class Cookie
 	public static function clear() : void
 	{
 		foreach ($_COOKIE as $name => $value)
-			setcookie($name, '', time()-3600, '/');
+		{
+			if (strpos($name, static::$_prefix) !== false)
+				setcookie(static::$_prefix . $name, '', time()-3600, '/');
+		}
 	}
 }
