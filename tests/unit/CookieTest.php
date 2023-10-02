@@ -27,6 +27,8 @@ use System\Cookie;
  */
 class CookieTest extends TestCase
 {
+	use \phpmock\phpunit\PHPMock;
+
 	protected function tearDown() : void
 	{
 		Mockery::close();
@@ -243,5 +245,20 @@ class CookieTest extends TestCase
 		$result = Cookie::get('name');
 
 		$this->assertFalse($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodDeleteCase1() : void
+	{
+		$_COOKIE['__vandaCookie_name'] = 'Nat Withe';
+		$_COOKIE['other'] = 'Lorem';
+
+		$stubSetCookie = $this->getFunctionMock('System', 'setcookie');
+		$stubSetCookie->expects($this->once());
+
+		Cookie::clear();
 	}
 }
