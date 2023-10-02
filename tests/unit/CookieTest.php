@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use ErrorException;
 use InvalidArgumentException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -104,5 +105,143 @@ class CookieTest extends TestCase
 		$this->assertTrue(true);
 
 		unset($_SERVER['SERVER_PORT']);
+	}
+
+	// Cookie::get()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @throws ErrorException
+	 */
+	public function testMethodGetCase1() : void
+	{
+		$result = Cookie::get('name', 'default value');
+
+		$this->assertEquals('default value', $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @throws ErrorException
+	 */
+	public function testMethodGetCase2() : void
+	{
+		$_COOKIE['__vandaCookie_name'] = 'Nat Withe';
+
+		$result = Cookie::get('name');
+
+		$this->assertEquals('Nat Withe', $result);
+
+		unset($_COOKIE['__vandaCookie_name']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @throws ErrorException
+	 */
+	public function testMethodGetCase3() : void
+	{
+		$stubJson = Mockery::mock('alias:\System\Json');
+		$stubJson->shouldReceive('isValid')->andReturnTrue();
+		$stubJson->shouldReceive('decode')->once();
+
+		Cookie::get('name');
+
+		$this->assertTrue(true);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @throws ErrorException
+	 */
+	public function testMethodGetCase4() : void
+	{
+		$expected = [
+			'name' => 'Nat Withe',
+			'position' => 'Web Developer'
+		];
+
+		$stubJson = Mockery::mock('alias:\System\Json');
+		$stubJson->shouldReceive('isValid')->andReturnTrue();
+		$stubJson->shouldReceive('decode')->andReturn([
+			'__vandaCookieDatatype' => 'array',
+			'__vandaCookieValue' => [
+				'name' => 'Nat Withe',
+				'position' => 'Web Developer'
+			]
+		]);
+
+		$result = Cookie::get('people');
+
+		$this->assertIsArray($result);
+		$this->assertEquals($expected['name'], $result['name']);
+		$this->assertEquals($expected['position'], $result['position']);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @throws ErrorException
+	 */
+	public function testMethodGetCase5() : void
+	{
+		$stubJson = Mockery::mock('alias:\System\Json');
+		$stubJson->shouldReceive('isValid')->andReturnTrue();
+		$stubJson->shouldReceive('decode')->andReturn([
+			'__vandaCookieDatatype' => 'object',
+			'__vandaCookieValue' => [
+				'name' => 'Nat Withe',
+				'position' => 'Web Developer'
+			]
+		]);
+
+		$mockedArr = Mockery::mock('alias:\System\Arr');
+		$mockedArr->shouldReceive('toObject')->once();
+
+		$result = Cookie::get('people');
+
+		$this->assertTrue(true);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @throws ErrorException
+	 */
+	public function testMethodGetCase6() : void
+	{
+		$stubJson = Mockery::mock('alias:\System\Json');
+		$stubJson->shouldReceive('isValid')->andReturnTrue();
+		$stubJson->shouldReceive('decode')->andReturn([
+			'__vandaCookieDatatype' => 'bool',
+			'__vandaCookieValue' => 'true'
+		]);
+
+		$result = Cookie::get('name');
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @throws ErrorException
+	 */
+	public function testMethodGetCase7() : void
+	{
+		$stubJson = Mockery::mock('alias:\System\Json');
+		$stubJson->shouldReceive('isValid')->andReturnTrue();
+		$stubJson->shouldReceive('decode')->andReturn([
+			'__vandaCookieDatatype' => 'bool',
+			'__vandaCookieValue' => 'false'
+		]);
+
+		$result = Cookie::get('name');
+
+		$this->assertFalse($result);
 	}
 }
