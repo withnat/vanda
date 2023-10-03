@@ -194,7 +194,7 @@ class UrlTest extends TestCase
 		$url = Mockery::mock('\System\Url')->makePartial();
 		$url->shouldReceive('base')->andReturn('http://localhost/vanda');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
@@ -219,7 +219,7 @@ class UrlTest extends TestCase
 		$url = Mockery::mock('\System\Url')->makePartial();
 		$url->shouldReceive('base')->andReturn('http://localhost/vanda');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -311,7 +311,7 @@ class UrlTest extends TestCase
 		$url = Mockery::mock('\System\Url')->makePartial();
 		$url->shouldReceive('base')->andReturn('http://localhost');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -351,7 +351,7 @@ class UrlTest extends TestCase
 		$url = Mockery::mock('\System\Url')->makePartial();
 		$url->shouldReceive('base')->andReturn('http://localhost');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -393,7 +393,7 @@ class UrlTest extends TestCase
 		$url = Mockery::mock('\System\Url')->makePartial();
 		$url->shouldReceive('base')->andReturn('http://localhost');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
@@ -424,7 +424,7 @@ class UrlTest extends TestCase
 		$url = Mockery::mock('\System\Url')->makePartial();
 		$url->shouldReceive('base')->andReturn('http://localhost');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnFalse();
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
@@ -455,7 +455,7 @@ class UrlTest extends TestCase
 		Url::setQueryString('arg=value');
 		Url::setFragment('anchor');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
@@ -488,7 +488,7 @@ class UrlTest extends TestCase
 		Url::setQueryString('arg=value');
 		Url::setFragment('anchor');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
@@ -516,7 +516,7 @@ class UrlTest extends TestCase
 		Url::setUser('user');
 		Url::setHost('hostname');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
@@ -544,7 +544,7 @@ class UrlTest extends TestCase
 		Url::setPass('pass');
 		Url::setHost('hostname');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')->with('sef')->andReturnTrue();
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
@@ -567,13 +567,13 @@ class UrlTest extends TestCase
 	 */
 	public function testMethodCreateFromActionThatHasOneDotInUri()
 	{
-		putenv('APP_SIDE=backend');
+		putenv('APP_MODULE=user');
 
 		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive('host')->andReturn('https://localhost');
 		$stubRequest->shouldReceive('basePath')->andReturn('');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -611,7 +611,7 @@ class UrlTest extends TestCase
 		$stubRequest->shouldReceive('host')->andReturn('https://localhost');
 		$stubRequest->shouldReceive('basePath')->andReturn('');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -651,7 +651,7 @@ class UrlTest extends TestCase
 		$stubRequest->shouldReceive('host')->andReturn('https://localhost');
 		$stubRequest->shouldReceive('basePath')->andReturn('');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
@@ -693,7 +693,7 @@ class UrlTest extends TestCase
 		$stubRequest->shouldReceive('host')->andReturn('https://localhost');
 		$stubRequest->shouldReceive('basePath')->andReturn('');
 
-		$stubSetting = Mockery::mock('alias:\Setting');
+		$stubSetting = Mockery::mock('alias:\System\Setting');
 		$stubSetting->shouldReceive('get')
 			->andReturnUsing(function ($arg)
 			{
