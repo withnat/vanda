@@ -378,7 +378,7 @@ class Data
 		}
 
 		if (!in_array($dataType, $allowedDataTypes))
-			throw InvalidArgumentException::typeError($argument, $allowedDataTypes, $data);
+			throw InvalidArgumentException::typeError($argument, $allowedDataTypes, $dataType);
 	}
 
 	/**

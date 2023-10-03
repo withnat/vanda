@@ -599,7 +599,7 @@ class Html
 			throw InvalidArgumentException::typeError(1, ['string', 'array', 'null'], $attribs);
 
 		if (!is_string($value) and !is_int($value))
-			throw InvalidArgumentException::typeError(1, ['string', 'int'], $attribs);
+			throw InvalidArgumentException::typeError(1, ['string', 'int'], $value);
 
 		if (is_array($attribs))
 		{
