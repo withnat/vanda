@@ -25,6 +25,8 @@ namespace System;
 class Form
 {
 	protected static $_formId;
+	protected static $_rules;
+	protected static $_messages;
 
 	/**
 	 * Creates a form open tag with the necessary attributes.
@@ -69,6 +71,137 @@ class Form
 		$attribs = Html::setAttribute($attribs, 'enctype', 'multipart/form-data');
 
 		$html = '<form ' . $attribs . '>';
+
+		return $html;
+	}
+
+	/**
+	 * Creates a form close tag.
+	 *
+	 * @return string  Returns the form close tag.
+	 */
+	public static function close() : string
+	{
+		$html = "</form>\n";
+
+		if (static::$_rules)
+		{
+			$html .= "<script>\n";
+			$html .= "\t$(document).ready(function(){\n";
+			$html .= "\t\t$(\"#" . static::$_formId . "\").validate({\n";
+			$html .= "\t\t\tignore: [],\n";
+			$html .= "\t\t\tonkeyup: false,\n";
+			$html .= "\t\t\tsubmitHandler: function(form){\n";
+			$html .= "\t\t\t\t$(\"#" . static::$_formId . "\").LoadingOverlay(\"show\",{\n";
+			$html .= "\t\t\t\t\tbackgroundClass: \"overlay\",\n";
+			$html .= "\t\t\t\t\timage: \"\",\n";
+			$html .= "\t\t\t\t\tfontawesome: \"fa fa-spinner fa-spin\",\n";
+			$html .= "\t\t\t\t\tzIndex: \"9999\"\n";
+			$html .= "\t\t\t\t});\n";
+			$html .= "\t\t\t\tform.submit();\n";
+			$html .= "\t\t\t},\n";
+			$html .= "\t\t\trules:{\n";
+
+			$i = 1;
+			$in = count(static::$_rules);
+
+			foreach (static::$_rules as $column => $rules)
+			{
+				$html .= "\t\t\t\t\"$column\":{\n";
+
+				$j = 1;
+				$jn = count($rules);
+
+				foreach ($rules as $key => $value)
+				{
+					if (is_array($value))
+					{
+						$html .= "\t\t\t\t\t$key:{\n";
+
+						$k = 1;
+						$kn = count($value);
+
+						foreach ($value as $subkey => $subvalue)
+						{
+							$html .= "\t\t\t\t\t\t$subkey: $subvalue";
+
+							if ($k < $kn)
+								$html .= ",";
+
+							$html .= "\n";
+							++$k;
+						}
+
+						$html .= "\t\t\t\t\t}";
+					}
+					else
+						$html .= "\t\t\t\t\t$key: $value";
+
+					if ($j < $jn)
+						$html .= ",";
+
+					$html .= "\n";
+					++$j;
+				}
+
+				$html .= "\t\t\t\t}";
+
+				if ($i < $in)
+					$html .= ",";
+
+				$html .= "\n";
+				++$i;
+			}
+
+			$html .= "\t\t\t}";
+
+			if (static::$_messages)
+			{
+				$html .= ",\n";
+				$html .= "\t\t\tmessages:{\n";
+
+				$i = 1;
+				$in = count(static::$_messages);
+
+				foreach (static::$_messages as $column => $messages)
+				{
+					$html .= "\t\t\t\t\"$column\":{\n";
+
+					$j = 1;
+					$jn = count($messages);
+
+					foreach ($messages as $key => $value)
+					{
+						$html .= "\t\t\t\t\t$key: $value";
+
+						if ($j < $jn)
+							$html .= ",";
+
+						$html .= "\n";
+						++$j;
+					}
+
+					$html .= "\t\t\t\t}";
+
+					if ($i < $in)
+						$html .= ",";
+
+					$html .= "\n";
+					++$i;
+				}
+
+				$html .= "\t\t\t}\n";
+			}
+			else
+				$html .= "\n";
+
+			$html .= "\t\t});\n";
+			$html .= "\t});\n";
+			$html .= "</script>\n";
+		}
+
+		static::$_rules = null;
+		static::$_messages = null;
 
 		return $html;
 	}
