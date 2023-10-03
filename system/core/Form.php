@@ -31,10 +31,10 @@ class Form
 	/**
 	 * Creates a form open tag with the necessary attributes.
 	 *
-	 * @param string|null       $action   The URL or package action to submit the form to. Defaults to null.
-	 *                                    If null, the form will submit to the current package's saveAction().
-	 * @param string|array|null $attribs  Additional attributes for the form tag. Defaults to null.
-	 * @return string                     Returns the form open tag.
+	 * @param  string|null       $action   The URL or package action to submit the form to. Defaults to null.
+	 *                                     If null, the form will submit to the current package's saveAction().
+	 * @param  string|array|null $attribs  Additional attributes for the form tag. Defaults to null.
+	 * @return string                      Returns the form open tag.
 	 */
 	public static function open(?string $action = null, $attribs = null) : string
 	{
@@ -219,10 +219,10 @@ class Form
 	/**
 	 * Generates a text input field.
 	 *
-	 * @param string $name                The name of the input field.
-	 * @param string|int|float  $value    The value of the input field.
-	 * @param string|array|null $attribs  Additional attributes for the input field. Defaults to null.
-	 * @return string                     Returns the text input field.
+	 * @param  string $name                The name of the input field.
+	 * @param  string|int|float  $value    The value of the input field.
+	 * @param  string|array|null $attribs  Additional attributes for the input field. Defaults to null.
+	 * @return string                      Returns the text input field.
 	 */
 	public static function text(string $name, $value = null, $attribs = null) : string
 	{
@@ -246,8 +246,8 @@ class Form
 	/**
 	 * Generates an element ID from the given name.
 	 *
-	 * @param string $name  The name of the element.
-	 * @return string       Returns the element ID.
+	 * @param  string $name  The name of the element.
+	 * @return string        Returns the element ID.
 	 */
 	protected static function _getId(string $name) : string
 	{
@@ -270,5 +270,24 @@ class Form
 		$id = trim($id);
 
 		return $id;
+	}
+
+	/**
+	 * Generates an element name from the given name.
+	 *
+	 * @param  string $name  The name of the element.
+	 * @return string        Returns the element name.
+	 */
+	private static function _getName(string $name) : string
+	{
+		if (strpos($name, '.'))
+		{
+			$arr = explode('.', $name);
+			$name = end($arr);
+		}
+
+		$name = trim($name);
+
+		return $name;
 	}
 }
