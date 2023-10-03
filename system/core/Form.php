@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace System;
 
+use System\Exception\InvalidArgumentException;
+
 /**
  * Class Form
  *
@@ -38,6 +40,9 @@ class Form extends Mvc\View
 	 */
 	public static function open(?string $action = null, $attribs = null) : string
 	{
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
+
 		$action = trim((string)$action);
 
 		if (stripos($action, 'http://') === false and stripos($action, 'https://') === false)
@@ -219,13 +224,19 @@ class Form extends Mvc\View
 	/**
 	 * Generates a text input field.
 	 *
-	 * @param  string $name                The name of the input field.
-	 * @param  string|int|float  $value    The value of the input field. Defaults to null.
-	 * @param  string|array|null $attribs  Additional attributes for the input field. Defaults to null.
-	 * @return string                      Returns the text input field.
+	 * @param  string $name                     The name of the input field.
+	 * @param  string|int|float|null  $value    The value of the input field. Defaults to null.
+	 * @param  string|array|null      $attribs  Additional attributes for the input field. Defaults to null.
+	 * @return string                           Returns the text input field.
 	 */
 	public static function text(string $name, $value = null, $attribs = null) : string
 	{
+		if (!is_string($value) and !is_int($value) and !is_float($value) and !is_null($value))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'null'], $value);
+
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
+
 		static::_setRule($name);
 
 		$id = static::_getId($name);
@@ -246,13 +257,19 @@ class Form extends Mvc\View
 	/**
 	 * Generates a color picker input field.
 	 *
-	 * @param string            $name     The name of the input field.
-	 * @param string|int|float  $value    The value of the input field. Defaults to null.
-	 * @param string|array|null $attribs  Additional attributes for the input field. Defaults to null.
-	 * @return string                     Returns the color picker input field.
+	 * @param  string                 $name     The name of the input field.
+	 * @param  string|int|float|null  $value    The value of the input field. Defaults to null.
+	 * @param  string|array|null      $attribs  Additional attributes for the input field. Defaults to null.
+	 * @return string                           Returns the color picker input field.
 	 */
 	public static function color(string $name, $value = null, $attribs = null) : string
 	{
+		if (!is_string($value) and !is_int($value) and !is_float($value) and !is_null($value))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'null'], $value);
+
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
+			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
+
 		$attribs = Html::setAttribute($attribs, 'type', 'color');
 		$html = static::text($name, $value, $attribs);
 
@@ -318,8 +335,11 @@ class Form extends Mvc\View
 	 */
 	protected static function _getValue(string $name, $default = null) : string
 	{
+		if (!is_string($default) and !is_int($default) and !is_float($default) and !is_null($default))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'null'], $default);
+
 		if (!is_null($default))
-			return htmlspecialchars($default);
+			return htmlspecialchars((string)$default);
 
 		$key = '';
 
