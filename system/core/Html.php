@@ -221,7 +221,7 @@ class Html
 		if ($query) $url .= '?' . $query;
 		if ($attribs) $attribs = ' ' . $attribs;
 
-		return '<link rel="stylesheet" type="text/css" href="' . $url . '"' . $attribs . '>' . "\n";
+		return '<link rel="stylesheet" type="text/css" href="' . $url . '"' . $attribs . '>';
 	}
 
 	/**
@@ -263,7 +263,7 @@ class Html
 		if ($query) $url .= '?' . $query;
 		if ($attribs) $attribs = ' ' . $attribs;
 
-		return '<script src="' . $url . '"' . $attribs . '></script>' . "\n";
+		return '<script src="' . $url . '"' . $attribs . '></script>';
 	}
 
 	/**
