@@ -256,16 +256,17 @@ class Url
 				$controller = $arr[0];
 				$action = $arr[1];
 			}
-
-			$uri = $module . '/' . $controller . '/' . $action;
 		}
 		else
 		{
-			if (getenv('APP_MODULE') === getenv('APP_CONTROLLER'))
-				$uri = getenv('APP_MODULE') . '/' . $action;
-			else
-				$uri = getenv('APP_MODULE') . '/' . getenv('APP_CONTROLLER') . '/' . $action;
+			$module = getenv('APP_MODULE');
+			$controller = getenv('APP_CONTROLLER');
 		}
+
+		if ($module === $controller)
+			$uri = $module . '/' . $action;
+		else
+			$uri = $module . '/' . $controller . '/' . $action;
 
 		$url = static::create($uri);
 
