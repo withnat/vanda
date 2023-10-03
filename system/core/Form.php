@@ -220,7 +220,7 @@ class Form extends Mvc\View
 	 * Generates a text input field.
 	 *
 	 * @param  string $name                The name of the input field.
-	 * @param  string|int|float  $value    The value of the input field.
+	 * @param  string|int|float  $value    The value of the input field. Defaults to null.
 	 * @param  string|array|null $attribs  Additional attributes for the input field. Defaults to null.
 	 * @return string                      Returns the text input field.
 	 */
@@ -239,6 +239,22 @@ class Form extends Mvc\View
 		$attribs = Html::setAttribute($attribs, 'class', 'form-control text');
 
 		$html = '<input ' . $attribs . '/>';
+
+		return $html;
+	}
+
+	/**
+	 * Generates a color picker input field.
+	 *
+	 * @param string            $name     The name of the input field.
+	 * @param string|int|float  $value    The value of the input field. Defaults to null.
+	 * @param string|array|null $attribs  Additional attributes for the input field. Defaults to null.
+	 * @return string                     Returns the color picker input field.
+	 */
+	public static function color(string $name, $value = null, $attribs = null) : string
+	{
+		$attribs = Html::setAttribute($attribs, 'type', 'color');
+		$html = static::text($name, $value, $attribs);
 
 		return $html;
 	}
