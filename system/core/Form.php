@@ -278,7 +278,7 @@ class Form
 	 * @param  string $name  The name of the element.
 	 * @return string        Returns the element name.
 	 */
-	private static function _getName(string $name) : string
+	protected static function _getName(string $name) : string
 	{
 		if (strpos($name, '.'))
 		{
