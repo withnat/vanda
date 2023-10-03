@@ -242,4 +242,33 @@ class Form
 
 		return $html;
 	}
+
+	/**
+	 * Generates an element ID from the given name.
+	 *
+	 * @param string $name  The name of the element.
+	 * @return string       Returns the element ID.
+	 */
+	protected static function _getId(string $name) : string
+	{
+		$id = $name;
+
+		if (strpos($id, '.'))
+		{
+			$arr = explode('.', $id);
+			$id = end($arr);
+		}
+
+		if (strpos($id, '['))
+		{
+			$id = str_replace('][', '_', $id);
+			$id = str_replace('[', '_', $id);
+			$id = rtrim($id, ']');
+			$id = rtrim($id, '_');
+		}
+
+		$id = trim($id);
+
+		return $id;
+	}
 }
