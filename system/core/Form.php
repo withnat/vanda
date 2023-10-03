@@ -205,4 +205,14 @@ class Form
 
 		return $html;
 	}
+
+	/**
+	 * Generates the CSRF token name.
+	 *
+	 * @return string  Returns the CSRF token name.
+	 */
+	public static function token() : string
+	{
+		return static::hidden(Session::getToken(), 1);
+	}
 }
