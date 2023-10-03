@@ -215,4 +215,31 @@ class Form
 	{
 		return static::hidden(Session::getToken(), 1);
 	}
+
+	/**
+	 * Generates a text input field.
+	 *
+	 * @param string $name                The name of the input field.
+	 * @param string|int|float  $value    The value of the input field.
+	 * @param string|array|null $attribs  Additional attributes for the input field. Defaults to null.
+	 * @return string                     Returns the text input field.
+	 */
+	public static function text(string $name, $value = null, $attribs = null) : string
+	{
+		static::_setRule($name);
+
+		$id = static::_getId($name);
+		$name = static::_getName($name);
+		$value = static::_getValue($name, $value);
+
+		$attribs = Html::setAttribute($attribs, 'id', $id);
+		$attribs = Html::setAttribute($attribs, 'name', $name);
+		$attribs = Html::setAttribute($attribs, 'value', $value);
+		$attribs = Html::setAttribute($attribs, 'type', 'text');
+		$attribs = Html::setAttribute($attribs, 'class', 'form-control text');
+
+		$html = '<input ' . $attribs . '/>';
+
+		return $html;
+	}
 }
