@@ -22,7 +22,7 @@ namespace System;
  *
  * @package System
  */
-class Form
+class Form extends Mvc\View
 {
 	protected static $_formId;
 	protected static $_rules;
@@ -267,7 +267,7 @@ class Form
 			$id = rtrim($id, '_');
 		}
 
-		$id = trim($id);
+		$id = trim((string)$id);
 
 		return $id;
 	}
@@ -286,8 +286,66 @@ class Form
 			$name = end($arr);
 		}
 
-		$name = trim($name);
+		$name = trim((string)$name);
 
 		return $name;
+	}
+
+	/**
+	 * Gets the value of the element.
+
+	 * @param  string                $name     The name of the element.
+	 * @param  string|int|float|null $default  The default value of the element. Defaults to null.
+	 *                                         If null, the value will be retrieved from the POST data or
+	 *                                         View data via the $formVals property.
+	 * @return string                          Returns the value of the element.
+	 */
+	protected static function _getValue(string $name, $default = null) : string
+	{
+		if (!is_null($default))
+			return htmlspecialchars($default);
+
+		$key = '';
+
+		if (strpos($name, '['))
+		{
+			$arr = explode('[', $name);
+			$name = $arr[0];
+			$key = rtrim($arr[1], ']');
+		}
+
+		$value = '';
+
+		if (Request::isPost())
+		{
+			$data = Request::post();
+			$value = $data->{$name} ?? '';
+
+			// The checkbox will send an array of data, which will
+			// be converted to an object by the Request class.
+			if (is_object($value))
+			{
+				$value = (array)$value;
+				$value = ',' . implode(',', $value) . ',';
+			}
+		}
+
+		if (!$value and parent::$_formVals)
+		{
+			if (is_object(parent::$_formVals))
+				$value = @parent::$_formVals->$name;
+			elseif (is_array(parent::$_formVals))
+				$value = @parent::$_formVals[$name];
+		}
+
+		if ($name == 'params' and $key)
+		{
+			parse_str($value, $params);
+			$value = $params[$key] ?? '';
+		}
+
+		$value = (string)$value;
+
+		return $value;
 	}
 }
