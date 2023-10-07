@@ -638,7 +638,7 @@ class Url
 	}
 
 	/**
-	 * Reset all URL components.
+	 * Resets all URL components.
 	 *
 	 * @codeCoverageIgnore
 	 */
