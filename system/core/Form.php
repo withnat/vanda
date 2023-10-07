@@ -31,6 +31,11 @@ class Form extends Mvc\View
 	protected static $_messages;
 
 	/**
+	 * Form constructor.
+	 */
+	private function __construct(){}
+
+	/**
 	 * Creates a form open tag with the necessary attributes.
 	 *
 	 * @param  string|null       $action   The URL or package action to submit the form to. Defaults to null.
