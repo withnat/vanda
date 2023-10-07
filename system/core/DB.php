@@ -16,9 +16,10 @@ namespace System;
 
 /**
  * Class DB
+ *
  * @package System
  */
-final class DB
+class DB
 {
 	/**
 	 * DB constructor.
@@ -26,11 +27,13 @@ final class DB
 	private function __construct(){}
 
 	/**
-	 * @param  string $method
-	 * @param  array  $args
-	 * @return object          Depends on called method.
+	 * Creates a new database connection depending on the database platform.
+	 *
+	 * @param  string $method  The method to call.
+	 * @param  array  $args    The arguments to pass to the method.
+	 * @return mixed           Depends on called method.
 	 */
-	public static function __callStatic(string $method, array $args) : object
+	public static function __callStatic(string $method, array $args)
 	{
 		$platform = Config::db('platform');
 
