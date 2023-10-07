@@ -27,6 +27,7 @@ use System\Str;
 use System\Uri;
 use System\XML;
 use System\Exception\InvalidArgumentException;
+use \PDOStatement;
 
 /**
  * ```php
@@ -49,7 +50,7 @@ abstract class AbstractPlatform
 	protected static $_tables;
 	protected static $_info;
 	protected static $_sqlRaw;
-	protected static $_sqlSelects;
+	protected static $_sqlSelects = [];
 	protected static $_sqlTable;
 	protected static $_sqlJoins;
 	protected static $_sqlWheres;
@@ -61,7 +62,7 @@ abstract class AbstractPlatform
 	protected static $_autoSearchColumns;
 	protected static $_transactionMode;
 	protected static $_transactionSqls;
-	protected static $_queries;
+	protected static $_queries = [];
 	protected static $_identifierLeft = '`';
 	protected static $_identifierRight = '`';
 	protected static $_affectedRows;
@@ -70,14 +71,30 @@ abstract class AbstractPlatform
 
 	/**
 	 * AbstractPlatform constructor.
+	 *
+	 * Nedd to set the visibility of this method to protected as it is
+	 * called from the static method getInstance() (new static()).
 	 */
-	public function __construct()
+	protected function __construct(){}
+
+	/**
+	 * This is the static method that controls the access to the singleton
+	 * instance. On the first run, it creates a singleton object and places it
+	 * into the static field. On subsequent runs, it returns the client existing
+	 * object stored in the static field.
+	 *
+	 * This implementation lets you subclass the Singleton class while keeping
+	 * just one instance of each subclass around.
+	 *
+	 * @return AbstractPlatform  Returns the singleton instance.
+	 */
+	protected static function getInstance() : AbstractPlatform
 	{
 		if (is_null(static::$_connection))
 		{
 			static::_connect();
 
-			if (DEV_MODE)
+			if (Config::app('env') === 'development')
 			{
 				Folder::delete(static::$_dbCachePath);
 				Folder::delete(static::$_queryCachePath);
@@ -86,8 +103,10 @@ abstract class AbstractPlatform
 			Folder::create(static::$_dbCachePath);
 			Folder::create(static::$_queryCachePath);
 
-			static::$_instance = $this;
+			static::$_instance = new static();;
 		}
+
+		return static::$_instance;
 	}
 
 	/**
@@ -98,10 +117,38 @@ abstract class AbstractPlatform
 	// Select
 
 	/**
-	 * @param  string $columns  List of columns separated by comma.
-	 * @return AbstractPlatform
+	 * Sets the list of columns to select.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 *  DB::select('*');
+	 *  // The result will be: *
+	 *
+	 *  DB::select('id');
+	 *  DB::select('`id`');
+	 *  // The result will be: `id`
+	 *
+	 *  DB::select('`id` AS userId');
+	 *  DB::select('`id` AS `userId`');
+	 *  // The result will be: `id` AS `userId`
+	 *
+	 *  DB::select('u.id');
+	 *  DB::select('`u`.`id`');
+	 *  // The result will be: `u`.`id`
+	 *
+	 *  DB::select('u.id AS userId');
+	 *  DB::select('`u`.`id` AS `userId`');
+	 *  // The result will be: `u`.`id` AS `userId`
+	 *
+	 * DB::select('id, name, email');
+	 * // The result will be: `id`, `name`, `email`
+	 *  ```
+	 *
+	 * @param  string $columns   List of columns separated by comma.
+	 * @return AbstractPlatform  Returns the current object.
 	 */
-	public static function select(string $columns = '*') : AbstractPlatform
+	public static function select(string $columns = '*') : AbstractPlatform // ok
 	{
 		$columns = static::_parseColumn($columns);
 
@@ -110,7 +157,18 @@ abstract class AbstractPlatform
 		else
 			static::$_sqlSelects = $columns;
 
-		return static::$_instance;
+		return static::getInstance();
+	}
+
+	/**
+	 * Query the database and returns the PDOStatement object.
+	 *
+	 * @param  string $sql   The raw SQL statement.
+	 * @return PDOStatement  Returns the PDOStatement object.
+	 */
+	public static function query(string $sql) : PDOStatement
+	{
+		return static::$_connection->query($sql);
 	}
 
 	/**
@@ -177,8 +235,10 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string $column
-	 * @return mixed
+	 * Performs a query using DISTINCT and return a query result.
+	 *
+	 * @param  string $column  The column name.
+	 * @return mixed           Returns the query result.
 	 */
 	public static function distinct(string $column)
 	{
@@ -198,11 +258,13 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string $function
+	 * Performs a query using an aggregate function and return a query result.
+	 *
+	 * @param  string $function  The function name.
 	 * @param  string $columns   List of columns separated by comma.
-	 * @return mixed
+	 * @return mixed             Returns the query result.
 	 */
-	private static function _queryAggregate(string $function, string $columns)
+	protected static function _queryAggregate(string $function, string $columns) // ok
 	{
 		$columns = static::_parseColumn($columns);
 
@@ -246,18 +308,20 @@ abstract class AbstractPlatform
 	{
 		static::from($table);
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
-	 * @param  string $table
-	 * @return AbstractPlatform
+	 * Sets the table to select from.
+	 *
+	 * @param  string $table     The table name.
+	 * @return AbstractPlatform  Returns the current object.
 	 */
 	public static function from(string $table) : AbstractPlatform
 	{
 		static::$_sqlTable = static::wrapTable($table);
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -292,7 +356,7 @@ abstract class AbstractPlatform
 	{
 		static::_setJoin('INNER JOIN', $table, $condition);
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -304,7 +368,7 @@ abstract class AbstractPlatform
 	{
 		static::_setJoin('LEFT JOIN', $table, $condition);
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -316,7 +380,7 @@ abstract class AbstractPlatform
 	{
 		static::_setJoin('RIGHT JOIN', $table, $condition);
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	// Save
@@ -606,7 +670,7 @@ abstract class AbstractPlatform
 			});
 		}
 
-		if ($result and DEV_MODE)
+		if ($result and Config::app('env') === 'development')
 			static::$_queries[] = $sql;
 		else
 			static::deleteAll();
@@ -624,7 +688,7 @@ abstract class AbstractPlatform
 		$sql = 'SELECT * FROM ' . static::$_sqlTable . $where;
 		$result = static::$_connection->query($sql);
 
-		if (DEV_MODE)
+		if (Config::app('env') === 'development')
 			static::$_queries[] = $sql;
 
 		$deleted = 0;
@@ -662,7 +726,7 @@ abstract class AbstractPlatform
 		$sql = 'SELECT * FROM ' . static::$_sqlTable . $where;
 		$result = static::$_connection->query($sql);
 
-		if (DEV_MODE)
+		if (Config::app('env') === 'development')
 			static::$_queries[] = $sql;
 
 		$backedup = 0;
@@ -698,7 +762,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlWheres[] = ['AND', '('];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -708,7 +772,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlWheres[] = ['OR', '('];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -718,9 +782,29 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlWheres[] = ['', ')'];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
+	/**
+	 * Sets the where condition.
+	 *
+	 * For example,
+	 *
+	 *  ```php
+	 * DB::where(1);
+	 * DB::where('id', 1);
+	 * DB::where('id = ?', 1);
+	 * DB::where('id', '=', 1);
+	 * // The result will be:
+	 * // WHERE `id` = 1
+	 *
+	 * DB::where('name = ? AND surname = ?', 'Nat', 'Withe');
+	 * // The result will be: WHERE name = 'Nat' AND surname = 'Withe'
+	 * ```
+	 *
+	 * @param  mixed $where      The where condition.
+	 * @return AbstractPlatform  Returns the current object.
+	 */
 	public static function where($where) : AbstractPlatform
 	{
 		$args = func_get_args();
@@ -738,7 +822,7 @@ abstract class AbstractPlatform
 			static::$_sqlWheres[] = ['AND', $where];
 		}
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	public static function orWhere($where) : AbstractPlatform
@@ -759,10 +843,10 @@ abstract class AbstractPlatform
 				static::$_sqlWheres[] = ['OR', $where];
 		}
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
-	private static function _parseWhere(array $args) : string
+	protected static function _parseWhere(array $args) : string
 	{
 		$countArgs = count($args);
 
@@ -784,7 +868,7 @@ abstract class AbstractPlatform
 				$args = Arr::flatten($args);
 
 				for ($i = 1, $n = count($args); $i < $n; ++$i)
-					$where = Str::replace($where, '?', static::escape($args[$i]), 1);
+					$where = Str::replace($where, '?', (string)static::escape($args[$i]), 1);
 			}
 			elseif (strpos($args[0], ':'))
 			{
@@ -840,7 +924,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' BETWEEN ' . $start . ' AND ' . $end];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -863,7 +947,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' BETWEEN ' . $start . ' AND ' . $end];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -886,7 +970,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' NOT BETWEEN ' . $start . ' AND ' . $end];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -909,7 +993,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' NOT BETWEEN ' . $start . ' AND ' . $end];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	// Where like
@@ -929,7 +1013,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' LIKE \'%' . $value . '%\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -947,7 +1031,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' LIKE \'%' . $value . '%\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -965,7 +1049,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' LIKE \'' . $value . '%\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -983,7 +1067,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' LIKE \'' . $value . '%\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1001,7 +1085,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' LIKE \'%' . $value . '\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1019,7 +1103,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' LIKE \'%' . $value . '\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1037,7 +1121,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' NOT LIKE \'%' . $value . '%\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1055,7 +1139,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' NOT LIKE \'%' . $value . '%\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1073,7 +1157,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' NOT LIKE \'' . $value . '%\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1091,7 +1175,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' NOT LIKE \'' . $value . '%\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1109,7 +1193,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' NOT LIKE \'%' . $value . '\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1127,7 +1211,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' NOT LIKE \'%' . $value . '\''];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	// Where in
@@ -1136,28 +1220,28 @@ abstract class AbstractPlatform
 	{
 		static::_setWhereIn('IN', $column, $values, 'AND');
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	public static function orWhereIn($column, $values)
 	{
 		static::_setWhereIn('IN', $column, $values, 'OR');
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	public static function whereNotIn($column, $values)
 	{
 		static::_setWhereIn('NOT IN', $column, $values, 'AND');
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	public static function orWhereNotIn($column, $values)
 	{
 		static::_setWhereIn('NOT IN', $column, $values, 'OR');
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	private static function _setWhereIn($operator, $column, $values, $condition)
@@ -1185,7 +1269,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' IS NULL'];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1198,7 +1282,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' IS NULL'];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1211,7 +1295,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' IS NOT NULL'];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1224,7 +1308,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' IS NOT NULL'];
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	// Group
@@ -1233,7 +1317,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlGroups[] = static::wrapColumn($columns);
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	// Order by
@@ -1250,7 +1334,7 @@ abstract class AbstractPlatform
 		foreach ($columns as $column)
 			static::$_sqlSorts[] = $column . ' ' . strtoupper($direction);
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1261,7 +1345,7 @@ abstract class AbstractPlatform
 	{
 		static::sort($columns, 'ASC');
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1272,7 +1356,7 @@ abstract class AbstractPlatform
 	{
 		static::sort($columns, 'DESC');
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	// Limit
@@ -1285,7 +1369,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlTake = $num;
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1296,7 +1380,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlSkip = $num;
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	// Query
@@ -1309,7 +1393,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlRaw = $sql;
 
-		return static::$_instance;
+		return static::getInstance();
 	}
 
 	/**
@@ -1324,7 +1408,7 @@ abstract class AbstractPlatform
 		return static::getAffectedRows();
 	}
 
-	private static function _query($sql)
+	protected static function _query($sql)
 	{
 		$pos = mb_stripos($sql, ' WHERE ');
 
@@ -1347,21 +1431,21 @@ abstract class AbstractPlatform
 		else
 			$sql = str_replace('#_', Config::db('prefix'), $sql);
 
-		if (DEV_MODE)
+		if (Config::app('env') === 'development')
 			static::$_queries[] = $sql;
 
 		if (static::$_transactionMode)
 			static::$_transactionSqls[] = $sql;
 		else
 		{
-			$result = static::$_connection->query($sql);
+			$result = static::query($sql);
 
 			if (is_object($result))
 				static::$_affectedRows = $result->rowCount();
-			elseif (static::$_connection->errorInfo()[2] and DEV_MODE)
+			elseif (static::$_connection->errorInfo()[2] and Config::app('env') === 'development')
 				static::_displayError();
 
-			static::reset();
+			static::_reset();
 			return $result;
 		}
 	}
@@ -1378,18 +1462,19 @@ abstract class AbstractPlatform
 		return $data;
 	}
 
+	/**
+	 * Retrieves a single row from the recordset.
+	 *
+	 * @return stdClass|bool  Returns an object with properties that correspond to the fetched row's columns.
+	 *                        Return false if the query string does not contain the word 'SELECT'.
+	 */
 	public static function load()
 	{
 		$args = func_get_args();
-
-		if (isset($args[0]))
-			$sql = $args[0];
-		else
-			$sql = static::_buildQuerySelect();
-
+		$sql = $args[0] ?? static::_buildQuerySelect();
 		$sql = trim($sql);
 
-		if (strtoupper(substr($sql, 0, 6)) != 'SELECT')
+		if (strtoupper(substr($sql, 0, 6)) !== 'SELECT')
 			return false;
 
 		if (!strripos($sql, ' LIMIT '))
@@ -1403,11 +1488,6 @@ abstract class AbstractPlatform
 				return $result->fetch();
 			else
 			{
-				$sql = trim($sql);
-
-				if (strtoupper(substr($sql, 0, 6)) != 'SELECT') // todo โค้ดซ้ำกับข้างบนทำไม
-					return false;
-
 				$select = substr($sql, 7, stripos($sql, ' FROM ') - 7);
 
 				if (trim($select) === '*')
@@ -1455,9 +1535,7 @@ abstract class AbstractPlatform
 			}
 		}
 		else
-		{
-			// todo
-		}
+			return false;
 	}
 
 	public static function loadAll()
@@ -1652,7 +1730,7 @@ abstract class AbstractPlatform
 						. 'IN (' . implode(', ', $userIds) . ') ';
 		$result = static::$_connection->query($sql);
 
-		if (DEV_MODE)
+		if (Config::app('env') === 'development')
 			static::$_queries[] = $sql;
 
 		$userInfo = [];
@@ -1787,7 +1865,7 @@ abstract class AbstractPlatform
 			{
 				foreach ($sqls as $sql)
 				{
-					if (DEV_MODE)
+					if (Config::app('env') === 'development')
 						static::$_queries[] = $sql;
 
 					static::$_connection->query($sql);
@@ -1806,7 +1884,7 @@ abstract class AbstractPlatform
 
 	// Build
 
-	private static function _buildQuerySelect()
+	protected static function _buildQuerySelect()
 	{
 		if (static::$_sqlRaw)
 			return static::$_sqlRaw;
@@ -1945,7 +2023,7 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	private static function _buildFrom()
+	protected static function _buildFrom()
 	{
 		$table = static::$_sqlTable;
 
@@ -1957,7 +2035,7 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	private static function _buildWhere()
+	protected static function _buildWhere()
 	{
 		if (static::$_autoSearchKeyword)
 		{
@@ -1985,7 +2063,7 @@ abstract class AbstractPlatform
 
 			for ($i=0; $i < $countWhere; ++$i)
 			{
-				if ($i > 0 and $_sqlWheres[$i][1] != ')' and $_sqlWheres[$i - 1][1] != '(')
+				if ($i > 0 and $_sqlWheres[$i][1] !== ')' and $_sqlWheres[$i - 1][1] !== '(')
 					$where .= ' ' . $_sqlWheres[$i][0].' ';
 
 				$where .= $_sqlWheres[$i][1];
@@ -1997,19 +2075,19 @@ abstract class AbstractPlatform
 		return $where;
 	}
 
-	private static function _buildGroup()
+	protected static function _buildGroup()
 	{
 		if (static::$_sqlGroups)
 			return ' GROUP BY ' . implode(', ', static::$_sqlGroups);
 	}
 
-	private static function _buildSort()
+	protected static function _buildSort()
 	{
 		if (static::$_sqlSorts)
 			return ' ORDER BY ' . implode(', ', static::$_sqlSorts);
 	}
 
-	private static function _buildLimit()
+	protected static function _buildLimit()
 	{
 		$sql = '';
 
@@ -2028,22 +2106,43 @@ abstract class AbstractPlatform
 	// Other
 
 	/**
-	 * @param  string $table
-	 * @return string
+	 * Formats table name by adding prefix and change the first letter to uppercase.
+	 *
+	 *  For example,
+	 *
+	 * ```php
+	 * $result = DB::formatTable('user');
+	 * // The $result will be: vd_User
+	 * ```
+	 *
+	 * @param  string $table  The table name.
+	 * @return string         Returns the formatted table name.
 	 */
-	public static function formatTableName(string $table) : string
+	public static function formatTable(string $table) : string // ok
 	{
-		if (substr($table, 0, 1) != static::$_identifierLeft and substr($table, 0, strlen(Config::db('prefix'))) != Config::db('prefix'))
+		if (substr($table, 0, 1) !== static::$_identifierLeft and substr($table, 0, strlen(Config::db('prefix'))) !== Config::db('prefix'))
 			$table = Config::db('prefix') . ucfirst($table);
 
 		return $table;
 	}
 
 	/**
-	 * @param  string $table
-	 * @return string
+	 * Formats table name and wraps it with identifier.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = DB::wrapTable('user');
+	 * // The $result will be: `vd_User`
+	 *
+	 * $result = DB::wrapTable('user AS t');
+	 * // The $result will be: `vd_User` AS `t`
+	 * ```
+	 *
+	 * @param  string $table  The table name.
+	 * @return string         Returns the formatted table name wrapped with identifier.
 	 */
-	public static function wrapTable(string $table) : string
+	public static function wrapTable(string $table) : string // ok
 	{
 		$pos = stripos($table, ' AS ');
 
@@ -2063,7 +2162,7 @@ abstract class AbstractPlatform
 			$alias = '';
 		}
 
-		$table = static::formatTableName($table);
+		$table = static::formatTable($table);
 		$table = static::$_identifierLeft . $table . static::$_identifierRight;
 
 		if ($alias)
@@ -2076,10 +2175,35 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string $column
-	 * @return string
+	 * Wraps column name with identifier.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = DB::wrapColumn('*');
+	 * // The $result will be: *
+	 *
+	 * $result = DB::wrapColumn('id');
+	 * $result = DB::wrapColumn('`id`');
+	 * // The $result will be: `id`
+	 *
+	 * $result = DB::wrapColumn('`id` AS userId');
+	 * $result = DB::wrapColumn('`id` AS `userId`');
+	 * // The $result will be: `id` AS `userId`
+	 *
+	 * $result = DB::wrapColumn('u.id');
+	 * $result = DB::wrapColumn('`u`.`id`');
+	 * // The $result will be: `u`.`id`
+	 *
+	 * $result = DB::wrapColumn('u.id AS userId');
+	 * $result = DB::wrapColumn('`u`.`id` AS `userId`');
+	 * // The $result will be: `u`.`id` AS `userId`
+	 * ```
+	 *
+	 * @param  string $column  The column name.
+	 * @return string          Returns the column name wrapped with identifier.
 	 */
-	public static function wrapColumn(string $column) : string
+	public static function wrapColumn(string $column) : string // ok
 	{
 		if (trim($column) === '*')
 			$column = '*';
@@ -2094,8 +2218,9 @@ abstract class AbstractPlatform
 				$column = substr($haystack, 0, $pos);
 				$alias = substr($haystack, $pos + 4);
 
-				$column = trim($column);
 				$alias = trim($alias);
+				$alias = ltrim($alias, static::$_identifierLeft);
+				$alias = rtrim($alias, static::$_identifierRight);
 			}
 			else
 			{
@@ -2103,11 +2228,26 @@ abstract class AbstractPlatform
 				$alias = '';
 			}
 
+			$column = trim($column);
+			$column = ltrim($column, static::$_identifierLeft);
+			$column = rtrim($column, static::$_identifierRight);
+
 			$arr = explode('.', $column);
+
+			$arr[0] = trim($arr[0]);
+			$arr[0] = ltrim($arr[0], static::$_identifierLeft);
+			$arr[0] = rtrim($arr[0], static::$_identifierRight);
+
 			$column = static::$_identifierLeft . $arr[0] . static::$_identifierRight;
 
 			if (isset($arr[1]))
+			{
+				$arr[1] = trim($arr[1]);
+				$arr[1] = ltrim($arr[1], static::$_identifierLeft);
+				$arr[1] = rtrim($arr[1], static::$_identifierRight);
+
 				$column .= '.' . static::$_identifierLeft . $arr[1] . static::$_identifierRight;
+			}
 
 			if ($alias)
 				$column .= ' AS ' . static::$_identifierLeft . $alias . static::$_identifierRight;
@@ -2128,52 +2268,111 @@ abstract class AbstractPlatform
 //	}
 
 	/**
-	 * @param  string $column
-	 * @return string
+	 * An alias of static::wrapColumn().
+	 *
+	 * @param  string $column  The column name.
+	 * @return string          Returns the column name wrapped with identifier.
 	 */
-	public static function wrap(string $column) : string
+	public static function wrap(string $column) : string // ok
 	{
 		return static::wrapColumn($column);
 	}
 
 	/**
-	 * @param  mixed $value
-	 * @return mixed
+	 * Escapes strings for use in SQL statements.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = DB::escape('abc');
+	 * // The $result will be: 'abc'
+	 *
+	 * $result = DB::escape(0812345678);
+	 * // The $result will be: '0812345678'
+	 *
+	 * $result = DB::escape('3.14');
+	 * // The $result will be: '3.14'
+	 *
+	 * $result = DB::escape(true);
+	 * // The $result will be: 1
+	 *
+	 * $result = DB::escape(false);
+	 * // The $result will be: 0
+	 *
+	 * $result = DB::escape(null);
+	 * // The $result will be: NULL
+	 * ```
+	 *
+	 * @param  mixed  $value  The value to be escaped.
+	 * @return string         Returns the escaped string.
 	 */
-	public static function escape($value)
+	public static function escape($value) : string // ok
 	{
 		if (is_object($value) or is_resource($value))
-			throw InvalidArgumentException::create(1, ['string,int,float,bool,null'], $value);
+			throw InvalidArgumentException::create(1, ['string, int, float, bool, null'], $value);
 
-		// Have to use both of is_string() and is_numeric()
-		// function to check data type because number sent
-		// via url e.g., delete?id[]=1&id[]=2 will be string.
-		// Update : use is_int() and is_float() is faster
-		// than is_numeric().
-		if (is_string($value) and (!is_int($value) and !is_float($value)))
-			$value = static::$_connection->quote($value);
+		// Numbers sent via the URL (e.g., delete?id[]=1&id[]=2) will be
+		// treated as strings. Phone numbers starting with '0' will disappear
+		// if an escape string is not added. So, we need to escape both
+		// strings and numbers to ensure they will work correctly.
+		//
+		// Using is_int() and is_float() is faster than using is_numeric().
+		if (is_string($value) or is_int($value) or is_float($value))
+			$value = static::quote($value);
 		elseif (is_bool($value))
-			$value = (($value === false) ? 0 : 1);
+			$value = ($value === false ? 0 : 1);
 		elseif (is_null($value))
 			$value = 'NULL';
 
-		return $value;
+		return (string)$value;
 	}
 
-	public static function escapeLike($value)
+	/**
+	 * Places quotes around the input string (if required) and escapes
+	 * special characters within the input string, using a quoting style
+	 * appropriate to the underlying driver.
+	 *
+	 * @param  string|int|float $string  The string to be quoted.
+	 * @return string                    Returns a quoted string that is theoretically
+	 *                                   safe to pass into an SQL statement.Returns
+	 *                                   false if the driver does not support quoting
+	 *                                   in this way.
+	 */
+	public static function quote($string) : string // ok
 	{
-		$trimQuote = false;
+		if (!is_string($string) and !is_int($string) and !is_float($string))
+			throw InvalidArgumentException::create(1, ['string, int, float'], $string);
 
-		if (is_string($value) and (!is_int($value) and !is_float($value))) // todo
-			$trimQuote = true;
+		return static::$_connection->quote($string);
+	}
+
+	/**
+	 * Escapes LIKE String for use in an SQL statement.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = DB::escapeLike('%abc%');
+	 * // The $result will be: '\%abc\%'
+	 * ```
+	 *
+	 * @param  mixed  $value  The value to be escaped.
+	 * @return string         Returns the escaped string.
+	 */
+	public static function escapeLike($value) : string // ok
+	{
+		$removeQuote = false;
+
+		if (is_string($value) or is_int($value) or is_float($value))
+			$removeQuote = true;
 
 		$value = static::escape($value);
 		$value = addcslashes($value, '%_');
 
-		if ($trimQuote)
+		if ($removeQuote)
 			$value = substr($value, 1, -1);
 
-		return $value;
+		return (string)$value;
 	}
 
 	public static function getNewOrdering()
@@ -2187,7 +2386,7 @@ abstract class AbstractPlatform
 			. 'AS ' . $ordering . ' '
 			. 'FROM ' . $table;
 
-		if (DEV_MODE)
+		if (Config::app('env') === 'development')
 			static::$_queries[] = $sql;
 
 		$result = static::$_connection->query($sql);
@@ -2197,15 +2396,19 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @return string
+	 * Gets the last query.
+	 *
+	 * @return string  Returns the last query.
 	 */
 	public static function getLastQuery() : string
 	{
-		return end(static::$_queries);
+		return (string)end(static::$_queries);
 	}
 
 	/**
-	 * @return array
+	 * Gets all executed queries.
+	 *
+	 * @return array  Returns all executed queries.
 	 */
 	public static function getAllQueries() : array
 	{
@@ -2286,7 +2489,7 @@ abstract class AbstractPlatform
 
 		$sql .= ' LIMIT 1 ';
 
-		if (DEV_MODE)
+		if (Config::app('env') === 'development')
 			static::$_queries[] = $sql;
 
 		$result = static::$_connection->query($sql);
@@ -2317,7 +2520,7 @@ abstract class AbstractPlatform
 				$sql = 'SHOW TABLES';
 				$result = static::$_connection->query($sql);
 
-				if (DEV_MODE)
+				if (Config::app('env') === 'development')
 					static::$_queries[] = $sql;
 
 				while ($table = $result->fetch()) // todo
@@ -2336,10 +2539,10 @@ abstract class AbstractPlatform
 		return static::$_tables;
 	}
 
-	private static function _getColumnInfo($table = null)
+	protected static function _getColumnInfo($table = null)
 	{
 		if ($table)
-			$table = static::formatTableName($table);
+			$table = static::formatTable($table);
 		else
 		{
 			$table = static::$_sqlTable;
@@ -2364,7 +2567,7 @@ abstract class AbstractPlatform
 				$sql = 'DESCRIBE ' . $table;
 				$result = static::$_connection->query($sql);
 
-				if (DEV_MODE)
+				if (Config::app('env') === 'development')
 					static::$_queries[] = $sql;
 
 				$rows = $result->fetchAll();
@@ -2390,7 +2593,8 @@ abstract class AbstractPlatform
 					{
 						$arr = explode('(', $dataType);
 						$dataType = $arr[0];
-						$length = Str::trimRight($arr[1]);
+						//$length = Str::trimRight($arr[1]);
+						$length = rtrim($arr[1]);
 
 						if (strpos($length, ',')) // todo
 						{
@@ -2460,7 +2664,7 @@ abstract class AbstractPlatform
 	 */
 	public static function tableExists(string $table) : bool
 	{
-		$table = static::formatTableName($table);
+		$table = static::formatTable($table);
 		$tables = static::getTables();
 
 		return Arr::has($tables, $table);
@@ -2488,7 +2692,7 @@ abstract class AbstractPlatform
 		{
 			static::$_connection->query($sql);
 
-			if (DEV_MODE)
+			if (Config::app('env') === 'development')
 				static::$_queries[] = $sql;
 		}
 	}
@@ -2503,7 +2707,7 @@ abstract class AbstractPlatform
 		{
 			static::$_connection->query($sql);
 
-			if (DEV_MODE)
+			if (Config::app('env') === 'development')
 				static::$_queries[] = $sql;
 		}
 	}
@@ -2553,10 +2757,12 @@ abstract class AbstractPlatform
 //	}
 
 	/**
+	 * Parses the given columns to array.
+	 *
 	 * @param  string $columns  List of columns separated by comma.
-	 * @return array
+	 * @return array            Return array of columns.
 	 */
-	private static function _parseColumn(string $columns) : array
+	protected static function _parseColumn(string $columns) : array
 	{
 		$columns = explode(',', $columns);
 		$n = count($columns);
@@ -2567,9 +2773,14 @@ abstract class AbstractPlatform
 		return $columns;
 	}
 
-	public static function version()
+	/**
+	 * Gets the version of the database server.
+	 *
+	 * @return string  Returns the version of the database server.
+	 */
+	public static function version() : string // ok
 	{
-		static::reset();
+		static::_reset();
 
 		return static::raw('SELECT VERSION()')->loadSingle();
 	}
@@ -2602,7 +2813,12 @@ abstract class AbstractPlatform
 		exit;
 	}
 
-	public static function reset()
+	/**
+	 * Resets all static properties.
+	 *
+	 * @return void
+	 */
+	protected static function _reset() : void // ok
 	{
 		static::$_sqlRaw = null;
 		static::$_sqlSelects = null;
