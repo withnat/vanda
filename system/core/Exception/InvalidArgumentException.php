@@ -38,10 +38,12 @@ class InvalidArgumentException extends \InvalidArgumentException
 	}
 
 	/**
-	 * @param  int         $argument
-	 * @param  array|null  $allowedDataTypes
-	 * @param  mixed|null  $value
-	 * @param  string|null $customMsg
+	 * Raises an exception for an invalid argument type.
+	 *
+	 * @param  int                      $argument          The argument number.
+	 * @param  array|null               $allowedDataTypes  The allowed data types.
+	 * @param  mixed|null               $value             The given value.
+	 * @param  string|null              $customMsg         The custom error message.
 	 * @return InvalidArgumentException
 	 */
 	public static function typeError(int $argument, ?array $allowedDataTypes = null, $value = null, ?string $customMsg = null) : InvalidArgumentException
@@ -69,10 +71,12 @@ class InvalidArgumentException extends \InvalidArgumentException
 	}
 
 	/**
-	 * @param  int        $argument
-	 * @param  string     $errorMsg
-	 * @param  mixed|null $value
-	 * @return InvalidArgumentException
+	 * Raises an exception for an invalid argument value.
+	 *
+	 * @param  int                      $argument  The argument number.
+	 * @param  string                   $errorMsg  The error message.
+	 * @param  mixed|null               $value     The given value.
+	 * @return InvalidArgumentException            Returns the exception.
 	 */
 	public static function valueError(int $argument, string $errorMsg, $value = null) : InvalidArgumentException
 	{
