@@ -45,27 +45,27 @@ use \PDOStatement;
  */
 abstract class AbstractPlatform
 {
-	protected static $_instance;
-	protected static $_connection;
-	protected static $_tables;
-	protected static $_info;
-	protected static $_sqlRaw;
+	protected static $_instance = null;
+	protected static $_connection = null;
+	protected static $_tables = [];
+	protected static $_info = [];
+	protected static $_sqlRaw = null;
 	protected static $_sqlSelects = [];
-	protected static $_sqlTable;
-	protected static $_sqlJoins;
-	protected static $_sqlWheres;
-	protected static $_sqlGroups;
-	protected static $_sqlSorts;
-	protected static $_sqlTake;
-	protected static $_sqlSkip;
-	protected static $_autoSearchKeyword;
-	protected static $_autoSearchColumns;
-	protected static $_transactionMode;
-	protected static $_transactionSqls;
+	protected static $_sqlTable = null;
+	protected static $_sqlJoins = [];
+	protected static $_sqlWheres = [];
+	protected static $_sqlGroups = [];
+	protected static $_sqlSorts = [];
+	protected static $_sqlTake = null;
+	protected static $_sqlSkip = null;
+	protected static $_autoSearchKeyword = null;
+	protected static $_autoSearchColumns = [];
+	protected static $_transactionMode = false;
+	protected static $_transactionSqls = [];
 	protected static $_queries = [];
-	protected static $_identifierLeft = '`';
-	protected static $_identifierRight = '`';
-	protected static $_affectedRows;
+	protected static $_delimitIdentifierLeft = '`';
+	protected static $_delimitIdentifierRight = '`';
+	protected static $_affectedRows = null;
 	protected static $_dbCachePath = PATH_STORAGE . DS . 'cache' . DS . 'db' . DS;
 	protected static $_queryCachePath = PATH_STORAGE . DS . 'cache' . DS . 'queries' . DS;
 
@@ -145,8 +145,8 @@ abstract class AbstractPlatform
 	 * // The result will be: `id`, `name`, `email`
 	 *  ```
 	 *
-	 * @param  string $columns   List of columns separated by comma.
-	 * @return AbstractPlatform  Returns the current object.
+	 * @param  string           $columns   List of columns separated by comma.
+	 * @return AbstractPlatform            Returns the current object.
 	 */
 	public static function select(string $columns = '*') : AbstractPlatform // ok
 	{
@@ -166,70 +166,84 @@ abstract class AbstractPlatform
 	 * @param  string $sql   The raw SQL statement.
 	 * @return PDOStatement  Returns the PDOStatement object.
 	 */
-	public static function query(string $sql) : PDOStatement
+	public static function query(string $sql) : PDOStatement // ok
 	{
 		return static::$_connection->query($sql);
 	}
 
 	/**
+	 * Query the database using AVG() and returns the query result.
+	 *
 	 * @param  string $columns  List of columns separated by comma.
-	 * @return mixed
+	 * @return mixed            Returns the query result.
 	 */
-	public static function avg(string $columns)
+	public static function avg(string $columns) // ok
 	{
 		return static::_queryAggregate('AVG()', $columns);
 	}
 
 	/**
+	 * Query the database using COUNT() and returns the query result.
+	 *
 	 * @param  string $columns  List of columns separated by comma.
-	 * @return mixed
+	 * @return mixed            Returns the query result.
 	 */
-	public static function count(string $columns = '*')
+	public static function count(string $columns = '*') // ok
 	{
 		return static::_queryAggregate('COUNT()', $columns);
 	}
 
 	/**
+	 * Query the database using COUNT(DISTINCT()) and returns the query result.
+	 *
 	 * @param  string $columns  List of columns separated by comma.
-	 * @return mixed
+	 * @return mixed            Returns the query result.
 	 */
-	public static function countDistinct(string $columns)
+	public static function countDistinct(string $columns) // ok
 	{
 		return static::_queryAggregate('COUNT(DISTINCT())', $columns);
 	}
 
 	/**
+	 * Query the database using MIN() and returns the query result.
+	 *
 	 * @param  string $columns  List of columns separated by comma.
-	 * @return mixed
+	 * @return mixed            Returns the query result.
 	 */
-	public static function min(string $columns)
+	public static function min(string $columns) // ok
 	{
 		return static::_queryAggregate('MIN()', $columns);
 	}
 
 	/**
+	 * Query the database using MAX() and returns the query result.
+	 *
 	 * @param  string $columns  List of columns separated by comma.
-	 * @return mixed
+	 * @return mixed            Returns the query result.
 	 */
-	public static function max(string $columns)
+	public static function max(string $columns) // ok
 	{
 		return static::_queryAggregate('MAX()', $columns);
 	}
 
 	/**
+	 * Query the database using STD() and returns the query result.
+	 *
 	 * @param  string $columns  List of columns separated by comma.
-	 * @return mixed
+	 * @return mixed            Returns the query result.
 	 */
-	public static function std(string $columns)
+	public static function std(string $columns) // ok
 	{
 		return static::_queryAggregate('STD()', $columns);
 	}
 
 	/**
+	 * Query the database using SUM() and returns the query result.
+	 *
 	 * @param  string $columns  List of columns separated by comma.
-	 * @return mixed
+	 * @return mixed            Returns the query result.
 	 */
-	public static function sum(string $columns)
+	public static function sum(string $columns) // ok
 	{
 		return static::_queryAggregate('SUM()', $columns);
 	}
@@ -301,10 +315,12 @@ abstract class AbstractPlatform
 	// From
 
 	/**
+	 * An alias of method static::from().
+	 *
 	 * @param  string $table
 	 * @return AbstractPlatform
 	 */
-	public static function table(string $table) : AbstractPlatform
+	public static function table(string $table) : AbstractPlatform // ok
 	{
 		static::from($table);
 
@@ -314,10 +330,10 @@ abstract class AbstractPlatform
 	/**
 	 * Sets the table to select from.
 	 *
-	 * @param  string $table     The table name.
-	 * @return AbstractPlatform  Returns the current object.
+	 * @param  string           $table     The table name.
+	 * @return AbstractPlatform            Returns the current object.
 	 */
-	public static function from(string $table) : AbstractPlatform
+	public static function from(string $table) : AbstractPlatform // ok
 	{
 		static::$_sqlTable = static::wrapTable($table);
 
@@ -325,12 +341,56 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string $type
-	 * @param  string $table
-	 * @param  string $condition
+	 * Sets the table for an inner join.
+	 *
+	 * @param  string           $table      The table name.
+	 * @param  string           $condition  The join condition.
+	 * @return AbstractPlatform             Returns the current object.
+	 */
+	public static function innerJoin(string $table, string $condition) : AbstractPlatform // ok
+	{
+		static::_setJoin('INNER JOIN', $table, $condition);
+
+		return static::getInstance();
+	}
+
+	/**
+	 * Sets the table for a left join.
+	 *
+	 * @param  string           $table      The table name.
+	 * @param  string           $condition  The join condition.
+	 * @return AbstractPlatform             Returns the current object.
+	 */
+	public static function leftJoin(string $table, string $condition) : AbstractPlatform // ok
+	{
+		static::_setJoin('LEFT JOIN', $table, $condition);
+
+		return static::getInstance();
+	}
+
+	/**
+	 * Sets the table for a right join.
+	 *
+	 * @param  string           $table      The table name.
+	 * @param  string           $condition  The join condition.
+	 * @return AbstractPlatform             Returns the current object.
+	 */
+	public static function rightJoin(string $table, string $condition) : AbstractPlatform // ok
+	{
+		static::_setJoin('RIGHT JOIN', $table, $condition);
+
+		return static::getInstance();
+	}
+
+	/**
+	 * Sets the table to join.
+	 *
+	 * @param  string $type       The join type.
+	 * @param  string $table      The table name.
+	 * @param  string $condition  The join condition.
 	 * @return void
 	 */
-	private static function _setJoin(string $type, string $table, string $condition) : void
+	protected static function _setJoin(string $type, string $table, string $condition) : void // ok
 	{
 		$table = static::wrapTable($table);
 
@@ -345,42 +405,6 @@ abstract class AbstractPlatform
 		$sql = $type . ' ' . $table . ' ON ' . $condition;
 
 		static::$_sqlJoins[] = $sql;
-	}
-
-	/**
-	 * @param  string $table
-	 * @param  string $condition
-	 * @return AbstractPlatform
-	 */
-	public static function innerJoin(string $table, string $condition) : AbstractPlatform
-	{
-		static::_setJoin('INNER JOIN', $table, $condition);
-
-		return static::getInstance();
-	}
-
-	/**
-	 * @param  string $table
-	 * @param  string $condition
-	 * @return AbstractPlatform
-	 */
-	public static function leftJoin(string $table, string $condition) : AbstractPlatform
-	{
-		static::_setJoin('LEFT JOIN', $table, $condition);
-
-		return static::getInstance();
-	}
-
-	/**
-	 * @param  string $table
-	 * @param  string $condition
-	 * @return AbstractPlatform
-	 */
-	public static function rightJoin(string $table, string $condition) : AbstractPlatform
-	{
-		static::_setJoin('RIGHT JOIN', $table, $condition);
-
-		return static::getInstance();
 	}
 
 	// Save
@@ -521,38 +545,23 @@ abstract class AbstractPlatform
 		return $affectedRows;
 	}
 
-	public static function increase($columns, $num = 1)
+	/**
+	 * Increments the value of the specified column by the specified amount.
+	 *
+	 * @param  string    $columns  List of columns separated by comma.
+	 * @param  int|float $amount   The amount to increment.
+	 * @return int                 Returns the number of affected rows.
+	 */
+	public static function increase(string $columns, $amount = 1) : int
 	{
-		$columns = static::_parseColumn($columns);
-		$columns = static::wrapColumn($columns);
 		$where = static::_buildWhere();
-		$num = (float)$num;
-
-		$sql = 'UPDATE ' . @static::$_sqlTable . ' SET ';
-
-		foreach ($columns as $column)
-			$sql .= $column . ' = IFNULL(' . $column . ', 0) + ' . $num . ', ';
-
-		$sql = substr($sql, 0, -2) . $where;
-		$sql .= static::_buildSort();
-		$sql .= static::_buildLimit();
-
-		static::raw($sql)->execute();
-
-		return static::getAffectedRows();
-	}
-
-	public static function decrease($columns, $num = 1)
-	{
 		$columns = static::_parseColumn($columns);
-		$columns = static::wrapColumn($columns);
-		$where = static::_buildWhere();
-		$num = (float)$num;
+		$amount = (float)$amount;
 
 		$sql = 'UPDATE ' . static::$_sqlTable . ' SET ';
 
 		foreach ($columns as $column)
-			$sql .= $column . ' = IFNULL(' . $column . ', 0) - ' . $num . ', ';
+			$sql .= $column . ' = IFNULL(' . $column . ', 0) + ' . $amount . ', ';
 
 		$sql = substr($sql, 0, -2) . $where;
 
@@ -562,49 +571,87 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @return int  Affected rows.
+	 * Decrements the value of the specified column by the specified amount.
+	 *
+	 * @param  string    $columns  List of columns separated by comma.
+	 * @param  int|float $amount   The amount to decrement.
+	 * @return int                 Returns the number of affected rows.
 	 */
-	public static function publish() : int
+	public static function decrease(string $columns, $amount = 1) : int
+	{
+		$columns = static::_parseColumn($columns);
+		$columns = static::wrapColumn($columns);
+		$where = static::_buildWhere();
+		$amount = (float)$amount;
+
+		$sql = 'UPDATE ' . static::$_sqlTable . ' SET ';
+
+		foreach ($columns as $column)
+			$sql .= $column . ' = IFNULL(' . $column . ', 0) - ' . $amount . ', ';
+
+		$sql = substr($sql, 0, -2) . $where;
+
+		static::raw($sql)->execute();
+
+		return static::getAffectedRows();
+	}
+
+	/**
+	 * Sets status to 2 (published).
+	 *
+	 * @return int  Returns the number of affected rows.
+	 */
+	public static function publish() : int // ok
 	{
 		return static::update(['status' => 2]);
 	}
 
 	/**
-	 * @return int  Affected rows.
+	 * Set status to 1 (active).
+	 *
+	 * @return int  Returns the number of affected rows.
 	 */
-	public static function activate() : int
+	public static function activate() : int // ok
 	{
 		return static::update(['status' => 1]);
 	}
 
 	/**
-	 * @return int  Affected rows.
+	 * Set status to 0 (inactive).
+	 *
+	 * @return int  Returns the number of affected rows.
 	 */
-	public static function deactivate() : int
+	public static function deactivate() : int // ok
 	{
 		return static::update(['status' => 0]);
 	}
 
 	/**
-	 * @return int  Affected rows.
+	 * Set status to -1 (archive).
+	 *
+	 * @return int  Returns the number of affected rows.
 	 */
-	public static function archive() : int
+	public static function archive() : int // ok
 	{
 		return static::update(['status' => -1]);
 	}
 
 	/**
-	 * @return int  Affected rows.
+	 * Set status to -2 (trash).
+	 *
+	 * @return int  Returns the number of affected rows.
 	 */
-	public static function trash() : int
+	public static function trash() : int // ok
 	{
 		return static::update(['status' => -2]);
 	}
 
 	/**
-	 * @return int  Affected rows.
+	 * Set status to -3 (discontinued).
+	 *
+	 * @return int  Returns the number of affected rows.
 	 */
-	public static function discontinue() : int
+	public static function discontinue() : int // ok
 	{
 		return static::update(['status' => -3]);
 	}
@@ -756,9 +803,11 @@ abstract class AbstractPlatform
 	// Normal where
 
 	/**
-	 * @return AbstractPlatform
+	 * Sets a marking point for starting the SQL group.
+	 *
+	 * @return AbstractPlatform  Returns the current object.
 	 */
-	public static function groupStart() : AbstractPlatform
+	protected static function groupStart() : AbstractPlatform  // ok
 	{
 		static::$_sqlWheres[] = ['AND', '('];
 
@@ -766,9 +815,11 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @return AbstractPlatform
+	 * Sets a marking point for starting the SQL 'OR' group.
+	 *
+	 * @return AbstractPlatform  Returns the current object.
 	 */
-	public static function orGroupStart() : AbstractPlatform
+	protected static function orGroupStart() : AbstractPlatform // ok
 	{
 		static::$_sqlWheres[] = ['OR', '('];
 
@@ -776,9 +827,11 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @return AbstractPlatform
+	 * Sets a marking point for ending the SQL group.
+	 *
+	 * @return AbstractPlatform  Returns the current object.
 	 */
-	public static function groupEnd() : AbstractPlatform
+	protected static function groupEnd() : AbstractPlatform // ok
 	{
 		static::$_sqlWheres[] = ['', ')'];
 
@@ -786,7 +839,7 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * Sets the where condition.
+	 * Sets the where clause.
 	 *
 	 * For example,
 	 *
@@ -795,17 +848,21 @@ abstract class AbstractPlatform
 	 * DB::where('id', 1);
 	 * DB::where('id = ?', 1);
 	 * DB::where('id', '=', 1);
+	 * DB::where('id = :id', ['id' => 1]);
+	 * DB::where('id = :id', [':id' => 1]);
 	 * // The result will be:
 	 * // WHERE `id` = 1
 	 *
 	 * DB::where('name = ? AND surname = ?', 'Nat', 'Withe');
+	 * DB::where('name = :name AND surname = :surname', ['name' => 'Nat', 'surname' => 'Withe']);
+	 * DB::where('name = :name AND surname = :surname', [':name' => 'Nat', ':surname' => 'Withe']);
 	 * // The result will be: WHERE name = 'Nat' AND surname = 'Withe'
 	 * ```
 	 *
-	 * @param  mixed $where      The where condition.
-	 * @return AbstractPlatform  Returns the current object.
+	 * @param  mixed            $where      The where condition.
+	 * @return AbstractPlatform             Returns the current object.
 	 */
-	public static function where($where) : AbstractPlatform
+	public static function where($where) : AbstractPlatform // ok
 	{
 		$args = func_get_args();
 
@@ -818,14 +875,36 @@ abstract class AbstractPlatform
 		else
 		{
 			$where = static::_parseWhere($args);
-
 			static::$_sqlWheres[] = ['AND', $where];
 		}
 
 		return static::getInstance();
 	}
 
-	public static function orWhere($where) : AbstractPlatform
+	/**
+	 *  Sets the 'OR' WHERE clause.
+	 *
+	 *  For example,
+	 *
+	 *   ```php
+	 *  DB::orWhere(1);
+	 *  DB::orWhere('id', 1);
+	 *  DB::orWhere('id = ?', 1);
+	 *  DB::orWhere('id', '=', 1);
+	 *  DB::orWhere('id = :id', ['id' => 1]);
+	 *  DB::orWhere('id = :id', [':id' => 1]);
+	 *  // The result will be:
+	 *  // [WHERE ...] or `id` = 1
+	 *
+	 *  DB::orWhere('name = ? AND surname = ?', 'Nat', 'Withe');
+	 *  DB::orWhere('name = :name AND surname = :surname', ['name' => 'Nat', 'surname' => 'Withe']);
+	 *  DB::orWhere('name = :name AND surname = :surname', [':name' => 'Nat', ':surname' => 'Withe']);
+	 *  // The result will be: [WHERE ...] or name = 'Nat' AND surname = 'Withe'
+	 *  ```
+	 * @param  mixed            $where      The 'OR' where condition.
+	 * @return AbstractPlatform             Returns the current object.
+	 */
+	public static function orWhere($where) : AbstractPlatform // ok
 	{
 		$args = func_get_args();
 
@@ -838,43 +917,65 @@ abstract class AbstractPlatform
 		else
 		{
 			$where = static::_parseWhere($args);
-
-			if ($where)
-				static::$_sqlWheres[] = ['OR', $where];
+			static::$_sqlWheres[] = ['OR', $where];
 		}
 
 		return static::getInstance();
 	}
 
-	protected static function _parseWhere(array $args) : string
+	/**
+	 * Parses the where condition and builds the SQL where clause.
+	 *
+	 * @param  array   $args  The given arguments.
+	 * @return string         Returns the SQL where clause.
+	 */
+	protected static function _parseWhere(array $args) : string  // ok
 	{
-		$countArgs = count($args);
+		$argCount = count($args);
 
-		if ($countArgs === 1)
+		// For example,
+		// DB::where(1);
+		// DB::where('id=1');
+		if ($argCount === 1)
 		{
 			if (is_int($args[0]))
 				$where = static::wrapColumn('id') . ' = ' . $args[0];
 			else
 				$where = $args[0];
 		}
+		// For example,
+		// DB::where('id', 1);
+		// DB::where('id = ?', 1);
+		// DB::where('id', '=', 1);
+		// DB::where('id = :id', ['id' => 1]);
+		// DB::where('id = :id', [':id' => 1]);
 		else
 		{
 			$where = $args[0];
-			$where = str_replace('{', static::$_identifierLeft, $where); // todo เอาไว้ทำอะไร
-			$where = str_replace('}', static::$_identifierRight, $where);
+			//$where = str_replace('{', static::$_delimitIdentifierLeft, $where); // todo เอาไว้ทำอะไร
+			//$where = str_replace('}', static::$_delimitIdentifierRight, $where);
 
 			if (strpos($args[0], '?'))
 			{
 				$args = Arr::flatten($args);
 
 				for ($i = 1, $n = count($args); $i < $n; ++$i)
-					$where = Str::replace($where, '?', (string)static::escape($args[$i]), 1);
+					$where = Str::replace($where, '?', static::escape($args[$i]), 1);
 			}
 			elseif (strpos($args[0], ':'))
 			{
-				// We need associative array so don't need to flatten it.
+				// We need an associative array, so there's no need to flatten it.
 				foreach ($args[1] as $key => $value)
+				{
+					// Supports both :key and key.
+					// For example,
+					// DB::where('id = :id', ['id' => 1]);
+					// DB::where('id = :id', [':id' => 1]);
+					if (strpos($key, ':') === false)
+						$key = ':' . $key;
+
 					$where = str_replace($key, static::escape($value), $where);
+				}
 			}
 			else
 			{
@@ -883,12 +984,12 @@ abstract class AbstractPlatform
 				$operator = '';
 				$value = '';
 
-				if ($countArgs === 2)
+				if ($argCount === 2)
 				{
 					$operator = '=';
 					$value = $args[1];
 				}
-				elseif ($countArgs > 2)
+				elseif ($argCount > 2)
 				{
 					$operator = trim($args[1]);
 					$value = $args[2];
@@ -905,108 +1006,121 @@ abstract class AbstractPlatform
 	// Where between
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $start
-	 * @param  string|int|float $end
-	 * @return AbstractPlatform
+	 * Sets the 'BETWEEN' condition for the WHERE clause.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $start   The start value.
+	 * @param  string|int|float $end     The end value.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function whereBetween(string $column, $start, $end) : AbstractPlatform
+	public static function whereBetween(string $column, $start, $end) : AbstractPlatform // ok
 	{
 		if (!is_string($start) and !is_int($start) and !is_float($start))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $start);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $start);
 
 		if (!is_string($end) and !is_int($end) and !is_float($end))
-			throw InvalidArgumentException::create(3, ['string','int','float'], $end);
+			throw InvalidArgumentException::typeError(3, ['string', 'int', 'float'], $end);
 
-		$column = static::wrapColumn($column);
-		$start = static::escape($start);
-		$end = static::escape($end);
-
-		static::$_sqlWheres[] = ['AND', $column . ' BETWEEN ' . $start . ' AND ' . $end];
+		static::_setWhereBetween('AND', 'BETWEEN', $column, $start, $end);
 
 		return static::getInstance();
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $start
-	 * @param  string|int|float $end
-	 * @return AbstractPlatform
+	 * Sets the 'BETWEEN' condition for the 'OR' clause in the WHERE statement.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $start   The start value.
+	 * @param  string|int|float $end     The end value.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function orWhereBetween(string $column, $start, $end) : AbstractPlatform
+	public static function orWhereBetween(string $column, $start, $end) : AbstractPlatform // ok
 	{
 		if (!is_string($start) and !is_int($start) and !is_float($start))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $start);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $start);
 
 		if (!is_string($end) and !is_int($end) and !is_float($end))
-			throw InvalidArgumentException::create(3, ['string','int','float'], $end);
+			throw InvalidArgumentException::typeError(3, ['string', 'int', 'float'], $end);
 
-		$column = static::wrapColumn($column);
-		$start = static::escape($start);
-		$end = static::escape($end);
-
-		static::$_sqlWheres[] = ['OR', $column . ' BETWEEN ' . $start . ' AND ' . $end];
+		static::_setWhereBetween('OR', 'BETWEEN', $column, $start, $end);
 
 		return static::getInstance();
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $start
-	 * @param  string|int|float $end
-	 * @return AbstractPlatform
+	 * Sets the 'NOT BETWEEN' condition for the WHERE clause.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $start   The start value.
+	 * @param  string|int|float $end     The end value.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function whereNotBetween(string $column, $start, $end) : AbstractPlatform
+	public static function whereNotBetween(string $column, $start, $end) : AbstractPlatform // ok
 	{
 		if (!is_string($start) and !is_int($start) and !is_float($start))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $start);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $start);
 
 		if (!is_string($end) and !is_int($end) and !is_float($end))
-			throw InvalidArgumentException::create(3, ['string','int','float'], $end);
+			throw InvalidArgumentException::typeError(3, ['string', 'int', 'float'], $end);
 
-		$column = static::wrapColumn($column);
-		$start = static::escape($start);
-		$end = static::escape($end);
-
-		static::$_sqlWheres[] = ['AND', $column . ' NOT BETWEEN ' . $start . ' AND ' . $end];
+		static::_setWhereBetween('AND', 'NOT BETWEEN', $column, $start, $end);
 
 		return static::getInstance();
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $start
-	 * @param  string|int|float $end
-	 * @return AbstractPlatform
+	 * Sets the 'NOT BETWEEN' condition for the 'OR' clause in the WHERE statement.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $start   The start value.
+	 * @param  string|int|float $end     The end value.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function orWhereNotBetween(string $column, $start, $end) : AbstractPlatform
+	public static function orWhereNotBetween(string $column, $start, $end) : AbstractPlatform // ok
 	{
 		if (!is_string($start) and !is_int($start) and !is_float($start))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $start);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $start);
 
 		if (!is_string($end) and !is_int($end) and !is_float($end))
-			throw InvalidArgumentException::create(3, ['string','int','float'], $end);
+			throw InvalidArgumentException::typeError(3, ['string', 'int', 'float'], $end);
 
+		static::_setWhereBetween('OR', 'NOT BETWEEN', $column, $start, $end);
+
+		return static::getInstance();
+	}
+
+	/**
+	 * Sets the 'BETWEEN' condition for the WHERE clause.
+	 *
+	 * @param  string           $logicalOperator  The logical operator. Either 'AND' or 'OR'.
+	 * @param  string           $sqlOperator      The SQL operator. Either 'BETWEEN' or 'NOT BETWEEN'.
+	 * @param  string           $column           The column name.
+	 * @param  string|int|float $start            The start value.
+	 * @param  string|int|float $end              The end value.
+	 * @return void
+	 */
+	protected static function _setWhereBetween(string $logicalOperator, string $sqlOperator, string $column, $start, $end) : void // ok
+	{
 		$column = static::wrapColumn($column);
 		$start = static::escape($start);
 		$end = static::escape($end);
 
-		static::$_sqlWheres[] = ['OR', $column . ' NOT BETWEEN ' . $start . ' AND ' . $end];
-
-		return static::getInstance();
+		static::$_sqlWheres[] = [$logicalOperator, $column . ' ' . $sqlOperator . ' ' . $start . ' AND ' . $end];
 	}
 
 	// Where like
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 * Sets the 'LIKE' condition for the WHERE clause that contains the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function whereContain(string $column, $value) : AbstractPlatform
+	public static function whereContain(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1017,14 +1131,17 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 * Sets the 'LIKE' condition for the 'OR' clause in the WHERE statement
+	 * that contains the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function orWhereContain(string $column, $value) : AbstractPlatform
+	public static function orWhereContain(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1035,14 +1152,16 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 * Sets the 'LIKE' condition for the WHERE clause that starts with the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function whereStartWith(string $column, $value) : AbstractPlatform
+	public static function whereStartsWith(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1053,14 +1172,17 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 * Sets the 'LIKE' condition for the 'OR' clause in the WHERE statement
+	 * that starts with the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function orWhereStartWith(string $column, $value) : AbstractPlatform
+	public static function orWhereStartsWith(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1071,14 +1193,16 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 * Sets the 'LIKE' condition for the WHERE clause that ends with the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function whereEndWith(string $column, $value) : AbstractPlatform
+	public static function whereEndsWith(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1089,14 +1213,17 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 * Sets the 'LIKE' condition for the 'OR' clause in the WHERE statement
+	 * that ends with the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function orWhereEndWith(string $column, $value) : AbstractPlatform
+	public static function orWhereEndsWith(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1107,14 +1234,16 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 * Sets the 'LIKE' condition for the WHERE clause that does not contain the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function whereNotContain(string $column, $value) : AbstractPlatform
+	public static function whereNotContain(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1125,14 +1254,17 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 *  Sets the 'LIKE' condition for the 'OR' clause in the WHERE statement
+	 *  that does not contain the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function orWhereNotContain(string $column, $value) : AbstractPlatform
+	public static function orWhereNotContain(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1143,14 +1275,16 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 * Sets the 'LIKE' condition for the WHERE clause that does not start with the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function whereNotStartWith(string $column, $value) : AbstractPlatform
+	public static function whereNotStartsWith(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1161,14 +1295,17 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 * Sets the 'LIKE' condition for the 'OR' clause in the WHERE statement
+	 * that does not start with the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function orWhereNotStartWith(string $column, $value) : AbstractPlatform
+	public static function orWhereNotStartsWith(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1179,14 +1316,16 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 * Sets the 'LIKE' condition for the WHERE clause that does not end with the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function whereNotEndWith(string $column, $value) : AbstractPlatform
+	public static function whereNotEndsWith(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1197,14 +1336,17 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string           $column
-	 * @param  string|int|float $value
-	 * @return AbstractPlatform
+	 * Sets the 'LIKE' condition for the 'OR' clause in the WHERE statement
+	 * that does not end with the given value.
+	 *
+	 * @param  string           $column  The column name.
+	 * @param  string|int|float $value   The value to search for.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function orWhereNotEndWith(string $column, $value) : AbstractPlatform
+	public static function orWhereNotEndsWith(string $column, $value) : AbstractPlatform // ok
 	{
 		if (!is_string($value) and !is_int($value) and !is_float($value))
-			throw InvalidArgumentException::create(2, ['string','int','float'], $value);
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float'], $value);
 
 		$column = static::wrapColumn($column);
 		$value = static::escapeLike($value);
@@ -1216,54 +1358,106 @@ abstract class AbstractPlatform
 
 	// Where in
 
-	public static function whereIn($column, $values)
+	/**
+	 * Sets the 'IN' condition for the WHERE clause.
+	 *
+	 * @param  string                 $column  The column name.
+	 * @param  string|int|float|array $values  The values to search for.
+	 * @return AbstractPlatform                Returns the current object.
+	 */
+	public static function whereIn(string $column, $values) : AbstractPlatform // ok
 	{
-		static::_setWhereIn('IN', $column, $values, 'AND');
+		if (!is_string($values) and !is_int($values) and !is_float($values) and !is_array($values))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'array'], $values);
+
+		static::_setWhereIn('AND', 'IN', $column, $values);
 
 		return static::getInstance();
 	}
 
-	public static function orWhereIn($column, $values)
+	/**
+	 * Sets the 'IN' condition for the 'OR' clause in the WHERE statement.
+	 *
+	 * @param  string                 $column  The column name.
+	 * @param  string|int|float|array $values  The values to search for.
+	 * @return AbstractPlatform                Returns the current object.
+	 */
+	public static function orWhereIn(string $column, $values) : AbstractPlatform // ok
 	{
-		static::_setWhereIn('IN', $column, $values, 'OR');
+		if (!is_string($values) and !is_int($values) and !is_float($values) and !is_array($values))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'array'], $values);
+
+		static::_setWhereIn('OR', 'IN', $column, $values);
 
 		return static::getInstance();
 	}
 
-	public static function whereNotIn($column, $values)
+	/**
+	 * Sets the 'NOT IN' condition for the WHERE clause.
+	 *
+	 * @param  string                 $column  The column name.
+	 * @param  string|int|float|array $values  The values to search for.
+	 * @return AbstractPlatform                Returns the current object.
+	 */
+	public static function whereNotIn(string $column, $values) : AbstractPlatform // ok
 	{
-		static::_setWhereIn('NOT IN', $column, $values, 'AND');
+		if (!is_string($values) and !is_int($values) and !is_float($values) and !is_array($values))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'array'], $values);
+		static::_setWhereIn('AND', 'NOT IN', $column, $values);
 
 		return static::getInstance();
 	}
 
-	public static function orWhereNotIn($column, $values)
+	/**
+	 * Sets the 'NOT IN' condition for the 'OR' clause in the WHERE statement.
+	 *
+	 * @param  string                 $column  The column name.
+	 * @param  string|int|float|array $values  The values to search for.
+	 * @return AbstractPlatform                Returns the current object.
+	 */
+	public static function orWhereNotIn(string $column, $values) : AbstractPlatform // ok
 	{
-		static::_setWhereIn('NOT IN', $column, $values, 'OR');
+		if (!is_string($values) and !is_int($values) and !is_float($values) and !is_array($values))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'array'], $values);
+
+		static::_setWhereIn('OR', 'NOT IN', $column, $values);
 
 		return static::getInstance();
 	}
 
-	private static function _setWhereIn($operator, $column, $values, $condition)
+	/**
+	 * Sets the 'IN' condition for the WHERE clause.
+	 *
+	 * @param  string                  $logicalOperator  The logical operator. Either 'AND' or 'OR'.
+	 * @param  string                  $sqlOperator      The SQL operator. Either 'IN' or 'NOT IN'.
+	 * @param  string                  $column           The column name.
+	 * @param  string|int|float|array  $values           The values to search for.
+	 * @return void
+	 */
+	protected static function _setWhereIn(string $logicalOperator, string $sqlOperator, string $column, $values) // ok
 	{
 		$column = static::wrapColumn($column);
 		$values = (array)$values;
-		$values = Arr::flatten($values); // $args parameter sent from model class as multi-dimension array
+
+		// The $args parameter is sent from the model class as
+		// a multidimensional array, so we need to flatten it.
+		$values = Arr::flatten($values);
 
 		$values = array_map([static::_getInstance(), 'escape'], $values);
-		$where = $column . ' ' . $operator . ' (' . implode(', ', $values) . ')';
+		$where = $column . ' ' . $sqlOperator . ' (' . implode(', ', $values) . ')';
 
-		static::$_sqlWheres[] = [$condition, $where];
-
+		static::$_sqlWheres[] = [$logicalOperator, $where];
 	}
 
 	// Where null
 
 	/**
-	 * @param  string $column
-	 * @return AbstractPlatform
+	 * Sets the 'IS NULL' condition for the WHERE clause.
+	 *
+	 * @param  string           $column  The column name.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function whereNull(string $column) : AbstractPlatform
+	public static function whereNull(string $column) : AbstractPlatform // ok
 	{
 		$column = static::wrapColumn($column);
 
@@ -1273,10 +1467,12 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string $column
-	 * @return AbstractPlatform
+	 * Sets the 'IS NULL' condition for the 'OR' clause in the WHERE statement.
+	 *
+	 * @param  string           $column  The column name.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function orWhereNull($column) : AbstractPlatform
+	public static function orWhereNull(string $column) : AbstractPlatform // ok
 	{
 		$column = static::wrapColumn($column);
 
@@ -1286,10 +1482,12 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string $column
-	 * @return AbstractPlatform
+	 * Sets the 'IS NOT NULL' condition for the WHERE clause.
+	 *
+	 * @param  string           $column  The column name.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function whereNotNull($column) : AbstractPlatform
+	public static function whereNotNull(string $column) : AbstractPlatform // ok
 	{
 		$column = static::wrapColumn($column);
 
@@ -1299,10 +1497,12 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string $column
-	 * @return AbstractPlatform
+	 * Sets the 'IS NOT NULL' condition for the 'OR' clause in the WHERE statement.
+	 *
+	 * @param  string           $column  The column name.
+	 * @return AbstractPlatform          Returns the current object.
 	 */
-	public static function orWhereNotNull($column) : AbstractPlatform
+	public static function orWhereNotNull(string $column) : AbstractPlatform // ok
 	{
 		$column = static::wrapColumn($column);
 
@@ -1313,7 +1513,13 @@ abstract class AbstractPlatform
 
 	// Group
 
-	public static function group($columns)
+	/**
+	 * Sets the grouping columns.
+	 *
+	 * @param  string           $columns  List of columns separated by comma.
+	 * @return AbstractPlatform           Returns the current object.
+	 */
+	public static function group(string $columns) : AbstractPlatform // ok
 	{
 		static::$_sqlGroups[] = static::wrapColumn($columns);
 
@@ -1323,11 +1529,13 @@ abstract class AbstractPlatform
 	// Order by
 
 	/**
-	 * @param  string $columns    List of columns separated by comma.
-	 * @param  string $direction
-	 * @return AbstractPlatform
+	 * Sets the sorting columns.
+	 *
+	 * @param  string           $columns    List of columns separated by comma.
+	 * @param  string           $direction  The sorting direction. Either 'ASC' or 'DESC'.
+	 * @return AbstractPlatform             Returns the current object.
 	 */
-	public static function sort(string $columns, string $direction = 'ASC') : AbstractPlatform
+	public static function sort(string $columns, string $direction = 'ASC') : AbstractPlatform // ok
 	{
 		$columns = static::_parseColumn($columns);
 
@@ -1338,10 +1546,12 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string $columns  List of columns separated by comma.
-	 * @return AbstractPlatform
+	 * Sets the sorting columns in ascending order.
+	 *
+	 * @param  string           $columns  List of columns separated by comma.
+	 * @return AbstractPlatform           Returns the current object.
 	 */
-	public static function sortAsc(string $columns) : AbstractPlatform
+	public static function sortAsc(string $columns) : AbstractPlatform // ok
 	{
 		static::sort($columns, 'ASC');
 
@@ -1349,10 +1559,12 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string $columns  List of columns separated by comma.
-	 * @return AbstractPlatform
+	 * Sets the sorting columns in descending order.
+	 *
+	 * @param  string           $columns  List of columns separated by comma.
+	 * @return AbstractPlatform           Returns the current object.
 	 */
-	public static function sortDesc(string $columns) : AbstractPlatform
+	public static function sortDesc(string $columns) : AbstractPlatform // ok
 	{
 		static::sort($columns, 'DESC');
 
@@ -1362,10 +1574,12 @@ abstract class AbstractPlatform
 	// Limit
 
 	/**
-	 * @param  int  $num
-	 * @return AbstractPlatform
+	 * Sets the number of rows to return.
+	 *
+	 * @param  int              $num  The number of rows to return.
+	 * @return AbstractPlatform       Returns the current object.
 	 */
-	public static function take(int $num) : AbstractPlatform
+	public static function take(int $num) : AbstractPlatform // ok
 	{
 		static::$_sqlTake = $num;
 
@@ -1373,10 +1587,12 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  int  $num
-	 * @return AbstractPlatform
+	 * Sets the number of rows to skip.
+	 *
+	 * @param  int              $num  The number of rows to skip.
+	 * @return AbstractPlatform       Returns the current object.
 	 */
-	public static function skip(int $num) : AbstractPlatform
+	public static function skip(int $num) : AbstractPlatform // ok
 	{
 		static::$_sqlSkip = $num;
 
@@ -1386,10 +1602,12 @@ abstract class AbstractPlatform
 	// Query
 
 	/**
-	 * @param  string $sql
+	 * Sets the raw SQL query.
+	 *
+	 * @param  string           $sql  The raw SQL query.
 	 * @return AbstractPlatform
 	 */
-	public static function raw(string $sql) : AbstractPlatform
+	public static function raw(string $sql) : AbstractPlatform // ok
 	{
 		static::$_sqlRaw = $sql;
 
@@ -1452,7 +1670,12 @@ abstract class AbstractPlatform
 
 	// Load data
 
-	public static function loadSingle()
+	/**
+	 * Gets a single item (first column of the first row) from the recordset.
+	 *
+	 * @return mixed
+	 */
+	public static function loadSingle() // ok
 	{
 		$sql = static::_buildQuerySelect();
 		$data = static::load($sql);
@@ -1500,8 +1723,8 @@ abstract class AbstractPlatform
 					foreach ($tables[0] as $table)
 					{
 						$table = trim($table);
-						$table = ltrim($table, static::$_identifierLeft);
-						$table = rtrim($table, static::$_identifierRight);
+						$table = ltrim($table, static::$_delimitIdentifierLeft);
+						$table = rtrim($table, static::$_delimitIdentifierRight);
 
 						$columns = array_merge($columns, array_values(static::getColumnListing($table)));
 					}
@@ -1518,8 +1741,8 @@ abstract class AbstractPlatform
 						if ($pos)
 							$column = substr($column, $pos + 4);
 
-						$column = ltrim($column, static::$_identifierLeft);
-						$column = rtrim($column, static::$_identifierLeft);
+						$column = ltrim($column, static::$_delimitIdentifierLeft);
+						$column = rtrim($column, static::$_delimitIdentifierLeft);
 						$column = trim($column);
 
 						$columns[] = $column;
@@ -1649,7 +1872,12 @@ abstract class AbstractPlatform
 			static::_displayError($result); // todo
 	}
 
-	public static function toJSON()
+	/**
+	 * Converts the recordset to JSON string.
+	 *
+	 * @return string  Returns the JSON string.
+	 */
+	public static function toJSON() : string // ok
 	{
 		$data = static::loadAll();
 		$json = json_encode($data);
@@ -1661,10 +1889,12 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  bool   $header
-	 * @return string
+	 * Converts the recordset to CSV string.
+	 *
+	 * @param  bool   $header  Whether to include the header row.
+	 * @return string          Returns the CSV string.
 	 */
-	public static function toCSV(bool $header = false) : string
+	public static function toCSV(bool $header = false) : string // ok
 	{
 		$data = static::loadAll();
 
@@ -1684,117 +1914,16 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @return string
+	 * Converts the recordset to XML string.
+	 *
+	 * @return string  Returns the XML string.
 	 */
-	public static function toXML() : string
+	public static function toXML() : string // ok
 	{
 		$data = static::loadAll();
 		$xml = XML::fromRecordset($data);
 
 		return $xml;
-	}
-
-	public static function getCreatorUpdaterInfo($data)
-	{
-		if (empty($data))
-			return $data; // Ensure to return the same input data type.
-
-		if (is_array($data) and isset($data[0]))
-			$row = $data[0];
-		else
-			$row = $data;
-
-		if (!is_object($row))
-			return $data;
-
-		if (!array_key_exists('creator', $row) and
-			!array_key_exists('updater', $row))
-			return $data;
-
-		$userIds = [];
-
-		if (is_array($data))
-		{
-			foreach ($data as $row)
-				$userIds = static::_addUserIdToArray($row, $userIds);
-		}
-		else
-			$userIds = static::_addUserIdToArray($data, $userIds);
-
-		if (empty($userIds))
-			return $data;
-
-		$sql = 'SELECT ' . static::wrapColumn('id, name, username, email') . ' '
-			. 'FROM ' . static::wrapTable('User') . ' '
-			. 'WHERE ' . static::wrapColumn('id') . ' '
-						. 'IN (' . implode(', ', $userIds) . ') ';
-		$result = static::$_connection->query($sql);
-
-		if (Config::app('env') === 'development')
-			static::$_queries[] = $sql;
-
-		$userInfo = [];
-
-		while ($row = $result->fetch_assoc())
-			$userInfo[$row['id']] = $row;
-
-		if (is_array($data))
-		{
-			$returnData = [];
-
-			foreach ($data as $row)
-				$returnData[] = static::_getCreatorUpdaterInfoEachRow($row, $userInfo);
-		}
-		else
-			$returnData = static::_getCreatorUpdaterInfoEachRow($data, $userInfo);
-
-		return $returnData;
-	}
-
-	private static function _addUserIdToArray($row, $userIds)
-	{
-		foreach ($row as $column => $value)
-		{
-			if ($column === 'creator' or $column === 'updater')
-			{
-				if ($value and !Arr::has($userIds, $value))
-					$userIds[] = $value;
-			}
-		}
-
-		return $userIds;
-	}
-
-	private static function _getCreatorUpdaterInfoEachRow($row, $userInfo)
-	{
-		$returnRow = new stdClass();
-
-		foreach ($row as $column => $value)
-		{
-			$returnRow->{$column} = $value;
-
-			if ($column === 'creator' or $column === 'updater')
-			{
-				$data = new stdClass();
-
-				if ($value and isset($userInfo[$value]))
-				{
-					$data->name = $userInfo[$value]['name'];
-					$data->username = $userInfo[$value]['username'];
-					$data->email = $userInfo[$value]['email'];
-				}
-				else
-				{
-					$data->name = '';
-					$data->username = '';
-					$data->email = '';
-				}
-
-				$returnRow->{':'.$column} = $data;
-			}
-		}
-
-		return $returnRow;
 	}
 
 	// Transaction
@@ -1884,14 +2013,19 @@ abstract class AbstractPlatform
 
 	// Build
 
-	protected static function _buildQuerySelect()
+	/**
+	 * Builds the SQL query string.
+	 *
+	 * @return string  Returns the SQL query string.
+	 */
+	protected static function _buildQuerySelect() : string // ok
 	{
 		if (static::$_sqlRaw)
 			return static::$_sqlRaw;
 
 		$sql = 'SELECT ';
 
-		if (static::$_sqlSelects)
+		if (count(static::$_sqlSelects))
 			$sql .= implode(', ', static::$_sqlSelects);
 		else
 			$sql .= '*';
@@ -1905,7 +2039,7 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	private static function _buildQueryInsert($data)
+	protected static function _buildQueryInsert($data)
 	{
 		$data = (array)$data;
 		$data = Arr::removeKey($data, 'id');
@@ -1931,7 +2065,7 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	private static function _buildQueryUpdate($data)
+	protected static function _buildQueryUpdate($data)
 	{
 		$datas = static::_prepareDataBeforeSave($data);
 		$data = $datas[0];
@@ -1958,7 +2092,7 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	private static function _buildQuerySave($data)
+	protected static function _buildQuerySave($data)
 	{
 		$where = static::_buildWhere();
 		$userId = (int)@Auth::identity()->id;
@@ -2011,7 +2145,7 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	private static function _buildQueryDelete($where = null)
+	protected static function _buildQueryDelete($where = null)
 	{
 		$table = static::$_sqlTable;
 
@@ -2023,11 +2157,14 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	protected static function _buildFrom()
+	/**
+	 * Builds the SQL query string for the FROM clause.
+	 *
+	 * @return string  Returns the SQL query string.
+	 */
+	protected static function _buildFrom() : string // ok
 	{
-		$table = static::$_sqlTable;
-
-		$sql = ' FROM ' . $table;
+		$sql = ' FROM ' . static::$_sqlTable;
 
 		if (static::$_sqlJoins)
 			$sql .= ' ' . implode(' ', static::$_sqlJoins);
@@ -2059,9 +2196,9 @@ abstract class AbstractPlatform
 		{
 			$where = ' WHERE ';
 			$_sqlWheres = static::$_sqlWheres; // todo improve code
-			$countWhere = count($_sqlWheres);
+			$whereCount = count($_sqlWheres);
 
-			for ($i=0; $i < $countWhere; ++$i)
+			for ($i=0; $i < $whereCount; ++$i)
 			{
 				if ($i > 0 and $_sqlWheres[$i][1] !== ')' and $_sqlWheres[$i - 1][1] !== '(')
 					$where .= ' ' . $_sqlWheres[$i][0].' ';
@@ -2075,24 +2212,47 @@ abstract class AbstractPlatform
 		return $where;
 	}
 
-	protected static function _buildGroup()
+	/**
+	 * Builds the SQL query string for the GROUP BY clause.
+	 *
+	 * @return string  Returns the SQL query string.
+	 */
+	protected static function _buildGroup() : string // ok
 	{
 		if (static::$_sqlGroups)
 			return ' GROUP BY ' . implode(', ', static::$_sqlGroups);
+
+		return '';
 	}
 
-	protected static function _buildSort()
+	/**
+	 * Builds the SQL query string for the ORDER BY clause.
+	 *
+	 * @return string  Returns the SQL query string.
+	 */
+	protected static function _buildSort() : string // ok
 	{
 		if (static::$_sqlSorts)
 			return ' ORDER BY ' . implode(', ', static::$_sqlSorts);
+
+		return '';
 	}
 
-	protected static function _buildLimit()
+	/**
+	 * Builds the SQL query string for the LIMIT clause.
+	 *
+	 * @return string  Returns the SQL query string.
+	 */
+	protected static function _buildLimit() : string // ok
 	{
 		$sql = '';
 
 		if (static::$_sqlSkip and !static::$_sqlTake)
-			static::$_sqlTake = '18446744073709551615'; // Set to string. If number, PHP will convert to 1.844674407371E+19
+		{
+			// Convert to string. If it's a number,
+			// PHP will convert it to 1.844674407371E+19
+			static::$_sqlTake = '18446744073709551615';
+		}
 
 		if (static::$_sqlTake)
 			$sql = ' LIMIT ' . static::$_sqlTake;
@@ -2120,7 +2280,7 @@ abstract class AbstractPlatform
 	 */
 	public static function formatTable(string $table) : string // ok
 	{
-		if (substr($table, 0, 1) !== static::$_identifierLeft and substr($table, 0, strlen(Config::db('prefix'))) !== Config::db('prefix'))
+		if (substr($table, 0, 1) !== static::$_delimitIdentifierLeft and substr($table, 0, strlen(Config::db('prefix'))) !== Config::db('prefix'))
 			$table = Config::db('prefix') . ucfirst($table);
 
 		return $table;
@@ -2163,11 +2323,11 @@ abstract class AbstractPlatform
 		}
 
 		$table = static::formatTable($table);
-		$table = static::$_identifierLeft . $table . static::$_identifierRight;
+		$table = static::$_delimitIdentifierLeft . $table . static::$_delimitIdentifierRight;
 
 		if ($alias)
 		{
-			$alias = static::$_identifierLeft . $alias . static::$_identifierRight;
+			$alias = static::$_delimitIdentifierLeft . $alias . static::$_delimitIdentifierRight;
 			$table .= ' AS ' . $alias;
 		}
 
@@ -2219,38 +2379,40 @@ abstract class AbstractPlatform
 				$alias = substr($haystack, $pos + 4);
 
 				$alias = trim($alias);
-				$alias = ltrim($alias, static::$_identifierLeft);
-				$alias = rtrim($alias, static::$_identifierRight);
+
+				if (substr($alias, 0, 1) !== static::$_delimitIdentifierLeft)
+					$alias = static::$_delimitIdentifierLeft . $alias;
+
+				if (substr($alias, 0, -1) !== static::$_delimitIdentifierRight)
+					$alias .= static::$_delimitIdentifierRight;
 			}
 			else
-			{
-				$column = trim($column);
 				$alias = '';
-			}
-
-			$column = trim($column);
-			$column = ltrim($column, static::$_identifierLeft);
-			$column = rtrim($column, static::$_identifierRight);
 
 			$arr = explode('.', $column);
+			$column = trim($arr[0]);
 
-			$arr[0] = trim($arr[0]);
-			$arr[0] = ltrim($arr[0], static::$_identifierLeft);
-			$arr[0] = rtrim($arr[0], static::$_identifierRight);
+			if (substr($column, 0, 1) !== static::$_delimitIdentifierLeft)
+				$column = static::$_delimitIdentifierLeft . $column;
 
-			$column = static::$_identifierLeft . $arr[0] . static::$_identifierRight;
+			if (substr($column, 0, -1) !== static::$_delimitIdentifierRight)
+				$column .= static::$_delimitIdentifierRight;
 
 			if (isset($arr[1]))
 			{
 				$arr[1] = trim($arr[1]);
-				$arr[1] = ltrim($arr[1], static::$_identifierLeft);
-				$arr[1] = rtrim($arr[1], static::$_identifierRight);
 
-				$column .= '.' . static::$_identifierLeft . $arr[1] . static::$_identifierRight;
+				if (substr($arr[1], 0, 1) !== static::$_delimitIdentifierLeft)
+					$arr[1] = static::$_delimitIdentifierLeft . $arr[1];
+
+				if (substr($arr[1], 0, -1) !== static::$_delimitIdentifierRight)
+					$arr[1] .= static::$_delimitIdentifierRight;
+
+				$column .= '.' . $arr[1];
 			}
 
 			if ($alias)
-				$column .= ' AS ' . static::$_identifierLeft . $alias . static::$_identifierRight;
+				$column .= ' AS ' . $alias;
 		}
 
 		return $column;
@@ -2259,16 +2421,16 @@ abstract class AbstractPlatform
 //	public static function wrapColumnWhere($column)
 //	{
 //		$arr = explode('.', $column);
-//		$column = static::$_identifierLeft . $arr[0] . static::$_identifierRight;
+//		$column = static::$_delimitIdentifierLeft . $arr[0] . static::$_delimitIdentifierRight;
 //
 //		if (isset($arr[1]))
-//			$column .= '.' . static::$_identifierLeft . $arr[1] . static::$_identifierRight;
+//			$column .= '.' . static::$_delimitIdentifierLeft . $arr[1] . static::$_delimitIdentifierRight;
 //
 //		return $column;
 //	}
 
 	/**
-	 * An alias of static::wrapColumn().
+	 * An alias of method static::wrapColumn().
 	 *
 	 * @param  string $column  The column name.
 	 * @return string          Returns the column name wrapped with identifier.
@@ -2303,13 +2465,13 @@ abstract class AbstractPlatform
 	 * // The $result will be: NULL
 	 * ```
 	 *
-	 * @param  mixed  $value  The value to be escaped.
-	 * @return string         Returns the escaped string.
+	 * @param  string|int|float|bool|null $value  The value to be escaped.
+	 * @return string                             Returns the escaped string.
 	 */
 	public static function escape($value) : string // ok
 	{
 		if (is_object($value) or is_resource($value))
-			throw InvalidArgumentException::create(1, ['string, int, float, bool, null'], $value);
+			throw InvalidArgumentException::typeError(1, ['string', 'int', 'float', 'bool', 'null'], $value);
 
 		// Numbers sent via the URL (e.g., delete?id[]=1&id[]=2) will be
 		// treated as strings. Phone numbers starting with '0' will disappear
@@ -2341,7 +2503,7 @@ abstract class AbstractPlatform
 	public static function quote($string) : string // ok
 	{
 		if (!is_string($string) and !is_int($string) and !is_float($string))
-			throw InvalidArgumentException::create(1, ['string, int, float'], $string);
+			throw InvalidArgumentException::typeError(1, ['string', 'int', 'float'], $string);
 
 		return static::$_connection->quote($string);
 	}
@@ -2356,11 +2518,14 @@ abstract class AbstractPlatform
 	 * // The $result will be: '\%abc\%'
 	 * ```
 	 *
-	 * @param  mixed  $value  The value to be escaped.
-	 * @return string         Returns the escaped string.
+	 * @param  string|int|float|bool|null $value  The value to be escaped.
+	 * @return string                             Returns the escaped string.
 	 */
 	public static function escapeLike($value) : string // ok
 	{
+		if (is_object($value) or is_resource($value))
+			throw InvalidArgumentException::typeError(1, ['string', 'int', 'float', 'bool', 'null'], $value);
+
 		$removeQuote = false;
 
 		if (is_string($value) or is_int($value) or is_float($value))
@@ -2400,7 +2565,7 @@ abstract class AbstractPlatform
 	 *
 	 * @return string  Returns the last query.
 	 */
-	public static function getLastQuery() : string
+	public static function getLastQuery() : string // ok
 	{
 		return (string)end(static::$_queries);
 	}
@@ -2410,7 +2575,7 @@ abstract class AbstractPlatform
 	 *
 	 * @return array  Returns all executed queries.
 	 */
-	public static function getAllQueries() : array
+	public static function getAllQueries() : array // ok
 	{
 		return static::$_queries;
 	}
@@ -2424,9 +2589,11 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @return int
+	 * Gets the number of affected rows.
+	 *
+	 * @return int  Returns the number of affected rows.
 	 */
-	public static function getAffectedRows() : int
+	public static function getAffectedRows() : int // ok
 	{
 		return (int)static::$_affectedRows;
 	}
@@ -2551,8 +2718,8 @@ abstract class AbstractPlatform
 		if (!isset(static::$_info[$table]))
 		{
 			$filename = $table;
-			$filename = ltrim($filename, static::$_identifierLeft);
-			$filename = rtrim($filename, static::$_identifierRight);
+			$filename = ltrim($filename, static::$_delimitIdentifierLeft);
+			$filename = rtrim($filename, static::$_delimitIdentifierRight);
 			$file = static::$_dbCachePath . $filename . '.php';
 
 			if (is_file($file))
@@ -2712,35 +2879,75 @@ abstract class AbstractPlatform
 		}
 	}
 
-	public static function getPreparedSelect()
+	/**
+	 * An alias of method static::getPreparedQuerySelect().
+	 *
+	 * @return string  Returns the SQL query string.
+	 */
+	public static function getPreparedQuery() : string // ok
 	{
-		$sql = static::_buildQuerySelect();
-
-		return $sql;
+		return static::getPreparedQuerySelect();
 	}
 
-	public static function getPreparedInsert($data)
+	/**
+	 * Gets the prepared SQL query string for the SELECT clause.
+	 *
+	 * @return string  Returns the SQL query string.
+	 */
+	public static function getPreparedQuerySelect() : string // ok
 	{
-		$sql = static::_buildQueryInsert($data);
-
-		return $sql;
+		return static::_buildQuerySelect();
 	}
 
-	public static function getPreparedUpdate($data)
+	/**
+	 * Gets the prepared SQL query string for the INSERT clause.
+	 *
+	 * @param  array|object $data  The data to be inserted. If it's an array, it can be multidimensional array.
+	 * @return string              Returns the SQL query string.
+	 */
+	public static function getPreparedQueryInsert($data) : string // ok
 	{
-		$sql = static::_buildQueryUpdate($data);
+		if (!is_array($data) and !is_object($data))
+			throw InvalidArgumentException::typeError(1, ['array', 'object'], $data);
 
-		return $sql;
+		return static::_buildQueryInsert($data);
 	}
 
-	public static function getPreparedSave($data)
+	/**
+	 * Gets the prepared SQL query string for the UPDATE clause.
+	 *
+	 * @param  array|object $data  The data to be updated. If it's an array, it can only be a one-dimension array.
+	 * @return string              Returns the SQL query string.
+	 */
+	public static function getPreparedQueryUpdate($data) : string // ok
 	{
-		$sql = static::_buildQuerySave($data);
+		if (!is_array($data) and !is_object($data))
+			throw InvalidArgumentException::typeError(1, ['array', 'object'], $data);
 
-		return $sql;
+		return static::_buildQueryUpdate($data);
 	}
 
-	public static function getPreparedDelete()
+	/**
+	 * Gets the prepared SQL query string for the INSERT or UPDATE clause based on the WHERE clause. If the WHERE
+	 * clause is empty, it will return the SQL query string for the INSERT clause. Otherwise, it will return the
+	 * SQL query string for the UPDATE clause.
+	 *
+	 * @param  array|object $data  The data to be inserted or updated.
+	 *                             The data to be inserted can be multidimensional array.
+	 *                             The data to be updated can only be a one-dimension array.
+	 * @return string              Returns the SQL query string.
+	 */
+	public static function getPreparedQuerySave($data) : string // ok
+	{
+		return static::_buildQuerySave($data);
+	}
+
+	/**
+	 * Gets the prepared SQL query string for the DELETE clause.
+	 *
+	 * @return string  Returns the SQL query string.
+	 */
+	public static function getPreparedQueryDelete() : string
 	{
 		$where = static::_buildWhere();
 		$sql = static::_buildQueryDelete($where);
@@ -2762,7 +2969,7 @@ abstract class AbstractPlatform
 	 * @param  string $columns  List of columns separated by comma.
 	 * @return array            Return array of columns.
 	 */
-	protected static function _parseColumn(string $columns) : array
+	protected static function _parseColumn(string $columns) : array // ok
 	{
 		$columns = explode(',', $columns);
 		$n = count($columns);
@@ -2821,17 +3028,17 @@ abstract class AbstractPlatform
 	protected static function _reset() : void // ok
 	{
 		static::$_sqlRaw = null;
-		static::$_sqlSelects = null;
+		static::$_sqlSelects = [];
 		static::$_sqlTable = null;
-		static::$_sqlJoins = null;
-		static::$_sqlWheres = null;
-		static::$_sqlGroups = null;
-		static::$_sqlSorts = null;
+		static::$_sqlJoins = [];
+		static::$_sqlWheres = [];
+		static::$_sqlGroups = [];
+		static::$_sqlSorts = [];
 		static::$_sqlTake = null;
 		static::$_sqlSkip = null;
 		static::$_autoSearchKeyword = null;
-		static::$_autoSearchColumns = null;
-		static::$_transactionMode = null;
-		static::$_transactionSqls = null;
+		static::$_autoSearchColumns = [];
+		static::$_transactionMode = false;
+		static::$_transactionSqls = [];
 	}
 }
