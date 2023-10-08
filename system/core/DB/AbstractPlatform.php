@@ -944,8 +944,8 @@ abstract class AbstractPlatform
 		else
 		{
 			$where = $args[0];
-			//$where = str_replace('{', static::$_delimitIdentifierLeft, $where); // todo เอาไว้ทำอะไร
-			//$where = str_replace('}', static::$_delimitIdentifierRight, $where);
+			$where = str_replace('{', static::$_delimitIdentifierLeft, $where);
+			$where = str_replace('}', static::$_delimitIdentifierRight, $where);
 
 			if (strpos($args[0], '?'))
 			{
