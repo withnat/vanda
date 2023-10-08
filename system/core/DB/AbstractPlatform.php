@@ -151,11 +151,7 @@ abstract class AbstractPlatform
 	public static function select(string $columns = '*') : AbstractPlatform // ok
 	{
 		$columns = static::_parseColumn($columns);
-
-		if (static::$_sqlSelects)
-			static::$_sqlSelects = array_merge(static::$_sqlSelects, $columns);
-		else
-			static::$_sqlSelects = $columns;
+		static::$_sqlSelects = array_merge(static::$_sqlSelects, $columns);
 
 		return static::getInstance();
 	}
