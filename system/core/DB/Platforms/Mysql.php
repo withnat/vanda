@@ -25,8 +25,8 @@ use PDOException;
  */
 final class Mysql extends AbstractPlatform
 {
-	protected static $_identifierLeft = '`';
-	protected static $_identifierRight = '`';
+	protected static $_delimitIdentifierLeft = '`';
+	protected static $_delimitIdentifierRight = '`';
 
 	/**
 	 * @return void
