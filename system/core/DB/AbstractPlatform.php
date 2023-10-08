@@ -75,20 +75,7 @@ abstract class AbstractPlatform
 	 * Nedd to set the visibility of this method to protected as it is
 	 * called from the static method getInstance() (new static()).
 	 */
-	protected function __construct(){}
-
-	/**
-	 * This is the static method that controls the access to the singleton
-	 * instance. On the first run, it creates a singleton object and places it
-	 * into the static field. On subsequent runs, it returns the client existing
-	 * object stored in the static field.
-	 *
-	 * This implementation lets you subclass the Singleton class while keeping
-	 * just one instance of each subclass around.
-	 *
-	 * @return AbstractPlatform  Returns the singleton instance.
-	 */
-	protected static function getInstance() : AbstractPlatform
+	protected function __construct()
 	{
 		if (is_null(static::$_connection))
 		{
@@ -103,8 +90,25 @@ abstract class AbstractPlatform
 			Folder::create(static::$_dbCachePath);
 			Folder::create(static::$_queryCachePath);
 
-			static::$_instance = new static();;
+			static::$_instance = $this;;
 		}
+	}
+
+	/**
+	 * This is the static method that controls the access to the singleton
+	 * instance. On the first run, it creates a singleton object and places it
+	 * into the static field. On subsequent runs, it returns the client existing
+	 * object stored in the static field.
+	 *
+	 * This implementation lets you subclass the Singleton class while keeping
+	 * just one instance of each subclass around.
+	 *
+	 * @return AbstractPlatform  Returns the singleton instance.
+	 */
+	protected static function _getInstance() : AbstractPlatform
+	{
+		if (is_null(static::$_instance))
+			static::$_instance = new static;
 
 		return static::$_instance;
 	}
@@ -153,7 +157,7 @@ abstract class AbstractPlatform
 		$columns = static::_parseColumn($columns);
 		static::$_sqlSelects = array_merge(static::$_sqlSelects, $columns);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -312,7 +316,7 @@ abstract class AbstractPlatform
 	{
 		static::from($table);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -325,7 +329,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlTable = static::wrapTable($table);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -339,7 +343,7 @@ abstract class AbstractPlatform
 	{
 		static::_setJoin('INNER JOIN', $table, $condition);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -353,7 +357,7 @@ abstract class AbstractPlatform
 	{
 		static::_setJoin('LEFT JOIN', $table, $condition);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -367,7 +371,7 @@ abstract class AbstractPlatform
 	{
 		static::_setJoin('RIGHT JOIN', $table, $condition);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -799,7 +803,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlWheres[] = ['AND', '('];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -811,7 +815,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlWheres[] = ['OR', '('];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -823,7 +827,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlWheres[] = ['', ')'];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -866,7 +870,7 @@ abstract class AbstractPlatform
 			static::$_sqlWheres[] = ['AND', $where];
 		}
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -908,7 +912,7 @@ abstract class AbstractPlatform
 			static::$_sqlWheres[] = ['OR', $where];
 		}
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1011,7 +1015,7 @@ abstract class AbstractPlatform
 
 		static::_setWhereBetween('AND', 'BETWEEN', $column, $start, $end);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1032,7 +1036,7 @@ abstract class AbstractPlatform
 
 		static::_setWhereBetween('OR', 'BETWEEN', $column, $start, $end);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1053,7 +1057,7 @@ abstract class AbstractPlatform
 
 		static::_setWhereBetween('AND', 'NOT BETWEEN', $column, $start, $end);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1074,7 +1078,7 @@ abstract class AbstractPlatform
 
 		static::_setWhereBetween('OR', 'NOT BETWEEN', $column, $start, $end);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1115,7 +1119,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' LIKE \'%' . $value . '%\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1136,7 +1140,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' LIKE \'%' . $value . '%\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1156,7 +1160,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' LIKE \'' . $value . '%\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1177,7 +1181,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' LIKE \'' . $value . '%\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1197,7 +1201,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' LIKE \'%' . $value . '\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1218,7 +1222,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' LIKE \'%' . $value . '\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1238,7 +1242,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' NOT LIKE \'%' . $value . '%\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1259,7 +1263,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' NOT LIKE \'%' . $value . '%\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1279,7 +1283,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' NOT LIKE \'' . $value . '%\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1300,7 +1304,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' NOT LIKE \'' . $value . '%\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1320,7 +1324,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' NOT LIKE \'%' . $value . '\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1341,7 +1345,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' NOT LIKE \'%' . $value . '\''];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	// Where in
@@ -1360,7 +1364,7 @@ abstract class AbstractPlatform
 
 		static::_setWhereIn('AND', 'IN', $column, $values);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1377,7 +1381,7 @@ abstract class AbstractPlatform
 
 		static::_setWhereIn('OR', 'IN', $column, $values);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1393,7 +1397,7 @@ abstract class AbstractPlatform
 			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'array'], $values);
 		static::_setWhereIn('AND', 'NOT IN', $column, $values);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1410,7 +1414,7 @@ abstract class AbstractPlatform
 
 		static::_setWhereIn('OR', 'NOT IN', $column, $values);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1451,7 +1455,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' IS NULL'];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1466,7 +1470,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' IS NULL'];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1481,7 +1485,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['AND', $column . ' IS NOT NULL'];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1496,7 +1500,7 @@ abstract class AbstractPlatform
 
 		static::$_sqlWheres[] = ['OR', $column . ' IS NOT NULL'];
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	// Group
@@ -1511,7 +1515,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlGroups[] = static::wrapColumn($columns);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	// Order by
@@ -1530,7 +1534,7 @@ abstract class AbstractPlatform
 		foreach ($columns as $column)
 			static::$_sqlSorts[] = $column . ' ' . strtoupper($direction);
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1543,7 +1547,7 @@ abstract class AbstractPlatform
 	{
 		static::sort($columns, 'ASC');
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1556,7 +1560,7 @@ abstract class AbstractPlatform
 	{
 		static::sort($columns, 'DESC');
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	// Limit
@@ -1571,7 +1575,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlTake = $num;
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
@@ -1584,7 +1588,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlSkip = $num;
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	// Query
@@ -1599,7 +1603,7 @@ abstract class AbstractPlatform
 	{
 		static::$_sqlRaw = $sql;
 
-		return static::getInstance();
+		return static::_getInstance();
 	}
 
 	/**
