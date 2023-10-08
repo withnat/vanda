@@ -247,10 +247,10 @@ abstract class AbstractPlatform
 	/**
 	 * Performs a query using DISTINCT and return a query result.
 	 *
-	 * @param  string $column  The column name.
-	 * @return mixed           Returns the query result.
+	 * @param  string      $column  The column name.
+	 * @return array|false          Returns the query result.
 	 */
-	public static function distinct(string $column)
+	public static function distinct(string $column) // ok
 	{
 		$column = static::wrapColumn($column);
 		$alias = '';
@@ -1757,6 +1757,11 @@ abstract class AbstractPlatform
 			return false;
 	}
 
+	/**
+	 * Retrieves all rows from the recordset.
+	 *
+	 * @return array|false  Returns an array of objects with properties that correspond to the fetched rows' columns.
+	 */
 	public static function loadAll()
 	{
 		$args = func_get_args();
@@ -1785,7 +1790,7 @@ abstract class AbstractPlatform
 			return $rows;
 		}
 		else
-			static::_displayError($result); // todo
+			return false;
 	}
 
 	// todo
