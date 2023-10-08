@@ -513,7 +513,7 @@ class Response
 	/**
 	 * Sends the output to the browser in SPA mode.
 	 *
-	 * @param array $data  The content to set as the response body.
+	 * @param  array $data  The content to set as the response body.
 	 * @return void
 	 */
 	public static function spa(array $data) : void
