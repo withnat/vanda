@@ -149,7 +149,12 @@ class AbstractPlatformTest extends TestCase
 		//$result = $ap->escapeLike('Nat');
 		//echo $result;exit;
 
-		$ap->select('*')->from('Table')->where('name = :name AND surname = :surname', ['name'=>'Nat', 'surname'=>'Withe'])->load();
+		$ap->select('id')->from('User')->orWhere('id=100')->load();
+		echo $ap->getLastQuery();
+
+		$ap->select('*')->from('Table')->where('name = :name AND surname = :surname', [':name'=>'Nat', ':surname'=>'Withe'])
+			->orWhere(1)
+			->load();
 		echo $ap->getLastQuery();
 
 		$ap->select('name')->from('User')->where('id', '<', 10)->take(5)->load();
