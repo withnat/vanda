@@ -1873,16 +1873,16 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * Converts the recordset to JSON string.
+	 * Encodes the recordset to JSON string.
 	 *
 	 * @return string  Returns the JSON string.
 	 */
-	public static function toJSON() : string // ok
+	public static function toJson() : string // ok
 	{
 		$data = static::loadAll();
 		$json = json_encode($data);
 
-		// Prevent json_encode from converting empty value to array.
+		// Prevent json_decode() from converting empty value to array.
 		$json = str_replace('{}', '""', $json);
 
 		return $json;
@@ -1894,7 +1894,7 @@ abstract class AbstractPlatform
 	 * @param  bool   $header  Whether to include the header row.
 	 * @return string          Returns the CSV string.
 	 */
-	public static function toCSV(bool $header = false) : string // ok
+	public static function toCsv(bool $header = false) : string // ok
 	{
 		$data = static::loadAll();
 
