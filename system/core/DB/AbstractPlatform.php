@@ -247,22 +247,14 @@ abstract class AbstractPlatform
 	/**
 	 * Performs a query using DISTINCT and return a query result.
 	 *
-	 * @param  string      $column  The column name.
-	 * @return array|false          Returns the query result.
+	 * @param  string      $columns  List of columns separated by comma.
+	 * @return array|false           Returns the query result.
 	 */
-	public static function distinct(string $column) // ok
+	public static function distinct(string $columns) // ok
 	{
-		$column = static::wrapColumn($column);
-		$alias = '';
+		$columns = static::_parseColumn($columns);
 
-		if (stripos($column, ' AS '))
-		{
-			$arr = explode(' AS ', $column);
-			$column = $arr[0];
-			$alias = ' AS ' . $arr[1];
-		}
-
-		static::$_sqlSelects[] = 'DISTINCT(' . $column . ')' . $alias;
+		static::$_sqlSelects[] = 'DISTINCT ' . implode(', ', $columns);
 
 		return static::loadAll();
 	}
