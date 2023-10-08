@@ -799,7 +799,7 @@ abstract class AbstractPlatform
 	 *
 	 * @return AbstractPlatform  Returns the current object.
 	 */
-	protected static function groupStart() : AbstractPlatform  // ok
+	protected static function _groupStart() : AbstractPlatform  // ok
 	{
 		static::$_sqlWheres[] = ['AND', '('];
 
@@ -811,7 +811,7 @@ abstract class AbstractPlatform
 	 *
 	 * @return AbstractPlatform  Returns the current object.
 	 */
-	protected static function orGroupStart() : AbstractPlatform // ok
+	protected static function _orGroupStart() : AbstractPlatform // ok
 	{
 		static::$_sqlWheres[] = ['OR', '('];
 
@@ -823,7 +823,7 @@ abstract class AbstractPlatform
 	 *
 	 * @return AbstractPlatform  Returns the current object.
 	 */
-	protected static function groupEnd() : AbstractPlatform // ok
+	protected static function _groupEnd() : AbstractPlatform // ok
 	{
 		static::$_sqlWheres[] = ['', ')'];
 
@@ -860,9 +860,9 @@ abstract class AbstractPlatform
 
 		if ($args[0] instanceof \Closure)
 		{
-			static::groupStart();
+			static::_groupStart();
 			$args[0]();
-			static::groupEnd();
+			static::_groupEnd();
 		}
 		else
 		{
@@ -902,9 +902,9 @@ abstract class AbstractPlatform
 
 		if (is_callable($args[0]))
 		{
-			static::orGroupStart();
+			static::_orGroupStart();
 			$args[0]();
-			static::groupEnd();
+			static::_groupEnd();
 		}
 		else
 		{
