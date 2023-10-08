@@ -2549,7 +2549,7 @@ class Arr
 	}
 
 	/**
-	 * Encodes the given array to JSON.
+	 * Encodes the given array to JSON string.
 	 *
 	 * For example,
 	 *
