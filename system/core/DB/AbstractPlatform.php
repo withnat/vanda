@@ -1513,7 +1513,10 @@ abstract class AbstractPlatform
 	 */
 	public static function group(string $columns) : AbstractPlatform // ok
 	{
-		static::$_sqlGroups[] = static::wrapColumn($columns);
+		$columns = static::_parseColumn($columns);
+
+		foreach ($columns as $column)
+			static::$_sqlGroups[] = $column;
 
 		return static::_getInstance();
 	}
