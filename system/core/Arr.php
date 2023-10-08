@@ -507,9 +507,9 @@ class Arr
 
 	/**
 	 * Returns and removes an element by key from the given array.
-	 * Data can be one or multi-dimensional array, but not a recordset (array of objects).
+	 * Data can be one or multidimensional array, but not a recordset (array of objects).
 	 *
-	 * The given array can be one or multi-dimensional array.
+	 * The given array can be one or multidimensional array.
 	 * The $keys can be 0, '0', '0,1', [0, 1], 'name,job.position', ['name, job.position'].
 	 *
 	 * Note, For numeric array, an index key 0 (int) is same as '0' (string).
@@ -1096,7 +1096,7 @@ class Arr
 	}
 
 	/**
-	 * Builds a map (key-value pairs) from a multi-dimensional array (dataset)
+	 * Builds a map (key-value pairs) from a multidimensional array (dataset)
 	 * or an array of objects (recordset).
 	 *
 	 * The `$from` and `$to` parameters specify the key names or property names
@@ -1812,7 +1812,7 @@ class Arr
 	}
 
 	/**
-	 * Converts a multi-dimensional array into a single-dimensional array.
+	 * Converts a multidimensional array into a single-dimensional array.
 	 *
 	 * For example,
 	 *
@@ -1837,7 +1837,7 @@ class Arr
 	 * // )
 	 * ```
 	 *
-	 * @param  array $array  A multi-dimensional array.
+	 * @param  array $array  A multidimensional array.
 	 * @return array         Returns the converted array.
 	 */
 	public static function flatten(array $array) : array
@@ -1853,7 +1853,7 @@ class Arr
 	}
 
 	/**
-	 * The Arr::dot method flattens a multi-dimensional array into
+	 * The Arr::dot method flattens a multidimensional array into
 	 * a single level array that uses "dot" notation to indicate depth.
 	 *
 	 * For example,
@@ -1879,7 +1879,7 @@ class Arr
 	 * // )
 	 * ```
 	 *
-	 * @param  array  $array    A multi-dimensional array.
+	 * @param  array  $array    A multidimensional array.
 	 * @param  string $prepend  Optionally, the character to prepend in front of the key name. Defaults to ''.
 	 * @return array            Returns the converted array.
 	 */
@@ -1994,10 +1994,10 @@ class Arr
 	}
 
 	/**
-	 * Determines if the input data is a multi-dimensional array or not.
+	 * Determines if the input data is a multidimensional array or not.
 	 *
 	 * @param  mixed $data  The input data to check.
-	 * @return bool         Returns true if the given data is a multi-dimensional array, false otherwise.
+	 * @return bool         Returns true if the given data is a multidimensional array, false otherwise.
 	 */
 	public static function isMultidimensional($data) : bool
 	{
@@ -2013,7 +2013,7 @@ class Arr
 		// inside the parent array, the first element of parent
 		// array (at index 0) will always be an array.
 		// Checking for the element at index 0, we can tell
-		// whether the array is multi-dimensional or not.
+		// whether the array is multidimensional or not.
 		rsort($data);
 
 		$result = (isset($data[0]) and is_array($data[0]));
@@ -2464,7 +2464,7 @@ class Arr
 	}
 
 	/**
-	 * Converts the given data to a multi-dimensional array.
+	 * Converts the given data to a multidimensional array.
 	 *
 	 * For example,
 	 *
@@ -2484,7 +2484,7 @@ class Arr
 	 * ```
 	 *
 	 * @param  mixed $data  The input data.
-	 * @return array        Returns the multi-dimensional array converted from the given data.
+	 * @return array        Returns the multidimensional array converted from the given data.
 	 */
 	public static function toMultidimensional($data) : array
 	{
