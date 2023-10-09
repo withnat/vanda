@@ -2106,12 +2106,15 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	protected static function _buildQueryDelete($where = null)
+	/**
+	 * Builds the SQL query string for deleting data.
+	 *
+	 * @param  string|null $where  Optionally, the WHERE clause. Defaults to null.
+	 * @return string              Returns the SQL query string.
+	 */
+	protected static function _buildQueryDelete(?string $where = null) : string // ok
 	{
-		$table = static::$_sqlTable;
-
-		$sql = 'DELETE FROM ' . $table . $where;
-
+		$sql = 'DELETE FROM ' . static::$_sqlTable . $where;
 		$sql .= static::_buildSort();
 		$sql .= static::_buildLimit();
 
