@@ -2780,6 +2780,12 @@ abstract class AbstractPlatform
 		return $columns;
 	}
 
+	/**
+	 * Gets the column information.
+	 *
+	 * @param  string    $column  The column name.
+	 * @return stdClass
+	 */
 	public static function getColumnInfo(string $column) : stdClass // ok
 	{
 		$info = static::_getTableInfo();
