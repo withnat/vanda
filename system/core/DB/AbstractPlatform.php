@@ -59,8 +59,6 @@ abstract class AbstractPlatform
 	protected static $_sqlSorts = [];
 	protected static $_sqlTake = null;
 	protected static $_sqlSkip = null;
-	protected static $_autoSearchKeyword = null;
-	protected static $_autoSearchColumns = [];
 	protected static $_transactionMode = false;
 	protected static $_transactionSqls = [];
 	protected static $_executedQueries = [];
@@ -282,27 +280,6 @@ abstract class AbstractPlatform
 			return static::load();
 		else
 			return static::loadSingle();
-	}
-
-	// todo
-	public static function autoSearchKeyword($keyword)
-	{
-		static::$_autoSearchKeyword = $keyword;
-	}
-
-	// todo
-	public static function autoSearchColumn($columns = '*')
-	{
-		if (!is_array($columns))
-			$columns = explode(',', $columns);
-
-		foreach ($columns as $key => $value)
-			$columns[$key] = static::wrapColumn($value);
-
-		if (isset(static::$_autoSearchColumns))
-			static::$_autoSearchColumns = array_merge(static::$_autoSearchColumns, $columns);
-		else
-			static::$_autoSearchColumns = $columns;
 	}
 
 	// From
@@ -3003,8 +2980,6 @@ abstract class AbstractPlatform
 		static::$_sqlSorts = [];
 		static::$_sqlTake = null;
 		static::$_sqlSkip = null;
-		static::$_autoSearchKeyword = null;
-		static::$_autoSearchColumns = [];
 		static::$_transactionMode = false;
 		static::$_transactionSqls = [];
 	}
