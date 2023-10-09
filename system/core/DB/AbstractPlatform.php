@@ -2938,14 +2938,6 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-//	private static function _columnsToString($columns) // ok
-//	{
-//		if (is_array($columns))
-//			$columns = implode(', ', $columns);
-//
-//		return $columns;
-//	}
-
 	/**
 	 * Parses the given columns to array.
 	 *
