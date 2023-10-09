@@ -49,7 +49,7 @@ abstract class AbstractPlatform
 	protected static $_instance = null;
 	protected static $_connection = null;
 	protected static $_tables = [];
-	protected static $_info = [];
+	protected static $_tableInfo = [];
 	protected static $_sqlRaw = null;
 	protected static $_sqlSelects = [];
 	protected static $_sqlTable = null;
@@ -464,7 +464,7 @@ abstract class AbstractPlatform
 				// Data from submitted form always be string.
 				elseif (is_string($value) and !mb_strlen($value)) // บรรทัดบนบอกว่า always be string แล้ววทำไมต้องใช้ is_string เช็คอีก?
 				{
-					$default = static::column($key)->default;
+					$default = static::getColumnInfo($key)->default;
 
 					//if (mb_strlen($default)) TODO ก่อนหน้านี้ใช้บรรทัดนี้ ตอนนี้ error กรณีบันทึก บทต. โดยไม่ระบุ maintenanceDate คือ mb_strlen() expects parameter 1 to be string, null given
 					if (mb_strlen((string)$default))
@@ -478,13 +478,13 @@ abstract class AbstractPlatform
 						else
 							$datas[$i][$key] = $default;
 					}
-					elseif (static::column($key)->nullable)
+					elseif (static::getColumnInfo($key)->nullable)
 						$datas[$i][$key] = null;
 				}
 
 				// Unset variable and database server
 				// will set default value automatically.
-				elseif (is_null($value) and !static::column($key)->nullable)
+				elseif (is_null($value) and !static::getColumnInfo($key)->nullable)
 					unset($datas[$i][$key]);
 			}
 		}
@@ -1723,11 +1723,8 @@ abstract class AbstractPlatform
 
 					foreach ($tables[0] as $table)
 					{
-						$table = trim($table);
-						$table = ltrim($table, static::$_delimitIdentifierLeft);
-						$table = rtrim($table, static::$_delimitIdentifierRight);
-
-						$columns = array_merge($columns, array_values(static::getColumnListing($table)));
+						$table = static::_removeDelimitIdentifier($table);
+						$columns = array_merge($columns, array_values(static::getColumns($table)));
 					}
 				}
 				else
@@ -2156,7 +2153,7 @@ abstract class AbstractPlatform
 				$searchColumns = ['*'];
 
 			if (Arr::has($searchColumns, '*') and static::$_sqlTable)
-				$searchColumns = static::getColumnListing();
+				$searchColumns = static::getColumns();
 
 			foreach ($searchColumns as $searchColumn)
 				static::orWhereContain($searchColumn, static::$_autoSearchKeyword);
@@ -2237,6 +2234,15 @@ abstract class AbstractPlatform
 
 	// Other
 
+	protected static function _removeDelimitIdentifier(string $str) : string // ok
+	{
+		$str = trim($str);
+		$str = ltrim($str, static::$_delimitIdentifierLeft);
+		$str = rtrim($str, static::$_delimitIdentifierRight);
+
+		return $str;
+	}
+
 	/**
 	 * Formats table name by adding prefix and change the first letter to uppercase.
 	 *
@@ -2252,7 +2258,7 @@ abstract class AbstractPlatform
 	 */
 	public static function formatTable(string $table) : string // ok
 	{
-		if (substr($table, 0, 1) !== static::$_delimitIdentifierLeft and substr($table, 0, strlen(Config::db('prefix'))) !== Config::db('prefix'))
+		if (substr($table, 0, strlen(Config::db('prefix'))) !== Config::db('prefix'))
 			$table = Config::db('prefix') . ucfirst($table);
 
 		return $table;
@@ -2649,7 +2655,8 @@ abstract class AbstractPlatform
 	{
 		if (empty(static::$_tables))
 		{
-			$filename = '_tables_.php';
+			$filename = '__vanda_tablelist.php';
+			$file = static::$_dbCachePath . $filename;
 
 			if (is_file(static::$_dbCachePath . $filename))
 			{
@@ -2675,40 +2682,42 @@ abstract class AbstractPlatform
 				}
 
 				$content = '<?php //' . serialize(static::$_tables);
-				file_put_contents(static::$_dbCachePath . $filename, $content);
+				file_put_contents($file, $content);
 			}
 		}
 
 		return static::$_tables;
 	}
 
-	protected static function _getColumnInfo($table = null)
+	/**
+	 * Gets a listing of columns and their types for the given table.
+	 *
+	 * @param  string|null $table  Optionally, the table name. Defaults to null.
+	 * @return array
+	 */
+	protected static function _getTableInfo(?string $table = null) : array // ok
 	{
 		if ($table)
 			$table = static::formatTable($table);
 		else
-		{
 			$table = static::$_sqlTable;
-		}
 
-		if (!isset(static::$_info[$table]))
+		if (empty(static::$_tableInfo[$table]))
 		{
-			$filename = $table;
-			$filename = ltrim($filename, static::$_delimitIdentifierLeft);
-			$filename = rtrim($filename, static::$_delimitIdentifierRight);
-			$file = static::$_dbCachePath . $filename . '.php';
+			$filename = '__vanda_' . $table . '.php';
+			$file = static::$_dbCachePath . $filename;
 
 			if (is_file($file))
 			{
 				$content = file_get_contents($file);
-				$content = substr($content, 8);
+				$content = substr($content, 8); // Remove "<?php //" from the content.
 
-				static::$_info[$table] = unserialize($content);
+				static::$_tableInfo[$table] = unserialize($content);
 			}
 			else
 			{
-				$sql = 'DESCRIBE ' . $table;
-				$result = static::$_connection->query($sql);
+				$sql = 'DESCRIBE ' . static::wrapTable($table);
+				$result = static::query($sql);
 
 				if (Config::app('env') === 'development')
 					static::$_executedQueries[] = $sql;
@@ -2736,7 +2745,6 @@ abstract class AbstractPlatform
 					{
 						$arr = explode('(', $dataType);
 						$dataType = $arr[0];
-						//$length = Str::trimRight($arr[1]);
 						$length = rtrim($arr[1]);
 
 						if (strpos($length, ',')) // todo
@@ -2764,28 +2772,32 @@ abstract class AbstractPlatform
 					$tableInfo[$row->Field]['AUTO_INCREMENT'] = $autoIncrement;
 				}
 
-				static::$_info[$table] = $tableInfo;
+				static::$_tableInfo[$table] = $tableInfo;
 
-				$fp = fopen($file, 'w');
-				fwrite($fp, '<?php //'.serialize($tableInfo));
-				fclose($fp);
+				$content = '<?php //' . serialize($tableInfo);
+				file_put_contents($file, $content);
 			}
 		}
 
-		return static::$_info[$table];
+		return static::$_tableInfo[$table];
 	}
 
-	public static function getColumnListing($table = null)
+	/**
+	 * Gets a listing of columns in the given table.
+	 *
+	 * @return array  Returns an array of column names.
+	 */
+	public static function getColumns($table = null) : array // ok
 	{
-		$info = static::_getColumnInfo($table);
+		$info = static::_getTableInfo($table);
 		$columns = array_keys($info);
 
 		return $columns;
 	}
 
-	public static function column($column)
+	public static function getColumnInfo(string $column) : stdClass // ok
 	{
-		$info = static::_getColumnInfo();
+		$info = static::_getTableInfo();
 		$data = new stdClass();
 
 		$data->name = $info[$column]['COLUMN_NAME'];
@@ -2819,7 +2831,7 @@ abstract class AbstractPlatform
 	 */
 	public static function columnExists(string $column) : bool
 	{
-		$columns = static::getColumnListing();
+		$columns = static::getColumns();
 
 		return Arr::has($columns, $column);
 	}
