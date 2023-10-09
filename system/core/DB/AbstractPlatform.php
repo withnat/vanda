@@ -452,9 +452,7 @@ abstract class AbstractPlatform
 		$data = (array)$data;
 		$datas = Arr::toMultidimensional($data);
 
-		$n = count($datas);
-
-		for ($i = 0; $i < $n; ++$i)
+		for ($i = 0, $n = count($datas); $i < $n; ++$i)
 		{
 			foreach ($datas[$i] as $key => $value)
 			{
@@ -2039,9 +2037,8 @@ abstract class AbstractPlatform
 		$values = array_values($data);
 
 		$sql = 'UPDATE ' . static::$_sqlTable . ' SET ';
-		$n = count($columns);
 
-		for ($i = 0; $i < $n; ++$i)
+		for ($i = 0, $n = count($columns); $i < $n; ++$i)
 			$sql .= static::wrapColumn($columns[$i]) . ' = ' . static::escape($values[$i]) . ', ';
 
 		$sql = substr($sql, 0, -2);
@@ -2083,9 +2080,7 @@ abstract class AbstractPlatform
 				$ordering = static::getNewOrdering();
 			}
 
-			$n = count($datas);
-
-			for ($i = 0; $i < $n; ++$i)
+			for ($i = 0, $n = count($datas); $i < $n; ++$i)
 			{
 				if ($autoOrdering)
 				{
@@ -2136,36 +2131,24 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	protected static function _buildWhere()
+	/**
+	 * Builds the SQL query string for the WHERE clause.
+	 *
+	 * @return string
+	 */
+	protected static function _buildWhere() : string // ok
 	{
-		if (static::$_autoSearchKeyword)
-		{
-			if (static::$_autoSearchColumns)
-				$searchColumns = static::$_autoSearchColumns;
-			elseif (static::$_sqlSelects)
-				$searchColumns = static::$_sqlSelects;
-			else
-				$searchColumns = ['*'];
-
-			if (Arr::has($searchColumns, '*') and static::$_sqlTable)
-				$searchColumns = static::getColumns();
-
-			foreach ($searchColumns as $searchColumn)
-				static::orWhereContain($searchColumn, static::$_autoSearchKeyword);
-		}
-
 		$where = '';
 
 		if (static::$_sqlWheres)
 		{
 			$where = ' WHERE ';
-			$_sqlWheres = static::$_sqlWheres; // todo improve code
-			$whereCount = count($_sqlWheres);
+			$_sqlWheres = static::$_sqlWheres;
 
-			for ($i=0; $i < $whereCount; ++$i)
+			for ($i = 0, $n = count($_sqlWheres); $i < $n; ++$i)
 			{
 				if ($i > 0 and $_sqlWheres[$i][1] !== ')' and $_sqlWheres[$i - 1][1] !== '(')
-					$where .= ' ' . $_sqlWheres[$i][0].' ';
+					$where .= ' ' . $_sqlWheres[$i][0] . ' ';
 
 				$where .= $_sqlWheres[$i][1];
 
@@ -2957,9 +2940,8 @@ abstract class AbstractPlatform
 	protected static function _parseColumn(string $columns) : array // ok
 	{
 		$columns = explode(',', $columns);
-		$n = count($columns);
 
-		for ($i = 0; $i < $n; ++$i)
+		for ($i = 0, $n = count($columns); $i < $n; ++$i)
 			$columns[$i] = static::wrapColumn($columns[$i]);
 
 		return $columns;
