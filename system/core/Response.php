@@ -19,7 +19,7 @@ use System\Exception\InvalidArgumentException;
 /**
  * Class Response
  *
- * The web Response class represents an HTTP response. It holds the $headers
+ * The Response class represents an HTTP response. It holds the $headers
  * and $content that is to be sent to the client. It also controls the HTTP
  * status code.
  *
