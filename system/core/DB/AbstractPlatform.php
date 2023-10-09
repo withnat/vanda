@@ -1695,15 +1695,11 @@ abstract class AbstractPlatform
 	 * @return stdClass|bool  Returns an object with properties that correspond to the fetched row's columns.
 	 *                        Return false if the query string does not contain the word 'SELECT'.
 	 */
-	public static function load()
+	public static function load() // ok
 	{
 		static::take(1);
 
 		$sql = static::_buildQuerySelect();
-
-		if (strtoupper(substr($sql, 0, 6)) !== 'SELECT')
-			return false;
-
 		$result = static::_query($sql);
 
 		if ($result)
@@ -1739,10 +1735,7 @@ abstract class AbstractPlatform
 						if ($pos)
 							$column = substr($column, $pos + 4);
 
-						$column = ltrim($column, static::$_delimitIdentifierLeft);
-						$column = rtrim($column, static::$_delimitIdentifierLeft);
-						$column = trim($column);
-
+						$column = static::_removeDelimitIdentifier($column);
 						$columns[] = $column;
 					}
 				}
