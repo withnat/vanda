@@ -432,12 +432,35 @@ class Paginator
 	{
 		$page = static::getPage();
 		$pagesize = static::getPageSize();
+		$totalrecord = static::$_totalrecord;
 
-		$totalpage = (int)ceil(static::$_totalrecord / $pagesize);
+		// If $totalrecord is 0, the ceil() function below will set $page to 0.
+		// If $page is 0, the resulting $offset below will be negative, causing a SQL error.
+		if ($totalrecord)
+		{
+			// In case of reducing the page size, for example, when there are a total of 9 items
+			// and the page size is selected from 20 to 5 items per page, and then navigating to
+			// the last page (page 2) and select the page size back to 20 items per page, the
+			// system will not display data. This is because the $page is still 2, which is greater
+			// than the actual number of pages (9 items displayed with a page size of 20, max page
+			// should be 1).
+			if ($totalrecord / $pagesize < $page)
+			{
+				$page = (int)ceil($totalrecord / $pagesize);
+				static::setPage($page);
+			}
+		}
+		else
+		{
+			$page = 1;
+			static::setPage($page);
+		}
+
+		$totalpage = (int)ceil($totalrecord / $pagesize);
 		$numstart = (($page - 1) * $pagesize) + 1;
 
 		if ($page === $totalpage)
-			$numend = static::$_totalrecord;
+			$numend = $totalrecord;
 		elseif ($page < $totalpage)
 			$numend = $page * $pagesize;
 		else
