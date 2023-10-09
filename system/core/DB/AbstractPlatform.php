@@ -1777,28 +1777,16 @@ abstract class AbstractPlatform
 	 */
 	public static function loadAll()
 	{
-		$args = func_get_args();
-		$paginate = false;
-		$no = 0;
-
-		if (isset($args[0]) and is_object($args[0]))
-		{
-			$paginate = true;
-			$no = $args[0]->numstart;
-		}
-
 		$sql = static::_buildQuerySelect();
+
+		if (strtoupper(substr($sql, 0, 6)) !== 'SELECT')
+			return false;
+		
 		$result = static::_query($sql);
 
 		if ($result)
 		{
 			$rows = $result->fetchAll();
-
-			if ($paginate)
-			{
-				foreach ($rows as $row)
-					$row->{':no'} = $no++;
-			}
 
 			return $rows;
 		}
