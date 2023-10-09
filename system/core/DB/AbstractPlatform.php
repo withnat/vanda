@@ -2810,7 +2810,7 @@ abstract class AbstractPlatform
 	 * @param  string $table  The table name.
 	 * @return bool           Returns true if the table exists. Otherwise, returns false.
 	 */
-	public static function tableExists(string $table) : bool
+	public static function tableExists(string $table) : bool // ok
 	{
 		$table = static::formatTable($table);
 		$tables = static::getTables();
@@ -2819,14 +2819,16 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string $column
-	 * @return bool
+	 * Determines whether the given column exists.
+	 *
+	 * @param  string $column  The column name.
+	 * @return bool            Returns true if the column exists. Otherwise, returns false.
 	 */
-	public static function columnExists(string $column) : bool
+	public static function columnExists(string $column) : bool // ok
 	{
 		$columns = static::getColumns();
 
-		return Arr::has($columns, $column);
+		return in_array($column, $columns);
 	}
 
 	public static function lockTable($table)
