@@ -2805,15 +2805,17 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  string $table
-	 * @return bool
+	 * Determines whether the given table exists.
+	 *
+	 * @param  string $table  The table name.
+	 * @return bool           Returns true if the table exists. Otherwise, returns false.
 	 */
 	public static function tableExists(string $table) : bool
 	{
 		$table = static::formatTable($table);
 		$tables = static::getTables();
 
-		return Arr::has($tables, $table);
+		return in_array($table, $tables);
 	}
 
 	/**
