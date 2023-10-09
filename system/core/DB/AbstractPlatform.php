@@ -1834,23 +1834,6 @@ abstract class AbstractPlatform
 		$pagesize = Paginator::getPageSize();
 		$sortcol = Paginator::getSortCol();
 		$sortdir = strtoupper(Paginator::getSortDir());
-
-		// If $totalrecord is 0, the ceil() function below will set $page to 0.
-		// If $page is 0, the resulting $offset below will be negative, causing a SQL error.
-		if ($totalrecord)
-		{
-			// In case of reducing the page size, for example, when there are a total of 9 items
-			// and the page size is selected from 20 to 5 items per page, and then navigating to
-			// the last page (page 2) and select the page size back to 20 items per page, the
-			// system will not display data. This is because the $page is still 2, which is greater
-			// than the actual number of pages (9 items displayed with a page size of 20, max page
-			// should be 1).
-			if ($totalrecord / $pagesize < $page)
-				$page = (int)ceil($totalrecord / $pagesize);
-		}
-		else
-			$page = 1;
-
 		$offset = $pagesize * ($page - 1);
 
 		static::sort($sortcol, $sortdir);
@@ -1862,7 +1845,7 @@ abstract class AbstractPlatform
 		if ($result)
 		{
 			$rows = $result->fetchAll();
-			$no = 0;
+			$no = Paginator::getNumStart();
 
 			foreach ($rows as $row)
 				$row->{':no'} = $no++;
