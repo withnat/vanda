@@ -231,6 +231,12 @@ class Paginator
 		{
 			$context = Url::getContext();
 			$sortdir = Cookie::get($context . 'sortdir');
+
+			if (!$sortdir)
+			{
+				$sortdir = 'asc';
+				static::setSortDir($sortdir);
+			}
 		}
 
 		return $sortdir;
