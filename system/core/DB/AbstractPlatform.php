@@ -1996,10 +1996,14 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	protected static function _buildQueryInsert($data)
+	/**
+	 * Builds the SQL query string for inserting data.
+	 *
+	 * @param  array|object $data  The data to be saved. If it's an array, it can be multidimensional array.
+	 * @return string              Returns the SQL query string.
+	 */
+	protected static function _buildQueryInsert($data) : string // ok
 	{
-		$data = (array)$data;
-		$data = Arr::removeKey($data, 'id');
 		$datas = static::_prepareDataBeforeSave($data);
 		$table = static::$_sqlTable;
 		$columns = [];
