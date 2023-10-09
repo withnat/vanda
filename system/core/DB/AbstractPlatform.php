@@ -1795,10 +1795,6 @@ abstract class AbstractPlatform
 			Paginator::setPage($page);
 
 		$sql = static::_buildQuerySelect();
-
-		if (strtoupper(substr($sql, 0, 6)) !== 'SELECT')
-			return false;
-
 		$sqlCount = 'SELECT COUNT(*) ' . substr($sql, stripos($sql, ' FROM '));
 		$totalrecord = static::raw($sqlCount)->loadSingle();
 
