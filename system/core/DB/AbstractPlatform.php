@@ -1768,10 +1768,6 @@ abstract class AbstractPlatform
 	public static function loadAll() // ok
 	{
 		$sql = static::_buildQuerySelect();
-
-		if (strtoupper(substr($sql, 0, 6)) !== 'SELECT')
-			return false;
-
 		$result = static::_query($sql);
 
 		if ($result)
