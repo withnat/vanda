@@ -14,22 +14,28 @@ declare(strict_types=1);
 
 namespace System;
 
+use ErrorException;
 use System\Exception\InvalidArgumentException;
 
 /**
  * Class Paginator
+ *
+ * The Paginator class is integrated with the query builder (DB class) and
+ * ORM (Model class) and provides convenient, easy-to-use pagination of
+ * database records with zero configuration.
+ *
  * @package System
  */
-final class Paginator
+class Paginator
 {
-	private static $_totalrecord;
-	private static $_totalpage;
-	private static $_page;
-	private static $_pagesize;
-	private static $_numstart;
-	private static $_numend;
-	private static $_sortcol;
-	private static $_sortdir;
+	protected static $_totalrecord;
+	protected static $_totalpage;
+	protected static $_page;
+	protected static $_pagesize;
+	protected static $_numstart;
+	protected static $_numend;
+	protected static $_sortcol;
+	protected static $_sortdir;
 
 	/**
 	 * Paginator constructor.
@@ -37,14 +43,17 @@ final class Paginator
 	public function __construct(){}
 
 	/**
-	 * @param  int         $totalrecord
-	 * @param  int|null    $page
-	 * @param  int|null    $pagesize
-	 * @param  string|null $sortcol
-	 * @param  string|null $sortdir
+	 * Set up the paginator.
+	 *
+	 * @param  int         $totalrecord  Total number of records.
+	 * @param  int|null    $page         Optionally, current page number. Defaults to null.
+	 * @param  int|null    $pagesize     Optionally, number of records per page. Defaults to null.
+	 * @param  string|null $sortcol      Optionally, column to sort by. Defaults to null.
+	 * @param  string|null $sortdir      Optionally, sort direction. Defaults to null.
 	 * @return void
+	 * @throws ErrorException
 	 */
-	public static function init(int $totalrecord, int $page = null, int $pagesize = null, string $sortcol = null, string $sortdir = null) : void
+	public static function setup(int $totalrecord, int $page = null, int $pagesize = null, string $sortcol = null, string $sortdir = null) : void
 	{
 		static::setTotalRecord($totalrecord);
 
@@ -57,9 +66,363 @@ final class Paginator
 	}
 
 	/**
+	 * Sets the current page number.
+	 *
+	 * @param  int  $page  Page number.
+	 * @return void
+	 * @throws ErrorException
+	 */
+	public static function setPage(int $page) : void
+	{
+		static::$_page = $page;
+
+		$context = Url::getContext();
+		Cookie::set($context . 'page', $page);
+
+		static::_calculate();
+	}
+
+	/**
+	 * Gets the current page number.
+	 *
+	 * @return int             Returns the current page number.
+	 * @throws ErrorException
+	 */
+	public static function getPage() : int
+	{
+		if (Request::get('page'))
+		{
+			$page = (int)Request::get('page');
+
+			if (!$page)
+				$page = 1;
+
+			static::setPage($page);
+		}
+		elseif (static::$_page)
+			$page = static::$_page;
+		else
+		{
+			$context = Url::getContext();
+			$page = (int)Cookie::get($context . 'page');
+
+			if (!$page)
+			{
+				$page = 1;
+				static::setPage($page);
+			}
+		}
+
+		return $page;
+	}
+
+	/**
+	 * Sets the number of records per page.
+	 *
+	 * @param  int $pagesize Number of records per page.
+	 * @return void
+	 * @throws ErrorException
+	 */
+	public static function setPageSize(int $pagesize) : void
+	{
+		if (!$pagesize)
+		{
+			$pagesize = (int)Config::app('pagesize', 20);
+
+			if (!$pagesize)
+				$pagesize = 20;
+		}
+
+		static::$_pagesize = $pagesize;
+
+		$context = Url::getContext();
+		Cookie::set($context . 'pagesize', $pagesize);
+
+		static::_calculate();
+	}
+
+	/**
+	 * Gets the number of records per page.
+	 *
+	 * @return int             Returns the number of records per page.
+	 * @throws ErrorException
+	 */
+	public static function getPageSize() : int
+	{
+		if (static::$_pagesize)
+			$pagesize = static::$_pagesize;
+		else
+		{
+			$context = Url::getContext();
+			$pagesize = (int)Cookie::get($context . 'pagesize');
+
+			if (!$pagesize)
+			{
+				$pagesize = (int)Config::app('pagesize', 20);
+
+				if (!$pagesize)
+					$pagesize = 20;
+
+				static::setPageSize($pagesize);
+			}
+		}
+
+		return $pagesize;
+	}
+
+	/**
+	 * Sets the column to sort by.
+	 *
+	 * @param  string $sortcol  Column to sort by.
 	 * @return void
 	 */
-	private static function _calculate() : void
+	public static function setSortCol(string $sortcol) : void
+	{
+		static::$_sortcol = $sortcol;
+
+		$context = Url::getContext();
+		Cookie::set($context . 'sortcol', $sortcol);
+	}
+
+	/**
+	 * Gets the column to sort by.
+	 *
+	 * @return string          Returns the column to sort by.
+	 * @throws ErrorException
+	 */
+	public static function getSortCol() : string
+	{
+		if (static::$_sortcol)
+			$sortcol = static::$_sortcol;
+		else
+		{
+			$context = Url::getContext();
+			$sortcol = Cookie::get($context . 'sortcol');
+		}
+
+		return $sortcol;
+	}
+
+	/**
+	 * Sets the sort direction.
+	 *
+	 * @param  string $sortdir  Sort direction.
+	 * @return void
+	 */
+	public static function setSortDir(string $sortdir) : void
+	{
+		static::$_sortdir = $sortdir;
+
+		$context = Url::getContext();
+		Cookie::set($context . 'sortdir', $sortdir);
+	}
+
+	/**
+	 * Gets the sort direction.
+	 *
+	 * @return string          Returns the sort direction.
+	 * @throws ErrorException
+	 */
+	public static function getSortDir() : string
+	{
+		if (static::$_sortdir)
+			$sortdir = static::$_sortdir;
+		else
+		{
+			$context = Url::getContext();
+			$sortdir = Cookie::get($context . 'sortdir');
+		}
+
+		return $sortdir;
+	}
+
+	/**
+	 * Sets the total number of records.
+	 *
+	 * @param  int  $totalrecord  Total number of records.
+	 * @return void
+	 * @throws ErrorException
+	 */
+	public static function setTotalRecord(int $totalrecord) : void
+	{
+		static::$_totalrecord = $totalrecord;
+		static::_calculate();
+	}
+
+	/**
+	 * Gets the total number of records.
+	 *
+	 * @return int
+	 */
+	public static function getTotalRecord() : int
+	{
+		// The default value of $_totalrecord is null.
+		// Ensure it does not return a null value.
+		return (int)static::$_totalrecord;
+	}
+
+	/**
+	 * Generates the HTML for the paginator sorting.
+	 *
+	 * @param  string         $title    Title of the column.
+	 * @param  string         $sortcol  Column to sort by.
+	 * @return string                   Returns the HTML for the paginator sorting.
+	 * @throws ErrorException
+	 */
+	public static function sort(string $title, string $sortcol) : string
+	{
+		$html = '<span class="sort" '
+			. 'data-toggle="tooltip" '
+			. 'data-placement="top" '
+			. 'data-original-title="' . t('Click to sort by this column') . '" '
+			. 'onclick="__vanda.sortPage(\'' . $sortcol . '\')">'
+			. $title
+			. '</span>';
+
+		if (strtolower($sortcol) === strtolower(static::getSortCol()))
+		{
+			if (strtolower(static::getSortDir()) === 'asc')
+				$html .= '<i class="fa fa-caret-up"></i>';
+			else
+				$html .= '<i class="fa fa-caret-down"></i>';
+		}
+		else
+			$html .= '<i class="fa fa-caret-left"></i>';
+
+		return $html;
+	}
+
+	/**
+	 * Generates the HTML for the paginator pagesize dropdown.
+	 *
+	 * @param  string|array|null $options  Optionally, the options for the dropdown. Defaults to null.
+	 * @return string                      Returns the HTML for the paginator pagesize dropdown.
+	 * @throws ErrorException
+	 */
+	public static function options($options = null) : string
+	{
+		if (!is_string($options) and !is_array($options) and !is_null($options))
+			throw InvalidArgumentException::create(1, ['string', 'array', 'null'], $options);
+
+		if (is_string($options))
+		{
+			$options = explode(',', $options);
+			$options = array_map('trim', $options);
+		}
+		elseif (is_null($options))
+		{
+			$pagesizeoption = Config::app('$pagesizeoption', '20,50,100,250,500');
+
+			if ($pagesizeoption)
+			{
+				$options = explode(',', $pagesizeoption);
+				$options = array_map('trim', $options);
+			}
+			else
+				$options = [20, 50, 100, 250, 500];
+		}
+
+		$attribs = 'class="form-control form-control-sm select pagination-pagesize" onchange="__vanda.setPageSize(this[selectedIndex].value)"';
+		$dropdown = Form::select('pagesize', $options, static::getPageSize(), null, $attribs);
+		$html = t('Show') . $dropdown . t('records');
+
+		return $html;
+	}
+
+	/**
+	 * Generates the HTML for the paginator detail.
+	 *
+	 * @return string  Returns the HTML for the paginator detail.
+	 */
+	public static function detail() : string
+	{
+		$html = t('Showing') . ' ' . number_format(static::$_numstart) . ' '
+			. t('to') . ' ' . number_format(static::$_numend) . ' '
+			. t('of') . ' ' . number_format(static::$_totalrecord) . ' ' . t('records');
+
+		return $html;
+	}
+
+	/**
+	 * Generates the HTML for the paginator link.
+	 *
+	 * @param  string|null $pagelink  Optionally, the number of page links to display. Defaults to null.
+	 * @return string                 Returns the HTML for the paginator link.
+	 * @throws ErrorException
+	 */
+	public static function link(string $pagelink = null) : string
+	{
+		if (!$pagelink)
+		{
+			$pagelink = (int)Config::app('pagelink', 10);
+
+			if (!$pagelink)
+				$pagelink = 10;
+		}
+
+		$html = '';
+		$totalpage = static::$_totalpage;
+		$page = static::getPage();
+
+		if ($totalpage)
+		{
+			$first = '';
+			$previous = '';
+			$next = '';
+			$last = '';
+
+			if ($page > 1)
+			{
+				$first = '<li class="page-item"><a class="page-link" onclick="__vanda.goToPage(1)"><i class="fa fa-angle-double-left"></i></a></li>';
+				$previous = '<li class="page-item"><a class="page-link" onclick="__vanda.goToPage(' . ($page - 1) . ')"><i class="fa fa-angle-left"></i></a></li>';
+			}
+
+			if ($totalpage > $page)
+			{
+				$next = '<li class="page-item"><a class="page-link" onclick="__vanda.goToPage(' . ($page + 1) . ')"><i class="fa fa-angle-right"></i></a></li>';
+				$last = '<li class="page-item"><a class="page-link" onclick="__vanda.goToPage(' . $totalpage . ')"><i class="fa fa-angle-double-right"></i></a></a></li>';
+			}
+
+			// Directly dividing by 2 for both $backward and $forward
+			// is not possible because $pagelink may be an odd number.
+			// For example, if $pagelink is 9, the $backward value will
+			// be 4, and the $forward value will be 5.
+			$backward = (int)($pagelink / 2);
+			$forward = $pagelink - $backward;
+
+			$min = $page - $backward;
+			$max = $page + $forward;
+
+			if ($min < 1)
+			{
+				$max += abs($min);
+				$min = 1;
+			}
+
+			if ($max > $totalpage)
+				$max = $totalpage;
+
+			for ($i = $min; $i <= $max; ++$i)
+			{
+				if ($i === $page)
+					$html .= '<li class="page-item active"><a class="page-link" >' . $i . '</a></li>';
+				else
+					$html .= '<li class="page-item"><a class="page-link" onclick="__vanda.goToPage(' . $i . ')">' . $i . '</a></li>';
+			}
+
+			$html = '<ul class="pagination">' . $first . $previous . $html . $next . $last . '</ul>';
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Calculate and set the total number of pages, the starting and ending
+	 *
+	 * @return void
+	 * @throws ErrorException
+	 */
+	protected static function _calculate() : void
 	{
 		$page = static::getPage();
 		$pagesize = static::getPageSize();
@@ -77,298 +440,5 @@ final class Paginator
 		static::$_totalpage = $totalpage;
 		static::$_numstart = $numstart;
 		static::$_numend = $numend;
-	}
-
-	/**
-	 * @param  int $page
-	 * @return void
-	 */
-	public static function setPage(int $page) : void
-	{
-		static::$_page = $page;
-
-		$context = Uri::getContext();
-		Cookie::set($context . 'page', (string)$page);
-
-		static::_calculate();
-	}
-
-	/**
-	 * @return int
-	 */
-	public static function getPage() : int
-	{
-		if (Request::get('page'))
-		{
-			$page = (int)Request::get('page');
-
-			if (!$page)
-				$page = 1;
-
-			static::setPage($page);
-		}
-		elseif (static::$_page)
-			$page = static::$_page;
-		else
-		{
-			$context = Uri::getContext();
-			$page = (int)Cookie::get($context . 'page');
-
-			if (!$page)
-			{
-				$page = 1;
-				static::setPage($page);
-			}
-		}
-
-		return $page;
-	}
-
-	/**
-	 * @param  int  $pagesize
-	 * @return void
-	 */
-	public static function setPageSize(int $pagesize) : void
-	{
-		if (!$pagesize)
-			$pagesize = (int)\Setting::get('pagesize', 20);
-
-		static::$_pagesize = $pagesize;
-
-		$context = Uri::getContext();
-		Cookie::set($context . 'pagesize', (string)$pagesize);
-
-		static::_calculate();
-	}
-
-	/**
-	 * @return int
-	 */
-	public static function getPageSize() : int
-	{
-		if (static::$_pagesize)
-			$pagesize = static::$_pagesize;
-		else
-		{
-			$context = Uri::getContext();
-			$pagesize = (int)Cookie::get($context . 'pagesize');
-
-			if (!$pagesize)
-			{
-				$pagesize = (int)\Setting::get('pagesize', 20);
-				static::setPageSize($pagesize);
-			}
-		}
-
-		return $pagesize;
-	}
-
-	/**
-	 * @param  string $sortcol
-	 * @return void
-	 */
-	public static function setSortCol(string $sortcol) : void
-	{
-		static::$_sortcol = $sortcol;
-
-		$context = Uri::getContext();
-		Cookie::set($context . 'sortcol', $sortcol);
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getSortCol() : string
-	{
-		if (static::$_sortcol)
-			$sortcol = static::$_sortcol;
-		else
-		{
-			$context = Uri::getContext();
-			$sortcol = (string)Cookie::get($context . 'sortcol');
-		}
-
-		return $sortcol;
-	}
-
-	/**
-	 * @param  string $sortdir
-	 * @return void
-	 */
-	public static function setSortDir(string $sortdir) : void
-	{
-		static::$_sortdir = $sortdir;
-
-		$context = Uri::getContext();
-		Cookie::set($context . 'sortdir', $sortdir);
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getSortDir() : string
-	{
-		if (static::$_sortdir)
-			$sortdir = static::$_sortdir;
-		else
-		{
-			$context = Uri::getContext();
-			$sortdir = (string)Cookie::get($context . 'sortdir');
-		}
-
-		return $sortdir;
-	}
-
-	/**
-	 * @param  int  $totalrecord
-	 * @return void
-	 */
-	public static function setTotalRecord(int $totalrecord) : void
-	{
-		static::$_totalrecord = $totalrecord;
-		static::_calculate();
-	}
-
-	/**
-	 * @return int
-	 */
-	public static function getTotalRecord() : int
-	{
-		// Default value of $_totalrecord is null.
-		// Ensure not return null value.
-		return (int)static::$_totalrecord;
-	}
-
-	/**
-	 * @param  string $title
-	 * @param  string $sortcol
-	 * @return string
-	 */
-	public static function sort(string $title, string $sortcol) : string
-	{
-		$html = '<span class="sort" '
-			. 'data-toggle="tooltip" '
-			. 'data-placement="top" '
-			. 'data-original-title="' . t('Select to sort by this column') . '" '
-			. 'onclick="__vanda.sortPage(\'' . $sortcol . '\');">'
-			. $title . '</span>';
-
-		if (strtolower($sortcol) === strtolower(static::getSortCol()))
-		{
-			if (strtolower(static::getSortDir()) === 'asc')
-				$html .= '<i class="fa fa-caret-up"></i>';
-			else
-				$html .= '<i class="fa fa-caret-down"></i>';
-		}
-		else
-			$html .= '<i class="fa fa-caret-left"></i>';
-
-		return $html;
-	}
-
-	/**
-	 * @param  string|array|null $options
-	 * @return string
-	 */
-	public static function options($options = null) : string
-	{
-		if (!is_string($options) and !is_array($options) and !is_null($options))
-			throw InvalidArgumentException::create(1, ['string','array','null'], $options);
-
-		if (is_null($options))
-			$options = [20, 50, 100, 250, 500];
-		elseif (!is_array($options))
-		{
-			$options = explode(',', $options);
-			$options = array_map('trim', $options);
-		}
-
-		$attribs = 'class="form-control form-control-sm select pagination-pagesize" onchange="__vanda.setPageSize(this[selectedIndex].value);"';
-		$select = Form::select('pagesize', $options, static::getPageSize(), null, $attribs);
-		$html = t('Show') . $select . t('records');
-
-		return $html;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function detail() : string
-	{
-		$html = t('Showing') . ' ' . number_format(static::$_numstart) . ' ';
-		$html .= t('to') . ' ' . number_format(static::$_numend) . ' ';
-		$html .= t('of') . ' ' . number_format(static::$_totalrecord) . ' ' . t('records');
-
-		return $html;
-	}
-
-	/**
-	 * @param  string|null $pagelink
-	 * @return string
-	 */
-	public static function link(string $pagelink = null) : string
-	{
-		if (!$pagelink)
-			$pagelink = \Setting::get('pagelink', 10);
-
-		$html = '';
-		$totalpage = static::$_totalpage;
-		$page = static::getPage();
-
-		if ($totalpage)
-		{
-			$first = '';
-			$previous = '';
-			$next = '';
-			$last = '';
-
-			if ($page > 1)
-			{
-				$first = '<li class="page-item"><a class="page-link" onclick="__vanda.goToPage(1);"><i class="fa fa-angle-double-left"></i></a></li>';
-				$previous = '<li class="page-item"><a class="page-link" onclick="__vanda.goToPage(' . ($page - 1) . ');"><i class="fa fa-angle-left"></i></a></li>';
-			}
-
-			if ($totalpage > $page)
-			{
-				$next = '<li class="page-item"><a class="page-link" onclick="__vanda.goToPage(' . ($page + 1) . ');"><i class="fa fa-angle-right"></i></a></li>';
-				$last = '<li class="page-item"><a class="page-link" onclick="__vanda.goToPage(' . $totalpage . ');"><i class="fa fa-angle-double-right"></i></a></a></li>';
-			}
-
-			if ($pagelink === 'all')
-			{
-				$min = 1;
-				$max = $totalpage;
-			}
-			else
-			{
-				// If $pagelink is 9
-				$backward = (int)($pagelink / 2); // This will be 4
-				$forward = $pagelink - $backward; // This will be 5
-
-				$min = $page - $backward;
-				$max = $page + $forward;
-
-				if ($min < 1)
-				{
-					$max += abs($min);
-					$min = 1;
-				}
-
-				if ($max > $totalpage)
-					$max = $totalpage;
-			}
-
-			for ($i = $min; $i <= $max; ++$i)
-			{
-				if ($i === $page)
-					$html .= '<li class="page-item active"><a class="page-link" >' . $i . '</a></li>';
-				else
-					$html .= '<li class="page-item"><a class="page-link" onclick="__vanda.goToPage(' . $i . ');">' . $i . '</a></li>';
-			}
-
-			$html = '<ul class="pagination">' . $first . $previous . $html . $next . $last . '</ul>';
-		}
-
-		return $html;
 	}
 }
