@@ -63,7 +63,7 @@ abstract class AbstractPlatform
 	protected static $_autoSearchColumns = [];
 	protected static $_transactionMode = false;
 	protected static $_transactionSqls = [];
-	protected static $_queries = [];
+	protected static $_executedQueries = [];
 	protected static $_delimitIdentifierLeft = '`';
 	protected static $_delimitIdentifierRight = '`';
 	protected static $_affectedRows = null;
@@ -711,7 +711,7 @@ abstract class AbstractPlatform
 		}
 
 		if ($result and Config::app('env') === 'development')
-			static::$_queries[] = $sql;
+			static::$_executedQueries[] = $sql;
 		else
 			static::deleteAll();
 	}
@@ -729,7 +729,7 @@ abstract class AbstractPlatform
 		$result = static::$_connection->query($sql);
 
 		if (Config::app('env') === 'development')
-			static::$_queries[] = $sql;
+			static::$_executedQueries[] = $sql;
 
 		$deleted = 0;
 		$assetPath = str_replace(BASEPATH, '', BASEPATH_ASSETS);
@@ -767,7 +767,7 @@ abstract class AbstractPlatform
 		$result = static::$_connection->query($sql);
 
 		if (Config::app('env') === 'development')
-			static::$_queries[] = $sql;
+			static::$_executedQueries[] = $sql;
 
 		$backedup = 0;
 		$assetPath = str_replace(BASEPATH, '', BASEPATH_ASSETS);
@@ -1646,7 +1646,7 @@ abstract class AbstractPlatform
 			$sql = str_replace('#_', Config::db('prefix'), $sql);
 
 		if (Config::app('env') === 'development')
-			static::$_queries[] = $sql;
+			static::$_executedQueries[] = $sql;
 
 		if (static::$_transactionMode)
 			static::$_transactionSqls[] = $sql;
@@ -1775,13 +1775,13 @@ abstract class AbstractPlatform
 	 *
 	 * @return array|false  Returns an array of objects with properties that correspond to the fetched rows' columns.
 	 */
-	public static function loadAll()
+	public static function loadAll() // ok
 	{
 		$sql = static::_buildQuerySelect();
 
 		if (strtoupper(substr($sql, 0, 6)) !== 'SELECT')
 			return false;
-		
+
 		$result = static::_query($sql);
 
 		if ($result)
@@ -1800,7 +1800,7 @@ abstract class AbstractPlatform
 	 * @return array|false               Returns an array of objects with properties that correspond to the fetched rows' columns.
 	 * @throws ErrorException
 	 */
-	public static function paginate(?int $pagesize = null, ?int $page = null)
+	public static function paginate(?int $pagesize = null, ?int $page = null) // ok
 	{
 		if ($pagesize)
 			Paginator::setPageSize($pagesize);
@@ -1967,7 +1967,7 @@ abstract class AbstractPlatform
 				foreach ($sqls as $sql)
 				{
 					if (Config::app('env') === 'development')
-						static::$_queries[] = $sql;
+						static::$_executedQueries[] = $sql;
 
 					static::$_connection->query($sql);
 				}
@@ -2524,7 +2524,7 @@ abstract class AbstractPlatform
 			. 'FROM ' . $table;
 
 		if (Config::app('env') === 'development')
-			static::$_queries[] = $sql;
+			static::$_executedQueries[] = $sql;
 
 		$result = static::$_connection->query($sql);
 		$row = $result->fetch();
@@ -2539,7 +2539,7 @@ abstract class AbstractPlatform
 	 */
 	public static function getLastQuery() : string // ok
 	{
-		return (string)end(static::$_queries);
+		return (string)end(static::$_executedQueries);
 	}
 
 	/**
@@ -2549,7 +2549,7 @@ abstract class AbstractPlatform
 	 */
 	public static function getAllQueries() : array // ok
 	{
-		return static::$_queries;
+		return static::$_executedQueries;
 	}
 
 	/**
@@ -2629,7 +2629,7 @@ abstract class AbstractPlatform
 		$sql .= ' LIMIT 1 ';
 
 		if (Config::app('env') === 'development')
-			static::$_queries[] = $sql;
+			static::$_executedQueries[] = $sql;
 
 		$result = static::$_connection->query($sql);
 		$row = $result->fetch();
@@ -2640,16 +2640,21 @@ abstract class AbstractPlatform
 			return true;
 	}
 
-	public static function getTables()
+	/**
+	 * Gets a listing of tables in the database.
+	 *
+	 * @return array  Returns an array of table names.
+	 */
+	public static function getTables() : array // ok
 	{
-		if (!is_array(static::$_tables))
+		if (empty(static::$_tables))
 		{
 			$filename = '_tables_.php';
 
 			if (is_file(static::$_dbCachePath . $filename))
 			{
 				$content = file_get_contents(static::$_dbCachePath . $filename);
-				$content = substr($content, 8);
+				$content = substr($content, 8); // Remove "<?php //" from the content.
 
 				static::$_tables = @unserialize($content);
 			}
@@ -2657,21 +2662,20 @@ abstract class AbstractPlatform
 			if (empty(static::$_tables))
 			{
 				$sql = 'SHOW TABLES';
-				$result = static::$_connection->query($sql);
+				$result = static::query($sql);
 
 				if (Config::app('env') === 'development')
-					static::$_queries[] = $sql;
+					static::$_executedQueries[] = $sql;
 
-				while ($table = $result->fetch()) // todo
+				while ($table = $result->fetch())
 				{
-					// Get first element of object or array
+					// Get the first element of an object or array.
 					$table = current($table);
 					static::$_tables[] = $table;
 				}
 
-				$fp = fopen(static::$_dbCachePath . $filename, 'w');
-				fwrite($fp, '<?php //'.serialize(static::$_tables));
-				fclose($fp);
+				$content = '<?php //' . serialize(static::$_tables);
+				file_put_contents(static::$_dbCachePath . $filename, $content);
 			}
 		}
 
@@ -2707,7 +2711,7 @@ abstract class AbstractPlatform
 				$result = static::$_connection->query($sql);
 
 				if (Config::app('env') === 'development')
-					static::$_queries[] = $sql;
+					static::$_executedQueries[] = $sql;
 
 				$rows = $result->fetchAll();
 				$tableInfo = [];
@@ -2832,7 +2836,7 @@ abstract class AbstractPlatform
 			static::$_connection->query($sql);
 
 			if (Config::app('env') === 'development')
-				static::$_queries[] = $sql;
+				static::$_executedQueries[] = $sql;
 		}
 	}
 
@@ -2847,7 +2851,7 @@ abstract class AbstractPlatform
 			static::$_connection->query($sql);
 
 			if (Config::app('env') === 'development')
-				static::$_queries[] = $sql;
+				static::$_executedQueries[] = $sql;
 		}
 	}
 
