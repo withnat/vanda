@@ -27,6 +27,7 @@ use System\Str;
 use System\Uri;
 use System\XML;
 use System\Exception\InvalidArgumentException;
+use \ErrorException;
 use \PDOStatement;
 
 /**
@@ -1683,20 +1684,25 @@ abstract class AbstractPlatform
 	/**
 	 * Retrieves a single row from the recordset.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * DB::table('user')->load();
+	 * $result = DB::getLastQuery();
+	 * // The $result will be: SELECT * FROM `vd_User` LIMIT 1
+	 * ```
+	 *
 	 * @return stdClass|bool  Returns an object with properties that correspond to the fetched row's columns.
 	 *                        Return false if the query string does not contain the word 'SELECT'.
 	 */
 	public static function load()
 	{
-		$args = func_get_args();
-		$sql = $args[0] ?? static::_buildQuerySelect();
-		$sql = trim($sql);
+		static::take(1);
+
+		$sql = static::_buildQuerySelect();
 
 		if (strtoupper(substr($sql, 0, 6)) !== 'SELECT')
 			return false;
-
-		if (!strripos($sql, ' LIMIT '))
-			$sql .= ' LIMIT 1 ';
 
 		$result = static::_query($sql);
 
@@ -1759,6 +1765,14 @@ abstract class AbstractPlatform
 	/**
 	 * Retrieves all rows from the recordset.
 	 *
+	 *  For example,
+	 *
+	 * ```php
+	 *  DB::table('user')->loadAll();
+	 *  $result = DB::getLastQuery();
+	 *  // The $result will be: SELECT * FROM `vd_User`
+	 *  ```
+	 *
 	 * @return array|false  Returns an array of objects with properties that correspond to the fetched rows' columns.
 	 */
 	public static function loadAll()
@@ -1770,7 +1784,7 @@ abstract class AbstractPlatform
 		if (isset($args[0]) and is_object($args[0]))
 		{
 			$paginate = true;
-			$no = $args[0]->pagenumstart;
+			$no = $args[0]->numstart;
 		}
 
 		$sql = static::_buildQuerySelect();
@@ -1780,9 +1794,9 @@ abstract class AbstractPlatform
 		{
 			$rows = $result->fetchAll();
 
-			foreach ($rows as $row)
+			if ($paginate)
 			{
-				if ($paginate)
+				foreach ($rows as $row)
 					$row->{':no'} = $no++;
 			}
 
@@ -1792,71 +1806,55 @@ abstract class AbstractPlatform
 			return false;
 	}
 
-	// todo
-	public static function paginate()
+	/**
+	 * @param  int|null       $pagesize  Optionally, the number of rows per page. Defaults to null.
+	 * @param  int|null       $page      Optionally, the page number. Defaults to null.
+	 * @return array|false               Returns an array of objects with properties that correspond to the fetched rows' columns.
+	 * @throws ErrorException
+	 */
+	public static function paginate(?int $pagesize = null, ?int $page = null)
 	{
+		if ($pagesize)
+			Paginator::setPageSize($pagesize);
+
+		if ($page)
+			Paginator::setPage($page);
+
 		$sql = static::_buildQuerySelect();
 
 		$sqlCount = 'SELECT COUNT(*) ' . substr($sql, stripos($sql, ' FROM '));
 		$totalrecord = static::raw($sqlCount)->loadSingle();
 
-		Paginator::init($totalrecord);
+		Paginator::setTotalRecord($totalrecord);
 
-		$limitPos = strripos($sql, ' LIMIT ');
+		$page = Paginator::getPage();
+		$pagesize = Paginator::getPageSize();
 		$sortcol = Paginator::getSortCol();
+		$sortdir = strtoupper(Paginator::getSortDir());
 
-		if ($sortcol and strripos($sql, ' ORDER BY ') === false)
+		// If $totalrecord is 0, the ceil() function below will set $page to 0.
+		// If $page is 0, the resulting $offset below will be negative, causing a SQL error.
+		if ($totalrecord)
 		{
-			$sortdir = Paginator::getSortDir();
-
-			// Clean up values from cookie.
-			// (Don't remove dot! In case order by alias table nam e.g., t.name)
-			$sortcol = preg_replace('/[^.a-z0-9]+/i', '', $sortcol);
-
-			if (!in_array(strtolower($sortdir), ['asc', 'desc']))
-				$sortdir = 'ASC';
-
-			$sortcol = static::wrapColumn($sortcol);
-			$orderBy = ' ORDER BY ' . $sortcol . ' ' . $sortdir;
-
-			if ($limitPos)
-			{
-				$limit = substr($sql, $limitPos);
-				$sql = substr($sql, 0, $limitPos);
-
-				$sql .= $orderBy . $limit;
-			}
-			else
-				$sql .= $orderBy;
+			// In case of reducing the page size, for example, when there are a total of 9 items
+			// and the page size is selected from 20 to 5 items per page, and then navigating to
+			// the last page (page 2) and select the page size back to 20 items per page, the
+			// system will not display data. This is because the $page is still 2, which is greater
+			// than the actual number of pages (9 items displayed with a page size of 20, max page
+			// should be 1).
+			if ($totalrecord / $pagesize < $page)
+				$page = (int)ceil($totalrecord / $pagesize);
 		}
+		else
+			$page = 1;
 
-		if (!$limitPos)
-		{
-			// Ensure integer
-			$page = (int)Paginator::getPage();
-			$pagesize = (int)Paginator::getPageSize();
+		$offset = $pagesize * ($page - 1);
 
-			// In case of $totalrecord is 0, the ceil() function below will set $page to 0.
-			// And if $page is 0, the below $offset will be negative that will make sql error.
-			if ($totalrecord)
-			{
-				// กรณีปรับลด pagesize ให้น้อยลง เช่น มีข้อมูลทั้งหมดจำนวน 9 รายการ แล้วปรับ pagesize
-				// จาก 20 เหลือ 5 รายการต่อหน้า แล้วเลื่อนหน้าแสดงผลไปที่หน้าสุดท้าย (หน้า 2) แล้วเลือก
-				// pagesize กลับไป 20 รายการต่อหน้า ระบบจะไม่แสดงข้อมูล เพราะระบบไปอยู่ หน้า 2 ซึ่ง
-				// มากกว่าที่คำนวณได้จริง (ข้อมูล 9 รายการ แสดง 20 รายการต่อหน้า จะมี max page = 1)
-				if ($totalrecord / $pagesize < $page)
-					$page = (int)ceil($totalrecord / $pagesize);
-			}
-			else
-				$page = 1;
+		static::sort($sortcol, $sortdir);
+		static::take($pagesize);
+		static::skip($offset);
 
-			Paginator::setPage($page);
-			$offset = $pagesize * ($page - 1);
-
-			$sql .= ' LIMIT ' . $pagesize . ' OFFSET ' . $offset;
-		}
-
-		$result = static::_query($sql);
+		$result = static::loadAll();
 
 		if ($result)
 		{
@@ -1869,7 +1867,7 @@ abstract class AbstractPlatform
 			return $rows;
 		}
 		else
-			static::_displayError($result); // todo
+			return false;
 	}
 
 	/**
