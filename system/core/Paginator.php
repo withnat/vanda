@@ -278,6 +278,16 @@ class Paginator
 	}
 
 	/**
+	 * Gets the ending item number of the current page.
+	 *
+	 * @return int  Returns the ending item number of the current page.
+	 */
+	public static function getNumEnd() : int
+	{
+		return static::$_numend;
+	}
+
+	/**
 	 * Generates the HTML for the paginator sorting.
 	 *
 	 * @param  string         $title    Title of the column.
