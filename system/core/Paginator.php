@@ -268,6 +268,16 @@ class Paginator
 	}
 
 	/**
+	 * Gets the starting item number of the current page.
+	 *
+	 * @return int  Returns the starting item number of the current page.
+	 */
+	public static function getNumStart() : int
+	{
+		return static::$_numstart;
+	}
+
+	/**
 	 * Generates the HTML for the paginator sorting.
 	 *
 	 * @param  string         $title    Title of the column.
