@@ -441,7 +441,13 @@ abstract class AbstractPlatform
 		}
 	}
 
-	private static function _prepareDataBeforeSave($data)
+	/**
+	 * Prepares the data before saving.
+	 *
+	 * @param  array|object $data  The data to be saved. If it's an array, it can be multidimensional array.
+	 * @return array               Returns the data that ready to be saved.
+	 */
+	protected static function _prepareDataBeforeSave($data) : array // ok
 	{
 		$data = (array)$data;
 		$datas = Arr::toMultidimensional($data);
@@ -461,18 +467,17 @@ abstract class AbstractPlatform
 				if (is_array($value))
 					$datas[$i][$key] = ',' . implode(',', $value) . ',';
 
-				// Data from submitted form always be string.
-				elseif (is_string($value) and !mb_strlen($value)) // บรรทัดบนบอกว่า always be string แล้ววทำไมต้องใช้ is_string เช็คอีก?
+				// If the data from the submitted form is not an array, it is always in string data type.
+				elseif (is_string($value) and !mb_strlen($value))
 				{
 					$default = static::getColumnInfo($key)->default;
 
-					//if (mb_strlen($default)) TODO ก่อนหน้านี้ใช้บรรทัดนี้ ตอนนี้ error กรณีบันทึก บทต. โดยไม่ระบุ maintenanceDate คือ mb_strlen() expects parameter 1 to be string, null given
+					// The default value can be null; convert it to a string for mb_strlen().
 					if (mb_strlen((string)$default))
 					{
 						if ($default === 'CURRENT_TIMESTAMP')
 						{
-							// Unset variable and database server
-							// will set default value automatically.
+							// The database server will automatically set the default value.
 							unset($datas[$i][$key]);
 						}
 						else
@@ -482,8 +487,6 @@ abstract class AbstractPlatform
 						$datas[$i][$key] = null;
 				}
 
-				// Unset variable and database server
-				// will set default value automatically.
 				elseif (is_null($value) and !static::getColumnInfo($key)->nullable)
 					unset($datas[$i][$key]);
 			}
