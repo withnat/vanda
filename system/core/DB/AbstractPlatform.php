@@ -104,7 +104,7 @@ abstract class AbstractPlatform
 	 *
 	 * @return AbstractPlatform  Returns the singleton instance.
 	 */
-	protected static function _getInstance() : AbstractPlatform
+	protected static function _getInstance() : AbstractPlatform // ok
 	{
 		if (is_null(static::$_instance))
 			static::$_instance = new static;
@@ -115,7 +115,7 @@ abstract class AbstractPlatform
 	/**
 	 * @return void
 	 */
-	abstract protected static function _connect() : void;
+	abstract protected static function _connect() : void; // ok
 
 	// Select
 
@@ -697,7 +697,7 @@ abstract class AbstractPlatform
 	// todo
 	private static function _deleteUploadedFiles($where = null)
 	{
-		// Have to use raw query because in case we call
+		// Have to use raw sql because in case we call
 		// method truncate() without DROP privilege. System will calls
 		// method deleteAll() automatically. And static::$_sqlTable
 		// will be removed by this method that called in method
@@ -735,7 +735,7 @@ abstract class AbstractPlatform
 
 		Folder::create($backupPath);
 
-		// Have to use raw query because in case we call
+		// Have to use raw sql because in case we call
 		// method truncate() without DROP privilege. System will calls
 		// method deleteAll() automatically. And static::$_sqlTable
 		// will be removed by this method that called in method
@@ -1946,7 +1946,7 @@ abstract class AbstractPlatform
 	// Build
 
 	/**
-	 * Builds the SQL query string.
+	 * Builds the SQL query string for retrieving data.
 	 *
 	 * @return string  Returns the SQL query string.
 	 */
@@ -2833,32 +2833,34 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * An alias of method static::getPreparedQuerySelect().
+	 * Gets the SQL representation of the 'SELECT' query.
+	 *
+	 * An alias of method static::toSqlSelect().
 	 *
 	 * @return string  Returns the SQL query string.
 	 */
-	public static function getPreparedQuery() : string // ok
+	public static function toSql() : string // ok
 	{
-		return static::getPreparedQuerySelect();
+		return static::toSqlSelect();
 	}
 
 	/**
-	 * Gets the prepared SQL query string for the SELECT clause.
+	 * Gets the SQL representation of the 'SELECT' query.
 	 *
 	 * @return string  Returns the SQL query string.
 	 */
-	public static function getPreparedQuerySelect() : string // ok
+	public static function toSqlSelect() : string // ok
 	{
 		return static::_buildQuerySelect();
 	}
 
 	/**
-	 * Gets the prepared SQL query string for the INSERT clause.
+	 * Gets the SQL representation of the 'INSERT' query.
 	 *
 	 * @param  array|object $data  The data to be inserted. If it's an array, it can be multidimensional array.
 	 * @return string              Returns the SQL query string.
 	 */
-	public static function getPreparedQueryInsert($data) : string // ok
+	public static function toSqlInsert($data) : string // ok
 	{
 		if (!is_array($data) and !is_object($data))
 			throw InvalidArgumentException::typeError(1, ['array', 'object'], $data);
@@ -2867,12 +2869,12 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * Gets the prepared SQL query string for the UPDATE clause.
+	 * Gets the SQL representation of the 'UPDATE' query.
 	 *
 	 * @param  array|object $data  The data to be updated. If it's an array, it can only be a one-dimension array.
 	 * @return string              Returns the SQL query string.
 	 */
-	public static function getPreparedQueryUpdate($data) : string // ok
+	public static function toSqlUpdate($data) : string // ok
 	{
 		if (!is_array($data) and !is_object($data))
 			throw InvalidArgumentException::typeError(1, ['array', 'object'], $data);
@@ -2881,26 +2883,26 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * Gets the prepared SQL query string for the INSERT or UPDATE clause based on the WHERE clause. If the WHERE
-	 * clause is empty, it will return the SQL query string for the INSERT clause. Otherwise, it will return the
-	 * SQL query string for the UPDATE clause.
+	 * Gets the SQL representation of the 'INSERT' or 'UPDATE' query based on the WHERE clause. If the WHERE
+	 * clause is empty, it will return the SQL query string for the INSERT. Otherwise, it will return the
+	 * SQL query string for the UPDATE.
 	 *
 	 * @param  array|object $data  The data to be inserted or updated.
 	 *                             The data to be inserted can be multidimensional array.
 	 *                             The data to be updated can only be a one-dimension array.
 	 * @return string              Returns the SQL query string.
 	 */
-	public static function getPreparedQuerySave($data) : string // ok
+	public static function toSqlSave($data) : string // ok
 	{
 		return static::_buildQuerySave($data);
 	}
 
 	/**
-	 * Gets the prepared SQL query string for the DELETE clause.
+	 * Gets the SQL representation of the 'DELETE' query.
 	 *
 	 * @return string  Returns the SQL query string.
 	 */
-	public static function getPreparedQueryDelete() : string
+	public static function toSqlDelete() : string
 	{
 		$where = static::_buildWhere();
 		$sql = static::_buildQueryDelete($where);
