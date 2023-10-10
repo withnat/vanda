@@ -488,13 +488,19 @@ abstract class AbstractPlatform
 		return $datas;
 	}
 
-	public static function save($data)
+	/**
+	 * @param $data
+	 * @return int  Returns the number of affected rows.
+	 */
+	public static function save($data) : int
 	{
 		$where = static::_buildWhere();
-		$data = (array)$data;
 
 		if ($where)
 		{
+			if (!is_array($data) and !is_object($data))
+				throw InvalidArgumentException::typeError(1, ['array', 'object'], $data);
+
 			$sql = static::_buildQuerySave($data);
 			static::raw($sql)->execute();
 
