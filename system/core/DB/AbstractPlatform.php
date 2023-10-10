@@ -2472,17 +2472,6 @@ abstract class AbstractPlatform
 		return $column;
 	}
 
-//	public static function wrapColumnWhere($column)
-//	{
-//		$arr = explode('.', $column);
-//		$column = static::$_delimitIdentifierLeft . $arr[0] . static::$_delimitIdentifierRight;
-//
-//		if (isset($arr[1]))
-//			$column .= '.' . static::$_delimitIdentifierLeft . $arr[1] . static::$_delimitIdentifierRight;
-//
-//		return $column;
-//	}
-
 	/**
 	 * An alias of method static::wrapColumn().
 	 *
