@@ -28,6 +28,7 @@ use System\Uri;
 use System\XML;
 use System\Exception\InvalidArgumentException;
 use \ErrorException;
+use \PDOException;
 use \PDOStatement;
 
 /**
@@ -1993,32 +1994,41 @@ abstract class AbstractPlatform
 		}
 	}
 
-	public static function beginTransaction()
+	/**
+	 * Initiates a transaction.
+	 *
+	 * @return bool  Returns true on success, or false on failure.
+	 */
+	public static function beginTransaction() : bool
 	{
 		// Ensure the connection is established in case we
-		// start a transaction manually before set a query.
-		//static::_getInstance();
-		// Call to undefined method System\DB\Platforms\Mysql::_getInstance()
-		// เลยคอมเมนต์บรรทัดบนไปก่อน
+		// start a transaction manually before setting a query.
+		static::_getInstance();
 
-		static::$_connection->beginTransaction();
-		static::$_transactionMode = true;
+		$result = static::$_connection->beginTransaction();
+
+		if ($result)
+			static::$_transactionMode = true;
+		else
+			static::$_transactionMode = false;
+
+		return $result;
 	}
 
-	public static function commit()
+	public static function commit() : bool
 	{
 		static::_queryTransaction();
 
 		static::$_connection->commit();
 		static::$_transactionMode = false;
-		static::$_transactionSqls = null;
+		static::$_transactionSqls = [];
 	}
 
 	public static function rollback()
 	{
 		static::$_connection->rollback();
 		static::$_transactionMode = false;
-		static::$_transactionSqls = null;
+		static::$_transactionSqls = [];
 	}
 
 	public static function transactionSuccess()
@@ -2026,12 +2036,17 @@ abstract class AbstractPlatform
 		return static::_queryTransaction();
 	}
 
-	private static function _queryTransaction()
+	/**
+	 * Queries the SQL statements in the transaction.
+	 *
+	 * @return bool  Returns true on success, or false on failure.
+	 */
+	protected static function _queryTransaction() : bool
 	{
 		$sqls = static::$_transactionSqls;
 
 		static::$_transactionMode = false;
-		static::$_transactionSqls = null;
+		static::$_transactionSqls = [];
 
 		if (is_array($sqls))
 		{
@@ -2047,7 +2062,7 @@ abstract class AbstractPlatform
 
 				return true;
 			}
-			catch (\PDOException $e)
+			catch (PDOException $e)
 			{
 				return false;
 			}
