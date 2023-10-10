@@ -2004,6 +2004,9 @@ abstract class AbstractPlatform
 	protected static function _buildQueryInsert($data) : string // ok
 	{
 		$datas = static::_prepareDataBeforeSave($data);
+
+		// Automatically set values for the 'ordering', 'created' and 'creator' fields.
+
 		$autoOrdering = false;
 		$ordering = 0;
 		$userId = (int)@Auth::identity()->id;
@@ -2029,7 +2032,7 @@ abstract class AbstractPlatform
 				$datas[$i] = Data::set($datas[$i], 'creator', $userId);
 		}
 
-		//
+		//  Build the SQL query string.
 
 		$table = static::$_sqlTable;
 		$columns = [];
@@ -2052,7 +2055,13 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	protected static function _buildQueryUpdate($data)
+	/**
+	 * Builds the SQL query string for updating data.
+	 *
+	 * @param  array|object $data  The data to be saved. If it's a multidimensional array, only the first item will be used.
+	 * @return string              Returns the SQL query string.
+	 */
+	protected static function _buildQueryUpdate($data) : string // ok
 	{
 		$datas = static::_prepareDataBeforeSave($data);
 		$data = $datas[0];
@@ -2060,6 +2069,18 @@ abstract class AbstractPlatform
 		// Data may be empty after calling static::_prepareDataBeforeSave()
 		if (empty($data))
 			return '';
+
+		// Automatically set values for the 'updated' and 'updater' fields.
+
+		$userId = (int)@Auth::identity()->id;
+
+		if (static::columnExists('updated') and !array_key_exists('updated', $data))
+			$data = Data::set($data, 'updated', date('Y-m-d H:i:s'));
+
+		if (static::columnExists('updater') and !array_key_exists('updater', $data))
+			$data = Data::set($data, 'updater', $userId);
+
+		// Build the SQL query string.
 
 		$columns = array_keys($data);
 		$values = array_values($data);
