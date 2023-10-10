@@ -1997,6 +1997,10 @@ abstract class AbstractPlatform
 	/**
 	 * Initiates a transaction.
 	 *
+	 * Turns off autocommit mode. While autocommit mode is turned off, changes made to the database via the DB object
+	 * instance are not committed until you end the transaction by calling static::commit(). Calling static::rollBack()
+	 * will roll back all changes to the database and return the connection to autocommit mode.
+	 *
 	 * @return bool  Returns true on success, or false on failure.
 	 */
 	public static function beginTransaction() : bool // ok
@@ -2013,7 +2017,10 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * Commits a transaction
+	 * Commits a transaction.
+	 *
+	 * Commits a transaction, returning the database connection to autocommit mode until the next call to
+	 * static::beginTransaction() starts a new transaction.
 	 *
 	 * @return bool  Returns true on success, or false on failure.
 	 */
@@ -2029,11 +2036,21 @@ abstract class AbstractPlatform
 		return $result;
 	}
 
-	public static function rollback()
+	/**
+	 * Rolls back a transaction.
+	 *
+	 * Rolls back the current transaction, as initiated by static::beginTransaction().
+	 *
+	 * @return bool  Returns true on success, or false on failure.
+	 */
+	public static function rollback() : bool // ok
 	{
-		static::$_connection->rollback();
+		$result = static::$_connection->rollback();
+
 		static::$_transactionMode = false;
 		static::$_transactionSqls = [];
+
+		return $result;
 	}
 
 	public static function transactionSuccess()
