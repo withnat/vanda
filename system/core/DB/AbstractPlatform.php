@@ -167,10 +167,10 @@ abstract class AbstractPlatform
 	 */
 	public static function query(string $sql) : PDOStatement // ok
 	{
-		$result = static::$_connection->query($sql);
-
 		if (Config::app('env') === 'development')
 			static::$_executedQueries[] = $sql;
+
+		$result = static::$_connection->query($sql);
 
 		return $result;
 	}
@@ -1689,13 +1689,26 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @return int
+	 * Executes the raw SQL query for insert, update, and delete.
+	 *
+	 * For retrieving data, use the `load()`, `loadAll()`, `loadSingle()` methods.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * DB::execute($sql);
+	 * DB::raw($sql)->execute();
+	 * ```
+	 *
+	 * @param  string|null $sql  The raw SQL query. Defaults to null.
+	 * @return int               Returns the number of affected rows.
 	 */
-	public static function execute() : int
+	public static function execute(?string $sql = null) : int // ok
 	{
-		$sql = static::_buildQuerySelect();
+		if (!$sql)
+			$sql = static::$_sqlRaw;
 
-		static::_query($sql);
+		static::$_connection->execute($sql);
 
 		return static::getAffectedRows();
 	}
