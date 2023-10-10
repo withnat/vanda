@@ -148,8 +148,8 @@ abstract class AbstractPlatform
 	 * // The result will be: `id`, `name`, `email`
 	 *  ```
 	 *
-	 * @param  string           $columns   List of columns separated by comma.
-	 * @return AbstractPlatform            Returns the current object.
+	 * @param  string           $columns  List of columns separated by comma.
+	 * @return AbstractPlatform           Returns the current object.
 	 */
 	public static function select(string $columns = '*') : AbstractPlatform // ok
 	{
@@ -305,8 +305,8 @@ abstract class AbstractPlatform
 	/**
 	 * Sets the table to select from.
 	 *
-	 * @param  string           $table     The table name.
-	 * @return AbstractPlatform            Returns the current object.
+	 * @param  string           $table  The table name.
+	 * @return AbstractPlatform         Returns the current object.
 	 */
 	public static function from(string $table) : AbstractPlatform // ok
 	{
@@ -858,8 +858,8 @@ abstract class AbstractPlatform
 	 * // The result will be: WHERE name = 'Nat' AND surname = 'Withe'
 	 * ```
 	 *
-	 * @param  mixed            $where      The where condition.
-	 * @return AbstractPlatform             Returns the current object.
+	 * @param  mixed            $where  The where condition.
+	 * @return AbstractPlatform         Returns the current object.
 	 */
 	public static function where($where) : AbstractPlatform // ok
 	{
@@ -936,8 +936,8 @@ abstract class AbstractPlatform
 	 *  DB::orWhere('name = :name AND surname = :surname', [':name' => 'Nat', ':surname' => 'Withe']);
 	 *  // The result will be: [WHERE ...] or name = 'Nat' AND surname = 'Withe'
 	 *  ```
-	 * @param  mixed            $where      The 'OR' where condition.
-	 * @return AbstractPlatform             Returns the current object.
+	 * @param  mixed            $where  The 'OR' where condition.
+	 * @return AbstractPlatform         Returns the current object.
 	 */
 	public static function orWhere($where) : AbstractPlatform // ok
 	{
