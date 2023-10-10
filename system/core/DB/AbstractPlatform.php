@@ -2893,6 +2893,13 @@ abstract class AbstractPlatform
 			return static::query($sql);
 	}
 
+	/**
+	 * Releases any table locks held during the current transaction.
+	 *
+	 * This method allows you to release any table locks held during the current transaction.
+	 *
+	 * @return PDOStatement|void
+	 */
 	public static function unlockTables()
 	{
 		$sql = 'UNLOCK TABLES';
@@ -2900,12 +2907,7 @@ abstract class AbstractPlatform
 		if (static::$_transactionMode)
 			static::$_transactionSqls[] = $sql;
 		else
-		{
-			static::$_connection->query($sql);
-
-			if (Config::app('env') === 'development')
-				static::$_executedQueries[] = $sql;
-		}
+			return static::query($sql);
 	}
 
 	/**
