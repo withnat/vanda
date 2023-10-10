@@ -2855,6 +2855,11 @@ abstract class AbstractPlatform
 	 *
 	 * This method allows you to lock the current table to control access during transactions.
 	 *
+	 *  MySQL has a variety of locks that may be applied to tables. The following are the most popular lock types:
+	 *
+	 *  READ: Allows other users to read data from the table but stops them from writing until the lock is removed.
+	 *  WRITE: Restrict all table read and write operations until the lock is freed.
+	 *
 	 * @param  bool $write        Whether to restrict write operations until the lock is released.
 	 * @return PDOStatement|void  Returns the result of the query.
 	 */
@@ -2873,8 +2878,13 @@ abstract class AbstractPlatform
 	 *
 	 * This method allows you to lock the given table to control access during transactions.
 	 *
+	 * MySQL has a variety of locks that may be applied to tables. The following are the most popular lock types:
+	 *
+	 * READ: Allows other users to read data from the table but stops them from writing until the lock is removed.
+	 * WRITE: Restrict all table read and write operations until the lock is freed.
+	 *
 	 * @param  string             $tables  List of tables separated by comma.
-	 * @param  bool               $write   Whether to restrict write operations until the lock is released.
+	 * @param  bool               $write   Whether to restrict write operations until the lock is freed.
 	 * @return PDOStatement|void
 	 */
 	public static function lockTables(string $tables, bool $write = false) // ok
@@ -2900,7 +2910,7 @@ abstract class AbstractPlatform
 	 *
 	 * @return PDOStatement|void
 	 */
-	public static function unlockTables()
+	public static function unlockTables() // ok
 	{
 		$sql = 'UNLOCK TABLES';
 
