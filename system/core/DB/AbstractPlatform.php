@@ -959,6 +959,42 @@ abstract class AbstractPlatform
 	}
 
 	/**
+	 * Sets the 'OR NOT' WHERE clause.
+	 *
+	 * For example,
+	 *
+	 *  ```php
+	 * DB::orWhereNot(1);
+	 * DB::orWhereNot('id', 1);
+	 * // The result will be:
+	 * // [WHERE...] or `id` != 1
+	 * ```
+	 *
+	 * @param  mixed            $where  The where condition.
+	 * @return AbstractPlatform         Returns the current object.
+	 */
+	public static function orWhereNot($where) : AbstractPlatform // ok
+	{
+		$args = func_get_args();
+		$argCount = count($args);
+
+		if ($argCount > 2)
+		{
+			// raise error in the future.
+		}
+
+		if ($argCount === 1)
+			$args = ['id', '!=', $args[0]];
+		else
+			$args = [$args[0], '!=', $args[1]];
+
+		$where = static::_parseWhere($args);
+		static::$_sqlWheres[] = ['OR', $where];
+
+		return static::_getInstance();
+	}
+
+	/**
 	 * Parses the where condition and builds the SQL where clause.
 	 *
 	 * @param  array   $args  The given arguments.
