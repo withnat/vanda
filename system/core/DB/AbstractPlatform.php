@@ -519,7 +519,7 @@ abstract class AbstractPlatform
 			if (static::columnExists('ordering') and !array_key_exists('ordering', $datas[0]))
 			{
 				$autoOrdering = true;
-				static::lockTable(@static::$_sqlTable);
+				static::lockTables(@static::$_sqlTable);
 			}
 
 			$sql = static::_buildQuerySave($data);
@@ -2851,37 +2851,46 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * Locks the table for transaction operations.
+	 * Locks current table to control access during transactions.
 	 *
-	 * This method allows you to lock the table to control access during transactions.
+	 * This method allows you to lock the current table to control access during transactions.
 	 *
-	 * @param  bool $write  Whether to restrict write operations until the lock is released.
-	 * @return void
+	 * @param  bool $write        Whether to restrict write operations until the lock is released.
+	 * @return PDOStatement|void  Returns the result of the query.
 	 */
-	public static function lock(bool $write = false) : void
+	public static function lock(bool $write = false)
 	{
 		$sql = 'LOCK TABLES ' . static::$_sqlTable . ($write ? ' WRITE' : ' READ');
 
 		if (static::$_transactionMode)
 			static::$_transactionSqls[] = $sql;
 		else
-			static::query($sql);
+			return static::query($sql);
 	}
 
-	public static function lockTable($table)
+	/**
+	 * Locks the given table to control access during transactions.
+	 *
+	 * This method allows you to lock the given table to control access during transactions.
+	 *
+	 * @param  string             $tables  List of tables separated by comma.
+	 * @param  bool               $write   Whether to restrict write operations until the lock is released.
+	 * @return PDOStatement|void
+	 */
+	public static function lockTables(string $tables, bool $write = false)
 	{
-		// TODO why don't wrap $table name ???!!!
-		$sql = 'LOCK TABLES ' . $table . ' WRITE, ' . static::wrapTable('Session') . ' WRITE';
+		$tables = static::_parseTable($tables);
+		$sql = 'LOCK TABLES ';
+
+		foreach ($tables as $table)
+			$sql .= $table . ($write ? ' WRITE, ' : ' READ, ');
+
+		$sql = rtrim($sql, ', ');
 
 		if (static::$_transactionMode)
 			static::$_transactionSqls[] = $sql;
 		else
-		{
-			static::$_connection->query($sql);
-
-			if (Config::app('env') === 'development')
-				static::$_executedQueries[] = $sql;
-		}
+			return static::query($sql);
 	}
 
 	public static function unlockTables()
