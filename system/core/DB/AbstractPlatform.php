@@ -2582,74 +2582,70 @@ abstract class AbstractPlatform
 		return (int)static::$_affectedRows;
 	}
 
-	public static function exists($data = null)
+	/**
+	 * Determines whether the given data exists in the database.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 *
+	 * // Checks if there exists a record with the username 'withnat'.
+	 * DB::table('User')->exists(['username' => 'withnat']);
+	 *
+	 * // Checks if there exists a record with the username 'withnat', not with the id = 1
+	 * DB::table('User')->exists(['id' => 1, 'username' => 'withnat']);
+	 * ```
+	 *
+	 * @param  array|object $data  The data to be checked, the provided data can be an array or object.
+	 * @return bool                Returns true if the data exists in the database. Otherwise, returns false.
+	 */
+	public static function exists($data) : bool // ok
 	{
+		if (!Arr::isAssociative($data) and !is_object($data) and !is_null($data))
+			throw InvalidArgumentException::typeError(1, ['associative array', 'object', 'null'], $data);
+
+		// Convert object to array.
 		$data = (array)$data;
 
-		if (is_int(@$data[0]))
-		{
-			$data['id'] = $data[0];
-			unset($data[0]);
-		}
+		$idcol = static::wrapColumn('id');
+		$idval = $data['id'] ?? null;
+
+		unset($data['id']);
 
 		$columns = array_keys($data);
 		$values = array_values($data);
-		$where = [];
 
-		$n = count($columns);
+		for ($i = 0, $n = count($columns); $i < $n; ++$i)
+			static::where($columns[$i], $values[$i]);
 
-		for ($i = 0; $i < $n; ++$i)
+		if ($idval)
 		{
-			if ($columns[$i] === 'id')
-				continue;
-
-			$where[] = static::wrapColumn($columns[$i]) . ' = ' . static::escape($values[$i]);
-		}
-
-		$where = implode(' AND ', $where);
-
-		$idcol = static::wrapColumn('id');
-
-		if (@$data['id'])
-		{
-			$value = static::escape($data['id']);
+			$idval = static::escape($idval);
+			$where = static::_buildWhere();
 
 			if ($where)
-				$where .= ' AND ' . $idcol . ' != ' . $value;
+				static::where($idcol, '!=', $idval);
+
+			// Only id, no other fields.
+			// For example, DB::table('User')->exists(['id' => 1]);
 			else
-				$where = $idcol . ' = ' . $value;
+				static::where($idcol, $idval);
 		}
 
 		$args = func_get_args();
 
-		if (isset($args[1])) // Called from Model::exists()
+		if (isset($args[1])) // Calling from Model::exists()
 		{
 			if (static::columnExists('status') and !array_key_exists('status', $data))
-			{
-				if ($where)
-					$where .= ' AND ';
-
-				$where .= static::wrapColumn('status') . ' > -1';
-			}
+				static::where('status', '>', -1);
 		}
 
-		$sql = 'SELECT ' . $idcol . ' FROM ' . static::$_sqlTable;
+		static::select($idcol);
 
-		if ($where)
-			$sql .= ' WHERE ' . $where;
-
-		$sql .= ' LIMIT 1 ';
-
-		if (Config::app('env') === 'development')
-			static::$_executedQueries[] = $sql;
-
-		$result = static::$_connection->query($sql);
-		$row = $result->fetch();
-
-		if (empty($row->id))
-			return false;
-		else
+		if (static::loadSing())
 			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -2676,9 +2672,6 @@ abstract class AbstractPlatform
 			{
 				$sql = 'SHOW TABLES';
 				$result = static::query($sql);
-
-				if (Config::app('env') === 'development')
-					static::$_executedQueries[] = $sql;
 
 				while ($table = $result->fetch())
 				{
@@ -2724,9 +2717,6 @@ abstract class AbstractPlatform
 			{
 				$sql = 'DESCRIBE ' . static::wrapTable($table);
 				$result = static::query($sql);
-
-				if (Config::app('env') === 'development')
-					static::$_executedQueries[] = $sql;
 
 				$rows = $result->fetchAll();
 				$tableInfo = [];
