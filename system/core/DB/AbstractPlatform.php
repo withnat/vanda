@@ -382,9 +382,9 @@ abstract class AbstractPlatform
 	/**
 	 * Executes an 'INSERT' SQL query.
 	 *
-	 * @param  array|object    $data  The provided data can be an array, object, dataset (an array of arrays),
-	 *                                or recordset (an array of objects).
-	 * @return int					  Returns the number of affected rows.
+	 * @param  array|object $data  The provided data can be an array, object, dataset (an array of arrays),
+	 *                             or recordset (an array of objects).
+	 * @return int                 Returns the number of affected rows.
 	 */
 	public static function insert($data) : int // ok
 	{
@@ -411,21 +411,29 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param  array    $data
-	 * @return int|null
+	 *Executes an 'UPDATE' SQL query.
+	 *
+	 * @param  array|object $data  The provided data can be an array or object, but not a dataset (an array of arrays)
+	 *                             or a recordset (an array of objects).
+	 * @return int                 Returns the number of affected rows.
 	 */
-	public static function update(array $data) : ?int
+	public static function update($data) : int // ok
 	{
+		if (!is_array($data) and !is_object($data))
+			throw InvalidArgumentException::typeError(1, ['array', 'object'], $data);
+
 		$sql = static::_buildQueryUpdate($data);
 
-		// If no data or all elements in data are removed
-		// by static::_buildQueryUpdate, $sql will be empty.
+		// If static::_buildQueryUpdate() removes all elements
+		// from the given data, the $sql will be empty.
 		if ($sql)
 		{
 			static::raw($sql)->execute();
 
 			return static::getAffectedRows();
 		}
+
+		return 0;
 	}
 
 	/**
