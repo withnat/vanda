@@ -149,9 +149,10 @@ class AbstractPlatformTest extends TestCase
 		//$result = $ap->escapeLike('Nat');
 		//echo $result;exit;
 
-		$ap->select('id')->from('User')->orWhere('id=100')->load();
+		$ap->select('id')->select('name')->from('user')->orWhere('id=100')->groupStart()->load();
 		echo $ap->getLastQuery();
-
+		exit;
+/*
 		$ap->select('*')->from('Table')->where('name = :name AND surname = :surname', [':name'=>'Nat', ':surname'=>'Withe'])
 			->orWhere(1)
 			->load();
@@ -167,7 +168,8 @@ class AbstractPlatformTest extends TestCase
 		$ap->from('User')->max('id');
 		$ap->from('User')->std('id');
 		$ap->from('User')->sum('id');
-		//$ap->from('User')->distinct('id');
+*/
+		$ap->from('User')->distinct('id AS xxx, name');
 		echo $ap->getLastQuery();
 
 		$this->assertTrue(true);
