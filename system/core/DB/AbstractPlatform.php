@@ -379,8 +379,18 @@ abstract class AbstractPlatform
 
 	// Save
 
-	public static function insert($data)
+	/**
+	 * Executes an 'INSERT' SQL query.
+	 *
+	 * @param  array|object    $data  The provided data can be an array, object, dataset (an array of arrays),
+	 *                                or recordset (an array of objects).
+	 * @return int					  Returns the number of affected rows.
+	 */
+	public static function insert($data) : int // ok
 	{
+		if (!is_array($data) and !is_object($data) and !Arr::isDataset($data) and !Arr::isRecordset($data))
+			throw InvalidArgumentException::typeError(1, ['array', 'object', 'dataset', 'recordset'], $data);
+
 		$sql = static::_buildQueryInsert($data);
 
 		if (is_array($data) and count($data) > 1)
