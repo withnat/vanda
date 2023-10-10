@@ -393,7 +393,7 @@ abstract class AbstractPlatform
 
 		$sql = static::_buildQueryInsert($data);
 
-		if (is_array($data) and count($data) > 1)
+		if (Arr::isMultidimensional($data) and count($data) > 1)
 		{
 			static::transaction(function() use ($sql){
 				static::raw($sql)->execute();
