@@ -547,7 +547,7 @@ abstract class AbstractPlatform
 	 * @param  int|float $amount   The amount to increment.
 	 * @return int                 Returns the number of affected rows.
 	 */
-	public static function increase(string $columns, $amount = 1) : int
+	public static function increase(string $columns, $amount = 1) : int // ok
 	{
 		$where = static::_buildWhere();
 		$columns = static::_parseColumn($columns);
@@ -572,10 +572,9 @@ abstract class AbstractPlatform
 	 * @param  int|float $amount   The amount to decrement.
 	 * @return int                 Returns the number of affected rows.
 	 */
-	public static function decrease(string $columns, $amount = 1) : int
+	public static function decrease(string $columns, $amount = 1) : int // ok
 	{
 		$columns = static::_parseColumn($columns);
-		$columns = static::wrapColumn($columns);
 		$where = static::_buildWhere();
 		$amount = (float)$amount;
 
