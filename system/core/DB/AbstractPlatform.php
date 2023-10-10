@@ -167,7 +167,12 @@ abstract class AbstractPlatform
 	 */
 	public static function query(string $sql) : PDOStatement // ok
 	{
-		return static::$_connection->query($sql);
+		$result = static::$_connection->query($sql);
+
+		if (Config::app('env') === 'development')
+			static::$_executedQueries[] = $sql;
+
+		return $result;
 	}
 
 	/**
@@ -574,8 +579,8 @@ abstract class AbstractPlatform
 	 */
 	public static function decrease(string $columns, $amount = 1) : int // ok
 	{
-		$columns = static::_parseColumn($columns);
 		$where = static::_buildWhere();
+		$columns = static::_parseColumn($columns);
 		$amount = (float)$amount;
 
 		$sql = 'UPDATE ' . static::$_sqlTable . ' SET ';
@@ -2843,6 +2848,24 @@ abstract class AbstractPlatform
 		$columns = static::getColumns();
 
 		return in_array($column, $columns);
+	}
+
+	/**
+	 * Locks the table for transaction operations.
+	 *
+	 * This method allows you to lock the table to control access during transactions.
+	 *
+	 * @param  bool $write  Whether to restrict write operations until the lock is released.
+	 * @return void
+	 */
+	public static function lock(bool $write = false) : void
+	{
+		$sql = 'LOCK TABLES ' . static::$_sqlTable . ($write ? ' WRITE' : ' READ');
+
+		if (static::$_transactionMode)
+			static::$_transactionSqls[] = $sql;
+		else
+			static::query($sql);
 	}
 
 	public static function lockTable($table)
