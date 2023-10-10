@@ -2858,7 +2858,7 @@ abstract class AbstractPlatform
 	 * @param  bool $write        Whether to restrict write operations until the lock is released.
 	 * @return PDOStatement|void  Returns the result of the query.
 	 */
-	public static function lock(bool $write = false)
+	public static function lock(bool $write = false) // ok
 	{
 		$sql = 'LOCK TABLES ' . static::$_sqlTable . ($write ? ' WRITE' : ' READ');
 
@@ -2877,7 +2877,7 @@ abstract class AbstractPlatform
 	 * @param  bool               $write   Whether to restrict write operations until the lock is released.
 	 * @return PDOStatement|void
 	 */
-	public static function lockTables(string $tables, bool $write = false)
+	public static function lockTables(string $tables, bool $write = false) // ok
 	{
 		$tables = static::_parseTable($tables);
 		$sql = 'LOCK TABLES ';
@@ -3000,6 +3000,22 @@ abstract class AbstractPlatform
 			$columns[$i] = static::wrapColumn($columns[$i]);
 
 		return $columns;
+	}
+
+	/**
+	 * Parses the given tables to array.
+	 *
+	 * @param  string $tables  List of tables separated by comma.
+	 * @return array           Return array of columns.
+	 */
+	protected static function _parseTable(string $tables) : array // ok
+	{
+		$tables = explode(',', $tables);
+
+		for ($i = 0, $n = count($tables); $i < $n; ++$i)
+			$tables[$i] = static::wrapTable($tables[$i]);
+
+		return $tables;
 	}
 
 	/**
