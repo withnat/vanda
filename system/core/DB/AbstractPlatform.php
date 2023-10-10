@@ -1999,7 +1999,7 @@ abstract class AbstractPlatform
 	 *
 	 * @return bool  Returns true on success, or false on failure.
 	 */
-	public static function beginTransaction() : bool
+	public static function beginTransaction() : bool // ok
 	{
 		// Ensure the connection is established in case we
 		// start a transaction manually before setting a query.
@@ -2007,21 +2007,26 @@ abstract class AbstractPlatform
 
 		$result = static::$_connection->beginTransaction();
 
-		if ($result)
-			static::$_transactionMode = true;
-		else
-			static::$_transactionMode = false;
+		static::$_transactionMode = false;
 
 		return $result;
 	}
 
-	public static function commit() : bool
+	/**
+	 * Commits a transaction
+	 *
+	 * @return bool  Returns true on success, or false on failure.
+	 */
+	public static function commit() : bool // ok
 	{
 		static::_queryTransaction();
 
-		static::$_connection->commit();
+		$result = static::$_connection->commit();
+
 		static::$_transactionMode = false;
 		static::$_transactionSqls = [];
+
+		return $result;
 	}
 
 	public static function rollback()
