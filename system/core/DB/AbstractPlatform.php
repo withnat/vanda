@@ -2004,6 +2004,33 @@ abstract class AbstractPlatform
 	protected static function _buildQueryInsert($data) : string // ok
 	{
 		$datas = static::_prepareDataBeforeSave($data);
+		$autoOrdering = false;
+		$ordering = 0;
+		$userId = (int)@Auth::identity()->id;
+
+		if (static::columnExists('ordering') and !array_key_exists('ordering', $datas[0]))
+		{
+			$autoOrdering = true;
+			$ordering = static::getNewOrdering();
+		}
+
+		for ($i = 0, $n = count($datas); $i < $n; ++$i)
+		{
+			if ($autoOrdering)
+			{
+				$datas[$i] = Data::set($datas[$i], 'ordering', $ordering);
+				++$ordering;
+			}
+
+			if (static::columnExists('created') and !array_key_exists('created', $datas[$i]))
+				$datas[$i] = Data::set($datas[$i], 'created', date('Y-m-d H:i:s'));
+
+			if (static::columnExists('creator') and !array_key_exists('creator', $datas[$i]))
+				$datas[$i] = Data::set($datas[$i], 'creator', $userId);
+		}
+
+		//
+
 		$table = static::$_sqlTable;
 		$columns = [];
 		$values = '';
@@ -2153,7 +2180,7 @@ abstract class AbstractPlatform
 
 				$where .= $_sqlWheres[$i][1];
 
-				//$where .= $where .= $_sqlWheres[$i][0]. ' ' . $_sqlWheres[$i][1];
+				//$where .= $where .= $_sqlWheres[$i][0]. ' ' . $_sqlWheres[$i][1]; // todo
 			}
 		}
 
@@ -2237,6 +2264,10 @@ abstract class AbstractPlatform
 	 */
 	public static function formatTable(string $table) : string // ok
 	{
+		$table = trim($table);
+		$table = ltrim($table, static::$_delimitIdentifierLeft);
+		$table = rtrim($table, static::$_delimitIdentifierRight);
+
 		if (substr($table, 0, strlen(Config::db('prefix'))) !== Config::db('prefix'))
 			$table = Config::db('prefix') . ucfirst($table);
 
@@ -2683,7 +2714,7 @@ abstract class AbstractPlatform
 
 		if (empty(static::$_tableInfo[$table]))
 		{
-			$filename = '__vanda_' . $table . '.php';
+			$filename = '__vanda_table_' . strtolower($table) . '.php';
 			$file = static::$_dbCachePath . $filename;
 
 			if (is_file($file))
