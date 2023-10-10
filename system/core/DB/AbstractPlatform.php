@@ -2099,53 +2099,22 @@ abstract class AbstractPlatform
 		return $sql;
 	}
 
-	protected static function _buildQuerySave($data)
+	/**
+	 * Builds the SQL query string for the 'INSERT' or 'UPDATE' query based on the WHERE clause. If the WHERE
+	 * clause is empty, it will return the SQL query string for the INSERT. Otherwise, it will return the
+	 * SQL query string for the UPDATE.
+	 *
+	 * @param  array|object $data  The data to be saved.
+	 * @return string              Returns the SQL query string.
+	 */
+	protected static function _buildQuerySave($data) : string // ok
 	{
 		$where = static::_buildWhere();
-		$userId = (int)@Auth::identity()->id;
 
 		if ($where)
-		{
-			if (Arr::isMultidimensional($data))
-				$data = $data[0];
-
-			if (static::columnExists('updated') and !array_key_exists('updated', $data))
-				$data = Data::set($data, 'updated', date('Y-m-d H:i:s'));
-
-			if (static::columnExists('updater') and !array_key_exists('updater', $data))
-				$data = Data::set($data, 'updater', $userId);
-
 			$sql = static::_buildQueryUpdate($data);
-		}
 		else
-		{
-			$datas = Arr::toMultidimensional($data);
-			$autoOrdering = false;
-			$ordering = 0;
-
-			if (static::columnExists('ordering') and !array_key_exists('ordering', $datas[0]))
-			{
-				$autoOrdering = true;
-				$ordering = static::getNewOrdering();
-			}
-
-			for ($i = 0, $n = count($datas); $i < $n; ++$i)
-			{
-				if ($autoOrdering)
-				{
-					$datas[$i] = Data::set($datas[$i], 'ordering', $ordering);
-					++$ordering;
-				}
-
-				if (static::columnExists('created') and !array_key_exists('created', $datas[$i]))
-					$datas[$i] = Data::set($datas[$i], 'created', date('Y-m-d H:i:s'));
-
-				if (static::columnExists('creator') and !array_key_exists('creator', $datas[$i]))
-					$datas[$i] = Data::set($datas[$i], 'creator', $userId);
-			}
-
-			$sql = static::_buildQueryInsert($datas);
-		}
+			$sql = static::_buildQueryInsert($data);
 
 		return $sql;
 	}
