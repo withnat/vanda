@@ -2563,9 +2563,11 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @return int
+	 * Gets the last insert ID.
+	 *
+	 * @return int  Returns the last insert ID.
 	 */
-	public static function getLastInsertId() : int
+	public static function getLastInsertId() : int // ok
 	{
 		return static::$_connection->lastInsertId();
 	}
@@ -2889,6 +2891,22 @@ abstract class AbstractPlatform
 	 */
 	public static function lockTables(string $tables, bool $write = false) // ok
 	{
+		/*
+		 * There are 2 styles of 'LOCK TABLES' queries:
+		 *
+		 * 1. LOCK TABLES table1 WRITE, table2 WRITE;
+		 *
+		 *    This query locks 2 tables.
+		 *
+		 * 2. LOCK TABLES table1 WRITE;
+		 *    LOCK TABLES table2 WRITE;
+		 *
+		 *    Only table2 is marked as locked.
+		 *
+		 * This is because the 'LOCK TABLES' command will first unlock all tables locked by the current session
+		 * before performing the specified lock. Therefore, the call to lock table 2 results in unlocking table 1.
+		 */
+
 		$tables = static::_parseTable($tables);
 		$sql = 'LOCK TABLES ';
 
