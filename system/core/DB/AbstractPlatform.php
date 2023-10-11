@@ -668,7 +668,7 @@ abstract class AbstractPlatform
 	 *
 	 * @return int  Returns the number of affected rows.
 	 */
-	public static function deleteAll() : int
+	public static function deleteAll() : int // ok
 	{
 		$sql = static::_buildQueryDelete();
 
@@ -677,33 +677,28 @@ abstract class AbstractPlatform
 		return static::getAffectedRows();
 	}
 
-	public static function truncate($deleteUploadedFiles = false, $fileBackupPath = null)
+	/**
+	 * Executes a 'TRUNCATE' SQL query.
+	 *
+	 * @return bool  Returns true on success, false on failure.
+	 */
+	public static function truncate() : bool // ok
 	{
-		if ($fileBackupPath)
-			static::_backupUploadedFiles($fileBackupPath);
+		$sql = static::_buildQueryTruncate();
 
-		if ($deleteUploadedFiles)
-			static::_deleteUploadedFiles();
-
-		$sql = 'TRUNCATE ' . static::$_sqlTable;
-
-		// The static::$_sqlTable will be removed by
-		// this method but maybe we need to call method
-		// deleteAll() if no DROP privilege to truncate.
-
-		if (static::$_transactionMode)
-			$result = static::$_connection->query($sql);
-		else
+		// Caught an error if 'TRUNCATE' privilege is not available.
+		try
 		{
-			$result = static::transaction(function () use ($sql){
-				static::$_connection->query($sql);
-			});
-		}
+			static::execute($sql);
 
-		if ($result and Config::app('env') === 'development')
-			static::$_executedQueries[] = $sql;
-		else
-			static::deleteAll();
+			return true;
+		}
+		catch (PDOException $e)
+		{
+			echo $e->getMessage();
+
+			return false;
+		}
 	}
 
 	// Normal where
@@ -1647,7 +1642,7 @@ abstract class AbstractPlatform
 		if (!$sql)
 			$sql = static::$_sqlRaw;
 
-		$result = static::$_connection->execute($sql);
+		$result = static::$_connection->query($sql);
 		static::$_affectedRows = $result->rowCount();
 
 		return static::getAffectedRows();
@@ -2172,7 +2167,7 @@ abstract class AbstractPlatform
 	/**
 	 * Builds the SQL query string for deleting data.
 	 *
-	 * @return string              Returns the SQL query string.
+	 * @return string  Returns the SQL query string.
 	 */
 	protected static function _buildQueryDelete() : string // ok
 	{
@@ -2180,6 +2175,18 @@ abstract class AbstractPlatform
 		$sql .= static::_buildWhere();
 		$sql .= static::_buildSort();
 		$sql .= static::_buildLimit();
+
+		return $sql;
+	}
+
+	/**
+	 * Builds the SQL query string for truncating data.
+	 *
+	 * @return string  Returns the SQL query string.
+	 */
+	protected static function _buildQueryTruncate() : string // ok
+	{
+		$sql = 'TRUNCATE ' . static::$_sqlTable;
 
 		return $sql;
 	}
