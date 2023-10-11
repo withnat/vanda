@@ -1750,11 +1750,11 @@ abstract class AbstractPlatform
 	/**
 	 * Queries the database and returns the result.
 	 *
-	 * @param  string      $sql  The raw SQL query.
-	 * @return object|bool       Returns a PDOStatement object if transaction mode is off.
-	 *                           Returns true if transaction mode is on.
+	 * @param  string                  $sql  The raw SQL query.
+	 * @return PDOStatement|false|void       Returns a PDOStatement object if transaction mode is off.
+	 *                                       Returns true if transaction mode is on.
 	 */
-	protected static function _query(string $sql)
+	protected static function _query(string $sql) // ok
 	{
 		if (Config::app('env') === 'development')
 			static::$_executedQueries[] = $sql;
@@ -1763,22 +1763,21 @@ abstract class AbstractPlatform
 		{
 			// The query will be executed after the transaction is committed by the static::commit() method.
 			static::$_transactionSqls[] = $sql;
-
-			return true;
 		}
 		else
 		{
 			$result = static::$_connection->query($sql);
 
-			if (is_object($result))
-				static::$_affectedRows = $result->rowCount();
-
-			elseif (static::$_connection->errorInfo()[2] and Config::app('env') === 'development')
-				static::_displayError();
-
 			static::_reset();
 
-			return $result;
+			if ($result instanceof PDOStatement)
+			{
+				static::$_affectedRows = $result->rowCount();
+
+				return $result;
+			}
+			elseif (static::$_connection->errorInfo()[2] and Config::app('env') === 'development')
+				return false;
 		}
 	}
 
