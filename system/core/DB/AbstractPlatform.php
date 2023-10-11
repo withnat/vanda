@@ -708,40 +708,6 @@ abstract class AbstractPlatform
 			static::deleteAll();
 	}
 
-	// todo
-	private static function _deleteUploadedFiles($where = null)
-	{
-		// Have to use raw sql because in case we call
-		// method truncate() without DROP privilege. System will calls
-		// method deleteAll() automatically. And static::$_sqlTable
-		// will be removed by this method that called in method
-		// truncate() already.
-
-		$sql = 'SELECT * FROM ' . static::$_sqlTable . $where;
-		$result = static::$_connection->query($sql);
-
-		if (Config::app('env') === 'development')
-			static::$_executedQueries[] = $sql;
-
-		$deleted = 0;
-		$assetPath = str_replace(BASEPATH, '', BASEPATH_ASSETS);
-
-		while ($row = $result->fetch())
-		{
-			foreach ($row as $value)
-			{
-				// ต้องใช้ mb_stripos มั้ย และจำเป็นต้องเป็น case-insensitive มั้ย
-				if (stripos($value, $assetPath) !== false)
-				{
-					if (File::delete(BASEPATH . $value))
-						++$deleted;
-				}
-			}
-		}
-
-		return $deleted;
-	}
-
 	// Normal where
 
 	/**
