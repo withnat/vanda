@@ -2097,14 +2097,14 @@ abstract class AbstractPlatform
 	 *
 	 * @return bool  Returns true on success, or false on failure.
 	 */
-	protected static function _queryTransaction() : bool
+	protected static function _queryTransaction() : bool // ok
 	{
 		$sqls = static::$_transactionSqls;
 
 		static::$_transactionMode = false;
 		static::$_transactionSqls = [];
 
-		if (is_array($sqls))
+		if (count($sqls))
 		{
 			try
 			{
