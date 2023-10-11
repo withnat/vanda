@@ -27,6 +27,7 @@ use System\Str;
 use System\Uri;
 use System\XML;
 use System\Exception\InvalidArgumentException;
+use \Closure;
 use \ErrorException;
 use \PDOException;
 use \PDOStatement;
@@ -866,7 +867,7 @@ abstract class AbstractPlatform
 	{
 		$args = func_get_args();
 
-		if ($args[0] instanceof \Closure)
+		if ($args[0] instanceof Closure)
 		{
 			static::_groupStart();
 			$args[0]();
@@ -1999,7 +2000,14 @@ abstract class AbstractPlatform
 
 	// Transaction
 
-	public static function transaction($callback, $testMode = false)
+	/**
+	 * Runs a transaction.
+	 *
+	 * @param  Closure  $callback  The callback function.
+	 * @param  bool     $testMode  Whether to run the transaction in test mode. Defaults to false.
+	 * @return bool                Returns true on success, or false on failure.
+	 */
+	public static function transaction(Closure $callback, bool $testMode = false) : bool // ok
 	{
 		static::beginTransaction();
 
@@ -2015,6 +2023,7 @@ abstract class AbstractPlatform
 		else
 		{
 			static::rollback();
+
 			return false;
 		}
 	}
