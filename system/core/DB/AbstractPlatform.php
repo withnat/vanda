@@ -1684,6 +1684,28 @@ abstract class AbstractPlatform
 	 */
 	public static function raw(string $sql) : AbstractPlatform // ok
 	{
+		$pos = mb_stripos($sql, ' WHERE ');
+
+		if (!$pos)
+			$pos = mb_stripos($sql, ' VALUES ');
+
+		if (!$pos)
+			$pos = mb_stripos($sql, ' SET ');
+
+		// Prevent replacing #_ in the WHERE clause.
+
+		if ($pos)
+		{
+			$block1 = mb_substr($sql, 0, $pos);
+			$block2 = mb_substr($sql, $pos);
+
+			$block1 = str_replace('#_', Config::db('prefix'), $block1);
+
+			$sql = $block1 . $block2;
+		}
+		else
+			$sql = str_replace('#_', Config::db('prefix'), $sql);
+
 		static::$_sqlRaw = $sql;
 
 		return static::_getInstance();
@@ -1697,8 +1719,18 @@ abstract class AbstractPlatform
 	 * For example,
 	 *
 	 * ```php
+	 * // Without Transaction
+	 *
 	 * DB::execute($sql);
 	 * DB::raw($sql)->execute();
+	 *
+	 * // With Transaction
+	 *
+	 * DB::beginTransaction();
+	 * DB::execute($sql);
+	 *
+	 * if (!DB::commit())
+	 *    DB::rollBack();
 	 * ```
 	 *
 	 * @param  string|null $sql  The raw SQL query. Defaults to null.
@@ -1714,44 +1746,37 @@ abstract class AbstractPlatform
 		return static::getAffectedRows();
 	}
 
-	protected static function _query($sql)
+	/**
+	 * Queries the database and returns the result.
+	 *
+	 * @param  string      $sql  The raw SQL query.
+	 * @return object|bool       Returns a PDOStatement object if transaction mode is off.
+	 *                           Returns true if transaction mode is on.
+	 */
+	protected static function _query(string $sql)
 	{
-		$pos = mb_stripos($sql, ' WHERE ');
-
-		if (!$pos)
-			$pos = mb_stripos($sql, ' VALUES ');
-
-		if (!$pos)
-			$pos = mb_stripos($sql, ' SET ');
-
-		// Prevent to replace #_ in where clause
-		if ($pos)
-		{
-			$block1 = mb_substr($sql, 0, $pos);
-			$block2 = mb_substr($sql, $pos);
-
-			$block1 = str_replace('#_', Config::db('prefix'), $block1);
-
-			$sql = $block1 . $block2;
-		}
-		else
-			$sql = str_replace('#_', Config::db('prefix'), $sql);
-
 		if (Config::app('env') === 'development')
 			static::$_executedQueries[] = $sql;
 
 		if (static::$_transactionMode)
+		{
+			// The query will be executed after the transaction is committed by the static::commit() method.
 			static::$_transactionSqls[] = $sql;
+
+			return true;
+		}
 		else
 		{
-			$result = static::query($sql);
+			$result = static::$_connection->query($sql);
 
 			if (is_object($result))
 				static::$_affectedRows = $result->rowCount();
+
 			elseif (static::$_connection->errorInfo()[2] and Config::app('env') === 'development')
 				static::_displayError();
 
 			static::_reset();
+
 			return $result;
 		}
 	}
