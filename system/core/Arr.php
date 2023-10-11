@@ -1138,10 +1138,11 @@ class Arr
 	 * // )
 	 * ```
 	 *
-	 * @param  array       $data
-	 * @param  string      $from
-	 * @param  string      $to
-	 * @param  string|null $group
+	 * @param  array       $data   The input dataset (array of arrays) or recordset (array of objects).
+	 * @param  string      $from   The key name or property name to use as key of the map.
+	 * @param  string      $to     The key name or property name to use as value of the map.
+	 * @param  string|null $group  Optionally, the key name or property name to use as grouping of the map. Defaults to
+	 *                             null.
 	 * @return array
 	 */
 	public static function map(array $data, string $from, string $to, ?string $group = null) : array
