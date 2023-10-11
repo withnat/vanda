@@ -421,10 +421,7 @@ abstract class AbstractPlatform
 			$affectedRows = count($datas);
 		}
 		else
-		{
-			static::raw($sql)->execute();
-			$affectedRows = static::getAffectedRows();
-		}
+			$affectedRows = static::raw($sql)->execute();
 
 		if ($autoOrdering)
 			static::unlockTables();
@@ -450,11 +447,7 @@ abstract class AbstractPlatform
 		// If static::_buildQueryUpdate() removes all elements
 		// from the given data, the $sql will be empty.
 		if ($sql)
-		{
-			static::raw($sql)->execute();
-
-			return static::getAffectedRows();
-		}
+			return static::raw($sql)->execute();
 
 		return 0;
 	}
@@ -551,9 +544,7 @@ abstract class AbstractPlatform
 
 		$sql = substr($sql, 0, -2) . $where;
 
-		static::raw($sql)->execute();
-
-		return static::getAffectedRows();
+		return static::raw($sql)->execute();
 	}
 
 	/**
@@ -576,9 +567,7 @@ abstract class AbstractPlatform
 
 		$sql = substr($sql, 0, -2) . $where;
 
-		static::raw($sql)->execute();
-
-		return static::getAffectedRows();
+		return static::raw($sql)->execute();
 	}
 
 	/**
@@ -658,9 +647,7 @@ abstract class AbstractPlatform
 
 		$sql = static::_buildQueryDelete();
 
-		static::execute($sql);
-
-		return static::getAffectedRows();
+		return static::raw($sql)->execute();
 	}
 
 	/**
@@ -672,9 +659,7 @@ abstract class AbstractPlatform
 	{
 		$sql = static::_buildQueryDelete();
 
-		static::execute($sql);
-
-		return static::getAffectedRows();
+		return static::raw($sql)->execute();
 	}
 
 	/**
@@ -689,7 +674,7 @@ abstract class AbstractPlatform
 		// Caught an error if 'TRUNCATE' privilege is not available.
 		try
 		{
-			static::execute($sql);
+			static::raw($sql)->execute();;
 
 			return true;
 		}
@@ -1622,28 +1607,26 @@ abstract class AbstractPlatform
 	 * ```php
 	 * // Without Transaction
 	 *
-	 * DB::execute($sql);
 	 * DB::raw($sql)->execute();
 	 *
 	 * // With Transaction
 	 *
 	 * DB::beginTransaction();
-	 * DB::execute($sql);
+	 * DB::raw($sql)->execute();
 	 *
 	 * if (!DB::commit())
 	 *    DB::rollBack();
 	 * ```
 	 *
-	 * @param  string|null $sql  The raw SQL query. Defaults to null.
-	 * @return int               Returns the number of affected rows.
+	 * @return int  Returns the number of affected rows.
 	 */
-	public static function execute(?string $sql = null) : int // ok
+	public static function execute() : int // ok
 	{
-		if (!$sql)
-			$sql = static::$_sqlRaw;
-
+		$sql = static::$_sqlRaw;
 		$result = static::$_connection->query($sql);
 		static::$_affectedRows = $result->rowCount();
+
+		static::_reset();
 
 		return static::getAffectedRows();
 	}
