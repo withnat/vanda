@@ -644,12 +644,12 @@ abstract class AbstractPlatform
 	// Delete
 
 	/**
-	 * Executes a 'DELETE' SQL query.
+	 * Executes a 'DELETE' SQL query based on the WHERE clause.
 	 *
 	 * @return int  Returns the number of affected rows.
 	 * @throws Exception
 	 */
-	public static function delete() : int
+	public static function delete() : int // ok
 	{
 		$where = static::_buildWhere();
 
@@ -663,16 +663,16 @@ abstract class AbstractPlatform
 		return static::getAffectedRows();
 	}
 
-	public static function deleteAll($deleteUploadedFiles = false, $fileBackupPath = null)
+	/**
+	 * Executes a 'DELETE' SQL query to delete all records.
+	 *
+	 * @return int  Returns the number of affected rows.
+	 */
+	public static function deleteAll() : int
 	{
-		if ($fileBackupPath)
-			static::_backupUploadedFiles($fileBackupPath);
-
-		if ($deleteUploadedFiles)
-			static::_deleteUploadedFiles();
-
 		$sql = static::_buildQueryDelete();
-		static::_query($sql);
+
+		static::execute($sql);
 
 		return static::getAffectedRows();
 	}
