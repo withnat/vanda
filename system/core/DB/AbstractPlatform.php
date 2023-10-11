@@ -399,21 +399,35 @@ abstract class AbstractPlatform
 		if (!is_array($data) and !is_object($data) and !Arr::isDataset($data) and !Arr::isRecordset($data))
 			throw InvalidArgumentException::typeError(1, ['array', 'object', 'dataset', 'recordset'], $data);
 
-		$sql = static::_buildQueryInsert($data);
+		$datas = Arr::toMultidimensional($data);
+		$autoOrdering = false;
 
-		if (Arr::isMultidimensional($data) and count($data) > 1)
+		if (static::columnExists('ordering') and !array_key_exists('ordering', $datas[0]))
+		{
+			$autoOrdering = true;
+
+			static::lock();
+		}
+
+		$sql = static::_buildQueryInsert($datas);
+
+		// Count $datas, not $data because $data can be a one-dimensional array.
+		if (count($datas) > 1)
 		{
 			static::transaction(function() use ($sql){
 				static::raw($sql)->execute();
 			});
 
-			$affectedRows = count($data);
+			$affectedRows = count($datas);
 		}
 		else
 		{
 			static::raw($sql)->execute();
 			$affectedRows = static::getAffectedRows();
 		}
+
+		if ($autoOrdering)
+			static::unlockTables();
 
 		return $affectedRows;
 	}
@@ -422,7 +436,8 @@ abstract class AbstractPlatform
 	 *Executes an 'UPDATE' SQL query.
 	 *
 	 * @param  array|object $data  The provided data can be an array or object, but not a dataset (an array of arrays)
-	 *                             or a recordset (an array of objects).
+	 *                             or a recordset (an array of objects). If it's a multidimensional array, only the
+	 *                             first item will be used.
 	 * @return int                 Returns the number of affected rows.
 	 */
 	public static function update($data) : int // ok
@@ -497,53 +512,21 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * @param $data
-	 * @return int  Returns the number of affected rows.
+	 * Executes an 'INSERT' or 'UPDATE' SQL query based on the WHERE clause.
+	 * If the WHERE clause is empty, it will execute an 'INSERT' SQL query.
+	 * Otherwise, it will execute an 'UPDATE' SQL query.
+	 *
+	 * @param  array|object $data  The data to be saved.
+	 * @return int                 Returns the number of affected rows.
 	 */
 	public static function save($data) : int
 	{
 		$where = static::_buildWhere();
 
 		if ($where)
-		{
-			if (!is_array($data) and !is_object($data))
-				throw InvalidArgumentException::typeError(1, ['array', 'object'], $data);
-
-			$sql = static::_buildQuerySave($data);
-			static::raw($sql)->execute();
-
-			$affectedRows = static::getAffectedRows();
-		}
+			$affectedRows = static::update($data);
 		else
-		{
-			$datas = Arr::toMultidimensional($data);
-			$autoOrdering = false;
-
-			if (static::columnExists('ordering') and !array_key_exists('ordering', $datas[0]))
-			{
-				$autoOrdering = true;
-				static::lockTables(@static::$_sqlTable);
-			}
-
-			$sql = static::_buildQuerySave($data);
-
-			if (count($datas) > 1)
-			{
-				static::transaction(function() use ($sql){
-					static::raw($sql)->execute();
-				});
-
-				$affectedRows = count($datas);
-			}
-			else
-			{
-				static::raw($sql)->execute();
-				$affectedRows = static::getAffectedRows();
-			}
-
-			if ($autoOrdering)
-				static::unlockTables();
-		}
+			$affectedRows = static::insert($data);
 
 		return $affectedRows;
 	}
@@ -2265,26 +2248,6 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * Builds the SQL query string for the 'INSERT' or 'UPDATE' query based on the WHERE clause. If the WHERE
-	 * clause is empty, it will return the SQL query string for the INSERT. Otherwise, it will return the
-	 * SQL query string for the UPDATE.
-	 *
-	 * @param  array|object $data  The data to be saved.
-	 * @return string              Returns the SQL query string.
-	 */
-	protected static function _buildQuerySave($data) : string // ok
-	{
-		$where = static::_buildWhere();
-
-		if ($where)
-			$sql = static::_buildQueryUpdate($data);
-		else
-			$sql = static::_buildQueryInsert($data);
-
-		return $sql;
-	}
-
-	/**
 	 * Builds the SQL query string for deleting data.
 	 *
 	 * @param  string|null $where  Optionally, the WHERE clause. Defaults to null.
@@ -3134,9 +3097,10 @@ abstract class AbstractPlatform
 	}
 
 	/**
-	 * Gets the SQL representation of the 'INSERT' or 'UPDATE' query based on the WHERE clause. If the WHERE
-	 * clause is empty, it will return the SQL query string for the INSERT. Otherwise, it will return the
-	 * SQL query string for the UPDATE.
+	 * Gets the SQL representation of the 'INSERT' or 'UPDATE' query based on
+	 * the WHERE clause. If the WHERE clause is empty, it will return the SQL
+	 * query string for the INSERT. Otherwise, it will return the SQL query
+	 * string for the UPDATE.
 	 *
 	 * @param  array|object $data  The data to be inserted or updated.
 	 *                             The data to be inserted can be multidimensional array.
@@ -3145,7 +3109,14 @@ abstract class AbstractPlatform
 	 */
 	public static function toSqlSave($data) : string // ok
 	{
-		return static::_buildQuerySave($data);
+		$where = static::_buildWhere();
+
+		if ($where)
+			$sql = static::_buildQueryUpdate($data);
+		else
+			$sql = static::_buildQueryInsert($data);
+
+		return $sql;
 	}
 
 	/**
