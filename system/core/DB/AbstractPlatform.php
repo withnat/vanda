@@ -2678,6 +2678,12 @@ abstract class AbstractPlatform
 	 * This method retrieves the maximum 'ordering' number in the table and increments it by 1,
 	 * ensuring that the new record will be displayed in the appropriate sequence.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = DB::table('Category')->getNewOrdering();
+	 * ```
+	 *
 	 * @param  string|null $orderingColumnName  Optionally, the column name in which to generate the new 'ordering'.
 	 *                                          Defaults to null.
 	 * @return int                              Returns the new 'ordering' value for inserting a record.
