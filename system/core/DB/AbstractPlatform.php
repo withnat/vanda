@@ -2087,7 +2087,12 @@ abstract class AbstractPlatform
 		return $result;
 	}
 
-	public static function transactionSuccess()
+	/**
+	 * Determines whether the transaction is successful.
+	 *
+	 * @return bool  Returns true on success, or false on failure.
+	 */
+	public static function transactionSuccess() : bool // ok
 	{
 		return static::_queryTransaction();
 	}
