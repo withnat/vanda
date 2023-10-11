@@ -2003,10 +2003,10 @@ abstract class AbstractPlatform
 	 * Runs a transaction.
 	 *
 	 * @param  Closure  $callback  The callback function.
-	 * @param  bool     $testMode  Whether to run the transaction in test mode. Defaults to false.
+	 * @param  bool     $test      Whether to run the transaction in test mode. Defaults to false.
 	 * @return bool                Returns true on success, or false on failure.
 	 */
-	public static function transaction(Closure $callback, bool $testMode = false) : bool // ok
+	public static function transaction(Closure $callback, bool $test = false) : bool // ok
 	{
 		static::beginTransaction();
 
@@ -2014,7 +2014,7 @@ abstract class AbstractPlatform
 
 		if (static::transactionSuccess())
 		{
-			if (!$testMode)
+			if (!$test)
 				static::commit();
 
 			return true;
