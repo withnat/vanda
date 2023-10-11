@@ -643,24 +643,22 @@ abstract class AbstractPlatform
 
 	// Delete
 
-	public static function delete($deleteUploadedFiles = false, $fileBackupPath = null)
+	/**
+	 * Executes a 'DELETE' SQL query.
+	 *
+	 * @return int  Returns the number of affected rows.
+	 * @throws Exception
+	 */
+	public static function delete() : int
 	{
 		$where = static::_buildWhere();
 
 		if (!$where)
-		{
-			static::where('id', null);
-			$where = static::_buildWhere();
-		}
+			throw new Exception('WHERE clause needs to be provided for deleting data.');
 
-		if ($fileBackupPath)
-			static::_backupUploadedFiles($fileBackupPath, $where);
+		$sql = static::_buildQueryDelete();
 
-		if ($deleteUploadedFiles)
-			static::_deleteUploadedFiles($where);
-
-		$sql = static::_buildQueryDelete($where);
-		static::_query($sql);
+		static::execute($sql);
 
 		return static::getAffectedRows();
 	}
@@ -1649,7 +1647,8 @@ abstract class AbstractPlatform
 		if (!$sql)
 			$sql = static::$_sqlRaw;
 
-		static::$_connection->execute($sql);
+		$result = static::$_connection->execute($sql);
+		static::$_affectedRows = $result->rowCount();
 
 		return static::getAffectedRows();
 	}
@@ -2173,12 +2172,12 @@ abstract class AbstractPlatform
 	/**
 	 * Builds the SQL query string for deleting data.
 	 *
-	 * @param  string|null $where  Optionally, the WHERE clause. Defaults to null.
 	 * @return string              Returns the SQL query string.
 	 */
-	protected static function _buildQueryDelete(?string $where = null) : string // ok
+	protected static function _buildQueryDelete() : string // ok
 	{
-		$sql = 'DELETE FROM ' . static::$_sqlTable . $where;
+		$sql = 'DELETE FROM ' . static::$_sqlTable;
+		$sql .= static::_buildWhere();
 		$sql .= static::_buildSort();
 		$sql .= static::_buildLimit();
 
