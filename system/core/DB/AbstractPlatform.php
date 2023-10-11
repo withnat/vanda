@@ -519,7 +519,7 @@ abstract class AbstractPlatform
 	 * @param  array|object $data  The data to be saved.
 	 * @return int                 Returns the number of affected rows.
 	 */
-	public static function save($data) : int
+	public static function save($data) : int // ok
 	{
 		$where = static::_buildWhere();
 
@@ -740,49 +740,6 @@ abstract class AbstractPlatform
 		}
 
 		return $deleted;
-	}
-
-	// todo
-	private static function _backupUploadedFiles($backupPath, $where = null)
-	{
-		$backupPath = rtrim($backupPath, '/'); // ต้องใช้ DS มั้ย
-
-		Folder::create($backupPath);
-
-		// Have to use raw sql because in case we call
-		// method truncate() without DROP privilege. System will calls
-		// method deleteAll() automatically. And static::$_sqlTable
-		// will be removed by this method that called in method
-		// truncate() already.
-
-		$sql = 'SELECT * FROM ' . static::$_sqlTable . $where;
-		$result = static::$_connection->query($sql);
-
-		if (Config::app('env') === 'development')
-			static::$_executedQueries[] = $sql;
-
-		$backedup = 0;
-		$assetPath = str_replace(BASEPATH, '', BASEPATH_ASSETS);
-
-		while ($row = $result->fetch())
-		{
-			foreach ($row as $value)
-			{
-				// ต้องใช้ mb_stripos มั้ย และจำเป็นต้องเป็น case-sensitive มั้ย
-				if (stripos($value, $assetPath) !== false)
-				{
-					if (is_file(BASEPATH . $value))
-					{
-						$filename = File::getName($value);
-						copy($value, $backupPath . DS . $filename);
-
-						++$backedup;
-					}
-				}
-			}
-		}
-
-		return $backedup;
 	}
 
 	// Normal where
