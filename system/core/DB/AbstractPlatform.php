@@ -24,13 +24,14 @@ use System\File;
 use System\Folder;
 use System\Paginator;
 use System\Str;
-use System\Uri;
+use System\Url;
 use System\XML;
 use System\Exception\InvalidArgumentException;
-use \Closure;
-use \ErrorException;
-use \PDOException;
-use \PDOStatement;
+use Closure;
+use Exception;
+use ErrorException;
+use PDOException;
+use PDOStatement;
 
 /**
  * ```php
@@ -2671,24 +2672,23 @@ abstract class AbstractPlatform
 		return (string)$value;
 	}
 
-	public static function getNewOrdering()
+	/**
+	 * Gets a new 'ordering' value for inserting a record into the table.
+	 *
+	 * This method retrieves the maximum 'ordering' number in the table and increments it by 1,
+	 * ensuring that the new record will be displayed in the appropriate sequence.
+	 *
+	 * @param  string|null $orderingColumnName  Optionally, the column name in which to generate the new 'ordering'.
+	 *                                          Defaults to null.
+	 * @return int                              Returns the new 'ordering' value for inserting a record.
+	 */
+	public static function getNewOrdering(?string $orderingColumnName = null) : int // ok
 	{
-		$table = static::$_sqlTable;
-		$ordering = static::wrapColumn('ordering');
+		$column = $orderingColumnName ?? 'ordering';
 
-		// TODO do i need to lock table first?
+		$ordering = (int)static::max($column) + 1;
 
-		$sql = 'SELECT IFNULL(MAX(' . $ordering . '), 0) + 1 '
-			. 'AS ' . $ordering . ' '
-			. 'FROM ' . $table;
-
-		if (Config::app('env') === 'development')
-			static::$_executedQueries[] = $sql;
-
-		$result = static::$_connection->query($sql);
-		$row = $result->fetch();
-
-		return $row->ordering;
+		return $ordering;
 	}
 
 	/**
