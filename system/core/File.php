@@ -261,13 +261,23 @@ class File
 	}
 
 	/**
-	 * @param  string $file
-	 * @param  string $newExtension
-	 * @return string
+	 * Changes the extension of a file.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::changeExtension('picture.jpg', 'png');
+	 * // The $result will be: 'picture.png'
+	 * ```
+	 *
+	 * @param  string $file          The file name.
+	 * @param  string $newExtension  The new extension.
+	 * @return string                Returns the file name with new extension.
 	 */
 	public static function changeExtension(string $file, string $newExtension) : string
 	{
 		$filename = static::getNameWithoutExtension($file);
+		$newExtension = ltrim($newExtension, '.');
 
 		return $filename . '.' . $newExtension;
 	}
