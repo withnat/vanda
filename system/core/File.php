@@ -191,6 +191,13 @@ class File
 	/**
 	 * Returns the name without path.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::getName('/path/to/picture.jpg');
+	 * // The $result will be: 'picture.jpg'
+	 * ```
+	 *
 	 * @param  string $file  File path.
 	 * @return string        Returns the file name.
 	 */
