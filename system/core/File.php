@@ -26,7 +26,7 @@ namespace System;
  */
 class File
 {
-	private static $_mimes = [
+	protected static $_mimes = [
 		'hqx' => ['application/mac-binhex40', 'application/mac-binhex', 'application/x-binhex40', 'application/x-mac-binhex40'],
 		'cpt' => 'application/mac-compactpro',
 		'csv' => ['text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain'],
@@ -187,23 +187,6 @@ class File
 	 * File constructor.
 	 */
 	private function __construct(){}
-
-	/*
-	public static function basename(string $path, string $suffix = '') : string
-	{
-		$length = mb_strlen($suffix);
-
-        if (($length > 0 and mb_substr($path, (0 -$length)) === $suffix) {
-			$path = mb_substr($path, 0, -$len);
-		}
-        $path = rtrim(str_replace('\\', '/', $path), '/\\');
-        if (($pos = mb_strrpos($path, '/')) !== false) {
-			return mb_substr($path, $pos + 1);
-		}
-
-        return $path;
-    }
-	*/
 
 	/**
 	 * Returns the name without path.
