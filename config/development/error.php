@@ -47,9 +47,9 @@ return [
 
 		$path = PATH_STORAGE . DS . 'logs' . DS . 'errors.log';
 
-		// Use JSON lib instead of json_encod()
-		// to remove data that cannot be encoded.
-		$content = System\JSON::encode($data) . "\n";
+		// Use a JSON library instead of json_encode()
+		// to handle data that cannot be encoded.
+		$content = System\Json::encode($data) . "\n";
 
 		file_put_contents($path, $content, FILE_APPEND | LOCK_EX);
 	}
