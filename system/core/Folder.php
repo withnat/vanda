@@ -18,9 +18,17 @@ use stdClass;
 
 /**
  * Class Folder
+ *
+ * The Folder class provides utility methods for working with folders or
+ * directories in a PHP web framework. It encapsulates various operations
+ * such as creating, deleting, renaming, copying, and retrieving information
+ * about folders. This class helps in managing and organizing the folder
+ * structure of a web application, allowing for seamless handling of
+ * directories and their contents.
+ *
  * @package System
  */
-final class Folder
+class Folder
 {
 	/**
 	 * @param  string $path
