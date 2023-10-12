@@ -558,10 +558,12 @@ class File
 	}
 
 	/**
-	 * @param  array        $paths
-	 * @return string|false
+	 * Gets the exact path of a file.
+	 *
+	 * @param  array        $paths  An array of possible paths.
+	 * @return string|false         Returns the exact path of the file. Returns false if the file does not exist.
 	 */
-	public static function getExactFilePath(array $paths)
+	public static function getExactPath(array $paths)
 	{
 		foreach ($paths as $path)
 		{
