@@ -192,7 +192,7 @@ class File
 	 * Returns the name without path.
 	 *
 	 * @param  string $file  File path.
-	 * @return string        File name.
+	 * @return string        Returns the file name.
 	 */
 	public static function getName(string $file) : string
 	{
