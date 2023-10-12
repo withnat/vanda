@@ -406,7 +406,8 @@ class File
 	 *
 	 * @param  string      $file       The file to get the size of.
 	 * @param  int         $precision  The number of decimal places to round to.
-	 * @param  string|null $unit       The unit to use. If null, the unit will be automatically determined.
+	 * @param  string|null $unit       The unit to use. Defaults to null. If null, the unit will be automatically
+	 *                                 determined.
 	 * @return string                  Returns the size of the file.
 	 */
 	public static function getSize(string $file, int $precision = 1, string $unit = null) : string
@@ -575,9 +576,11 @@ class File
 	}
 
 	/**
-	 * @param  string      $file
-	 * @param  string|null $data
-	 * @param  bool        $setMime
+	 * Stream a file to the browser.
+	 *
+	 * @param  string      $file     The file to stream.
+	 * @param  string|null $data     The data to stream.
+	 * @param  bool        $setMime  Whether to set the mime type. Defaults to true.
 	 * @return void
 	 */
 	public static function download(string $file, string $data = null, bool $setMime = true) : void
