@@ -733,13 +733,17 @@ class File
 	}
 
 	/**
-	 * @param  string $file
-	 * @param  string $data
-	 * @param  string $mode
-	 * @return bool
+	 * Writes a string to a file.
+	 *
+	 * @param  string $file  The file to write to.
+	 * @param  string $data  The data to write.
+	 * @param  string $mode  The file open mode. Defaults to 'wb'.
+	 * @return bool          Returns true on success or false on failure.
 	 */
 	public static function write(string $file, string $data, string $mode = 'wb') : bool
 	{
+		// When you use this function, the script timer is reset to 0; if you set 50 as the time limit,
+		// then after 40 seconds set the time limit to 30, the script will run for 70 seconds in total.
 		@set_time_limit((int)ini_get('max_execution_time'));
 
 		$fp = @fopen($file, $mode);
@@ -755,7 +759,7 @@ class File
 
 		while ($written < $length)
 		{
-			$result = fwrite($fp, substr($data, $written));
+			$result = fwrite($fp, mb_substr($data, $written));
 
 			if ($result === false)
 				break;
