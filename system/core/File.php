@@ -777,24 +777,24 @@ class File
 	 * Tests for file writability.
 	 *
 	 * is_writable() returns TRUE on Windows servers when you really can't write to
-	 * the file, based on the read-only attribute. is_writable() is also unreliable
-	 * on Unix servers if safe_mode is on.
+	 * the file, based on the read-only attribute.
 	 *
-	 * @link   https://bugs.php.net/bug.php?id=54709
-	 * @param  string
-	 * @return bool
+	 * @param  string $file  The file to test.
+	 * @return bool          Returns true if the file is writable. False otherwise.
+	 * @see https://bugs.php.net/bug.php?id=54709
 	 */
 	public static function isWritable(string $file) : bool
 	{
 		// If we're on a Unix server we call is_writable
 		if (DS === '/')
 			return is_writable($file);
+
 		// For Windows servers we'll actually write a file then read it.
 		else
 		{
 			if (is_dir($file))
 			{
-				$file = rtrim($file, '/') . '/' . md5(mt_rand());
+				$file = rtrim($file, '/') . '/' . md5((string)mt_rand());
 
 				if (($fp = @fopen($file, 'ab')) === false)
 					return false;
