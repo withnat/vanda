@@ -391,8 +391,10 @@ class File
 	}
 
 	/**
-	 * @param  string $file
-	 * @return bool
+	 * Determines if the file is an image.
+	 *
+	 * @param  string $file  The file to check.
+	 * @return bool          Returns true if the given file is an image. False otherwise.
 	 */
 	public static function isImage(string $file) : bool
 	{
