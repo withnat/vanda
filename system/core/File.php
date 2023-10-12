@@ -713,8 +713,12 @@ class File
 	}
 
 	/**
-	 * @param  string       $file
-	 * @return string|false
+	 * Reads entire file into a string.
+	 *
+	 * This method is an alias of `file_get_contents()`.
+	 *
+	 * @param  string       $file  The file to read.
+	 * @return string|false        Returns the read data or false on failure.
 	 */
 	public static function read(string $file)
 	{
