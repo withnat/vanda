@@ -243,8 +243,17 @@ class File
 	}
 
 	/**
-	 * @param  string $file
-	 * @return string
+	 * Gets the path of a file.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::getPath('/path/to/picture.jpg');
+	 * // The $result will be: '/path/to'
+	 * ```
+	 *
+	 * @param  string $file  The file path.
+	 * @return string        Returns the path of the file.
 	 */
 	public static function getPath(string $file) : string
 	{
