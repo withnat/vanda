@@ -99,23 +99,20 @@ class Folder
 	}
 
 	/**
-	 * @param  string $path
-	 * @return int
+	 * Counts the number of items in a folder and its subfolders.
+	 *
+	 * @param  string $path  The path of the folder to count the items of.
+	 * @return int           Returns the number of items in the folder.
 	 */
 	public static function countItems(string $path) : int
 	{
 		$path = rtrim($path, '/');
+		$path = rtrim($path, '\\');
 
 		$folders = static::listFolders($path);
 		$files = static::listFiles($path);
 
-		$count = 0;
-
-		if (is_array($folders))
-			$count += count($folders);
-
-		if (is_array($files))
-			$count += count($files);
+		$count = count($folders) + count($files);
 
 		foreach ($folders as $folder)
 			$count += static::countItems($path . '/' . $folder->name);
