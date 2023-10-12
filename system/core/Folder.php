@@ -121,8 +121,10 @@ class Folder
 	}
 
 	/**
-	 * @param  string $path
-	 * @return array
+	 * Lists the items in a folder.
+	 *
+	 * @param  string $path  The path of the folder to list the items of.
+	 * @return array         Returns an array of items in the folder.
 	 */
 	public static function listItems(string $path) : array
 	{
