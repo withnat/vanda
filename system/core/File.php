@@ -332,7 +332,7 @@ class File
 	 * Returns true if filename exists.
 	 *
 	 * @param  string $file  The file name.
-	 * @return bool          True on exists.
+	 * @return bool          Returns true if file exists. False otherwise.
 	 */
 	public static function exists(string $file) : bool
 	{
