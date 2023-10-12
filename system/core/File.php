@@ -870,10 +870,12 @@ class File
 	}
 
 	/**
-	 * @param  string $src
-	 * @param  string $dest
-	 * @param  bool   $overwrite
-	 * @return bool
+	 * Moves file from source to destination.
+	 *
+	 * @param  string $src        The source file.
+	 * @param  string $dest       The destination file.
+	 * @param  bool   $overwrite  Whether to overwrite the destination file if it already exists. Defaults to false.
+	 * @return bool               Returns true on success or false on failure.
 	 */
 	public static function move(string $src, string $dest, bool $overwrite = false) : bool
 	{
