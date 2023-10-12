@@ -418,10 +418,12 @@ class File
 	}
 
 	/**
-	 * @param  string $filename
-	 * @param  string $folder
-	 * @param  string $calledFromPath
-	 * @return string
+	 * Gets the path of an asset file.
+	 *
+	 * @param  string $filename        The file name.
+	 * @param  string $folder          The folder name of the asset file.
+	 * @param  string $calledFromPath  The path of the file that called this method.
+	 * @return string                  Returns the path of the asset file.
 	 */
 	public static function getAssetPath(string $filename, string $folder, string $calledFromPath) : string
 	{
