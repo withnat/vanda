@@ -47,10 +47,12 @@ class Folder
 	}
 
 	/**
-	 * @param  string $path
-	 * @param  int    $mode
-	 * @param  bool   $createDefaultHtmlFile
-	 * @return bool
+	 * Creates a folder.
+	 *
+	 * @param  string $path                   The path of the folder to create.
+	 * @param  int    $mode                   The mode to use when creating the folder. Defaults to 0755.
+	 * @param  bool   $createDefaultHtmlFile  Whether to create a default index.html file in the folder. Defaults to true.
+	 * @return bool                           Returns true if the folder was created successfully, false otherwise.
 	 */
 	public static function create(string $path, int $mode = 0755, bool $createDefaultHtmlFile = true) : bool
 	{
@@ -59,11 +61,10 @@ class Folder
 
 		if (@mkdir($path, $mode, true))
 		{
-			$path = str_replace(PATH_BASE . '/', '', $path);
-
 			if ($createDefaultHtmlFile)
 			{
-				$subFolders = explode(DIRECTORY_SEPARATOR, $path);
+				$path = str_replace(PATH_BASE . '/', '', $path);
+				$subFolders = explode(DS, $path);
 				$subFolderPath = '';
 
 				foreach ($subFolders as $subFolder)
