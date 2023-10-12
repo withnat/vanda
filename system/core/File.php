@@ -483,10 +483,12 @@ class File
 	}
 
 	/**
-	 * @param  string $calledFromPath
-	 * @return array
+	 * Gets the possible paths for an asset file.
+	 *
+	 * @param  string $calledFromPath  The path of the file that called this method.
+	 * @return array                   Returns an array of possible paths.
 	 */
-	private static function _getPossibleAssetPaths(string $calledFromPath) : array
+	protected static function _getPossibleAssetPaths(string $calledFromPath) : array
 	{
 		$appModulePath = PATH_APP . DS . 'modules' . DS . SIDE . DS . MODULE;
 		$systemModulePath = PATH_SYSTEM . DS . 'modules' . DS . SIDE . DS . MODULE;
