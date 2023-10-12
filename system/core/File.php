@@ -822,8 +822,20 @@ class File
 	}
 
 	/**
-	 * @param  string $file
-	 * @return string
+	 * Gets the file permissions.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::getPermission('picture.jpg');
+	 * // The $result will be: '644'
+	 *
+	 * $result = File::getPermission('not-exist.jpg');
+	 * // The $result will be: '0'
+	 * ```
+	 *
+	 * @param  string $file  The file to get the permissions of.
+	 * @return string        Returns the file permissions.
 	 */
 	public static function getPermission(string $file) : string
 	{
