@@ -410,7 +410,7 @@ class File
 	 *                                 determined.
 	 * @return string                  Returns the size of the file.
 	 */
-	public static function getSize(string $file, int $precision = 1, string $unit = null) : string
+	public static function getSize(string $file, int $precision = 1, ?string $unit = null) : string
 	{
 		$size = @filesize($file);
 		$size = Number::byteFormat($size, $precision, $unit);
@@ -583,7 +583,7 @@ class File
 	 * @param  bool        $setMime  Whether to set the mime type. Defaults to true.
 	 * @return void
 	 */
-	public static function download(string $file, string $data = null, bool $setMime = true) : void
+	public static function download(string $file, ?string $data = null, bool $setMime = true) : void
 	{
 		if (is_null($data))
 		{
@@ -671,8 +671,11 @@ class File
 	}
 
 	/**
-	 * @param  string       $file
-	 * @return string|false
+	 * Gets the mime type of the file by its extension.
+	 *
+	 * @param  string       $file  The file to get the mime type of.
+	 * @return string|false        Returns the mime type of the file. Returns false if the mime type cannot be
+	 *                             determined.
 	 */
 	public static function getMimeByExtension(string $file)
 	{
