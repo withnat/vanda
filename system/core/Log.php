@@ -75,8 +75,10 @@ class Log
 	}
 
 	/**
-	 * @param  int|null $top
-	 * @return array
+	 * Gets the latest log lines from the log file.
+	 *
+	 * @param  int|null $top  The number of top log lines to return.
+	 * @return array          Returns an array of log lines.
 	 */
 	public static function get(int $top = null) : array
 	{
@@ -91,7 +93,7 @@ class Log
 
 		if (!is_null($top))
 			return array_slice($lines, 0, $top);
-		else
-			return $lines;
+
+		return $lines;
 	}
 }
