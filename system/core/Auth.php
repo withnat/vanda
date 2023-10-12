@@ -6,8 +6,8 @@
  *
  * @package     Vanda
  * @author      Nat Withe <nat@withnat.com>
- * @copyright   Copyright (c) 2010 - 202, Nat Withe. All rights reserved.
- * @link        http://vanda.io
+ * @copyright   Copyright (c) 2010 - 2024, Nat Withe. All rights reserved.
+ * @link        https://vanda.io
  */
 
 declare(strict_types=1);
