@@ -201,10 +201,16 @@ class File
 
 	/**
 	 * Returns the name without extension.
-	 * ie. '/path/pic.jpg' to 'pic'
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $resule = File::getNameWithoutExtension('picture.jpg');
+	 * // The $result will be: 'picture'
+	 * ```
 	 *
 	 * @param  string $file  File path.
-	 * @return string        File name without extension.
+	 * @return string        Returns the file name without extension.
 	 */
 	public static function getNameWithoutExtension(string $file) : string
 	{
