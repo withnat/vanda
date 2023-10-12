@@ -693,8 +693,10 @@ class File
 	}
 
 	/**
-	 * @param  string $file
-	 * @return array
+	 * Gets the file info.
+	 *
+	 * @param  string $file  The file to get the info of.
+	 * @return array         Returns an array of file info.
 	 */
 	public static function getInfo(string $file) : array
 	{
