@@ -1,0 +1,445 @@
+<?php
+/**
+ * Vanda
+ *
+ * A lightweight & flexible PHP CMS framework
+ *
+ * @package     Vanda
+ * @author      Nat Withe <nat@withnat.com>
+ * @copyright   Copyright (c) 2010 - 2024, Nat Withe. All rights reserved.
+ * @link        https://vanda.io
+ */
+
+declare(strict_types=1);
+
+namespace System;
+
+use stdClass;
+
+/**
+ * Class Folder
+ * @package System
+ */
+final class Folder
+{
+	/**
+	 * @param  string $path
+	 * @return string
+	 */
+	public static function getDirectorySeparator(string $path) : string
+	{
+		if (strpos($path, '\\'))
+			$ds = '\\';
+		else
+			$ds = '/';
+
+		return $ds;
+	}
+
+	/**
+	 * @param  string $path
+	 * @param  int    $mode
+	 * @param  bool   $createDefaultHtmlFile
+	 * @return bool
+	 */
+	public static function create(string $path, int $mode = 0755, bool $createDefaultHtmlFile = true) : bool
+	{
+		if (static::exists($path))
+			return true;
+
+		if (@mkdir($path, $mode, true))
+		{
+			$path = str_replace(PATH_BASE . '/', '', $path);
+
+			if ($createDefaultHtmlFile)
+			{
+				$subFolders = explode(DIRECTORY_SEPARATOR, $path);
+				$subFolderPath = '';
+
+				foreach ($subFolders as $subFolder)
+				{
+					$subFolderPath .= $subFolder . '/';
+					$file = $subFolderPath . 'index.html';
+					$content = '<html lang="en"><body></body></html>';
+
+					if (!is_file($file))
+						File::write($file, $content);
+				}
+			}
+
+			return true;
+		}
+		else
+			return false;
+	}
+
+	/**
+	 * @param  string $path
+	 * @return bool
+	 */
+	public static function exists(string $path) : bool
+	{
+		return $path != '.' and $path != '..' and is_dir($path);
+	}
+
+	/**
+	 * @param  string $path
+	 * @return int
+	 */
+	public static function countItems(string $path) : int
+	{
+		$path = rtrim($path, '/');
+
+		$folders = static::listFolders($path);
+		$files = static::listFiles($path);
+
+		$count = 0;
+
+		if (is_array($folders))
+			$count += count($folders);
+
+		if (is_array($files))
+			$count += count($files);
+
+		foreach ($folders as $folder)
+			$count += static::countItems($path . '/' . $folder->name);
+
+		return $count;
+	}
+
+	/**
+	 * @param  string $path
+	 * @return array
+	 */
+	public static function listItems(string $path) : array
+	{
+		$folders = static::listFolders($path);
+		$files = static::listFiles($path);
+
+		for ($i = 0, $n = count($folders); $i < $n; ++$i)
+		{
+			$folders[$i] = Arr::fromObject($folders[$i]);
+			$folders[$i] = Arr::insert($folders[$i], 'folder', 'type');
+			$folders[$i] = Arr::toObject($folders[$i]);
+		}
+
+		for ($i = 0, $n = count($files); $i < $n; ++$i)
+		{
+			$files[$i] = Arr::fromObject($files[$i]);
+			$files[$i] = Arr::insert($files[$i], 'file', 'type');
+			$files[$i] = Arr::toObject($files[$i]);
+		}
+
+		$items = array_merge($folders, $files);
+
+		return $items;
+	}
+
+	/**
+	 * @param  string $path
+	 * @return array
+	 */
+	public static function listFolders(string $path) : array
+	{
+		$path = rtrim($path, '/');
+
+		if (!static::exists($path))
+			throw new \RuntimeException('Source folder not found: ' . $path);
+
+		$fp = @opendir($path);
+
+		if ($fp)
+		{
+			$folders = [];
+
+			while (($entry = readdir($fp)) !== false)
+			{
+				$entryPath = $path . '/' . $entry;
+
+				if ($entry === '.' or $entry === '..' or filetype($entryPath) === 'file')
+					continue;
+
+				$data = new stdClass();
+				$data->name = $entry;
+				$data->size = static::countItems($entryPath);
+				$data->modified = filemtime($entryPath);
+
+				$folders[] = $data;
+			}
+		}
+		else
+			throw new \RuntimeException('Cannot open source folder: ' . $path);
+
+		$folders = Arr::sortRecordset($folders, 'name');
+
+		return $folders;
+	}
+
+	/**
+	 * @param  string $path
+	 * @return array
+	 */
+	public static function listFiles($path) : array
+	{
+		$path = rtrim($path, '/');
+
+		if (!static::exists($path))
+			throw new \RuntimeException('Source folder not found: ' . $path);
+
+		$fp = @opendir($path);
+
+		if ($fp)
+		{
+			$files = [];
+
+			while (($entry = readdir($fp)) !== false)
+			{
+				$entryPath = $path . '/' . $entry;
+
+				if ($entry === '.' or $entry === '..' or filetype($entryPath) === 'dir')
+					continue;
+
+				$data = new stdClass();
+				$data->name = $entry;
+				$data->size = filesize($entryPath);
+				$data->modified = filemtime($entryPath);
+
+				$files[] = $data;
+			}
+		}
+		else
+			throw new \RuntimeException('Cannot open source folder: ' . $path);
+
+		$files = Arr::sortRecordset($files, 'name');
+
+		return $files;
+	}
+
+	/**
+	 * @param  string $path
+	 * @return int
+	 */
+	public static function getSize($path) : int
+	{
+		$path = rtrim($path, '/');
+
+		if (!static::exists($path))
+			throw new \RuntimeException('Source folder not found: ' . $path);
+
+		$size = 0;
+		$fp = @opendir($path);
+
+		if ($fp)
+		{
+			while (($entry = readdir($fp)) !== false)
+			{
+				if ($entry === '.' or $entry === '..')
+					continue;
+
+				$entryPath = $path . '/' . $entry;
+
+				$size += filesize($entryPath);
+
+				if (filetype($entryPath) === 'dir')
+					$size += static::getSize($entryPath);
+			}
+		}
+		else
+			throw new \RuntimeException('Cannot open source folder: ' . $path);
+
+		return $size;
+	}
+
+	/**
+	 * @param  string $path
+	 * @return bool
+	 */
+	public static function delete(string $path) : bool
+	{
+		@set_time_limit((int)ini_get('max_execution_time'));
+
+		$path = rtrim($path, static::getDirectorySeparator($path));
+
+		if (!static::exists($path))
+			return false;
+
+		$result = true;
+		$fp = @opendir($path);
+
+		if ($fp)
+		{
+			while (($entry = readdir($fp)) !== false)
+			{
+				if ($entry === '.' or $entry === '..')
+					continue;
+
+				$entryPath = $path . '/' . $entry;
+
+				switch (filetype($entryPath))
+				{
+					case 'dir':
+						$result = static::delete($entryPath);
+						break;
+					case 'file':
+						$result = File::delete($entryPath);
+						break;
+				}
+
+				// Stop to save time.
+				if (!$result)
+					break;
+			}
+
+			closedir($fp);
+
+			if (!@rmdir($path))
+			{
+				$error = Error::getLast();
+				Log::add($error . 'Delete folder failed: ' . $path);
+
+				$result = false;
+			}
+		}
+		else
+			throw new \RuntimeException('Cannot open source folder: ' . $path);
+
+		return $result;
+	}
+
+	/**
+	 * @param  string $path
+	 * @return bool
+	 */
+	public static function isEmpty(string $path) : bool
+	{
+		$path = rtrim($path, '/');
+
+		if (!static::exists($path))
+			throw new \RuntimeException('Source folder not found: ' . $path);
+
+		$fp = @opendir($path);
+
+		if ($fp)
+		{
+			while (($entry = readdir($fp)) !== false)
+			{
+				if ($entry === '.' or $entry === '..')
+					continue;
+
+				if (strtolower($entry) === 'index.html')
+				{
+					$content = File::read($path . '/' . $entry);
+
+					if (trim($content) != '<html lang="en"><body></body></html>')
+						return false;
+				}
+				else
+					return false;
+			}
+
+			closedir($fp);
+		}
+		else
+			throw new \RuntimeException('Cannot open source folder: ' . $path);
+
+		return true;
+	}
+
+	/**
+	 * @param  string $src
+	 * @param  string $dest
+	 * @param  bool   $merge
+	 * @param  bool   $overwrite
+	 * @return bool
+	 */
+	public static function copy(string $src, string $dest, bool $merge = false, bool $overwrite = false) : bool
+	{
+		$src = rtrim($src, static::getDirectorySeparator($src));
+		$dest = rtrim($dest, static::getDirectorySeparator($dest));
+
+		if (!static::exists($src))
+			throw new \RuntimeException('Source folder not found: ' . $src);
+
+		$fp = @opendir($src);
+
+		if ($fp)
+		{
+			while (($entry = readdir($fp)) !== false)
+			{
+				if ($entry === '.' or $entry === '..')
+					continue;
+
+				$srcPath = $src . '/' . $entry;
+				$destPath = $dest . '/' . $entry;
+
+				switch (filetype($srcPath))
+				{
+					case 'dir':
+
+						if (static::exists($destPath) and !$merge)
+							throw new \RuntimeException('Destination folder already exists: ' . $destPath);
+
+						if (!static::create($destPath))
+							throw new \RuntimeException('Cannot create destination folder: ' . $destPath);
+
+						static::copy($srcPath, $destPath);
+
+						break;
+
+					case 'file':
+
+						$filename = strtolower(File::getName($destPath));
+
+						if ($filename != 'index.html')
+						{
+							if (is_file($destPath) and !$overwrite)
+								throw new \RuntimeException('Destination file already exists: ' . $destPath);
+							elseif (!@copy($srcPath, $destPath))
+								throw new \RuntimeException('Copy file failed: ' . $destPath);
+						}
+
+						break;
+				}
+			}
+
+			closedir($fp);
+		}
+		else
+			throw new \RuntimeException('Cannot open source folder: ' . $src);
+
+		return true;
+	}
+
+	/**
+	 * @param  string $src
+	 * @param  string $dest
+	 * @param  bool   $merge
+	 * @param  bool   $overwrite
+	 * @return bool
+	 */
+	public static function move(string $src, string $dest, bool $merge = false, bool $overwrite = false) : bool
+	{
+		if (static::copy($src, $dest, $merge, $overwrite))
+			return static::delete($src);
+		else
+			return false;
+	}
+
+	/**
+	 * @param  string $path
+	 * @return array
+	 */
+	public static function getInfo(string $path) : array
+	{
+		return File::getInfo($path);
+	}
+
+	/**
+	 * @param  string $path
+	 * @return bool
+	 */
+	public static function isWritable(string $path) : bool
+	{
+		return File::isWritable($path);
+	}
+}
