@@ -583,7 +583,7 @@ class File
 	 * @param  bool        $setMime  Whether to set the mime type. Defaults to true.
 	 * @return void
 	 */
-	public static function download(string $file, ?string $data = null, bool $setMime = true) : void
+	public static function stream(string $file, ?string $data = null, bool $setMime = true) : void
 	{
 		if (is_null($data))
 		{
@@ -672,6 +672,13 @@ class File
 
 	/**
 	 * Gets the mime type of the file by its extension.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::getMimeByExtension('picture.jpg');
+	 * // The $result will be: 'image/jpeg'
+	 * ```
 	 *
 	 * @param  string       $file  The file to get the mime type of.
 	 * @return string|false        Returns the mime type of the file. Returns false if the mime type cannot be
