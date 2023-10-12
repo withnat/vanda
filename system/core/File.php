@@ -649,8 +649,18 @@ class File
 	}
 
 	/**
-	 * @param  string       $file
-	 * @return string|false
+	 * Gets the mime type of the file.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::getMime('picture.jpg');
+	 * // The $result will be: 'image/jpeg'
+	 * ```
+	 *
+	 * @param  string       $file  The file to get the mime type of.
+	 * @return string|false        Returns the mime type of the file. Returns false if the mime type cannot be
+	 *                             determined.
 	 */
 	public static function getMime(string $file)
 	{
