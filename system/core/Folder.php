@@ -85,12 +85,17 @@ class Folder
 	}
 
 	/**
-	 * @param  string $path
-	 * @return bool
+	 * Determines whether a folder exists.
+	 *
+	 * @param  string $path  The path of the folder to check.
+	 * @return bool          Returns true if the folder exists, false otherwise.
 	 */
 	public static function exists(string $path) : bool
 	{
-		return $path != '.' and $path != '..' and is_dir($path);
+		if ($path === '.' or $path === '..')
+			return false;
+		else
+			return is_dir($path);
 	}
 
 	/**
@@ -341,7 +346,7 @@ class Folder
 				{
 					$content = File::read($path . '/' . $entry);
 
-					if (trim($content) != '<html lang="en"><body></body></html>')
+					if (trim($content) !== '<html lang="en"><body></body></html>')
 						return false;
 				}
 				else
@@ -401,7 +406,7 @@ class Folder
 
 						$filename = strtolower(File::getName($destPath));
 
-						if ($filename != 'index.html')
+						if ($filename !== 'index.html')
 						{
 							if (is_file($destPath) and !$overwrite)
 								throw new \RuntimeException('Destination file already exists: ' . $destPath);
