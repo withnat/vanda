@@ -17,9 +17,9 @@ namespace System;
 use ErrorException;
 
 /**
- * Class Log
+ * Class Logger
  *
- * The Log class is a utility for handling and managing error logging within
+ * The Logger class is a utility for handling and managing error logging within
  * a PHP web framework. It provides methods to log various types of messages
  * (e.g., errors, warnings, debug information) to a designated log file. This
  * helps in tracking and troubleshooting issues that occur during the
@@ -27,12 +27,12 @@ use ErrorException;
  *
  * @package System
  */
-class Log
+class Logger
 {
 	protected static $_path = PATH_STORAGE . DS . 'logs' . DS . 'errors.log';
 
 	/**
-	 * Log constructor.
+	 * Logger constructor.
 	 */
 	private function __construct(){}
 
