@@ -65,8 +65,9 @@ class Log
 	}
 
 	/**
-	 * @return bool
-	 * @throws ErrorException
+	 * Clears the log file.
+	 *
+	 * @return bool  Returns true if the log file was deleted, false otherwise.
 	 */
 	public static function clear() : bool
 	{
