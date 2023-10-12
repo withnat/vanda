@@ -402,10 +402,12 @@ class File
 	}
 
 	/**
-	 * @param  string      $file
-	 * @param  int         $precision
-	 * @param  string|null $unit
-	 * @return string
+	 * Gets the size of a file.
+	 *
+	 * @param  string      $file       The file to get the size of.
+	 * @param  int         $precision  The number of decimal places to round to.
+	 * @param  string|null $unit       The unit to use. If null, the unit will be automatically determined.
+	 * @return string                  Returns the size of the file.
 	 */
 	public static function getSize(string $file, int $precision = 1, string $unit = null) : string
 	{
