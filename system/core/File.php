@@ -227,8 +227,15 @@ class File
 	/**
 	 * Gets the extension of a file name.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::getExtension('picture.jpg');
+	 * // The $result will be: 'jpg'
+	 * ```
+	 *
 	 * @param  string $file  The file name.
-	 * @return string        The file extension.
+	 * @return string        Returns the extension of the file.
 	 */
 	public static function getExtension(string $file) : string
 	{
