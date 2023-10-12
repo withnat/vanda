@@ -4,10 +4,10 @@
  *
  * A lightweight & flexible PHP CMS framework
  *
- * @package	    Vanda
- * @author	    Nat Withe <nat@withnat.com>
- * @copyright   Copyright (c) 2010 - 2021, Nat Withe. All rights reserved.
- * @link		http://vanda.io
+ * @package     Vanda
+ * @author      Nat Withe <nat@withnat.com>
+ * @copyright   Copyright (c) 2010 - 2024, Nat Withe. All rights reserved.
+ * @link        https://vanda.io
  */
 
 declare(strict_types=1);
