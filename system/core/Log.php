@@ -19,11 +19,17 @@ use ErrorException;
 /**
  * Class Log
  *
+ * The Log class is a utility for handling and managing error logging within
+ * a PHP web framework. It provides methods to log various types of messages
+ * (e.g., errors, warnings, debug information) to a designated log file. This
+ * helps in tracking and troubleshooting issues that occur during the
+ * application's execution.
+ *
  * @package System
  */
-final class Log
+class Log
 {
-	private static $_path = PATH_STORAGE . DS . 'logs' . DS . 'errors.log';
+	protected static $_path = PATH_STORAGE . DS . 'logs' . DS . 'errors.log';
 
 	/**
 	 * Log constructor.
@@ -31,7 +37,9 @@ final class Log
 	private function __construct(){}
 
 	/**
-	 * @param  string $message
+	 * Writes a message to the log file.
+	 *
+	 * @param  string $message  The message to write.
 	 * @return void
 	 */
 	public static function add(string $message) : void
@@ -46,11 +54,11 @@ final class Log
 			'trace' => $trace
 		];
 
-		// Don't use JSON::encode because stopping execution by
-		// ErrorExeption in JSON::encode is not necessary for logging.
-
 		// A resource cannot be encoded, remove it.
 		$data = Arr::removeType($data, 'resource');
+
+		// Do not use JSON::encode() to avoid stopping execution due to ErrorException
+		// in JSON::encode(), which is unnecessary for logging purposes.
 		$content = json_encode($data) . "\n";
 
 		file_put_contents(static::$_path, $content, FILE_APPEND | LOCK_EX);
