@@ -16,9 +16,15 @@ namespace System;
 
 /**
  * Class File
+ *
+ * The File class provides utility methods for working with files, such as
+ * reading, writing, copying, moving, deleting, and manipulating file paths.
+ * It encapsulates various file operations, making it easier to handle
+ * file-related tasks within a PHP application.
+ *
  * @package System
  */
-final class File
+class File
 {
 	private static $_mimes = [
 		'hqx' => ['application/mac-binhex40', 'application/mac-binhex', 'application/x-binhex40', 'application/x-mac-binhex40'],
