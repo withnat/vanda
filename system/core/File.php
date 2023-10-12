@@ -305,13 +305,22 @@ class File
 	}
 
 	/**
-	 * Strips the last extension of a file name.
-	 * ie. '/path/pic.jpg' to '/path/pic'
+	 * Remove the extension from a file name.
+	 *
+	 * This method is different from `File::getNameWithoutExtension()` in that
+	 * it will keep the path information.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::removeExtension('/path/to/picture.jpg');
+	 * // The $result will be: '/path/to/picture'
+	 * ```
 	 *
 	 * @param  string $file  The file name (and path).
 	 * @return string        The file name (and path) without the extension.
 	 */
-	public static function stripExtension(string $file) : string
+	public static function removeExtension(string $file) : string
 	{
 		return preg_replace('#\.[^.]*$#', '', $file);
 	}
