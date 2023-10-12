@@ -31,10 +31,12 @@ use stdClass;
 class Folder
 {
 	/**
-	 * @param  string $path
+	 * Gets the directory separator for the specified path.
+	 * 
+	 * @param  string $path  The path to get the directory separator for.
 	 * @return string
 	 */
-	public static function getDirectorySeparator(string $path) : string
+	public static function getSeparator(string $path) : string
 	{
 		if (strpos($path, '\\'))
 			$ds = '\\';
@@ -266,7 +268,7 @@ class Folder
 	{
 		@set_time_limit((int)ini_get('max_execution_time'));
 
-		$path = rtrim($path, static::getDirectorySeparator($path));
+		$path = rtrim($path, static::getSeparator($path));
 
 		if (!static::exists($path))
 			return false;
@@ -362,8 +364,8 @@ class Folder
 	 */
 	public static function copy(string $src, string $dest, bool $merge = false, bool $overwrite = false) : bool
 	{
-		$src = rtrim($src, static::getDirectorySeparator($src));
-		$dest = rtrim($dest, static::getDirectorySeparator($dest));
+		$src = rtrim($src, static::getSeparator($src));
+		$dest = rtrim($dest, static::getSeparator($dest));
 
 		if (!static::exists($src))
 			throw new \RuntimeException('Source folder not found: ' . $src);
