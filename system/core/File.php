@@ -340,10 +340,10 @@ class File
 	}
 
 	/**
-	 * Delete a file.
+	 * Delete a file and its thumbnails if any.
 	 *
 	 * @param  string $file  The file name.
-	 * @return bool          True on success.
+	 * @return bool          Returns true if file was deleted. False otherwise.
 	 */
 	public static function delete(string $file) : bool
 	{
