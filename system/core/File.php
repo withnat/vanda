@@ -209,6 +209,9 @@ class File
 	/**
 	 * Returns the name without extension.
 	 *
+	 *This method is different from `File::removeExtension()` in that
+	 * it will remove the path information and return only the file name.
+	 *
 	 * For example,
 	 *
 	 * ```php
