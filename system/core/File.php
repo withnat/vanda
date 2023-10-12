@@ -285,7 +285,14 @@ class File
 	/**
 	 * Makes file name safe to use.
 	 *
-	 * @param  string $file  The name of the file [not full path].
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::makeSafe('pic%ture.jpg');
+	 * // The $result will be: 'picture.jpg'
+	 * ```
+	 *
+	 * @param  string $file  The file name, excluding the path.
 	 * @return string        The sanitised string.
 	 */
 	public static function makeSafe(string $file) : string
