@@ -238,36 +238,38 @@ class Folder
 	}
 
 	/**
-	 * @param  string $path
-	 * @return int
+	 * Gets the size of a folder.
+	 *
+	 * @param  string $path  The path of the folder to get the size of.
+	 * @return int           Returns the size of the folder in bytes.
 	 */
-	public static function getSize($path) : int
+	public static function getSize(string $path) : int
 	{
 		$path = rtrim($path, '/');
 
 		if (!static::exists($path))
-			throw new \RuntimeException('Source folder not found: ' . $path);
+			throw new RuntimeException('The source folder could not be found at the specified path: ' . $path);
 
-		$size = 0;
 		$fp = @opendir($path);
 
-		if ($fp)
+		if (!$fp)
+			throw new RuntimeException('Unable to open the source folder at the specified path: ' . $path);
+
+		$size = 0;
+
+		while (($entry = readdir($fp)) !== false)
 		{
-			while (($entry = readdir($fp)) !== false)
-			{
-				if ($entry === '.' or $entry === '..')
-					continue;
+			if ($entry === '.' or $entry === '..')
+				continue;
 
-				$entryPath = $path . '/' . $entry;
+			$entryPath = $path . '/' . $entry;
 
-				$size += filesize($entryPath);
+			// A subdirectory occupies 4096 bytes of space, even when it's empty.
+			$size += filesize($entryPath);
 
-				if (filetype($entryPath) === 'dir')
-					$size += static::getSize($entryPath);
-			}
+			if (filetype($entryPath) === 'dir')
+				$size += static::getSize($entryPath);
 		}
-		else
-			throw new \RuntimeException('Cannot open source folder: ' . $path);
 
 		return $size;
 	}
