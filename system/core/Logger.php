@@ -103,6 +103,17 @@ class Logger
 	}
 
 	/**
+	 * Writes a critical message to the log file.
+	 *
+	 * @param  string $message  The message to write.
+	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 */
+	public static function critical(string $message) : bool
+	{
+		return static::log('critical', $message);
+	}
+
+	/**
 	 * Writes a message to the log file.
 	 *
 	 * @param  string $level    The log level.
