@@ -182,18 +182,7 @@ class Logger
 		$levelId = array_search($level, static::$_logLevels);
 
 		if (!$levelId)
-		{
-			throw InvalidArgumentException::typeError(1, [
-				'emergency',
-				'alert',
-				'critical',
-				'error',
-				'warning',
-				'notice',
-				'info',
-				'debug'
-			], $level);
-		}
+			throw InvalidArgumentException::valueError(1, 'Invalid log level: ' . $level);
 
 		$threshold = Config::log('threshold');
 
