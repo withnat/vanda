@@ -720,6 +720,35 @@ class File
 	}
 
 	/**
+	 * Gets the owner of a file.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::getOwner('picture.jpg');
+	 * // The $result will be: 'username:groupname'
+	 * ```
+	 *
+	 * @param  string $file  The file to get the owner of.
+	 * @return string        Returns the owner of the file.
+	 */
+	public static function getOwner(string $file) : string
+	{
+		// Get the user and group IDs
+		$userId = fileowner($file);
+		$groupId = filegroup($file);
+
+		// Get the username and groupname
+		$userInfo = posix_getpwuid($userId);
+		$groupInfo = posix_getgrgid($groupId);
+
+		// Format the result as 'username:groupname'
+		$owner = $userInfo['name'] . ':' . $groupInfo['name'];
+
+		return $owner;
+	}
+
+	/**
 	 * Reads entire file into a string.
 	 *
 	 * This method is an alias of `file_get_contents()`.
