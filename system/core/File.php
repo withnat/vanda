@@ -13,6 +13,7 @@
 declare(strict_types=1);
 
 namespace System;
+use RuntimeException;
 
 /**
  * Class File
@@ -902,18 +903,10 @@ class File
 	public static function copy(string $src, string $dest, bool $overwrite = false) : bool
 	{
 		if (!is_readable($src))
-		{
-			Logger::debug('Unable to find or read file: ' . $src);
-
-			return false;
-		}
+			throw new RuntimeException('Unable to find or read file: ' . $src);
 
 		if (is_file($dest) and !$overwrite)
-		{
-			Logger::debug('Destination file already exists: ' . $dest);
-
-			return false;
-		}
+			throw new RuntimeException('Destination file already exists: ' . $dest);
 
 		return @copy($src, $dest);
 	}
