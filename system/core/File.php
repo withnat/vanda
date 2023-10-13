@@ -702,6 +702,24 @@ class File
 	/**
 	 * Gets the file info.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::getInfo('picture.jpg');
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [name] => picture.php
+	 * //     [path] => /path/picture.php
+	 * //     [size] => 60317
+	 * //     [date] => 1656838930
+	 * //     [readable] => 1
+	 * //     [writable] => 1
+	 * //     [executable] => 1
+	 * //     [fileperms] => 33279
+	 * // )
+	 * ```
+	 *
 	 * @param  string $file  The file to get the info of.
 	 * @return array         Returns an array of file info.
 	 */
