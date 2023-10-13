@@ -125,6 +125,17 @@ class Logger
 	}
 
 	/**
+	 * Writes a warning message to the log file.
+	 *
+	 * @param  string $message  The message to write.
+	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 */
+	public static function warning(string $message) : bool
+	{
+		return static::log('warning', $message);
+	}
+
+	/**
 	 * Writes a message to the log file.
 	 *
 	 * @param  string $level    The log level.
