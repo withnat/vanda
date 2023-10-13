@@ -14,7 +14,8 @@ declare(strict_types=1);
 
 namespace System;
 
-use ErrorException;
+use System\Exception\InvalidArgumentException;
+
 
 /**
  * Class Logger
@@ -179,6 +180,20 @@ class Logger
 	{
 		$level = trim(strtolower($level));
 		$levelId = array_search($level, static::$_logLevels);
+
+		if (!$levelId)
+		{
+			throw InvalidArgumentException::typeError(1, [
+				'emergency',
+				'alert',
+				'critical',
+				'error',
+				'warning',
+				'notice',
+				'info',
+				'debug'
+			], $level);
+		}
 
 		$threshold = Config::log('threshold');
 
