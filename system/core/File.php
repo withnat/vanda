@@ -384,7 +384,7 @@ class File
 		else
 		{
 			$error = Error::getLast();
-			Log::add($error . 'Delete file failed: ' . $file);;
+			Logger::debug($error . ' Failed to delete file: ' . $file);
 
 			return false;
 		}
@@ -903,13 +903,15 @@ class File
 	{
 		if (!is_readable($src))
 		{
-			Log::add('Unable to find or read file: ' . $src);
+			Logger::debug('Unable to find or read file: ' . $src);
+
 			return false;
 		}
 
 		if (is_file($dest) and !$overwrite)
 		{
-			Log::add('Destination file already exists: ' . $dest);
+			Logger::debug('Destination file already exists: ' . $dest);
+
 			return false;
 		}
 
