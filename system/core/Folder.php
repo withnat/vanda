@@ -193,39 +193,40 @@ class Folder
 	}
 
 	/**
-	 * @param  string $path
-	 * @return array
+	 * Lists the files in a folder.
+	 *
+	 * @param  string $path  The path of the folder to list the files of.
+	 * @return array         Returns an array of the files in the folder.
 	 */
-	public static function listFiles($path) : array
+	public static function listFiles(string $path) : array
 	{
 		$path = rtrim($path, '/');
 
 		if (!static::exists($path))
-			throw new \RuntimeException('Source folder not found: ' . $path);
+			throw new RuntimeException('The source folder could not be found at the specified path: ' . $path);
 
 		$fp = @opendir($path);
 
-		if ($fp)
+		if (!$fp)
+			throw new RuntimeException('Unable to open the source folder at the specified path: ' . $path);
+
+		$files = [];
+
+		while (($entry = readdir($fp)) !== false)
 		{
-			$files = [];
+			$entryPath = $path . '/' . $entry;
 
-			while (($entry = readdir($fp)) !== false)
-			{
-				$entryPath = $path . '/' . $entry;
+			if ($entry === '.' or $entry === '..' or filetype($entryPath) === 'dir')
+				continue;
 
-				if ($entry === '.' or $entry === '..' or filetype($entryPath) === 'dir')
-					continue;
+			$data = new stdClass();
+			$data->name = $entry;
+			$data->size = filesize($entryPath);
+			$data->created = filectime($entryPath);
+			$data->modified = filemtime($entryPath);
 
-				$data = new stdClass();
-				$data->name = $entry;
-				$data->size = filesize($entryPath);
-				$data->modified = filemtime($entryPath);
-
-				$files[] = $data;
-			}
+			$files[] = $data;
 		}
-		else
-			throw new \RuntimeException('Cannot open source folder: ' . $path);
 
 		$files = Arr::sortRecordset($files, 'name');
 
