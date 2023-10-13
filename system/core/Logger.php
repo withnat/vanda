@@ -147,7 +147,7 @@ class Logger
 	}
 
 	/**
-	 * Writes a info message to the log file.
+	 * Writes an info message to the log file.
 	 *
 	 * @param  string $message  The message to write.
 	 * @return bool             Returns true if the message was written to the log file, false otherwise.
@@ -155,6 +155,17 @@ class Logger
 	public static function info(string $message) : bool
 	{
 		return static::log('info', $message);
+	}
+
+	/**
+	 * Writes a debug message to the log file.
+	 *
+	 * @param  string $message  The message to write.
+	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 */
+	public static function debug(string $message) : bool
+	{
+		return static::log('debug', $message);
 	}
 
 	/**
