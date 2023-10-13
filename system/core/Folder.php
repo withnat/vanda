@@ -275,8 +275,10 @@ class Folder
 	}
 
 	/**
-	 * @param  string $path
-	 * @return bool
+	 * Deletes a folder.
+	 *
+	 * @param  string $path  The path of the folder to delete.
+	 * @return bool          Returns true if the folder was deleted successfully, false otherwise.
 	 */
 	public static function delete(string $path) : bool
 	{
