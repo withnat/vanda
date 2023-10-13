@@ -25,7 +25,7 @@ use System\Response;
 use System\Router;
 use System\Session;
 use System\Str;
-use System\Uri;
+use System\Url;
 
 $timestart = microtime(true);
 
@@ -132,7 +132,7 @@ ini_set('session.cookie_httponly', '1'); // Available since PHP 5.2.0
 date_default_timezone_set(Setting::get('timezone', 'UTC'));
 
 // Display errors
-if (DEV_MODE)
+if (Config::app('env') === 'development')
 {
 	ini_set('display_errors', '1');
 	ini_set('display_startup_errors', '1');
@@ -227,7 +227,7 @@ if (SIDE === 'frontend')
 		else
 			$prefix = '/index.php';
 
-		$url = Request::baseUrl() . $prefix . '/' . $langDefault;
+		$url = Url::base() . $prefix . '/' . $langDefault;
 		Response::redirect($url);
 	}
 
@@ -242,6 +242,13 @@ else
 	define('LANG', '');
 	define('LANG_ID', '');
 }
+
+//echo File::getPermission('test/img.jpg');
+
+
+echo System\Folder::getSize('xxx');
+
+exit;
 
 /* Module */
 
@@ -381,7 +388,7 @@ $controller->init();
 $controller->{$action}();
 $controller->end();
 
-if (DEV_MODE)
+if (Config::app('env') === 'development')
 {
 	$timeend = microtime(true);
 	$totaltime = $timeend-$timestart;
@@ -399,3 +406,24 @@ $timeend = microtime(true);
 $totaltime = $timeend-$timestart;
 //echo '<p>Parsing time: ' .number_format($totaltime, 3). ' seconds.<br />';
 //echo 'Memory used: '.number_format((memory_get_usage()/1024), 2).' KB</p>';
+
+class Setting
+{
+	public static function get($arg, $default = '')
+	{
+		return $default;
+	}
+}
+
+class Uri
+{
+	public static function toControllerFormat($value)
+	{
+		return ucfirst($value) . 'Controller';
+	}
+
+	public static function toActionFormat($value)
+	{
+		return ucfirst($value) . 'Action';
+	}
+}
