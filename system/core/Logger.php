@@ -81,13 +81,24 @@ class Logger
 	private function __construct(){}
 
 	/**
+	 * Writes a debug message to the log file.
+	 *
+	 * @param  string $message  The message to write.
+	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 */
+	public static function emergency(string $message) : bool
+	{
+		return static::log('emergency', $message);
+	}
+
+	/**
 	 * Writes a message to the log file.
 	 *
 	 * @param  string $level    The log level.
 	 * @param  string $message  The message to write.
-	 * @return void
+	 * @return bool             Returns true if the message was written to the log file, false otherwise.
 	 */
-	public static function log(string $level, string $message) : void
+	public static function log(string $level, string $message) : bool
 	{
 		$level = trim(strtolower($level));
 		$levelId = array_search($level, static::$_logLevels);
@@ -95,7 +106,7 @@ class Logger
 		$threshold = Config::log('threshold');
 
 		if ($threshold < $levelId)
-			return;
+			return false;
 
 		$trace = debug_backtrace(0);
 
@@ -121,6 +132,8 @@ class Logger
 		$content = json_encode($data) . "\n";
 
 		file_put_contents(static::$_path, $content, FILE_APPEND | LOCK_EX);
+
+		return true;
 	}
 
 	/**
