@@ -329,40 +329,40 @@ class Folder
 	}
 
 	/**
-	 * @param  string $path
-	 * @return bool
+	 * Determines whether a folder is empty.
+	 *
+	 * @param  string $path  The path of the folder to check.
+	 * @return bool          Returns true if the folder is empty, false otherwise.
 	 */
 	public static function isEmpty(string $path) : bool
 	{
 		$path = rtrim($path, '/');
 
 		if (!static::exists($path))
-			throw new \RuntimeException('Source folder not found: ' . $path);
+			throw new RuntimeException('The source folder could not be found at the specified path: ' . $path);
 
 		$fp = @opendir($path);
 
-		if ($fp)
+		if (!$fp)
+			throw new RuntimeException('Unable to open the source folder at the specified path: ' . $path);
+
+		while (($entry = readdir($fp)) !== false)
 		{
-			while (($entry = readdir($fp)) !== false)
+			if ($entry === '.' or $entry === '..')
+				continue;
+
+			if (strtolower($entry) === 'index.html')
 			{
-				if ($entry === '.' or $entry === '..')
-					continue;
+				$content = File::read($path . '/' . $entry);
 
-				if (strtolower($entry) === 'index.html')
-				{
-					$content = File::read($path . '/' . $entry);
-
-					if (trim($content) !== '<html lang="en"><body></body></html>')
-						return false;
-				}
-				else
+				if (trim($content) !== '<html lang="en"><body></body></html>')
 					return false;
 			}
-
-			closedir($fp);
+			else
+				return false;
 		}
-		else
-			throw new \RuntimeException('Cannot open source folder: ' . $path);
+
+		closedir($fp);
 
 		return true;
 	}
