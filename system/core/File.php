@@ -709,16 +709,19 @@ class File
 	 */
 	public static function getInfo(string $file) : array
 	{
-		$fileinfo['name'] = basename($file);
-		$fileinfo['path'] = $file;
-		$fileinfo['size'] = @filesize($file);
-		$fileinfo['date'] = @filemtime($file);
-		$fileinfo['readable'] = is_readable($file);
-		$fileinfo['writable'] = static::isWritable($file);
-		$fileinfo['executable'] = is_executable($file);
-		$fileinfo['fileperms'] = @fileperms($file);
+		if (!static::exists($file))
+			throw new RuntimeException('File not found: ' . $file);
 
-		return $fileinfo;
+		$info['name'] = basename($file);
+		$info['path'] = $file;
+		$info['size'] = @filesize($file);
+		$info['date'] = @filemtime($file);
+		$info['readable'] = is_readable($file);
+		$info['writable'] = static::isWritable($file);
+		$info['executable'] = is_executable($file);
+		$info['fileperms'] = @fileperms($file);
+
+		return $info;
 	}
 
 	/**
