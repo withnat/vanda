@@ -432,18 +432,20 @@ class Folder
 	}
 
 	/**
-	 * @param  string $src
-	 * @param  string $dest
-	 * @param  bool   $merge
-	 * @param  bool   $overwrite
-	 * @return bool
+	 * Moves a folder.
+	 *
+	 * @param  string $src        The path of the source folder.
+	 * @param  string $dest       The path of the destination folder.
+	 * @param  bool   $merge      Whether to merge the contents of the source folder with the destination folder. Defaults to false.
+	 * @param  bool   $overwrite  Whether to overwrite existing files when moving. Defaults to false.
+	 * @return bool               Returns true if the folder was moved successfully, false otherwise.
 	 */
 	public static function move(string $src, string $dest, bool $merge = false, bool $overwrite = false) : bool
 	{
 		if (static::copy($src, $dest, $merge, $overwrite))
 			return static::delete($src);
-		else
-			return false;
+
+		return false;
 	}
 
 	/**
