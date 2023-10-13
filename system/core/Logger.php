@@ -81,7 +81,7 @@ class Logger
 	private function __construct(){}
 
 	/**
-	 * Writes a debug message to the log file.
+	 * Writes an emergency message to the log file.
 	 *
 	 * @param  string $message  The message to write.
 	 * @return bool             Returns true if the message was written to the log file, false otherwise.
