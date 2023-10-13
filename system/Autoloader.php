@@ -14,6 +14,7 @@ namespace System;
 
 use System\Mvc\Helper;
 use System\Mvc\Model;
+Use \Composer\Autoload\ClassLoader;
 
 /**
  * Decorate Composer ClassLoader
@@ -25,9 +26,9 @@ class Autoloader
 	/**
 	 * Constructor
 	 *
-	 * @param object $loader  Composer autoloader
+	 * @param ClassLoader $loader  Composer autoloader
 	 */
-	public function __construct(object $loader)
+	public function __construct(ClassLoader $loader)
 	{
 		static::$_loader = $loader;
 	}
@@ -55,11 +56,11 @@ class Autoloader
 				$file = Model::getModelLocation($class);
 		}
 
-		// Use is_string() for PHP 8.1 because Helper::getHelperLocation() and
-		// Model::getModelLocation() may return null, which is not allowed in is_file().
-		if (is_string($file) and is_file($file))
+		if (is_file((string)$file))
+			// Include system file.
 			include_once $file;
 		else
+			// Include composer file.
 			static::$_loader->loadClass($class);
 	}
 
