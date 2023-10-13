@@ -53,8 +53,8 @@ class Json
 	/**
 	 * Encodes the given data to JSON.
 	 *
-	 * @param  mixed  $data  The input data to encode.
-	 * @return string        Returns the JSON string.
+	 * @param  mixed  $data   The input data to encode.
+	 * @return string         Returns the JSON string.
 	 * @throws ErrorException
 	 */
 	public static function encode($data) : string
