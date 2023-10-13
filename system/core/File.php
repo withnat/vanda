@@ -875,7 +875,7 @@ class File
 	 *
 	 * ```php
 	 * $result = File::getPermission('picture.jpg');
-	 * // The $result will be: '644'
+	 * // The $result will be: '0644'
 	 *
 	 * $result = File::getPermission('not-exist.jpg');
 	 * // The $result will be: '0'
@@ -888,7 +888,7 @@ class File
 	{
 		$perms = @fileperms($file);
 
-		return substr(sprintf('%o', $perms), -3);
+		return substr(sprintf('%o', $perms), -4);
 	}
 
 	/**
