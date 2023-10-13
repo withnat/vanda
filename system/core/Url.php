@@ -123,14 +123,27 @@ class Url
 	}
 
 	/**
-	 * Gets current URL with query string (if any).
+	 * Gets current URL without query string.
 	 *
-	 * @return string  Returns the current URL with query string.
+	 * @return string  Returns the current URL without query string.
 	 * @codeCoverageIgnore
 	 */
 	public static function current() : string
 	{
 		$url = static::base() . explode('?', static::uri())[0];
+
+		return $url;
+	}
+
+	/**
+	 * Gets current URL with query string (if any).
+	 *
+	 * @return string  Returns the current URL with query string.
+	 * @codeCoverageIgnore
+	 */
+	public static function full() : string
+	{
+		$url = static::base() . static::uri();
 
 		return $url;
 	}
