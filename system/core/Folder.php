@@ -280,6 +280,8 @@ class Folder
 	 */
 	public static function delete(string $path) : bool
 	{
+		// When you use this function, the script timer is reset to 0; if you set 50 as the time limit,
+		// then after 40 seconds set the time limit to 30, the script will run for 70 seconds in total.
 		@set_time_limit((int)ini_get('max_execution_time'));
 
 		$path = rtrim($path, static::getSeparator($path));
@@ -287,47 +289,41 @@ class Folder
 		if (!static::exists($path))
 			return false;
 
-		$result = true;
 		$fp = @opendir($path);
 
-		if ($fp)
+		if (!$fp)
+			throw new RuntimeException('Unable to open the source folder at the specified path: ' . $path);
+
+		while (($entry = readdir($fp)) !== false)
 		{
-			while (($entry = readdir($fp)) !== false)
+			if ($entry === '.' or $entry === '..')
+				continue;
+
+			$entryPath = $path . '/' . $entry;
+
+			switch (filetype($entryPath))
 			{
-				if ($entry === '.' or $entry === '..')
-					continue;
+				case 'dir':
+					static::delete($entryPath);
+					break;
 
-				$entryPath = $path . '/' . $entry;
-
-				switch (filetype($entryPath))
-				{
-					case 'dir':
-						$result = static::delete($entryPath);
-						break;
-					case 'file':
-						$result = File::delete($entryPath);
-						break;
-				}
-
-				// Stop to save time.
-				if (!$result)
+				case 'file':
+					File::delete($entryPath);
 					break;
 			}
-
-			closedir($fp);
-
-			if (!@rmdir($path))
-			{
-				$error = Error::getLast();
-				Log::add($error . 'Delete folder failed: ' . $path);
-
-				$result = false;
-			}
 		}
-		else
-			throw new \RuntimeException('Cannot open source folder: ' . $path);
 
-		return $result;
+		closedir($fp);
+
+		if (!@rmdir($path))
+		{
+			$error = Error::getLast();
+			Logger::debug($error . ' Failed to delete folder: ' . $path);
+
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
