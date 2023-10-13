@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace System;
 
 use stdClass;
+use RuntimeException;
 
 /**
  * Class Folder
@@ -151,39 +152,40 @@ class Folder
 	}
 
 	/**
-	 * @param  string $path
-	 * @return array
+	 * Gets the folder structure of a folder.
+	 *
+	 * @param  string $path  The path of the folder to get the structure of.
+	 * @return array         Returns an array of the folder structure.
 	 */
 	public static function listFolders(string $path) : array
 	{
 		$path = rtrim($path, '/');
 
 		if (!static::exists($path))
-			throw new \RuntimeException('Source folder not found: ' . $path);
+			throw new RuntimeException('The source folder could not be found at the specified path: ' . $path);
 
 		$fp = @opendir($path);
 
-		if ($fp)
+		if (!$fp)
+			throw new RuntimeException('Unable to open the source folder at the specified path: ' . $path);
+
+		$folders = [];
+
+		while (($entry = readdir($fp)) !== false)
 		{
-			$folders = [];
+			$entryPath = $path . '/' . $entry;
 
-			while (($entry = readdir($fp)) !== false)
-			{
-				$entryPath = $path . '/' . $entry;
+			if ($entry === '.' or $entry === '..' or filetype($entryPath) === 'file')
+				continue;
 
-				if ($entry === '.' or $entry === '..' or filetype($entryPath) === 'file')
-					continue;
+			$data = new stdClass();
+			$data->name = $entry;
+			$data->size = static::countItems($entryPath);
+			$data->created = filectime($entryPath);
+			$data->modified = filemtime($entryPath);
 
-				$data = new stdClass();
-				$data->name = $entry;
-				$data->size = static::countItems($entryPath);
-				$data->modified = filemtime($entryPath);
-
-				$folders[] = $data;
-			}
+			$folders[] = $data;
 		}
-		else
-			throw new \RuntimeException('Cannot open source folder: ' . $path);
 
 		$folders = Arr::sortRecordset($folders, 'name');
 
