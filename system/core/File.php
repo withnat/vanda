@@ -402,23 +402,6 @@ class File
 	}
 
 	/**
-	 * Gets the size of a file.
-	 *
-	 * @param  string      $file       The file to get the size of.
-	 * @param  int         $precision  The number of decimal places to round to.
-	 * @param  string|null $unit       The unit to use. Defaults to null. If null, the unit will be automatically
-	 *                                 determined.
-	 * @return string                  Returns the size of the file.
-	 */
-	public static function getSize(string $file, int $precision = 1, ?string $unit = null) : string
-	{
-		$size = @filesize($file);
-		$size = Number::byteFormat($size, $precision, $unit);
-
-		return $size;
-	}
-
-	/**
 	 * Gets the path of an asset file.
 	 *
 	 * @param  string $filename        The file name.
@@ -738,35 +721,6 @@ class File
 	}
 
 	/**
-	 * Gets the owner of a file.
-	 *
-	 * For example,
-	 *
-	 * ```php
-	 * $result = File::getOwner('picture.jpg');
-	 * // The $result will be: 'username:groupname'
-	 * ```
-	 *
-	 * @param  string $file  The file to get the owner of.
-	 * @return string        Returns the owner of the file.
-	 */
-	public static function getOwner(string $file) : string
-	{
-		// Get the user and group IDs
-		$userId = fileowner($file);
-		$groupId = filegroup($file);
-
-		// Get the username and groupname
-		$userInfo = posix_getpwuid($userId);
-		$groupInfo = posix_getgrgid($groupId);
-
-		// Format the result as 'username:groupname'
-		$owner = $userInfo['name'] . ':' . $groupInfo['name'];
-
-		return $owner;
-	}
-
-	/**
 	 * Reads entire file into a string.
 	 *
 	 * This method is an alias of `file_get_contents()`.
@@ -869,6 +823,23 @@ class File
 	}
 
 	/**
+	 * Gets the size of a file.
+	 *
+	 * @param  string      $file       The file to get the size of.
+	 * @param  int         $precision  The number of decimal places to round to.
+	 * @param  string|null $unit       The unit to use. Defaults to null. If null, the unit will be automatically
+	 *                                 determined.
+	 * @return string                  Returns the size of the file.
+	 */
+	public static function getSize(string $file, int $precision = 1, ?string $unit = null) : string
+	{
+		$size = @filesize($file);
+		$size = Number::byteFormat($size, $precision, $unit);
+
+		return $size;
+	}
+
+	/**
 	 * Gets the file permissions.
 	 *
 	 * For example,
@@ -889,6 +860,35 @@ class File
 		$perms = @fileperms($file);
 
 		return substr(sprintf('%o', $perms), -4);
+	}
+
+	/**
+	 * Gets the owner of a file.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::getOwner('picture.jpg');
+	 * // The $result will be: 'username:groupname'
+	 * ```
+	 *
+	 * @param  string $file  The file to get the owner of.
+	 * @return string        Returns the owner of the file.
+	 */
+	public static function getOwner(string $file) : string
+	{
+		// Get the user and group IDs
+		$userId = fileowner($file);
+		$groupId = filegroup($file);
+
+		// Get the username and groupname
+		$userInfo = posix_getpwuid($userId);
+		$groupInfo = posix_getgrgid($groupId);
+
+		// Format the result as 'username:groupname'
+		$owner = $userInfo['name'] . ':' . $groupInfo['name'];
+
+		return $owner;
 	}
 
 	/**
