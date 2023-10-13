@@ -23,21 +23,6 @@ use System\Inflector;
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
-	private static function _list(array $trace) : array
-	{
-		if (strpos($trace[0]['file'], 'Data.php'))
-			$index = 2;
-		else
-			$index = 1;
-
-		$class = $trace[$index]['class'];
-		$function = $trace[$index]['function'];
-		$file = $trace[$index]['file'];
-		$line = $trace[$index]['line'];
-
-		return [$class, $function, $file, $line];
-	}
-
 	/**
 	 * Raises an exception for an invalid argument type.
 	 *
@@ -93,5 +78,26 @@ class InvalidArgumentException extends \InvalidArgumentException
 		$msg .= ', called in ' . $file . ' on line ' . $line;
 
 		return new self($msg);
+	}
+
+	/**
+	 * Gets the class, function, file and line number from the backtrace.
+	 *
+	 * @param  array $trace  The backtrace.
+	 * @return array         Returns the class, function, file and line number.
+	 */
+	protected static function _list(array $trace) : array
+	{
+		if (strpos($trace[0]['file'], 'Data.php'))
+			$index = 2;
+		else
+			$index = 1;
+
+		$class = $trace[$index]['class'];
+		$function = $trace[$index]['function'];
+		$file = $trace[$index]['file'];
+		$line = $trace[$index]['line'];
+
+		return [$class, $function, $file, $line];
 	}
 }
