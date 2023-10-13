@@ -367,11 +367,13 @@ class Folder
 	}
 
 	/**
-	 * @param  string $src
-	 * @param  string $dest
-	 * @param  bool   $merge
-	 * @param  bool   $overwrite
-	 * @return bool
+	 * Copies a folder.
+	 *
+	 * @param  string $src        The path of the source folder.
+	 * @param  string $dest       The path of the destination folder.
+	 * @param  bool   $merge      Whether to merge the contents of the source folder with the destination folder. Defaults to false.
+	 * @param  bool   $overwrite  Whether to overwrite existing files when copying. Defaults to false.
+	 * @return bool               Returns true if the folder was copied successfully, false otherwise.
 	 */
 	public static function copy(string $src, string $dest, bool $merge = false, bool $overwrite = false) : bool
 	{
