@@ -107,8 +107,7 @@ class Folder
 	 */
 	public static function countItems(string $path) : int
 	{
-		$path = rtrim($path, '/');
-		$path = rtrim($path, '\\');
+		$path = rtrim($path, static::getSeparator($path));
 
 		$folders = static::listFolders($path);
 		$files = static::listFiles($path);
@@ -159,15 +158,15 @@ class Folder
 	 */
 	public static function listFolders(string $path) : array
 	{
-		$path = rtrim($path, '/');
+		$path = rtrim($path, static::getSeparator($path));
 
 		if (!static::exists($path))
-			throw new RuntimeException('The source folder could not be found at the specified path: ' . $path);
+			throw new RuntimeException('Source folder not found: ' . $path);
 
 		$fp = @opendir($path);
 
 		if (!$fp)
-			throw new RuntimeException('Unable to open the source folder at the specified path: ' . $path);
+			throw new RuntimeException('Cannot open source folder: ' . $path);
 
 		$folders = [];
 
@@ -202,15 +201,15 @@ class Folder
 	 */
 	public static function listFiles(string $path) : array
 	{
-		$path = rtrim($path, '/');
+		$path = rtrim($path, static::getSeparator($path));
 
 		if (!static::exists($path))
-			throw new RuntimeException('The source folder could not be found at the specified path: ' . $path);
+			throw new RuntimeException('Source folder not found: ' . $path);
 
 		$fp = @opendir($path);
 
 		if (!$fp)
-			throw new RuntimeException('Unable to open the source folder at the specified path: ' . $path);
+			throw new RuntimeException('Cannot open source folder: ' . $path);
 
 		$files = [];
 
@@ -245,15 +244,15 @@ class Folder
 	 */
 	public static function getSize(string $path) : int
 	{
-		$path = rtrim($path, '/');
+		$path = rtrim($path, static::getSeparator($path));
 
 		if (!static::exists($path))
-			throw new RuntimeException('The source folder could not be found at the specified path: ' . $path);
+			throw new RuntimeException('Source folder not found: ' . $path);
 
 		$fp = @opendir($path);
 
 		if (!$fp)
-			throw new RuntimeException('Unable to open the source folder at the specified path: ' . $path);
+			throw new RuntimeException('Cannot open source folder: ' . $path);
 
 		$size = 0;
 
@@ -294,7 +293,7 @@ class Folder
 		$fp = @opendir($path);
 
 		if (!$fp)
-			throw new RuntimeException('Unable to open the source folder at the specified path: ' . $path);
+			throw new RuntimeException('Cannot open source folder: ' . $path);
 
 		while (($entry = readdir($fp)) !== false)
 		{
@@ -336,15 +335,15 @@ class Folder
 	 */
 	public static function isEmpty(string $path) : bool
 	{
-		$path = rtrim($path, '/');
+		$path = rtrim($path, static::getSeparator($path));
 
 		if (!static::exists($path))
-			throw new RuntimeException('The source folder could not be found at the specified path: ' . $path);
+			throw new RuntimeException('Source folder not found: ' . $path);
 
 		$fp = @opendir($path);
 
 		if (!$fp)
-			throw new RuntimeException('Unable to open the source folder at the specified path: ' . $path);
+			throw new RuntimeException('Cannot open source folder: ' . $path);
 
 		while (($entry = readdir($fp)) !== false)
 		{
@@ -380,54 +379,52 @@ class Folder
 		$dest = rtrim($dest, static::getSeparator($dest));
 
 		if (!static::exists($src))
-			throw new \RuntimeException('Source folder not found: ' . $src);
+			throw new RuntimeException('Source folder not found: ' . $src);
 
 		$fp = @opendir($src);
 
-		if ($fp)
+		if (!$fp)
+			throw new RuntimeException('Cannot open source folder: ' . $src);
+		
+		while (($entry = readdir($fp)) !== false)
 		{
-			while (($entry = readdir($fp)) !== false)
+			if ($entry === '.' or $entry === '..')
+				continue;
+
+			$srcPath = $src . '/' . $entry;
+			$destPath = $dest . '/' . $entry;
+
+			switch (filetype($srcPath))
 			{
-				if ($entry === '.' or $entry === '..')
-					continue;
+				case 'dir':
 
-				$srcPath = $src . '/' . $entry;
-				$destPath = $dest . '/' . $entry;
+					if (static::exists($destPath) and !$merge)
+						throw new RuntimeException('Destination folder already exists: ' . $destPath);
 
-				switch (filetype($srcPath))
-				{
-					case 'dir':
+					if (!static::create($destPath))
+						throw new RuntimeException('Cannot create destination folder: ' . $destPath);
 
-						if (static::exists($destPath) and !$merge)
-							throw new \RuntimeException('Destination folder already exists: ' . $destPath);
+					static::copy($srcPath, $destPath);
 
-						if (!static::create($destPath))
-							throw new \RuntimeException('Cannot create destination folder: ' . $destPath);
+					break;
 
-						static::copy($srcPath, $destPath);
+				case 'file':
 
-						break;
+					$filename = strtolower(File::getName($destPath));
 
-					case 'file':
+					if ($filename !== 'index.html')
+					{
+						if (is_file($destPath) and !$overwrite)
+							throw new RuntimeException('Destination file already exists: ' . $destPath);
+						elseif (!@copy($srcPath, $destPath))
+							throw new RuntimeException('Failed to delete file: ' . $destPath);
+					}
 
-						$filename = strtolower(File::getName($destPath));
-
-						if ($filename !== 'index.html')
-						{
-							if (is_file($destPath) and !$overwrite)
-								throw new \RuntimeException('Destination file already exists: ' . $destPath);
-							elseif (!@copy($srcPath, $destPath))
-								throw new \RuntimeException('Copy file failed: ' . $destPath);
-						}
-
-						break;
-				}
+					break;
 			}
-
-			closedir($fp);
 		}
-		else
-			throw new \RuntimeException('Cannot open source folder: ' . $src);
+
+		closedir($fp);
 
 		return true;
 	}
