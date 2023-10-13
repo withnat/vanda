@@ -29,6 +29,50 @@ use ErrorException;
  */
 class Logger
 {
+	/**
+	 * The log levels.
+	 *
+	 * There are eight different log levels, matching to the RFC 5424 levels, and they are as follows:
+	 *
+	 * 1. Emergency:
+	 *    The system is unusable.
+	 *
+	 * 2. Alert:
+	 *    Action must be taken immediately, like when an entire website is down, the database unavailable, etc.
+	 *
+	 * 3. Critical:
+	 *    Critical conditions, like an application component not available, or an unexpected exception.
+	 *
+	 * 4. Error:
+	 *    Runtime errors that do not require immediate action but should typically be logged and monitored.
+	 *
+	 * 5. Warning:
+	 *    Exceptional occurrences that are not errors, like the use of deprecated APIs,
+	 *    poor use of an API, or other undesirable things that are not necessarily wrong.
+	 *
+	 * 6. Notice:
+	 *    Normal, but significant events in your application.
+	 *
+	 * 7. Informational:
+	 *    Interesting events in your application, like a user logging in, logging SQL queries, etc.
+	 *
+	 * 8. Debug:
+	 *    Detailed debug information.
+	 *
+	 * @var array
+	 * @see https://tools.ietf.org/html/rfc5424
+	 */
+	protected static $_logLevels = [
+		1 => 'emergency',
+		2 => 'alert',
+		3 => 'critical',
+		4 => 'error',
+		5 => 'warning',
+		6 => 'notice',
+		7 => 'info',
+		8 => 'debug'
+	];
+
 	protected static $_path = PATH_STORAGE . DS . 'logs' . DS . 'errors.log';
 
 	/**
@@ -39,16 +83,31 @@ class Logger
 	/**
 	 * Writes a message to the log file.
 	 *
+	 * @param  string $level    The log level.
 	 * @param  string $message  The message to write.
 	 * @return void
 	 */
-	public static function add(string $message) : void
+	public static function log(string $level, string $message) : void
 	{
+		$level = trim(strtolower($level));
+		$levelId = array_search($level, static::$_logLevels);
+
+		$threshold = Config::log('threshold');
+
+		if ($threshold < $levelId)
+			return;
+
 		$trace = debug_backtrace(0);
 
 		$data = [
 			'date' => date('Y-m-d H:i:s'),
 			'message' => $message,
+			'url' => Url::full(),
+			'postVars' => $_POST,
+			'getVars' => $_GET,
+			'sessionVars' => $_SESSION,
+			'cookieVars' => $_COOKIE,
+			'env' => $_ENV,
 			'file' => $trace[0]['file'],
 			'line' => $trace[0]['line'],
 			'trace' => $trace
@@ -80,7 +139,7 @@ class Logger
 	 * @param  int|null $top  The number of top log lines to return.
 	 * @return array          Returns an array of log lines.
 	 */
-	public static function get(int $top = null) : array
+	public static function get(?int $top = null) : array
 	{
 		if (!is_file(static::$_path))
 			return [];
