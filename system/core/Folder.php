@@ -226,6 +226,8 @@ class Folder
 			$data->size = filesize($entryPath);
 			$data->created = filectime($entryPath);
 			$data->modified = filemtime($entryPath);
+			$data->permissions = File::getPermission($entryPath);
+			$data->owner = File::getOwner($entryPath);
 
 			$files[] = $data;
 		}
