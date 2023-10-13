@@ -152,9 +152,9 @@ class Folder
 	}
 
 	/**
-	 * Gets the folder structure of a folder.
+	 * Lists the folders in a folder.
 	 *
-	 * @param  string $path  The path of the folder to get the structure of.
+	 * @param  string $path  The path of the folder to list the folders of.
 	 * @return array         Returns an array of the folder structure.
 	 */
 	public static function listFolders(string $path) : array
