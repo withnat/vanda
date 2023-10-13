@@ -18,6 +18,7 @@ use System\Inflector;
 
 /**
  * Class InvalidArgumentException
+ *
  * @package System\Exception
  */
 class InvalidArgumentException extends \InvalidArgumentException
@@ -41,10 +42,10 @@ class InvalidArgumentException extends \InvalidArgumentException
 	 * Raises an exception for an invalid argument type.
 	 *
 	 * @param  int                      $argument          The argument number.
-	 * @param  array|null               $allowedDataTypes  The allowed data types.
-	 * @param  mixed|null               $value             The given value.
-	 * @param  string|null              $customMsg         The custom error message.
-	 * @return InvalidArgumentException
+	 * @param  array|null               $allowedDataTypes  The allowed data types. Defaults to null.
+	 * @param  mixed|null               $value             The given value. Defaults to null.
+	 * @param  string|null              $customMsg         The custom error message. Defaults to null.
+	 * @return InvalidArgumentException                    Returns the exception.
 	 */
 	public static function typeError(int $argument, ?array $allowedDataTypes = null, $value = null, ?string $customMsg = null) : InvalidArgumentException
 	{
@@ -75,7 +76,7 @@ class InvalidArgumentException extends \InvalidArgumentException
 	 *
 	 * @param  int                      $argument  The argument number.
 	 * @param  string                   $errorMsg  The error message.
-	 * @param  mixed|null               $value     The given value.
+	 * @param  mixed|null               $value     The given value. Defaults to null.
 	 * @return InvalidArgumentException            Returns the exception.
 	 */
 	public static function valueError(int $argument, string $errorMsg, $value = null) : InvalidArgumentException
