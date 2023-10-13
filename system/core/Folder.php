@@ -490,8 +490,14 @@ class Folder
 	}
 
 	/**
-	 * @param  string $path
-	 * @return bool
+	 * Tests for folder writability.
+	 *
+	 * is_writable() returns TRUE on Windows servers when you really can't write to
+	 * the folder, based on the read-only attribute.
+	 *
+	 * @param  string $path  The path to test.
+	 * @return bool          Returns true if the folder is writable. False otherwise.
+	 * @see https://bugs.php.net/bug.php?id=54709
 	 */
 	public static function isWritable(string $path) : bool
 	{
