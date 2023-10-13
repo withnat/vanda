@@ -239,7 +239,7 @@ if (SIDE === 'frontend')
 }
 else
 {
-	define('LANG', '');
+	define('LANG', ''); 
 	define('LANG_ID', '');
 }
 
