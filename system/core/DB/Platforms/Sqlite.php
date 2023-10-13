@@ -31,7 +31,7 @@ final class Sqlite extends AbstractPlatform
 	/**
 	 * @return void
 	 */
-	protected static function _connect() : void // ok
+	public static function _connect() : void // ok
 	{
 		try {
 			static::$_connection = new PDO('sqlite:../vand.sqlite');

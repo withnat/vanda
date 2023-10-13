@@ -28,7 +28,7 @@ final class Sqlsrv extends AbstractPlatform
 	protected static $_delimitIdentifierLeft = '[';
 	protected static $_delimitIdentifierRight = ']';
 
-	protected static function _connect() : void
+	public static function _connect() : void
 	{
 	}
 }

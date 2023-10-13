@@ -23,7 +23,7 @@ use PDOException;
  * Class Mysql
  * @package System\DB\Platforms
  */
-final class Mysql extends AbstractPlatform
+class Mysql extends AbstractPlatform
 {
 	protected static $_delimitIdentifierLeft = '`';
 	protected static $_delimitIdentifierRight = '`';
@@ -31,11 +31,10 @@ final class Mysql extends AbstractPlatform
 	/**
 	 * @return void
 	 */
-	protected static function _connect() : void
+	public static function _connect() : void
 	{
-		static::$_connection = new \stdClass();
+		//static::$_connection = new \stdClass();
 
-		/*
 		$host = Config::db('host');
 		$port = Config::db('port');
 		$dbname = Config::db('database');
@@ -76,6 +75,5 @@ final class Mysql extends AbstractPlatform
 		{
 			echo $e->getMessage();
 		}
-		*/
 	}
 }

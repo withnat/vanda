@@ -32,6 +32,7 @@
 		"ext-json": "*",
 		"ext-libxml": "*",
 		"ext-pdo": "*",
+		"ext-posix": "*",
 		"ext-readline": "*",
 		"ext-mbstring": "*",
 		"ext-simplexml": "*",
