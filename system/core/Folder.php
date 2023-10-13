@@ -449,12 +449,44 @@ class Folder
 	}
 
 	/**
-	 * @param  string $path
-	 * @return array
+	 * Gets the folder info.
+	 *
+	 *  For example,
+	 *
+	 *  ```php
+	 *  $result = Folder::getInfo('/path/to');
+	 *  // The $result will be:
+	 *  // Array
+	 *  // (
+	 *  //     [name] => to
+	 *  //     [path] => /path/to
+	 *  //     [size] => 4096
+	 *  //     [date] => 1656838930
+	 *  //     [readable] => 1
+	 *  //     [writable] => 1
+	 *  //     [executable] => 1
+	 *  //     [fileperms] => 16895
+	 *  // )
+	 * ```
+	 *
+	 * @param  string $path  The path of the folder to get the info of.
+	 * @return array         Returns an array of the folder info.
 	 */
 	public static function getInfo(string $path) : array
 	{
-		return File::getInfo($path);
+		if (!static::exists($path))
+			throw new RuntimeException('Folder not found: ' . $path);
+
+		$info['name'] = basename($path);
+		$info['path'] = $path;
+		$info['size'] = @filesize($path);
+		$info['date'] = @filemtime($path);
+		$info['readable'] = is_readable($path);
+		$info['writable'] = static::isWritable($path);
+		$info['executable'] = is_executable($path);
+		$info['fileperms'] = @fileperms($path);
+
+		return $info;
 	}
 
 	/**
