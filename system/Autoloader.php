@@ -15,6 +15,7 @@ namespace System;
 use System\Mvc\Helper;
 use System\Mvc\Model;
 Use \Composer\Autoload\ClassLoader;
+use RuntimeException;
 
 /**
  * Decorate Composer ClassLoader
@@ -34,7 +35,9 @@ class Autoloader
 	}
 
 	/**
-	 * @param  string $class
+	 * Finds the path to the file where the class is defined and includes it.
+	 *
+	 * @param  string $class  The name of the class to load.
 	 * @return void
 	 */
 	public static function loadClass(string $class) : void
@@ -47,8 +50,9 @@ class Autoloader
 
 		$file .= '.php';
 
-		// Second condition is used to avoid file at root directory ie index.php
-		if (!is_file($file) or (is_file($file) and strpos($file, DS) === false))
+		// The second condition is used to avoid including
+		// a file from the root directory, such as index.php
+		if (!is_file($file) or strpos($file, DS) === false)
 		{
 			if (substr($class, -6) === 'Helper')
 				$file = Helper::getHelperLocation($class);
@@ -65,8 +69,10 @@ class Autoloader
 	}
 
 	/**
-	 * @param  string $module
-	 * @param  string $controller
+	 * Find and include module controller file.
+	 *
+	 * @param  string $module      The name of the module.
+	 * @param  string $controller  The name of the controller.
 	 * @return void
 	 */
 	public static function importModule(string $module, string $controller) : void
@@ -86,5 +92,7 @@ class Autoloader
 				break;
 			}
 		}
+
+		throw new RuntimeException('The requested module not found.');
 	}
 }
