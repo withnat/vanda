@@ -108,24 +108,6 @@ class Autoloader
 		throw new RuntimeException('The requested module not found: ' . $controller);
 	}
 
-	protected static function _getHelperFile(string $class) : string
-	{
-		$possiblePaths = [
-			PATH_APP . DS . 'models' . DS,
-			PATH_SYSTEM . DS . 'models' . DS
-		];
-
-		foreach ($possiblePaths as $possiblePath)
-		{
-			$path = $possiblePath . $class . '.php';
-
-			if (is_file($path))
-				return $path;
-		}
-
-		throw new RuntimeException('The requested model not found: ' . $class);
-	}
-
 	/**
 	 * Gets the location of the model.
 	 *
