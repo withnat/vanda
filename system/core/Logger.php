@@ -87,6 +87,7 @@ class Logger
 	 * @param  string     $message  The message to write.
 	 * @param  array|null $data     The data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
+	 * @codeCoverageIgnore
 	 */
 	public static function emergency(string $message, ?array $data = null) : bool
 	{
@@ -99,6 +100,7 @@ class Logger
 	 * @param  string     $message  The message to write.
 	 * @param  array|null $data     The data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
+	 * @codeCoverageIgnore
 	 */
 	public static function alert(string $message, ?array $data = null) : bool
 	{
@@ -111,6 +113,7 @@ class Logger
 	 * @param  string    $message  The message to write.
 	 * @param array|null $data     The data to write. Defaults to null.
 	 * @return bool                Returns true if the message was written to the log file, false otherwise.
+	 * @codeCoverageIgnore
 	 */
 	public static function critical(string $message, ?array $data = null) : bool
 	{
@@ -123,6 +126,7 @@ class Logger
 	 * @param  string     $message  The message to write.
 	 * @param  array|null $data     The data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
+	 * @codeCoverageIgnore
 	 */
 	public static function error(string $message, ?array $data = null) : bool
 	{
@@ -135,6 +139,7 @@ class Logger
 	 * @param  string     $message  The message to write.
 	 * @param  array|null $data     The data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
+	 * @codeCoverageIgnore
 	 */
 	public static function warning(string $message, ?array $data = null) : bool
 	{
@@ -147,6 +152,7 @@ class Logger
 	 * @param  string     $message  The message to write.
 	 * @param  array|null $data     The data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
+	 * @codeCoverageIgnore
 	 */
 	public static function notice(string $message, ?array $data = null) : bool
 	{
@@ -159,6 +165,7 @@ class Logger
 	 * @param  string     $message  The message to write.
 	 * @param  array|null $data     The data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
+	 * @codeCoverageIgnore
 	 */
 	public static function info(string $message, ?array $data = null) : bool
 	{
@@ -171,6 +178,7 @@ class Logger
 	 * @param  string     $message  The message to write.
 	 * @param  array|null $data     The data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
+	 * @codeCoverageIgnore
 	 */
 	public static function debug(string $message, ?array $data = null) : bool
 	{
