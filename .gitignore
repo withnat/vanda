@@ -11,6 +11,8 @@
 /tests/coverage/
 /vendor/
 
+.htaccess
+
 /.phpunit.result.cache
 .phpunit.result.cache
 phpunit.xml
