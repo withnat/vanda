@@ -128,10 +128,10 @@ class ResponseTest extends TestCase
 	 */
 	public function testMethodGetHeaderCase4() : void
 	{
-		$expected = ['no-cache', 'no-store'];
+		$expected = 'no-store';
 
 		Response::setHeader('Cache-Control', 'no-cache')
-			->setHeader('Cache-Control', 'no-store');
+			->setHeader('Cache-Control', 'no-store', true);
 
 		$result = Response::getHeader('Cache-Control');
 		$compare = ($result === $expected);
@@ -656,6 +656,7 @@ class ResponseTest extends TestCase
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive('isCli')->andReturnFalse();
+		$stubRequest->shouldReceive('protocol')->andReturn('HTTP/1.1');
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('charset', mb_internal_encoding())->andReturn('UTF-8');
@@ -673,6 +674,7 @@ class ResponseTest extends TestCase
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive('isCli')->andReturnFalse();
+		$stubRequest->shouldReceive('protocol')->andReturn('HTTP/1.1');
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('charset', mb_internal_encoding())->andReturn('UTF-8');
@@ -697,6 +699,7 @@ class ResponseTest extends TestCase
 	{
 		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive('isCli')->andReturnFalse();
+		$stubRequest->shouldReceive('protocol')->andReturn('HTTP/1.1');
 
 		Response::setHeader('Pragma', 'cache');
 		Response::setHeader('content-type', 'text/html; charset=UTF-8');
@@ -710,6 +713,22 @@ class ResponseTest extends TestCase
 		$this->assertContains('content-type: text/html; charset=UTF-8', $headers);
 		$this->expectOutputString('Nat is handsome.');
 	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodSendCase5() : void
+	{
+		$response = Mockery::mock('System\Response');
+		$response->shouldAllowMockingProtectedMethods()->makePartial();
+		$response->shouldReceive('_isHeadersSent')->andReturnTrue();
+
+		$result = $response->sendHeaders();
+
+		$this->assertInstanceOf('System\Response', $result);
+	}
+
 
 	// Response::spa()
 
