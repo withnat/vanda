@@ -1,3 +1,4 @@
+/storage/
 !/storage/cache/*.html
 !/storage/cache/db/*.html
 !/storage/cache/html/*.html
