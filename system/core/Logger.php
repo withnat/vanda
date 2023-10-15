@@ -84,99 +84,108 @@ class Logger
 	/**
 	 * Writes an emergency message to the log file.
 	 *
-	 * @param  string $message  The message to write.
-	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 * @param  string     $message  The message to write.
+	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 */
-	public static function emergency(string $message) : bool
+	public static function emergency(string $message, ?array $data = null) : bool
 	{
-		return static::log('emergency', $message);
+		return static::log('emergency', $message, $data);
 	}
 
 	/**
 	 * Writes an alert message to the log file.
 	 *
-	 * @param  string $message  The message to write.
-	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 * @param  string     $message  The message to write.
+	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 */
-	public static function alert(string $message) : bool
+	public static function alert(string $message, ?array $data = null) : bool
 	{
-		return static::log('alert', $message);
+		return static::log('alert', $message, $data);
 	}
 
 	/**
 	 * Writes a critical message to the log file.
 	 *
-	 * @param  string $message  The message to write.
-	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 * @param  string    $message  The message to write.
+	 * @param array|null $data     The data to write. Defaults to null.
+	 * @return bool                Returns true if the message was written to the log file, false otherwise.
 	 */
-	public static function critical(string $message) : bool
+	public static function critical(string $message, ?array $data = null) : bool
 	{
-		return static::log('critical', $message);
+		return static::log('critical', $message, $data);
 	}
 
 	/**
 	 * Writes an error message to the log file.
 	 *
-	 * @param  string $message  The message to write.
-	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 * @param  string     $message  The message to write.
+	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 */
-	public static function error(string $message) : bool
+	public static function error(string $message, ?array $data = null) : bool
 	{
-		return static::log('error', $message);
+		return static::log('error', $message, $data);
 	}
 
 	/**
 	 * Writes a warning message to the log file.
 	 *
-	 * @param  string $message  The message to write.
-	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 * @param  string     $message  The message to write.
+	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 */
-	public static function warning(string $message) : bool
+	public static function warning(string $message, ?array $data = null) : bool
 	{
-		return static::log('warning', $message);
+		return static::log('warning', $message, $data);
 	}
 
 	/**
 	 * Writes a notice message to the log file.
 	 *
-	 * @param  string $message  The message to write.
-	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 * @param  string     $message  The message to write.
+	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 */
-	public static function notice(string $message) : bool
+	public static function notice(string $message, ?array $data = null) : bool
 	{
-		return static::log('notice', $message);
+		return static::log('notice', $message, $data);
 	}
 
 	/**
 	 * Writes an info message to the log file.
 	 *
-	 * @param  string $message  The message to write.
-	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 * @param  string     $message  The message to write.
+	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 */
-	public static function info(string $message) : bool
+	public static function info(string $message, ?array $data = null) : bool
 	{
-		return static::log('info', $message);
+		return static::log('info', $message, $data);
 	}
 
 	/**
 	 * Writes a debug message to the log file.
 	 *
-	 * @param  string $message  The message to write.
-	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 * @param  string     $message  The message to write.
+	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 */
-	public static function debug(string $message) : bool
+	public static function debug(string $message, ?array $data = null) : bool
 	{
-		return static::log('debug', $message);
+		return static::log('debug', $message, $data);
 	}
 
 	/**
 	 * Writes a message to the log file.
 	 *
-	 * @param  string $level    The log level.
-	 * @param  string $message  The message to write.
-	 * @return bool             Returns true if the message was written to the log file, false otherwise.
+	 * @param  string     $level    The log level.
+	 * @param  string     $message  The message to write.
+	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 */
-	public static function log(string $level, string $message) : bool
+	public static function log(string $level, string $message, ?array $data = null) : bool
 	{
 		$level = trim(strtolower($level));
 		$levelId = array_search($level, static::$_logLevels);
@@ -189,21 +198,24 @@ class Logger
 		if ($threshold < $levelId)
 			return false;
 
-		$trace = debug_backtrace(0);
+		if (!$data)
+		{
+			$trace = debug_backtrace(0);
 
-		$data = [
-			'date' => date('Y-m-d H:i:s'),
-			'message' => $message,
-			'url' => Url::full(),
-			'postVars' => $_POST,
-			'getVars' => $_GET,
-			'sessionVars' => $_SESSION,
-			'cookieVars' => $_COOKIE,
-			'env' => $_ENV,
-			'file' => $trace[0]['file'],
-			'line' => $trace[0]['line'],
-			'trace' => $trace
-		];
+			$data = [
+				'date' => date('Y-m-d H:i:s'),
+				'message' => $message,
+				'url' => Url::full(),
+				'postVars' => $_POST,
+				'getVars' => $_GET,
+				'sessionVars' => $_SESSION,
+				'cookieVars' => $_COOKIE,
+				'env' => $_ENV,
+				'file' => $trace[0]['file'],
+				'line' => $trace[0]['line'],
+				'trace' => $trace
+			];
+		}
 
 		// A resource cannot be encoded, remove it.
 		$data = Arr::removeType($data, 'resource');
