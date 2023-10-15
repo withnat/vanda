@@ -188,7 +188,7 @@ class Response
 	public static function setStatusCode(int $statusCode) : Response
 	{
 		if (!array_key_exists($statusCode, Response::$_statuses))
-				throw InvalidArgumentException::valueError(1, '$statusCode is not a valid HTTP return status code', $statusCode);
+				throw InvalidArgumentException::valueError(1, '$statusCode is not a valid HTTP status code', $statusCode);
 
 		Response::$_statusCode = $statusCode;
 		Response::$_statusReason = Response::$_statuses[$statusCode];
@@ -212,7 +212,7 @@ class Response
 
 		foreach (Response::$_headers as $header)
 		{
-			if ($header[0] === $name)
+			if (strtolower($header[0]) === strtolower($name))
 				$values[] = $header[1];
 		}
 
@@ -245,13 +245,30 @@ class Response
 	 * Duplicate HTTP response headers are acceptable.
 	 * see : https://stackoverflow.com/questions/4371328/are-duplicate-http-response-headers-acceptable
 	 *
-	 * @param  string   $name   The name of the header to set.
-	 * @param  string   $value  The value of the header to set.
-	 * @return Response         Returns the instance of this class to allow chaining.
+	 * @param  string   $name     The name of the header to set.
+	 * @param  string   $value    The value of the header to set.
+	 * @param  bool     $replace  Whether to replace the header if it already exists.
+	 * @return Response           Returns the instance of this class to allow chaining.
 	 */
-	public static function setHeader(string $name, string $value) : Response
+	public static function setHeader(string $name, string $value, bool $replace = false) : Response
 	{
-		Response::$_headers[] = [$name, $value];
+		$set = false;
+
+		foreach (Response::$_headers as $key => $header)
+		{
+			if ($header[0] === $name)
+			{
+				if ($replace)
+				{
+					Response::$_headers[$key] = [$name, $value];
+
+					$set = true;
+				}
+			}
+		}
+
+		if (!$set)
+			Response::$_headers[] = [$name, $value];
 
 		return Response::_getInstance();
 	}
@@ -398,7 +415,7 @@ class Response
 	public static function redirect(?string $url = null, int $statusCode = 303) : void
 	{
 		if (!array_key_exists($statusCode, static::$_statuses))
-			throw InvalidArgumentException::valueError(2, '$statusCode is not a valid HTTP return status code', $statusCode);
+			throw InvalidArgumentException::valueError(2, '$statusCode is not a valid HTTP status code', $statusCode);
 
 		// Scrub all output buffer before we redirect.
 		// The ob_get_level() function indicates how many output buffers are
@@ -464,6 +481,9 @@ class Response
 	 */
 	public static function sendHeaders() : Response
 	{
+		if (static::_isHeadersSent())
+			return Response::_getInstance();
+
 		// Don't send headers for CLI.
 		// @codeCoverageIgnoreStart
 		if (Request::isCli())
@@ -490,10 +510,17 @@ class Response
 		if (!$hasContentType)
 			static::setHeader('content-type', 'text/html; charset=' . Config::app('charset', mb_internal_encoding()));
 
-		// Output headers.
+		// HTTP Status.
+
+		$protocol = Request::protocol() ?? 'HTTP/1.1';
+		$message = $protocol . ' ' . static::getStatusCode() . ' ' . static::getStatusReason();
+
+		header($message, true, static::getStatusCode());
+
+		// Send all of our headers.
 
 		foreach (Response::$_headers as $header)
-			header($header[0] . ': ' . $header[1]);
+			header($header[0] . ': ' . $header[1], false, static::getStatusCode());
 
 		return Response::_getInstance();
 	}
