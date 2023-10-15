@@ -1,9 +1,9 @@
 Options -Indexes
-ErrorDocument 403 /vanda/
+ErrorDocument 403 /
 
 <IfModule mod_rewrite.c>
 	RewriteEngine On
-	RewriteBase /vanda/
+	RewriteBase /
 
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
