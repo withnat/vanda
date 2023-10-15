@@ -22,7 +22,9 @@ use RuntimeException;
  */
 class Autoloader
 {
-	private static $_loader;
+	protected static $_loader;
+	protected static $_helperLocations = [];
+	protected static $_modelLocations = [];
 
 	/**
 	 * Constructor
@@ -55,9 +57,19 @@ class Autoloader
 		if (!is_file($file) or strpos($file, DS) === false)
 		{
 			if (substr($class, -6) === 'Helper')
-				$file = Helper::getHelperLocation($class);
+			{
+				$file = static::_getFile('helper', $class);
+
+				if (!$file)
+					throw new RuntimeException('The requested helper not found: ' . $class);
+			}
 			else
-				$file = Model::getModelLocation($class);
+			{
+				$file = static::_getFile('model', $class);
+
+				if (!$file)
+					throw new RuntimeException('The requested model not found: ' . $class);
+			}
 		}
 
 		if (is_file((string)$file))
@@ -93,6 +105,108 @@ class Autoloader
 			}
 		}
 
-		throw new RuntimeException('The requested module not found.');
+		throw new RuntimeException('The requested module not found: ' . $controller);
+	}
+
+	protected static function _getHelperFile(string $class) : string
+	{
+		$possiblePaths = [
+			PATH_APP . DS . 'models' . DS,
+			PATH_SYSTEM . DS . 'models' . DS
+		];
+
+		foreach ($possiblePaths as $possiblePath)
+		{
+			$path = $possiblePath . $class . '.php';
+
+			if (is_file($path))
+				return $path;
+		}
+
+		throw new RuntimeException('The requested model not found: ' . $class);
+	}
+
+	/**
+	 * Gets the location of the model.
+	 *
+	 * @param  string $type   The type of
+	 * @param  string $class  The name of the model.
+	 * @return string         Return the model location.
+	 */
+	protected static function _getFile(string $type, string $class) : string
+	{
+		if (!isset(static::${'_' . $type . 'Locations'}[$class]))
+		{
+			$tempFile = PATH_STORAGE . '/cache/models.php';
+
+			if (!is_file($tempFile) or ENV === 'development')
+				static::_loadFileLocationToTempFile($type);
+
+			static::${'_' . $type . 'Locations'} = static::_loadFileLocationFromTempFile($type);
+		}
+
+		return static::${'_' . $type . 'Locations'}[$class];
+	}
+
+	/**
+	 * Retrieve the paths of all helpers/models and save their locations to a temporary file.
+	 *
+	 * @param  string $type  The type of the file to load.
+	 * @return void
+	 */
+	protected static function _loadFileLocationToTempFile(string $type) : void
+	{
+		$tempFile = PATH_STORAGE . '/cache/' . $type . '.php';
+		$packagePath = BASEPATH_PACKAGES;
+		$packageEntries = scandir($packagePath);
+
+		$content = [];
+
+		foreach ($packageEntries as $packageEntry)
+		{
+			if (!is_dir($packagePath . '/' . $packageEntry))
+				continue;
+
+			$filePath = $packagePath . '/' . $packageEntry . '/' . $type . 's';
+
+			if (is_dir($filePath))
+			{
+				$fileEntries = scandir($filePath);
+
+				foreach ($fileEntries as $fileEntry)
+				{
+					if (mb_stripos($fileEntry, '.php') === false)
+						continue;
+
+					$content[$fileEntry] = $filePath . '/' . $fileEntry;
+				}
+			}
+		}
+
+		$fp = fopen($tempFile, 'w');
+		fwrite($fp, '<?php //'.serialize($content));
+	}
+
+	/**
+	 * Retrieves the paths of all helpers/models from a temporary file.
+	 *
+	 * @param  string $type  The type of the file to load.
+	 * @return array         Return the model locations.
+	 */
+	protected static function _loadFileLocationFromTempFile(string $type) : array
+	{
+		$tempFile = PATH_STORAGE . '/cache/' . $type . 's.php';
+
+		$content = file_get_contents($tempFile);
+		$content = substr($content, 8); // Remove '<?php //'
+		$content = @unserialize($content);
+
+		if ($content === false)
+		{
+			static::_loadFileLocationToTempFile($type);
+			$content = static::_loadFileLocationFromTempFile($type);
+		}
+
+		return $content;
 	}
 }
