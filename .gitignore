@@ -1,6 +1,7 @@
 /tests/coverage/
 /vendor/
 /storage/
+!/storage/*.html
 
 /.phpunit.result.cache
 .phpunit.result.cache
