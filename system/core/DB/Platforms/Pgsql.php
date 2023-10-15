@@ -25,7 +25,7 @@ use PDOException;
  */
 final class Pgsql extends AbstractPlatform
 {
-	protected static function _connect() : void
+	public static function _connect() : void
 	{
 	}
 }
