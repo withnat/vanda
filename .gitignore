@@ -1,5 +1,7 @@
 /tests/coverage/
 /vendor/
+/storage/
+
 /.phpunit.result.cache
 .phpunit.result.cache
 phpunit.xml
