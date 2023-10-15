@@ -14,8 +14,6 @@ declare(strict_types=1);
 
 namespace System;
 
-use ErrorException;
-
 /**
  * Class Error
  *
@@ -34,11 +32,11 @@ class Error {
 	 * This will log the exception and output the exception properties.
 	 * formatted as html or a 500 response depending on your application config.
 	 *
-	 * @param  \Error $e  The uncaught exception.
+	 * @param  object $e  The uncaught exception. The exception can be an instance of \Error, System\Error,
+	 *                    System\Exception\InvalidArgumentException etc. So we type hint it as object.
 	 * @return void
-	 * @throws ErrorException
 	 */
-	public static function exception(\Error $e)
+	public static function exception(object $e)
 	{
 		if (Config::error('log'))
 			static::log($e);
@@ -69,8 +67,7 @@ class Error {
 			{
 				$message = $e->getMessage();
 
-				/*
-				if ($exceptionType === 'InvalidArgumentException' and 1==2)
+				if ($exceptionType === 'InvalidArgumentException' )
 				{
 					$trace = $e->getTraceAsString();
 					$lines = explode("\n", $trace);
@@ -83,37 +80,41 @@ class Error {
 					$origin = substr($origin, $start, $length);
 					$origin = substr($origin, strlen(PATH_BASE));
 
-					$line = $lines[0];
-					$start = strpos($line, '(') + 1;
-					$end = strpos($line, ')');
+					$lineNumber = $lines[0];
+					$start = strpos($lineNumber, '(') + 1;
+					$end = strpos($lineNumber, ')');
 					$length = $end - $start;
-					$line = substr($line, $start, $length);
+					$lineNumber = substr($lineNumber, $start, $length);
 
-					$lines = Arr::removeKey($lines, '0');
-					$lines = Arr::toNumericIndex($lines);
+					// The first line of the trace is the origin.
+					// So, we remove it from the array.
+					unset($lines[0]);
 
+					// Re-index the array starting from 0.
+					$lines = array_values($lines);
+
+					// Reset the line numbers in the trace starting from 0.
 					for ($i = 0, $n = count($lines); $i < $n; ++$i)
 					{
 						$pos = strpos($lines[$i], ' ');
 						$lines[$i] = substr_replace($lines[$i], '#' . $i, 0, $pos);
 					}
 
-					$origin .= ' at line ' . $line;
+					$origin .= ' at line ' . $lineNumber;
 					$trace = implode("\n", $lines);
 				}
 				else
 				{
-				*/
 					$origin = substr($e->getFile(), strlen(PATH_BASE)) . ' at line ' . $e->getLine();
 					$trace = $e->getTraceAsString();
-				//}
+				}
 
-				$errorMsg = '<h1>Exception</h1>
-							<p><code>' . $message . '</code></p>
-							<h3>Origin</h3>
-							<p><code>' . $origin . '</code></p>
-							<h3>Trace</h3>
-							<pre>' . $trace . '</pre>';
+				$errorMsg = '<h1>Exception</h1>'
+					. '<p><code>' . $message . '</code></p>'
+					. '<h3>Origin</h3>'
+					. '<p><code>' . $origin . '</code></p>'
+					. '<h3>Trace</h3>'
+					. '<pre>' . $trace . '</pre>';
 
 				$path = PATH_THEMES . DS . 'system' . DS . 'error.php';
 
@@ -133,9 +134,7 @@ class Error {
 			}
 		}
 		else
-		{
-			//Response::error(500, ['exception' => $e])->send();
-		}
+			static::render();
 
 		exit;
 	}
@@ -151,12 +150,11 @@ class Error {
 	 * @param  string $file     The file the error occurred in.
 	 * @param  int    $line     The line the error occurred on.
 	 * @return void
-	 * @throws ErrorException
 	 */
 	public static function native(int $code, string $message, string $file, int $line) : void
 	{
 		if ($code and error_reporting())
-			static::exception(new ErrorException($message, $code, 0, $file, $line));
+			static::exception(new \Error($message, $code, 0, $file, $line));
 	}
 
 	/**
@@ -166,7 +164,6 @@ class Error {
 	 * of execution.
 	 *
 	 * @return void
-	 * @throws ErrorException
 	 */
 	public static function shutdown() : void
 	{
@@ -180,7 +177,7 @@ class Error {
 			/** @var int    $line */
 			extract($error);
 
-			static::exception(new ErrorException($message, $type, 0, $file, $line));
+			static::exception(new \Error($message, $type, 0, $file, $line));
 		}
 	}
 
@@ -189,10 +186,11 @@ class Error {
 	 *
 	 * Log the exception at the error log level.
 	 *
-	 * @param  \Error $e  The exception to log.
+	 * @param  object $e  The exception to log. The exception can be an instance of \Error, System\Error,
+	 *                    System\Exception\InvalidArgumentException etc. So we type hint it as object.
 	 * @return void
 	 */
-	public static function log(\Error $e) : void
+	public static function log(object $e) : void
 	{
 		$data = [
 			'date' => date('Y-m-d H:i:s'),
@@ -224,5 +222,29 @@ class Error {
 			$error .= '.';
 
 		return $error;
+	}
+
+	/**
+	 * If Config::error('report') is set to false and displaying error details
+	 * to the client is disabled, simply render a 500 Internal Server Error view.
+	 *
+	 * @return void
+	 */
+	protected static function render()
+	{
+		$path = PATH_THEMES . DS . 'system' . DS . '500.php';
+
+		if (is_file($path) and is_readable($path))
+		{
+			ob_start();
+
+			include $path;
+
+			$content = ob_get_clean();
+
+			echo $content;
+		}
+		else
+			die('500 Internal Server Error');
 	}
 }
