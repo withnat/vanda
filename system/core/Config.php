@@ -46,19 +46,30 @@ class Config
 		$keys = explode('.', $key);
 		$file = current($keys);
 
-		if (!array_key_exists($file, static::$configs))
+		if (!array_key_exists($file, static::$configs) and !array_key_exists('config', static::$configs))
 		{
-			$path = PATH_BASE . DS . 'config' . DS . ENV . DS . $file . '.php';
+			$path = PATH_CONFIG . DS . ENVIRONMENT . DS . $file . '.php';
 
 			if (!is_file($path) or !is_readable(($path)))
-				$path = PATH_BASE . DS . 'config' . DS . $file . '.php';
+			{
+				$file = 'config';
+				$path = PATH_CONFIG . DS . 'config' . DS . $file . '.php';
+			}
 
 			// Don't use include_once because /System/requirements.php need to include config file too!
 			// However, above IF array_key_exists condition will include config file once.
 			static::$configs[$file] = include($path);
 		}
 
-		return Arr::get(static::$configs, $key, $default);
+		// The main config value can be overridden by the environment config value.
+		// So, try to get value from the environment config file first.
+		$value = Arr::get(static::$configs, $key, $default);
+
+		// If the value is still empty, try to get value from the main config file.
+		if (!$value)
+			$value = Arr::get(static::$configs, 'config.' . $key, $default);
+
+		return $value;
 	}
 
 	/**
