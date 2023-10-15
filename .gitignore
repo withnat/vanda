@@ -1,5 +1,3 @@
-/tests/coverage/
-/vendor/
 !/storage/cache/*.html
 !/storage/cache/db/*.html
 !/storage/cache/html/*.html
@@ -8,6 +6,9 @@
 !/storage/sessions/*.html
 !/storage/temp/*.html
 !/storage/testing/*.html
+
+/tests/coverage/
+/vendor/
 
 /.phpunit.result.cache
 .phpunit.result.cache
