@@ -63,7 +63,7 @@ class Autoloader
 				if (!$file)
 					throw new RuntimeException('The requested helper not found: ' . $class);
 			}
-			else
+			elseif (substr($class, -5) === 'model')
 			{
 				$file = static::_getFile('model', $class);
 
@@ -72,7 +72,7 @@ class Autoloader
 			}
 		}
 
-		if (is_file((string)$file))
+		if (is_file($file))
 			// Include system file.
 			include_once $file;
 		else
