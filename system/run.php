@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 defined('VD') or exit('Access Denied');
 
+const VERSION = '0.1.0';
+
 use System\Arr;
 use System\Auth;
 use System\Autoloader;
