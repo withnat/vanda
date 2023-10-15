@@ -1,4 +1,4 @@
-!/storage/cache/*.html
+!/storage/cache/*.htm
 !/storage/cache/db/*.html
 !/storage/cache/html/*.html
 !/storage/cache/queries/*.html
