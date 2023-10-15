@@ -77,7 +77,7 @@ abstract class AbstractPlatform
 	 * Nedd to set the visibility of this method to protected as it is
 	 * called from the static method getInstance() (new static()).
 	 */
-	protected function __construct()
+	public function __construct()
 	{
 		if (is_null(static::$_connection))
 		{
@@ -118,7 +118,7 @@ abstract class AbstractPlatform
 	/**
 	 * @return void
 	 */
-	abstract protected static function _connect() : void; // ok
+	abstract public static function _connect() : void; // ok
 
 	// Select
 
@@ -2511,6 +2511,10 @@ abstract class AbstractPlatform
 	{
 		if (!is_string($string) and !is_int($string) and !is_float($string))
 			throw InvalidArgumentException::typeError(1, ['string', 'int', 'float'], $string);
+
+
+		// PDO::quote() expects a string parameter, so we need to make sure.
+		$string = (string)$string;
 
 		return static::$_connection->quote($string);
 	}
