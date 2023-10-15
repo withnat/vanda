@@ -18,6 +18,12 @@ use ErrorException;
 
 /**
  * Class Error
+ *
+ * Error class provides error handling and logging for the Vanda framework.
+ *
+ * This class includes handlers for exceptions, native PHP errors, and shutdown errors.
+ * It provides methods for logging exceptions and retrieving the last error message.
+ *
  * @package System
  */
 class Error {
@@ -28,13 +34,14 @@ class Error {
 	 * This will log the exception and output the exception properties.
 	 * formatted as html or a 500 response depending on your application config.
 	 *
-	 * @param  ErrorException  The uncaught exception
+	 * @param  \Error $e  The uncaught exception.
 	 * @return void
 	 * @throws ErrorException
 	 */
-	public static function exception($e)
+	public static function exception(\Error $e)
 	{
-		static::log($e);
+		if (Config::error('log'))
+			static::log($e);
 
 		$exceptionType = get_class($e);
 
@@ -139,14 +146,14 @@ class Error {
 	 * This will catch the php native error and treat it as a exception
 	 * which will provide a full back trace on all errors.
 	 *
-	 * @param  int
-	 * @param  string $message
-	 * @param  string $file
-	 * @param  int    $line
+	 * @param  int    $code     The error code.
+	 * @param  string $message  The error message.
+	 * @param  string $file     The file the error occurred in.
+	 * @param  int    $line     The line the error occurred on.
 	 * @return void
 	 * @throws ErrorException
 	 */
-	public static function native($code, $message, $file, $line)
+	public static function native(int $code, string $message, string $file, int $line) : void
 	{
 		if ($code and error_reporting())
 			static::exception(new ErrorException($message, $code, 0, $file, $line));
@@ -155,13 +162,13 @@ class Error {
 	/**
 	 * Shutdown handler
 	 *
-	 * This will catch errors that are generated at the
-	 * shutdown level of execution.
+	 * This will catch errors that are generated at the shutdown level
+	 * of execution.
 	 *
 	 * @return void
 	 * @throws ErrorException
 	 */
-	public static function shutdown()
+	public static function shutdown() : void
 	{
 		$error = error_get_last();
 
@@ -180,29 +187,41 @@ class Error {
 	/**
 	 * Exception logger
 	 *
-	 * Log the exception depending on the application config.
+	 * Log the exception at the error log level.
 	 *
-	 * @param  object $e  The exception
+	 * @param  \Error $e  The exception to log.
 	 * @return void
 	 */
-	public static function log($e)
+	public static function log(\Error $e) : void
 	{
-		$logger = Config::error('log');
+		$data = [
+			'date' => date('Y-m-d H:i:s'),
+			'url' => Url::full(),
+			'postVars' => $_POST,
+			'getVars' => $_GET,
+			'sessionVars' => $_SESSION,
+			'cookieVars' => $_COOKIE,
+			'env' => $_ENV,
+			'file' => $e->getFile(),
+			'line' => $e->getLine(),
+			'trace' => $e->getTrace()
+		];
 
-		if (is_callable($logger))
-			call_user_func($logger, $e);
+		Logger::debug($e->getMessage(), $data);
 	}
 
 	/**
-	 * @return string|null
+	 * Get the last error message.
+	 *
+	 * @return string|null  Returns the last error message if it exists.
 	 */
-	public static function getLast()
+	public static function getLast() : string
 	{
 		$error = error_get_last();
 		$error = $error['message'];
 
 		if ($error)
-			$error .= '. ';
+			$error .= '.';
 
 		return $error;
 	}
