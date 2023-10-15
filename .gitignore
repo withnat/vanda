@@ -7,7 +7,7 @@
 !/storage/logs/*.html
 !/storage/sessions/*.html
 !/storage/temp/*.html
-!/storage/testing/*.htm
+!/storage/testing/*.html
 
 /.phpunit.result.cache
 .phpunit.result.cache
