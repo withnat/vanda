@@ -154,7 +154,7 @@ class Error {
 	public static function native(int $code, string $message, string $file, int $line) : void
 	{
 		if ($code and error_reporting())
-			static::exception(new \Error($message, $code, 0, $file, $line));
+			static::exception(new \ErrorException($message, $code, 0, $file, $line));
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Error {
 			/** @var int    $line */
 			extract($error);
 
-			static::exception(new \Error($message, $type, 0, $file, $line));
+			static::exception(new \ErrorException($message, $type, 0, $file, $line));
 		}
 	}
 
