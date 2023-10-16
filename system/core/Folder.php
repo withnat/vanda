@@ -71,8 +71,8 @@ class Folder
 		{
 			if ($createDefaultHtmlFile)
 			{
-				$path = str_replace(PATH_BASE . '/', '', $path);
-				$subFolders = explode(DS, $path);
+				$path = str_replace(BASEPATH . '/', '', $path);
+				$subFolders = explode('/', $path);
 				$subFolderPath = '';
 
 				foreach ($subFolders as $subFolder)

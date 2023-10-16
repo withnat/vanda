@@ -40,12 +40,12 @@ $timestart = microtime(true);
 
 /* Include startup files */
 
-require PATH_SYSTEM . '/Autoloader.php';
-require PATH_SYSTEM . '/common.php';
+require BASEPATH . '/system/Autoloader.php';
+require BASEPATH . '/system/common.php';
 
 /* Create the Composer autoloader */
 
-$loader = require PATH_VENDOR . '/autoload.php';
+$loader = require BASEPATH . '/vendor/autoload.php';
 $loader->unregister();
 
 // Decorate Composer autoloader
@@ -90,8 +90,13 @@ ini_set('session.cache_expire', '1440'); //Setting::get('lifetime', 30)
 // Send an empty string to disable the cache limiter.
 ini_set('session.cache_limiter', '');
 
+// Server should keep session data for AT LEAST n seconds.
 ini_set('session.cookie_lifetime', '86400'); //(Setting::get('lifetime', 30) * 60)
+// Each client should remember their session id for EXACTLY n seconds.
 ini_set('session.gc_maxlifetime', '86400'); //(Setting::get('lifetime', 30) * 60)
+
+// More info about session lifetime
+// https://thinkbolt.com/articles/php/sessions-in-php
 
 // Debian/Ubuntu distro, by default PHP disables its session garbage collection mechanism
 // (eg. the default php.ini contains the line ;session.gc_probability = 0 in Ubuntu).
@@ -125,23 +130,20 @@ ini_set('session.cookie_httponly', '1'); // Available since PHP 5.2.0
 // your application is to install an SSL certificate on the web server
 // and force all user interactions to occur over HTTPS only. This will
 // prevent the users session ID from being transmitted in plain text
-// to make it much harder to hijack the users session.
-//if (isHttps)
-//	ini_set('session.cookie_secure', 1);
+// to make it much harder to hijack the user session.
+if (Request::isSecure())
+	ini_set('session.cookie_secure', '1');
 
+// todo: check
 //ini_set('session.hash_function', 1);
 //ini_set('session.hash_bits_per_character', 4);
 //ini_set('url_rewriter.tags', '');
-
-// Log
-//ini_set('log_errors', 1);
-//ini_set('error_log', PATH_STORAGE . '/logs/error.log');
 
 // Time zone
 date_default_timezone_set(Setting::get('timezone', 'UTC'));
 
 // Display errors
-if (Config::app('env') === 'development')
+if (Config::error('report'))
 {
 	ini_set('display_errors', '1');
 	ini_set('display_startup_errors', '1');
@@ -153,6 +155,9 @@ else
 	ini_set('display_startup_errors', '0');
 	error_reporting(0);
 }
+
+// Set the sessions to time out after a duration of inactivity by resetting the cookie expiration on reload.
+session_set_cookie_params((int)(Config::get('lifetime', 30) * 60));
 
 // Both options mentioned by others (session.gc_maxlifetime and session.cookie_lifetime)
 // are not reliable. This link explains the reasons for that.
@@ -187,7 +192,7 @@ else
 //
 
 $themeName = Setting::get(strtolower(SIDE) . 'theme', 'vanda');
-$themePath = PATH_THEMES . DS . SIDE . DS . $themeName;
+$themePath = BASEPATH . '/themes/' . SIDE . '/' . $themeName;
 
 define('THEME_PATH', $themePath);
 
@@ -252,105 +257,102 @@ else
 	define('LANG_ID', '');
 }
 
-//echo File::getPermission('test/img.jpg');
-
-
-echo System\Folder::getSize('xxx');
-
-exit;
-
 /* Module */
 
-$module = '';
-$controller = '';
-$action = '';
+//$module = '';
+//$controller = '';
+//$action = '';
+//
+//if (SIDE === 'frontend')
+//{
+//	DB::table('Page')->where('status', 1);
+//
+//	if ($uri)
+//	{
+//		$arr = explode('/', $uri);
+//		DB::where('alias', $arr[0]);
+//	}
+//	else
+//		DB::where('default', 1);
+//
+//	$page = DB::load();
+//
+//	if (is_object($page))
+//	{
+//		if ($page->module)
+//		{
+//			$module = $page->module;
+//			$controller = $page->controller;
+//			$action = ($page->action ? $page->action : 'index');
+//		}
+//		else
+//		{
+//			$module = Config::app('defaultFrontendModule', 'home');
+//			$controller = $module;
+//			$action = 'index';
+//
+//			$_GET['id'] = $page->id;
+//		}
+//	}
+//}
+//
+//if (!$module)
+//{
+//	if ($uri)
+//	{
+//		$segs = explode('/', $uri);
+//
+//		if (SIDE === 'frontend')
+//			$module = (isset($segs[0]) ? $segs[0] : Config::app('defaultFrontendModule', 'home'));
+//		else
+//			$module = (isset($segs[0]) ? $segs[0] : Config::app('defaultBackendModule', 'dashboard'));
+//
+//		if (isset($segs[2]))
+//		{
+//			$controller = $segs[1];
+//			$action = $segs[2];
+//		}
+//		elseif (isset($segs[1]))
+//		{
+//			$paths = [
+//				PATH_APP . DS . 'modules' . DS . SIDE . DS . $module . DS . 'controllers' . DS,
+//				PATH_SYSTEM . DS . 'modules' . DS . SIDE . DS . $module . DS . 'controllers' . DS
+//			];
+//
+//			$file = Uri::toControllerFormat($segs[1]) . '.php';
+//
+//			if (is_file($paths[0] . $file) or is_file($paths[1] . $file))
+//			{
+//				$controller = $segs[1];
+//				$action = 'index';
+//			}
+//			else
+//			{
+//				$controller = $module;
+//				$action = $segs[1];
+//			}
+//		}
+//		else
+//		{
+//			$controller = $module;
+//			$action = 'index';
+//		}
+//	}
+//	else
+//	{
+//		if (SIDE === 'frontend')
+//			$module = Config::app('defaultFrontendModule', 'home');
+//		else
+//			$module = Config::app('defaultBackendModule', 'dashboard');
+//
+//		$controller = $module;
+//		$action = 'index';
+//	}
+//}
 
-if (SIDE === 'frontend')
-{
-	DB::table('Page')->where('status', 1);
-
-	if ($uri)
-	{
-		$arr = explode('/', $uri);
-		DB::where('alias', $arr[0]);
-	}
-	else
-		DB::where('default', 1);
-
-	$page = DB::load();
-
-	if (is_object($page))
-	{
-		if ($page->module)
-		{
-			$module = $page->module;
-			$controller = $page->controller;
-			$action = ($page->action ? $page->action : 'index');
-		}
-		else
-		{
-			$module = Config::app('defaultFrontendModule', 'home');
-			$controller = $module;
-			$action = 'index';
-
-			$_GET['id'] = $page->id;
-		}
-	}
-}
-
-if (!$module)
-{
-	if ($uri)
-	{
-		$segs = explode('/', $uri);
-
-		if (SIDE === 'frontend')
-			$module = (isset($segs[0]) ? $segs[0] : Config::app('defaultFrontendModule', 'home'));
-		else
-			$module = (isset($segs[0]) ? $segs[0] : Config::app('defaultBackendModule', 'dashboard'));
-
-		if (isset($segs[2]))
-		{
-			$controller = $segs[1];
-			$action = $segs[2];
-		}
-		elseif (isset($segs[1]))
-		{
-			$paths = [
-				PATH_APP . DS . 'modules' . DS . SIDE . DS . $module . DS . 'controllers' . DS,
-				PATH_SYSTEM . DS . 'modules' . DS . SIDE . DS . $module . DS . 'controllers' . DS
-			];
-
-			$file = Uri::toControllerFormat($segs[1]) . '.php';
-
-			if (is_file($paths[0] . $file) or is_file($paths[1] . $file))
-			{
-				$controller = $segs[1];
-				$action = 'index';
-			}
-			else
-			{
-				$controller = $module;
-				$action = $segs[1];
-			}
-		}
-		else
-		{
-			$controller = $module;
-			$action = 'index';
-		}
-	}
-	else
-	{
-		if (SIDE === 'frontend')
-			$module = Config::app('defaultFrontendModule', 'home');
-		else
-			$module = Config::app('defaultBackendModule', 'dashboard');
-
-		$controller = $module;
-		$action = 'index';
-	}
-}
+$module = 'home';
+$controller = 'home';
+$action = 'index';
 
 /* Define Constants */
 

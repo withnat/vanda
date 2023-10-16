@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 namespace System;
 
+use System\Exception\InvalidArgumentException;
+
 /**
  * Class Config
  *
@@ -44,29 +46,32 @@ class Config
 	/**
 	 * Returns a value from the config array.
 	 *
-	 * @param  string      $key      The key name to get.
-	 * @param  string|null $default  Optionally, the default value if the config value is empty.
-	 * @return mixed                 Returns the config value.
+	 * @param  string $key      The key name to get.
+	 * @param  mixed  $default  Optionally, the default value if the config value is empty.
+	 * @return mixed            Returns the config value.
 	 */
-	public static function get(string $key, ?string $default = null)
+	public static function get(string $key, $default = null)
 	{
+		if (is_array($default) or is_object($default) or is_resource($default))
+			throw InvalidArgumentException::typeError(2, ['string', 'int', 'float', 'boll', 'null'], $default);
+
 		$keys = explode('.', $key);
 		$file = current($keys);
 
-		if (!array_key_exists($file, static::$configs) and !array_key_exists('config', static::$configs))
-		{
-			$path = PATH_CONFIG . DS . ENVIRONMENT . DS . $file . '.php';
+		//if (!array_key_exists($file, static::$configs) and !array_key_exists('config', static::$configs))
+		//{
+			$path = BASEPATH . '/config/' . ENVIRONMENT . '/' . $file . '.php';
 
 			if (!is_file($path) or !is_readable(($path)))
 			{
 				$file = 'config';
-				$path = PATH_CONFIG . DS . 'config' . DS . $file . '.php';
+				$path = BASEPATH . '/config/' . $file . '.php';
 			}
 
 			// Don't use include_once because /System/requirements.php need to include config file too!
 			// However, above IF array_key_exists condition will include config file once.
 			static::$configs[$file] = include($path);
-		}
+		//}
 
 		// The main config value can be overridden by the environment config value.
 		// So, try to get value from the environment config file first.

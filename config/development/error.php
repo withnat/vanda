@@ -18,6 +18,6 @@
  */
 
 return [
-	'report' => true,
+	'report' => !((ENVIRONMENT === 'production')),
 	'log' => true
 ];

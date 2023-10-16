@@ -24,7 +24,7 @@
 			<style>
 				body {
 					color: rgba(255,255,255,1);
-					font-size: 12px;
+					font-size: 1rem;
 					font-family: "Open Sans", Arial, sans-serif;
 					margin: 0;
 					padding: 2em;

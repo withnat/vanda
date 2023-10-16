@@ -52,16 +52,21 @@ class Autoloader
 	public static function loadClass(string $class) : void
 	{
 		$file = $class;
-		$file = str_replace('\\', DS, $file);
+		$file = str_replace('\\', '/', $file);
 
-		if (substr($file, 0, 7) === 'System' . DS)
-			$file = substr_replace($file, PATH_SYSTEM . DS . 'core' . DS, 0, 7);
+		if ($file === 'BaseController')
+		{
+			$file = BASEPATH . '/packages/base/' . SIDE . 'modules/controllers/BaseController.php';
 
-		$file .= '.php';
+			if (!is_file($file))
+				$file = BASEPATH . '/system/packages/base/' . SIDE . '/modules/controllers/BaseController.php';
+		}
+		else if (substr($file, 0, 7) === 'System/')
+			$file = substr_replace($file, BASEPATH . '/system/core/', 0, 7) . '.php';
 
 		// The second condition is used to avoid including
 		// a file from the root directory, such as index.php
-		if (!is_file($file) or strpos($file, DS) === false)
+		if (!is_file($file) or strpos($file, '/') === false)
 		{
 			if (substr($class, -6) === 'Helper')
 			{
@@ -70,7 +75,7 @@ class Autoloader
 				if (!$file)
 					throw new RuntimeException('The requested helper not found: ' . $class);
 			}
-			elseif (substr($class, -5) === 'model')
+			else
 			{
 				$file = static::_getFile('model', $class);
 
@@ -96,23 +101,15 @@ class Autoloader
 	 */
 	public static function importModule(string $module, string $controller) : void
 	{
-		$paths = [
-			PATH_APP . DS . 'modules' . DS . SIDE . DS . $module . DS . 'controllers' . DS,
-			PATH_SYSTEM . DS . 'modules' . DS . SIDE . DS . $module . DS . 'controllers' . DS
-		];
+		$file = BASEPATH . '/packages/' . $module . '/' . SIDE . '/modules/controllers/' . $controller . '.php';
 
-		foreach ($paths as $path)
-		{
-			$path .= $controller . '.php';
+		if (!is_file($file))
+			$file = BASEPATH . '/system/packages/' . $module . '/' . SIDE . '/modules/controllers/' . $controller . '.php';
 
-			if (is_file($path))
-			{
-				include_once $path;
-				break;
-			}
-		}
+		if (!is_file($file))
+			throw new RuntimeException('The requested module not found: ' . $controller);
 
-		throw new RuntimeException('The requested module not found: ' . $controller);
+		include_once $file;
 	}
 
 	/**
@@ -126,9 +123,9 @@ class Autoloader
 	{
 		if (!isset(static::${'_' . $type . 'Locations'}[$class]))
 		{
-			$tempFile = PATH_STORAGE . '/cache/models.php';
+			$tempFile = BASEPATH . '/storage/cache/models.php';
 
-			if (!is_file($tempFile) or ENV === 'development')
+			if (!is_file($tempFile) or ENVIRONMENT === 'development')
 				static::_loadFileLocationToTempFile($type);
 
 			static::${'_' . $type . 'Locations'} = static::_loadFileLocationFromTempFile($type);
@@ -145,35 +142,45 @@ class Autoloader
 	 */
 	protected static function _loadFileLocationToTempFile(string $type) : void
 	{
-		$tempFile = PATH_STORAGE . '/cache/' . $type . '.php';
-		$packagePath = BASEPATH_PACKAGES;
-		$packageEntries = scandir($packagePath);
+		$packagePaths = [
+			BASEPATH . '/system/packages', // Scan system packages first.
+			BASEPATH . '/packages' // Overwrite system packages with user packages.
+		];
 
 		$content = [];
 
-		foreach ($packageEntries as $packageEntry)
+		foreach ($packagePaths as $packagePath)
 		{
-			if (!is_dir($packagePath . '/' . $packageEntry))
-				continue;
+			$packageEntries = scandir($packagePath);
 
-			$filePath = $packagePath . '/' . $packageEntry . '/' . $type . 's';
-
-			if (is_dir($filePath))
+			foreach ($packageEntries as $packageEntry)
 			{
-				$fileEntries = scandir($filePath);
+				if (in_array($packageEntry, ['.', '..']) or !is_dir($packagePath . '/' . $packageEntry))
+					continue;
 
-				foreach ($fileEntries as $fileEntry)
+				$filePath = $packagePath . '/' . $packageEntry . '/' . $type . 's';
+
+				if (is_dir($filePath))
 				{
-					if (mb_stripos($fileEntry, '.php') === false)
-						continue;
+					$fileEntries = scandir($filePath);
 
-					$content[$fileEntry] = $filePath . '/' . $fileEntry;
+					foreach ($fileEntries as $fileEntry)
+					{
+						if (strpos($fileEntry, '.php'))
+						{
+							$key = str_replace('.php', '', $fileEntry);
+							$value = $filePath . '/' . $fileEntry;
+
+							$content[$key] = $value;
+						}
+					}
 				}
 			}
 		}
 
-		$fp = fopen($tempFile, 'w');
-		fwrite($fp, '<?php //'.serialize($content));
+		$file = BASEPATH . '/storage/cache/' . $type . 's.php';
+		$content = '<?php //' . serialize($content);
+		file_put_contents($file, $content);
 	}
 
 	/**
@@ -184,9 +191,9 @@ class Autoloader
 	 */
 	protected static function _loadFileLocationFromTempFile(string $type) : array
 	{
-		$tempFile = PATH_STORAGE . '/cache/' . $type . 's.php';
+		$file = BASEPATH . '/storage/cache/' . $type . 's.php';
 
-		$content = file_get_contents($tempFile);
+		$content = file_get_contents($file);
 		$content = substr($content, 8); // Remove '<?php //'
 		$content = @unserialize($content);
 

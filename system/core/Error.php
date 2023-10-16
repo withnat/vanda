@@ -85,7 +85,7 @@ class Error {
 					$length = $end - $start;
 
 					$origin = substr($origin, $start, $length);
-					$origin = substr($origin, strlen(PATH_BASE));
+					$origin = substr($origin, strlen(BASEPATH));
 
 					$lineNumber = $lines[0];
 					$start = strpos($lineNumber, '(') + 1;
@@ -112,7 +112,7 @@ class Error {
 				}
 				else
 				{
-					$origin = substr($e->getFile(), strlen(PATH_BASE)) . ' at line ' . $e->getLine();
+					$origin = substr($e->getFile(), strlen(BASEPATH)) . ' at line ' . $e->getLine();
 					$trace = $e->getTraceAsString();
 				}
 
@@ -123,7 +123,7 @@ class Error {
 					. '<h3>Trace</h3>'
 					. '<pre>' . $trace . '</pre>';
 
-				$path = PATH_THEMES . DS . 'system' . DS . 'error.php';
+				$path = BASEPATH . '/themes/system/error.php';
 
 				if (is_file($path) and is_readable($path))
 				{
@@ -204,9 +204,9 @@ class Error {
 			'url' => Url::full(),
 			'postVars' => $_POST,
 			'getVars' => $_GET,
-			'sessionVars' => $_SESSION,
-			'cookieVars' => $_COOKIE,
-			'env' => $_ENV,
+			//'sessionVars' => $_SESSION,
+			//'cookieVars' => $_COOKIE,
+			'env' => ENVIRONMENT,
 			'file' => $e->getFile(),
 			'line' => $e->getLine(),
 			'trace' => $e->getTrace()
@@ -239,7 +239,7 @@ class Error {
 	 */
 	protected static function render()
 	{
-		$path = PATH_THEMES . DS . 'system' . DS . '500.php';
+		$path = BASEPATH . '/themes/system/500.php';
 
 		if (is_file($path) and is_readable($path))
 		{

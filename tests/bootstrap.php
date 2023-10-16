@@ -28,15 +28,7 @@ use System\Autoloader;
 // it is in a different namespace from the core files.
 
 define('VD', 1);
-
-define('DS', DIRECTORY_SEPARATOR);
-define('PATH_BASE',  __DIR__ . DS . '..');
-define('PATH_APP',  PATH_BASE . DS . 'app');
-define('PATH_CONFIG',  PATH_BASE . DS . 'config');
-define('PATH_STORAGE',  PATH_BASE . DS . 'storage');
-define('PATH_SYSTEM',  PATH_BASE . DS . 'system');
-define('PATH_THEME',  PATH_BASE . DS . 'themes');
-define('PATH_VENDOR',  PATH_BASE . DS . 'vendor');
+define('BASEPATH',  __DIR__ . '/..');
 define('ENVIRONMENT',  'development'); // 'development', 'testing', 'staging' or 'production'
 
 // Load the Vanda autoloader.
