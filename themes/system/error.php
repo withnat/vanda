@@ -14,7 +14,7 @@
  * @package      Vanda
  * @author       Nat Withe <nat@withnat.com>
  * @copyright    Copyright (c) 2010 - 2023, Nat Withe. All rights reserved.
- * @link         http://vanda.io
+ * @link         https://vanda.io
  */
 ?>
 
