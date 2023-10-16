@@ -104,6 +104,24 @@ ini_set('session.gc_maxlifetime', '86400'); //(Setting::get('lifetime', 30) * 60
 ini_set('session.gc_probability', '1');
 ini_set('session.gc_divisor', '1000');
 
+// Another important way to increase the security of PHP sessions in
+// your application is to install an SSL certificate on the web server
+// and force all user interactions to occur over HTTPS only. This will
+// prevent the users session ID from being transmitted in plain text
+// to make it much harder to hijack the user session.
+if (Request::isSecure())
+	ini_set('session.cookie_secure', '1');
+
+// Security is king
+
+// The risk is that someone could give you link with sid, and you would
+// use that link to login and them they would have active session where
+// you have logged in.
+ini_set('session.use_trans_sid', '0');
+
+// This is how you want to manage your session id in client side, If set
+// (default) the session id will be stored in cookies, otherwise it will
+// be passed in url as a GET variable.
 ini_set('session.use_cookies', '1');
 
 // It is also a good idea to make sure that PHP only uses cookies for
@@ -116,8 +134,8 @@ ini_set('session.use_strict_mode', '1'); // Available since PHP 5.5.2
 
 // To prevent session hijacking through cross site scripting (XSS)
 // you should always filter and escape all user supplied values before
-// printing them to screen. However some bugs may slip through or a
-// piece of legacy code might be vulnerable so it makes sense to also
+// printing them to screen. Howeverม some bugs may slip through or a
+// piece of legacy code might be vulnerable so, it makes sense to also
 // make use of browser protections against XSS.
 //
 // By specifying the HttpOnly flag when setting the session cookie you
@@ -125,19 +143,6 @@ ini_set('session.use_strict_mode', '1'); // Available since PHP 5.5.2
 // scripting such as JavaScript. This makes it harder for an attacker
 // to hijack the session ID and masquerade as the effected user.
 ini_set('session.cookie_httponly', '1'); // Available since PHP 5.2.0
-
-// Another important way to increase the security of PHP sessions in
-// your application is to install an SSL certificate on the web server
-// and force all user interactions to occur over HTTPS only. This will
-// prevent the users session ID from being transmitted in plain text
-// to make it much harder to hijack the user session.
-if (Request::isSecure())
-	ini_set('session.cookie_secure', '1');
-
-// todo: check
-//ini_set('session.hash_function', 1);
-//ini_set('session.hash_bits_per_character', 4);
-//ini_set('url_rewriter.tags', '');
 
 // Time zone
 date_default_timezone_set(Setting::get('timezone', 'UTC'));
