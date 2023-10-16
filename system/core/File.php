@@ -362,6 +362,7 @@ class File
 
 		if (@unlink($file))
 		{
+			/*
 			$fileName = basename($file);
 			$resizePath = dirname($file) . '/' . RESIZE_DIR;
 
@@ -386,6 +387,7 @@ class File
 				if (Folder::isEmpty($resizePath))
 					Folder::delete($resizePath);
 			}
+			*/
 
 			return true;
 		}
