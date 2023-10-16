@@ -35,5 +35,5 @@ return [
 	 *
 	 *     [1, 2, 3, 8] = Emergency, Alert, Critical, and Debug messages
 	 */
-	'threshold' => (ENV === 'production' ? 4 : 9)
+	'threshold' => (ENVIRONMENT === 'production' ? 4 : 9)
 ];
