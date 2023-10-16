@@ -9,7 +9,7 @@
  *
  * Vanda
  *
- * A lightweight & flexible PHP CMS framework
+ * A lightweight & flexible PHP web framework
  *
  * @package      Vanda
  * @author       Nat Withe <nat@withnat.com>
