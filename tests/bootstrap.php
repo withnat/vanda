@@ -33,12 +33,12 @@ define('ENVIRONMENT',  'development'); // 'development', 'testing', 'staging' or
 
 // Load the Vanda autoloader.
 
-require PATH_SYSTEM . '/Autoloader.php';
-require PATH_SYSTEM . '/common.php';
+require BASEPATH . '/system/Autoloader.php';
+require BASEPATH . '/system/common.php';
 
 // Create the Composer autoloader.
 
-$loader = require PATH_VENDOR . '/autoload.php';
+$loader = require BASEPATH . '/vendor/autoload.php';
 $loader->unregister();
 
 // Decorate Composer autoloader.
