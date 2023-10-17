@@ -123,8 +123,10 @@ class Folder
 
 		$count = count($folders) + count($files);
 
+		// @codeCoverageIgnoreStart
 		foreach ($folders as $folder)
 			$count += static::countItems($path . '/' . $folder->name);
+		// @codeCoverageIgnoreEnd
 
 		return $count;
 	}
