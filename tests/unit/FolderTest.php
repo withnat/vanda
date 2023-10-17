@@ -96,8 +96,8 @@ class FolderTest extends TestCase
 		$stubFile = $this->getFunctionMock('System', 'is_file');
 		$stubFile->expects($this->once())->willReturn(false);
 
-		$stubFile = Mockery::mock('alias:\System\File');
-		$stubFile->shouldReceive('write')->andReturnTrue();
+		$mockedFile = Mockery::mock('alias:\System\File');
+		$mockedFile->shouldReceive('write')->once();
 
 		$folder = Mockery::mock('\System\Folder')->makePartial();
 		$folder->shouldReceive('exists')->andReturnFalse();
