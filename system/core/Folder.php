@@ -199,7 +199,8 @@ class Folder
 			$folders[] = $data;
 		}
 
-		$folders = Arr::sortRecordset($folders, 'name');
+		if (!empty($folders))
+			$folders = Arr::sortRecordset($folders, 'name');
 
 		return $folders;
 	}
@@ -242,7 +243,8 @@ class Folder
 			$files[] = $data;
 		}
 
-		$files = Arr::sortRecordset($files, 'name');
+		if (!empty($files))
+			$files = Arr::sortRecordset($files, 'name');
 
 		return $files;
 	}
