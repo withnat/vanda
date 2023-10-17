@@ -68,6 +68,7 @@ class Autoloader
 		// a file from the root directory, such as index.php
 		if (!is_file($file) or strpos($file, '/') === false)
 		{
+			// The requested file has suffix 'Helper'.
 			if (substr($class, -6) === 'Helper')
 			{
 				$file = static::_getFile('helper', $class);
@@ -75,12 +76,12 @@ class Autoloader
 				if (!$file)
 					throw new RuntimeException('The requested helper not found: ' . $class);
 			}
+			// The requested file has not any suffix. It may be a model or a composer file.
 			else
 			{
+				// Try to load the model file first but do not throw an exception if the file is
+				// not found. This is because the requested file may be in the composer directory.
 				$file = static::_getFile('model', $class);
-
-				if (!$file)
-					throw new RuntimeException('The requested model not found: ' . $class);
 			}
 		}
 
@@ -115,11 +116,11 @@ class Autoloader
 	/**
 	 * Gets the location of the model.
 	 *
-	 * @param  string $type   The type of
-	 * @param  string $class  The name of the model.
-	 * @return string         Return the model location.
+	 * @param  string      $type   The type of
+	 * @param  string      $class  The name of the model.
+	 * @return string|null         Return the model location. Returns null if the model is not found.
 	 */
-	protected static function _getFile(string $type, string $class) : string
+	protected static function _getFile(string $type, string $class) : ?string
 	{
 		if (!isset(static::${'_' . $type . 'Locations'}[$class]))
 		{
@@ -131,7 +132,7 @@ class Autoloader
 			static::${'_' . $type . 'Locations'} = static::_loadFileLocationFromTempFile($type);
 		}
 
-		return static::${'_' . $type . 'Locations'}[$class];
+		return @static::${'_' . $type . 'Locations'}[$class];
 	}
 
 	/**
