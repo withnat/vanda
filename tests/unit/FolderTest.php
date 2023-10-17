@@ -123,4 +123,31 @@ class FolderTest extends TestCase
 
 		$this->assertFalse($result);
 	}
+
+	// Folder::exists()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodExistsCase1()
+	{
+		$result = Folder::exists('.');
+
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodExistsCase2()
+	{
+		$stubFile = $this->getFunctionMock('System', 'is_dir');
+		$stubFile->expects($this->once())->willReturn(true);
+
+		$result = Folder::exists('path');
+
+		$this->assertTrue($result);
+	}
 }
