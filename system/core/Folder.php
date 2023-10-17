@@ -79,10 +79,12 @@ class Folder
 				{
 					$subFolderPath .= $subFolder . '/';
 					$file = $subFolderPath . 'index.html';
-					$content = '<html lang="en"><body></body></html>';
 
 					if (!is_file($file))
+					{
+						$content = '<html lang="en"><body></body></html>';
 						File::write($file, $content);
+					}
 				}
 			}
 
