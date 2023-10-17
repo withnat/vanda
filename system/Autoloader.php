@@ -116,11 +116,11 @@ class Autoloader
 	/**
 	 * Gets the location of the model.
 	 *
-	 * @param  string      $type   The type of
-	 * @param  string      $class  The name of the model.
-	 * @return string|null         Return the model location. Returns null if the model is not found.
+	 * @param  string $type   The type of
+	 * @param  string $class  The name of the model.
+	 * @return string         Return the model location. Returns null if the model is not found.
 	 */
-	protected static function _getFile(string $type, string $class) : ?string
+	protected static function _getFile(string $type, string $class) : string
 	{
 		if (!isset(static::${'_' . $type . 'Locations'}[$class]))
 		{
@@ -132,7 +132,9 @@ class Autoloader
 			static::${'_' . $type . 'Locations'} = static::_loadFileLocationFromTempFile($type);
 		}
 
-		return @static::${'_' . $type . 'Locations'}[$class];
+		$location = static::${'_' . $type . 'Locations'}[$class] ?? '';
+
+		return $location;
 	}
 
 	/**
