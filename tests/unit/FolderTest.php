@@ -33,6 +33,15 @@ use System\Folder;
  */
 class FolderTest extends TestCase
 {
+	use \phpmock\phpunit\PHPMock;
+
+	protected function tearDown() : void
+	{
+		Mockery::close();
+	}
+
+	// Folder::getSeparator()
+
 	/**
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -57,5 +66,61 @@ class FolderTest extends TestCase
 		$result = Folder::getSeparator('\\path\\to\\file');
 
 		$this->assertEquals($expected, $result);
+	}
+
+	// Folder::create()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCreateCase1()
+	{
+		$folder = Mockery::mock('\System\Folder')->makePartial();
+		$folder->shouldReceive('exists')->andReturnTrue();
+
+		$result = $folder->create('path');
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCreateCase2()
+	{
+		$stubMkdir = $this->getFunctionMock('System', 'mkdir');
+		$stubMkdir->expects($this->once())->willReturn(true);
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->once())->willReturn(false);
+
+		$stubFile = Mockery::mock('alias:\System\File');
+		$stubFile->shouldReceive('write')->andReturnTrue();
+
+		$folder = Mockery::mock('\System\Folder')->makePartial();
+		$folder->shouldReceive('exists')->andReturnFalse();
+
+		$result = $folder->create('path');
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCreateCase3()
+	{
+		$stubMkdir = $this->getFunctionMock('System', 'mkdir');
+		$stubMkdir->expects($this->once())->willReturn(false);
+
+		$folder = Mockery::mock('\System\Folder')->makePartial();
+		$folder->shouldReceive('exists')->andReturnFalse();
+
+		$result = $folder->create('path');
+
+		$this->assertFalse($result);
 	}
 }
