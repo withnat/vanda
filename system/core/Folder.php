@@ -194,7 +194,7 @@ class Folder
 			$data->size = static::countItems($entryPath);
 			$data->created = filectime($entryPath);
 			$data->modified = filemtime($entryPath);
-			$data->permissions = File::getPermission($entryPath);
+			$data->permission = File::getPermission($entryPath);
 			$data->owner = File::getOwner($entryPath);
 
 			$folders[] = $data;
@@ -238,7 +238,7 @@ class Folder
 			$data->size = filesize($entryPath);
 			$data->created = filectime($entryPath);
 			$data->modified = filemtime($entryPath);
-			$data->permissions = File::getPermission($entryPath);
+			$data->permission = File::getPermission($entryPath);
 			$data->owner = File::getOwner($entryPath);
 
 			$files[] = $data;
