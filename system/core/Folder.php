@@ -46,7 +46,7 @@ class Folder
 	 */
 	public static function getSeparator(string $path) : string
 	{
-		if (strpos($path, '\\'))
+		if (strpos($path, '\\') !== false)
 			$ds = '\\';
 		else
 			$ds = '/';
