@@ -150,4 +150,27 @@ class FolderTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// Folder::countItems()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCountItemsCase1()
+	{
+		$folder = Mockery::mock('\System\Folder')->makePartial();
+		$folder->shouldReceive('listFolders')->andReturn([]);
+
+		$folder->shouldReceive('listFiles')->andReturnUsing(function(){
+			$data = new stdClass();
+			$data->name = 'index.html';
+
+			return [$data];
+		});
+
+		$result = $folder->countItems('path');
+
+		$this->assertEquals(1, $result);
+	}
 }
