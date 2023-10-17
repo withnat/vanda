@@ -21,7 +21,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use InvalidArgumentException;
+use RuntimeException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -35,9 +35,34 @@ class FolderTest extends TestCase
 {
 	use \phpmock\phpunit\PHPMock;
 
+	public function setUp() : void
+	{
+		/* Create folder like this:
+		 * - test-folder
+		 * 	 - test-file.txt
+		 * 	 - test-sub-folder
+		 *     - test-sub-file.txt
+		 */
+
+		if (!is_dir('test-folder'))
+		{
+			mkdir('test-folder/test-sub-folder', 0777, true);
+			file_put_contents('test-folder/test-file.txt', 'test');
+			file_put_contents('test-folder/test-sub-folder/test-sub-file.txt', 'test');
+		}
+	}
+
 	protected function tearDown() : void
 	{
 		Mockery::close();
+
+		if (is_dir('test-folder'))
+		{
+			unlink('test-folder/test-file.txt');
+			unlink('test-folder/test-sub-folder/test-sub-file.txt');
+			rmdir('test-folder/test-sub-folder');
+			rmdir('test-folder');
+		}
 	}
 
 	// Folder::getSeparator()
@@ -172,5 +197,52 @@ class FolderTest extends TestCase
 		$result = $folder->countItems('path');
 
 		$this->assertEquals(1, $result);
+	}
+
+	// Folder::listFolders()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodListFoldersCase1()
+	{
+		$this->expectException(RuntimeException::class);
+
+		Folder::listFolders('non-exisint-path');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodListFoldersCase2()
+	{
+		$stubDir = $this->getFunctionMock('System', 'opendir');
+		$stubDir->expects($this->once())->willReturn(false);
+
+		$this->expectException(RuntimeException::class);
+
+		Folder::listFolders('test-folder');
+
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodListFoldersCase3()
+	{
+		$result = Folder::listFolders('test-folder');
+
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey(0, $result);
+		$this->assertIsObject($result[0]);
+		$this->assertObjectHasAttribute('name', $result[0]);
+		$this->assertObjectHasAttribute('size', $result[0]);
+		$this->assertObjectHasAttribute('created', $result[0]);
+		$this->assertObjectHasAttribute('modified', $result[0]);
+		$this->assertObjectHasAttribute('permission', $result[0]);
+		$this->assertObjectHasAttribute('owner', $result[0]);
 	}
 }
