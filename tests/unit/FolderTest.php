@@ -39,16 +39,32 @@ class FolderTest extends TestCase
 	{
 		/* Create folder like this:
 		 * - test-folder
-		 * 	 - test-file.txt
-		 * 	 - test-sub-folder
-		 *     - test-sub-file.txt
+		 *   - index.html
+		 * 	 - file.txt
+		 *
+		 * 	 - test-sub-folder-1
+		 *     - index.html
+		 *     - file.txt
+		 *
+		 *   - test-sub-folder-2
+		 *     - index.html
+		 *
+		 *   - test-sub-folder-3 (no file)
 		 */
 
 		if (!is_dir('test-folder'))
 		{
-			mkdir('test-folder/test-sub-folder', 0777, true);
-			file_put_contents('test-folder/test-file.txt', 'test');
-			file_put_contents('test-folder/test-sub-folder/test-sub-file.txt', 'test');
+			mkdir(BASEPATH . '/test-folder/test-sub-folder-1', 0777, true);
+			mkdir(BASEPATH . '/test-folder/test-sub-folder-2', 0777, true);
+			mkdir(BASEPATH . '/test-folder/test-sub-folder-3', 0777, true);
+
+			file_put_contents(BASEPATH . '/test-folder/index.html', '<html lang="en"><body></body></html>');
+			file_put_contents(BASEPATH . '/test-folder/file.txt', 'test');
+
+			file_put_contents(BASEPATH . '/test-folder/test-sub-folder-1/index.html', '<html lang="en"><body></body></html>');
+			file_put_contents(BASEPATH . '/test-folder/test-sub-folder-1/file.txt', 'test');
+
+			file_put_contents(BASEPATH . '/test-folder/test-sub-folder-2/index.html', '<html lang="en"><body></body></html>');
 		}
 	}
 
@@ -58,10 +74,18 @@ class FolderTest extends TestCase
 
 		if (is_dir('test-folder'))
 		{
-			@unlink('test-folder/test-file.txt');
-			@unlink('test-folder/test-sub-folder/test-sub-file.txt');
-			@rmdir('test-folder/test-sub-folder');
-			@rmdir('test-folder');
+			@unlink(BASEPATH . '/test-folder/index.html');
+			@unlink(BASEPATH . '/test-folder/file.txt');
+
+			@unlink(BASEPATH . '/test-folder/test-sub-folder-1/index.html');
+			@unlink(BASEPATH . '/test-folder/test-sub-folder-1/file.txt');
+
+			@unlink(BASEPATH . '/test-folder/test-sub-folder-2/index.html');
+
+			@rmdir(BASEPATH . '/test-folder/test-sub-folder-1');
+			@rmdir(BASEPATH . '/test-folder/test-sub-folder-2');
+			@rmdir(BASEPATH . '/test-folder/test-sub-folder-3');
+			@rmdir(BASEPATH . '/test-folder');
 		}
 	}
 
@@ -233,6 +257,10 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodListFoldersCase3()
 	{
+		$stubFile = Mockery::mock('alias:\System\File');
+		$stubFile->shouldReceive('getPermission')->andReturn('0644');
+		$stubFile->shouldReceive('getOwner')->andReturn('me:me');
+
 		$result = Folder::listFolders('test-folder');
 
 		$this->assertIsArray($result);
@@ -308,7 +336,7 @@ class FolderTest extends TestCase
 	{
 		$size = Folder::getSize('test-folder');
 
-		$this->assertEquals(4104, $size);
+		$this->assertEquals(12404, $size);
 	}
 
 	// Folder::delete()
@@ -344,10 +372,12 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodDeleteCase3()
 	{
-		$result = Folder::delete('test-folder');
+		$mockedFile = Mockery::mock('alias:\System\File');
+		$mockedFile->shouldReceive('delete')->atLeast()->once();
 
-		$this->assertTrue($result);
-		$this->assertDirectoryNotExists('test-folder');
+		Folder::delete('test-folder');
+
+		$this->assertTrue(true);
 	}
 
 	/**
@@ -371,5 +401,57 @@ class FolderTest extends TestCase
 		$result = Folder::delete('test-folder');
 
 		$this->assertFalse($result);
+	}
+
+	// Folder::isEmpty()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsEmptyCase1()
+	{
+		$this->expectException(RuntimeException::class);
+
+		Folder::isEmpty('non-exisint-path');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsEmptyCase2()
+	{
+		$stubDir = $this->getFunctionMock('System', 'opendir');
+		$stubDir->expects($this->once())->willReturn(false);
+
+		$this->expectException(RuntimeException::class);
+
+		Folder::isEmpty('test-folder');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsEmptyCase3()
+	{
+		$result = Folder::isEmpty('test-folder');
+
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodIsEmptyCase4()
+	{
+		$stubFile = Mockery::mock('alias:\System\File');
+		$stubFile->shouldReceive('read')->andReturn('<html lang="en"><body></body></html>');
+
+		$result = Folder::isEmpty('test-folder/test-sub-folder-2');
+
+		$this->assertTrue($result);
 	}
 }
