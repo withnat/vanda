@@ -58,10 +58,10 @@ class FolderTest extends TestCase
 
 		if (is_dir('test-folder'))
 		{
-			unlink('test-folder/test-file.txt');
-			unlink('test-folder/test-sub-folder/test-sub-file.txt');
-			rmdir('test-folder/test-sub-folder');
-			rmdir('test-folder');
+			@unlink('test-folder/test-file.txt');
+			@unlink('test-folder/test-sub-folder/test-sub-file.txt');
+			@rmdir('test-folder/test-sub-folder');
+			@rmdir('test-folder');
 		}
 	}
 
@@ -309,5 +309,67 @@ class FolderTest extends TestCase
 		$size = Folder::getSize('test-folder');
 
 		$this->assertEquals(4104, $size);
+	}
+
+	// Folder::delete()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodDeleteCase1()
+	{
+		$result = Folder::delete('non-exisint-path');
+
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodDeleteCase2()
+	{
+		$stubDir = $this->getFunctionMock('System', 'opendir');
+		$stubDir->expects($this->once())->willReturn(false);
+
+		$this->expectException(RuntimeException::class);
+
+		Folder::delete('test-folder');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodDeleteCase3()
+	{
+		$result = Folder::delete('test-folder');
+
+		$this->assertTrue($result);
+		$this->assertDirectoryNotExists('test-folder');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodDeleteCase4()
+	{
+		$stubDir = $this->getFunctionMock('System', 'rmdir');
+		$stubDir->expects($this->any())->willReturn(false);
+
+		$stubFile = Mockery::mock('alias:\System\File');
+		$stubFile->shouldReceive('delete')->andReturnTrue();
+
+		$mockedError = Mockery::mock('alias:\System\Error');
+		$mockedError->shouldReceive('getLast')->atLeast()->once();
+
+		$mockedLogger = Mockery::mock('alias:\System\Logger');
+		$mockedLogger->shouldReceive('debug')->atLeast()->once();
+
+		$result = Folder::delete('test-folder');
+
+		$this->assertFalse($result);
 	}
 }
