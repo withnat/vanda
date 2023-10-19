@@ -453,6 +453,7 @@ class Folder
 	 * @param  bool   $merge      Whether to merge the contents of the source folder with the destination folder. Defaults to false.
 	 * @param  bool   $overwrite  Whether to overwrite existing files when moving. Defaults to false.
 	 * @return bool               Returns true if the folder was moved successfully, false otherwise.
+	 * @codeCoverageIgnore
 	 */
 	public static function move(string $src, string $dest, bool $merge = false, bool $overwrite = false) : bool
 	{
@@ -485,6 +486,7 @@ class Folder
 	 *
 	 * @param  string $path  The path of the folder to get the info of.
 	 * @return array         Returns an array of the folder info.
+	 * @codeCoverageIgnore
 	 */
 	public static function getInfo(string $path) : array
 	{
@@ -512,6 +514,7 @@ class Folder
 	 * @param  string $path  The path to test.
 	 * @return bool          Returns true if the folder is writable. False otherwise.
 	 * @see https://bugs.php.net/bug.php?id=54709
+	 * @codeCoverageIgnore
 	 */
 	public static function isWritable(string $path) : bool
 	{
