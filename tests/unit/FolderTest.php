@@ -271,6 +271,43 @@ class FolderTest extends TestCase
 		$this->expectException(RuntimeException::class);
 
 		Folder::listFiles('test-folder');
+	}
 
+	// Folder::getSize()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetSizeCase1()
+	{
+		$this->expectException(RuntimeException::class);
+
+		Folder::getSize('non-exisint-path');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetSizeCase2()
+	{
+		$stubDir = $this->getFunctionMock('System', 'opendir');
+		$stubDir->expects($this->once())->willReturn(false);
+
+		$this->expectException(RuntimeException::class);
+
+		Folder::getSize('test-folder');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetSizeCase3()
+	{
+		$size = Folder::getSize('test-folder');
+
+		$this->assertEquals(4104, $size);
 	}
 }
