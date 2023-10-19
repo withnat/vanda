@@ -199,7 +199,7 @@ class FolderTest extends TestCase
 		$this->assertEquals(1, $result);
 	}
 
-	// Folder::listFolders()
+	// Folder::listFolders() & Folder::listFiles() (via Folder::countItems())
 
 	/**
 	 * @runInSeparateProcess
@@ -244,5 +244,33 @@ class FolderTest extends TestCase
 		$this->assertObjectHasAttribute('modified', $result[0]);
 		$this->assertObjectHasAttribute('permission', $result[0]);
 		$this->assertObjectHasAttribute('owner', $result[0]);
+	}
+
+	// Folder::listFiles()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodListFilesCase1()
+	{
+		$this->expectException(RuntimeException::class);
+
+		Folder::listFiles('non-exisint-path');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodListFilesCase2()
+	{
+		$stubDir = $this->getFunctionMock('System', 'opendir');
+		$stubDir->expects($this->once())->willReturn(false);
+
+		$this->expectException(RuntimeException::class);
+
+		Folder::listFiles('test-folder');
+
 	}
 }
