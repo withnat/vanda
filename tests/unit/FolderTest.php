@@ -38,6 +38,7 @@ class FolderTest extends TestCase
 	public function setUp() : void
 	{
 		/* Create folder like this:
+		 * - test-empty-folder
 		 * - test-folder
 		 *   - index.html
 		 * 	 - file.txt
@@ -52,11 +53,14 @@ class FolderTest extends TestCase
 		 *   - test-sub-folder-3 (no file)
 		 */
 
-		if (!is_dir('test-folder'))
+		if (!is_dir(BASEPATH . '/test-empty-folder'))
+			mkdir(BASEPATH . '/test-empty-folder', 0755, true);
+
+		if (!is_dir(BASEPATH . '/test-folder'))
 		{
-			mkdir(BASEPATH . '/test-folder/test-sub-folder-1', 0777, true);
-			mkdir(BASEPATH . '/test-folder/test-sub-folder-2', 0777, true);
-			mkdir(BASEPATH . '/test-folder/test-sub-folder-3', 0777, true);
+			mkdir(BASEPATH . '/test-folder/test-sub-folder-1', 0755, true);
+			mkdir(BASEPATH . '/test-folder/test-sub-folder-2', 0755, true);
+			mkdir(BASEPATH . '/test-folder/test-sub-folder-3', 0755, true);
 
 			file_put_contents(BASEPATH . '/test-folder/index.html', '<html lang="en"><body></body></html>');
 			file_put_contents(BASEPATH . '/test-folder/file.txt', 'test');
@@ -72,7 +76,13 @@ class FolderTest extends TestCase
 	{
 		Mockery::close();
 
-		if (is_dir('test-folder'))
+		if (is_dir(BASEPATH . '/test-empty-folder'))
+		{
+			@unlink(BASEPATH . '/test-empty-folder/index.html');
+			@rmdir(BASEPATH . '/test-empty-folder');
+		}
+
+		if (is_dir(BASEPATH . '/test-folder'))
 		{
 			@unlink(BASEPATH . '/test-folder/index.html');
 			@unlink(BASEPATH . '/test-folder/file.txt');
@@ -86,6 +96,36 @@ class FolderTest extends TestCase
 			@rmdir(BASEPATH . '/test-folder/test-sub-folder-2');
 			@rmdir(BASEPATH . '/test-folder/test-sub-folder-3');
 			@rmdir(BASEPATH . '/test-folder');
+		}
+
+		// For test Folder::copy() method.
+
+		if (is_dir(BASEPATH . '/test-empty-folder-2'))
+		{
+			@unlink(BASEPATH . '/test-empty-folder-2/index.html');
+			@rmdir(BASEPATH . '/test-empty-folder-2');
+		}
+
+		if (is_dir(BASEPATH . '/test-folder-2'))
+		{
+			@unlink(BASEPATH . '/test-folder-2/index.html');
+			@unlink(BASEPATH . '/test-folder-2/file.txt');
+
+			@unlink(BASEPATH . '/test-folder-2/test-sub-folder-1/index.html');
+			@unlink(BASEPATH . '/test-folder-2/test-sub-folder-1/file.txt');
+
+			@unlink(BASEPATH . '/test-folder-2/test-sub-folder-2/index.html');
+
+			@rmdir(BASEPATH . '/test-folder-2/test-sub-folder-1');
+			@rmdir(BASEPATH . '/test-folder-2/test-sub-folder-2');
+			@rmdir(BASEPATH . '/test-folder-2/test-sub-folder-3');
+			@rmdir(BASEPATH . '/test-folder-2');
+		}
+
+		if (is_dir(BASEPATH . '/test-another-folder'))
+		{
+			rmdir(BASEPATH . '/test-another-folder/test-sub-folder-3');
+			rmdir(BASEPATH . '/test-another-folder');
 		}
 	}
 
@@ -247,7 +287,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::listFolders('test-folder');
+		Folder::listFolders(BASEPATH . '/test-folder');
 
 	}
 
@@ -258,10 +298,10 @@ class FolderTest extends TestCase
 	public function testMethodListFoldersCase3()
 	{
 		$stubFile = Mockery::mock('alias:\System\File');
-		$stubFile->shouldReceive('getPermission')->andReturn('0644');
+		$stubFile->shouldReceive('getPermission')->andReturn('0755');
 		$stubFile->shouldReceive('getOwner')->andReturn('me:me');
 
-		$result = Folder::listFolders('test-folder');
+		$result = Folder::listFolders(BASEPATH . '/test-folder');
 
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey(0, $result);
@@ -298,7 +338,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::listFiles('test-folder');
+		Folder::listFiles(BASEPATH . '/test-folder');
 	}
 
 	// Folder::getSize()
@@ -325,7 +365,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::getSize('test-folder');
+		Folder::getSize(BASEPATH . '/test-folder');
 	}
 
 	/**
@@ -334,7 +374,7 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodGetSizeCase3()
 	{
-		$size = Folder::getSize('test-folder');
+		$size = Folder::getSize(BASEPATH . '/test-folder');
 
 		$this->assertEquals(12404, $size);
 	}
@@ -363,7 +403,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::delete('test-folder');
+		Folder::delete(BASEPATH . '/test-folder');
 	}
 
 	/**
@@ -375,7 +415,7 @@ class FolderTest extends TestCase
 		$mockedFile = Mockery::mock('alias:\System\File');
 		$mockedFile->shouldReceive('delete')->atLeast()->once();
 
-		Folder::delete('test-folder');
+		Folder::delete(BASEPATH . '/test-folder');
 
 		$this->assertTrue(true);
 	}
@@ -398,7 +438,7 @@ class FolderTest extends TestCase
 		$mockedLogger = Mockery::mock('alias:\System\Logger');
 		$mockedLogger->shouldReceive('debug')->atLeast()->once();
 
-		$result = Folder::delete('test-folder');
+		$result = Folder::delete(BASEPATH . '/test-folder');
 
 		$this->assertFalse($result);
 	}
@@ -427,7 +467,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::isEmpty('test-folder');
+		Folder::isEmpty(BASEPATH . '/test-folder');
 	}
 
 	/**
@@ -436,7 +476,7 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodIsEmptyCase3()
 	{
-		$result = Folder::isEmpty('test-folder');
+		$result = Folder::isEmpty(BASEPATH . '/test-folder');
 
 		$this->assertFalse($result);
 	}
@@ -450,8 +490,86 @@ class FolderTest extends TestCase
 		$stubFile = Mockery::mock('alias:\System\File');
 		$stubFile->shouldReceive('read')->andReturn('<html lang="en"><body></body></html>');
 
-		$result = Folder::isEmpty('test-folder/test-sub-folder-2');
+		$result = Folder::isEmpty(BASEPATH . '/test-folder/test-sub-folder-2');
 
 		$this->assertTrue($result);
+	}
+
+	// Folder::copy()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase1()
+	{
+		$this->expectException(RuntimeException::class);
+
+		Folder::copy('non-exisint-path', 'test-folder-2');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase2()
+	{
+		mkdir(BASEPATH . '/test-another-folder/test-sub-folder-3', 0755, true);
+
+		$this->expectException(RuntimeException::class);
+
+		Folder::copy(BASEPATH . '/test-folder/test-sub-folder-3', BASEPATH . '/test-another-folder/test-sub-folder-3');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase3()
+	{
+		$stubDir = $this->getFunctionMock('System', 'scandir');
+		$stubDir->expects($this->once())->willReturn(false);
+
+		$this->expectException(RuntimeException::class);
+
+		Folder::copy(BASEPATH . '/test-folder', 'test-folder-2');
+	}
+
+		/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase4()
+	{
+		$mockedFile = Mockery::mock('alias:\System\File');
+		$mockedFile->shouldReceive('getPermission')->andReturn('0755');
+
+		Folder::copy(BASEPATH . '/test-empty-folder', BASEPATH . '/test-empty-folder-2');
+
+		$this->assertDirectoryExists(BASEPATH . '/test-empty-folder-2');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase5()
+	{
+		$folder = Mockery::mock('\System\Folder')->makePartial();
+		$folder->shouldReceive('isEmpty')->andReturnFalse();
+
+		$mockedFile = Mockery::mock('alias:\System\File');
+		$mockedFile->shouldReceive('getPermission')->andReturn('0755');
+		$mockedFile->shouldReceive('getOwner')->andReturn('me:me');
+
+		$folder->copy(BASEPATH . '/test-folder', BASEPATH . '/test-folder-2');
+
+		$this->assertDirectoryExists(BASEPATH . '/test-folder-2');
+
+		$items = Folder::countItems(BASEPATH . '/test-folder-2');
+		$size = Folder::getSize(BASEPATH . '/test-folder-2');
+
+		$this->assertEquals(8, $items);
+		$this->assertEquals(12404, $size);
 	}
 }
