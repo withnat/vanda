@@ -430,11 +430,11 @@ class File
 			switch ($possibleFilePath)
 			{
 				case 'themeAssetFolder':
-					$path = PATH_THEME . '/assets/' . $folder . '/' . $filename;
+					$path = THEME_PATH . '/assets/' . $folder . '/' . $filename;
 					break;
 
 				case 'themeAssetRootFolder':
-					$path = PATH_THEME . '/assets/' . $filename;
+					$path = THEME_PATH . '/assets/' . $filename;
 					break;
 
 				case 'systemPackageAssetFolder':
