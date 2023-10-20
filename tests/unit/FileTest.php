@@ -202,4 +202,563 @@ class FileTest extends TestCase
 
 		$this->assertFalse($result);
 	}
+
+	// File::getAssetPath() & File::_getPossibleAssetPaths()
+
+	/*
+	 * $possibleAssetPaths = [
+	 *     'themeAssetFolder',
+	 *     'themeAssetRootFolder',
+	 *
+	 *     'appAssetFolder',
+	 *     'appAssetRootFolder',
+	 *
+	 *     'systemAssetFolder',
+	 *     'systemAssetRootFolder'
+	 * ];
+	 */
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase1()
+	{
+		$expected = 'themes/backend/vanda/assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->once())->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase2()
+	{
+		$expected = 'themes/backend/vanda/assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase3()
+	{
+		$expected = 'assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase4()
+	{
+		$expected = 'assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase5()
+	{
+		$expected = 'system/assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(false);
+		$stubFile->expects($this->at(4))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase6()
+	{
+		$expected = 'system/assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(false);
+		$stubFile->expects($this->at(4))->willReturn(false);
+		$stubFile->expects($this->at(5))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/*
+	 * $possibleAssetPaths = [
+	 *     'appPackageAssetFolder',
+	 *     'appPackageAssetRootFolder',
+	 *
+	 *     'systemPackageAssetFolder',
+	 *     'systemPackageAssetRootFolder',
+	 *
+	 *     'appAssetFolder',
+	 *     'appAssetRootFolder',
+	 *
+	 *     'systemAssetFolder',
+	 *     'systemAssetRootFolder'
+	 * ];
+	 */
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase7()
+	{
+		$expected = 'packages/user/assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase8()
+	{
+		$expected = 'packages/user/assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase9()
+	{
+		$expected = 'system/packages/user/assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase10()
+	{
+		$expected = 'system/packages/user/assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase11()
+	{
+		$expected = 'assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(false);
+		$stubFile->expects($this->at(4))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase12()
+	{
+		$expected = 'assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(false);
+		$stubFile->expects($this->at(4))->willReturn(false);
+		$stubFile->expects($this->at(5))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase13()
+	{
+		$expected = 'system/assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(false);
+		$stubFile->expects($this->at(4))->willReturn(false);
+		$stubFile->expects($this->at(5))->willReturn(false);
+		$stubFile->expects($this->at(6))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase14()
+	{
+		$expected = 'system/assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(false);
+		$stubFile->expects($this->at(4))->willReturn(false);
+		$stubFile->expects($this->at(5))->willReturn(false);
+		$stubFile->expects($this->at(6))->willReturn(false);
+		$stubFile->expects($this->at(7))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/*
+	 * $possibleAssetPaths = [
+	 *     'systemPackageAssetFolder',
+	 *     'systemPackageAssetRootFolder',
+	 *
+	 *     'systemAssetFolder',
+	 *     'systemAssetRootFolder',
+	 *
+	 *     'appAssetFolder',
+	 *     'appAssetRootFolder'
+	 * ];
+	 */
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase15()
+	{
+		$expected = 'system/packages/user/assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE_SYSTEM . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase16()
+	{
+		$expected = 'system/packages/user/assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE_SYSTEM . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase17()
+	{
+		$expected = 'system/assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE_SYSTEM . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase18()
+	{
+		$expected = 'system/assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE_SYSTEM . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase19()
+	{
+		$expected = 'assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(false);
+		$stubFile->expects($this->at(4))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE_SYSTEM . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase20()
+	{
+		$expected = 'assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(false);
+		$stubFile->expects($this->at(4))->willReturn(false);
+		$stubFile->expects($this->at(5))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_PACKAGE_SYSTEM . '/' . PACKAGE . '/backend/modules/views/user/index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/*
+	 * $possibleAssetPaths = [
+	 *     'systemAssetFolder',
+	 *     'systemAssetRootFolder',
+	 *
+	 *     'appAssetFolder',
+	 *     'appAssetRootFolder'
+	 * ];
+	 */
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase21()
+	{
+		$expected = 'system/assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_SYSTEM . '/Mvc/View.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase22()
+	{
+		$expected = 'system/assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_SYSTEM . '/Mvc/View.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase23()
+	{
+		$expected = 'assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_SYSTEM . '/Mvc/View.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase24()
+	{
+		$expected = 'assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+		$stubFile->expects($this->at(2))->willReturn(false);
+		$stubFile->expects($this->at(3))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', PATH_SYSTEM . '/Mvc/View.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/*
+	 * $possibleAssetPaths = [
+	 *     'appAssetFolder',
+	 *     'appAssetRootFolder'
+	 * ];
+	 */
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase25()
+	{
+		$expected = 'assets/images/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', 'index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase26()
+	{
+		$expected = 'assets/picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(true);
+
+		$result = File::getAssetPath('picture.jpg', 'images', 'index.php');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetAssetPathCase27()
+	{
+		$expected = 'picture.jpg';
+
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->at(0))->willReturn(false);
+		$stubFile->expects($this->at(1))->willReturn(false);
+
+		$result = File::getAssetPath('picture.jpg', 'images', 'index.php');
+
+		$this->assertEquals($expected, $result);
+	}
 }
