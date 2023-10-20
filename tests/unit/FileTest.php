@@ -104,4 +104,19 @@ class FileTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// File::makeSafe()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodMakeSafeCase1()
+	{
+		$expected = 'picture.jpg';
+
+		$result = File::makeSafe('pic%ture.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
 }
