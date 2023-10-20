@@ -406,6 +406,7 @@ class File
 	 *
 	 * @param  string $file  The file to check.
 	 * @return bool          Returns true if the given file is an image. False otherwise.
+	 * @codeCoverageIgnore
 	 */
 	public static function isImage(string $file) : bool
 	{
@@ -429,49 +430,50 @@ class File
 			switch ($possibleFilePath)
 			{
 				case 'themeAssetFolder':
-					$path = THEME_PATH . DS . 'assets' . DS . $folder . DS . $filename;
+					$path = PATH_THEME . '/assets/' . $folder . '/' . $filename;
 					break;
 
 				case 'themeAssetRootFolder':
-					$path = THEME_PATH . DS . 'assets' . DS . $filename;
+					$path = PATH_THEME . '/assets/' . $filename;
 					break;
 
-				case 'systemModuleAssetFolder':
-					$path = PATH_SYSTEM . DS . 'modules. ' . DS . SIDE . DS . MODULE . DS . 'assets' . DS . $folder . DS . $filename;
+				case 'systemPackageAssetFolder':
+					$path = PATH_SYSTEM . '/packages/' . PACKAGE . '/assets/' . $folder . '/' . $filename;
 					break;
 
-				case 'systemModuleAssetRootFolder':
-					$path = PATH_SYSTEM . DS . 'modules. ' . DS . SIDE . DS . MODULE . DS . 'assets' . DS . $filename;
+				case 'systemPackageAssetRootFolder':
+					$path = PATH_SYSTEM . '/packages/' . PACKAGE . '/assets/' . $filename;
 					break;
 
-				case 'appModuleAssetFolder':
-					$path = PATH_APP . DS . 'modules. ' . DS . SIDE . DS . MODULE . DS . 'assets' . DS . $folder . DS . $filename;
+				case 'appPackageAssetFolder':
+					$path = PATH_PACKAGE . '/' . PACKAGE . '/assets/' . $folder . '/' . $filename;
 					break;
 
-				case 'appModuleAssetRootFolder':
-					$path = PATH_APP . DS . 'modules. ' . DS . SIDE . DS . MODULE . DS . 'assets' . DS . $filename;
+				case 'appPackageAssetRootFolder':
+					$path = PATH_PACKAGE . '/' . PACKAGE . '/assets/' . $filename;
 					break;
 
 				case 'systemAssetFolder':
-					$path = PATH_SYSTEM . DS . 'assets' . DS . $folder . DS . $filename;
+					$path = PATH_SYSTEM . '/assets/' . $folder . '/' . $filename;
 					break;
 
 				case 'systemAssetRootFolder':
-					$path = PATH_SYSTEM . DS . 'assets' . DS . $filename;
+					$path = PATH_SYSTEM . '/assets/' . $filename;
 					break;
 
 				case 'appAssetFolder':
-					$path = PATH_APP . DS . 'assets' . DS . $folder . DS . $filename;
+					$path = PATH_ASSET . '/' . $folder . '/' . $filename;
 					break;
 
 				// appAssetRootFolder
 				default:
-					$path = PATH_APP . DS . 'assets' . DS . $filename;
+					$path = PATH_ASSET . '/' . $filename;
 			}
 
 			if (is_file($path))
 			{
-				$path = substr_replace($path, '', 0, strlen(PATH_BASE . DS));
+				$path = substr_replace($path, '', 0, strlen(PATH_BASE . '/'));
+
 				return $path;
 			}
 		}
@@ -487,28 +489,14 @@ class File
 	 */
 	protected static function _getPossibleAssetPaths(string $calledFromPath) : array
 	{
-		$appModulePath = PATH_APP . DS . 'modules' . DS . SIDE . DS . MODULE;
-		$systemModulePath = PATH_SYSTEM . DS . 'modules' . DS . SIDE . DS . MODULE;
+		$appPackagePath = PATH_BASE . '/packages/' . PACKAGE;
+		$systemPackagePath = PATH_BASE . '/system/packages/' . PACKAGE;
 
-		if (stripos($calledFromPath, THEME_PATH) !== false)
+		if (stripos($calledFromPath, PATH_THEME) !== false)
 		{
 			$possibleAssetPaths = [
 				'themeAssetFolder',
 				'themeAssetRootFolder',
-				'appAssetFolder',
-				'appAssetRootFolder',
-				'systemAssetFolder',
-				'systemAssetRootFolder'
-			];
-		}
-		elseif (stripos($calledFromPath, $appModulePath) !== false)
-		{
-			$possibleAssetPaths = [
-				'appModuleAssetFolder',
-				'appModuleAssetRootFolder',
-
-				'systemModuleAssetFolder',
-				'systemModuleAssetRootFolder',
 
 				'appAssetFolder',
 				'appAssetRootFolder',
@@ -517,11 +505,27 @@ class File
 				'systemAssetRootFolder'
 			];
 		}
-		elseif (stripos($calledFromPath, $systemModulePath) !== false)
+		elseif (stripos($calledFromPath, $appPackagePath) !== false)
 		{
 			$possibleAssetPaths = [
-				'systemModuleAssetFolder',
-				'systemModuleAssetRootFolder',
+				'appPackageAssetFolder',
+				'appPackageAssetRootFolder',
+
+				'systemPackageAssetFolder',
+				'systemPackageAssetRootFolder',
+
+				'appAssetFolder',
+				'appAssetRootFolder',
+
+				'systemAssetFolder',
+				'systemAssetRootFolder'
+			];
+		}
+		elseif (stripos($calledFromPath, $systemPackagePath) !== false)
+		{
+			$possibleAssetPaths = [
+				'systemPackageAssetFolder',
+				'systemPackageAssetRootFolder',
 
 				'systemAssetFolder',
 				'systemAssetRootFolder',
@@ -530,8 +534,8 @@ class File
 				'appAssetRootFolder'
 			];
 		}
-		// ie. call from /system/MVC/view.php
-		elseif (stripos($calledFromPath, PATH_SYSTEM) !== false)
+		// e.g. call from /system/MVC/View.php
+		elseif (stripos($calledFromPath, PATH_BASE . '/system/') !== false)
 		{
 			$possibleAssetPaths = [
 				'systemAssetFolder',
