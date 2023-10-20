@@ -535,7 +535,7 @@ class FolderTest extends TestCase
 		Folder::copy(PATH_BASE . '/test-folder', 'test-folder-2');
 	}
 
-		/**
+	/**
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
