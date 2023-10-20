@@ -61,4 +61,19 @@ class FileTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// File::getPath()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodgetPathCase1()
+	{
+		$expected = '/path/to';
+
+		$result = File::getPath('/path/to/picture.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
 }
