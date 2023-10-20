@@ -52,12 +52,12 @@ $timestart = microtime(true);
 
 /* Include startup files */
 
-require BASEPATH . '/system/Autoloader.php';
-require BASEPATH . '/system/common.php';
+require PATH_SYSTEM . '/Autoloader.php';
+require PATH_SYSTEM . '/common.php';
 
 /* Create the Composer autoloader */
 
-$loader = require BASEPATH . '/vendor/autoload.php';
+$loader = require PATH_BASE . '/vendor/autoload.php';
 $loader->unregister();
 
 // Decorate Composer autoloader
@@ -209,9 +209,9 @@ else
 //
 
 $themeName = Setting::get(strtolower(SIDE) . 'theme', 'vanda');
-$themePath = BASEPATH . '/themes/' . SIDE . '/' . $themeName;
+$themePath = PATH_THEME . '/' . SIDE . '/' . $themeName;
 
-define('PATH_THEME', $themePath);
+define('THEME_PATH', $themePath);
 
 //
 

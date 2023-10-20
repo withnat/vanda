@@ -42,6 +42,10 @@ define('PATH_ASSET_SYSTEM', PATH_SYSTEM . '/assets');
 define('PATH_LANGUAGE_SYSTEM', PATH_SYSTEM . '/languages');
 define('PATH_PACKAGE_SYSTEM', PATH_SYSTEM . '/packages');
 
+define('PACKAGE', 'user');
+define('PATH_THEME', PATH_BASE . '/themes');
+define('THEME_PATH', PATH_THEME . '/backend/vanda');
+
 // Load the Vanda autoloader.
 
 require PATH_BASE . '/system/Autoloader.php';
