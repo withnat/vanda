@@ -56,13 +56,13 @@ class Autoloader
 
 		if ($file === 'BaseController')
 		{
-			$file = BASEPATH . '/packages/base/' . SIDE . 'modules/controllers/BaseController.php';
+			$file = PATH_PACKAGE . '/base/' . SIDE . 'modules/controllers/BaseController.php';
 
 			if (!is_file($file))
-				$file = BASEPATH . '/system/packages/base/' . SIDE . '/modules/controllers/BaseController.php';
+				$file = PATH_PACKAGE_SYSTEM . '/packages/base/' . SIDE . '/modules/controllers/BaseController.php';
 		}
 		else if (substr($file, 0, 7) === 'System/')
-			$file = substr_replace($file, BASEPATH . '/system/core/', 0, 7) . '.php';
+			$file = substr_replace($file, PATH_SYSTEM . '/core/', 0, 7) . '.php';
 
 		// The second condition is used to avoid including
 		// a file from the root directory, such as index.php
@@ -102,10 +102,10 @@ class Autoloader
 	 */
 	public static function importModule(string $module, string $controller) : void
 	{
-		$file = BASEPATH . '/packages/' . $module . '/' . SIDE . '/modules/controllers/' . $controller . '.php';
+		$file = PATH_PACKAGE . '/' . $module . '/' . SIDE . '/modules/controllers/' . $controller . '.php';
 
 		if (!is_file($file))
-			$file = BASEPATH . '/system/packages/' . $module . '/' . SIDE . '/modules/controllers/' . $controller . '.php';
+			$file = PATH_PACKAGE_SYSTEM . '/' . $module . '/' . SIDE . '/modules/controllers/' . $controller . '.php';
 
 		if (!is_file($file))
 			throw new RuntimeException('The requested module not found: ' . $controller);
@@ -124,7 +124,7 @@ class Autoloader
 	{
 		if (!isset(static::${'_' . $type . 'Locations'}[$class]))
 		{
-			$tempFile = BASEPATH . '/storage/cache/models.php';
+			$tempFile = PATH_STORAGE . '/cache/models.php';
 
 			if (!is_file($tempFile) or ENVIRONMENT === 'development')
 				static::_loadFileLocationToTempFile($type);
@@ -146,8 +146,8 @@ class Autoloader
 	protected static function _loadFileLocationToTempFile(string $type) : void
 	{
 		$packagePaths = [
-			BASEPATH . '/system/packages', // Scan system packages first.
-			BASEPATH . '/packages' // Overwrite system packages with user packages.
+			PATH_PACKAGE_SYSTEM, // Scan system packages first.
+			PATH_PACKAGE // Overwrite system packages with user packages.
 		];
 
 		$content = [];
@@ -181,7 +181,7 @@ class Autoloader
 			}
 		}
 
-		$file = BASEPATH . '/storage/cache/' . $type . 's.php';
+		$file = PATH_STORAGE . '/cache/' . $type . 's.php';
 		$content = '<?php //' . serialize($content);
 		file_put_contents($file, $content);
 	}
@@ -194,7 +194,7 @@ class Autoloader
 	 */
 	protected static function _loadFileLocationFromTempFile(string $type) : array
 	{
-		$file = BASEPATH . '/storage/cache/' . $type . 's.php';
+		$file = PATH_STORAGE . '/cache/' . $type . 's.php';
 
 		$content = file_get_contents($file);
 		$content = substr($content, 8); // Remove '<?php //'

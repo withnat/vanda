@@ -85,7 +85,7 @@ class Error {
 					$length = $end - $start;
 
 					$origin = substr($origin, $start, $length);
-					$origin = substr($origin, strlen(BASEPATH));
+					$origin = substr($origin, strlen(PATH_BASE));
 
 					$lineNumber = $lines[0];
 					$start = strpos($lineNumber, '(') + 1;
@@ -112,7 +112,7 @@ class Error {
 				}
 				else
 				{
-					$origin = substr($e->getFile(), strlen(BASEPATH)) . ' at line ' . $e->getLine();
+					$origin = substr($e->getFile(), strlen(PATH_BASE)) . ' at line ' . $e->getLine();
 					$trace = $e->getTraceAsString();
 				}
 
@@ -123,7 +123,7 @@ class Error {
 					. '<h3>Trace</h3>'
 					. '<pre>' . $trace . '</pre>';
 
-				$path = BASEPATH . '/themes/system/error.php';
+				$path = PATH_THEME . '/system/error.php';
 
 				if (is_file($path) and is_readable($path))
 				{

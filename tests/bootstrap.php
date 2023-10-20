@@ -28,17 +28,28 @@ use System\Autoloader;
 // it is in a different namespace from the core files.
 
 define('VD', 1);
-define('BASEPATH',  __DIR__ . '/..');
 define('ENVIRONMENT',  'development'); // 'development', 'testing', 'staging' or 'production'
+
+define('PATH_BASE', str_replace('/' . basename(__DIR__), '', __DIR__));
+define('PATH_ASSET', PATH_BASE . '/assets');
+define('PATH_CONFIG', PATH_BASE . '/config');
+define('PATH_LANGUAGE', PATH_BASE . '/languages');
+define('PATH_PACKAGE', PATH_BASE . '/packages');
+define('PATH_STORAGE', PATH_BASE . '/storage');
+
+define('PATH_SYSTEM', PATH_BASE . '/system');
+define('PATH_ASSET_SYSTEM', PATH_SYSTEM . '/assets');
+define('PATH_LANGUAGE_SYSTEM', PATH_SYSTEM . '/languages');
+define('PATH_PACKAGE_SYSTEM', PATH_SYSTEM . '/packages');
 
 // Load the Vanda autoloader.
 
-require BASEPATH . '/system/Autoloader.php';
-require BASEPATH . '/system/common.php';
+require PATH_BASE . '/system/Autoloader.php';
+require PATH_BASE . '/system/common.php';
 
 // Create the Composer autoloader.
 
-$loader = require BASEPATH . '/vendor/autoload.php';
+$loader = require PATH_BASE . '/vendor/autoload.php';
 $loader->unregister();
 
 // Decorate Composer autoloader.

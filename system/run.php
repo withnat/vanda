@@ -23,6 +23,18 @@ defined('VD') or exit('Access Denied');
 
 const VERSION = '0.1.0';
 
+const PATH_ASSET = PATH_BASE . '/assets';
+const PATH_CONFIG = PATH_BASE . '/config';
+const PATH_LANGUAGE = PATH_BASE . '/languages';
+const PATH_PACKAGE = PATH_BASE . '/packages';
+const PATH_STORAGE = PATH_BASE . '/storage';
+const PATH_THEME = PATH_BASE . '/themes';
+
+const PATH_SYSTEM = PATH_BASE . '/system';
+const PATH_ASSET_SYSTEM = PATH_SYSTEM . '/assets';
+const PATH_LANGUAGE_SYSTEM = PATH_SYSTEM . '/languages';
+const PATH_PACKAGE_SYSTEM = PATH_SYSTEM . '/packages';
+
 use System\Arr;
 use System\Auth;
 use System\Autoloader;
@@ -199,7 +211,7 @@ else
 $themeName = Setting::get(strtolower(SIDE) . 'theme', 'vanda');
 $themePath = BASEPATH . '/themes/' . SIDE . '/' . $themeName;
 
-define('THEME_PATH', $themePath);
+define('PATH_THEME', $themePath);
 
 //
 
@@ -355,12 +367,14 @@ else
 //	}
 //}
 
+$package = 'home';
 $module = 'home';
 $controller = 'home';
 $action = 'index';
 
 /* Define Constants */
 
+define('PACKAGE', $package);
 define('MODULE', $module);
 define('CONTROLLER', $controller);
 define('ACTION', $action);

@@ -19,7 +19,7 @@
 
 define('VD', 1);
 
-const BASEPATH = __DIR__;
+const PATH_BASE = __DIR__;
 const ENVIRONMENT = 'development'; // 'development', 'testing', 'staging' or 'production'
 
 include 'system/run.php';
