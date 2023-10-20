@@ -119,4 +119,19 @@ class FileTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// File::removeExtension()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodRemoveExtensionCase1()
+	{
+		$expected = '/path/to/picture';
+
+		$result = File::removeExtension('/path/to/picture.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
 }
