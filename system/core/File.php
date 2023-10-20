@@ -341,6 +341,7 @@ class File
 	 *
 	 * @param  string $file  The file name.
 	 * @return bool          Returns true if file exists. False otherwise.
+	 * @codeCoverageIgnore
 	 */
 	public static function exists(string $file) : bool
 	{
