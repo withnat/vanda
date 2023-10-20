@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use System\File;
 
@@ -31,6 +32,11 @@ use System\File;
 class FileTest extends TestCase
 {
 	use \phpmock\phpunit\PHPMock;
+
+	protected function tearDown() : void
+	{
+		Mockery::close();
+	}
 
 	// File::getName()
 
@@ -133,5 +139,67 @@ class FileTest extends TestCase
 		$result = File::removeExtension('/path/to/picture.jpg');
 
 		$this->assertEquals($expected, $result);
+	}
+
+	// File::delete()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodDeleteCase1()
+	{
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->once())->willReturn(false);
+
+		$result = File::delete('/not-existing-file.jpg');
+
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodDeleteCase2()
+	{
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->once())->willReturn(true);
+
+		$stubFile = $this->getFunctionMock('System', 'chmod');
+		$stubFile->expects($this->once())->willReturn(true);
+
+		$stubFile = $this->getFunctionMock('System', 'unlink');
+		$stubFile->expects($this->once())->willReturn(true);
+
+		$result = File::delete('/path/to/picture.jpg');
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodDeleteCase3()
+	{
+		$stubFile = $this->getFunctionMock('System', 'is_file');
+		$stubFile->expects($this->once())->willReturn(true);
+
+		$stubFile = $this->getFunctionMock('System', 'chmod');
+		$stubFile->expects($this->once())->willReturn(true);
+
+		$stubFile = $this->getFunctionMock('System', 'unlink');
+		$stubFile->expects($this->once())->willReturn(false);
+
+		$mockedError = Mockery::mock('alias:\System\Error');
+		$mockedError->shouldReceive('getLast')->atLeast()->once();
+
+		$mockedLogger = Mockery::mock('alias:\System\Logger');
+		$mockedLogger->shouldReceive('debug')->atLeast()->once();
+
+		$result = File::delete('/path/to/picture.jpg');
+
+		$this->assertFalse($result);
 	}
 }
