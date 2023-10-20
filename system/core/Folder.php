@@ -288,6 +288,28 @@ class Folder
 	}
 
 	/**
+	 * Gets the folder permissions.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $result = File::getPermission('/path/to/');
+	 * // The $result will be: '0644'
+	 *
+	 * $result = File::getPermission('not-exist-path');
+	 * // The $result will be: '0'
+	 * ```
+	 *
+	 * @param  string $file  The folder to get the permissions of.
+	 * @return string        Returns the folder permissions.
+	 * @codeCoverageIgnore
+	 */
+	public static function getPermission(string $file) : string
+	{
+		return File::getPermission($file);
+	}
+
+	/**
 	 * Deletes a folder.
 	 *
 	 * @param  string $path  The path of the folder to delete.
@@ -391,18 +413,41 @@ class Folder
 	 */
 	public static function copy(string $src, string $dest, bool $merge = false, bool $overwrite = false) : bool
 	{
+
 		$src = rtrim($src, static::getSeparator($src));
 		$dest = rtrim($dest, static::getSeparator($dest));
 
 		if (!static::exists($src))
 			throw new RuntimeException('Source folder not found: ' . $src);
 
-		$fp = @opendir($src);
+		if (static::exists($dest) and !$merge)
+			throw new RuntimeException('Destination folder already exists: ' . $dest);
 
-		if (!$fp)
+		/*
+		 * Php scandir sort first single files then folders and subfolders. We need to reverse the order to first get
+		 * the subfolders then folders and finally single files. As we need to create the subfolders first, then the
+		 * folders and finally copy the single files to the destination folder, e.g.
+		 *
+		 * /test-folder/test-sub-folder-3
+		 * /test-folder/test-sub-folder-2
+		 * /test-folder/test-sub-folder-2/index.html
+		 * /test-folder/test-sub-folder-1
+		 * /test-folder/test-sub-folder-1/index.html
+		 * /test-folder/test-sub-folder-1/file.txt
+		 * /test-folder/index.html
+		 * /test-folder/file.txt
+		 */
+		$entries = scandir($src, SCANDIR_SORT_DESCENDING);
+
+		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $src);
-		
-		while (($entry = readdir($fp)) !== false)
+
+		// Make the destination directory if not exist
+		$permission = static::getPermission($src);// Convert from string to number with leading zero in octal number.
+		$permission = octdec($permission);
+		static::create($dest, $permission, false);
+
+		foreach ($entries as $entry)
 		{
 			if ($entry === '.' or $entry === '..')
 				continue;
@@ -414,33 +459,23 @@ class Folder
 			{
 				case 'dir':
 
-					if (static::exists($destPath) and !$merge)
-						throw new RuntimeException('Destination folder already exists: ' . $destPath);
-
-					if (!static::create($destPath))
-						throw new RuntimeException('Cannot create destination folder: ' . $destPath);
-
 					static::copy($srcPath, $destPath);
 
 					break;
 
 				case 'file':
 
-					$filename = strtolower(File::getName($destPath));
+					// @codeCoverageIgnoreStart
+					if (is_file($destPath) and !$overwrite)
+						throw new RuntimeException('Destination file already exists: ' . $destPath);
 
-					if ($filename !== 'index.html')
-					{
-						if (is_file($destPath) and !$overwrite)
-							throw new RuntimeException('Destination file already exists: ' . $destPath);
-						elseif (!@copy($srcPath, $destPath))
-							throw new RuntimeException('Failed to delete file: ' . $destPath);
-					}
+					elseif (!@copy($srcPath, $destPath))
+						throw new RuntimeException('Failed to copy file: ' . $destPath);
+					// @codeCoverageIgnoreEnd
 
 					break;
 			}
 		}
-
-		closedir($fp);
 
 		return true;
 	}
