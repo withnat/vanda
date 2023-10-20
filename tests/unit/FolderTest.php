@@ -53,22 +53,22 @@ class FolderTest extends TestCase
 		 *   - test-sub-folder-3 (no file)
 		 */
 
-		if (!is_dir(BASEPATH . '/test-empty-folder'))
-			mkdir(BASEPATH . '/test-empty-folder', 0755, true);
+		if (!is_dir(PATH_BASE . '/test-empty-folder'))
+			mkdir(PATH_BASE . '/test-empty-folder', 0755, true);
 
-		if (!is_dir(BASEPATH . '/test-folder'))
+		if (!is_dir(PATH_BASE . '/test-folder'))
 		{
-			mkdir(BASEPATH . '/test-folder/test-sub-folder-1', 0755, true);
-			mkdir(BASEPATH . '/test-folder/test-sub-folder-2', 0755, true);
-			mkdir(BASEPATH . '/test-folder/test-sub-folder-3', 0755, true);
+			mkdir(PATH_BASE . '/test-folder/test-sub-folder-1', 0755, true);
+			mkdir(PATH_BASE . '/test-folder/test-sub-folder-2', 0755, true);
+			mkdir(PATH_BASE . '/test-folder/test-sub-folder-3', 0755, true);
 
-			file_put_contents(BASEPATH . '/test-folder/index.html', '<html lang="en"><body></body></html>');
-			file_put_contents(BASEPATH . '/test-folder/file.txt', 'test');
+			file_put_contents(PATH_BASE . '/test-folder/index.html', '<html lang="en"><body></body></html>');
+			file_put_contents(PATH_BASE . '/test-folder/file.txt', 'test');
 
-			file_put_contents(BASEPATH . '/test-folder/test-sub-folder-1/index.html', '<html lang="en"><body></body></html>');
-			file_put_contents(BASEPATH . '/test-folder/test-sub-folder-1/file.txt', 'test');
+			file_put_contents(PATH_BASE . '/test-folder/test-sub-folder-1/index.html', '<html lang="en"><body></body></html>');
+			file_put_contents(PATH_BASE . '/test-folder/test-sub-folder-1/file.txt', 'test');
 
-			file_put_contents(BASEPATH . '/test-folder/test-sub-folder-2/index.html', '<html lang="en"><body></body></html>');
+			file_put_contents(PATH_BASE . '/test-folder/test-sub-folder-2/index.html', '<html lang="en"><body></body></html>');
 		}
 	}
 
@@ -76,56 +76,56 @@ class FolderTest extends TestCase
 	{
 		Mockery::close();
 
-		if (is_dir(BASEPATH . '/test-empty-folder'))
+		if (is_dir(PATH_BASE . '/test-empty-folder'))
 		{
-			@unlink(BASEPATH . '/test-empty-folder/index.html');
-			@rmdir(BASEPATH . '/test-empty-folder');
+			@unlink(PATH_BASE . '/test-empty-folder/index.html');
+			@rmdir(PATH_BASE . '/test-empty-folder');
 		}
 
-		if (is_dir(BASEPATH . '/test-folder'))
+		if (is_dir(PATH_BASE . '/test-folder'))
 		{
-			@unlink(BASEPATH . '/test-folder/index.html');
-			@unlink(BASEPATH . '/test-folder/file.txt');
+			@unlink(PATH_BASE . '/test-folder/index.html');
+			@unlink(PATH_BASE . '/test-folder/file.txt');
 
-			@unlink(BASEPATH . '/test-folder/test-sub-folder-1/index.html');
-			@unlink(BASEPATH . '/test-folder/test-sub-folder-1/file.txt');
+			@unlink(PATH_BASE . '/test-folder/test-sub-folder-1/index.html');
+			@unlink(PATH_BASE . '/test-folder/test-sub-folder-1/file.txt');
 
-			@unlink(BASEPATH . '/test-folder/test-sub-folder-2/index.html');
+			@unlink(PATH_BASE . '/test-folder/test-sub-folder-2/index.html');
 
-			@rmdir(BASEPATH . '/test-folder/test-sub-folder-1');
-			@rmdir(BASEPATH . '/test-folder/test-sub-folder-2');
-			@rmdir(BASEPATH . '/test-folder/test-sub-folder-3');
-			@rmdir(BASEPATH . '/test-folder');
+			@rmdir(PATH_BASE . '/test-folder/test-sub-folder-1');
+			@rmdir(PATH_BASE . '/test-folder/test-sub-folder-2');
+			@rmdir(PATH_BASE . '/test-folder/test-sub-folder-3');
+			@rmdir(PATH_BASE . '/test-folder');
 		}
 
 		// For test Folder::copy() method.
 
-		if (is_dir(BASEPATH . '/test-empty-folder-2'))
+		if (is_dir(PATH_BASE . '/test-empty-folder-2'))
 		{
-			@unlink(BASEPATH . '/test-empty-folder-2/index.html');
-			@rmdir(BASEPATH . '/test-empty-folder-2');
+			@unlink(PATH_BASE . '/test-empty-folder-2/index.html');
+			@rmdir(PATH_BASE . '/test-empty-folder-2');
 		}
 
-		if (is_dir(BASEPATH . '/test-folder-2'))
+		if (is_dir(PATH_BASE . '/test-folder-2'))
 		{
-			@unlink(BASEPATH . '/test-folder-2/index.html');
-			@unlink(BASEPATH . '/test-folder-2/file.txt');
+			@unlink(PATH_BASE . '/test-folder-2/index.html');
+			@unlink(PATH_BASE . '/test-folder-2/file.txt');
 
-			@unlink(BASEPATH . '/test-folder-2/test-sub-folder-1/index.html');
-			@unlink(BASEPATH . '/test-folder-2/test-sub-folder-1/file.txt');
+			@unlink(PATH_BASE . '/test-folder-2/test-sub-folder-1/index.html');
+			@unlink(PATH_BASE . '/test-folder-2/test-sub-folder-1/file.txt');
 
-			@unlink(BASEPATH . '/test-folder-2/test-sub-folder-2/index.html');
+			@unlink(PATH_BASE . '/test-folder-2/test-sub-folder-2/index.html');
 
-			@rmdir(BASEPATH . '/test-folder-2/test-sub-folder-1');
-			@rmdir(BASEPATH . '/test-folder-2/test-sub-folder-2');
-			@rmdir(BASEPATH . '/test-folder-2/test-sub-folder-3');
-			@rmdir(BASEPATH . '/test-folder-2');
+			@rmdir(PATH_BASE . '/test-folder-2/test-sub-folder-1');
+			@rmdir(PATH_BASE . '/test-folder-2/test-sub-folder-2');
+			@rmdir(PATH_BASE . '/test-folder-2/test-sub-folder-3');
+			@rmdir(PATH_BASE . '/test-folder-2');
 		}
 
-		if (is_dir(BASEPATH . '/test-another-folder'))
+		if (is_dir(PATH_BASE . '/test-another-folder'))
 		{
-			rmdir(BASEPATH . '/test-another-folder/test-sub-folder-3');
-			rmdir(BASEPATH . '/test-another-folder');
+			rmdir(PATH_BASE . '/test-another-folder/test-sub-folder-3');
+			rmdir(PATH_BASE . '/test-another-folder');
 		}
 	}
 
@@ -287,7 +287,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::listFolders(BASEPATH . '/test-folder');
+		Folder::listFolders(PATH_BASE . '/test-folder');
 
 	}
 
@@ -301,7 +301,7 @@ class FolderTest extends TestCase
 		$stubFile->shouldReceive('getPermission')->andReturn('0755');
 		$stubFile->shouldReceive('getOwner')->andReturn('me:me');
 
-		$result = Folder::listFolders(BASEPATH . '/test-folder');
+		$result = Folder::listFolders(PATH_BASE . '/test-folder');
 
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey(0, $result);
@@ -338,7 +338,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::listFiles(BASEPATH . '/test-folder');
+		Folder::listFiles(PATH_BASE . '/test-folder');
 	}
 
 	// Folder::getSize()
@@ -365,7 +365,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::getSize(BASEPATH . '/test-folder');
+		Folder::getSize(PATH_BASE . '/test-folder');
 	}
 
 	/**
@@ -374,7 +374,7 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodGetSizeCase3()
 	{
-		$size = Folder::getSize(BASEPATH . '/test-folder');
+		$size = Folder::getSize(PATH_BASE . '/test-folder');
 
 		$this->assertEquals(12404, $size);
 	}
@@ -403,7 +403,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::delete(BASEPATH . '/test-folder');
+		Folder::delete(PATH_BASE . '/test-folder');
 	}
 
 	/**
@@ -415,7 +415,7 @@ class FolderTest extends TestCase
 		$mockedFile = Mockery::mock('alias:\System\File');
 		$mockedFile->shouldReceive('delete')->atLeast()->once();
 
-		Folder::delete(BASEPATH . '/test-folder');
+		Folder::delete(PATH_BASE . '/test-folder');
 
 		$this->assertTrue(true);
 	}
@@ -438,7 +438,7 @@ class FolderTest extends TestCase
 		$mockedLogger = Mockery::mock('alias:\System\Logger');
 		$mockedLogger->shouldReceive('debug')->atLeast()->once();
 
-		$result = Folder::delete(BASEPATH . '/test-folder');
+		$result = Folder::delete(PATH_BASE . '/test-folder');
 
 		$this->assertFalse($result);
 	}
@@ -467,7 +467,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::isEmpty(BASEPATH . '/test-folder');
+		Folder::isEmpty(PATH_BASE . '/test-folder');
 	}
 
 	/**
@@ -476,7 +476,7 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodIsEmptyCase3()
 	{
-		$result = Folder::isEmpty(BASEPATH . '/test-folder');
+		$result = Folder::isEmpty(PATH_BASE . '/test-folder');
 
 		$this->assertFalse($result);
 	}
@@ -490,7 +490,7 @@ class FolderTest extends TestCase
 		$stubFile = Mockery::mock('alias:\System\File');
 		$stubFile->shouldReceive('read')->andReturn('<html lang="en"><body></body></html>');
 
-		$result = Folder::isEmpty(BASEPATH . '/test-folder/test-sub-folder-2');
+		$result = Folder::isEmpty(PATH_BASE . '/test-folder/test-sub-folder-2');
 
 		$this->assertTrue($result);
 	}
@@ -514,11 +514,11 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodCopyCase2()
 	{
-		mkdir(BASEPATH . '/test-another-folder/test-sub-folder-3', 0755, true);
+		mkdir(PATH_BASE . '/test-another-folder/test-sub-folder-3', 0755, true);
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::copy(BASEPATH . '/test-folder/test-sub-folder-3', BASEPATH . '/test-another-folder/test-sub-folder-3');
+		Folder::copy(PATH_BASE . '/test-folder/test-sub-folder-3', PATH_BASE . '/test-another-folder/test-sub-folder-3');
 	}
 
 	/**
@@ -532,7 +532,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::copy(BASEPATH . '/test-folder', 'test-folder-2');
+		Folder::copy(PATH_BASE . '/test-folder', 'test-folder-2');
 	}
 
 		/**
@@ -544,9 +544,9 @@ class FolderTest extends TestCase
 		$mockedFile = Mockery::mock('alias:\System\File');
 		$mockedFile->shouldReceive('getPermission')->andReturn('0755');
 
-		Folder::copy(BASEPATH . '/test-empty-folder', BASEPATH . '/test-empty-folder-2');
+		Folder::copy(PATH_BASE . '/test-empty-folder', PATH_BASE . '/test-empty-folder-2');
 
-		$this->assertDirectoryExists(BASEPATH . '/test-empty-folder-2');
+		$this->assertDirectoryExists(PATH_BASE . '/test-empty-folder-2');
 	}
 
 	/**
@@ -562,12 +562,12 @@ class FolderTest extends TestCase
 		$mockedFile->shouldReceive('getPermission')->andReturn('0755');
 		$mockedFile->shouldReceive('getOwner')->andReturn('me:me');
 
-		$folder->copy(BASEPATH . '/test-folder', BASEPATH . '/test-folder-2');
+		$folder->copy(PATH_BASE . '/test-folder', PATH_BASE . '/test-folder-2');
 
-		$this->assertDirectoryExists(BASEPATH . '/test-folder-2');
+		$this->assertDirectoryExists(PATH_BASE . '/test-folder-2');
 
-		$items = Folder::countItems(BASEPATH . '/test-folder-2');
-		$size = Folder::getSize(BASEPATH . '/test-folder-2');
+		$items = Folder::countItems(PATH_BASE . '/test-folder-2');
+		$size = Folder::getSize(PATH_BASE . '/test-folder-2');
 
 		$this->assertEquals(8, $items);
 		$this->assertEquals(12404, $size);
