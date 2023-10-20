@@ -53,7 +53,7 @@ class FileTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodgetNameWithoutExtensionCase1()
+	public function testMethodGetNameWithoutExtensionCase1()
 	{
 		$expected = 'picture';
 
@@ -68,11 +68,39 @@ class FileTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodgetPathCase1()
+	public function testMethodGetPathCase1()
 	{
 		$expected = '/path/to';
 
 		$result = File::getPath('/path/to/picture.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	// File::changeExtension()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodChangeExtensionCase1()
+	{
+		$expected = 'picture.png';
+
+		$result = File::changeExtension('picture.jpg', 'png'); // without dot
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodChangeExtensionCase2()
+	{
+		$expected = 'picture.png';
+
+		$result = File::changeExtension('picture.jpg', '.png'); // with dot
 
 		$this->assertEquals($expected, $result);
 	}
