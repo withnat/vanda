@@ -46,4 +46,19 @@ class FileTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// File::getNameWithoutExtension() & File::getExtension()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodgetNameWithoutExtensionCase1()
+	{
+		$expected = 'picture';
+
+		$result = File::getNameWithoutExtension('/path/to/picture.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
 }
