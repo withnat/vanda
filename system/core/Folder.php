@@ -413,7 +413,6 @@ class Folder
 	 */
 	public static function copy(string $src, string $dest, bool $merge = false, bool $overwrite = false) : bool
 	{
-
 		$src = rtrim($src, static::getSeparator($src));
 		$dest = rtrim($dest, static::getSeparator($dest));
 
@@ -423,21 +422,7 @@ class Folder
 		if (static::exists($dest) and !$merge)
 			throw new RuntimeException('Destination folder already exists: ' . $dest);
 
-		/*
-		 * Php scandir sort first single files then folders and subfolders. We need to reverse the order to first get
-		 * the subfolders then folders and finally single files. As we need to create the subfolders first, then the
-		 * folders and finally copy the single files to the destination folder, e.g.
-		 *
-		 * /test-folder/test-sub-folder-3
-		 * /test-folder/test-sub-folder-2
-		 * /test-folder/test-sub-folder-2/index.html
-		 * /test-folder/test-sub-folder-1
-		 * /test-folder/test-sub-folder-1/index.html
-		 * /test-folder/test-sub-folder-1/file.txt
-		 * /test-folder/index.html
-		 * /test-folder/file.txt
-		 */
-		$entries = scandir($src, SCANDIR_SORT_DESCENDING);
+		$entries = scandir($src);
 
 		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $src);
