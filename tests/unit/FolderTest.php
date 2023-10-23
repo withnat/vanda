@@ -38,7 +38,7 @@ class FolderTest extends TestCase
 
 	private $fs;
 
-	public function setUp() : void
+	protected function setUp() : void
 	{
 		/* Create folder like this:
 		 * - folder-empty
@@ -75,7 +75,7 @@ class FolderTest extends TestCase
 				],
 
 				'sub-folder-3' => []
-			],
+			]
 		];
 
 		vfsStream::create($structure, $baseDir);
