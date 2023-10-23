@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use org\bovigo\vfs\vfsStream;
 use RuntimeException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -35,98 +36,55 @@ class FolderTest extends TestCase
 {
 	use \phpmock\phpunit\PHPMock;
 
+	private $fs;
+
 	public function setUp() : void
 	{
 		/* Create folder like this:
-		 * - test-empty-folder
-		 * - test-folder
-		 *   - index.html
-		 * 	 - file.txt
-		 *
-		 * 	 - test-sub-folder-1
+		 * - folder-empty
+		 * - folder
 		 *     - index.html
-		 *     - file.txt
+		 * 	   - file.txt
 		 *
-		 *   - test-sub-folder-2
-		 *     - index.html
+		 * 	   - sub-folder-1
+		 *         - index.html
+		 *         - file.txt
 		 *
-		 *   - test-sub-folder-3 (no file)
+		 *     - sub-folder-2
+		 *         - index.html
+		 *
+		 *     - sub-folder-3 (emtpy)
 		 */
 
-		if (!is_dir(PATH_BASE . '/test-empty-folder'))
-			mkdir(PATH_BASE . '/test-empty-folder', 0755, true);
+		$baseDir = vfsStream::setup('project');
 
-		if (!is_dir(PATH_BASE . '/test-folder'))
-		{
-			mkdir(PATH_BASE . '/test-folder/test-sub-folder-1', 0755, true);
-			mkdir(PATH_BASE . '/test-folder/test-sub-folder-2', 0755, true);
-			mkdir(PATH_BASE . '/test-folder/test-sub-folder-3', 0755, true);
+		$structure = [
+			'folder-empty' => [],
 
-			file_put_contents(PATH_BASE . '/test-folder/index.html', '<html lang="en"><body></body></html>');
-			file_put_contents(PATH_BASE . '/test-folder/file.txt', 'test');
+			'folder' => [
+				'index.html' => '<html lang="en"><body></body></html>',
+				'file.txt' => 'test',
 
-			file_put_contents(PATH_BASE . '/test-folder/test-sub-folder-1/index.html', '<html lang="en"><body></body></html>');
-			file_put_contents(PATH_BASE . '/test-folder/test-sub-folder-1/file.txt', 'test');
+				'sub-folder-1' => [
+					'index.html' => '<html lang="en"><body></body></html>',
+					'file.txt' => 'test'
+				],
 
-			file_put_contents(PATH_BASE . '/test-folder/test-sub-folder-2/index.html', '<html lang="en"><body></body></html>');
-		}
+				'sub-folder-2' => [
+					'index.html' => '<html lang="en"><body></body></html>'
+				],
+
+				'sub-folder-3' => []
+			],
+		];
+
+		vfsStream::create($structure, $baseDir);
+		$this->fs = vfsStream::url('project');
 	}
 
 	protected function tearDown() : void
 	{
 		Mockery::close();
-
-		if (is_dir(PATH_BASE . '/test-empty-folder'))
-		{
-			@unlink(PATH_BASE . '/test-empty-folder/index.html');
-			@rmdir(PATH_BASE . '/test-empty-folder');
-		}
-
-		if (is_dir(PATH_BASE . '/test-folder'))
-		{
-			@unlink(PATH_BASE . '/test-folder/index.html');
-			@unlink(PATH_BASE . '/test-folder/file.txt');
-
-			@unlink(PATH_BASE . '/test-folder/test-sub-folder-1/index.html');
-			@unlink(PATH_BASE . '/test-folder/test-sub-folder-1/file.txt');
-
-			@unlink(PATH_BASE . '/test-folder/test-sub-folder-2/index.html');
-
-			@rmdir(PATH_BASE . '/test-folder/test-sub-folder-1');
-			@rmdir(PATH_BASE . '/test-folder/test-sub-folder-2');
-			@rmdir(PATH_BASE . '/test-folder/test-sub-folder-3');
-			@rmdir(PATH_BASE . '/test-folder');
-		}
-
-		// For test Folder::copy() method.
-
-		if (is_dir(PATH_BASE . '/test-empty-folder-2'))
-		{
-			@unlink(PATH_BASE . '/test-empty-folder-2/index.html');
-			@rmdir(PATH_BASE . '/test-empty-folder-2');
-		}
-
-		if (is_dir(PATH_BASE . '/test-folder-2'))
-		{
-			@unlink(PATH_BASE . '/test-folder-2/index.html');
-			@unlink(PATH_BASE . '/test-folder-2/file.txt');
-
-			@unlink(PATH_BASE . '/test-folder-2/test-sub-folder-1/index.html');
-			@unlink(PATH_BASE . '/test-folder-2/test-sub-folder-1/file.txt');
-
-			@unlink(PATH_BASE . '/test-folder-2/test-sub-folder-2/index.html');
-
-			@rmdir(PATH_BASE . '/test-folder-2/test-sub-folder-1');
-			@rmdir(PATH_BASE . '/test-folder-2/test-sub-folder-2');
-			@rmdir(PATH_BASE . '/test-folder-2/test-sub-folder-3');
-			@rmdir(PATH_BASE . '/test-folder-2');
-		}
-
-		if (is_dir(PATH_BASE . '/test-another-folder'))
-		{
-			rmdir(PATH_BASE . '/test-another-folder/test-sub-folder-3');
-			rmdir(PATH_BASE . '/test-another-folder');
-		}
 	}
 
 	// Folder::getSeparator()
@@ -287,7 +245,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::listFolders(PATH_BASE . '/test-folder');
+		Folder::listFolders($this->fs . '/folder');
 
 	}
 
@@ -301,7 +259,7 @@ class FolderTest extends TestCase
 		$stubFile->shouldReceive('getPermission')->andReturn('0755');
 		$stubFile->shouldReceive('getOwner')->andReturn('me:me');
 
-		$result = Folder::listFolders(PATH_BASE . '/test-folder');
+		$result = Folder::listFolders($this->fs . '/folder');
 
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey(0, $result);
@@ -338,7 +296,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::listFiles(PATH_BASE . '/test-folder');
+		Folder::listFiles($this->fs . '/folder');
 	}
 
 	// Folder::getSize()
@@ -365,7 +323,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::getSize(PATH_BASE . '/test-folder');
+		Folder::getSize($this->fs . '/folder');
 	}
 
 	/**
@@ -374,9 +332,9 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodGetSizeCase3()
 	{
-		$size = Folder::getSize(PATH_BASE . '/test-folder');
+		$size = Folder::getSize($this->fs . '/folder');
 
-		$this->assertEquals(12404, $size);
+		$this->assertEquals(116, $size);
 	}
 
 	// Folder::delete()
@@ -403,7 +361,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::delete(PATH_BASE . '/test-folder');
+		Folder::delete($this->fs . '/folder');
 	}
 
 	/**
@@ -415,7 +373,7 @@ class FolderTest extends TestCase
 		$mockedFile = Mockery::mock('alias:\System\File');
 		$mockedFile->shouldReceive('delete')->atLeast()->once();
 
-		Folder::delete(PATH_BASE . '/test-folder');
+		Folder::delete($this->fs . '/folder');
 
 		$this->assertTrue(true);
 	}
@@ -438,7 +396,7 @@ class FolderTest extends TestCase
 		$mockedLogger = Mockery::mock('alias:\System\Logger');
 		$mockedLogger->shouldReceive('debug')->atLeast()->once();
 
-		$result = Folder::delete(PATH_BASE . '/test-folder');
+		$result = Folder::delete($this->fs . '/folder');
 
 		$this->assertFalse($result);
 	}
@@ -467,7 +425,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::isEmpty(PATH_BASE . '/test-folder');
+		Folder::isEmpty($this->fs . '/folder');
 	}
 
 	/**
@@ -476,7 +434,7 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodIsEmptyCase3()
 	{
-		$result = Folder::isEmpty(PATH_BASE . '/test-folder');
+		$result = Folder::isEmpty($this->fs . '/folder');
 
 		$this->assertFalse($result);
 	}
@@ -490,7 +448,7 @@ class FolderTest extends TestCase
 		$stubFile = Mockery::mock('alias:\System\File');
 		$stubFile->shouldReceive('read')->andReturn('<html lang="en"><body></body></html>');
 
-		$result = Folder::isEmpty(PATH_BASE . '/test-folder/test-sub-folder-2');
+		$result = Folder::isEmpty($this->fs . '/folder/sub-folder-2');
 
 		$this->assertTrue($result);
 	}
@@ -505,7 +463,7 @@ class FolderTest extends TestCase
 	{
 		$this->expectException(RuntimeException::class);
 
-		Folder::copy('non-exisint-path', 'test-folder-2');
+		Folder::copy('non-exisint-path', 'folder-2');
 	}
 
 	/**
@@ -514,11 +472,11 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodCopyCase2()
 	{
-		mkdir(PATH_BASE . '/test-another-folder/test-sub-folder-3', 0755, true);
+		mkdir($this->fs . '/test-another-folder/sub-folder-3', 0755, true);
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::copy(PATH_BASE . '/test-folder/test-sub-folder-3', PATH_BASE . '/test-another-folder/test-sub-folder-3');
+		Folder::copy($this->fs . '/folder/sub-folder-3', $this->fs . '/test-another-folder/sub-folder-3');
 	}
 
 	/**
@@ -532,7 +490,7 @@ class FolderTest extends TestCase
 
 		$this->expectException(RuntimeException::class);
 
-		Folder::copy(PATH_BASE . '/test-folder', 'test-folder-2');
+		Folder::copy($this->fs . '/folder', 'folder-2');
 	}
 
 	/**
@@ -544,9 +502,9 @@ class FolderTest extends TestCase
 		$mockedFile = Mockery::mock('alias:\System\File');
 		$mockedFile->shouldReceive('getPermission')->andReturn('0755');
 
-		Folder::copy(PATH_BASE . '/test-empty-folder', PATH_BASE . '/test-empty-folder-2');
+		Folder::copy($this->fs . '/folder-empty', $this->fs . '/folder-empty-2');
 
-		$this->assertDirectoryExists(PATH_BASE . '/test-empty-folder-2');
+		$this->assertDirectoryExists($this->fs . '/folder-empty-2');
 	}
 
 	/**
@@ -562,14 +520,14 @@ class FolderTest extends TestCase
 		$mockedFile->shouldReceive('getPermission')->andReturn('0755');
 		$mockedFile->shouldReceive('getOwner')->andReturn('me:me');
 
-		$folder->copy(PATH_BASE . '/test-folder', PATH_BASE . '/test-folder-2');
+		$folder->copy($this->fs . '/folder', $this->fs . '/folder-2');
 
-		$this->assertDirectoryExists(PATH_BASE . '/test-folder-2');
+		$this->assertDirectoryExists($this->fs . '/folder-2');
 
-		$items = Folder::countItems(PATH_BASE . '/test-folder-2');
-		$size = Folder::getSize(PATH_BASE . '/test-folder-2');
+		$items = Folder::countItems($this->fs . '/folder-2');
+		$size = Folder::getSize($this->fs . '/folder-2');
 
 		$this->assertEquals(8, $items);
-		$this->assertEquals(12404, $size);
+		$this->assertEquals(116, $size);
 	}
 }
