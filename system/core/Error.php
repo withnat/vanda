@@ -220,7 +220,7 @@ class Error {
 	 *
 	 * @return string|null  Returns the last error message if it exists.
 	 */
-	public static function getLast() : string
+	public static function getLast() : ?string
 	{
 		$error = error_get_last();
 		$error = $error['message'];
