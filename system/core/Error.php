@@ -239,7 +239,7 @@ class Error {
 	 */
 	protected static function render()
 	{
-		$path = BASEPATH . '/themes/system/500.php';
+		$path = PATH_BASE . '/themes/system/500.php';
 
 		if (is_file($path) and is_readable($path))
 		{
