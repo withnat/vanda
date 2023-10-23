@@ -469,7 +469,6 @@ class Folder
 	 * @param  bool   $merge      Whether to merge the contents of the source folder with the destination folder. Defaults to false.
 	 * @param  bool   $overwrite  Whether to overwrite existing files when moving. Defaults to false.
 	 * @return bool               Returns true if the folder was moved successfully, false otherwise.
-	 * @codeCoverageIgnore
 	 */
 	public static function move(string $src, string $dest, bool $merge = false, bool $overwrite = false) : bool
 	{
