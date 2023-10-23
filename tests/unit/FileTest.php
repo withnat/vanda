@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use org\bovigo\vfs\vfsStream;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use System\File;
@@ -32,6 +33,147 @@ use System\File;
 class FileTest extends TestCase
 {
 	use \phpmock\phpunit\PHPMock;
+
+	private $fs;
+
+	protected function setUp() : void
+	{
+		/* Create folder like this:
+		 * - assets
+		 *     - index.html
+		 *
+		 *     - css
+		 *         - index.html
+		 *
+		 *     - js
+		 *         - index.html
+		 *
+		 *     - images
+		 *         - index.html
+		 *         - picture.jpg
+		 *
+		 *         - resize
+		 *             - index.html
+		 *
+		 *             - 100x100
+		 *                 - index.html
+		 *                 - picture.jpg
+		 *
+		 *             - 200x200
+		 *                 - index.html
+		 *                 - picture.jpg
+		 *
+		 * - system
+		 *     - index.html
+		 *
+		 *     - assets
+		 *         - index.html
+		 *
+		 * 	       - css
+		 *             - index.html
+		 *
+		 *         - js
+		 *             - index.html
+		 *
+		 *         - images
+		 *             - index.html
+		 *             - picture.jpg
+		 *
+		 *             - resize
+		 *                 - 100x100
+		 *                     - index.html
+		 *                     - picture.jpg
+		 *
+		 *                 - 200x200
+		 *                     - index.html
+		 *                     - picture.jpg
+		 *
+		 * - themes
+		 *     - index.html
+		 *
+		 *     - backend
+		 *         - index.html
+		 *
+		 *         - vanda
+		 *             - index.html
+		 *
+		 * 		       - assets
+		 *                 - index.html
+		 *
+		 * 		       - css
+		 *                 - index.html
+		 *
+		 * 	           - js
+		 *                 - index.html
+		 *
+		 * 	           - images
+		 *                 - index.html
+		 *                 - picture.jpg
+		 *
+		 *                 - resize
+		 *                     - 100x100
+		 *                         - index.html
+		 *                         - picture.jpg
+		 *
+		 *                     - 200x200
+		 *                         - index.html
+		 *                         - picture.jpg
+		 */
+
+		$htmlContent = '<html lang="en"><body></body></html>';
+		$assetFileStructure = [
+			'index.html' => $htmlContent,
+
+			'css' => [
+				'index.html' => $htmlContent
+			],
+
+			'js' => [
+				'index.html' => $htmlContent
+			],
+
+			'images' => [
+				'index.html' => $htmlContent,
+				'picture.jpg' => 'picture.jpg',
+
+				'resize' => [
+					'index.html' => $htmlContent,
+
+					'100x100' => [
+						'index.html' => $htmlContent,
+						'picture.jpg' => 'picture.jpg'
+					],
+
+					'200x200' => [
+						'index.html' => $htmlContent,
+						'picture.jpg' => 'picture.jpg'
+					]
+				]
+			]
+		];
+
+		$baseDir = vfsStream::setup('project');
+		$structure = [
+			'assets' => $assetFileStructure,
+			'system' => [
+				'index.html' => $htmlContent,
+				'assets' => $assetFileStructure
+			],
+			'themes' => [
+				'index.html' => $assetFileStructure,
+				'backend' => [
+					'index.html' => $assetFileStructure,
+					'vanda' => [
+						'index.html' => $assetFileStructure,
+						'assets' => $assetFileStructure
+					]
+				]
+			]
+		];
+
+		vfsStream::create($structure, $baseDir);
+		$this->fs = vfsStream::url('project');
+	}
 
 	protected function tearDown() : void
 	{
@@ -149,9 +291,6 @@ class FileTest extends TestCase
 	 */
 	public function testMethodDeleteCase1()
 	{
-		$stubFile = $this->getFunctionMock('System', 'is_file');
-		$stubFile->expects($this->once())->willReturn(false);
-
 		$result = File::delete('/not-existing-file.jpg');
 
 		$this->assertFalse($result);
@@ -161,20 +300,12 @@ class FileTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodDeleteCase2()
+	public function testMethodDeleteCase11()
 	{
-		$stubFile = $this->getFunctionMock('System', 'is_file');
-		$stubFile->expects($this->once())->willReturn(true);
-
-		$stubFile = $this->getFunctionMock('System', 'chmod');
-		$stubFile->expects($this->once())->willReturn(true);
-
-		$stubFile = $this->getFunctionMock('System', 'unlink');
-		$stubFile->expects($this->once())->willReturn(true);
-
-		$result = File::delete('/path/to/picture.jpg');
+		$result = File::delete($this->fs . '/assets/images/picture.jpg');
 
 		$this->assertTrue($result);
+		$this->assertDirectoryNotExists($this->fs . '/assets/images/resize');
 	}
 
 	/**
@@ -183,12 +314,6 @@ class FileTest extends TestCase
 	 */
 	public function testMethodDeleteCase3()
 	{
-		$stubFile = $this->getFunctionMock('System', 'is_file');
-		$stubFile->expects($this->once())->willReturn(true);
-
-		$stubFile = $this->getFunctionMock('System', 'chmod');
-		$stubFile->expects($this->once())->willReturn(true);
-
 		$stubFile = $this->getFunctionMock('System', 'unlink');
 		$stubFile->expects($this->once())->willReturn(false);
 
@@ -198,7 +323,7 @@ class FileTest extends TestCase
 		$mockedLogger = Mockery::mock('alias:\System\Logger');
 		$mockedLogger->shouldReceive('debug')->atLeast()->once();
 
-		$result = File::delete('/path/to/picture.jpg');
+		$result = File::delete($this->fs . '/assets/images/picture.jpg');
 
 		$this->assertFalse($result);
 	}
