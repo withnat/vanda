@@ -485,6 +485,19 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodCopyCase3()
 	{
+		mkdir($this->fs . '/test-another-folder/sub-folder-3', 0755, true);
+
+		Folder::copy($this->fs . '/folder/sub-folder-3', $this->fs . '/test-another-folder/sub-folder-3', true);
+
+		$this->assertTrue(true);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase4()
+	{
 		$stubDir = $this->getFunctionMock('System', 'scandir');
 		$stubDir->expects($this->once())->willReturn(false);
 
@@ -497,7 +510,7 @@ class FolderTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodCopyCase4()
+	public function testMethodCopyCase5()
 	{
 		$mockedFile = Mockery::mock('alias:\System\File');
 		$mockedFile->shouldReceive('getPermission')->andReturn('0755');
@@ -511,24 +524,62 @@ class FolderTest extends TestCase
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testMethodCopyCase5()
+	public function testMethodCopyCase6()
 	{
 		$folder = Mockery::mock('\System\Folder')->makePartial();
 		$folder->shouldReceive('isEmpty')->andReturnFalse();
 
 		$mockedFile = Mockery::mock('alias:\System\File');
 		$mockedFile->shouldReceive('getPermission')->andReturn('0755');
-		$mockedFile->shouldReceive('getOwner')->andReturn('me:me');
 
 		$folder->copy($this->fs . '/folder', $this->fs . '/folder-2');
-
 		$this->assertDirectoryExists($this->fs . '/folder-2');
 
-		$items = Folder::countItems($this->fs . '/folder-2');
 		$size = Folder::getSize($this->fs . '/folder-2');
-
-		$this->assertEquals(8, $items);
 		$this->assertEquals(116, $size);
+
+		$mockedFile->shouldReceive('getOwner')->andReturn('me:me');
+		$items = Folder::countItems($this->fs . '/folder-2');
+		$this->assertEquals(8, $items);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase7()
+	{
+		$folder = Mockery::mock('\System\Folder')->makePartial();
+		$folder->shouldReceive('isEmpty')->andReturnFalse();
+
+		$mockedFile = Mockery::mock('alias:\System\File');
+		$mockedFile->shouldReceive('getPermission')->andReturn('0755');
+
+		$folder->copy($this->fs . '/folder', $this->fs . '/folder-2');
+		$this->assertDirectoryExists($this->fs . '/folder-2');
+
+		$this->expectException(RuntimeException::class);
+
+		$folder->copy($this->fs . '/folder', $this->fs . '/folder-2', true);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase8()
+	{
+		$folder = Mockery::mock('\System\Folder')->makePartial();
+		$folder->shouldReceive('isEmpty')->andReturnFalse();
+
+		$mockedFile = Mockery::mock('alias:\System\File');
+		$mockedFile->shouldReceive('getPermission')->andReturn('0755');
+
+		$folder->copy($this->fs . '/folder', $this->fs . '/folder-2');
+		$this->assertDirectoryExists($this->fs . '/folder-2');
+
+		$folder->copy($this->fs . '/folder', $this->fs . '/folder-2', true, true);
+		$this->assertTrue(true);
 	}
 
 	// Folder::move()

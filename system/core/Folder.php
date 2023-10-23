@@ -123,10 +123,8 @@ class Folder
 
 		$count = count($folders) + count($files);
 
-		// @codeCoverageIgnoreStart
 		foreach ($folders as $folder)
 			$count += static::countItems($path . '/' . $folder->name);
-		// @codeCoverageIgnoreEnd
 
 		return $count;
 	}
@@ -440,16 +438,16 @@ class Folder
 			{
 				case 'dir':
 
-					static::copy($srcPath, $destPath);
+					static::copy($srcPath, $destPath, $merge, $overwrite);
 
 					break;
 
 				case 'file':
 
-					// @codeCoverageIgnoreStart
 					if (is_file($destPath) and !$overwrite)
 						throw new RuntimeException('Destination file already exists: ' . $destPath);
 
+					// @codeCoverageIgnoreStart
 					elseif (!@copy($srcPath, $destPath))
 						throw new RuntimeException('Failed to copy file: ' . $destPath);
 					// @codeCoverageIgnoreEnd
