@@ -59,7 +59,7 @@ class Autoloader
 			$file = PATH_PACKAGE . '/base/' . SIDE . 'modules/controllers/BaseController.php';
 
 			if (!is_file($file))
-				$file = PATH_PACKAGE_SYSTEM . '/packages/base/' . SIDE . '/modules/controllers/BaseController.php';
+				$file = PATH_PACKAGE_SYSTEM . '/base/' . SIDE . '/modules/controllers/BaseController.php';
 		}
 		else if (substr($file, 0, 7) === 'System/')
 			$file = substr_replace($file, PATH_SYSTEM . '/core/', 0, 7) . '.php';
