@@ -173,7 +173,7 @@ class Folder
 		if (!static::exists($path))
 			throw new RuntimeException('Source folder not found: ' . $path);
 
-		$entries = scandir($path);
+		$entries = @scandir($path);
 
 		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $path);
@@ -217,7 +217,7 @@ class Folder
 		if (!static::exists($path))
 			throw new RuntimeException('Source folder not found: ' . $path);
 
-		$entries = scandir($path);
+		$entries = @scandir($path);
 
 		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $path);
@@ -261,7 +261,7 @@ class Folder
 		if (!static::exists($path))
 			throw new RuntimeException('Source folder not found: ' . $path);
 
-		$entries = scandir($path);
+		$entries = @scandir($path);
 
 		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $path);
@@ -324,7 +324,7 @@ class Folder
 		if (!static::exists($path))
 			return false;
 
-		$entries = scandir($path);
+		$entries = @scandir($path);
 
 		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $path);
@@ -372,7 +372,7 @@ class Folder
 		if (!static::exists($path))
 			throw new RuntimeException('Source folder not found: ' . $path);
 
-		$entries = scandir($path);
+		$entries = @scandir($path);
 
 		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $path);
@@ -416,7 +416,7 @@ class Folder
 		if (static::exists($dest) and !$merge)
 			throw new RuntimeException('Destination folder already exists: ' . $dest);
 
-		$entries = scandir($src);
+		$entries = @scandir($src);
 
 		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $src);
