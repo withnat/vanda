@@ -175,14 +175,14 @@ class Folder
 		if (!static::exists($path))
 			throw new RuntimeException('Source folder not found: ' . $path);
 
-		$fp = @opendir($path);
+		$entries = scandir($path);
 
-		if (!$fp)
+		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $path);
 
 		$folders = [];
 
-		while (($entry = readdir($fp)) !== false)
+		foreach ($entries as $entry)
 		{
 			$entryPath = $path . '/' . $entry;
 
@@ -219,14 +219,14 @@ class Folder
 		if (!static::exists($path))
 			throw new RuntimeException('Source folder not found: ' . $path);
 
-		$fp = @opendir($path);
+		$entries = scandir($path);
 
-		if (!$fp)
+		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $path);
 
 		$files = [];
 
-		while (($entry = readdir($fp)) !== false)
+		foreach ($entries as $entry)
 		{
 			$entryPath = $path . '/' . $entry;
 
@@ -263,14 +263,14 @@ class Folder
 		if (!static::exists($path))
 			throw new RuntimeException('Source folder not found: ' . $path);
 
-		$fp = @opendir($path);
+		$entries = scandir($path);
 
-		if (!$fp)
+		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $path);
 
 		$size = 0;
 
-		while (($entry = readdir($fp)) !== false)
+		foreach ($entries as $entry)
 		{
 			if ($entry === '.' or $entry === '..')
 				continue;
@@ -326,12 +326,12 @@ class Folder
 		if (!static::exists($path))
 			return false;
 
-		$fp = @opendir($path);
+		$entries = scandir($path);
 
-		if (!$fp)
+		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $path);
 
-		while (($entry = readdir($fp)) !== false)
+		foreach ($entries as $entry)
 		{
 			if ($entry === '.' or $entry === '..')
 				continue;
@@ -349,8 +349,6 @@ class Folder
 					break;
 			}
 		}
-
-		closedir($fp);
 
 		if (!@rmdir($path))
 		{
@@ -376,12 +374,12 @@ class Folder
 		if (!static::exists($path))
 			throw new RuntimeException('Source folder not found: ' . $path);
 
-		$fp = @opendir($path);
+		$entries = scandir($path);
 
-		if (!$fp)
+		if (!$entries)
 			throw new RuntimeException('Cannot open source folder: ' . $path);
 
-		while (($entry = readdir($fp)) !== false)
+		foreach ($entries as $entry)
 		{
 			if ($entry === '.' or $entry === '..')
 				continue;
@@ -396,8 +394,6 @@ class Folder
 			else
 				return false;
 		}
-
-		closedir($fp);
 
 		return true;
 	}

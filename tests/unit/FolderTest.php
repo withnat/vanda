@@ -282,7 +282,7 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodListFoldersCase2()
 	{
-		$stubDir = $this->getFunctionMock('System', 'opendir');
+		$stubDir = $this->getFunctionMock('System', 'scandir');
 		$stubDir->expects($this->once())->willReturn(false);
 
 		$this->expectException(RuntimeException::class);
@@ -333,7 +333,7 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodListFilesCase2()
 	{
-		$stubDir = $this->getFunctionMock('System', 'opendir');
+		$stubDir = $this->getFunctionMock('System', 'scandir');
 		$stubDir->expects($this->once())->willReturn(false);
 
 		$this->expectException(RuntimeException::class);
@@ -360,7 +360,7 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodGetSizeCase2()
 	{
-		$stubDir = $this->getFunctionMock('System', 'opendir');
+		$stubDir = $this->getFunctionMock('System', 'scandir');
 		$stubDir->expects($this->once())->willReturn(false);
 
 		$this->expectException(RuntimeException::class);
@@ -398,7 +398,7 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodDeleteCase2()
 	{
-		$stubDir = $this->getFunctionMock('System', 'opendir');
+		$stubDir = $this->getFunctionMock('System', 'scandir');
 		$stubDir->expects($this->once())->willReturn(false);
 
 		$this->expectException(RuntimeException::class);
@@ -462,7 +462,7 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodIsEmptyCase2()
 	{
-		$stubDir = $this->getFunctionMock('System', 'opendir');
+		$stubDir = $this->getFunctionMock('System', 'scandir');
 		$stubDir->expects($this->once())->willReturn(false);
 
 		$this->expectException(RuntimeException::class);
