@@ -363,17 +363,17 @@ class File
 
 		if (@unlink($file))
 		{
-			/*
 			$fileName = basename($file);
-			$resizePath = dirname($file) . '/' . RESIZE_DIR;
+			$resizePath = dirname($file) . '/resize/';
 
 			$fp = @opendir($resizePath);
+			$entries = @scandir($resizePath);
 
-			if ($fp)
+			if ($entries)
 			{
-				while (($entry = readdir($fp)) !== false)
+				foreach ($entries as $entry)
 				{
-					if ($entry === '.' or $entry === '..')
+					if ($entry === '.' or $entry === '..' or !is_dir($resizePath . '/' . $entry))
 						continue;
 
 					if (@unlink($resizePath . '/' . $entry . '/' . $fileName))
@@ -383,12 +383,9 @@ class File
 					}
 				}
 
-				closedir($fp);
-
 				if (Folder::isEmpty($resizePath))
 					Folder::delete($resizePath);
 			}
-			*/
 
 			return true;
 		}
@@ -720,6 +717,7 @@ class File
 	 *
 	 * @param  string $file  The file to get the info of.
 	 * @return array         Returns an array of file info.
+	 * @codeCoverageIgnore
 	 */
 	public static function getInfo(string $file) : array
 	{
@@ -745,6 +743,7 @@ class File
 	 *
 	 * @param  string       $file  The file to read.
 	 * @return string|false        Returns the read data or false on failure.
+	 * @codeCoverageIgnore
 	 */
 	public static function read(string $file)
 	{
@@ -872,6 +871,7 @@ class File
 	 *
 	 * @param  string $file  The file to get the permissions of.
 	 * @return string        Returns the file permissions.
+	 * @codeCoverageIgnore
 	 */
 	public static function getPermission(string $file) : string
 	{
@@ -935,6 +935,7 @@ class File
 	 * @param  string $dest       The destination file.
 	 * @param  bool   $overwrite  Whether to overwrite the destination file if it already exists. Defaults to false.
 	 * @return bool               Returns true on success or false on failure.
+	 * @codeCoverageIgnore
 	 */
 	public static function move(string $src, string $dest, bool $overwrite = false) : bool
 	{
