@@ -988,4 +988,46 @@ class FileTest extends TestCase
 
 		$this->assertFalse($result);
 	}
+
+	// File::write()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodWriteCase1()
+	{
+		$result = File::write($this->fs . '/file.txt', 'content');
+
+		$this->assertTrue($result);
+		$this->assertFileExists($this->fs . '/file.txt');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodWriteCase2()
+	{
+		$stubFile = $this->getFunctionMock('System', 'fopen');
+		$stubFile->expects($this->once())->willReturn(false);
+
+		$result = File::write($this->fs . '/file.txt', 'content');
+
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodWriteCase3()
+	{
+		$stubFile = $this->getFunctionMock('System', 'fwrite');
+		$stubFile->expects($this->once())->willReturn(false);
+
+		$result = File::write($this->fs . '/file.txt', 'content');
+
+		$this->assertFalse($result);
+	}
 }
