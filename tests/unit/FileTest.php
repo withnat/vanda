@@ -923,4 +923,30 @@ class FileTest extends TestCase
 
 		$this->assertFalse($result);
 	}
+
+	// File::getMime()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetMimeCase1()
+	{
+		$expected = 'text/html';
+
+		$result = File::getMime($this->fs . '/assets/images/index.html');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetMimeCase2()
+	{
+		$result = File::getMime($this->fs . '/not-existing-file.jpg');
+
+		$this->assertFalse($result);
+	}
 }

@@ -575,6 +575,7 @@ class File
 	 * @param  string|null $data     The data to stream.
 	 * @param  bool        $setMime  Whether to set the mime type. Defaults to true.
 	 * @return void
+	 * @codeCoverageIgnore
 	 */
 	public static function stream(string $file, ?string $data = null, bool $setMime = true) : void
 	{
