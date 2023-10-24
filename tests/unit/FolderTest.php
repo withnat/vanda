@@ -41,6 +41,7 @@ class FolderTest extends TestCase
 	protected function setUp() : void
 	{
 		/* Create folder like this:
+		 *
 		 * - folder-empty
 		 * - folder
 		 *     - index.html
