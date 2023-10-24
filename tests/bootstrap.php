@@ -31,29 +31,30 @@ define('VD', 1);
 define('ENVIRONMENT',  'development'); // 'development', 'testing', 'staging' or 'production'
 
 define('PATH_BASE', str_replace('/' . basename(__DIR__), '', __DIR__));
-define('PATH_ASSET', PATH_BASE . '/assets');
-define('PATH_CONFIG', PATH_BASE . '/config');
-define('PATH_LANGUAGE', PATH_BASE . '/languages');
-define('PATH_PACKAGE', PATH_BASE . '/packages');
-define('PATH_STORAGE', PATH_BASE . '/storage');
+define('DS', DIRECTORY_SEPARATOR);
+define('PATH_ASSET', PATH_BASE . DS . 'assets');
+define('PATH_CONFIG', PATH_BASE . DS . 'config');
+define('PATH_LANGUAGE', PATH_BASE . DS . 'languages');
+define('PATH_PACKAGE', PATH_BASE . DS . 'packages');
+define('PATH_STORAGE', PATH_BASE . DS . 'storage');
 
-define('PATH_SYSTEM', PATH_BASE . '/system');
-define('PATH_ASSET_SYSTEM', PATH_SYSTEM . '/assets');
-define('PATH_LANGUAGE_SYSTEM', PATH_SYSTEM . '/languages');
-define('PATH_PACKAGE_SYSTEM', PATH_SYSTEM . '/packages');
+define('PATH_SYSTEM', PATH_BASE . DS . 'system');
+define('PATH_ASSET_SYSTEM', PATH_SYSTEM . DS . 'assets');
+define('PATH_LANGUAGE_SYSTEM', PATH_SYSTEM . DS . 'languages');
+define('PATH_PACKAGE_SYSTEM', PATH_SYSTEM . DS . 'packages');
 
 define('PACKAGE', 'user');
-define('PATH_THEME', PATH_BASE . '/themes');
-define('THEME_PATH', PATH_THEME . '/backend/vanda');
+define('PATH_THEME', PATH_BASE . DS . 'themes');
+define('THEME_PATH', PATH_THEME . DS . 'backend/vanda');
 
 // Load the Vanda autoloader.
 
-require PATH_BASE . '/system/Autoloader.php';
-require PATH_BASE . '/system/common.php';
+require PATH_BASE . DS . 'system/Autoloader.php';
+require PATH_BASE . DS . 'system/common.php';
 
 // Create the Composer autoloader.
 
-$loader = require PATH_BASE . '/vendor/autoload.php';
+$loader = require PATH_BASE . DS . 'vendor/autoload.php';
 $loader->unregister();
 
 // Decorate Composer autoloader.

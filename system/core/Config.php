@@ -60,12 +60,12 @@ class Config
 
 		//if (!array_key_exists($file, static::$configs) and !array_key_exists('config', static::$configs))
 		//{
-			$path = PATH_CONFIG . '/' . ENVIRONMENT . '/' . $file . '.php';
+			$path = PATH_CONFIG . DS . ENVIRONMENT . DS . $file . '.php';
 
 			if (!is_file($path) or !is_readable(($path)))
 			{
 				$file = 'config';
-				$path = PATH_CONFIG . '/' . $file . '.php';
+				$path = PATH_CONFIG . DS . $file . '.php';
 			}
 
 			// Don't use include_once because /System/requirements.php need to include config file too!

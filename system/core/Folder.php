@@ -71,13 +71,14 @@ class Folder
 		{
 			if ($createDefaultHtmlFile)
 			{
-				$path = str_replace(PATH_BASE . '/', '', $path);
-				$subFolders = explode('/', $path);
+				$ds = static::getSeparator($path);
+				$path = str_replace(PATH_BASE . $ds, '', $path);
+				$subFolders = explode($ds, $path);
 				$subFolderPath = '';
 
 				foreach ($subFolders as $subFolder)
 				{
-					$subFolderPath .= $subFolder . '/';
+					$subFolderPath .= $subFolder . DS;
 					$file = $subFolderPath . 'index.html';
 
 					if (!is_file($file))
@@ -124,7 +125,7 @@ class Folder
 		$count = count($folders) + count($files);
 
 		foreach ($folders as $folder)
-			$count += static::countItems($path . '/' . $folder->name);
+			$count += static::countItems($path . DS . $folder->name);
 
 		return $count;
 	}
@@ -182,7 +183,7 @@ class Folder
 
 		foreach ($entries as $entry)
 		{
-			$entryPath = $path . '/' . $entry;
+			$entryPath = $path . DS . $entry;
 
 			if ($entry === '.' or $entry === '..' or filetype($entryPath) === 'file')
 				continue;
@@ -226,7 +227,7 @@ class Folder
 
 		foreach ($entries as $entry)
 		{
-			$entryPath = $path . '/' . $entry;
+			$entryPath = $path . DS . $entry;
 
 			if ($entry === '.' or $entry === '..' or filetype($entryPath) === 'dir')
 				continue;
@@ -273,7 +274,7 @@ class Folder
 			if ($entry === '.' or $entry === '..')
 				continue;
 
-			$entryPath = $path . '/' . $entry;
+			$entryPath = $path . DS . $entry;
 
 			// A subdirectory occupies 4096 bytes of space, even when it's empty.
 			$size += filesize($entryPath);
@@ -334,7 +335,7 @@ class Folder
 			if ($entry === '.' or $entry === '..')
 				continue;
 
-			$entryPath = $path . '/' . $entry;
+			$entryPath = $path . DS . $entry;
 
 			switch (filetype($entryPath))
 			{
@@ -384,7 +385,7 @@ class Folder
 
 			if (strtolower($entry) === 'index.html')
 			{
-				$content = File::read($path . '/' . $entry);
+				$content = File::read($path . DS . $entry);
 
 				if (trim($content) !== '<html lang="en"><body></body></html>')
 					return false;
@@ -431,8 +432,8 @@ class Folder
 			if ($entry === '.' or $entry === '..')
 				continue;
 
-			$srcPath = $src . '/' . $entry;
-			$destPath = $dest . '/' . $entry;
+			$srcPath = $src . DS . $entry;
+			$destPath = $dest . DS . $entry;
 
 			switch (filetype($srcPath))
 			{

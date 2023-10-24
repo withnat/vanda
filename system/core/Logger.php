@@ -81,7 +81,7 @@ class Logger
 		8 => 'debug'
 	];
 
-	protected static $_path = PATH_STORAGE  . '/logs/errors.log';
+	protected static $_path = PATH_STORAGE .  DS . 'logs/errors.log';
 
 	/**
 	 * Logger constructor.

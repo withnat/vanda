@@ -75,8 +75,8 @@ abstract class AbstractPlatform
 	protected static $_delimitIdentifierLeft = '`';
 	protected static $_delimitIdentifierRight = '`';
 	protected static $_affectedRows = null;
-	protected static $_dbCachePath = PATH_STORAGE . '/cache/db/';
-	protected static $_queryCachePath = PATH_STORAGE . '/cache/queries/';
+	protected static $_dbCachePath = PATH_STORAGE . DS . 'cache' . DS . 'db' . DS;
+	protected static $_queryCachePath = PATH_STORAGE . DS . 'cache' . DS . 'queries' . DS;
 
 	/**
 	 * AbstractPlatform constructor.

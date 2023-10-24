@@ -23,17 +23,18 @@ defined('VD') or exit('Access Denied');
 
 const VERSION = '0.1.0';
 
-const PATH_ASSET = PATH_BASE . '/assets';
-const PATH_CONFIG = PATH_BASE . '/config';
-const PATH_LANGUAGE = PATH_BASE . '/languages';
-const PATH_PACKAGE = PATH_BASE . '/packages';
-const PATH_STORAGE = PATH_BASE . '/storage';
-const PATH_THEME = PATH_BASE . '/themes';
+const DS = DIRECTORY_SEPARATOR;
+const PATH_ASSET = PATH_BASE . DS . 'assets';
+const PATH_CONFIG = PATH_BASE . DS . 'config';
+const PATH_LANGUAGE = PATH_BASE . DS . 'languages';
+const PATH_PACKAGE = PATH_BASE . DS . 'packages';
+const PATH_STORAGE = PATH_BASE . DS . 'storage';
+const PATH_THEME = PATH_BASE . DS . 'themes';
 
-const PATH_SYSTEM = PATH_BASE . '/system';
-const PATH_ASSET_SYSTEM = PATH_SYSTEM . '/assets';
-const PATH_LANGUAGE_SYSTEM = PATH_SYSTEM . '/languages';
-const PATH_PACKAGE_SYSTEM = PATH_SYSTEM . '/packages';
+const PATH_SYSTEM = PATH_BASE . DS . 'system';
+const PATH_ASSET_SYSTEM = PATH_SYSTEM . DS . 'assets';
+const PATH_LANGUAGE_SYSTEM = PATH_SYSTEM . DS . 'languages';
+const PATH_PACKAGE_SYSTEM = PATH_SYSTEM . DS . 'packages';
 
 use System\Arr;
 use System\Auth;
@@ -52,12 +53,12 @@ $timestart = microtime(true);
 
 /* Include startup files */
 
-require PATH_SYSTEM . '/Autoloader.php';
-require PATH_SYSTEM . '/common.php';
+require PATH_SYSTEM . DS . 'Autoloader.php';
+require PATH_SYSTEM . DS . 'common.php';
 
 /* Create the Composer autoloader */
 
-$loader = require PATH_BASE . '/vendor/autoload.php';
+$loader = require PATH_BASE . DS . 'vendor/autoload.php';
 $loader->unregister();
 
 // Decorate Composer autoloader
@@ -209,7 +210,7 @@ else
 //
 
 $themeName = Setting::get(strtolower(SIDE) . 'theme', 'vanda');
-$themePath = PATH_THEME . '/' . SIDE . '/' . $themeName;
+$themePath = PATH_THEME . DS . SIDE . DS . $themeName;
 
 define('THEME_PATH', $themePath);
 

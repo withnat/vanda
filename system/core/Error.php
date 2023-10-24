@@ -123,7 +123,7 @@ class Error {
 					. '<h3>Trace</h3>'
 					. '<pre>' . $trace . '</pre>';
 
-				$path = PATH_THEME . '/system/error.php';
+				$path = PATH_THEME . DS . 'system/error.php';
 
 				if (is_file($path) and is_readable($path))
 				{
@@ -239,7 +239,7 @@ class Error {
 	 */
 	protected static function render()
 	{
-		$path = PATH_BASE . '/themes/system/500.php';
+		$path = PATH_BASE . DS . 'themes/system/500.php';
 
 		if (is_file($path) and is_readable($path))
 		{

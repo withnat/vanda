@@ -162,24 +162,24 @@ class Language
 
 		// 1. Load system global language strings.
 
-		$path = PATH_LANGUAGE_SYSTEM . '/' . $code. '.ini';
+		$path = PATH_LANGUAGE_SYSTEM . DS . $code. '.ini';
 		if (is_file($path)) $systemGlobalStrings = parse_ini_file($path);
 
 		// 2. Load app global language strings and override system global language strings in point 1.
 
-		$path = PATH_LANGUAGE . '/' . $code. '.ini';
+		$path = PATH_LANGUAGE . DS . $code. '.ini';
 		if (is_file($path)) $appGlobalStrings = parse_ini_file($path);
 
 		$globalStrings = array_merge($systemGlobalStrings, $appGlobalStrings);
 
 		// 3. Load system package language strings.
 
-		$path = PATH_PACKAGE_SYSTEM . '/' . PACKAGE . '/languages/' . $code . '.ini';
+		$path = PATH_PACKAGE_SYSTEM . DS . PACKAGE . DS . 'languages' . DS . $code . '.ini';
 		if ($path) $systemPackageStrings = parse_ini_file($path);
 
 		// 4. Load app package language strings and override system package language strings in point 3.
 
-		$path = PATH_PACKAGE . '/' . PACKAGE . '/languages/' . $code . '.ini';
+		$path = PATH_PACKAGE . DS . PACKAGE . DS . 'languages' . DS . $code . '.ini';
 		if ($path) $appPackageStrings = parse_ini_file($path);
 
 		$packageStrings = array_merge($systemPackageStrings, $appPackageStrings);

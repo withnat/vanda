@@ -364,7 +364,7 @@ class File
 		if (@unlink($file))
 		{
 			$fileName = basename($file);
-			$resizePath = dirname($file) . '/resize/';
+			$resizePath = dirname($file) . DS . 'resize' . DS;
 
 			$fp = @opendir($resizePath);
 			$entries = @scandir($resizePath);
@@ -373,13 +373,13 @@ class File
 			{
 				foreach ($entries as $entry)
 				{
-					if ($entry === '.' or $entry === '..' or !is_dir($resizePath . '/' . $entry))
+					if ($entry === '.' or $entry === '..' or !is_dir($resizePath . DS . $entry))
 						continue;
 
-					if (@unlink($resizePath . '/' . $entry . '/' . $fileName))
+					if (@unlink($resizePath . DS . $entry . DS . $fileName))
 					{
-						if (Folder::isEmpty($resizePath . '/' . $entry))
-							Folder::delete($resizePath . '/' . $entry);
+						if (Folder::isEmpty($resizePath . DS . $entry))
+							Folder::delete($resizePath . DS . $entry);
 					}
 				}
 
@@ -427,47 +427,47 @@ class File
 			switch ($possibleFilePath)
 			{
 				case 'themeAssetFolder':
-					$path = THEME_PATH . '/assets/' . $folder . '/' . $filename;
+					$path = THEME_PATH . DS . 'assets' . DS . $folder . DS . $filename;
 					break;
 
 				case 'themeAssetRootFolder':
-					$path = THEME_PATH . '/assets/' . $filename;
+					$path = THEME_PATH . DS . 'assets' . DS . $filename;
 					break;
 
 				case 'systemPackageAssetFolder':
-					$path = PATH_SYSTEM . '/packages/' . PACKAGE . '/assets/' . $folder . '/' . $filename;
+					$path = PATH_SYSTEM . DS . 'packages' . DS . PACKAGE . DS . 'assets' . DS . $folder . DS . $filename;
 					break;
 
 				case 'systemPackageAssetRootFolder':
-					$path = PATH_SYSTEM . '/packages/' . PACKAGE . '/assets/' . $filename;
+					$path = PATH_SYSTEM . DS . 'packages' . DS . PACKAGE . DS . 'assets' . DS . $filename;
 					break;
 
 				case 'appPackageAssetFolder':
-					$path = PATH_PACKAGE . '/' . PACKAGE . '/assets/' . $folder . '/' . $filename;
+					$path = PATH_PACKAGE . DS . PACKAGE . DS . 'assets' . DS . $folder . DS . $filename;
 					break;
 
 				case 'appPackageAssetRootFolder':
-					$path = PATH_PACKAGE . '/' . PACKAGE . '/assets/' . $filename;
+					$path = PATH_PACKAGE . DS . PACKAGE . DS . 'assets' . DS . $filename;
 					break;
 
 				case 'systemAssetFolder':
-					$path = PATH_SYSTEM . '/assets/' . $folder . '/' . $filename;
+					$path = PATH_SYSTEM . DS . 'assets' . DS . $folder . DS . $filename;
 					break;
 
 				case 'systemAssetRootFolder':
-					$path = PATH_SYSTEM . '/assets/' . $filename;
+					$path = PATH_SYSTEM . DS . 'assets' . DS . $filename;
 					break;
 
 				case 'appAssetFolder':
-					$path = PATH_ASSET . '/' . $folder . '/' . $filename;
+					$path = PATH_ASSET . DS . $folder . DS . $filename;
 					break;
 
 				// appAssetRootFolder
 				default:
-					$path = PATH_ASSET . '/' . $filename;
+					$path = PATH_ASSET . DS . $filename;
 			}
 
-			$path = substr_replace($path, '', 0, strlen(PATH_BASE . '/'));
+			$path = substr_replace($path, '', 0, strlen(PATH_BASE . DS));
 
 			if (is_file($path))
 				return $path;
@@ -484,8 +484,8 @@ class File
 	 */
 	protected static function _getPossibleAssetPaths(string $calledFromPath) : array
 	{
-		$appPackagePath = PATH_BASE . '/packages/' . PACKAGE;
-		$systemPackagePath = PATH_BASE . '/system/packages/' . PACKAGE;
+		$appPackagePath = PATH_BASE . DS . 'packages' . DS . PACKAGE;
+		$systemPackagePath = PATH_BASE . DS . 'system' . DS . 'packages' . DS . PACKAGE;
 
 		if (stripos($calledFromPath, PATH_THEME) !== false)
 		{
@@ -530,7 +530,7 @@ class File
 			];
 		}
 		// e.g. call from /system/MVC/View.php
-		elseif (stripos($calledFromPath, PATH_BASE . '/system/') !== false)
+		elseif (stripos($calledFromPath, PATH_BASE . DS . 'system' . DS) !== false)
 		{
 			$possibleAssetPaths = [
 				'systemAssetFolder',
@@ -811,7 +811,10 @@ class File
 		{
 			if (is_dir($file))
 			{
-				$file = rtrim($file, '/') . '/' . md5((string)mt_rand());
+				$file = rtrim($file, '/');
+				$file = rtrim($file, '\\');
+
+				$file = $file . DS . md5((string)mt_rand());
 
 				if (($fp = @fopen($file, 'ab')) === false)
 					return false;
