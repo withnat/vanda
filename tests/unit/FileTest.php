@@ -39,6 +39,7 @@ class FileTest extends TestCase
 	protected function setUp() : void
 	{
 		/* Create folder like this:
+		 *
 		 * - assets
 		 *     - index.html
 		 *
@@ -100,24 +101,24 @@ class FileTest extends TestCase
 		 * 		       - assets
 		 *                 - index.html
 		 *
-		 * 		       - css
-		 *                 - index.html
+		 * 		           - css
+		 *                     - index.html
 		 *
-		 * 	           - js
-		 *                 - index.html
+		 * 	               - js
+		 *                     - index.html
 		 *
-		 * 	           - images
-		 *                 - index.html
-		 *                 - picture.jpg
+		 * 	               - images
+		 *                     - index.html
+		 *                     - picture.jpg
 		 *
-		 *                 - resize
-		 *                     - 100x100
-		 *                         - index.html
-		 *                         - picture.jpg
+		 *                     - resize
+		 *                         - 100x100
+		 *                             - index.html
+		 *                             - picture.jpg
 		 *
-		 *                     - 200x200
-		 *                         - index.html
-		 *                         - picture.jpg
+		 *                         - 200x200
+		 *                             - index.html
+		 *                             - picture.jpg
 		 */
 
 		$htmlContent = '<html lang="en"><body></body></html>';
@@ -354,7 +355,7 @@ class FileTest extends TestCase
 		$stubFile = $this->getFunctionMock('System', 'is_file');
 		$stubFile->expects($this->once())->willReturn(true);
 
-		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+		$result = File::getAssetPath('picture.jpg', 'images', THEME_PATH . '/index.php');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -371,7 +372,7 @@ class FileTest extends TestCase
 		$stubFile->expects($this->at(0))->willReturn(false);
 		$stubFile->expects($this->at(1))->willReturn(true);
 
-		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+		$result = File::getAssetPath('picture.jpg', 'images', THEME_PATH . '/index.php');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -389,7 +390,7 @@ class FileTest extends TestCase
 		$stubFile->expects($this->at(1))->willReturn(false);
 		$stubFile->expects($this->at(2))->willReturn(true);
 
-		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+		$result = File::getAssetPath('picture.jpg', 'images', THEME_PATH . '/index.php');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -408,7 +409,7 @@ class FileTest extends TestCase
 		$stubFile->expects($this->at(2))->willReturn(false);
 		$stubFile->expects($this->at(3))->willReturn(true);
 
-		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+		$result = File::getAssetPath('picture.jpg', 'images', THEME_PATH . '/index.php');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -428,7 +429,7 @@ class FileTest extends TestCase
 		$stubFile->expects($this->at(3))->willReturn(false);
 		$stubFile->expects($this->at(4))->willReturn(true);
 
-		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+		$result = File::getAssetPath('picture.jpg', 'images', THEME_PATH . '/index.php');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -449,7 +450,7 @@ class FileTest extends TestCase
 		$stubFile->expects($this->at(4))->willReturn(false);
 		$stubFile->expects($this->at(5))->willReturn(true);
 
-		$result = File::getAssetPath('picture.jpg', 'images', PATH_THEME . '/index.php');
+		$result = File::getAssetPath('picture.jpg', 'images', THEME_PATH . '/index.php');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -885,5 +886,41 @@ class FileTest extends TestCase
 		$result = File::getAssetPath('picture.jpg', 'images', 'index.php');
 
 		$this->assertEquals($expected, $result);
+	}
+
+	// File::getExactPath()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetExactPathCase1()
+	{
+		$expected = $this->fs . '/assets/images/picture.jpg';
+
+		$paths = [
+			$this->fs . '/picture.jpg',
+			$this->fs . '/assets/images/picture.jpg',
+		];
+
+		$result = File::getExactPath($paths);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetExactPathCase2()
+	{
+		$paths = [
+			$this->fs . '/not-existing-file.jpg',
+			$this->fs . '/assets/images/not-existing-file.jpg',
+		];
+
+		$result = File::getExactPath($paths);
+
+		$this->assertFalse($result);
 	}
 }
