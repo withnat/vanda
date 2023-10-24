@@ -591,9 +591,7 @@ class FolderTest extends TestCase
 	 */
 	public function testMethodMoveCase1()
 	{
-		$folder = Mockery::mock('\System\Folder')->makePartial();
-
-		$folder->move($this->fs . '/folder', $this->fs . '/folder-2');
+		Folder::move($this->fs . '/folder', $this->fs . '/folder-2');
 
 		$this->assertDirectoryNotExists($this->fs . '/folder');
 		$this->assertDirectoryExists($this->fs . '/folder-2');
