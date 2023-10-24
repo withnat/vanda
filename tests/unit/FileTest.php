@@ -949,4 +949,43 @@ class FileTest extends TestCase
 
 		$this->assertFalse($result);
 	}
+
+	// File::getMimeByExtension();
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetMimeByExtensionCase1()
+	{
+		$expected = 'image/jpeg';
+
+		$result = File::getMimeByExtension('picture.jpg');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetMimeByExtensionCase2()
+	{
+		$expected = 'text/plain';
+
+		$result = File::getMimeByExtension('file.txt');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetMimeByExtensionCase3()
+	{
+		$result = File::getMimeByExtension('file.not-existing-extension');
+
+		$this->assertFalse($result);
+	}
 }
