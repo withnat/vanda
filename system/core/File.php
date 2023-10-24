@@ -467,12 +467,10 @@ class File
 					$path = PATH_ASSET . '/' . $filename;
 			}
 
-			if (is_file($path))
-			{
-				$path = substr_replace($path, '', 0, strlen(PATH_BASE . '/'));
+			$path = substr_replace($path, '', 0, strlen(PATH_BASE . '/'));
 
+			if (is_file($path))
 				return $path;
-			}
 		}
 
 		return $filename;
