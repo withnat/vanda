@@ -1030,4 +1030,20 @@ class FileTest extends TestCase
 
 		$this->assertFalse($result);
 	}
+
+	// File::getSize()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodGetSizeCase1()
+	{
+		$mockedNumber = Mockery::mock('alias:\System\Number');
+		$mockedNumber->shouldReceive('byteFormat')->once()->andReturn('test');
+
+		File::getSize($this->fs . '/assets/images/index.html');
+
+		$this->assertTrue(true);
+	}
 }
