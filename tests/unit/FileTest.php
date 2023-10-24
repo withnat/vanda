@@ -1100,4 +1100,32 @@ class FileTest extends TestCase
 
 		$this->assertTrue($result);
 	}
+
+	// File::move()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodMoveCase1()
+	{
+		File::move($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
+
+		$this->assertFileNotExists($this->fs . '/assets/index.html');
+		$this->assertFileExists($this->fs . '/assets/index2.html');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodMoveCase2()
+	{
+		$file = Mockery::mock('\System\File')->makePartial();
+		$file->shouldReceive('copy')->once()->andReturn(false);
+
+		$result = $file->move($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
+
+		$this->assertFalse($result);
+	}
 }

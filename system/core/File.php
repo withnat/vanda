@@ -941,7 +941,6 @@ class File
 	 * @param  string $dest       The destination file.
 	 * @param  bool   $overwrite  Whether to overwrite the destination file if it already exists. Defaults to false.
 	 * @return bool               Returns true on success or false on failure.
-	 * @codeCoverageIgnore
 	 */
 	public static function move(string $src, string $dest, bool $overwrite = false) : bool
 	{
