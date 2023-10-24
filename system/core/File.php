@@ -799,6 +799,7 @@ class File
 	 * @param  string $file  The file to test.
 	 * @return bool          Returns true if the file is writable. False otherwise.
 	 * @see https://bugs.php.net/bug.php?id=54709
+	 * @codeCoverageIgnore
 	 */
 	public static function isWritable(string $file) : bool
 	{
@@ -816,7 +817,9 @@ class File
 
 				$file = $file . DS . md5((string)mt_rand());
 
-				if (($fp = @fopen($file, 'ab')) === false)
+				$fp = @fopen($file, 'ab');
+
+				if ($fp === false)
 					return false;
 
 				fclose($fp);
