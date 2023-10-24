@@ -52,21 +52,23 @@ class Autoloader
 	public static function loadClass(string $class) : void
 	{
 		$file = $class;
-		$file = str_replace('\\', '/', $file);
+		$file = str_replace('\\', DS, $file);
 
 		if ($file === 'BaseController')
 		{
-			$file = PATH_PACKAGE . '/base/' . SIDE . 'modules/controllers/BaseController.php';
+			$controllerPath = 'base' . DS . SIDE . DS . 'modules' . DS . 'controllers' . DS . 'BaseController.php';
+
+			$file = PATH_PACKAGE . DS . $controllerPath;
 
 			if (!is_file($file))
-				$file = PATH_PACKAGE_SYSTEM . '/base/' . SIDE . '/modules/controllers/BaseController.php';
+				$file = PATH_PACKAGE_SYSTEM . DS . $controllerPath;
 		}
-		else if (substr($file, 0, 7) === 'System/')
-			$file = substr_replace($file, PATH_SYSTEM . '/core/', 0, 7) . '.php';
+		else if (substr($file, 0, 7) === 'System' . DS)
+			$file = substr_replace($file, PATH_SYSTEM . DS . 'core' . DS, 0, 7) . '.php';
 
 		// The second condition is used to avoid including
 		// a file from the root directory, such as index.php
-		if (!is_file($file) or strpos($file, '/') === false)
+		if (!is_file($file) or strpos($file, DS) === false)
 		{
 			// The requested file has suffix 'Helper'.
 			if (substr($class, -6) === 'Helper')
@@ -102,10 +104,12 @@ class Autoloader
 	 */
 	public static function importModule(string $module, string $controller) : void
 	{
-		$file = PATH_PACKAGE . '/' . $module . '/' . SIDE . '/modules/controllers/' . $controller . '.php';
+		$controllerPath = $module . DS . SIDE . DS . 'modules' . DS . 'controllers' . DS . $controller . '.php';
+
+		$file = PATH_PACKAGE . DS . $controllerPath;
 
 		if (!is_file($file))
-			$file = PATH_PACKAGE_SYSTEM . '/' . $module . '/' . SIDE . '/modules/controllers/' . $controller . '.php';
+			$file = PATH_PACKAGE_SYSTEM . DS . $controllerPath;
 
 		if (!is_file($file))
 			throw new RuntimeException('The requested module not found: ' . $controller);

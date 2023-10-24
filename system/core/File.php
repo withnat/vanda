@@ -435,11 +435,11 @@ class File
 					break;
 
 				case 'systemPackageAssetFolder':
-					$path = PATH_SYSTEM . DS . 'packages' . DS . PACKAGE . DS . 'assets' . DS . $folder . DS . $filename;
+					$path = PATH_PACKAGE_SYSTEM . DS . PACKAGE . DS . 'assets' . DS . $folder . DS . $filename;
 					break;
 
 				case 'systemPackageAssetRootFolder':
-					$path = PATH_SYSTEM . DS . 'packages' . DS . PACKAGE . DS . 'assets' . DS . $filename;
+					$path = PATH_PACKAGE_SYSTEM . DS . PACKAGE . DS . 'assets' . DS . $filename;
 					break;
 
 				case 'appPackageAssetFolder':
@@ -451,11 +451,11 @@ class File
 					break;
 
 				case 'systemAssetFolder':
-					$path = PATH_SYSTEM . DS . 'assets' . DS . $folder . DS . $filename;
+					$path = PATH_ASSET_SYSTEM . DS . $folder . DS . $filename;
 					break;
 
 				case 'systemAssetRootFolder':
-					$path = PATH_SYSTEM . DS . 'assets' . DS . $filename;
+					$path = PATH_ASSET_SYSTEM . DS . $filename;
 					break;
 
 				case 'appAssetFolder':

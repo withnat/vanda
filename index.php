@@ -17,8 +17,7 @@
  * @link         https://vanda.io
  */
 
-define('VD', 1);
-
+const VD = 1;
 const PATH_BASE = __DIR__;
 const ENVIRONMENT = 'development'; // 'development', 'testing', 'staging' or 'production'
 
