@@ -22,6 +22,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use org\bovigo\vfs\vfsStream;
+use RuntimeException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use System\File;
@@ -934,7 +935,7 @@ class FileTest extends TestCase
 	{
 		$expected = 'text/html';
 
-		$result = File::getMime($this->fs . '/assets/images/index.html');
+		$result = File::getMime($this->fs . '/assets/index.html');
 
 		$this->assertEquals($expected, $result);
 	}
@@ -1042,8 +1043,61 @@ class FileTest extends TestCase
 		$mockedNumber = Mockery::mock('alias:\System\Number');
 		$mockedNumber->shouldReceive('byteFormat')->once()->andReturn('test');
 
-		File::getSize($this->fs . '/assets/images/index.html');
+		File::getSize($this->fs . '/assets/index.html');
 
 		$this->assertTrue(true);
+	}
+
+	// File::copy()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase1()
+	{
+		$stubFile = $this->getFunctionMock('System', 'is_readable');
+		$stubFile->expects($this->once())->willReturn(false);
+
+		$this->expectException(RuntimeException::class);
+
+		File::copy($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase2()
+	{
+		$result = File::copy($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase3()
+	{
+		copy($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
+
+		$this->expectException(RuntimeException::class);
+
+		File::copy($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodCopyCase4()
+	{
+		copy($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
+
+		$result = File::copy($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html', true);
+
+		$this->assertTrue($result);
 	}
 }

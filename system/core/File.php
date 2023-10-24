@@ -897,6 +897,7 @@ class File
 	 *
 	 * @param  string $file  The file to get the owner of.
 	 * @return string        Returns the owner of the file.
+	 * @codeCoverageIgnore
 	 */
 	public static function getOwner(string $file) : string
 	{
