@@ -102,7 +102,7 @@ class Url
 	/**
 	 * Gets URI from the given URL. If the URL is null, it will return the current URI.
 	 *
-	 * @param string|null $url  Optionally, the URL to be parsed. Defaults to null.
+	 * @param string|null $url  Optionally, the URL to be parsed. Defaults to null. If null, returns the current URI.
 	 * @return string           Returns the current URL.
 	 * @codeCoverageIgnore
 	 */
@@ -119,7 +119,8 @@ class Url
 	/**
 	 * An alias for getQueryString() method.
 	 *
-	 * @param string|null $url  Optionally, the URL to be parsed. Defaults to null.
+	 * @param string|null $url  Optionally, the URL to be parsed. Defaults to null. If null, returns the current query
+	 *                          string.
 	 * @return string           Returns query string, null if not available.
 	 * @codeCoverageIgnore
 	 */
@@ -161,8 +162,8 @@ class Url
 	 * http://user:pass@hostname:9090/path?arg=value#anchor
 	 *
 	 * @param  string|null $path    Optionally, the path to be appended to the URL. Defaults to null.
-	 * @param  bool|null   $secure  Optionally, if true, force the scheme to be HTTPS. Defaults to null. If the value
-	 *                              is null, retrieve the $secure value from the security configuration file.
+	 * @param  bool|null   $secure  Optionally, if true, force the scheme to be HTTPS. Defaults to null. If null,
+	 *                              retrieve the $secure value from the security configuration file.
 	 * @return string               Returns the full URL.
 	 */
 	public static function create(?string $path = null, ?bool $secure = null) : string
@@ -327,14 +328,14 @@ class Url
 	/**
 	 * Converts the given URL into a context string used for variable suffix names, such as cookie names.
 	 *
-	 * @param  string|null $url  Optionally, the URL to be converted. Defaults to null.
+	 * @param  string|null $url  Optionally, the URL to be converted. Defaults to null. If null, uses the current URL.
 	 * @return string            Returns the context string.
 	 */
 	public static function toContext(?string $url = null) : string
 	{
 		if (!$url)
 		{
-			$url = Request::url();
+			$url = static::current();
 
 			$arr = explode('?', $url);
 			$url = $arr[0];

@@ -572,7 +572,8 @@ class File
 	 * Stream a file to the browser.
 	 *
 	 * @param  string      $file     The file to stream.
-	 * @param  string|null $data     Optionally, the data to stream. Defaults to null.
+	 * @param  string|null $data     Optionally, the data to stream. Defaults to null. If null, the file from the
+	 *                               specified path will be streamed.
 	 * @param  bool        $setMime  Whether to set the mime type. Defaults to true.
 	 * @return void
 	 * @codeCoverageIgnore

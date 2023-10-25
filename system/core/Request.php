@@ -603,6 +603,7 @@ class Request
 	 * Redirects to another location if this is not a GET request.
 	 *
 	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a GET request. Defaults to null.
+	 *                                If null, redirects to the default URL.
 	 * @return void
 	 */
 	public static function ensureIsGet(?string $redirect = null) : void
@@ -620,7 +621,7 @@ class Request
 	 * Redirects to another location if this is not a OPTIONS request.
 	 *
 	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a OPTIONS request. Defaults to
-	 *                                null.
+	 *                                null. If null, redirects to the default URL.
 	 * @return void
 	 */
 	public static function ensureIsOptions(?string $redirect = null) : void
@@ -638,7 +639,7 @@ class Request
 	 * Redirects to another location if this is not a HEAD request.
 	 *
 	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a HEAD request. Defaults to
-	 *                                null.
+	 *                                null. If null, redirects to the default URL.
 	 * @return void
 	 */
 	public static function ensureIsHead(?string $redirect = null) : void
@@ -656,7 +657,7 @@ class Request
 	 * Redirects to another location if this is not a POST request.
 	 *
 	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a POST request. Defaults to
-	 *                                null.
+	 *                                null. If null, redirects to the default URL.
 	 * @return void
 	 */
 	public static function ensureIsPost(?string $redirect = null) : void
@@ -674,7 +675,7 @@ class Request
 	 * Redirects to another location if this is not a DELETE request.
 	 *
 	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a DELETE request. Defaults to
-	 *                                null.
+	 *                                null. If null, redirects to the default URL.
 	 * @return void
 	 */
 	public static function ensureIsDelete(?string $redirect = null) : void
@@ -692,6 +693,7 @@ class Request
 	 * Redirects to another location if this is not a PUT request.
 	 *
 	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a PUT request. Defaults to null.
+	 *                                If null, redirects to the default URL.
 	 * @return void
 	 */
 	public static function ensureIsPut(?string $redirect = null) : void
@@ -709,7 +711,7 @@ class Request
 	 * Redirects to another location if this is not a PATCH request.
 	 *
 	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a PATCH request. Defaults to
-	 *                                null.
+	 *                                null. If null, redirects to the default URL.
 	 * @return void
 	 */
 	public static function ensureIsPatch(?string $redirect = null) : void
@@ -727,7 +729,7 @@ class Request
 	 * Redirects to another location if this is not an AJAX (XMLHttpRequest) request.
 	 *
 	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not an AJAX request. Defaults to
-	 *                                null.
+	 *                                null. If null, redirects to the default URL.
 	 * @return void
 	 */
 	public static function ensureIsAjax(?string $redirect = null) : void
@@ -745,7 +747,7 @@ class Request
 	 * Redirects to another location if this is not an PJAX request.
 	 *
 	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not an PJAX request. Defaults to
-	 *                                null.
+	 *                                null. If null, redirects to the default URL.
 	 * @return void
 	 */
 	public static function ensureIsPjax(?string $redirect = null) : void

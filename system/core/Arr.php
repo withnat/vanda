@@ -201,11 +201,10 @@ class Arr
 	 * ```
 	 *
 	 * @param  array    $array   The input array.
-	 * @param  int|null $length  Optionally, the number of elements to return. If $length is 1, returns value depend on
-	 *                           what the given array contains. If $length is greater than 1, returns an array contains
-	 *                           the first $length elements. Defaults to null.
-	 * @return mixed             Returns the first $length elements from the given array if the given array is not
-	 *                           empty, null otherwise.
+	 * @param  int|null $length  Optionally, the number of elements to return. Defaults to null.
+	 * @return mixed             If $length is null, returns a value in the first elements from the given array
+	 *                           depending on what the array contains. If $length is numeric, returns an array
+	 *                           containing the first $length elements.
 	 */
 	public static function first(array $array, ?int $length = null)
 	{
@@ -248,13 +247,12 @@ class Arr
 	 * //     [job] => Web Developer
 	 * // )
 	 * ```
-	 *
+	 *the last $length elements from the given array
 	 * @param  array    $array   The input array.
-	 * @param  int|null $length  Optionally, the number of elements to return. If $length is 1, returns value depend on
-	 *                           what the given array contains. If $length is greater than 1, returns an array contains
-	 *                           the last $length elements. Defaults to null.
-	 * @return mixed             Returns the last $length elements from the given array if the given array is not empty,
-	 *                           null otherwise.
+	 * @param  int|null $length  Optionally, the number of elements to return. Defaults to null.
+	 * @return mixed             If $length is null, returns a value in the last elements from the given array depending
+	 *                           on what the array contains. If $length is numeric, returns an array containing the last
+	 *                           $length elements.
 	 */
 	public static function last(array $array, ?int $length = null)
 	{
@@ -302,11 +300,9 @@ class Arr
 	 * ```
 	 *
 	 * @param  array    $array        The input array.
-	 * @param  int|null $length       Optionally, the number of keys to return. If $length is 1, returns the first key from
-	 *                                the given array. If $length is greater than 1, returns an array contains the first
-	 *                                $length keys. Defaults to null.
-	 * @return string|int|array|null  Returns the first $length key from the given array if the given array is not empty,
-	 *                                null otherwise.
+	 * @param  int|null $length       Optionally, the number of keys to return. Defaults to null.
+	 * @return string|int|array|null  If $length is null, returns the first key from the given array. If $length is
+	 *                                numeric, returns an array containing the first $length keys.
 	 */
 	public static function firstKey(array $array, ?int $length = null)
 	{
@@ -388,11 +384,9 @@ class Arr
 	 * ```
 	 *
 	 * @param  array    $array        The input array.
-	 * @param  int|null $length       Optionally, the number of keys to return. If $length is 1, returns the last key from
-	 *                                the given array. If $length is greater than 1, returns an array contains the last
-	 *                                $length keys. Defaults to null.
-	 * @return string|int|array|null  Returns the last $length key from the given array if the given array is not empty, null
-	 *                                otherwise.
+	 * @param  int|null $length       Optionally, the number of keys to return. Defaults to null.
+	 * @return string|int|array|null  If $length is null, returns the last key from the given array. If $length is
+	 *                                numeric, returns an array containing the last $length keys.
 	 */
 	public static function lastKey(array $array, ?int $length = null)
 	{
@@ -1202,8 +1196,8 @@ class Arr
 	 *
 	 * @param  array       $array  The input array.
 	 * @param  mixed       $value  The value to insert onto the beginning of the given array.
-	 * @param  string|null $key    Optionally, The key to set. Defaults to null. If leave it as default, a numeric key
-	 *                             will be generated automatically. Defaults to null.
+	 * @param  string|null $key    Optionally, The key to set. Defaults to null. If null, a numeric key will be
+	 *                             generated automatically.
 	 * @return array               Returns the given array with the specified value.
 	 */
 	public static function insert(array $array, $value, ?string $key = null) : array

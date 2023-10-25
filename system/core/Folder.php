@@ -59,8 +59,8 @@ class Folder
 	 *
 	 * @param  string $path                   The path of the folder to create.
 	 * @param  int    $mode                   Optionally, the mode to use when creating the folder. Defaults to 0755.
-	 * @param  bool   $createDefaultHtmlFile  Optionally, whether to create a default index.html file in the folder.
-	 *                                        Defaults to true.
+	 * @param  bool   $createDefaultHtmlFile  Optionally, whether to create a default index.html file in the folder for
+	 *                                        preventing directory listing. Defaults to true.
 	 * @return bool                           Returns true if the folder was created successfully, false otherwise.
 	 */
 	public static function create(string $path, int $mode = 0755, bool $createDefaultHtmlFile = true) : bool

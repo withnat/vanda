@@ -304,7 +304,7 @@ class Str
 	 *
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $length    How many characters from original string to include into truncated string.
-	 * @param  string      $suffix    Optionally, string to append to the end of the truncated string. Default is '...'.
+	 * @param  string      $suffix    Optionally, string to append to the end of the truncated string. Defaults to '...'.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns the truncated string.
@@ -366,7 +366,7 @@ class Str
 	 *
 	 * @param  string      $string    The string to truncate.
 	 * @param  int         $words     How many words from original string to include into truncated string.
-	 * @param  string      $suffix    Optionally, string to append to the end of truncated string. Default is '...'.
+	 * @param  string      $suffix    Optionally, string to append to the end of truncated string. Defaults to '...'.
 	 * @param  string|null $encoding  Optionally, the character encoding. If it is omitted or null, the internal
 	 *                                character encoding value will be used. Defaults to null.
 	 * @return string                 Returns the truncated string.

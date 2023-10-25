@@ -42,7 +42,8 @@ class Language
 	 * Gets a language string based on the given string and language ID.
 	 *
 	 * @param  string   $string  The string to get.
-	 * @param  int|null $langId  Optionally, the language ID to get. Defaults to null.
+	 * @param  int|null $langId  Optionally, the language ID to get. Defaults to null. If null, the default language
+	 *                           string will be returned.
 	 *                           If null, the default language string will be returned.
 	 * @return string            Returns the language string.
 	 */
@@ -62,7 +63,8 @@ class Language
 	/**
 	 * Gets a language code based on the given language ID.
 	 *
-	 * @param  int|null $langId  Optionally, the language ID to get. Defaults to null.
+	 * @param  int|null $langId  Optionally, the language ID to get. Defaults to null. If null, the default language
+	 *                           code will be returned.
 	 *                           If null, the default language code will be returned.
 	 * @return string            Returns the language code.
 	 * @codeCoverageIgnore
@@ -78,7 +80,8 @@ class Language
 	/**
 	 * Gets a language direction based on the given language ID.
 	 *
-	 * @param  int|null $langId  Optionally, the language ID to get. Defaults to null.
+	 * @param  int|null $langId  Optionally, the language ID to get. Defaults to null. If null, the default language
+	 *                           direction will be returned.
 	 *                           If null, the default language direction will be returned.
 	 * @return string            Returns the language direction.
 	 * @codeCoverageIgnore
@@ -97,7 +100,8 @@ class Language
 	 * from the package language file, and finally, override the global
 	 * language strings with those from the package.
 	 *
-	 * @param  int|null $langId  Optionally, the language ID to load. Defaults to null.
+	 * @param  int|null $langId  Optionally, the language ID to load. Defaults to null. If null, the default language
+	 *                           strings will be loaded.
 	 *                           If null, the default language will be loaded.
 	 * @return void
 	 */

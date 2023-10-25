@@ -415,7 +415,8 @@ class Response
 	 *
 	 * see : https://serverfault.com/questions/391181/examples-of-302-vs-303
 	 *
-	 * @param  string|null $url         Optionally, the URL to redirect to. Defaults to null.
+	 * @param  string|null $url         Optionally, the URL to redirect to. Defaults to null. If null, redirects to the
+	 *                                  default URL.
 	 * @param  int         $statusCode  Optionally, the type of redirection. Defaults to 303.
 	 * @return void
 	 */
