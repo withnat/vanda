@@ -473,9 +473,6 @@ class HtmlTest extends TestCase
 
 	/**
 	 * 2. No given alt and attribute.
-	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testMethodImageCase2() : void
 	{
@@ -488,9 +485,6 @@ class HtmlTest extends TestCase
 
 	/**
 	 * 3. Has a given alt.
-	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testMethodImageCase3() : void
 	{
@@ -503,9 +497,6 @@ class HtmlTest extends TestCase
 
 	/**
 	 * 4. A given attribute is a string.
-	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testMethodImageCase4() : void
 	{
@@ -536,9 +527,6 @@ class HtmlTest extends TestCase
 
 	/**
 	 * 6. A given attribute 'alt' is present in the string.
-	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testMethodImageCase6() : void
 	{
@@ -647,9 +635,6 @@ class HtmlTest extends TestCase
 
 	/**
 	 * 11. A given URL starts with 'http'.
-	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testMethodImageCase11() : void
 	{

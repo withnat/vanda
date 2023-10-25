@@ -1053,10 +1053,6 @@ class RequestTest extends TestCase
 
 	// Request::isSecure()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodIsSecureCase1() : void
 	{
 		$_SERVER['HTTPS'] = '0';
@@ -1348,10 +1344,6 @@ class RequestTest extends TestCase
 
 	// Request::isAjax()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodIsAjaxCase1() : void
 	{
 		$result = Request::isAjax();

@@ -118,11 +118,6 @@ class CookieTest extends TestCase
 
 	// Cookie::get()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 * @throws ErrorException
-	 */
 	public function testMethodGetCase1() : void
 	{
 		$result = Cookie::get('name', 'default value');
@@ -130,11 +125,6 @@ class CookieTest extends TestCase
 		$this->assertEquals('default value', $result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 * @throws ErrorException
-	 */
 	public function testMethodGetCase2() : void
 	{
 		$_COOKIE['__vandaCookie_name'] = 'Nat Withe';

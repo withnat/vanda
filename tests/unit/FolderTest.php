@@ -90,10 +90,6 @@ class FolderTest extends TestCase
 
 	// Folder::getSeparator()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetSeparatorCase1()
 	{
 		$expected = '/';
@@ -103,10 +99,6 @@ class FolderTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetSeparatorCase2()
 	{
 		$expected = '\\';
@@ -174,10 +166,6 @@ class FolderTest extends TestCase
 
 	// Folder::exists()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodExistsCase1()
 	{
 		$result = Folder::exists('.');
@@ -224,10 +212,6 @@ class FolderTest extends TestCase
 
 	// Folder::listFolders() & Folder::listFiles() (via Folder::countItems())
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodListFoldersCase1()
 	{
 		$this->expectException(RuntimeException::class);
@@ -275,10 +259,6 @@ class FolderTest extends TestCase
 
 	// Folder::listFiles()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodListFilesCase1()
 	{
 		$this->expectException(RuntimeException::class);
@@ -302,10 +282,6 @@ class FolderTest extends TestCase
 
 	// Folder::getSize()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetSizeCase1()
 	{
 		$this->expectException(RuntimeException::class);
@@ -327,10 +303,6 @@ class FolderTest extends TestCase
 		Folder::getSize($this->fs . '/folder');
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetSizeCase3()
 	{
 		$size = Folder::getSize($this->fs . '/folder');
@@ -340,10 +312,6 @@ class FolderTest extends TestCase
 
 	// Folder::delete()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodDeleteCase1()
 	{
 		$result = Folder::delete('non-exisint-path');
@@ -404,10 +372,6 @@ class FolderTest extends TestCase
 
 	// Folder::isEmpty()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodIsEmptyCase1()
 	{
 		$this->expectException(RuntimeException::class);
@@ -429,10 +393,6 @@ class FolderTest extends TestCase
 		Folder::isEmpty($this->fs . '/folder');
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodIsEmptyCase3()
 	{
 		$result = Folder::isEmpty($this->fs . '/folder');
@@ -456,10 +416,6 @@ class FolderTest extends TestCase
 
 	// Folder::copy()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodCopyCase1()
 	{
 		$this->expectException(RuntimeException::class);
@@ -467,10 +423,6 @@ class FolderTest extends TestCase
 		Folder::copy('non-exisint-path', 'folder-2');
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodCopyCase2()
 	{
 		mkdir($this->fs . '/test-another-folder/sub-folder-3', 0755, true);
@@ -480,10 +432,6 @@ class FolderTest extends TestCase
 		Folder::copy($this->fs . '/folder/sub-folder-3', $this->fs . '/test-another-folder/sub-folder-3');
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodCopyCase3()
 	{
 		mkdir($this->fs . '/test-another-folder/sub-folder-3', 0755, true);
@@ -585,10 +533,6 @@ class FolderTest extends TestCase
 
 	// Folder::move()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodMoveCase1()
 	{
 		Folder::move($this->fs . '/folder', $this->fs . '/folder-2');

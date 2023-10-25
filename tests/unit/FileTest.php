@@ -184,10 +184,6 @@ class FileTest extends TestCase
 
 	// File::getName()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetNameCase1()
 	{
 		$expected = 'picture.jpg';
@@ -199,10 +195,6 @@ class FileTest extends TestCase
 
 	// File::getNameWithoutExtension() & File::getExtension()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetNameWithoutExtensionCase1()
 	{
 		$expected = 'picture';
@@ -214,10 +206,6 @@ class FileTest extends TestCase
 
 	// File::getPath()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetPathCase1()
 	{
 		$expected = '/path/to';
@@ -229,10 +217,6 @@ class FileTest extends TestCase
 
 	// File::changeExtension()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodChangeExtensionCase1()
 	{
 		$expected = 'picture.png';
@@ -242,10 +226,6 @@ class FileTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodChangeExtensionCase2()
 	{
 		$expected = 'picture.png';
@@ -257,10 +237,6 @@ class FileTest extends TestCase
 
 	// File::makeSafe()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodMakeSafeCase1()
 	{
 		$expected = 'picture.jpg';
@@ -272,10 +248,6 @@ class FileTest extends TestCase
 
 	// File::removeExtension()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodRemoveExtensionCase1()
 	{
 		$expected = '/path/to/picture';
@@ -287,10 +259,6 @@ class FileTest extends TestCase
 
 	// File::delete()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodDeleteCase1()
 	{
 		$result = File::delete('/not-existing-file.jpg');
@@ -298,10 +266,6 @@ class FileTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodDeleteCase11()
 	{
 		$result = File::delete($this->fs . '/assets/images/picture.jpg');
@@ -891,10 +855,6 @@ class FileTest extends TestCase
 
 	// File::getExactPath()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetExactPathCase1()
 	{
 		$expected = $this->fs . '/assets/images/picture.jpg';
@@ -909,10 +869,6 @@ class FileTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetExactPathCase2()
 	{
 		$paths = [
@@ -927,10 +883,6 @@ class FileTest extends TestCase
 
 	// File::getMime()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetMimeCase1()
 	{
 		$expected = 'text/html';
@@ -940,10 +892,6 @@ class FileTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetMimeCase2()
 	{
 		$result = File::getMime($this->fs . '/not-existing-file.jpg');
@@ -953,10 +901,6 @@ class FileTest extends TestCase
 
 	// File::getMimeByExtension();
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetMimeByExtensionCase1()
 	{
 		$expected = 'image/jpeg';
@@ -966,10 +910,6 @@ class FileTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetMimeByExtensionCase2()
 	{
 		$expected = 'text/plain';
@@ -979,10 +919,6 @@ class FileTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetMimeByExtensionCase3()
 	{
 		$result = File::getMimeByExtension('file.not-existing-extension');
@@ -992,10 +928,6 @@ class FileTest extends TestCase
 
 	// File::write()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodWriteCase1()
 	{
 		$result = File::write($this->fs . '/file.txt', 'content');
@@ -1064,10 +996,6 @@ class FileTest extends TestCase
 		File::copy($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodCopyCase2()
 	{
 		$result = File::copy($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
@@ -1075,10 +1003,6 @@ class FileTest extends TestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodCopyCase3()
 	{
 		copy($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
@@ -1088,10 +1012,6 @@ class FileTest extends TestCase
 		File::copy($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodCopyCase4()
 	{
 		copy($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');
@@ -1103,10 +1023,6 @@ class FileTest extends TestCase
 
 	// File::move()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodMoveCase1()
 	{
 		File::move($this->fs . '/assets/index.html', $this->fs . '/assets/index2.html');

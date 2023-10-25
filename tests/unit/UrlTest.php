@@ -823,10 +823,6 @@ class UrlTest extends TestCase
 
 	// Url::toContext()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodtoContextCase1()
 	{
 		$expected = 'httpslocalhost';
