@@ -601,7 +601,7 @@ class DateTime extends \DateTime
 //	 * @param  string|null $time The input datetime.
 //	 * @return int
 //	 */
-//	private static function _toTimeStamp(string $time = null) : int
+//	protected static function _toTimeStamp(string $time = null) : int
 //	{
 //		if ($time)
 //			$timestamp = strtotime($time);
@@ -615,7 +615,7 @@ class DateTime extends \DateTime
 //	 * @param  int|null $timestamp The input datetime.
 //	 * @return string
 //	 */
-//	private static function _toDateTime(int $timestamp = null) : string
+//	protected static function _toDateTime(int $timestamp = null) : string
 //	{
 //		if ($timestamp)
 //			$time = date('Y-m-d H:i:s', $timestamp);

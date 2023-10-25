@@ -39,7 +39,7 @@ use System\Exception\InvalidArgumentException;
  */
 class Str
 {
-	private static $_encoding = null;
+	protected static $_encoding = null;
 	/**
 	 * Str constructor.
 	 */
@@ -52,7 +52,7 @@ class Str
 	 * @param  string|null $encoding  Optionally, the character encoding can be overwritten. Defaults to null.
 	 * @return string                 Returns the character encoding.
 	 */
-	private static function _getEncoding(?string $encoding = null) : string
+	protected static function _getEncoding(?string $encoding = null) : string
 	{
 		if (!$encoding and !static::$_encoding)
 		{

@@ -39,7 +39,7 @@ final class Session
 	/**
 	 * @return void
 	 */
-	private static function start() : void
+	protected static function start() : void
 	{
 		if (!static::$started)
 			static::$started = new Handler();
@@ -48,7 +48,7 @@ final class Session
 	/**
 	 * @return string
 	 */
-	private static function _getSessionVar() : string
+	protected static function _getSessionVar() : string
 	{
 		return '$_SESSION[\'__vandaSession\']';
 	}

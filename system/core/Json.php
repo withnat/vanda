@@ -151,7 +151,7 @@ class Json
 	 * @return string  Returns the error message.
 	 * @codeCoverageIgnore
 	 */
-	private static function _getError() : string
+	protected static function _getError() : string
 	{
 		switch (json_last_error())
 		{

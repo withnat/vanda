@@ -118,31 +118,31 @@ class Response
 	 *
 	 * @var Response  Instance of this class.
 	 */
-	private static $_instance;
+	protected static $_instance;
 
 	/**
 	 * The current status code for this response.
 	 *
 	 * @var int   The HTTP status code.
 	 */
-	private static $_statusCode = 200;
+	protected static $_statusCode = 200;
 
 	/**
 	 * The current reason phrase for this response.
 	 *
 	 * @var string  The HTTP status reason phrase.
 	 */
-	private static $_statusReason;
+	protected static $_statusReason;
 
 	/**
 	 * @var array  An array of HTTP headers.
 	 */
-	private static $_headers = [];
+	protected static $_headers = [];
 
 	/**
 	 * @var string  A body content of the response.
 	 */
-	private static $_body = '';
+	protected static $_body = '';
 
 	/**
 	 * Response constructor.
@@ -155,7 +155,7 @@ class Response
 	 *
 	 * @return Response  Returns the instance of this class to allow chaining.
 	 */
-	private static function _getInstance() : Response
+	protected static function _getInstance() : Response
 	{
 		if (is_null(Response::$_instance))
 			Response::$_instance = new Response;

@@ -196,7 +196,7 @@ class Xml
 	 * @param  string $tab                 Tab character.
 	 * @return string                      Returns the well-formed XML document.
 	 */
-	private static function _fromDatasetOrRecordset(array  $datasetOrRecordset, string $root, string $element, string $newline, string $tab) : string
+	protected static function _fromDatasetOrRecordset(array  $datasetOrRecordset, string $root, string $element, string $newline, string $tab) : string
 	{
 		$xml = '<' . $root . '>' . $newline;
 

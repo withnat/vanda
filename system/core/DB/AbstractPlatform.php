@@ -41,17 +41,8 @@ use PDOException;
 use PDOStatement;
 
 /**
- * ```php
- * private static $_sqlWheres = [
- *  ['operator' => 'AND', 'condition' => 'name=Nat'],
- *  ['operator' => 'OR', 'condition' => '('],
- *  ['operator' => 'AND', 'condition' => 'votes > 100'],
- *  ['operator' => 'AND', 'condition' => 'title <> 'Admin''],
- *  ['operator' => '', 'condition' => ')']
- * ];
- * ```
- *
  * Class AbstractPlatform
+ *
  * @package System\DB
  */
 abstract class AbstractPlatform
@@ -3099,7 +3090,7 @@ abstract class AbstractPlatform
 		return static::raw('SELECT VERSION()')->loadSingle();
 	}
 
-	private static function _displayError()
+	protected static function _displayError()
 	{
 		echo '<style>body { font-family: tahoma, arial; font-size: 12px; background: #222; color: #b5d5ff; }</style>';
 		echo '<fieldset><legend>SQL Error</legend>' . static::$_connection->errorInfo()[2] . '</fieldset>';

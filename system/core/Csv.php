@@ -174,7 +174,7 @@ class Csv
 	 * @param  string $enclosure  The enclosure character.
 	 * @return array              Returns an array.
 	 */
-	private static function _parseLine(string $line, string $delimiter, string $enclosure) : array
+	protected static function _parseLine(string $line, string $delimiter, string $enclosure) : array
 	{
 		$columns = explode($delimiter, $line);
 
@@ -199,7 +199,7 @@ class Csv
 	 * @param string $enclosure           Enclosure.
 	 * @return string                     Returns the well-formed CSV.
 	 */
-	private static function _fromDatasetOrRecordset(array $datasetOrRecordset, string $delimiter, string $newline, string $enclosure) : string
+	protected static function _fromDatasetOrRecordset(array $datasetOrRecordset, string $delimiter, string $newline, string $enclosure) : string
 	{
 		$header = '';
 		$csv = '';

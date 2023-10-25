@@ -772,7 +772,7 @@ class Request
 	 *                                                      Defaults to null.
 	 * @return mixed                                        Returns the variable value.
 	 */
-	private static function _requestByMethod(string $method, ?string $name = null, $default = null)
+	protected static function _requestByMethod(string $method, ?string $name = null, $default = null)
 	{
 		if (is_null(static::${'_' . $method . 'Values'}))
 		{
