@@ -459,4 +459,29 @@ class Data
 			}
 		}
 	}
+
+	/**
+	 * Swaps the values of two variables.
+	 *
+	 * Note, this method will modify the original variables.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $var1 = 'foo';
+	 * $var2 = 'bar';
+	 * Data::swap($var1, $var2);
+	 * // Now $var1 will be 'bar' and $var2 will be 'foo'.
+	 * ```
+	 *
+	 * @param  mixed $var1  The first variable.
+	 * @param  mixed $var2  The second variable.
+	 * @return void
+	 */
+	public static function swap(&$var1, &$var2) : void
+	{
+		$temp = $var1;
+		$var1 = $var2;
+		$var2 = $temp;
+	}
 }

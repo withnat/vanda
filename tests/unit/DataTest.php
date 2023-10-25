@@ -733,4 +733,17 @@ class DataTest extends TestCase
 
 		$this->assertNull($data);
 	}
+
+	// Data::swap()
+
+	public function testMethodSwapCase1() : void
+	{
+		$var1 = 5;
+		$var2 = 10;
+
+		Data::swap($var1, $var2);
+
+		$this->assertEquals(10, $var1);
+		$this->assertEquals(5, $var2);
+	}
 }
