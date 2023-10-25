@@ -92,7 +92,7 @@ class Logger
 	 * Writes an emergency message to the log file.
 	 *
 	 * @param  string     $message  The message to write.
-	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @param  array|null $data     Optionally, the data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 * @codeCoverageIgnore
 	 */
@@ -105,7 +105,7 @@ class Logger
 	 * Writes an alert message to the log file.
 	 *
 	 * @param  string     $message  The message to write.
-	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @param  array|null $data     Optionally, the data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 * @codeCoverageIgnore
 	 */
@@ -118,7 +118,7 @@ class Logger
 	 * Writes a critical message to the log file.
 	 *
 	 * @param  string    $message  The message to write.
-	 * @param array|null $data     The data to write. Defaults to null.
+	 * @param array|null $data     Optionally, the data to write. Defaults to null.
 	 * @return bool                Returns true if the message was written to the log file, false otherwise.
 	 * @codeCoverageIgnore
 	 */
@@ -131,7 +131,7 @@ class Logger
 	 * Writes an error message to the log file.
 	 *
 	 * @param  string     $message  The message to write.
-	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @param  array|null $data     Optionally, the data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 * @codeCoverageIgnore
 	 */
@@ -144,7 +144,7 @@ class Logger
 	 * Writes a warning message to the log file.
 	 *
 	 * @param  string     $message  The message to write.
-	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @param  array|null $data     Optionally, the data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 * @codeCoverageIgnore
 	 */
@@ -157,7 +157,7 @@ class Logger
 	 * Writes a notice message to the log file.
 	 *
 	 * @param  string     $message  The message to write.
-	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @param  array|null $data     Optionally, the data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 * @codeCoverageIgnore
 	 */
@@ -170,7 +170,7 @@ class Logger
 	 * Writes an info message to the log file.
 	 *
 	 * @param  string     $message  The message to write.
-	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @param  array|null $data     Optionally, the data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 * @codeCoverageIgnore
 	 */
@@ -183,7 +183,7 @@ class Logger
 	 * Writes a debug message to the log file.
 	 *
 	 * @param  string     $message  The message to write.
-	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @param  array|null $data     Optionally, the data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 * @codeCoverageIgnore
 	 */
@@ -197,7 +197,7 @@ class Logger
 	 *
 	 * @param  string     $level    The log level.
 	 * @param  string     $message  The message to write.
-	 * @param  array|null $data     The data to write. Defaults to null.
+	 * @param  array|null $data     Optionally, the data to write. Defaults to null.
 	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 */
 	public static function log(string $level, string $message, ?array $data = null) : bool

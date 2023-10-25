@@ -56,7 +56,9 @@ class Cookie
 	 *
 	 * @param string                             $name    The name of the cookie.
 	 * @param string|int|float|array|object|null $value   The value of the cookie.
-	 * @param int                                $expire  The number of seconds until expiration.
+	 * @param int                                $expire  Optionally, the number of seconds until the cookie expires.
+	 *                                                    Defaults to 0.
+	 *
 	 * @return void
 	 */
 	public static function set(string $name, $value, int $expire = 0) : void
@@ -94,7 +96,7 @@ class Cookie
 	 * This method provides a friendlier syntax for getting browser cookies.
 	 *
 	 * @param string $name     The name of the cookie.
-	 * @param mixed  $default  The default value to return if the cookie does not exist. Defaults to null.
+	 * @param mixed  $default  Optionally, the default value to return if the cookie does not exist. Defaults to null.
 	 * @return mixed           Returns the value of the cookie if it exists, otherwise returns the default value.
 	 * @throws ErrorException
 	 */

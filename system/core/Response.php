@@ -254,7 +254,7 @@ class Response
 	 *
 	 * @param  string   $name     The name of the header to set.
 	 * @param  string   $value    The value of the header to set.
-	 * @param  bool     $replace  Whether to replace the header if it already exists.
+	 * @param  bool     $replace  Optionally, whether to replace the header if it already exists. Defaults to false.
 	 * @return Response           Returns the instance of this class to allow chaining.
 	 */
 	public static function setHeader(string $name, string $value, bool $replace = false) : Response
@@ -415,8 +415,8 @@ class Response
 	 *
 	 * see : https://serverfault.com/questions/391181/examples-of-302-vs-303
 	 *
-	 * @param  string|null $url         The URL to redirect to.
-	 * @param  int         $statusCode  The type of redirection, defaults to 303.
+	 * @param  string|null $url         Optionally, the URL to redirect to. Defaults to null.
+	 * @param  int         $statusCode  Optionally, the type of redirection. Defaults to 303.
 	 * @return void
 	 */
 	public static function redirect(?string $url = null, int $statusCode = 303) : void

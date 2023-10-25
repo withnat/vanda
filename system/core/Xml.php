@@ -155,7 +155,7 @@ class Xml
 	 * Converts reserved XML characters to entities.
 	 *
 	 * @param  mixed  $string      The input string.
-	 * @param  bool   $protectAll  Optional. Defaults to false.
+	 * @param  bool   $protectAll  Optionally, whether to protect all characters. Defaults to false.
 	 * @return string              Returns the encoded string.
 	 */
 	public static function safe($string, bool $protectAll = false) : string

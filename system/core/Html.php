@@ -46,9 +46,9 @@ class Html
 	/**
 	 * Generates a '<a>' elment.
 	 *
-	 * @param  string|null       $url      The relative URL to use for the href attribute. Defaults to null.
-	 * @param  string|null       $text     The text to be wrapped by '<a>' element. Defaults to null.
-	 * @param  string|array|null $attribs  Attributes to be added to the '<a>' element. Defaults to null.
+	 * @param  string|null       $url      Optionally, the relative URL to use for the href attribute. Defaults to null.
+	 * @param  string|null       $text     Optionally, the text to be wrapped by '<a>' element. Defaults to null.
+	 * @param  string|array|null $attribs  Optionally, attributes to be added to the '<a>' element. Defaults to null.
 	 * @return string                      Returns the generated '<a>' element.
 	 */
 	public static function link(?string $url = null, ?string $text = null, $attribs = null) : string
@@ -83,9 +83,9 @@ class Html
 	/**
 	 * Generates a '<a>' elment if the current URL is not the same as the given URL.
 	 *
-	 * @param  string|null       $url      The relative URL to use for the href attribute. Defaults to null.
-	 * @param  string|null       $text     The text to be wrapped by '<a>' element. Defaults to null.
-	 * @param  string|array|null $attribs  Attributes to be added to the '<a>' element. Defaults to null.
+	 * @param  string|null       $url      Optionally, the relative URL to use for the href attribute. Defaults to null.
+	 * @param  string|null       $text     Optionally, the text to be wrapped by '<a>' element. Defaults to null.
+	 * @param  string|array|null $attribs  Optionally, attributes to be added to the '<a>' element. Defaults to null.
 	 * @return string                      Returns the generated '<a>' element.
 	 */
 	public static function linkUnlessCurrent(?string $url = null, ?string $text = null, $attribs = null) : string
@@ -109,8 +109,8 @@ class Html
 	 * Generates a mailto link.
 	 *
 	 * @param  string            $email    The email address to be used.
-	 * @param  string|null       $text     The text to be wrapped by '<a>' element. Defaults to null.
-	 * @param  string|array|null $attribs  Attributes to be added to the '<a>' element. Defaults to null.
+	 * @param  string|null       $text     Optionally, the text to be wrapped by '<a>' element. Defaults to null.
+	 * @param  string|array|null $attribs  Optionally, attributes to be added to the '<a>' element. Defaults to null.
 	 * @return string                      Returns the generated mailto link.
 	 */
 	public static function mailto(string $email, ?string $text = null, $attribs = null) : string
@@ -136,8 +136,9 @@ class Html
 	 * Generates a '<image>' element.
 	 *
 	 * @param  string            $url      The image URL to use for the src attribute.
-	 * @param  string|null       $alt      The alt attribute. Defaults to null.
-	 * @param  string|array|null $attribs  Attributes to be added to the '<image>' element. Defaults to null.
+	 * @param  string|null       $alt      Optionally, the alt attribute. Defaults to null.
+	 * @param  string|array|null $attribs  Optionally, attributes to be added to the '<image>' element. Defaults to
+	 *                                     null.
 	 * @return string                      Returns the generated '<image>' element.
 	 */
 	public static function image(string $url, ?string $alt = null, $attribs = null) : string
@@ -193,7 +194,7 @@ class Html
 	 * Generates a CSS <link> element.
 	 *
 	 * @param  string            $url      The CSS URL to use for the href attribute.
-	 * @param  string|array|null $attribs  Attributes to be added to the '<link>' element. Defaults to null.
+	 * @param  string|array|null $attribs  Optionally, attributes to be added to the '<link>' element. Defaults to null.
 	 * @return string                      Returns the generated CSS link.
 	 */
 	public static function css(string $url, $attribs = null) : string
@@ -235,7 +236,8 @@ class Html
 	 * Generates a '<script>' element.
 	 *
 	 * @param  string $url                The JS URL to use for the src attribute.
-	 * @param string|array|null $attribs  Attributes to be added to the '<script>' element. Defaults to null.
+	 * @param string|array|null $attribs  Optionally, attributes to be added to the '<script>' element. Defaults to
+	 *                                    null.
 	 * @return string                     Returns the generated '<script>' element.
 	 */
 	public static function js(string $url, $attribs = null) : string
@@ -277,7 +279,7 @@ class Html
 	 * Registers the CSS file to be included and printed in the template at a later point.
 	 *
 	 * @param  string            $url      The CSS URL to use for the href attribute.
-	 * @param  string|array|null $attribs  Attributes to be added to the '<link>' element. Defaults to null.
+	 * @param  string|array|null $attribs  Optionally, attributes to be added to the '<link>' element. Defaults to null.
 	 * @return void
 	 */
 	public static function addCss(string $url, $attribs = null) : void
@@ -311,7 +313,8 @@ class Html
 	 * Registers the JS file to be included and printed in the template at a later point.
 	 *
 	 * @param  string           $url      The JS URL to use for the src attribute.
-	 * @param string|array|null $attribs  Attributes to be added to the '<script>' element. Defaults to null.
+	 * @param string|array|null $attribs  Optionally, attributes to be added to the '<script>' element. Defaults to
+	 *                                    null.
 	 * @return void
 	 */
 	public static function addJs(string $url, $attribs = null) : void
@@ -439,8 +442,9 @@ class Html
 	/**
 	 * Extracts file name from the given URL and generates a '<a>' element linking to the file.
 	 *
-	 * @param  string $url  The URL of the file.
-	 * @return string       Returns the generated '<a>' element.
+	 * @param  string            $url      The URL of the file.
+	 * @param  string|array|null $attribs  Optionally, attributes to be added to the '<a>' element. Defaults to null.
+	 * @return string                      Returns the generated '<a>' element.
 	 */
 	public static function linkFile(string $url, $attribs = null) : string
 	{
@@ -486,7 +490,8 @@ class Html
 	 * Generates a '<ul>' element.
 	 *
 	 * @param  array|object      $items    The items to be wrapped by '<li>' element.
-	 * @param  string|array|null $attribs  The attributes to be added to the '<ul>' element. Defaults to null.
+	 * @param  string|array|null $attribs  Optionally, the attributes to be added to the '<ul>' element. Defaults to
+	 *                                     null.
 	 * @return string                      Returns the generated '<ul>' element.
 	 */
 	public static function ul($items, $attribs = null) : string
@@ -514,7 +519,8 @@ class Html
 	 * Generates a '<ol>' element.
 	 *
 	 * @param  array|object      $items    The items to be wrapped by '<li>' element.
-	 * @param  string|array|null $attribs  The attributes to be added to the '<ol>' element. Defaults to null.
+	 * @param  string|array|null $attribs  Optionally, the attributes to be added to the '<ol>' element. Defaults to
+	 *                                     null.
 	 * @return string                      Returns the generated '<ol>' element.
 	 */
 	public static function ol($items, $attribs = null) : string
@@ -542,7 +548,8 @@ class Html
 	 * Generates a '<table>' element.
 	 *
 	 * @param  array             $items    The items to be wrapped by '<td>' element.
-	 * @param  string|array|null $attribs  The attributes to be added to the '<table>' element. Defaults to null.
+	 * @param  string|array|null $attribs  Optionally, the attributes to be added to the '<table>' element. Defaults to
+	 *                                     null.
 	 * @return string                      Returns the generated '<table>' element.
 	 */
 	public static function table(array $items, $attribs = null) : string
@@ -581,7 +588,7 @@ class Html
 	 * Extracts the value of the given attribute from the given HTML.
 	 *
 	 * @param  string      $attribName  The name of the attribute.
-	 * @param  string|null $html        The HTML to be extracted.
+	 * @param  string|null $html        Optionally, the HTML to be extracted. Defaults to null.
 	 * @return string                   Returns the value of the given attribute.
 	 */
 	public static function getAttribute(string $attribName, ?string $html = null) : string

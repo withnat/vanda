@@ -51,9 +51,8 @@ class Url
 	/**
 	 * Gets base URL.
 	 *
-	 * @param  bool|null $secure  If true, force the scheme to be HTTPS. Defaults to null.
-	 *                            If the value is null, retrieve the $secure value from
-	 *                            the security configuration file.
+	 * @param  bool|null $secure  Optionally, if true, force the scheme to be HTTPS. Defaults to null. If the value is
+	 *                            null, retrieve the $secure value from the security configuration file.
 	 * @return string             Returns the base URL.
 	 */
 	public static function base(?bool $secure = null) : string
@@ -103,7 +102,7 @@ class Url
 	/**
 	 * Gets URI from the given URL. If the URL is null, it will return the current URI.
 	 *
-	 * @param string|null $url  The URL to be parsed.
+	 * @param string|null $url  Optionally, the URL to be parsed. Defaults to null.
 	 * @return string           Returns the current URL.
 	 * @codeCoverageIgnore
 	 */
@@ -120,7 +119,7 @@ class Url
 	/**
 	 * An alias for getQueryString() method.
 	 *
-	 * @param string|null $url  The URL to be parsed.
+	 * @param string|null $url  Optionally, the URL to be parsed. Defaults to null.
 	 * @return string           Returns query string, null if not available.
 	 * @codeCoverageIgnore
 	 */
@@ -161,10 +160,9 @@ class Url
 	 * Example url.
 	 * http://user:pass@hostname:9090/path?arg=value#anchor
 	 *
-	 * @param  string|null $path    The path to be appended to the URL.
-	 * @param  bool|null   $secure  If true, force the scheme to be HTTPS. Defaults to null.
-	 *                              If the value is null, retrieve the $secure value from
-	 *                              the security configuration file.
+	 * @param  string|null $path    Optionally, the path to be appended to the URL. Defaults to null.
+	 * @param  bool|null   $secure  Optionally, if true, force the scheme to be HTTPS. Defaults to null. If the value
+	 *                              is null, retrieve the $secure value from the security configuration file.
 	 * @return string               Returns the full URL.
 	 */
 	public static function create(?string $path = null, ?bool $secure = null) : string
@@ -329,7 +327,7 @@ class Url
 	/**
 	 * Converts the given URL into a context string used for variable suffix names, such as cookie names.
 	 *
-	 * @param  string|null $url  The URL to be converted.
+	 * @param  string|null $url  Optionally, the URL to be converted. Defaults to null.
 	 * @return string            Returns the context string.
 	 */
 	public static function toContext(?string $url = null) : string
@@ -415,7 +413,7 @@ class Url
 	/**
 	 * Parse a URL and return scheme value, null if not available.
 	 *
-	 * @param  string|null $url  The URL to be parsed.
+	 * @param  string|null $url  Optionally, the URL to be parsed. Defaults to null.
 	 * @return string|null       Returns scheme value.
 	 */
 	public static function getScheme(?string $url = null) : ?string
@@ -445,7 +443,7 @@ class Url
 	/**
 	 * Parse a URL and return user value, null if not available.
 	 *
-	 * @param  string|null $url  The URL to be parsed.
+	 * @param  string|null $url  Optionally, the URL to be parsed. Defaults to null.
 	 * @return string|null       Returns user value.
 	 */
 	public static function getUser(?string $url = null) : ?string
@@ -475,7 +473,7 @@ class Url
 	/**
 	 * Parse a URL and return password value, null if not available.
 	 *
-	 * @param  string|null $url  The URL to be parsed.
+	 * @param  string|null $url  Optionally, the URL to be parsed. Defaults to null.
 	 * @return string|null       Returns password value.
 	 */
 	public static function getPass(?string $url = null) : ?string
@@ -505,7 +503,7 @@ class Url
 	/**
 	 * Parse a URL and return host value, null if not available.
 	 *
-	 * @param  string|null $url  The URL to be parsed.
+	 * @param  string|null $url  Optionally, the URL to be parsed. Defaults to null.
 	 * @return string|null       Returns host value.
 	 */
 	public static function getHost(?string $url = null) : ?string
@@ -535,7 +533,7 @@ class Url
 	/**
 	 * Parse a URL and return port value.
 	 *
-	 * @param  string|null $url  The URL to be parsed.
+	 * @param  string|null $url  Optionally, the URL to be parsed. Defaults to null.
 	 * @return int|null          Returns port value.
 	 */
 	public static function getPort(?string $url = null) : ?int
@@ -565,7 +563,7 @@ class Url
 	/**
 	 * Parse a URL and return path value, null if not available.
 	 *
-	 * @param  string|null $url  The URL to be parsed.
+	 * @param  string|null $url  Optionally, the URL to be parsed. Defaults to null.
 	 * @return string|null       Returns path value.
 	 */
 	public static function getPath(?string $url = null) : ?string
@@ -598,7 +596,7 @@ class Url
 	/**
 	 * Parse a URL and return query string, null if not available.
 	 *
-	 * @param  string|null $url  The URL to be parsed.
+	 * @param  string|null $url  Optionally, the URL to be parsed. Defaults to null.
 	 * @return string|null       Returns query string.
 	 */
 	public static function getQueryString(?string $url = null) : ?string
@@ -629,7 +627,7 @@ class Url
 	/**
 	 * Parse a URL and return fragment value, null if not available.
 	 *
-	 * @param  string|null $url  The URL to be parsed.
+	 * @param  string|null $url  Optionally, the URL to be parsed. Defaults to null.
 	 * @return string|null       Returns fragment value.
 	 */
 	public static function getFragment(?string $url = null) : ?string

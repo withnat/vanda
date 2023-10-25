@@ -38,7 +38,7 @@ class Hash
 	 * Creates a new hash from the given string.
 	 *
 	 * @param  string      $string  The input string to hash.
-	 * @param  int         $rounds  Optional, hashing rounds to apply. Defaults to 10.
+	 * @param  int         $rounds  Optionally, the number of rounds to use. Defaults to 10.
 	 * @return string|bool          Returns the hashed string, or false on failure.
 	 */
 	public static function make(string $string, int $rounds = 10)

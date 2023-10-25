@@ -572,7 +572,7 @@ class File
 	 * Stream a file to the browser.
 	 *
 	 * @param  string      $file     The file to stream.
-	 * @param  string|null $data     The data to stream.
+	 * @param  string|null $data     Optionally, the data to stream. Defaults to null.
 	 * @param  bool        $setMime  Whether to set the mime type. Defaults to true.
 	 * @return void
 	 * @codeCoverageIgnore
@@ -754,7 +754,7 @@ class File
 	 *
 	 * @param  string $file  The file to write to.
 	 * @param  string $data  The data to write.
-	 * @param  string $mode  The file open mode. Defaults to 'wb'.
+	 * @param  string $mode  Optionally, the file open mode. Defaults to 'wb'.
 	 * @return bool          Returns true on success or false on failure.
 	 */
 	public static function write(string $file, string $data, string $mode = 'wb') : bool
@@ -848,9 +848,9 @@ class File
 	 * Gets the size of a file.
 	 *
 	 * @param  string      $file       The file to get the size of.
-	 * @param  int         $precision  The number of decimal places to round to.
-	 * @param  string|null $unit       The unit to use. Defaults to null. If null, the unit will be automatically
-	 *                                 determined.
+	 * @param  int         $precision  Optionally, the number of decimal places to round to. Defaults to 1.
+	 * @param  string|null $unit       Optionally, the unit to use. Possible values are: 'B', 'KB', 'MB', 'GB', 'TB',
+	 *                                 'PB', 'EB'. Defaults to null. If null, the unit will be automatically determined.
 	 * @return string                  Returns the size of the file.
 	 */
 	public static function getSize(string $file, int $precision = 1, ?string $unit = null) : string
@@ -920,7 +920,8 @@ class File
 	 *
 	 * @param  string $src        The source file.
 	 * @param  string $dest       The destination file.
-	 * @param  bool   $overwrite  Whether to overwrite the destination file if it already exists. Defaults to false.
+	 * @param  bool   $overwrite  Optionally, whether to overwrite the destination file if it already exists. Defaults
+	 *                            to false.
 	 * @return bool               Returns true on success or false on failure.
 	 */
 	public static function copy(string $src, string $dest, bool $overwrite = false) : bool
@@ -939,7 +940,8 @@ class File
 	 *
 	 * @param  string $src        The source file.
 	 * @param  string $dest       The destination file.
-	 * @param  bool   $overwrite  Whether to overwrite the destination file if it already exists. Defaults to false.
+	 * @param  bool   $overwrite  Optionally, whether to overwrite the destination file if it already exists. Defaults
+	 *                            to false.
 	 * @return bool               Returns true on success or false on failure.
 	 */
 	public static function move(string $src, string $dest, bool $overwrite = false) : bool

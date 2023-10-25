@@ -47,7 +47,7 @@ class Config
 	 * Returns a value from the config array.
 	 *
 	 * @param  string $key      The key name to get.
-	 * @param  mixed  $default  Optionally, the default value if the config value is empty.
+	 * @param  mixed  $default  Optionally, the default value if the config value is empty. Defaults to null.
 	 * @return mixed            Returns the config value.
 	 */
 	public static function get(string $key, $default = null)

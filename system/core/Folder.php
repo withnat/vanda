@@ -58,8 +58,9 @@ class Folder
 	 * Creates a folder.
 	 *
 	 * @param  string $path                   The path of the folder to create.
-	 * @param  int    $mode                   The mode to use when creating the folder. Defaults to 0755.
-	 * @param  bool   $createDefaultHtmlFile  Whether to create a default index.html file in the folder. Defaults to true.
+	 * @param  int    $mode                   Optionally, the mode to use when creating the folder. Defaults to 0755.
+	 * @param  bool   $createDefaultHtmlFile  Optionally, whether to create a default index.html file in the folder.
+	 *                                        Defaults to true.
 	 * @return bool                           Returns true if the folder was created successfully, false otherwise.
 	 */
 	public static function create(string $path, int $mode = 0755, bool $createDefaultHtmlFile = true) : bool
@@ -402,8 +403,9 @@ class Folder
 	 *
 	 * @param  string $src        The path of the source folder.
 	 * @param  string $dest       The path of the destination folder.
-	 * @param  bool   $merge      Whether to merge the contents of the source folder with the destination folder. Defaults to false.
-	 * @param  bool   $overwrite  Whether to overwrite existing files when copying. Defaults to false.
+	 * @param  bool   $merge      Optionally, whether to merge the contents of the source folder with the destination
+	 *                            folder. Defaults to false.
+	 * @param  bool   $overwrite  Optionally, whether to overwrite existing files when copying. Defaults to false.
 	 * @return bool               Returns true if the folder was copied successfully, false otherwise.
 	 */
 	public static function copy(string $src, string $dest, bool $merge = false, bool $overwrite = false) : bool
@@ -465,8 +467,9 @@ class Folder
 	 *
 	 * @param  string $src        The path of the source folder.
 	 * @param  string $dest       The path of the destination folder.
-	 * @param  bool   $merge      Whether to merge the contents of the source folder with the destination folder. Defaults to false.
-	 * @param  bool   $overwrite  Whether to overwrite existing files when moving. Defaults to false.
+	 * @param  bool   $merge      Optionally, whether to merge the contents of the source folder with the destination
+	 *                            folder. Defaults to false.
+	 * @param  bool   $overwrite  Optionally, whether to overwrite existing files when moving. Defaults to false.
 	 * @return bool               Returns true if the folder was moved successfully, false otherwise.
 	 */
 	public static function move(string $src, string $dest, bool $merge = false, bool $overwrite = false) : bool

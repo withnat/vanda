@@ -56,7 +56,7 @@ class Request
 	 *
 	 * @param  string           $name    The variable name.
 	 * @param  string|int|float $value   The variable value.
-	 * @param  string           $method  The request variable to set (GET or POST). Default to POST.
+	 * @param  string           $method  Optionally, the request variable to set (GET or POST). Default to POST.
 	 * @return void
 	 */
 	public static function set(string $name, $value, string $method = 'POST') : void
@@ -80,8 +80,10 @@ class Request
 	/**
 	 * Gets a request variable on the GET request method.
 	 *
-	 * @param  string|null                        $name     The variable name.
-	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
+	 * @param  string|null                        $name     Optionally, the variable name. Defaults to null. If null,
+	 *                                                      returns all GET variables.
+	 * @param  string|int|float|array|object|null $default  Optionally, default value if the variable does not exist.
+	 *                                                      Defaults to null.
 	 * @return mixed                                        Returns the variable value.
 	 */
 	public static function get(?string $name = null, $default = null)
@@ -95,8 +97,10 @@ class Request
 	/**
 	 * Gets a request variable on the POST request method.
 	 *
-	 * @param  string|null                        $name     The variable name.
-	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
+	 * @param  string|null                        $name     Optionally, the variable name. Defaults to null. If null,
+	 *                                                      returns all POST variables.
+	 * @param  string|int|float|array|object|null $default  Optionally, default value if the variable does not exist.
+	 *                                                      Defaults to null.
 	 * @return mixed                                        Returns the variable value.
 	 */
 	public static function post(?string $name = null, $default = null)
@@ -111,7 +115,7 @@ class Request
 	 * Gets data from a radio/single checkbox form submission and convert to integer.
 	 *
 	 * @param  string $name    The variable name.
-	 * @param  string $method  Where the variable should come from (GET or POST).
+	 * @param  string $method  Optionally, where the variable should come from (GET or POST). Defaults to POST.
 	 * @return int             Returns 1 if the variable is set and 0 if not.
 	 */
 	public static function switcher(string $name, string $method = 'POST') : int
@@ -396,10 +400,10 @@ class Request
 	 * Gets a header from the request, null if not available.
 	 *
 	 * @param  string      $name     The variable name.
-	 * @param  string|null $default  Default value if the variable does not exist.
+	 * @param  string|null $default  Optionally, default value if the variable does not exist. Defaults to null.
 	 * @return string|null           Returns the variable value.
 	 */
-	public static function header(?string $name, ?string $default = null) : ?string
+	public static function header(string $name, ?string $default = null) : ?string
 	{
 		foreach (static::allHeaders() as $key => $value)
 		{
@@ -598,7 +602,7 @@ class Request
 	/**
 	 * Redirects to another location if this is not a GET request.
 	 *
-	 * @param  string|null $redirect  The URL to redirect to if this is not a GET request.
+	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a GET request. Defaults to null.
 	 * @return void
 	 */
 	public static function ensureIsGet(?string $redirect = null) : void
@@ -615,7 +619,8 @@ class Request
 	/**
 	 * Redirects to another location if this is not a OPTIONS request.
 	 *
-	 * @param  string|null $redirect  The URL to redirect to if this is not a OPTIONS request.
+	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a OPTIONS request. Defaults to
+	 *                                null.
 	 * @return void
 	 */
 	public static function ensureIsOptions(?string $redirect = null) : void
@@ -632,7 +637,8 @@ class Request
 	/**
 	 * Redirects to another location if this is not a HEAD request.
 	 *
-	 * @param  string|null $redirect  The URL to redirect to if this is not a HEAD request.
+	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a HEAD request. Defaults to
+	 *                                null.
 	 * @return void
 	 */
 	public static function ensureIsHead(?string $redirect = null) : void
@@ -649,7 +655,8 @@ class Request
 	/**
 	 * Redirects to another location if this is not a POST request.
 	 *
-	 * @param  string|null $redirect  The URL to redirect to if this is not a POST request.
+	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a POST request. Defaults to
+	 *                                null.
 	 * @return void
 	 */
 	public static function ensureIsPost(?string $redirect = null) : void
@@ -666,7 +673,8 @@ class Request
 	/**
 	 * Redirects to another location if this is not a DELETE request.
 	 *
-	 * @param  string|null $redirect  The URL to redirect to if this is not a DELETE request.
+	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a DELETE request. Defaults to
+	 *                                null.
 	 * @return void
 	 */
 	public static function ensureIsDelete(?string $redirect = null) : void
@@ -683,7 +691,7 @@ class Request
 	/**
 	 * Redirects to another location if this is not a PUT request.
 	 *
-	 * @param  string|null $redirect  The URL to redirect to if this is not a PUT request.
+	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a PUT request. Defaults to null.
 	 * @return void
 	 */
 	public static function ensureIsPut(?string $redirect = null) : void
@@ -700,7 +708,8 @@ class Request
 	/**
 	 * Redirects to another location if this is not a PATCH request.
 	 *
-	 * @param  string|null $redirect  The URL to redirect to if this is not a PATCH request.
+	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not a PATCH request. Defaults to
+	 *                                null.
 	 * @return void
 	 */
 	public static function ensureIsPatch(?string $redirect = null) : void
@@ -717,7 +726,8 @@ class Request
 	/**
 	 * Redirects to another location if this is not an AJAX (XMLHttpRequest) request.
 	 *
-	 * @param  string|null $redirect  The URL to redirect to if this is not an AJAX request.
+	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not an AJAX request. Defaults to
+	 *                                null.
 	 * @return void
 	 */
 	public static function ensureIsAjax(?string $redirect = null) : void
@@ -734,7 +744,8 @@ class Request
 	/**
 	 * Redirects to another location if this is not an PJAX request.
 	 *
-	 * @param  string|null $redirect  The URL to redirect to if this is not an PJAX request.
+	 * @param  string|null $redirect  Optionally, the URL to redirect to if this is not an PJAX request. Defaults to
+	 *                                null.
 	 * @return void
 	 */
 	public static function ensureIsPjax(?string $redirect = null) : void
@@ -753,8 +764,10 @@ class Request
 	 * I set this method to a protected access level for testing purposes.
 	 *
 	 * @param  string                             $method   Where the variable should come from (GET or POST).
-	 * @param  string|null                        $name     The variable name.
-	 * @param  string|int|float|array|object|null $default  Default value if the variable does not exist.
+	 * @param  string|null                        $name     Optionally, the variable name. Defaults to null. If null,
+	 *                                                      returns all variables.
+	 * @param  string|int|float|array|object|null $default  Optionally, default value if the variable does not exist.
+	 *                                                      Defaults to null.
 	 * @return mixed                                        Returns the variable value.
 	 */
 	private static function _requestByMethod(string $method, ?string $name = null, $default = null)

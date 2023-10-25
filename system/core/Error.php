@@ -43,7 +43,7 @@ class Error {
 	 *                    System\Exception\InvalidArgumentException etc. So we type hint it as object.
 	 * @return void
 	 */
-	public static function exception(object $e)
+	public static function exception(object $e) : void
 	{
 		if (Config::error('log'))
 			static::log($e);
@@ -237,7 +237,7 @@ class Error {
 	 *
 	 * @return void
 	 */
-	protected static function render()
+	protected static function render() : void
 	{
 		$path = PATH_BASE . DS . 'themes/system/500.php';
 

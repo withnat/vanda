@@ -60,7 +60,7 @@ class Paginator
 	 * @return void
 	 * @throws ErrorException
 	 */
-	public static function setup(int $totalrecord, int $page = null, int $pagesize = null, string $sortcol = null, string $sortdir = null) : void
+	public static function setup(int $totalrecord, ?int $page = null, ?int $pagesize = null, ?string $sortcol = null, ?string $sortdir = null) : void
 	{
 		static::setTotalRecord($totalrecord);
 
@@ -383,7 +383,7 @@ class Paginator
 	 * @return string                 Returns the HTML for the paginator link.
 	 * @throws ErrorException
 	 */
-	public static function link(string $pagelink = null) : string
+	public static function link(?string $pagelink = null) : string
 	{
 		if (!$pagelink)
 		{
