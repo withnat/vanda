@@ -175,12 +175,12 @@ class Language
 		// 3. Load system package language strings.
 
 		$path = PATH_PACKAGE_SYSTEM . DS . PACKAGE . DS . 'languages' . DS . $code . '.ini';
-		if ($path) $systemPackageStrings = parse_ini_file($path);
+		if (is_file($path)) $systemPackageStrings = parse_ini_file($path);
 
 		// 4. Load app package language strings and override system package language strings in point 3.
 
 		$path = PATH_PACKAGE . DS . PACKAGE . DS . 'languages' . DS . $code . '.ini';
-		if ($path) $appPackageStrings = parse_ini_file($path);
+		if (is_file($path)) $appPackageStrings = parse_ini_file($path);
 
 		$packageStrings = array_merge($systemPackageStrings, $appPackageStrings);
 
