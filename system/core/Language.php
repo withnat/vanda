@@ -187,53 +187,5 @@ class Language
 		// 5. Override global language strings in point 2 with package language strings in point 4.
 
 		static::$_strings[$langId] = array_merge($globalStrings, $packageStrings);
-
-		////////////////////////
-
-		/*
-		// Load global langauge strings.
-
-		$code = static::$_code;
-		$paths = [
-			PATH_LANGUAGE . '/' . $code . '.ini',
-			PATH_LANGUAGE_SYSTEM . '/' . $code . '.ini'
-		];
-
-		$globalStrings = [];
-
-		foreach ($paths as $path)
-		{
-			// @codeCoverageIgnoreStart
-			if (is_file($path))
-			{
-				$globalStrings = parse_ini_file($path);
-				break;
-			}
-			// @codeCoverageIgnoreEnd
-		}
-
-		// Load package langauge strings.
-
-		$paths = [
-			PATH_PACKAGE . '/' . PACKAGE . '/languages' . $code. '.ini',
-			PATH_PACKAGE_SYSTEM . '/' . PACKAGE . '/languages' . $code. '.ini',
-		];
-
-		$packageStrings = [];
-
-		foreach ($paths as $path)
-		{
-			// @codeCoverageIgnoreStart
-			if (is_file($path))
-			{
-				$packageStrings = parse_ini_file($path);
-				break;
-			}
-			// @codeCoverageIgnoreEnd
-		}
-
-		// Override global language strings with package language strings.
-		static::$_strings[$langId] = array_merge($globalStrings, $packageStrings);
-		*/
 	}
 }
