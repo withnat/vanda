@@ -364,5 +364,31 @@ class CsvTest extends TestCase
 		$this->assertTrue(true);
 	}
 
-	// Csv::safe() (tested via another methods)
+	// Csv::safe()
+
+	public function testMethodSafeCase1() : void
+	{
+		$expected = 'This is ""a"" string';
+
+		$result = Csv::safe('This is "a" string', '"');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	// Csv::sanitize()
+
+	public function testMethodSanitizeCase1() : void
+	{
+		$expected = '"aaa","bbb","ccc","dddd"' . PHP_EOL
+			. '"123","456","789"' . PHP_EOL
+			. '"aaa","bbb"';
+
+		$csvString = 'aaa,"bbb",ccc,"dddd"' . PHP_EOL
+			. '123,456,789' . PHP_EOL
+			. '"aaa","bbb"';
+
+		$result = Csv::sanitize($csvString);
+
+		$this->assertEquals($expected, $result);
+	}
 }
