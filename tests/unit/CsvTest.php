@@ -23,6 +23,7 @@ namespace Tests\Unit;
 
 use InvalidArgumentException;
 use Mockery;
+use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Csv;
@@ -33,12 +34,44 @@ use System\Csv;
  */
 class CsvTest extends TestCase
 {
+	use \phpmock\phpunit\PHPMock;
+
+	private $fs;
+
+	protected static $_data;
+	protected static $_csv1;
+
 	protected static $_dataset;
 	protected static $_recordset;
-	protected static $_csv;
+	protected static $_csv2;
 
 	protected function setUp() : void
 	{
+		$baseDir = vfsStream::setup('project');
+
+		$structure = [
+			'file.csv' => '"name","surname","job","salary"' . PHP_EOL . PHP_EOL .
+							'"Nat","Withe","Web Developer","10000"' . PHP_EOL .
+							'"Angela","SG","Marketing Director","10000"' . PHP_EOL. PHP_EOL
+		];
+
+		vfsStream::create($structure, $baseDir);
+		$this->fs = vfsStream::url('project');
+
+		static::$_data = [
+			['aaa', 'bbb', 'ccc', 'dddd'],
+			['123', '456', '789'],
+			['"aaa"', '"bbb"']
+		];
+
+		//
+
+		static::$_csv1 = '"aaa","bbb","ccc","dddd"' . PHP_EOL
+			. '"123","456","789"' . PHP_EOL
+			. '"""aaa""","""bbb"""';
+
+		//
+
 		static::$_dataset = [
 			[
 				'name' => 'Nat',
@@ -76,18 +109,128 @@ class CsvTest extends TestCase
 
 		//
 
-		static::$_csv = '"name","surname","job","salary"' . "\n";
-		static::$_csv .= '"Nat","Withe","Web Developer","10000"' . "\n";
-		static::$_csv .= '"Angela","SG","Marketing Director","10000"' . "\n";
+		static::$_csv2 = '"name","surname","job","salary"' . PHP_EOL
+					. '"Nat","Withe","Web Developer","10000"' . PHP_EOL
+					. '"Angela","SG","Marketing Director","10000"';
 	}
 
 	protected function tearDown() : void
 	{
+		static::$_data = null;
+		static::$_csv1 = null;
 		static::$_dataset = null;
 		static::$_recordset = null;
-		static::$_csv = null;
+		static::$_csv2 = null;
 
 		Mockery::close();
+	}
+
+	// Csv::read()
+
+	public function testMethodReadCase1() : void
+	{
+		$expected = [
+			[
+				'name',
+				'surname',
+				'job',
+				'salary'
+			],
+			[
+				'Nat',
+				'Withe',
+				'Web Developer',
+				'10000' // SplFileObject() converts number to string.
+			],
+			[
+				'Angela',
+				'SG',
+				'Marketing Director',
+				'10000' // SplFileObject() converts number to string.
+			]
+		];
+
+		$result = Csv::read($this->fs . '/file.csv');
+		$compare = ($result === $expected);
+
+		$this->assertTrue($compare);
+	}
+
+	// Csv::write()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodWriteCase1() : void
+	{
+		$expected = static::$_csv2;
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isDataset')->andReturnTrue();
+		$stubArr->shouldReceive('isRecordset')->andReturnFalse();
+		$stubArr->shouldReceive('isAssociative')->andReturnTrue();
+
+		Csv::write($this->fs . '/file.csv', static::$_dataset);
+
+		$content = file_get_contents($this->fs . '/file.csv');
+
+		$this->assertEquals($expected, $content);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodWriteCase2() : void
+	{
+		$expected = static::$_csv2;
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isDataset')->andReturnFalse();
+		$stubArr->shouldReceive('isRecordset')->andReturnTrue();
+
+		Csv::write($this->fs . '/file.csv', static::$_recordset);
+
+		$content = file_get_contents($this->fs . '/file.csv');
+
+		$this->assertEquals($expected, $content);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodWriteCase3() : void
+	{
+		$expected = static::$_csv1;
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('isDataset')->andReturnFalse();
+		$stubArr->shouldReceive('isRecordset')->andReturnFalse();
+		$stubArr->shouldReceive('toMultidimensional')->andReturn(static::$_data);
+
+		Csv::write($this->fs . '/file.csv', static::$_data);
+
+		$content = file_get_contents($this->fs . '/file.csv');
+
+		$this->assertEquals($expected, $content);
+	}
+
+	// Csv::fromArray()
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodFromArrayCase1() : void
+	{
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('toMultidimensional')->andReturn(static::$_data);
+
+		$result = Csv::fromArray(static::$_data);
+
+		$this->assertEquals(static::$_csv1, $result);
 	}
 
 	// Csv::fromDataset()
@@ -117,10 +260,12 @@ class CsvTest extends TestCase
 	{
 		$stubArr = Mockery::mock('alias:\System\Arr');
 		$stubArr->shouldReceive('isDataset')->andReturnTrue();
+		$stubArr->shouldReceive('isRecordset')->andReturnFalse();
+		$stubArr->shouldReceive('isAssociative')->andReturnTrue();
 
 		$result = Csv::fromDataset(static::$_dataset);
 
-		$this->assertEquals(static::$_csv, $result);
+		$this->assertEquals(static::$_csv2, $result);
 	}
 
 	// Csv::fromRecordset()
@@ -153,7 +298,7 @@ class CsvTest extends TestCase
 
 		$result = Csv::fromRecordset(static::$_recordset);
 
-		$this->assertEquals(static::$_csv, $result);
+		$this->assertEquals(static::$_csv2, $result);
 	}
 
 	// Csv::toArray()
@@ -181,7 +326,7 @@ class CsvTest extends TestCase
 			]
 		];
 
-		$result = Csv::toArray(static::$_csv);
+		$result = Csv::toArray(static::$_csv2);
 		$compare = ($result === $expected);
 
 		$this->assertTrue($compare);
@@ -196,7 +341,7 @@ class CsvTest extends TestCase
 		$expected[0]['salary'] = '10000';
 		$expected[1]['salary'] = '10000';
 
-		$result = Csv::toDataset(static::$_csv);
+		$result = Csv::toDataset(static::$_csv2);
 
 		$compare = ($result === $expected);
 
@@ -212,11 +357,11 @@ class CsvTest extends TestCase
 	public function testMethodToRecordsetCase1() : void
 	{
 		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive('toObject')->andReturn(new stdClass());
+		$stubArr->shouldReceive('toRecordset')->once()->andReturn([new stdClass()]);
 
-		$result = Csv::toRecordset(static::$_csv);
+		Csv::toRecordset(static::$_csv2);
 
-		$this->assertInstanceOf('stdClass', $result);
+		$this->assertTrue(true);
 	}
 
 	// Csv::safe() (tested via another methods)
