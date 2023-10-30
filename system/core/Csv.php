@@ -28,8 +28,11 @@ use System\Exception\InvalidArgumentException;
 /**
  * Class Csv
  *
- * Class to handle parsing of CSV files, where the column headers are in the
- * first row.
+ * This class provides a set of methods for working with CSV data, including
+ * reading and writing CSV files, converting between arrays and well-formed
+ * CSV strings, and sanitizing CSV strings to ensure proper structure. It also
+ * supports working with dataset (array of arrays) and recordset (array of
+ * objects) structures.
  *
  * @package System
  */
