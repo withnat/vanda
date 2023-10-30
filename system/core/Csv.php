@@ -98,6 +98,20 @@ class Csv
 	/**
 	 * Generates CSV string from the given array.
 	 *
+	 * ```php
+	 * $data = [
+	 *     ['name', 'surname', 'job', 'salary'],
+	 *     ['Nat', 'Withe', 'Web Developer', '10000'],
+	 *     ['Angela', 'SG', 'Marketing Director', '10000']
+	 * ];
+	 *
+	 * $result = Csv::fromArray($data);
+	 * // The $result will be:
+	 * // "name","surname","job","salary"
+	 * // "Nat","Withe","Web Developer","10000"
+	 * // "Angela","SG","Marketing Director","10000"
+	 *   ```
+	 *
 	 * @param  array  $array      The input array.
 	 * @param  string $delimiter  Optionally, delimiter. Defaults to , (comma).
 	 * @param  string $enclosure  Optionally, enclosure. Default to " (double quote).
@@ -115,7 +129,7 @@ class Csv
 			foreach ($row as $column)
 				$csvString .= $enclosure . static::safe($column, $enclosure) . $enclosure . $delimiter;
 
-			$csvString = substr($csvString, 0, (0 - mb_strlen($delimiter))) . $newline;
+			$csvString = rtrim($csvString, $delimiter) . $newline;
 		}
 
 		$csvString = rtrim($csvString, $newline);
@@ -125,6 +139,29 @@ class Csv
 
 	/**
 	 * Generates CSV string from the given dataset (array of arrays).
+	 *
+	 * ```php
+	 * $dataset = [
+	 *     [
+	 *         'name' => 'Nat',
+	 *         'surname' => 'Withe',
+	 *         'job' => 'Web Developer',
+	 *         'salary' => '10000'
+	 *     ],
+	 *     [
+	 *         'name' => 'Angela',
+	 *         'surname' => 'SG',
+	 *         'job' => 'Marketing Director',
+	 *         'salary' => '10000'
+	 *     ]
+	 * ];
+	 *
+	 * $result = Csv::fromArray($dataset);
+	 * // The $result will be:
+	 * // "name","surname","job","salary"
+	 * // "Nat","Withe","Web Developer","10000"
+	 * // "Angela","SG","Marketing Director","10000"
+	 * ```
 	 *
 	 * @param  array  $dataset    The input dataset (array of arrays).
 	 * @param  string $delimiter  Optionally, delimiter. Defaults to , (comma).
@@ -147,6 +184,28 @@ class Csv
 	/**
 	 * Generates CSV string from the given recordset (array of objects).
 	 *
+	 * ```php
+	 * $row1 = new stdClass();
+	 * $row1->name = 'Nat';
+	 * $row1->surname = 'Withe';
+	 * $row1->job = 'Web Developer';
+	 * $row1->salary = '10000';
+	 *
+	 * $row2 = new stdClass();
+	 * $row2->name = 'Angela';
+	 * $row2->surname = 'SG';
+	 * $row2->job = 'Marketing Director';
+	 * $row2->salary = '10000';
+	 *
+	 * $recordset = [$row1, $row2];
+	 *
+	 * $result = Csv::fromArray($recordset);
+	 * // The $result will be:
+	 * // "name","surname","job","salary"
+	 * // "Nat","Withe","Web Developer","10000"
+	 * // "Angela","SG","Marketing Director","10000"
+	 * ```
+	 *
 	 * @param  array  $recordset  The input recordset (array of objects).
 	 * @param  string $delimiter  Optionally, delimiter. Defaults to , (comma).
 	 * @param  string $enclosure  Optionally, enclosure. Default to " (double quote).
@@ -168,6 +227,44 @@ class Csv
 	/**
 	 * Converts the given CSV string to an array.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $csvString = '"name","surname","job","salary"' . PHP_EOL
+	 *             . '"Nat","Withe","Web Developer","10000"' . PHP_EOL
+	 *             . '"Angela","SG","Marketing Director","10000"';
+	 *
+	 * $result = Csv::toRecordset($csvString);
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => Array
+	 * //         (
+	 * //             [0] => name
+	 * //             [1] => surname
+	 * //             [2] => job
+	 * //             [3] => salary
+	 * //         )
+	 * //
+	 * //     [1] => Array
+	 * //         (
+	 * //             [0] => Nat
+	 * //             [1] => Withe
+	 * //             [2] => Web Developer
+	 * //             [3] => 10000
+	 * //         )
+	 * //
+	 * //     [2] => Array
+	 * //         (
+	 * //             [0] => Angela
+	 * //             [1] => SG
+	 * //             [2] => Marketing Director
+	 * //             [3] => 10000
+	 * //         )
+	 * //
+	 * // )
+	 *  ```
+	 *
 	 * @param  string $csvString  The well-formed CSV string.
 	 * @param  string $delimiter  Optionally, delimiter. Defaults to , (comma).
 	 * @param  string $enclosure  Optionally, enclosure. Defaults to " (double quote).
@@ -177,7 +274,7 @@ class Csv
 	 */
 	public static function toArray(string $csvString, string $delimiter = ',', string $enclosure = '"', string $newline = PHP_EOL) : array
 	{
-		$csvString = static::sanitize($csvString, $delimiter, $enclosure);
+		$csvString = static::sanitize($csvString, $delimiter, $enclosure, $newline);
 		$lines = explode($newline, $csvString);
 		$data = [];
 
@@ -196,6 +293,36 @@ class Csv
 	/**
 	 * Converts the given CSV string to dataset (array of arrays).
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $csvString = '"name","surname","job","salary"' . PHP_EOL
+	 *             . '"Nat","Withe","Web Developer","10000"' . PHP_EOL
+	 *             . '"Angela","SG","Marketing Director","10000"';
+	 *
+	 * $result = Csv::toRecordset($csvString);
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => Array
+	 * //         (
+	 * //             [name] => Nat
+	 * //             [surname] => Withe
+	 * //             [job] => Web Developer
+	 * //             [salary] => 10000
+	 * //         )
+	 * //
+	 * //     [1] => Array
+	 * //         (
+	 * //             [name] => Angela
+	 * //             [surname] => SG
+	 * //             [job] => Marketing Director
+	 * //             [salary] => 10000
+	 * //         )
+	 * //
+	 * // )
+	 * ```
+	 *
 	 * @param  string $csvString  The well-formed CSV string.
 	 * @param  string $delimiter  Optionally, delimiter. Defaults to , (comma).
 	 * @param  string $enclosure  Optionally, enclosure. Defaults to " (double quote).
@@ -205,7 +332,7 @@ class Csv
 	 */
 	public static function toDataset(string $csvString, string $delimiter = ',', string $enclosure = '"', string $newline = PHP_EOL) : array
 	{
-		$csvString = static::sanitize($csvString, $delimiter, $enclosure);
+		$csvString = static::sanitize($csvString, $delimiter, $enclosure, $newline);
 		$lines = explode($newline, $csvString);
 		$header = null;
 		$data = [];
@@ -229,6 +356,36 @@ class Csv
 	/**
 	 * Converts the given CSV string to recordset (array of objects).
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $csvString = '"name","surname","job","salary"' . PHP_EOL
+	 *             . '"Nat","Withe","Web Developer","10000"' . PHP_EOL
+	 *             . '"Angela","SG","Marketing Director","10000"';
+	 *
+	 * $result = Csv::toRecordset($csvString);
+	 * // The $result will be:
+	 * // Array
+	 * // (
+	 * //     [0] => stdClass Object
+	 * //         (
+	 * //             [name] => Nat
+	 * //             [surname] => Withe
+	 * //             [job] => Web Developer
+	 * //             [salary] => 10000
+	 * //         )
+	 * //
+	 * //     [1] => stdClass Object
+	 * //         (
+	 * //             [name] => Angela
+	 * //             [surname] => SG
+	 * //             [job] => Marketing Director
+	 * //             [salary] => 10000
+	 * //         )
+	 * //
+	 * // )
+	 * ```
+	 *
 	 * @param  string $csvString  The well-formed CSV string.
 	 * @param  string $delimiter  Optionally, delimiter. Defaults to , (comma).
 	 * @param  string $enclosure  Optionally, enclosure. Defaults to " (double quote).
@@ -246,6 +403,15 @@ class Csv
 
 	/**
 	 * Escapes enclosure character from the given string.
+	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $string = 'This is "a" string';
+	 * $enclosure = '"';
+	 * $result = Csv::safe($string, $enclosure);
+	 * // The $result will be: This is ""a"" string
+	 * ```
 	 *
 	 * @param  mixed  $string     The input string.
 	 * @param  string $enclosure  The enclosure character.
@@ -267,10 +433,28 @@ class Csv
 	 * It can help in handling CSV strings that may be messy or inconsistent, making
 	 * them suitable for further processing or import/export tasks.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * $csvString = 'aaa,"bbb",ccc,"dddd"' . PHP_EOL
+	 *             . '123,456,789' . PHP_EOL
+	 *             . '"aaa","bbb"';
+	 *
+	 * $result = Csv::sanitize($csvString);
+	 * // The $result will be:
+	 * // "aaa","bbb","ccc","dddd"
+	 * // "123","456","789"
+	 * // "aaa","bbb"
+	 * ```
+	 *
 	 * @param  string $csvString  The input CSV string to sanitize.
+	 * @param  string $delimiter  Optionally, delimiter. Defaults to , (comma).
+	 * @param  string $enclosure  Optionally, enclosure. Defaults to " (double quote).
+	 * @param  string $newline    Optionally, new line character. Defaults to PHP_EOL, new line character based on the
+	 *                            current OS.
 	 * @return string             Returns the well-formed CSV string.
 	 */
-	protected static function sanitize(string $csvString, string $delimiter = ',', string $enclosure = '"') : string
+	public static function sanitize(string $csvString, string $delimiter = ',', string $enclosure = '"', string $newline = PHP_EOL) : string
 	{
 		// Create an SplTempFileObject from the CSV string
 		$tempFile = new SplTempFileObject();
@@ -287,8 +471,10 @@ class Csv
 			foreach ($row as $column)
 				$csvString .= $enclosure . static::safe($column, $enclosure) . $enclosure . $delimiter;
 
-			$csvString = substr($csvString, 0, (0 - mb_strlen($delimiter))) . PHP_EOL;
+			$csvString = rtrim($csvString, $delimiter) . $newline;
 		}
+
+		$csvString = rtrim($csvString, $newline);
 
 		return $csvString;
 	}
@@ -341,10 +527,10 @@ class Csv
 				$csvString .= $enclosure . static::safe($value, $enclosure) . $enclosure . $delimiter;
 			}
 
-			$csvString = substr($csvString, 0, (0 - mb_strlen($delimiter))) . $newline;
+			$csvString = rtrim($csvString, $delimiter) . $newline;
 		}
 
-		$header = substr($header, 0, (0 - mb_strlen($delimiter))) . $newline;
+		$header = rtrim($header, $delimiter) . $newline;
 		$csvString = rtrim($csvString, $newline);
 
 		if (Arr::isRecordset($datasetOrRecordset) or Arr::isAssociative($datasetOrRecordset[0]))
