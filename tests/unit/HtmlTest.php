@@ -695,11 +695,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase3() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css">';
+		$expected = '<link rel="stylesheet" type="text/css" href="/assets/css/style.css">';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -717,11 +717,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase4() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css" media="print">';
+		$expected = '<link rel="stylesheet" type="text/css" href="/assets/css/style.css" media="print">';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -739,11 +739,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase5() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css" media="print">';
+		$expected = '<link rel="stylesheet" type="text/css" href="/assets/css/style.css" media="print">';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -764,11 +764,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase6() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?v=1695701570">';
+		$expected = '<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=1695701570">';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -789,11 +789,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase7() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?dummyKey=dummyVal&v=1695701570">';
+		$expected = '<link rel="stylesheet" type="text/css" href="/assets/css/style.css?dummyKey=dummyVal&v=1695701570">';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'dummyKey=dummyVal']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', 'dummyKey=dummyVal']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -814,11 +814,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase8() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?v=1695701570">';
+		$expected = '<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=1695701570">';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'v=1695701570']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', 'v=1695701570']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -836,11 +836,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase9() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css">';
+		$expected = '<link rel="stylesheet" type="text/css" href="/assets/css/style.css">';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', '']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -858,11 +858,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase10() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?dummyKey=dummyVal">';
+		$expected = '<link rel="stylesheet" type="text/css" href="/assets/css/style.css?dummyKey=dummyVal">';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'dummyKey=dummyVal']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', 'dummyKey=dummyVal']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -880,11 +880,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssCase11() : void
 	{
-		$expected = '<link rel="stylesheet" type="text/css" href="http://localhost/assets/css/style.css?v=1695701570">';
+		$expected = '<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=1695701570">';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractCssUrl')->andReturn(['http://localhost/assets/css/style.css', 'v=1695701570']);
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', 'v=1695701570']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -958,11 +958,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodJsCase3() : void
 	{
-		$expected = '<script src="http://localhost/assets/js/script.js"></script>';
+		$expected = '<script src="/assets/js/script.js"></script>';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['/assets/js/script.js', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -980,11 +980,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodJsCase4() : void
 	{
-		$expected = '<script src="http://localhost/assets/js/script.js" media="print"></script>';
+		$expected = '<script src="/assets/js/script.js" media="print"></script>';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['/assets/js/script.js', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -1002,11 +1002,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodJsCase5() : void
 	{
-		$expected = '<script src="http://localhost/assets/js/script.js" media="print"></script>';
+		$expected = '<script src="/assets/js/script.js" media="print"></script>';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['/assets/js/script.js', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -1027,11 +1027,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodJsCase6() : void
 	{
-		$expected = '<script src="http://localhost/assets/js/script.js?v=1695701570"></script>';
+		$expected = '<script src="/assets/js/script.js?v=1695701570"></script>';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['/assets/js/script.js', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -1052,11 +1052,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodJsCase7() : void
 	{
-		$expected = '<script src="http://localhost/assets/js/script.js?dummyKey=dummyVal&v=1695701570"></script>';
+		$expected = '<script src="/assets/js/script.js?dummyKey=dummyVal&v=1695701570"></script>';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', 'dummyKey=dummyVal']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['/assets/js/script.js', 'dummyKey=dummyVal']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -1077,11 +1077,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodCssJs8() : void
 	{
-		$expected = '<script src="http://localhost/assets/js/script.js?v=1695701570"></script>';
+		$expected = '<script src="/assets/js/script.js?v=1695701570"></script>';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', 'v=1695701570']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['/assets/js/script.js', 'v=1695701570']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
@@ -1099,11 +1099,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodJsCase9() : void
 	{
-		$expected = '<script src="http://localhost/assets/js/script.js"></script>';
+		$expected = '<script src="/assets/js/script.js"></script>';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', '']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['/assets/js/script.js', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -1121,11 +1121,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodJsCase10() : void
 	{
-		$expected = '<script src="http://localhost/assets/js/script.js?dummyKey=dummyVal"></script>';
+		$expected = '<script src="/assets/js/script.js?dummyKey=dummyVal"></script>';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', 'dummyKey=dummyVal']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['/assets/js/script.js', 'dummyKey=dummyVal']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -1143,11 +1143,11 @@ class HtmlTest extends TestCase
 	 */
 	public function testMethodJsCase11() : void
 	{
-		$expected = '<script src="http://localhost/assets/js/script.js?v=1695701570"></script>';
+		$expected = '<script src="/assets/js/script.js?v=1695701570"></script>';
 
 		$html = Mockery::mock('System\Html');
 		$html->shouldAllowMockingProtectedMethods()->makePartial();
-		$html->shouldReceive('_extractJsUrl')->andReturn(['http://localhost/assets/js/script.js', 'v=1695701570']);
+		$html->shouldReceive('_extractJsUrl')->andReturn(['/assets/js/script.js', 'v=1695701570']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
@@ -1155,5 +1155,36 @@ class HtmlTest extends TestCase
 		$result = $html->js('script.js?v=1695701570');
 
 		$this->assertEquals($expected, $result);
+	}
+
+	// Html::addCss() & Html::getAddedCss();
+
+	/*
+	 * 1. Check attribute datatype.
+	 * 2. No given attribute.
+	 * 3. A given attribute is a string.
+	 * 4. A given attribute is an array.
+	 * 5. Development mode, no given query.
+	 * 6. Development mode, has a given query, no version.
+	 * 7. Development mode, has a given query, has version.
+	 * 8. Production mode, no given query.
+	 * 9. Production mode, has a given query, no version.
+	 * 10. Production mode, has a given query, has version.
+	 */
+
+	/**
+	 * 1. Check attribute datatype.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAddCssCase1() : void
+	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, array or null');
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Html::addCss('style.css', new stdClass());
 	}
 }
