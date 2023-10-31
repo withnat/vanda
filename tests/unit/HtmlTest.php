@@ -1323,4 +1323,30 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $html->getAddedCss()[0]);
 	}
+
+	/**
+	 * 7. Development mode, has a given query, has version.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAddCssCase7() : void
+	{
+		$expected = [
+			'url' => '/assets/css/style.css',
+			'query' => 'v=1695701570',
+			'attribs' => null
+		];
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', 'v=1695701570']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
+
+		$html->addCss('style.css?v=1695701570');
+
+		$this->assertEquals($expected, $html->getAddedCss()[0]);
+	}
 }
