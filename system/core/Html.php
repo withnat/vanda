@@ -355,6 +355,16 @@ class Html
 	}
 
 	/**
+	 * Gets the added JS files.
+	 *
+	 * @return array  Returns the added JS files.
+	 */
+	public static function getAddedJs() : array
+	{
+		return static::$_addedJs;
+	}
+
+	/**
 	 * Extracts the URL and query string from the given CSS URL.
 	 *
 	 * @param  string $url  The CSS URL to be extracted.
