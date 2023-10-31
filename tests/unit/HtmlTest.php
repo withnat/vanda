@@ -1157,7 +1157,7 @@ class HtmlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	// Html::addCss() & Html::getAddedCss();
+	// Html::registerCssFile() & Html::getRegisteredCssFiles();
 
 	/*
 	 * 1. Check attribute datatype.
@@ -1480,5 +1480,63 @@ class HtmlTest extends TestCase
 		$html->registerCssFile('style.css?v=1695701570');
 
 		$this->assertEquals($expected, $html->getRegisteredCssFiles()[0]);
+	}
+
+	// Html::registerJsFile() & Html::getRegisteredJsFiles();
+
+	/*
+	 * 1. Check attribute datatype.
+	 * 2. No given attribute.
+	 * .
+	 * .
+	 * . other cases are tested in Html::registerCssFile() method.
+	 */
+
+	/**
+	 * 1. Check attribute datatype.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAddJsCase1() : void
+	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, array or null');
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Html::registerJsFile('script.js', new stdClass());
+	}
+
+	/**
+	 * 2. No given attribute.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAddJsCase2() : void
+	{
+		$expected = [
+			'url' => '/vanda/assets/js/script.js',
+			'query' => '',
+			'attribs' => null
+		];
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/js/script.js', '']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
+
+		$stubConfig = Mockery::mock('alias:\System\File');
+		$stubConfig->shouldReceive('getAssetPath')->andReturn('assets/js/script.js');
+
+		$stubConfig = Mockery::mock('alias:\System\Request');
+		$stubConfig->shouldReceive('basePath')->andReturn('/vanda');
+
+		$html->registerJsFile('script.js');
+
+		$this->assertEquals($expected, $html->getRegisteredJsFiles()[0]);
 	}
 }
