@@ -1541,4 +1541,81 @@ class HtmlTest extends TestCase
 	}
 
 	// Html::linkFile()
+
+	/*
+	 * 1. Check attribute datatype.
+	 * 2. No given attribute.
+	 * 3. A given attribute is a string.
+	 * 4. A given attribute is an array.
+	 */
+
+	/**
+	 * 1. Check attribute datatype.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkFileCase1() : void
+	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, array or null');
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Html::linkFile('file.pdf', new stdClass());
+	}
+
+	/**
+	 * 2. No given attribute.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkFileCase2() : void
+	{
+		$expected = '<a href="http://localhost/vanda/file.pdf" target="_blank">file.pdf</a>';
+
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('base')->andReturn('http://localhost/vanda');
+
+		$result = Html::linkFile('file.pdf');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 3. A given attribute is a string.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkFileCase3() : void
+	{
+		$expected = '<a href="http://localhost/vanda/file.pdf" class="primary" target="_blank">file.pdf</a>';
+
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('base')->andReturn('http://localhost/vanda');
+
+		$result = Html::linkFile('file.pdf', 'class="primary"');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 4. A given attribute is an array.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodLinkFileCase4() : void
+	{
+		$expected = '<a href="http://localhost/vanda/file.pdf" class="primary" target="_blank">file.pdf</a>';
+
+		$stubUrl = Mockery::mock('alias:\System\Url');
+		$stubUrl->shouldReceive('base')->andReturn('http://localhost/vanda');
+
+		$result = Html::linkFile('file.pdf', ['class' => 'primary']);
+
+		$this->assertEquals($expected, $result);
+	}
 }
