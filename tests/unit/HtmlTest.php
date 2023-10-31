@@ -23,6 +23,7 @@ namespace Tests\Unit;
 
 use InvalidArgumentException;
 use Mockery;
+use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Html;
@@ -33,7 +34,7 @@ use System\Html;
  */
 class HtmlTest extends TestCase
 {
-	use \phpmock\phpunit\PHPMock;
+	use PHPMock;
 
 	protected function tearDown() : void
 	{

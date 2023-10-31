@@ -22,6 +22,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use org\bovigo\vfs\vfsStream;
+use phpmock\phpunit\PHPMock;
 use RuntimeException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -34,7 +35,7 @@ use System\Folder;
  */
 class FolderTest extends TestCase
 {
-	use \phpmock\phpunit\PHPMock;
+	use PHPMock;
 
 	private $fs;
 

@@ -24,6 +24,7 @@ namespace Tests\Unit;
 use ErrorException;
 use InvalidArgumentException;
 use Mockery;
+use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use System\Cookie;
@@ -34,7 +35,7 @@ use System\Cookie;
  */
 class CookieTest extends TestCase
 {
-	use \phpmock\phpunit\PHPMock;
+	use PHPMock;
 
 	protected function tearDown() : void
 	{
