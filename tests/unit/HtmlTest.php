@@ -1239,4 +1239,33 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $html->getAddedCss()[0]);
 	}
+
+	/**
+	 * 4. Development mode, no given query.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAddCssCase4() : void
+	{
+		$expected = [
+			'url' => '/assets/css/style.css',
+			'query' => 'v=1695701570',
+			'attribs' => null
+		];
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('get')->with('env')->andReturn('development');
+
+		$stubTime = $this->getFunctionMock('System', 'time');
+		$stubTime->expects($this->once())->willReturn(1695701570);
+
+		$html->addCss('style.css');
+
+		$this->assertEquals($expected, $html->getAddedCss()[0]);
+	}
 }
