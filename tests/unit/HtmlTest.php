@@ -1213,4 +1213,30 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $html->getAddedCss()[0]);
 	}
+
+	/**
+	 * 3. A given attribute is a string.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAddCssCase3() : void
+	{
+		$expected = [
+			'url' => '/assets/css/style.css',
+			'query' => '',
+			'attribs' => 'media="print"'
+		];
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('get')->with('env')->andReturn('production');
+
+		$html->addCss('style.css', 'media="print"');
+
+		$this->assertEquals($expected, $html->getAddedCss()[0]);
+	}
 }
