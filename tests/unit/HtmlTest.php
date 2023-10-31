@@ -160,7 +160,7 @@ class HtmlTest extends TestCase
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost/user');
 
 		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive('toString')->andReturn('class="primary"');
+		$stubArr->shouldReceive('toString')->once()->andReturn('class="primary"');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
 		$stubStr->shouldReceive('isBlank')->andReturnFalse();
@@ -185,7 +185,7 @@ class HtmlTest extends TestCase
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
-		$stubUrl->shouldReceive('hashSpa')->andReturn('#');
+		$stubUrl->shouldReceive('hashSpa')->once()->andReturn('#');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
 		$stubStr->shouldReceive('isBlank')->andReturnTrue();
@@ -210,7 +210,7 @@ class HtmlTest extends TestCase
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
-		$stubUrl->shouldReceive('hashSpa')->andReturn('#user');
+		$stubUrl->shouldReceive('hashSpa')->once()->andReturn('#user');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
 		$stubStr->shouldReceive('isBlank')->andReturnFalse();
@@ -235,7 +235,7 @@ class HtmlTest extends TestCase
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
-		$stubUrl->shouldReceive('hashSpa')->andReturn('#user');
+		$stubUrl->shouldReceive('hashSpa')->once()->andReturn('#user');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
 		$stubStr->shouldReceive('isBlank')->andReturnFalse();
@@ -260,10 +260,10 @@ class HtmlTest extends TestCase
 
 		$stubUrl = Mockery::mock('alias:\System\Url');
 		$stubUrl->shouldReceive('create')->andReturn('http://localhost');
-		$stubUrl->shouldReceive('hashSpa')->andReturn('#user');
+		$stubUrl->shouldReceive('hashSpa')->once()->andReturn('#user');
 
 		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive('toString')->andReturn('class="primary"');
+		$stubArr->shouldReceive('toString')->once()->andReturn('class="primary"');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
 		$stubStr->shouldReceive('isBlank')->andReturnFalse();
@@ -406,36 +406,22 @@ class HtmlTest extends TestCase
 	}
 
 	/**
+	 * 4. A given attribute is an array.
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
 	public function testMethodMailtoCase4() : void
 	{
-		$expected = '<a style="font-weight:bold;" href="mailto:nat@withnat.com">Contact</a>';
-
-		$stubStr = Mockery::mock('alias:\System\Str');
-		$stubStr->shouldReceive('isBlank')->andReturnFalse();
-
-		$result = Html::mailto('nat@withnat.com', 'Contact', 'style="font-weight:bold;"');
-
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodMailtoCase5() : void
-	{
-		$expected = '<a style="font-weight:bold;" href="mailto:nat@withnat.com">Contact</a>';
+		$expected = '<a class="primary" href="mailto:nat@withnat.com">Contact</a>';
 
 		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive('toString')->andReturn('style="font-weight:bold;"');
+		$stubArr->shouldReceive('toString')->once()->andReturn('class="primary"');
 
 		$stubStr = Mockery::mock('alias:\System\Str');
 		$stubStr->shouldReceive('isBlank')->andReturnFalse();
 
-		$result = Html::mailto('nat@withnat.com', 'Contact', ['style' => 'font-weight:bold;']);
+		$result = Html::mailto('nat@withnat.com', 'Contact', ['class' => 'primary']);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -519,7 +505,7 @@ class HtmlTest extends TestCase
 		$expected = '<img src="http://localhost/image.jpg" class="rounded" alt="" title="">';
 
 		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive('toString')->andReturn('class="rounded"');
+		$stubArr->shouldReceive('toString')->once()->andReturn('class="rounded"');
 
 		$result = Html::image('http://localhost/image.jpg', null, ['class' => 'rounded']);
 
@@ -549,7 +535,7 @@ class HtmlTest extends TestCase
 		$expected = '<img src="http://localhost/image.jpg" title="Image" alt="">';
 
 		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive('toString')->andReturn('title="Image"');
+		$stubArr->shouldReceive('toString')->once()->andReturn('title="Image"');
 
 		$result = Html::image('http://localhost/image.jpg', null, ['title' => 'Image']);
 
@@ -570,9 +556,9 @@ class HtmlTest extends TestCase
 		$stubFile->expects($this->once())->willReturn(true);
 
 		$stubImage = Mockery::mock('alias:\System\Image');
-		$stubImage->shouldReceive('load')->andReturnTrue();
-		$stubImage->shouldReceive('width')->andReturn(100);
-		$stubImage->shouldReceive('height')->andReturn(100);
+		$stubImage->shouldReceive('load')->once()->andReturnTrue();
+		$stubImage->shouldReceive('width')->once()->andReturn(100);
+		$stubImage->shouldReceive('height')->once()->andReturn(100);
 
 		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
@@ -596,12 +582,12 @@ class HtmlTest extends TestCase
 		$stubFile->expects($this->once())->willReturn(false);
 
 		$stubFile = Mockery::mock('alias:\System\File');
-		$stubFile->shouldReceive('getAssetPath')->andReturn('assets/images/image.jpg');
+		$stubFile->shouldReceive('getAssetPath')->once()->andReturn('assets/images/image.jpg');
 
 		$stubImage = Mockery::mock('alias:\System\Image');
-		$stubImage->shouldReceive('load')->andReturnTrue();
-		$stubImage->shouldReceive('width')->andReturn(100);
-		$stubImage->shouldReceive('height')->andReturn(100);
+		$stubImage->shouldReceive('load')->once()->andReturnTrue();
+		$stubImage->shouldReceive('width')->once()->andReturn(100);
+		$stubImage->shouldReceive('height')->once()->andReturn(100);
 
 		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
@@ -622,9 +608,9 @@ class HtmlTest extends TestCase
 		$expected = '<img src="http://localhost/image.jpg" alt="" title="" width="100" height="100">';
 
 		$stubImage = Mockery::mock('alias:\System\Image');
-		$stubImage->shouldReceive('load')->andReturnTrue();
-		$stubImage->shouldReceive('width')->andReturn(100);
-		$stubImage->shouldReceive('height')->andReturn(100);
+		$stubImage->shouldReceive('load')->once()->andReturnTrue();
+		$stubImage->shouldReceive('width')->once()->andReturn(100);
+		$stubImage->shouldReceive('height')->once()->andReturn(100);
 
 		$stubRequest = Mockery::mock('alias:\System\Request');
 		$stubRequest->shouldReceive('basePath')->andReturn('http://localhost');
@@ -763,7 +749,7 @@ class HtmlTest extends TestCase
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
 		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive('toString')->andReturn('media="print"');
+		$stubArr->shouldReceive('toString')->once()->andReturn('media="print"');
 
 		$result = $html->css('style.css', ['media' => "print"]);
 
@@ -1026,7 +1012,7 @@ class HtmlTest extends TestCase
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
 		$stubArr = Mockery::mock('alias:\System\Arr');
-		$stubArr->shouldReceive('toString')->andReturn('media="print"');
+		$stubArr->shouldReceive('toString')->once()->andReturn('media="print"');
 
 		$result = $html->js('script.js', ['media' => "print"]);
 
