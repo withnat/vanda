@@ -306,9 +306,18 @@ class Html
 		static::_registerAssetFile('js', $url, $attribs);
 	}
 
+	/**
+	 * Registers the asset file (CSS or JS) to be included and printed in the template at a later point.
+	 *
+	 * @param  string            $type     The asset type (CSS or JS).
+	 * @param  string            $url      The media URL to be extracted (CSS or JS).
+	 * @param  string|array|null $attribs  Optionally, the attributes to be added to the '<link>' or '<script>' element.
+	 *                                     Defaults to null.
+	 * @return void
+	 */
 	protected static function _registerAssetFile(string $type, string $url, $attribs = null) : void
 	{
-		list($url, $query) = static::_extractAssetUrl($url, $type);
+		list($url, $query) = static::_extractAssetUrl($type, $url);
 
 		if ($type === 'css')
 			$registeredAssetFiles = static::$_registeredCssFiles;
@@ -343,10 +352,11 @@ class Html
 	/**
 	 * Extracts the URL and query string from the given asset URL (CSS or JS).
 	 *
-	 * @param  string $url  The media URL to be extracted (CSS or JS).
-	 * @return array        Returns the media URL and query string.
+	 * @param  string $type  The asset type (CSS or JS).
+	 * @param  string $url   The media URL to be extracted (CSS or JS).
+	 * @return array         Returns the media URL and query string.
 	 */
-	protected static function _extractAssetUrl(string $url, string $type) : array
+	protected static function _extractAssetUrl(string $type, string $url) : array
 	{
 		$url = trim($url);
 		$query = '';
@@ -492,6 +502,25 @@ class Html
 	 */
 	public static function ul($items, $attribs = null) : string
 	{
+		return static::_list('ul', $items, $attribs);
+	}
+
+	/**
+	 * Generates a '<ol>' element.
+	 *
+	 * @param  array|object      $items    The items to be wrapped by '<li>' element.
+	 * @param  string|array|null $attribs  Optionally, the attributes to be added to the '<ol>' element. Defaults to
+	 *                                     null.
+	 * @return string                      Returns the generated '<ol>' element.
+	 * @codeCoverageIgnore
+	 */
+	public static function ol($items, $attribs = null) : string
+	{
+		return static::_list('ol', $items, $attribs);
+	}
+
+	protected static function _list(string $type, $items, $attribs = null) : string
+	{
 		if (!is_array($items) and !is_object($items))
 			throw InvalidArgumentException::typeError(1, ['array', 'object'], $items);
 
@@ -503,43 +532,15 @@ class Html
 		elseif (is_array($attribs))
 			$attribs = Arr::toString($attribs);
 
-		if ($attribs) $attribs = ' ' . $attribs;
+		if ($attribs)
+			$attribs = ' ' . $attribs;
 
-		$html = '<ul' . $attribs . '>';
-
-		foreach ($items as $item)
-			$html .= '<li>' . $item . '</li>';
-
-		$html .= '</ul>';
-
-		return $html;
-	}
-
-	/**
-	 * Generates a '<ol>' element.
-	 *
-	 * @param  array|object      $items    The items to be wrapped by '<li>' element.
-	 * @param  string|array|null $attribs  Optionally, the attributes to be added to the '<ol>' element. Defaults to
-	 *                                     null.
-	 * @return string                      Returns the generated '<ol>' element.
-	 */
-	public static function ol($items, $attribs = null) : string
-	{
-		if (!is_array($items) and !is_object($items))
-			throw InvalidArgumentException::typeError(1, ['array','object'], $items);
-
-		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
-			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
-
-		if (is_array($attribs))
-			$attribs = Arr::toString($attribs);
-
-		$html = '<ol' . $attribs . '>';
+		$html = '<' . $type . $attribs . '>';
 
 		foreach ($items as $item)
 			$html .= '<li>' . $item . '</li>';
 
-		$html .= '</ol>';
+		$html .= '</' . $type . '>';
 
 		return $html;
 	}
