@@ -34,8 +34,6 @@ use System\Csv;
  */
 class CsvTest extends TestCase
 {
-	use \phpmock\phpunit\PHPMock;
-
 	private $fs;
 
 	protected static $_data;
