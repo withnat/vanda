@@ -1539,4 +1539,6 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $html->getRegisteredJsFiles()[0]);
 	}
+
+	// Html::linkFile()
 }
