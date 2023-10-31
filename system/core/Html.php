@@ -498,8 +498,12 @@ class Html
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
-		if (is_array($attribs))
+		if (is_null($attribs))
+			$attribs = '';
+		elseif (is_array($attribs))
 			$attribs = Arr::toString($attribs);
+
+		if ($attribs) $attribs = ' ' . $attribs;
 
 		$html = '<ul' . $attribs . '>';
 
