@@ -33,8 +33,8 @@ use System\Exception\InvalidArgumentException;
  */
 class Html
 {
-	protected static $_addedCss = [];
-	protected static $_addedJs = [];
+	protected static $_registeredCssFiles = [];
+	protected static $_registeredJsFiles = [];
 	protected static $_printedOutCss = [];
 	protected static $_printedOutJs = [];
 
@@ -282,41 +282,12 @@ class Html
 	 * @param  string|array|null $attribs  Optionally, attributes to be added to the '<link>' element. Defaults to null.
 	 * @return void
 	 */
-	public static function addCss(string $url, $attribs = null) : void
+	public static function registerCssFile(string $url, $attribs = null) : void
 	{
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
-		list($url, $query) = static::_extractCssUrl($url);
-
-		if (!in_array($url, array_column(static::$_addedCss, 'url')))
-		{
-			if (is_array($attribs))
-				$attribs = Arr::toString($attribs);
-
-			if (Config::app('env') === 'development')
-			{
-				if ($query)
-				{
-					if (strpos($query, 'v=') === false)
-						$query .= '&v=' . time();
-				}
-				else
-					$query = 'v=' . time();
-			}
-
-			static::$_addedCss[] = ['url' => $url, 'query' => $query, 'attribs' => $attribs];
-		}
-	}
-
-	/**
-	 * Gets the added CSS files.
-	 *
-	 * @return array  Returns the added CSS files.
-	 */
-	public static function getAddedCss() : array
-	{
-		return static::$_addedCss;
+		static::_registerAssetFile('css', $url, $attribs);
 	}
 
 	/**
@@ -327,14 +298,24 @@ class Html
 	 *                                    null.
 	 * @return void
 	 */
-	public static function addJs(string $url, $attribs = null) : void
+	public static function registerJsFile(string $url, $attribs = null) : void
 	{
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
-		list($url, $query) = static::_extractJsUrl($url);
+		static::_registerAssetFile('js', $url, $attribs);
+	}
 
-		if (!in_array($url, array_column(static::$_addedJs, 'url')))
+	protected static function _registerAssetFile(string $type, string $url, $attribs = null) : void
+	{
+		list($url, $query) = static::_extractAssetUrl($url, $type);
+
+		if ($type === 'css')
+			$registeredAssetFiles = static::$_registeredCssFiles;
+		else
+			$registeredAssetFiles = static::$_registeredJsFiles;
+
+		if (!in_array($url, array_column($registeredAssetFiles, 'url')))
 		{
 			if (is_array($attribs))
 				$attribs = Arr::toString($attribs);
@@ -350,27 +331,22 @@ class Html
 					$query = 'v=' . time();
 			}
 
-			static::$_addedJs[] = ['url' => $url, 'query' => $query, 'attribs' => $attribs];
+			$value = ['url' => $url, 'query' => $query, 'attribs' => $attribs];
+
+			if ($type === 'css')
+				static::$_registeredCssFiles[] = $value;
+			else
+				static::$_registeredJsFiles[] = $value;
 		}
 	}
 
 	/**
-	 * Gets the added JS files.
+	 * Extracts the URL and query string from the given asset URL (CSS or JS).
 	 *
-	 * @return array  Returns the added JS files.
+	 * @param  string $url  The media URL to be extracted (CSS or JS).
+	 * @return array        Returns the media URL and query string.
 	 */
-	public static function getAddedJs() : array
-	{
-		return static::$_addedJs;
-	}
-
-	/**
-	 * Extracts the URL and query string from the given CSS URL.
-	 *
-	 * @param  string $url  The CSS URL to be extracted.
-	 * @return array        Returns the CSS URL and query string.
-	 */
-	protected static function _extractCssUrl(string $url) : array
+	protected static function _extractAssetUrl(string $url, string $type) : array
 	{
 		$url = trim($url);
 		$query = '';
@@ -384,17 +360,25 @@ class Html
 			if (substr($url, 0, 1) !== '/')
 			{
 				if (is_file($url))
+				{
+					// @codeCoverageIgnoreStart
 					$path = $url;
+					// @codeCoverageIgnoreEnd
+				}
 				else
 				{
 					$backtrace = debug_backtrace();
-					$path = File::getAssetPath($url, 'css', $backtrace[1]['file']);
+					$path = File::getAssetPath($url, $type, $backtrace[1]['file']);
 				}
 
 				$url = Request::basePath() . '/' . $path;
 			}
 			else
+			{
+				// @codeCoverageIgnoreStart
 				$url = Request::basePath() . $url;
+				// @codeCoverageIgnoreEnd
+			}
 		}
 
 		$url = str_replace('\\', '/', $url);
@@ -403,40 +387,23 @@ class Html
 	}
 
 	/**
-	 * Extracts the URL and query string from the given JS URL.
+	 * Gets the registered CSS files.
 	 *
-	 * @param  string $url  The JS URL to be extracted.
-	 * @return array        Returns the JS URL and query string.
+	 * @return array  Returns the registered CSS files.
 	 */
-	protected static function _extractJsUrl(string $url) : array
+	public static function getRegisteredCssFiles() : array
 	{
-		$query = '';
+		return static::$_registeredCssFiles;
+	}
 
-		if (stripos($url, 'http://') === false and stripos($url, 'https://') === false)
-		{
-			if (substr($url, 0, 1) !== '/')
-			{
-				$arr = explode('?', $url);
-				$url = $arr[0];
-				$query = $arr[1] ?? '';
-
-				if (is_file($url))
-					$path = $url;
-				else
-				{
-					$backtrace = debug_backtrace();
-					$path = File::getAssetPath($url, 'js', $backtrace[1]['file']);
-				}
-
-				$url = Request::basePath() . '/' . $path;
-			}
-			else
-				$url = Request::basePath() . $url;
-		}
-
-		$url = str_replace('\\', '/', $url);
-
-		return [$url, $query];
+	/**
+	 * Gets the registered JS files.
+	 *
+	 * @return array  Returns the registered JS files.
+	 */
+	public static function getRegisteredJsFiles() : array
+	{
+		return static::$_registeredJsFiles;
 	}
 
 	/**

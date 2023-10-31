@@ -1185,7 +1185,7 @@ class HtmlTest extends TestCase
 
 		$this->expectException(InvalidArgumentException::class);
 
-		Html::addCss('style.css', new stdClass());
+		Html::registerCssFile('style.css', new stdClass());
 	}
 
 	/**
@@ -1197,7 +1197,7 @@ class HtmlTest extends TestCase
 	public function testMethodAddCssCase2() : void
 	{
 		$expected = [
-			'url' => '/assets/css/style.css',
+			'url' => '/vanda/assets/css/style.css',
 			'query' => '',
 			'attribs' => null
 		];
@@ -1209,9 +1209,15 @@ class HtmlTest extends TestCase
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
-		$html->addCss('style.css');
+		$stubConfig = Mockery::mock('alias:\System\File');
+		$stubConfig->shouldReceive('getAssetPath')->andReturn('assets/css/style.css');
 
-		$this->assertEquals($expected, $html->getAddedCss()[0]);
+		$stubConfig = Mockery::mock('alias:\System\Request');
+		$stubConfig->shouldReceive('basePath')->andReturn('/vanda');
+
+		$html->registerCssFile('style.css');
+
+		$this->assertEquals($expected, $html->getRegisteredCssFiles()[0]);
 	}
 
 	/**
@@ -1223,7 +1229,7 @@ class HtmlTest extends TestCase
 	public function testMethodAddCssCase3() : void
 	{
 		$expected = [
-			'url' => '/assets/css/style.css',
+			'url' => '/vanda/assets/css/style.css',
 			'query' => '',
 			'attribs' => 'media="print"'
 		];
@@ -1235,9 +1241,15 @@ class HtmlTest extends TestCase
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
-		$html->addCss('style.css', 'media="print"');
+		$stubConfig = Mockery::mock('alias:\System\File');
+		$stubConfig->shouldReceive('getAssetPath')->andReturn('assets/css/style.css');
 
-		$this->assertEquals($expected, $html->getAddedCss()[0]);
+		$stubConfig = Mockery::mock('alias:\System\Request');
+		$stubConfig->shouldReceive('basePath')->andReturn('/vanda');
+
+		$html->registerCssFile('style.css', 'media="print"');
+
+		$this->assertEquals($expected, $html->getRegisteredCssFiles()[0]);
 	}
 
 	/**
@@ -1249,7 +1261,7 @@ class HtmlTest extends TestCase
 	public function testMethodAddCssCase4() : void
 	{
 		$expected = [
-			'url' => '/assets/css/style.css',
+			'url' => '/vanda/assets/css/style.css',
 			'query' => '',
 			'attribs' => 'media="print"'
 		];
@@ -1261,9 +1273,15 @@ class HtmlTest extends TestCase
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
-		$html->addCss('style.css', ['media' => 'print']);
+		$stubConfig = Mockery::mock('alias:\System\File');
+		$stubConfig->shouldReceive('getAssetPath')->andReturn('assets/css/style.css');
 
-		$this->assertEquals($expected, $html->getAddedCss()[0]);
+		$stubConfig = Mockery::mock('alias:\System\Request');
+		$stubConfig->shouldReceive('basePath')->andReturn('/vanda');
+
+		$html->registerCssFile('style.css', ['media' => 'print']);
+
+		$this->assertEquals($expected, $html->getRegisteredCssFiles()[0]);
 	}
 
 	/**
@@ -1275,7 +1293,7 @@ class HtmlTest extends TestCase
 	public function testMethodAddCssCase5() : void
 	{
 		$expected = [
-			'url' => '/assets/css/style.css',
+			'url' => '/vanda/assets/css/style.css',
 			'query' => 'v=1695701570',
 			'attribs' => null
 		];
@@ -1290,9 +1308,15 @@ class HtmlTest extends TestCase
 		$stubTime = $this->getFunctionMock('System', 'time');
 		$stubTime->expects($this->once())->willReturn(1695701570);
 
-		$html->addCss('style.css');
+		$stubConfig = Mockery::mock('alias:\System\File');
+		$stubConfig->shouldReceive('getAssetPath')->andReturn('assets/css/style.css');
 
-		$this->assertEquals($expected, $html->getAddedCss()[0]);
+		$stubConfig = Mockery::mock('alias:\System\Request');
+		$stubConfig->shouldReceive('basePath')->andReturn('/vanda');
+
+		$html->registerCssFile('style.css');
+
+		$this->assertEquals($expected, $html->getRegisteredCssFiles()[0]);
 	}
 
 	/**
@@ -1304,7 +1328,7 @@ class HtmlTest extends TestCase
 	public function testMethodAddCssCase6() : void
 	{
 		$expected = [
-			'url' => '/assets/css/style.css',
+			'url' => '/vanda/assets/css/style.css',
 			'query' => 'dummyKey=dummyVal&v=1695701570',
 			'attribs' => null
 		];
@@ -1319,9 +1343,15 @@ class HtmlTest extends TestCase
 		$stubTime = $this->getFunctionMock('System', 'time');
 		$stubTime->expects($this->once())->willReturn(1695701570);
 
-		$html->addCss('style.css?dummyKey=dummyVal');
+		$stubConfig = Mockery::mock('alias:\System\File');
+		$stubConfig->shouldReceive('getAssetPath')->andReturn('assets/css/style.css');
 
-		$this->assertEquals($expected, $html->getAddedCss()[0]);
+		$stubConfig = Mockery::mock('alias:\System\Request');
+		$stubConfig->shouldReceive('basePath')->andReturn('/vanda');
+
+		$html->registerCssFile('style.css?dummyKey=dummyVal');
+
+		$this->assertEquals($expected, $html->getRegisteredCssFiles()[0]);
 	}
 
 	/**
@@ -1333,7 +1363,7 @@ class HtmlTest extends TestCase
 	public function testMethodAddCssCase7() : void
 	{
 		$expected = [
-			'url' => '/assets/css/style.css',
+			'url' => '/vanda/assets/css/style.css',
 			'query' => 'v=1695701570',
 			'attribs' => null
 		];
@@ -1345,9 +1375,15 @@ class HtmlTest extends TestCase
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
 
-		$html->addCss('style.css?v=1695701570');
+		$stubConfig = Mockery::mock('alias:\System\File');
+		$stubConfig->shouldReceive('getAssetPath')->andReturn('assets/css/style.css');
 
-		$this->assertEquals($expected, $html->getAddedCss()[0]);
+		$stubConfig = Mockery::mock('alias:\System\Request');
+		$stubConfig->shouldReceive('basePath')->andReturn('/vanda');
+
+		$html->registerCssFile('style.css?v=1695701570');
+
+		$this->assertEquals($expected, $html->getRegisteredCssFiles()[0]);
 	}
 
 	/**
@@ -1359,7 +1395,7 @@ class HtmlTest extends TestCase
 	public function testMethodAddCssCase8() : void
 	{
 		$expected = [
-			'url' => '/assets/css/style.css',
+			'url' => '/vanda/assets/css/style.css',
 			'query' => '',
 			'attribs' => null
 		];
@@ -1371,9 +1407,15 @@ class HtmlTest extends TestCase
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
-		$html->addCss('style.css');
+		$stubConfig = Mockery::mock('alias:\System\File');
+		$stubConfig->shouldReceive('getAssetPath')->andReturn('assets/css/style.css');
 
-		$this->assertEquals($expected, $html->getAddedCss()[0]);
+		$stubConfig = Mockery::mock('alias:\System\Request');
+		$stubConfig->shouldReceive('basePath')->andReturn('/vanda');
+
+		$html->registerCssFile('style.css');
+
+		$this->assertEquals($expected, $html->getRegisteredCssFiles()[0]);
 	}
 
 	/**
@@ -1385,7 +1427,7 @@ class HtmlTest extends TestCase
 	public function testMethodAddCssCase9() : void
 	{
 		$expected = [
-			'url' => '/assets/css/style.css',
+			'url' => '/vanda/assets/css/style.css',
 			'query' => 'dummyKey=dummyVal',
 			'attribs' => null
 		];
@@ -1397,9 +1439,15 @@ class HtmlTest extends TestCase
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
-		$html->addCss('style.css?dummyKey=dummyVal');
+		$stubConfig = Mockery::mock('alias:\System\File');
+		$stubConfig->shouldReceive('getAssetPath')->andReturn('assets/css/style.css');
 
-		$this->assertEquals($expected, $html->getAddedCss()[0]);
+		$stubConfig = Mockery::mock('alias:\System\Request');
+		$stubConfig->shouldReceive('basePath')->andReturn('/vanda');
+
+		$html->registerCssFile('style.css?dummyKey=dummyVal');
+
+		$this->assertEquals($expected, $html->getRegisteredCssFiles()[0]);
 	}
 
 	/**
@@ -1411,7 +1459,7 @@ class HtmlTest extends TestCase
 	public function testMethodAddCssCase10() : void
 	{
 		$expected = [
-			'url' => '/assets/css/style.css',
+			'url' => '/vanda/assets/css/style.css',
 			'query' => 'v=1695701570',
 			'attribs' => null
 		];
@@ -1423,8 +1471,14 @@ class HtmlTest extends TestCase
 		$stubConfig = Mockery::mock('alias:\System\Config');
 		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
-		$html->addCss('style.css?v=1695701570');
+		$stubConfig = Mockery::mock('alias:\System\File');
+		$stubConfig->shouldReceive('getAssetPath')->andReturn('assets/css/style.css');
 
-		$this->assertEquals($expected, $html->getAddedCss()[0]);
+		$stubConfig = Mockery::mock('alias:\System\Request');
+		$stubConfig->shouldReceive('basePath')->andReturn('/vanda');
+
+		$html->registerCssFile('style.css?v=1695701570');
+
+		$this->assertEquals($expected, $html->getRegisteredCssFiles()[0]);
 	}
 }
