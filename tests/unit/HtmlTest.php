@@ -1241,12 +1241,38 @@ class HtmlTest extends TestCase
 	}
 
 	/**
-	 * 4. Development mode, no given query.
+	 * 4. A given attribute is an array.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
 	public function testMethodAddCssCase4() : void
+	{
+		$expected = [
+			'url' => '/assets/css/style.css',
+			'query' => '',
+			'attribs' => 'media="print"'
+		];
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('get')->with('env')->andReturn('production');
+
+		$html->addCss('style.css', ['media' => 'print']);
+
+		$this->assertEquals($expected, $html->getAddedCss()[0]);
+	}
+
+	/**
+	 * 5. Development mode, no given query.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAddCssCase5() : void
 	{
 		$expected = [
 			'url' => '/assets/css/style.css',
