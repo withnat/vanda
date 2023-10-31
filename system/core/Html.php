@@ -294,7 +294,7 @@ class Html
 			if (is_array($attribs))
 				$attribs = Arr::toString($attribs);
 
-			if (Config::get('env') === 'development')
+			if (Config::app('env') === 'development')
 			{
 				if ($query)
 				{
@@ -339,7 +339,7 @@ class Html
 			if (is_array($attribs))
 				$attribs = Arr::toString($attribs);
 
-			if (Config::get('env') === 'development')
+			if (Config::app('env') === 'development')
 			{
 				if ($query)
 				{
