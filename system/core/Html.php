@@ -53,7 +53,7 @@ class Html
 	 */
 	public static function link(?string $url = null, ?string $text = null, $attribs = null) : string
 	{
-		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
 
 		$routeUrl = Url::create($url);
@@ -90,7 +90,7 @@ class Html
 	 */
 	public static function linkUnlessCurrent(?string $url = null, ?string $text = null, $attribs = null) : string
 	{
-		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
 
 		$currentUrl = Url::current();
@@ -115,7 +115,7 @@ class Html
 	 */
 	public static function mailto(string $email, ?string $text = null, $attribs = null) : string
 	{
-		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $attribs);
 
 		if (is_null($attribs))
@@ -436,10 +436,19 @@ class Html
 		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(2, ['string', 'array', 'null'], $attribs);
 
-		if (stripos($url, 'http://') === false and stripos($url, 'https://') === false)
-			$href = Request::baseUrl() . '/' . $url;
-		else
+		if (stripos($url, 'http://') !== false or stripos($url, 'https://') !== false)
+		{
+			// @codeCoverageIgnoreStart
 			$href = $url;
+			// @codeCoverageIgnoreEnd
+		}
+		else
+			$href = Url::base() . '/' . $url;
+
+		if (is_null($attribs))
+			$attribs = '';
+		elseif (is_array($attribs))
+			$attribs = Arr::toString($attribs);
 
 		$filename = File::getName($url);
 		$attribs = static::setAttribute($attribs, 'target', '_blank');
@@ -454,6 +463,7 @@ class Html
 	 *
 	 * @param  int    $multiplier  The number of times the '<br>' element should be repeated.
 	 * @return string              Returns the generated '<br>' element.
+	 * @codeCoverageIgnore
 	 */
 	public static function br(int $multiplier) : string
 	{
@@ -465,6 +475,7 @@ class Html
 	 *
 	 * @param  int    $multiplier  The number of times the '&nbsp;' element should be repeated.
 	 * @return string              Returns the generated '&nbsp;' element.
+	 * @codeCoverageIgnore
 	 */
 	public static function nbsp(int $multiplier) : string
 	{
@@ -539,7 +550,7 @@ class Html
 	 */
 	public static function table(array $items, $attribs = null) : string
 	{
-		if (!is_null($attribs) and !is_string($attribs) and !is_array($attribs))
+		if (!is_string($attribs) and !is_array($attribs) and !is_null($attribs))
 			throw InvalidArgumentException::typeError(2, ['string', 'array','null'], $attribs);
 
 		if (is_array($attribs))
