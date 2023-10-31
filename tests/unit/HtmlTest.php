@@ -1375,4 +1375,30 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $html->getAddedCss()[0]);
 	}
+
+	/**
+	 * 9. Production mode, has a given query, no version.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAddCssCase9() : void
+	{
+		$expected = [
+			'url' => '/assets/css/style.css',
+			'query' => 'dummyKey=dummyVal',
+			'attribs' => null
+		];
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', 'dummyKey=dummyVal']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
+
+		$html->addCss('style.css?dummyKey=dummyVal');
+
+		$this->assertEquals($expected, $html->getAddedCss()[0]);
+	}
 }
