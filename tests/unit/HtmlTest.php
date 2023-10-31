@@ -1618,4 +1618,94 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	// Html::ul()
+
+	/*
+	 * 1. Check items datatype.
+	 * 2. Check attribute datatype.
+	 * 3. No given attribute.
+	 * 4. A given attribute is a string.
+	 * 5. A given attribute is an array.
+	 */
+
+	/**
+	 * 1. Check items datatype.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodUlCase1() : void
+	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('array or object');
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Html::ul('items');
+	}
+
+	/**
+	 * 2. Check attribute datatype.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodUlCase2() : void
+	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, array or null');
+
+		$this->expectException(InvalidArgumentException::class);
+
+		Html::ul(['one', 'two', 'three'], new stdClass());
+	}
+
+	/**
+	 * 3. No given attribute.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodUlCase3() : void
+	{
+		$expected = '<ul><li>one</li><li>two</li><li>three</li></ul>';
+
+		$result = Html::ul(['one', 'two', 'three']);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 4. A given attribute is a string.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodUlCase4() : void
+	{
+		$expected = '<ul class="primary"><li>one</li><li>two</li><li>three</li></ul>';
+
+		$result = Html::ul(['one', 'two', 'three'], 'class="primary"');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * 5. A given attribute is an array.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodUlCase5() : void
+	{
+		$expected = '<ul class="primary"><li>one</li><li>two</li><li>three</li></ul>';
+
+		$stubArr = Mockery::mock('alias:\System\Arr');
+		$stubArr->shouldReceive('toString')->once()->andReturn('class="primary"');
+
+		$result = Html::ul(['one', 'two', 'three'], ['class' => 'primary']);
+
+		$this->assertEquals($expected, $result);
+	}
 }
