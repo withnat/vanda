@@ -33,8 +33,8 @@ use System\Exception\InvalidArgumentException;
  */
 class Html
 {
-	public static $addedCss = [];
-	public static $addedJs = [];
+	protected static $_addedCss = [];
+	protected static $_addedJs = [];
 	protected static $_printedOutCss = [];
 	protected static $_printedOutJs = [];
 
@@ -289,7 +289,7 @@ class Html
 
 		list($url, $query) = static::_extractCssUrl($url);
 
-		if (!in_array($url, array_column(static::$addedCss, 'url')))
+		if (!in_array($url, array_column(static::$_addedCss, 'url')))
 		{
 			if (is_array($attribs))
 				$attribs = Arr::toString($attribs);
@@ -305,8 +305,18 @@ class Html
 					$query = 'v=' . time();
 			}
 
-			static::$addedCss[] = ['url' => $url, 'query' => $query, 'attribs' => $attribs];
+			static::$_addedCss[] = ['url' => $url, 'query' => $query, 'attribs' => $attribs];
 		}
+	}
+
+	/**
+	 * Gets the added CSS files.
+	 *
+	 * @return array  Returns the added CSS files.
+	 */
+	public static function getAddedCss() : array
+	{
+		return static::$_addedCss;
 	}
 
 	/**
@@ -324,7 +334,7 @@ class Html
 
 		list($url, $query) = static::_extractJsUrl($url);
 
-		if (!in_array($url, array_column(static::$addedJs, 'url')))
+		if (!in_array($url, array_column(static::$_addedJs, 'url')))
 		{
 			if (is_array($attribs))
 				$attribs = Arr::toString($attribs);
@@ -340,7 +350,7 @@ class Html
 					$query = 'v=' . time();
 			}
 
-			static::$addedJs[] = ['url' => $url, 'query' => $query, 'attribs' => $attribs];
+			static::$_addedJs[] = ['url' => $url, 'query' => $query, 'attribs' => $attribs];
 		}
 	}
 
@@ -371,14 +381,13 @@ class Html
 					$path = File::getAssetPath($url, 'css', $backtrace[1]['file']);
 				}
 
-				$url = Request::basePath() . DS . $path;
+				$url = Request::basePath() . '/' . $path;
 			}
 			else
 				$url = Request::basePath() . $url;
 		}
 
-		if (DS === '\\')
-			$url = str_replace('\\', '/', $url);
+		$url = str_replace('\\', '/', $url);
 
 		return [$url, $query];
 	}
@@ -409,14 +418,13 @@ class Html
 					$path = File::getAssetPath($url, 'js', $backtrace[1]['file']);
 				}
 
-				$url = Request::basePath() . DS . $path;
+				$url = Request::basePath() . '/' . $path;
 			}
 			else
 				$url = Request::basePath() . $url;
 		}
 
-		if (DS === '\\')
-			$url = str_replace('\\', '/', $url);
+		$url = str_replace('\\', '/', $url);
 
 		return [$url, $query];
 	}
