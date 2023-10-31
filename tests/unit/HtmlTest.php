@@ -1187,4 +1187,30 @@ class HtmlTest extends TestCase
 
 		Html::addCss('style.css', new stdClass());
 	}
+
+	/**
+	 * 2. No given attribute.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAddCssCase2() : void
+	{
+		$expected = [
+			'url' => '/assets/css/style.css',
+			'query' => '',
+			'attribs' => null
+		];
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('get')->with('env')->andReturn('production');
+
+		$html->addCss('style.css');
+
+		$this->assertEquals($expected, $html->getAddedCss()[0]);
+	}
 }
