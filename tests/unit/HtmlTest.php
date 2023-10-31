@@ -1207,7 +1207,7 @@ class HtmlTest extends TestCase
 		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
-		$stubConfig->shouldReceive('get')->with('env')->andReturn('production');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
 		$html->addCss('style.css');
 
@@ -1233,7 +1233,7 @@ class HtmlTest extends TestCase
 		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
-		$stubConfig->shouldReceive('get')->with('env')->andReturn('production');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
 		$html->addCss('style.css', 'media="print"');
 
@@ -1259,7 +1259,7 @@ class HtmlTest extends TestCase
 		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
-		$stubConfig->shouldReceive('get')->with('env')->andReturn('production');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('production');
 
 		$html->addCss('style.css', ['media' => 'print']);
 
@@ -1285,12 +1285,41 @@ class HtmlTest extends TestCase
 		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', '']);
 
 		$stubConfig = Mockery::mock('alias:\System\Config');
-		$stubConfig->shouldReceive('get')->with('env')->andReturn('development');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
 
 		$stubTime = $this->getFunctionMock('System', 'time');
 		$stubTime->expects($this->once())->willReturn(1695701570);
 
 		$html->addCss('style.css');
+
+		$this->assertEquals($expected, $html->getAddedCss()[0]);
+	}
+
+	/**
+	 * 6. Development mode, has a given query, no version.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testMethodAddCssCase6() : void
+	{
+		$expected = [
+			'url' => '/assets/css/style.css',
+			'query' => 'dummyKey=dummyVal&v=1695701570',
+			'attribs' => null
+		];
+
+		$html = Mockery::mock('System\Html');
+		$html->shouldAllowMockingProtectedMethods()->makePartial();
+		$html->shouldReceive('_extractCssUrl')->andReturn(['/assets/css/style.css', 'dummyKey=dummyVal']);
+
+		$stubConfig = Mockery::mock('alias:\System\Config');
+		$stubConfig->shouldReceive('app')->with('env')->andReturn('development');
+
+		$stubTime = $this->getFunctionMock('System', 'time');
+		$stubTime->expects($this->once())->willReturn(1695701570);
+
+		$html->addCss('style.css?dummyKey=dummyVal');
 
 		$this->assertEquals($expected, $html->getAddedCss()[0]);
 	}
