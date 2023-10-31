@@ -34,6 +34,21 @@ use System\Exception\InvalidArgumentException;
  * supports working with dataset (array of arrays) and recordset (array of
  * objects) structures.
  *
+ * For example,
+ *
+ * ```php
+ * $csvString = Csv::read('file.csv'); // Returns an array.
+ *
+ * // Convert CSV string to recordset. The first row will be the header.
+ * $recordset = Csv::toRecordset($csvString);
+ *
+ * // Convert back to CSV string. The key will be the header.
+ * $csvString = Csv::fromRecordset($recordset);
+ *
+ * // Write CSV file.
+ * Csv::write('file.csv', $csvString);
+ * ```
+ *
  * @package System
  */
 class Csv
