@@ -2135,7 +2135,8 @@ class Arr
 	/**
 	 * Converts the given data to an array.
 	 *
-	 * @param  mixed                 $data       The source data.
+	 * @param  mixed                 $data       The source data can be everything including a dataset (array of arrays)
+	 *                                           or a recordset (array of objects).
 	 * @param  bool                  $recursive  Optionally, true to recurve through multi-level arrays or objects.
 	 *                                           Defaults to true.
 	 * @param  string|int|array|null $keys       Optionally, only be used in top level elements. Defaults to null.
