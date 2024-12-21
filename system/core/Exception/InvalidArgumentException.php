@@ -33,6 +33,12 @@ class InvalidArgumentException extends \InvalidArgumentException
 	/**
 	 * Raises an exception for an invalid argument type.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * throw InvalidArgumentException::typeError(1, ['string', 'int', 'float', 'bool', 'null'], tmpfile());
+	 * ```
+	 *
 	 * @param  int                      $argument          The argument number.
 	 * @param  array|null               $allowedDataTypes  The allowed data types. Defaults to null.
 	 * @param  mixed|null               $value             The given value. Defaults to null.
@@ -66,6 +72,12 @@ class InvalidArgumentException extends \InvalidArgumentException
 	/**
 	 * Raises an exception for an invalid argument value.
 	 *
+	 * For example,
+	 *
+	 * ```php
+	 * throw InvalidArgumentException::valueError(1, '$value must be greater than zero', 0);
+	 * ```
+	 *
 	 * @param  int                      $argument  The argument number.
 	 * @param  string                   $errorMsg  The error message.
 	 * @param  mixed|null               $value     The given value. Defaults to null.
@@ -79,8 +91,13 @@ class InvalidArgumentException extends \InvalidArgumentException
 
 		$msg = 'Argument ' . $argument . ' passed to ' . $class . '::' . $function . '(), ' . $errorMsg;
 
-		if ($value)
+		if (!is_null($value)) // $value can be 0, false, etc.
+		{
+			if (is_bool($value))
+				$value = $value ? 'true' : 'false';
+
 			$msg .= ', ' . $value . ' given';
+		}
 
 		$msg .= ', called in ' . $file . ' on line ' . $line;
 
@@ -95,10 +112,12 @@ class InvalidArgumentException extends \InvalidArgumentException
 	 */
 	protected static function _list(array $trace) : array
 	{
+		// @codeCoverageIgnoreStart
 		if (strpos($trace[0]['file'], 'Data.php'))
 			$index = 2;
 		else
 			$index = 1;
+		// @codeCoverageIgnoreEnd
 
 		$class = $trace[$index]['class'];
 		$function = $trace[$index]['function'];
