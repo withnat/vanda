@@ -21,8 +21,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use Mockery;
 use PHPUnit\Framework\TestCase;
-use System\Arr;
 use System\Exception\InvalidArgumentException;
 
 /**
@@ -35,14 +35,20 @@ class InvalidArgumentExceptionTest extends TestCase
 
 	public function testMethodTypeErrorCase1() : void
 	{
-		$exception = InvalidArgumentException::typeError(1, ['string', 'int', 'float', 'bool', 'null'], tmpfile());
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string or int');
+
+		$exception = InvalidArgumentException::typeError(1, ['string', 'int'], tmpfile());
 
 		$this->assertInstanceOf(InvalidArgumentException::class, $exception);
 	}
 
 	public function testMethodTypeErrorCase2() : void
 	{
-		$exception = InvalidArgumentException::typeError(1, ['string', 'int', 'float', 'bool', 'null'], tmpfile(), 'custom message');
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string or int');
+
+		$exception = InvalidArgumentException::typeError(1, ['string', 'int'], tmpfile(), 'custom message');
 
 		$this->assertInstanceOf(InvalidArgumentException::class, $exception);
 	}
