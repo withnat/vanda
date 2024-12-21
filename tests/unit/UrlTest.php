@@ -188,6 +188,19 @@ class UrlTest extends TestCase
 		$this->assertEquals($expected, $result);
 	}
 
+	// Url::uri()
+
+	public function testMethodUriCase1()
+	{
+		$url = Mockery::mock('\System\Url')->makePartial();
+		$url->shouldReceive('base')->andReturn('http://localhost/vanda');
+
+		$expected = '/';
+		$result = $url->uri('http://localhost/vanda');
+
+		$this->assertEquals($expected, $result);
+	}
+
 	// Url::create()
 
 	/**
@@ -840,11 +853,14 @@ class UrlTest extends TestCase
 		putenv('APP_MODULE=user');
 		putenv('APP_CONTROLLER=user');
 
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive('url')->andReturn('https://localhost/vanda/admin/user/user/modify?id=1');
+		$url = Mockery::mock('\System\Url')->makePartial();
+		$url->shouldReceive('current')->andReturn('https://localhost/vanda/admin/user/user/modify');
+
+//		$stubRequest = Mockery::mock('alias:\System\Request');
+//		$stubRequest->shouldReceive('url')->andReturn('https://localhost/vanda/admin/user/user/modify?id=1');
 
 		$expected = 'httpslocalhostvandaadminusermodify';
-		$result = Url::toContext();
+		$result = $url->toContext();
 
 		$this->assertEquals($expected, $result);
 
@@ -861,11 +877,11 @@ class UrlTest extends TestCase
 		putenv('APP_MODULE=user');
 		putenv('APP_CONTROLLER=group');
 
-		$stubRequest = Mockery::mock('alias:\System\Request');
-		$stubRequest->shouldReceive('url')->andReturn('https://localhost/vanda/admin/user/group/modify?id=1');
+		$url = Mockery::mock('\System\Url')->makePartial();
+		$url->shouldReceive('current')->andReturn('https://localhost/vanda/admin/user/group/modify');
 
 		$expected = 'httpslocalhostvandaadminusergroupmodify';
-		$result = Url::toContext();
+		$result = $url->toContext();
 
 		$this->assertEquals($expected, $result);
 
