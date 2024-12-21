@@ -117,9 +117,9 @@ class Logger
 	/**
 	 * Writes a critical message to the log file.
 	 *
-	 * @param  string    $message  The message to write.
-	 * @param array|null $data     Optionally, the data to write. Defaults to null.
-	 * @return bool                Returns true if the message was written to the log file, false otherwise.
+	 * @param  string     $message  The message to write.
+	 * @param  array|null $data     Optionally, the data to write. Defaults to null.
+	 * @return bool                 Returns true if the message was written to the log file, false otherwise.
 	 * @codeCoverageIgnore
 	 */
 	public static function critical(string $message, ?array $data = null) : bool

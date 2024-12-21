@@ -39,9 +39,9 @@ class Flash
 	/**
 	 * Sets a flash message of type info.
 	 *
-	 * @param string $message  The message to display.
-	 * @return string|void     Returns the HTML code for the message if the request is AJAX,
-	 *						   otherwise it sets the message in the session.
+	 * @param  string $message  The message to display.
+	 * @return string|void      Returns the HTML code for the message if the request is AJAX,
+	 *						    otherwise it sets the message in the session.
 	 */
  	public static function info(string $message)
  	{
@@ -60,9 +60,9 @@ class Flash
 	/**
 	 * Sets a flash message of type success.
 	 *
-	 * @param string $message  The message to display.
-	 * @return string|void     Returns the HTML code for the message if the request is AJAX,
-	 *						   otherwise it sets the message in the session.
+	 * @param  string $message  The message to display.
+	 * @return string|void      Returns the HTML code for the message if the request is AJAX,
+	 *						    otherwise it sets the message in the session.
 	 */
   	public static function success(string $message)
  	{
@@ -81,9 +81,9 @@ class Flash
 	/**
 	 * Sets a flash message of type warning.
 	 *
-	 * @param string $message  The message to display.
-	 * @return string|void     Returns the HTML code for the message if the request is AJAX,
-	 *						   otherwise it sets the message in the session.
+	 * @param  string $message  The message to display.
+	 * @return string|void      Returns the HTML code for the message if the request is AJAX,
+	 *						    otherwise it sets the message in the session.
 	 */
   	public static function warning(string $message)
  	{
@@ -102,9 +102,9 @@ class Flash
 	/**
 	 * Sets a flash message of type danger.
 	 *
-	 * @param string $message  The message to display.
-	 * @return string|void     Returns the HTML code for the message if the request is AJAX,
-	 *						   otherwise it sets the message in the session.
+	 * @param  string $message  The message to display.
+	 * @return string|void      Returns the HTML code for the message if the request is AJAX,
+	 *						    otherwise it sets the message in the session.
 	 */
    	public static function danger(string $message)
  	{

@@ -189,8 +189,8 @@ class Response
 	/**
 	 * Sets the response status code.
 	 *
-	 * @param  int $statusCode  The status code.
-	 * @return Response         Returns the instance of this class to allow chaining.
+	 * @param  int      $statusCode  The status code.
+	 * @return Response              Returns the instance of this class to allow chaining.
 	 */
 	public static function setStatusCode(int $statusCode) : Response
 	{
@@ -210,8 +210,8 @@ class Response
 	 * If multiple headers with the same name exist,
 	 * then will return an array of header objects.
 	 *
-	 * @param  string $name       The name of the header to get.
-	 * @return string|array|null  Returns the value of the header.
+	 * @param  string            $name  The name of the header to get.
+	 * @return string|array|null        Returns the value of the header.
 	 */
 	public static function getHeader(string $name)
 	{

@@ -126,8 +126,8 @@ class Url
 	 * An alias for getQueryString() method.
 	 *
 	 * @param  string|null $url  Optionally, the URL to be parsed. Defaults to null. If null, returns the current query
-	 *                          string.
-	 * @return string           Returns query string, null if not available.
+	 *                           string.
+	 * @return string            Returns query string, null if not available.
 	 * @codeCoverageIgnore
 	 */
 	public static function queryString(?string $url = null) : ?string

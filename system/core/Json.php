@@ -60,8 +60,8 @@ class Json
 	/**
 	 * Encodes the given data to JSON.
 	 *
-	 * @param  mixed  $data   The input data to encode.
-	 * @return string         Returns the JSON string.
+	 * @param  mixed  $data  The input data to encode.
+	 * @return string        Returns the JSON string.
 	 * @throws ErrorException
 	 */
 	public static function encode($data) : string
@@ -85,11 +85,11 @@ class Json
 	/**
 	 * Decodes the given JSON string.
 	 *
-	 * @param  string         $json   The input JSON string being decoded.
-	 * @param  bool           $assoc  Optionally, when true, returned objects will be converted into associative arrays.
-	 *                                Defaults to false.
-	 * @return array|object           Returns decoded data representation. Object if $assoc = false or null, array
-	 *                                otherwise.
+	 * @param  string       $json   The input JSON string being decoded.
+	 * @param  bool         $assoc  Optionally, when true, returned objects will be converted into associative arrays.
+	 *                              Defaults to false.
+	 * @return array|object         Returns decoded data representation. Object if $assoc = false or null, array
+	 *                              otherwise.
 	 * @throws ErrorException
 	 */
 	public static function decode(string $json, bool $assoc = false)

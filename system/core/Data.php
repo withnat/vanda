@@ -349,8 +349,8 @@ class Data
 	 * Throws an InvalidArgumentException if the given data is not the allowed data type.
 	 *
 	 * @param  string|array $allowedDataTypes  The allowed data types. Multiple values can be separated by comma.
-	 * @param  int         $argument           The position of argument.
-	 * @param  mixed       $data               The data to check.
+	 * @param  int          $argument          The position of argument.
+	 * @param  mixed        $data              The data to check.
 	 * @return void
 	 */
 	public static function expects($allowedDataTypes, int $argument, $data) : void

@@ -61,10 +61,10 @@ class Csv
 	/**
 	 * Reads the given CSV file and returns an array.
 	 *
-	 * @param string $file          The CSV file.
-	 * @param string $delimiter     Optionally, delimiter. Defaults to , (comma).
-	 * @param string $enclosure     Optionally, enclosure. Default to " (double quote).
-	 * @return array                Returns an array.
+	 * @param  string $file       The CSV file.
+	 * @param  string $delimiter  Optionally, delimiter. Defaults to , (comma).
+	 * @param  string $enclosure  Optionally, enclosure. Default to " (double quote).
+	 * @return array              Returns an array.
 	 */
 	public static function read(string $file, string $delimiter = ',', string $enclosure = '"') : array
 	{
@@ -521,11 +521,11 @@ class Csv
 	/**
 	 * Generates CSV from the given dataset (array of arrays) or recordset (array of objects).
 	 *
-	 * @param array  $datasetOrRecordset  The input dataset (array of arrays) or recordset (array of objects).
-	 * @param string $delimiter           Delimiter.
-	 * @param string $enclosure           Enclosure.
-	 * @param string $newline             Newline character.
-	 * @return string                     Returns the well-formed CSV.
+	 * @param  array  $datasetOrRecordset  The input dataset (array of arrays) or recordset (array of objects).
+	 * @param  string $delimiter           Delimiter.
+	 * @param  string $enclosure           Enclosure.
+	 * @param  string $newline             Newline character.
+	 * @return string                      Returns the well-formed CSV.
 	 */
 	protected static function _fromDatasetOrRecordset(array $datasetOrRecordset, string $delimiter, string $enclosure, string $newline) : string
 	{

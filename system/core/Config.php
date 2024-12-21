@@ -119,9 +119,9 @@ class Config
 	 * echo Config::security('ssl');
 	 * ```
 	 *
-	 * @param   string $method  Original method name.
-	 * @param   array  $args    Arguments passed to the method.
-	 * @return  mixed           Returns result of the get method.
+	 * @param  string $method  Original method name.
+	 * @param  array  $args    Arguments passed to the method.
+	 * @return mixed           Returns result of the get method.
 	 */
 	public static function __callStatic(string $method, array $args)
 	{

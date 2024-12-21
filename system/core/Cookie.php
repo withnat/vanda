@@ -54,10 +54,10 @@ class Cookie
 	/**
 	 * This method provides a friendlier syntax for setting browser cookies.
 	 *
-	 * @param string                             $name    The name of the cookie.
-	 * @param string|int|float|array|object|null $value   The value of the cookie.
-	 * @param int                                $expire  Optionally, the number of seconds until the cookie expires.
-	 *                                                    Defaults to 0.
+	 * @param  string                             $name    The name of the cookie.
+	 * @param  string|int|float|array|object|null $value   The value of the cookie.
+	 * @param  int                                $expire  Optionally, the number of seconds until the cookie expires.
+	 *                                                     Defaults to 0.
 	 *
 	 * @return void
 	 */
@@ -84,7 +84,7 @@ class Cookie
 
 		$expire += time();
 		$expireDate = gmdate('D, d M Y H:i:s', $expire) . ' GMT';
-		$setCookieString = $name . '=' . $value . '; expires= ' . $expireDate . '; path=/; HttpOnly; SameSite=Strict';
+		$setCookieString = $name . '=' . $value . '; expires=' . $expireDate . '; path=/; HttpOnly; SameSite=Strict';
 
 		if (Request::isSecure())
 			$setCookieString .= '; Secure';
@@ -95,9 +95,9 @@ class Cookie
 	/**
 	 * This method provides a friendlier syntax for getting browser cookies.
 	 *
-	 * @param string $name     The name of the cookie.
-	 * @param mixed  $default  Optionally, the default value to return if the cookie does not exist. Defaults to null.
-	 * @return mixed           Returns the value of the cookie if it exists, otherwise returns the default value.
+	 * @param  string $name     The name of the cookie.
+	 * @param  mixed  $default  Optionally, the default value to return if the cookie does not exist. Defaults to null.
+	 * @return mixed            Returns the value of the cookie if it exists, otherwise returns the default value.
 	 * @throws ErrorException
 	 */
 	public static function get(string $name, $default = null)
@@ -140,7 +140,7 @@ class Cookie
 	/**
 	 * This method returns true if a cookie exists, false otherwise.
 	 *
-	 * @param string $name  The name of the cookie to check.
+	 * @param  string $name  The name of the cookie to check.
 	 * @return bool
 	 * @codeCoverageIgnore
 	 */
@@ -152,13 +152,13 @@ class Cookie
 	/**
 	 * This method deletes a cookie by setting its expiration date to the past.
 	 *
-	 * @param string $name  The name of the cookie to delete.
+	 * @param  string $name  The name of the cookie to delete.
 	 * @return void
 	 * @codeCoverageIgnore
 	 */
 	public static function delete(string $name) : void
 	{
-		setcookie(static::$_prefix . $name, '', time()-3600, '/');
+		setcookie(static::$_prefix . $name, '', time() - 3600, '/');
 	}
 
 	/**
@@ -171,7 +171,7 @@ class Cookie
 		foreach ($_COOKIE as $name => $value)
 		{
 			if (strpos($name, static::$_prefix) !== false)
-				setcookie(static::$_prefix . $name, '', time()-3600, '/');
+				setcookie(static::$_prefix . $name, '', time() - 3600, '/');
 		}
 	}
 }

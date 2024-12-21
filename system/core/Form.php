@@ -236,7 +236,7 @@ class Form extends Mvc\View
 	/**
 	 * Generates a text input field.
 	 *
-	 * @param  string $name                     The name of the input field.
+	 * @param  string                 $name     The name of the input field.
 	 * @param  string|int|float|null  $value    The value of the input field. Defaults to null.
 	 * @param  string|array|null      $attribs  Additional attributes for the input field. Defaults to null.
 	 * @return string                           Returns the text input field.

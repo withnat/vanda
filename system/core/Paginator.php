@@ -92,7 +92,7 @@ class Paginator
 	/**
 	 * Gets the current page number.
 	 *
-	 * @return int             Returns the current page number.
+	 * @return int  Returns the current page number.
 	 * @throws ErrorException
 	 */
 	public static function getPage() : int
@@ -126,7 +126,7 @@ class Paginator
 	/**
 	 * Sets the number of records per page.
 	 *
-	 * @param  int $pagesize Number of records per page.
+	 * @param  int  $pagesize  Number of records per page.
 	 * @return void
 	 * @throws ErrorException
 	 */
@@ -151,7 +151,7 @@ class Paginator
 	/**
 	 * Gets the number of records per page.
 	 *
-	 * @return int             Returns the number of records per page.
+	 * @return int  Returns the number of records per page.
 	 * @throws ErrorException
 	 */
 	public static function getPageSize() : int
@@ -194,7 +194,7 @@ class Paginator
 	/**
 	 * Gets the column to sort by.
 	 *
-	 * @return string          Returns the column to sort by.
+	 * @return string  Returns the column to sort by.
 	 * @throws ErrorException
 	 */
 	public static function getSortCol() : string
@@ -227,7 +227,7 @@ class Paginator
 	/**
 	 * Gets the sort direction.
 	 *
-	 * @return string          Returns the sort direction.
+	 * @return string  Returns the sort direction.
 	 * @throws ErrorException
 	 */
 	public static function getSortDir() : string
