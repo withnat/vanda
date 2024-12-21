@@ -102,16 +102,22 @@ class Url
 	/**
 	 * Gets URI from the given URL. If the URL is null, it will return the current URI.
 	 *
-	 * @param string|null $url  Optionally, the URL to be parsed. Defaults to null. If null, returns the current URI.
+	 * @param  string|null $url  Optionally, the URL to be parsed. Defaults to null. If null, returns the current URI.
 	 * @return string           Returns the current URL.
-	 * @codeCoverageIgnore
 	 */
 	public static function uri(?string $url = null) : string
 	{
-		if (is_null($url))
-			$uri = Request::uri();
-		else
+		if ($url)
+		{
 			$uri = str_replace(static::base(), '/', $url);
+			$uri = str_replace('//', '/', $uri);
+		}
+		else
+		{
+			// @codeCoverageIgnoreStart
+			$uri = Request::uri();
+			// @codeCoverageIgnoreEnd
+		}
 
 		return $uri;
 	}
@@ -119,7 +125,7 @@ class Url
 	/**
 	 * An alias for getQueryString() method.
 	 *
-	 * @param string|null $url  Optionally, the URL to be parsed. Defaults to null. If null, returns the current query
+	 * @param  string|null $url  Optionally, the URL to be parsed. Defaults to null. If null, returns the current query
 	 *                          string.
 	 * @return string           Returns query string, null if not available.
 	 * @codeCoverageIgnore
