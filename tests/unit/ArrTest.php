@@ -401,10 +401,6 @@ class ArrTest extends TestCase
 
 	// Arr::get()
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
 	public function testMethodGetCase1() : void
 	{
 		$stubInflector = Mockery::mock('alias:\System\Inflector');
@@ -630,6 +626,9 @@ class ArrTest extends TestCase
 
 	public function testMethodFirstCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('$length must be greater than zero');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::first([], -1);
@@ -796,6 +795,9 @@ class ArrTest extends TestCase
 
 	public function testMethodLastCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('$length must be greater than zero');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::last([], -1);
@@ -964,6 +966,9 @@ class ArrTest extends TestCase
 
 	public function testMethodFirstKeyCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('$length must be greater than zero');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		$result = Arr::firstKey([], -1);
@@ -1070,6 +1075,9 @@ class ArrTest extends TestCase
 
 	public function testMethodLastKeyCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('$length must be greater than zero');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		$result = Arr::lastKey([], -1);
@@ -1176,6 +1184,9 @@ class ArrTest extends TestCase
 
 	public function testMethodOnlyCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int or array');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::only([], 3.14);
@@ -1424,6 +1435,9 @@ class ArrTest extends TestCase
 
 	public function testMethodPullCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int or array');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::pull(static::$_array, 3.14);
@@ -1781,21 +1795,10 @@ class ArrTest extends TestCase
 
 	public function testMethodPullColumnCase1() : void
 	{
-		$recordset = [
-			[
-				'name' => 'Nat',
-				'surname' => 'With',
-				'job' => 'Web Developer'
-			],
-			[
-				'name' => 'Angela',
-				'surname' => 'SG',
-				'job' => 'Maketing Director'
-			]
-		];
-
-		$result = Arr::pullColumn($recordset, 'name,surname');
 		$array = [];
+
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('dataset or recordset');
 
 		$this->expectException(InvalidArgumentException::class);
 
@@ -1805,6 +1808,9 @@ class ArrTest extends TestCase
 	public function testMethodPullColumnCase2() : void
 	{
 		$array = [[]];
+
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int or array');
 
 		$this->expectException(InvalidArgumentException::class);
 
@@ -2079,6 +2085,9 @@ class ArrTest extends TestCase
 
 	public function testMethodRemoveCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int, float, bool, array or null');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::remove([], new stdClass());
@@ -2295,6 +2304,9 @@ class ArrTest extends TestCase
 
 	public function testMethodRemoveKeyCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int or array');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::removeKey([], 3.14);
@@ -2469,6 +2481,9 @@ class ArrTest extends TestCase
 
 	public function testMethodRemoveTypeCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string or array');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::removeType([], 3.14);
@@ -2850,6 +2865,9 @@ class ArrTest extends TestCase
 
 	public function testMethodRemoveColumnCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('dataset or recordset');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::removeColumn([], 'missingkey');
@@ -2857,6 +2875,9 @@ class ArrTest extends TestCase
 
 	public function testMethodRemoveColumnCase2() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int or array');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::removeColumn([[]], 3.14);
@@ -2982,6 +3003,9 @@ class ArrTest extends TestCase
 
 	public function testMethodMapCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('dataset or recordset');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::map([], 'missingkeyFrom', 'missingkeyTo');
@@ -3546,6 +3570,9 @@ class ArrTest extends TestCase
 
 	public function testMethodHasKeyCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string or int');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::hasKey([], 3.14);
@@ -3660,6 +3687,9 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAnyKeyCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int, array');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::hasAnyKey([], 3.14);
@@ -3837,6 +3867,9 @@ class ArrTest extends TestCase
 
 	public function testMethodHasAllKeysCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int, array');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::hasAllKeys([], 3.14);
@@ -4406,6 +4439,9 @@ class ArrTest extends TestCase
 
 	public function testMethodSortDatasetCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('dataset');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::sortDataset([], 'missingkey');
@@ -4439,6 +4475,9 @@ class ArrTest extends TestCase
 
 	public function testMethodSortRecordsetCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('recordset');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::sortRecordset([], 'missingkey');
@@ -5038,6 +5077,9 @@ class ArrTest extends TestCase
 
 	public function testMethodFromObjectCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, array or null');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::fromObject(static::$_objectEmpty, true, 3.14);
@@ -5232,6 +5274,9 @@ class ArrTest extends TestCase
 
 	public function testMethodToArrayCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int, array or null');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::toArray([], true, 3.14);
@@ -5708,6 +5753,9 @@ class ArrTest extends TestCase
 
 	public function testMethodToObjectCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int, array or null');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::toObject([], 'stdClass', true, 3.14);
@@ -6235,6 +6283,9 @@ class ArrTest extends TestCase
 
 	public function testMethodToStringCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int, array or null');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::toString([], 'innerGlue', 'outerGlue', 'valueDelimiter', true, 3.14);
@@ -7083,6 +7134,9 @@ class ArrTest extends TestCase
 
 	public function testMethodFormatSyntaxCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string or int');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Arr::formatKeySyntax(3.14);

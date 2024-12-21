@@ -162,9 +162,9 @@ class Arr
 	 * // The $result will be: name
 	 * ```
 	 *
-	 * @param  array $array           The input array.
-	 * @param  mixed $value           The searched value.
-	 * @return string|int|null  Returns the key for needle if it is found in the given array, null otherwise.
+	 * @param  array           $array  The input array.
+	 * @param  mixed           $value  The searched value.
+	 * @return string|int|null         Returns the key for needle if it is found in the given array, null otherwise.
 	 */
 	public static function getKey(array $array, $value)
 	{
@@ -299,10 +299,10 @@ class Arr
 	 * // )
 	 * ```
 	 *
-	 * @param  array    $array        The input array.
-	 * @param  int|null $length       Optionally, the number of keys to return. Defaults to null.
-	 * @return string|int|array|null  If $length is null, returns the first key from the given array. If $length is
-	 *                                numeric, returns an array containing the first $length keys.
+	 * @param  array                 $array   The input array.
+	 * @param  int|null              $length  Optionally, the number of keys to return. Defaults to null.
+	 * @return string|int|array|null          If $length is null, returns the first key from the given array. If $length is
+	 *                                        numeric, returns an array containing the first $length keys.
 	 */
 	public static function firstKey(array $array, ?int $length = null)
 	{
@@ -383,10 +383,10 @@ class Arr
 	 * // )
 	 * ```
 	 *
-	 * @param  array    $array        The input array.
-	 * @param  int|null $length       Optionally, the number of keys to return. Defaults to null.
-	 * @return string|int|array|null  If $length is null, returns the last key from the given array. If $length is
-	 *                                numeric, returns an array containing the last $length keys.
+	 * @param  array                 $array   The input array.
+	 * @param  int|null              $length  Optionally, the number of keys to return. Defaults to null.
+	 * @return string|int|array|null          If $length is null, returns the last key from the given array. If $length is
+	 *                                        numeric, returns an array containing the last $length keys.
 	 */
 	public static function lastKey(array $array, ?int $length = null)
 	{
@@ -1317,10 +1317,10 @@ class Arr
 	 * // The $result will be: true
 	 * ```
 	 *
-	 * @param array $array          The array to search.
-	 * @param array $searches       The searched values.
-	 * @param bool  $caseSensitive  Optionally, whether to enforce case-sensitivity or not. Defaults to true.
-	 * @return bool                 Returns true if all searched values are found in the given array, false otherwise.
+	 * @param  array $array          The array to search.
+	 * @param  array $searches       The searched values.
+	 * @param  bool  $caseSensitive  Optionally, whether to enforce case-sensitivity or not. Defaults to true.
+	 * @return bool                  Returns true if all searched values are found in the given array, false otherwise.
 	 */
 	public static function hasAll(array $array, array $searches, bool $caseSensitive = true) : bool
 	{
@@ -2051,9 +2051,7 @@ class Arr
 	 */
 	public static function fromObject(object $data, bool $recursive = true, $keys = null) : array
 	{
-		if (is_null($keys))
-			$givenKeys = [];
-		elseif (is_string($keys))
+		if (is_string($keys))
 		{
 			if ($keys !== '') // can be '0'.
 				$givenKeys = explode(',', $keys);
@@ -2062,6 +2060,8 @@ class Arr
 		}
 		elseif (is_array($keys))
 			$givenKeys = $keys;
+		elseif (is_null($keys))
+			$givenKeys = [];
 		else
 			throw InvalidArgumentException::typeError(3, ['string', 'array', 'null'], $keys);
 
@@ -2146,9 +2146,7 @@ class Arr
 	{
 		if (is_array($data) or is_object($data))
 		{
-			if (is_null($keys))
-				$givenKeys = [];
-			elseif (is_string($keys))
+			if (is_string($keys))
 			{
 				if ($keys !== '') // can be '0'.
 					$givenKeys = explode(',', $keys);
@@ -2159,6 +2157,8 @@ class Arr
 				$givenKeys = [$keys];
 			elseif (is_array($keys))
 				$givenKeys = $keys;
+			elseif (is_null($keys))
+				$givenKeys = [];
 			else
 				throw InvalidArgumentException::typeError(3, ['string', 'int', 'array', 'null'], $keys);
 
@@ -2220,9 +2220,7 @@ class Arr
 	 */
 	public static function toObject(array $array, string $class = 'stdClass', bool $recursive = true, $keys = null) : object
 	{
-		if (is_null($keys))
-			$givenKeys = [];
-		elseif (is_string($keys))
+		if (is_string($keys))
 		{
 			if ($keys !== '') // can be '0'.
 				$givenKeys = explode(',', $keys);
@@ -2233,6 +2231,8 @@ class Arr
 			$givenKeys = [$keys];
 		elseif (is_array($keys))
 			$givenKeys = $keys;
+		elseif (is_null($keys))
+			$givenKeys = [];
 		else
 			throw InvalidArgumentException::typeError(4, ['string', 'int', 'array', 'null'], $keys);
 
@@ -2303,9 +2303,7 @@ class Arr
 	 */
 	public static function toString(array $array, string $innerGlue = '=', string $outerGlue = ' ', string $valueDelimiter = '"', bool $recursive = true, $keys = null) : string
 	{
-		if (is_null($keys))
-			$givenKeys = [];
-		elseif (is_string($keys))
+		if (is_string($keys))
 		{
 			if ($keys !== '') // can be '0'.
 				$givenKeys = explode(',', $keys);
@@ -2316,6 +2314,8 @@ class Arr
 			$givenKeys = [$keys];
 		elseif (is_array($keys))
 			$givenKeys = $keys;
+		elseif (is_null($keys))
+			$givenKeys = [];
 		else
 			throw InvalidArgumentException::typeError(6, ['string', 'int', 'array', 'null'], $keys);
 
