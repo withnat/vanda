@@ -50,6 +50,9 @@ class CookieTest extends TestCase
 	 */
 	public function testMethodSetCase1() : void
 	{
+		$stubInflector = Mockery::mock('alias:\System\Inflector');
+		$stubInflector->shouldReceive('sentence')->andReturn('string, int, float, array, object or null');
+
 		$this->expectException(InvalidArgumentException::class);
 
 		Cookie::set('name', tmpfile());
@@ -61,6 +64,9 @@ class CookieTest extends TestCase
 	 */
 	public function testMethodSetCase2() : void
 	{
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isSecure')->andReturnTrue();
+
 		Cookie::set('name', 'value');
 
 		$this->assertTrue(true);
@@ -72,6 +78,9 @@ class CookieTest extends TestCase
 	 */
 	public function testMethodSetCase3() : void
 	{
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isSecure')->andReturnTrue();
+
 		Cookie::set('name', ['foo' => 'bar']);
 
 		$this->assertTrue(true);
@@ -83,6 +92,9 @@ class CookieTest extends TestCase
 	 */
 	public function testMethodSetCase4() : void
 	{
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isSecure')->andReturnTrue();
+
 		$value = new stdClass();
 		$value->foo = 'bar';
 
@@ -97,38 +109,38 @@ class CookieTest extends TestCase
 	 */
 	public function testMethodSetCase5() : void
 	{
+		$stubRequest = Mockery::mock('alias:\System\Request');
+		$stubRequest->shouldReceive('isSecure')->andReturnTrue();
+
 		Cookie::set('name', true);
 
 		$this->assertTrue(true);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodSetCase6() : void
-	{
-		$_SERVER['SERVER_PORT'] = 443;
-
-		Cookie::set('name', 'value');
-
-		$this->assertTrue(true);
-
-		unset($_SERVER['SERVER_PORT']);
-	}
-
 	// Cookie::get()
 
+	/**
+	 * @throws ErrorException
+	 */
 	public function testMethodGetCase1() : void
 	{
+		$stubJson = Mockery::mock('alias:\System\Json');
+		$stubJson->shouldReceive('isValid')->andReturnFalse();
+
 		$result = Cookie::get('name', 'default value');
 
 		$this->assertEquals('default value', $result);
 	}
 
+	/**
+	 * @throws ErrorException
+	 */
 	public function testMethodGetCase2() : void
 	{
 		$_COOKIE['__vandaCookie_name'] = 'Nat Withe';
+
+		$stubJson = Mockery::mock('alias:\System\Json');
+		$stubJson->shouldReceive('isValid')->andReturnFalse();
 
 		$result = Cookie::get('name');
 
@@ -138,8 +150,6 @@ class CookieTest extends TestCase
 	}
 
 	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 * @throws ErrorException
 	 */
 	public function testMethodGetCase3() : void
@@ -154,8 +164,6 @@ class CookieTest extends TestCase
 	}
 
 	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 * @throws ErrorException
 	 */
 	public function testMethodGetCase4() : void
@@ -183,8 +191,6 @@ class CookieTest extends TestCase
 	}
 
 	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 * @throws ErrorException
 	 */
 	public function testMethodGetCase5() : void
@@ -208,8 +214,6 @@ class CookieTest extends TestCase
 	}
 
 	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 * @throws ErrorException
 	 */
 	public function testMethodGetCase6() : void
@@ -227,8 +231,6 @@ class CookieTest extends TestCase
 	}
 
 	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 * @throws ErrorException
 	 */
 	public function testMethodGetCase7() : void
@@ -245,11 +247,7 @@ class CookieTest extends TestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
-	public function testMethodDeleteCase1() : void
+	public function testMethodClearCase1() : void
 	{
 		$_COOKIE['__vandaCookie_name'] = 'Nat Withe';
 		$_COOKIE['other'] = 'Lorem';
@@ -258,5 +256,7 @@ class CookieTest extends TestCase
 		$stubSetCookie->expects($this->once());
 
 		Cookie::clear();
+
+		unset($_COOKIE['other']);
 	}
 }
